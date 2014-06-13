@@ -1,37 +1,32 @@
-INCLUDES += $(DUYE_ROOT) 	
+INCLUDES+=$(GOHOOP_ROOT) 	
 
-SLIBS += 
+SLIBS+= 
 
-LIBS += 
+LIBS+= 
 
-LIBS_PATH += 
+LIBS_PATH+= 
 
 #create dir
-$(shell mkdir -p $(BUILD_PATH)/output/lib)
-$(shell mkdir -p $(BUILD_PATH)/output/obj)
+OUTPUT:=$(BUILD_PATH)/output
+$(shell mkdir -p $(OUTPUT)/lib)
+$(shell mkdir -p $(OUTPUT)/obj)
 
-OBJDIR = $(BUILD_PATH)/output/obj
-SRCDIR = $(BUILD_PATH)/src
+OBJDIR:=$(OUTPUT)/obj
+SRCDIR:=$(BUILD_PATH)/src
 
-RM := rm -f
-PS=cpp
-CC=g++
-#CPPFLAGS = -Wall -g -O0 -Wall -march=i686
-CPPFLAGS += -fPIC 
-#CPPFLAGS += -MMD
-CPPFLAGS += $(addprefix -I, $(INCLUDES))
-CPPFLAGS += $(addprefix -D, $(PRE_DEFINED))
+PS:=cpp
+CC:=g++
+CPPFLAGS:=-Wall -g -O0 -march=i686
+CPPFLAGS+=$(addprefix -I, $(INCLUDES))
+CPPFLAGS+=$(addprefix -D, $(PRE_DEFINED))
 
-SOURCE := $(wildcard $(BUILD_PATH)/src/*.$(PS))
-CPPSRCS := $(notdir $(SOURCE))
-OBJS := $(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
-DEPS := $(patsubst %.o, $(OBJDIR)/%.d, $(CPPSRCS))
-MISSING_DEPS := $(filter-out $(wildcard $(DEPS)), $(DEPS))
+SOURCE:=$(wildcard $(BUILD_PATH)/src/*.$(PS))
+
+CPPSRCS:=$(notdir $(SOURCE))
+OBJS:=$(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
 
 $(TARGET) : $(OBJS)
-	ar rcs $(BUILD_PATH)/output/lib/$(TARGET).a $(OBJS)
-	mkdir ../lib -p
-	cp -ax $(BUILD_PATH)/output/lib/$(TARGET).a ../lib
+	ar rcs $(OUTPUT)/lib/$(TARGET).a $(OBJS)
 	@echo "++++++++++Build $(TARGET).a Success++++++++++"
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
@@ -45,15 +40,7 @@ install:
 	@echo "install $(TARGET).a complete ..."
 
 clean :
-	$(RM) $(BUILD_PATH)/output -rf
-	@#touch `find . -name "*.cpp" | xargs`
+	@rm $(OUTPUT)/obj -rf
 
 cleanall :
-	$(RM) $(BUILD_PATH)/output -rf
-	$(RM) ../lib/$(TARGET).a -rf
-	@#touch `find . -name "*.cpp" | xargs`
-
-ifneq ($(MISSING_DEPS),)
-$(MISSING_DEPS) :
-	@$(RM) $(patsubst %.d, %.o, $@)
-endif
+	@rm $(OUTPUT) -rf

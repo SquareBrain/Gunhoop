@@ -1,37 +1,25 @@
-all: dnetwork dcomponent dlogger dposix dutil ut_app
+all: gbase gdata gdfs gmapreduce
 
 clean:
-	$(MAKE) -C network clean
-	$(MAKE) -C component clean
-	$(MAKE) -C logger clean
-	$(MAKE) -C posix clean
-	$(MAKE) -C util clean
-	$(MAKE) -C ut clean
+	$(MAKE) -C GBase clean
+	$(MAKE) -C GData clean
+	$(MAKE) -C GDFS clean
+	$(MAKE) -C GMapReduce clean
 
 cleanall:
-	$(MAKE) -C network cleanall
-	$(MAKE) -C component cleanall
-	$(MAKE) -C logger cleanall
-	$(MAKE) -C posix cleanall
-	$(MAKE) -C util cleanall
-	$(MAKE) -C ut cleanall
-	rm $(DUYE_LIB) -rf
-	rm $(DUYE_BIN) -rf
+	$(MAKE) -C GBase cleanall
+	$(MAKE) -C GData cleanall
+	$(MAKE) -C GDFS cleanall
+	$(MAKE) -C GMapReduce cleanall
 
-dnetwork:
-	$(MAKE) -C network 
+gbase:
+	$(MAKE) -C GBase 
 
-dcomponent:
-	$(MAKE) -C component
+gdata:
+	$(MAKE) -C GData
 
-dlogger:    
-	$(MAKE) -C logger    
+gdfs:    
+	$(MAKE) -C GDFS    
 
-dposix:    
-	$(MAKE) -C posix
-
-dutil:    
-	$(MAKE) -C util
-
-ut_app:
-	$(MAKE) -C ut
+gmapreduce:    
+	$(MAKE) -C GMapReduce
