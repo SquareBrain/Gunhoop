@@ -1,25 +1,35 @@
-all: gbase gdata gdfs gmapreduce
+all: tagbase tagcommon tagdata tagdfs tagmapreduce tagutils
 
 clean:
-	$(MAKE) -C GBase clean
-	$(MAKE) -C GData clean
-	$(MAKE) -C GDFS clean
-	$(MAKE) -C GMapReduce clean
+	$(MAKE) -C gbase clean
+	$(MAKE) -C gcommon clean
+	$(MAKE) -C gdata clean
+	$(MAKE) -C gdfs clean
+	$(MAKE) -C gmapreduce clean
+	$(MAKE) -C gutils clean
 
 cleanall:
-	$(MAKE) -C GBase cleanall
-	$(MAKE) -C GData cleanall
-	$(MAKE) -C GDFS cleanall
-	$(MAKE) -C GMapReduce cleanall
+		$(MAKE) -C gbase cleanall
+		$(MAKE) -C gcommon cleanall
+		$(MAKE) -C gdata cleanall
+		$(MAKE) -C gdfs cleanall
+		$(MAKE) -C gmapreduce cleanall
+		$(MAKE) -C gutils cleanall
 
-gbase:
-	$(MAKE) -C GBase 
+tagbase:
+	$(MAKE) -C gbase 
 
-gdata:
-	$(MAKE) -C GData
+tagcommon:
+	$(MAKE) -C gcommon
 
-gdfs:    
-	$(MAKE) -C GDFS    
+tagdata:    
+	$(MAKE) -C gdata    
 
-gmapreduce:    
-	$(MAKE) -C GMapReduce
+tagdfs:    
+	$(MAKE) -C gdfs
+
+tagmapreduce:    
+	$(MAKE) -C gmapreduce
+
+tagutils:    
+	$(MAKE) -C gutils
