@@ -1,24 +1,32 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file		duye_network.h
+* @file		g_network.h
 * @version     
 * @brief      
 * @author   duye
 * @date     2014-05-13
 * @note 
 *
+*  2. 2014-06-21 duye move to gohoop 
 *  1. 2014-05-13 duye Created this file
 * 
 */
 
 #pragma once
 
-#include <duye/inc/duye_type.h>
+#include <g_type.h>
 
-DUYE_NETWORK_NS_BEG
+G_NS_GCOMMON_BEG
 
-DUYE_NETWORK_NS_END
+class Network
+{
+public:
+	Network() {}
+	~Network() {}
+};
+
+G_NS_GCOMMON_END
