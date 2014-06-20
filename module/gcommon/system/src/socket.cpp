@@ -1,36 +1,37 @@
 /*************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file     duye_socket.cpp
+* @file     socket.cpp
 * @version     
 * @brief      
 * @author   duye
 * @date     2014-2-16
 * @note 
 *
-*  1. 2014-2-16 duye Created this file
+*  2. 2014-06-21 duye move to gohoop 
+*  1. 2014-02-16 duye Created this file
 * 
 */
 
-#include <duye/posix/socket/inc/duye_socket.h>
+#include <socket.h>
 
-static const D_Int8* LOG_PREFIX = "posix.socket";
+static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.socket";
 
-DUYE_POSIX_NS_BEG 
+G_NS_GCOMMON_BEG 
 
 Socket::Socket() : m_sockfd(0), m_addrLen(0)
 {
 }
 
-Socket::Socket(const D_UInt32 ip, const D_UInt16 port) : m_sockfd(0), m_addrLen(0)
+Socket::Socket(const GUint32 ip, const GUint16 port) : m_sockfd(0), m_addrLen(0)
 {
     SetAddr(ip, port);        
 }
 
-Socket::Socket(const D_UInt8* ip, const D_UInt16 port) : m_sockfd(0), m_addrLen(0)
+Socket::Socket(const GUint8* ip, const GUint16 port) : m_sockfd(0), m_addrLen(0)
 {
 }
 
@@ -48,7 +49,7 @@ Socket::~Socket()
 	Shutdown(m_sockfd);
 }
 
-D_Bool Socket::InitSocket(const D_Int32 domain, const D_Int32 type)
+bool Socket::InitSocket(const GInt32 domain, const GInt32 type)
 {
 	m_sockfd = socket(domain, type, 0);
 
@@ -64,17 +65,17 @@ D_Bool Socket::InitSocket(const D_Int32 domain, const D_Int32 type)
 	return m_sockfd != -1;
 }
 
-D_Int32 Socket::Send(const D_UInt8* msg, const D_UInt32 msgLen, const D_Int32 flags)
+GInt32 Socket::Send(const GUint8* msg, const GUint32 msgLen, const GInt32 flags)
 {
 	return send(m_sockfd, msg, msgLen, flags);
 }
 
-D_Int32 Socket::Recv(D_UInt8** buf, const D_UInt32 bufLen, const D_Int32 flags)
+GInt32 Socket::Recv(GUint8** buf, const GUint32 bufLen, const GInt32 flags)
 {
 	return recv(m_sockfd, *buf, bufLen, flags);
 }
 
-D_Bool Socket::Shutdown(const D_Int32 how)
+bool Socket::Shutdown(const GInt32 how)
 {
 	// how = 0 : stop receive data
 	// how = 1 : stop send data
@@ -82,7 +83,7 @@ D_Bool Socket::Shutdown(const D_Int32 how)
 	return shutdown(m_sockfd, how) == 0;
 }
 
-void Socket::SetAddr(const D_UInt32 ip, const D_UInt16 port)
+void Socket::SetAddr(const GUint32 ip, const GUint16 port)
 {
 	m_addr.sin_family = AF_INET;		// RF_INET
 	m_addr.sin_port = htons(port);		// port
@@ -91,7 +92,7 @@ void Socket::SetAddr(const D_UInt32 ip, const D_UInt16 port)
 	m_addrLen = sizeof(struct sockaddr);
 }
 
-void Socket::SetAddr(const D_UInt8* ip, const D_UInt16 port)
+void Socket::SetAddr(const GUint8* ip, const GUint16 port)
 {
 	m_addr.sin_family = AF_INET;		// RF_INET
 	m_addr.sin_port = htons(port);		// port
@@ -114,33 +115,33 @@ sockaddr_in Socket::GetAddr() const
 	return m_addr;
 }
 
-D_UInt32 Socket::GetIP() const
+GUint32 Socket::GetIP() const
 {
 	return ntohl(m_addr.sin_addr.s_addr);
 }
 
-D_UInt16 Socket::GetPort() const
+GUint16 Socket::GetPort() const
 {
 	return ntohs(m_addr.sin_port);
 }
 
-D_Bool Socket::InitOption()
+bool Socket::InitOption()
 {
-	D_Bool ret = true;
+	bool ret = true;
 
 	// address reuse flag, 1 reuse
-	D_Int32 reuse = 1;
+	GInt32 reuse = 1;
 	// send time limit, unit ms
 	//int stime = 1000;
 	// receive time limit, unit ms
 	//int rtime = 1000;
 	// receive and send data buffer size
-	D_Int32 bufsize = 0xFFFF;
+	GInt32 bufsize = 0xFFFF;
 	// don't copy data from system buffer to socket buffer
-	D_Int32 nosize = 0;
+	GInt32 nosize = 0;
 
 	// set address reuse
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(D_Int32)) == -1)
+	if (setsockopt(m_sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
 	{
 		ret = false;	
 	}
@@ -158,25 +159,25 @@ D_Bool Socket::InitOption()
 	//}
 
 	// set send data buffer size
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&bufsize, sizeof(D_Int32)) == -1)
+	if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 
 	// set receive data buffer size
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&bufsize, sizeof(D_Int32)) == -1)
+	if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 	
 	// don't copy data from system buffer to socket buffer when send data
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&nosize, sizeof(D_Int32)) == -1)
+	if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 
 	// don't copy data from system buffer to socket buffer when receive data
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&nosize, sizeof(D_Int32)) == -1)
+	if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
@@ -184,8 +185,8 @@ D_Bool Socket::InitOption()
 	// let data send completly after execute close socket
 	struct STR_Linger
 	{
-		D_Int16 l_onoff;
-		D_Int16	l_linger;
+		GInt16 l_onoff;
+		GInt16	l_linger;
 	};
 
 	/*
@@ -201,4 +202,4 @@ D_Bool Socket::InitOption()
 	return ret;
 }
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END

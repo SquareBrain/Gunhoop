@@ -1,6 +1,6 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
@@ -15,7 +15,7 @@
 * 
 */
 
-#include "file.h"
+#include <file.h>
 
 G_NS_GCOMMON_BEG
 

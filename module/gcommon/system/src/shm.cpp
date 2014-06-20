@@ -1,36 +1,37 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file		duye_shm.cpp
+* @file		shm.cpp
 * @version     
 * @brief      
 * @author   duye
 * @date     2014-02-22
 * @note 
 *
+*  2. 2014-06-21 duye move to gohoop 
 *  1. 2014-02-22 duye Created this file
 * 
 */
 
-#include <duye/posix/ipc/inc/duye_shm.h>
+#include <shm.h>
 
-static const D_Int8* LOG_PREFIX = "posix.ipc.shm";
+static const GInt8* LOG_PREFIX = "posix.ipc.shm";
 
-DUYE_POSIX_NS_BEG
+G_NS_GCOMMON_BEG
 
 Shm::Shm() : m_shmSize(0), m_shmAddr(NULL)
-{    
+{
 }
 
-Shm::Shm(const D_Int8* path, const D_UInt32 size) : m_shmSize(size), m_shmAddr(NULL)
+Shm::Shm(const GInt8* path, const GUint32 size) : m_shmSize(size), m_shmAddr(NULL)
 {
     m_shmPath.assign(path);      
 }
 
-Shm::Shm(const std::string& path, const D_UInt32 size) 
+Shm::Shm(const std::string& path, const GUint32 size) 
     : m_shmPath(path), m_shmSize(size),  m_shmAddr(NULL)
 {
 }
@@ -40,7 +41,7 @@ Shm::~Shm()
     Uninit();    
 }
 
-void Shm::SetPath(const D_Int8* path)
+void Shm::SetPath(const GInt8* path)
 {
     m_shmPath.assign(path);    
 }
@@ -55,17 +56,17 @@ const std::string& Shm::GetPath() const
     return m_shmPath;
 }
 
-void Shm::SetSize(const D_UInt32 size)
+void Shm::SetSize(const GUint32 size)
 {
     m_shmSize = size;    
 }
 
-D_UInt32 Shm::GetSize() const
+GUint32 Shm::GetSize() const
 {
     return m_shmSize;
 }
 
-D_Result Shm::Init()
+GResult Shm::Init()
 {
     if (m_shmPath.empty())
     {
@@ -85,7 +86,7 @@ D_Result Shm::Init()
     if (m_shmAddr != NULL)
     {
         Uninit();   
-    }
+	} 
     
     m_shmAddr = mmap(NULL, m_shmSize, PROT_WRITE | PROT_READ, MAP_SHARED, fd, 0);
     if (m_shmAddr == MAP_FAILED)
@@ -96,10 +97,10 @@ D_Result Shm::Init()
 
     close(fd);
     
-    return D_SUCCESS;
+    return G_OK;
 }
     
-D_Result Shm::Uninit()
+GResult Shm::Uninit()
 {
     if (m_shmAddr == NULL)
     {
@@ -113,10 +114,10 @@ D_Result Shm::Uninit()
 
     m_shmAddr = NULL;
 
-    return D_SUCCESS;
+    return G_OK;
 }
      
-D_Result Shm::Sync()
+GResult Shm::Sync()
 {
     if (m_shmAddr == NULL)
     {
@@ -128,35 +129,35 @@ D_Result Shm::Sync()
         return SYNC_SHM_FAILED;
     }
 
-    return D_SUCCESS;    
+    return G_OK;    
 } 
  
-D_Result Shm::Write(const D_UInt32 offset, const D_Int8* data, const D_UInt32 size)
+GResult Shm::Write(const GUint32 offset, const GInt8* data, const GUint32 size)
 {
-    D_ASSERT(data != NULL && size > 0);
+    G_ASSERT(data != NULL && size > 0);
 
     if (data == NULL || size == 0 || offset + size > m_shmSize)
     {
-        return WRITE_SHM_PARA_FAILED;
+        return WRITE_SHM_PARA_FAILED;
     }
 
-    memcpy((D_Int8*)m_shmAddr + offset, data, size);
+    memcpy((GInt8*)m_shmAddr + offset, data, size);
     
-    return D_SUCCESS;        
+    return G_OK;        
 }
 
-D_Result Shm::Read(const D_UInt32 offset, D_Int8* data, const D_UInt32 size)
+GResult Shm::Read(const GUint32 offset, GInt8* data, const GUint32 size)
 {
-    D_ASSERT(data != NULL && size > 0);
+    G_ASSERT(data != NULL && size > 0);
     
     if (data == NULL || size == 0 || offset + size > m_shmSize)
     {
         return READ_SHM_PARA_FAILED;
     }
 
-    memcpy((D_Int8*)data, (D_Int8*)m_shmAddr + offset, size);
+    memcpy((GInt8*)data, (GInt8*)m_shmAddr + offset, size);
     
-    return D_SUCCESS;     
+    return G_OK;     
 }
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END

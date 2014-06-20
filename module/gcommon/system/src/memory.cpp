@@ -1,21 +1,22 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file		duye_memory.cpp
+* @file		memory.cpp
 * @version     
 * @brief      
 * @author   duye
 * @date     2014-02-23
 * @note 
 *
+*  2. 2014-06-21 duye move to gohoop 
 *  1. 2014-02-23 duye Created this file
 * 
 */
 
-#include <duye/posix/memory/inc/duye_memory.h>
+#include <memory.h>
 
-DUYE_POSIX_NS_BEG
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_BEG
+G_NS_GCOMMON_END

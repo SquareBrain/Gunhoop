@@ -1,34 +1,34 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file	    duye_lock.cpp
+* @file	    lock.cpp
 * @version     
 * @brief      
 * @author   duye
 * @date     2013-11-26
 * @note 
 *
-* 1. 2013-11-26 duye Created this file
+* 3. 2014-06-21 duye move to gohoop project 
 * 2. 2014-01-04 duye 
 * 	a. Change Mutex function TryLock() to Trylock()
 * 	b. Add function Trylock() for OrgLock class
 * 	c. Modify TryLock class implimenting
+* 1. 2013-11-26 duye Created this file
 */
 
-#include <duye/posix/thread/inc/duye_lock.h>
+#include <lock.h>
 
-DUYE_POSIX_NS_BEG
+G_NS_GCOMMON_BEG
 
-//----------------------------class Mutex-------------------------//
 Mutex::Mutex()
 {
 	Init(PTHREAD_MUTEX_RECURSIVE);
 }
 
-Mutex::Mutex(const D_Int32 kind)
+Mutex::Mutex(const GInt32 kind)
 {
 	if (kind != PTHREAD_MUTEX_NORMAL && 
 		kind != PTHREAD_MUTEX_RECURSIVE &&
@@ -63,7 +63,7 @@ bool Mutex::Unlock()
 	return pthread_mutex_unlock(&m_mutex) == 0 ? true : false;
 }
 
-void Mutex::Init(const D_Int32 kind)
+void Mutex::Init(const GInt32 kind)
 {
 	pthread_mutexattr_t attr;
 	pthread_mutexattr_init(&attr);
@@ -72,13 +72,12 @@ void Mutex::Init(const D_Int32 kind)
 	pthread_mutexattr_destroy(&attr);
 }
 
-//----------------------------class OrgLock-------------------------//
 OrgLock::OrgLock() : m_mutex(NULL)
 {
 	m_mutex = new Mutex();	
 }
 
-OrgLock::OrgLock(const D_Int32 kind) : m_mutex(NULL)
+OrgLock::OrgLock(const GInt32 kind) : m_mutex(NULL)
 {
 	m_mutex = new Mutex(kind);	
 }
@@ -103,7 +102,6 @@ bool OrgLock::Unlock()
 	return m_mutex->Unlock();
 }
 
-//----------------------------class TryLock-------------------------//
 TryLock::TryLock(Mutex& mutex, const bool autoUnlock) 
 	: m_mutex(mutex)
 	, m_autoUnlock(autoUnlock)
@@ -118,7 +116,7 @@ TryLock::~TryLock()
 	}
 }
 
-bool TryLock::Lock(const D_UInt32 timeout)
+bool TryLock::Lock(const GUint32 timeout)
 {
 	if (m_mutex.Trylock())
 	{
@@ -131,9 +129,8 @@ bool TryLock::Lock(const D_UInt32 timeout)
 	}
 
     // ∫¡√Î
-	const D_UInt32 sleepUnit = 10; 
-
-	unsigned int loops = timeout / sleepUnit + 1;
+	static const GUint32 sleepUnit = 10; 
+	GUint32 loops = timeout / sleepUnit + 1;
 						
 	do
 	{
@@ -165,7 +162,6 @@ bool TryLock::Unlock()
 	return m_mutex.Unlock();
 }
 
-//----------------------------class TryLock-------------------------//
 AutoLock::AutoLock(Mutex& mutex) : m_mutex(mutex)
 {
 	m_mutex.Lock();
@@ -176,4 +172,4 @@ AutoLock::~AutoLock()
 	m_mutex.Unlock();
 }
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END

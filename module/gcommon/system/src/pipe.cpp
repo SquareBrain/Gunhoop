@@ -1,27 +1,28 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file		duye_pipe.cpp
+* @file		pipe.cpp
 * @version     
 * @brief      
 * @author   duye
 * @date     2013-12-1
 * @note 
 *
-*  1. 2013-12-1 duye Created this file
+*  2. 2014-06-21 duye move to gohoop 
+*  1. 2013-12-01 duye Created this file
 * 
 */
 
-#include <duye/posix/ipc/inc/duye_pipe.h>
+#include <pipe.h>
 
-static const D_Int8* LOG_PREFIX = "posix.ipc.pipe";
+static const GInt8* LOG_PREFIX = "gcommon.system.pipe";
 
-DUYE_POSIX_NS_BEG
+G_NS_GCOMMON_BEG
 
-D_Bool Pipe::PosixOpen(const D_Int8* pipeName, const D_Int32 mode)
+bool Pipe::PosixOpen(const GInt8* pipeName, const GInt32 mode)
 {
     if (pipeName == NULL)
     {
@@ -37,7 +38,7 @@ D_Bool Pipe::PosixOpen(const D_Int8* pipeName, const D_Int32 mode)
     return true;   
 }
 
-D_Bool WritePipe::Open(const D_Int8* pipeName)
+bool WritePipe::Open(const GInt8* pipeName)
 {
     if (pipeName == NULL)
     {
@@ -56,7 +57,7 @@ D_Bool WritePipe::Open(const D_Int8* pipeName)
     return PosixOpen(pipeName, O_WRONLY | O_NONBLOCK);          
 }
 
-D_Int32 WritePipe::Write(const D_Int8* data, const D_UInt32 dataLen)
+GInt32 WritePipe::Write(const GInt8* data, const GUint32 dataLen)
 {
     if (m_pipefd == -1)
     {
@@ -76,7 +77,7 @@ D_Int32 WritePipe::Write(const D_Int8* data, const D_UInt32 dataLen)
     return dataLen;    
 }
 
-D_Bool ReadPipe::Open(const D_Int8* pipeName)
+bool ReadPipe::Open(const GInt8* pipeName)
 {
     if (access(pipeName, F_OK) == -1)
     {
@@ -90,7 +91,7 @@ D_Bool ReadPipe::Open(const D_Int8* pipeName)
     return PosixOpen(pipeName, O_RDONLY);        
 }
 
-D_Int32 ReadPipe::Read(D_Int8* buffer, const D_UInt32 bufferSize)
+GInt32 ReadPipe::Read(GInt8* buffer, const GUint32 bufferSize)
 {
     if (m_pipefd == -1)
     {
@@ -102,7 +103,7 @@ D_Int32 ReadPipe::Read(D_Int8* buffer, const D_UInt32 bufferSize)
         return -1;
     }
     
-    D_Int32 bytes = read(m_pipefd, buffer, bufferSize);
+    GInt32 bytes = read(m_pipefd, buffer, bufferSize);
     if (bytes == -1)
     {
         return -1;
@@ -113,4 +114,4 @@ D_Int32 ReadPipe::Read(D_Int8* buffer, const D_UInt32 bufferSize)
     return bytes;    
 }
  
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END
