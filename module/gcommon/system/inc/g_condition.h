@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    condition.h
+* @file	    g_condition.h
 * @version     
 * @brief      
 * @author   duye
