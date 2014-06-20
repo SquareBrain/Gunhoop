@@ -1,10 +1,10 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Gohoop Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Gohoop Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file		objpool.h
+* @file		g_objpool.h
 * @version     
 * @brief      
 * @author   duye
@@ -18,7 +18,7 @@
 #pragma once
 
 #include <list>
-#include <gtype.h>
+#include <g_type.h>
 
 G_NS_GCOMMON_BEG
 

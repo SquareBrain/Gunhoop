@@ -1,10 +1,10 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file		singleton.cpp
+* @file		g_singleton.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -15,7 +15,7 @@
 * 
 */
 
-#include <singleton.h>
+#include <g_singleton.h>
 
 G_NS_GCOMMON_BEG
 G_NS_GCOMMON_END

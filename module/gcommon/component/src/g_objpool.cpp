@@ -1,10 +1,10 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file		objpool.cpp
+* @file		g_objpool.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -15,7 +15,7 @@
 * 
 */
 
-#include <objpool.h>
+#include <g_objpool.h>
 
 G_NS_GCOMMON_BEG
 G_NS_GCOMMON_END
