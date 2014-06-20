@@ -4,16 +4,14 @@
 *
 *************************************************************************************/
 /**
-* @file	    duye_condition.h
+* @file	    condition.h
 * @version     
 * @brief      
 * @author   duye
-* @date     2013-12-22
+* @date     2014-06-20
 * @note 
 *
-*  2. 2014-01-09 duye Add comments
-*
-*  1. 2013-12-22 duye Created this file
+*  1. 2014-06-20 duye Created this file
 * 
 */
 
@@ -22,10 +20,7 @@
 #include <sys/time.h>
 #include <pthread.h>
 
-#include <duye/posix/inc/duye_posix_def.h> 
-#include <duye/posix/thread/inc/duye_lock.h> 
-
-DUYE_POSIX_NS_BEG
+G_NS_GCOMMON_BEG
 
 // brief : POSIX condition wrapper
 //	
@@ -77,7 +72,7 @@ public:
 	// @para [in]timeout : waitting timeout
 	// @return true/false
 	// note:
-	bool Wait(const D_UInt32 timeout);
+	bool Wait(const GUint32 timeout);
 
 private:
 	// brief : to prevent copying
