@@ -1,16 +1,17 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file	    g_type.h
+* @file	    type.h
 * @version     
 * @brief      
 * @author   duye
 * @date     2013-11-15
 * @note 
 *
+*  2. 2014-06-21 duye move to gohoop project 
 *  1. 2013-11-15 duye Created this file
 * 
 */
@@ -36,3 +37,5 @@ typedef int                 GResult;
 
 #define G_NS_GCOMMON_BEG	namespace GCommon {
 #define G_NS_GCOMMON_END	}
+
+#define G_ASSERT(x)			assert(x)
