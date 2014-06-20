@@ -1,18 +1,18 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file	    duye_thread.h
+* @file	    thread.h
 * @version     
 * @brief      
 * @author   duye
 * @date     2013-11-26
 * @note 
 *
+* 3. 2014-06-21 duye move to gohoop project 
 * 2. 2014-01-12 duye Add comments   
-*
 * 1. 2013-11-26 duye Created this file
 * 
 */
@@ -21,9 +21,7 @@
 
 #include <pthread.h> 
 
-#include <duye/posix/inc/duye_posix_def.h>
-
-DUYE_POSIX_NS_BEG
+G_NS_GCOMMON_BEG
 
 // brief : thread state
 enum ThreadState
@@ -184,4 +182,4 @@ private:
 	bool		m_autoRel;
 };
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END

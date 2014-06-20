@@ -1,16 +1,17 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file	    duye_thread_pool.h
+* @file	    threadpool.h
 * @version     
 * @brief      
 * @author   duye
 * @date     2013-12-10
 * @note 
 *
+*  2. 2014-06-21 duye move to gohoop project 
 *  1. 2013-12-10 duye Created this file
 * 
 */
@@ -18,15 +19,13 @@
 #pragma once
 
 #include <list>
+#include <thread.h>
+#include <condition.h>
 
-#include <duye/posix/inc/duye_posix_def.h>
-#include <duye/posix/thread/inc/duye_thread.h>
-#include <duye/posix/thread/inc/duye_condition.h>
-
-DUYE_POSIX_NS_BEG
+G_NS_GCOMMON_BEG
 
 // default the count of thread pool
-static const D_UInt32 g_DefThreadCount = 20;
+static const GUint32 G_DEF_THREAD_COUNT = 20;
 
 class ThreadWorker;
 class ThreadJob;
@@ -61,7 +60,7 @@ public:
     // brief : 
     // @para [in]threadCount : the size of thread pool
     // note
-	explicit ThreadPool(const D_UInt32 threadCount = g_DefThreadCount);
+	explicit ThreadPool(const GUint32 threadCount = G_DEF_THREAD_COUNT);
 	~ThreadPool();
 
     // brief : start to do user job
@@ -75,7 +74,7 @@ public:
 	// @para
 	// return : the count of thread pool
 	// note
-	D_UInt32 GetThreadCount() const;
+	GUint32 GetThreadCount() const;
 
 private:
     // brief : prevent copying
@@ -91,16 +90,16 @@ private:
 	// brief : move idle thread worker from busy queue to idle queue
 	// @para [in]workerId : thread worker ID
 	// note
-	void MoveToIdleList(const D_UInt32 workerId);
+	void MoveToIdleList(const GUint32 workerId);
 
 	// brief : move busy thread worker from idle queue to busy queue
 	// @para [in]workerId : thread worker ID
 	// note
-	void MoveToBusyList(const D_UInt32 workerId);
+	void MoveToBusyList(const GUint32 workerId);
 
 private:
     // thread pool size
-	D_UInt32			m_threadCount;
+	GUint32				m_threadCount;
 	// the idle queue
 	ThreadWorkerList	m_idleThreadWorkerList;
 	// the busy queue
@@ -124,19 +123,19 @@ public:
     // brief : 
     // @para [in]workerId : setting worker ID
     // note
-	explicit ThreadWorker(const D_UInt32 workerId);
+	explicit ThreadWorker(const GUint32 workerId);
 	virtual ~ThreadWorker();
 
     // brief : get thread worker ID
     // return : thread worker ID
-	D_UInt32 GetWorkerId() const;
+	GUint32 GetWorkerId() const;
 
 	// brief : to do work
 	// @para [in] threadJob : user thread job
 	// @para [in] userData : user data
 	// return : true/false
 	// note
-	D_Bool DoWork(ThreadJob* threadJob, void* userData);		
+	bool DoWork(ThreadJob* threadJob, void* userData);		
 
 private:
     // brief : prevent copying
@@ -148,7 +147,7 @@ private:
 
 private:
     // thread worker ID, setting by external
-	D_UInt32		m_workerId;
+	GUint32			m_workerId;
 	// waitting condition
 	Condition		m_condition;
 	// current running job
@@ -177,4 +176,4 @@ public:
 	virtual void Work(void* userData) = 0;
 };
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END
