@@ -1,23 +1,24 @@
 /***********************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 ************************************************************************************/
 /**
-* @file		duye_logger.h
+* @file		g_logger.h
 * @version     
 * @brief      
 * @author   duye
 * @date     2014-2-18
 * @note 
 *
-*  1. 2014-2-18 duye Created this file
+*  2. 2014-06-21 duye move to gohoop 
+*  1. 2014-02-18 duye Created this file
 * 
 */
 
 #pragma once
 
-#include <gtype.h>
+#include <g_type.h>
 
 #define G_LOG_INIT() \
 	GCommon::Logger::Init();

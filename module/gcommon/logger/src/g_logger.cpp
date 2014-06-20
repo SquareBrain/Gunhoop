@@ -1,10 +1,10 @@
 /***********************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 ************************************************************************************/
 /**
-* @file		logger.cpp
+* @file		g_logger.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -15,7 +15,7 @@
 * 
 */
 #include <cstdio>
-#include <logger.h>
+#include <g_logger.h>
 
 G_NS_GCOMMON_BEG
 
