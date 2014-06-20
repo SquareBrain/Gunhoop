@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		memory.h
+* @file		g_memory.h
 * @version     
 * @brief      
 * @author   duye
@@ -19,5 +19,4 @@
 #pragma once
 
 G_NS_GCOMMON_BEG
-
 G_NS_GCOMMON_END

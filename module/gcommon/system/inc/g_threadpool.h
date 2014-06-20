@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    threadpool.h
+* @file	    g_threadpool.h
 * @version     
 * @brief      
 * @author   duye
@@ -19,8 +19,8 @@
 #pragma once
 
 #include <list>
-#include <thread.h>
-#include <condition.h>
+#include <g_thread.h>
+#include <g_condition.h>
 
 G_NS_GCOMMON_BEG
 
