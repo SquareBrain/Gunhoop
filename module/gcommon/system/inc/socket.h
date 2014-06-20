@@ -1,17 +1,18 @@
 /*************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file     duye_socket.h
+* @file     socket.h
 * @version     
 * @brief      
 * @author   duye
-* @date     2014-2-16
+* @date     2014-02-16
 * @note 
 *
-*  1. 2014-2-16 duye Created this file
+*  2. 2014-06-20 duye move to gohoop project 
+*  1. 2014-02-16 duye Created this file
 * 
 */
 
@@ -24,16 +25,14 @@
 #include <string.h>
 #include <string>
 
-#include <duye/posix/inc/duye_posix_def.h>
-
-DUYE_POSIX_NS_BEG 
+G_NS_GCOMMON_BEG 
 
 // brief : posix socket wrapper class
 class Socket
 {
 public:
     // the max request number, system default value it's 20
-    static const D_UInt32 MAX_REQ_NUM = 20;
+    static const GUint32 MAX_REQ_NUM = 20;
     
 public:
 	Socket();
@@ -42,8 +41,8 @@ public:
 	// @para [in]ip : ip address
 	// @para [in]port : port
 	// note		
-	Socket(const D_UInt32 ip, const D_UInt16 port);
-	Socket(const D_UInt8* ip, const D_UInt16 port);
+	Socket(const GUint32 ip, const GUint16 port);
+	Socket(const GUint8* ip, const GUint16 port);
 
 	// brief : copy constructor
 	// @para [in]socket : Socket
@@ -57,7 +56,7 @@ public:
 	// @para [in]type : socket type
 	// return : true/false
 	// note	
-	D_Bool InitSocket(const D_Int32 domain = AF_INET, const D_Int32 type = SOCK_STREAM/*SOCK_DGRAM*/);
+	bool InitSocket(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
 	
 	// brief : send data
 	// @para [in]data : send data
@@ -65,7 +64,7 @@ public:
 	// @para [in]flags : flags
 	// return : the size of send, failure return -1
 	// note		
-	D_Int32 Send(const D_UInt8* data, const D_UInt32 dataLen, const D_Int32 flags = MSG_NOSIGNAL);
+	GInt32 Send(const GUint8* data, const GUint32 dataLen, const GInt32 flags = MSG_NOSIGNAL);
 
 	// brief : receive data
 	// @para [out]buffer : output buffer
@@ -73,31 +72,31 @@ public:
 	// @para [in]flags : flags
 	// return : the size of received, failure return -1
 	// note		
-	D_Int32 Recv(D_UInt8** buffer, const D_UInt32 bufferSize, const D_Int32 flags = 0);
+	GInt32 Recv(GUint8** buffer, const GUint32 bufferSize, const GInt32 flags = 0);
 
 	// brief : shutdown connecting 
 	// @para [in]how : way
 	// return : ture/false
 	// note		
-	D_Bool Shutdown(const D_Int32 how = 0);
+	bool Shutdown(const GInt32 how = 0);
 	
 	// brief : setting address
 	// @para [in]ip : ip address
 	// @para [in]port : port
 	// note		
-	void SetAddr(const D_UInt32 ip, const D_UInt16 port);	
-	void SetAddr(const D_UInt8* ip, const D_UInt16 port);
+	void SetAddr(const GUint32 ip, const GUint16 port);	
+	void SetAddr(const GUint8* ip, const GUint16 port);
 
 	// brief : get ip address
 	// return : ip address
 	// note			
-	D_UInt32 GetIP() const;
+	GUint32 GetIP() const;
 	std::string GetIPString() const;
 
 	// brief : get port
 	// return : port
 	// note			
-	D_UInt16 GetPort() const;
+	GUint16 GetPort() const;
 
 	// brief : setting address
 	// @para [in]addr : address
@@ -113,15 +112,15 @@ private:
 	// brief : setting socket options 
 	// return : true/false
 	// note			
-	D_Bool InitOption();
+	bool InitOption();
 
 private:
     // socket file descrition
-	D_Int32         m_sockfd;
+	GInt32         m_sockfd;
 	// address
 	sockaddr_in		m_addr;
 	// address length
 	socklen_t		m_addrLen;			
 };
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END

@@ -1,16 +1,17 @@
 /*************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file     duye_shm.h
+* @file     shm.h
 * @version     
 * @brief      
 * @author   duye
 * @date     2014-02-22
 * @note 
 *
+*  2. 2014-06-20 duye move to gohoop project 
 *  1. 2014-02-22 duye Created this file
 * 
 */
@@ -24,9 +25,7 @@
 #include <string.h>
 #include <string>
 
-#include <duye/posix/inc/duye_posix_def.h>
-
-DUYE_POSIX_NS_BEG 
+G_NS_GCOMMON_BEG 
 
 // brief : shared memory for ipc
 // 
@@ -60,35 +59,35 @@ public:
 	// @para [in]path : shm mapping file path
 	// @para [in]size : shm size
 	// note    
-    Shm(const D_Int8* path, const D_UInt32 size);
-    Shm(const std::string& path, const D_UInt32 size);
+    Shm(const GInt8* path, const GUint32 size);
+    Shm(const std::string& path, const GUint32 size);
     ~Shm();
 
 	// brief : set shm mapping file path
 	// note  
-    void SetPath(const D_Int8* path);
+    void SetPath(const GInt8* path);
     void SetPath(const std::string& path);
     const std::string& GetPath() const;
 
 	// brief : set/get shm mapping file size
 	// note  
-    void SetSize(const D_UInt32 size);
-    D_UInt32 GetSize() const;    
+    void SetSize(const GUint32 size);
+    GUint32 GetSize() const;    
     
 	// brief : init the shm
 	// return : successed : 0, failed : error code
 	// note  
-    D_Result Init();
+    GResult Init();
 
 	// brief : uninit the shm
 	// return : successed : 0, failed : error code
 	// note      
-	D_Result Uninit();
+	GResult Uninit();
 
  	// brief : sync the shm
 	// return : successed : 0, failed : error code
 	// note      
-    D_Result Sync();
+    GResult Sync();
 
 	// brief : write data to shm
 	// @para [in]offset : offset of shm
@@ -96,7 +95,7 @@ public:
 	// @para [in]size : write size
 	// return : successed : 0, failed : error code
 	// note   
-    D_Result Write(const D_UInt32 offset, const D_Int8* data, const D_UInt32 size);
+    GResult Write(const GUint32 offset, const GInt8* data, const GUint32 size);
 
 	// brief : read data from shm
 	// @para [in]offset : offset of shm
@@ -104,12 +103,12 @@ public:
 	// @para [in]size : read size
 	// return : successed : 0, failed : error code
 	// note   
-    D_Result Read(const D_UInt32 offset, D_Int8* data, const D_UInt32 size);
+    GResult Read(const GUint32 offset, GInt8* data, const GUint32 size);
 
 private:
-	std::string     m_shmPath;
-	D_UInt32        m_shmSize;	
-	D_Void*         m_shmAddr;
+	std::string		m_shmPath;
+	GUint32			m_shmSize;	
+	void*			m_shmAddr;
 };
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END
