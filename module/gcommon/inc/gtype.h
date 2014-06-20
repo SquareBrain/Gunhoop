@@ -20,7 +20,6 @@
 #include <cstdlib>
 
 // base type define
-typedef bool                GBool;
 typedef char                GInt8;
 typedef short		        GInt16;
 typedef int                 GInt32;
