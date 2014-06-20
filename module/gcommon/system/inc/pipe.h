@@ -1,16 +1,17 @@
 /*************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file     duye_pipe.h
+* @file     pipe.h
 * @version     
 * @brief      
 * @author   duye
 * @date     2013-11-15
 * @note 
 *
+*  2. 2014-06-20 duye move to gohoop project
 *  1. 2013-11-15 duye Created this file
 * 
 */
@@ -22,9 +23,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include <duye/posix/inc/duye_posix_def.h>
-
-DUYE_POSIX_NS_BEG 
+G_NS_GCOMMON_BEG 
 
 // brief : Pipe base class, be inherited by WritePipe and ReadPipe class
 // 
@@ -38,7 +37,7 @@ public:
 	// @para [in]pipeName : the pipe name
 	// return : true/false
 	// note
-	virtual D_Bool Open(const D_Int8* pipeName) = 0;
+	virtual bool Open(const GInt8* pipeName) = 0;
 
 protected:
 	// brief : call posix API
@@ -46,11 +45,11 @@ protected:
 	// @para [in]mode : open mode
 	// return : true/false
 	// note
-    D_Bool PosixOpen(const D_Int8* pipeName, const D_Int32 mode);
+    bool PosixOpen(const GInt8* pipeName, const GInt32 mode);
     
 protected:
 	// pipe descriptor
-	D_Int32		m_pipefd;
+	GInt32		m_pipefd;
 };
 
 // brief : Be used to write pipe
@@ -74,14 +73,14 @@ public:
 	// @para [in]pipeName : pipe name
 	// return : true/false
 	// note
-	virtual D_Bool Open(const D_Int8* pipeName);	
+	virtual bool Open(const GInt8* pipeName);	
 	
 	// brief : Write data to pipe
 	// @para [in]data 
 	// @para [in]dataLen 
 	// return : write size, failure return -1
 	// note
-	D_Int32 Write(const D_Int8* data, const D_UInt32 dataLen);
+	GInt32 Write(const GInt8* data, const GUint32 dataLen);
 	
 private:
 	// brief : To pervent copy 
@@ -111,17 +110,14 @@ public:
     // @para [in]pipeName : pipe name
     // return : true/false
     // note
-    virtual D_Bool Open(const D_Int8* pipeName);
+    virtual bool Open(const GInt8* pipeName);
 
 	// brief : read data from pipe
 	// @para [out]buffer : template buffer
 	// @para [in]bufferSize : template buffer size
 	// return : read buffer size, failure return -1
 	// note
-	D_Int32 Read(D_Int8* buffer, const D_UInt32 bufferSize);    
+	GInt32 Read(GInt8* buffer, const GUint32 bufferSize);    
 };
 
-DUYE_POSIX_NS_END 
-
-
-
+G_NS_GCOMMON_END 

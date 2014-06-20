@@ -1,6 +1,6 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2010-2019, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2010-2019, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**

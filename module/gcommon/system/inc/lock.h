@@ -1,18 +1,18 @@
 /***********************************************************************************
 **  
-*    @copyright (c) 2010-2019, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2010-2019, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 ************************************************************************************/
 /**
-* @file	    duye_lock.h
+* @file	    lock.h
 * @version     
 * @brief      
 * @author   duye
 * @date     2013-11-26
 * @note 
 *
+* 4. 2014-06-20 duye move to gohoop project
 * 3. 2014-01-09 duye Add comments
-* 
 * 2. 2014-01-04 duye 
 * 	a. Modify Mutex function TryLock to Trylock()
 * 	b. Add function Trylock() for class OrgLock
@@ -26,9 +26,7 @@
 #include <pthread.h>
 #include <unistd.h>
 
-#include <duye/posix/inc/duye_posix_def.h> 
-
-DUYE_POSIX_NS_BEG
+G_NS_GCOMMON_BEG
 
 // brief : POSIX mutex wrapper
 //	
@@ -51,7 +49,7 @@ public:
 	// @return 
 	// note : have four mutex type, are PTHREAD_MUTEX_NORMAL、PTHREAD_MUTEX_RECURSIVE
 	// PTHREAD_MUTEX_ERRORCHECK、PTHREAD_MUTEX_DEFAULT
-	explicit Mutex(const D_Int32 kind);
+	explicit Mutex(const GInt32 kind);
 	~Mutex();
 
 	// brief : lock mutex, enter to awaited state
@@ -84,7 +82,7 @@ private:
 	// @para [in]kink : mutex type, reference constructor function
 	// @return
 	// note:	
-	void Init(const D_Int32 kind);
+	void Init(const GInt32 kind);
     
 private:
 	pthread_mutex_t	m_mutex;	
@@ -111,7 +109,7 @@ public:
 	// @return 
 	// note : have four mutex type : PTHREAD_MUTEX_NORMAL、PTHREAD_MUTEX_RECURSIVE
 	// PTHREAD_MUTEX_ERRORCHECK、PTHREAD_MUTEX_DEFAULT	
-	explicit OrgLock(const D_Int32 kind);
+	explicit OrgLock(const GInt32 kind);
 	virtual ~OrgLock();
 
 	// brief : locked and waitting
@@ -189,7 +187,7 @@ public:
 	// then return immediately
 	// @return true/false
 	// note
-	bool Lock(const D_UInt32 timeout = 0);
+	bool Lock(const GUint32 timeout = 0);
 
 	// brief : release lock
 	// @para
@@ -245,4 +243,4 @@ private:
 	Mutex& m_mutex;
 };
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END
