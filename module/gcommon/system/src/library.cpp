@@ -4,20 +4,20 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_shared_library.cpp
+* @file		library.cpp
 * @version     
 * @brief      
 * @author   duye
-* @date     2014-03-19
+* @date     2014-06-20
 * @note 
 *
-*  1. 2014-03-19 duye Created this file
+*  1. 2014-06-20 duye Created this file
 * 
 */
 
-#include <duye/posix/system/inc/duye_shared_library.h>
+#include "library.h"
 
-DUYE_POSIX_NS_BEG
+G_NS_GCOMMON_BEG
 
 SharedLibrary::SharedLibrary()
 {
@@ -27,14 +27,14 @@ SharedLibrary::~SharedLibrary()
 {
 }
 
-D_Void* SharedLibrary::OpenLib(const D_Int8* libFilePath, const D_Int32 flags)
+void* SharedLibrary::OpenLib(const GInt8* libFilePath, const GInt32 flags)
 {
     return dlopen(libFilePath, flags);
 }
 
-D_Bool SharedLibrary::CloseLib(D_Void* handle)
+bool SharedLibrary::CloseLib(void* handle)
 {
     return dlclose(handle) == 0 ? true : false;    
 }
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END
