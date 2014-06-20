@@ -27,8 +27,8 @@ CPPSRCS:=$(notdir $(SOURCE))
 OBJS:=$(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
 
 $(TARGET) : $(OBJS)
-	$(CC) -shared -o $(OUTPUT)/lib/$(TARGET).$(VERSION).so $(OBJS) -Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive $(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
-	@echo "++++++++++Build $(TARGET).$(VERSION).so Success++++++++++"
+	$(CC) -shared -o $(OUTPUT)/lib/$(TARGET).so.$(VERSION) $(OBJS) -Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive $(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
+	@echo '++++++++++Build $(TARGET).$(VERSION).so Success++++++++++'
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 	@echo $<, `more $<|wc -l` lines
@@ -37,8 +37,8 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 .PHONY : all install clean cleanall 
 
 install :
-	@echo "start install $(TARGET).$(VERSION).so ..."
-	@echo 'install $(TARGET).$(VERSION).so complete ...'
+	@echo 'start install $(TARGET).so.$(VERSION) ...'
+	@echo 'install $(TARGET).so.$(VERSION) complete ...'
 
 clean :
 	@rm $(OUTPUT)/obj -rf

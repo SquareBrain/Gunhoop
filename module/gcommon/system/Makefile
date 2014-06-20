@@ -1,41 +1,14 @@
-all: dipc dmemory dstdio dsocket dsystem dthread dposix 
+PRONAME:=gnetwork
+VERSION:=1.0.0
+TARGET:=lib$(PRONAME)
+PRE_DEFINED:= 
+BUILD_PATH:=$(shell pwd)
 
-clean:
-	$(MAKE) -C ipc clean
-	$(MAKE) -C memory clean
-	$(MAKE) -C stdio clean
-	$(MAKE) -C socket clean
-	$(MAKE) -C system clean
-	$(MAKE) -C thread clean
-	$(MAKE) -C posix clean
+INCLUDES:=./inc \
+	      ../inc
 
-cleanall:
-	$(MAKE) -C ipc cleanall
-	$(MAKE) -C memory cleanall
-	$(MAKE) -C stdio cleanall
-	$(MAKE) -C socket cleanall
-	$(MAKE) -C system cleanall
-	$(MAKE) -C thread cleanall
-	$(MAKE) -C posix cleanall
-	rm ./lib -rf
+LIBS_PATH:= 
 
-dipc:    
-	$(MAKE) -C ipc
+LIBS:= 
 
-dmemory:    
-	$(MAKE) -C memory 
-
-dstdio:    
-	$(MAKE) -C stdio
-
-dsocket:    
-	$(MAKE) -C socket 
-
-dsystem:    
-	$(MAKE) -C system 
-
-dthread:    
-	$(MAKE) -C thread
-
-dposix:    
-	$(MAKE) -C posix 
+include ../../shared.mk
