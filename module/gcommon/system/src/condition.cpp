@@ -4,22 +4,21 @@
 *
 *************************************************************************************/
 /**
-* @file	    duye_condition.cpp
+* @file	    condition.cpp
 * @version     
 * @brief      
 * @author   duye
-* @date     2013-12-22
+* @date     2013-06-20
 * @note 
 *
-*  1. 2013-12-22 duye Created this file
+*  1. 2013-06-20 duye Created this file
 * 
 */
 
-#include <duye/posix/thread/inc/duye_condition.h>
+#include "condition.h"
 
-DUYE_POSIX_NS_BEG
+G_NS_GCOMMON_BEG
 
-//----------------------------class Condition-------------------------//
 Condition::Condition()       
 { 
     pthread_cond_init(&m_condition, 0);        
@@ -59,7 +58,7 @@ bool Condition::Wait()
     return (ret == 0 ? true : false);
 }      
 
-bool Condition::Wait(const D_UInt32 timeout)     
+bool Condition::Wait(const GUint32 timeout)     
 {       
     struct timeval now;    
     struct timespec tmpTimeout;  
