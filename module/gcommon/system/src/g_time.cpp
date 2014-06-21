@@ -1,10 +1,10 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file		duye_system_time.cpp
+* @file		g_time.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -15,9 +15,9 @@
 * 
 */
 
-#include <duye/posix/system/inc/duye_system_time.h>
+#include <g_time.h>
 
-DUYE_POSIX_NS_BEG
+G_NS_GCOMMON_BEG
 
 SystemTime::SystemTime()
 {
@@ -27,74 +27,74 @@ SystemTime::~SystemTime()
 {
 }
 
-D_Bool SystemTime::GetSystemTimeA(D_Int8* sysTime, const D_UInt64 bufSize)
+bool SystemTime::GetSystemTimeA(GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 8)
     {
         return false;
     }
     
-    const D_Int8* curSysTime = "20140309";
+    const GInt8* curSysTime = "20140309";
     
     sprintf(sysTime, "%s", curSysTime);
 
     return true;
 }
 
-D_Bool SystemTime::GetSystemTimeB(D_Int8* sysTime, const D_UInt64 bufSize)
+bool SystemTime::GetSystemTimeB(GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 10)
     {
         return false;
     }
     
-    const D_Int8* curSysTime = "2014-03-09";
+    const GInt8* curSysTime = "2014-03-09";
     
     sprintf(sysTime, "%s", curSysTime);
 
     return true;
 }
 
-D_Bool SystemTime::GetSystemTimeC(D_Int8* sysTime, const D_UInt64 bufSize)
+bool SystemTime::GetSystemTimeC(GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 10)
     {
         return false;
     }
     
-    const D_Int8* curSysTime = "2014/03/09";
+    const GInt8* curSysTime = "2014/03/09";
     
     sprintf(sysTime, "%s", curSysTime);
 
     return true;
 }
 
-D_Bool SystemTime::GetSystemTimeD(D_Int8* sysTime, const D_UInt64 bufSize)
+bool SystemTime::GetSystemTimeD(GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 10)
     {
         return false;
     }
     
-    const D_Int8* curSysTime = "2014.03.09";
+    const GInt8* curSysTime = "2014.03.09";
     
     sprintf(sysTime, "%s", curSysTime);
 
     return true;
 }
 
-D_Bool SystemTime::GetSystemTimeE(D_Int8* sysTime, const D_UInt64 bufSize)
+bool SystemTime::GetSystemTimeE(GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 14)
     {
         return false;
     }
     
-    const D_Int8* curSysTime = "2014-03-09:999";
+    const GInt8* curSysTime = "2014-03-09:999";
     
     sprintf(sysTime, "%s", curSysTime);
 
     return true;
 }
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END

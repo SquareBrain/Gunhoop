@@ -1,10 +1,10 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file	    duye_thread.cpp
+* @file	    g_thread.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -15,9 +15,9 @@
 * 
 */
 
-#include <duye/posix/thread/inc/duye_thread.h> 
+#include <g_thread.h> 
 
-DUYE_POSIX_NS_BEG
+G_NS_GCOMMON_BEG
 
 //---------------------------Thread class---------------------------//
 Thread::Thread(Runnable* runnable, const bool autoRel) 
@@ -122,4 +122,4 @@ void* ThreadTask::EnterPoint(void* argument)
 	return NULL;
 }
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END

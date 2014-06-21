@@ -75,4 +75,4 @@ bool Condition::Wait(const GUint32 timeout)
     return (ret == 0 ? true : false);
 }
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END

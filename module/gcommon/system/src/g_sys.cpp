@@ -24,14 +24,14 @@ GUint32 System::GetMaxFileNameSize()
     return MAX_FILE_NAME_SIZE;
 }
 
-D_Void System::Sleep(const GUint64 time)
+void System::Sleep(const GUint64 time)
 {
     sleep(time);
 }
 
-D_Void System::Usleep(const GUint64 time)
+void System::Usleep(const GUint64 time)
 {
     usleep(time);
 }
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END
