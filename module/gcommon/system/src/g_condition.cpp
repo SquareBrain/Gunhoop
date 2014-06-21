@@ -34,7 +34,7 @@ Condition::~Condition()
 bool Condition::Signal()        
 {        
     pthread_mutex_lock(&m_mutex);
-    D_Int32 ret = pthread_cond_signal(&m_condition);
+    GInt32 ret = pthread_cond_signal(&m_condition);
     pthread_mutex_unlock(&m_mutex);
     
     return (ret == 0 ? true : false);
@@ -43,7 +43,7 @@ bool Condition::Signal()
 bool Condition::Broadcast() 
 {     
     pthread_mutex_lock(&m_mutex);
-    D_Int32 ret = pthread_cond_broadcast(&m_condition);
+    GInt32 ret = pthread_cond_broadcast(&m_condition);
     pthread_mutex_unlock(&m_mutex);
 
     return (ret == 0 ? true : false);
@@ -52,7 +52,7 @@ bool Condition::Broadcast()
 bool Condition::Wait()  
 {        
     pthread_mutex_lock(&m_mutex);
-    D_Int32 ret = pthread_cond_wait(&m_condition, &m_mutex);
+    GInt32 ret = pthread_cond_wait(&m_condition, &m_mutex);
     pthread_mutex_unlock(&m_mutex);
 
     return (ret == 0 ? true : false);
@@ -69,7 +69,7 @@ bool Condition::Wait(const GUint32 timeout)
     tmpTimeout.tv_nsec = now.tv_usec * 1000 + timeout % 1000 * 1000 * 1000;    
 
     pthread_mutex_lock(&m_mutex);
-    D_Int32 ret = pthread_cond_timedwait(&m_condition, &m_mutex, &tmpTimeout);
+    GInt32 ret = pthread_cond_timedwait(&m_condition, &m_mutex, &tmpTimeout);
     pthread_mutex_unlock(&m_mutex);
 
     return (ret == 0 ? true : false);

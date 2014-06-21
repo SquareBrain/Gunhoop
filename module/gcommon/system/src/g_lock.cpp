@@ -19,7 +19,7 @@
 * 1. 2013-11-26 duye Created this file
 */
 
-#include <lock.h>
+#include <g_lock.h>
 
 G_NS_GCOMMON_BEG
 

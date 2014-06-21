@@ -24,6 +24,7 @@
 
 #include <string.h>
 #include <string>
+#include <g_type.h>
 
 G_NS_GCOMMON_BEG 
 

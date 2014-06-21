@@ -35,10 +35,10 @@
 #define G_LOG_INFO(prefix, x) \
 	GCommon::Logger::PrintWarn(prefix, "info");
 
-#define DUYE_LOG_DEBUG(prefix, x) \
+#define G_LOG_DEBUG(prefix, x) \
 	GCommon::Logger::PrintWarn(prefix, "debug");    
 
-#define DUYE_LOG_TRACE(prefix, x) \
+#define G_LOG_TRACE(prefix, x) \
 	GCommon::Logger::PrintWarn(prefix, "trace");  
 
 G_NS_GCOMMON_BEG

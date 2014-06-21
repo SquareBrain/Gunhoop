@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    type.h
+* @file	    g_type.h
 * @version     
 * @brief      
 * @author   duye
@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <cstdlib>
+#include <assert.h>
 
 // base type define
 typedef char                GInt8;
@@ -39,3 +39,6 @@ typedef int                 GResult;
 #define G_NS_GCOMMON_END	}
 
 #define G_ASSERT(x)			assert(x)
+
+// limits
+#define G_PATH_MAX			256

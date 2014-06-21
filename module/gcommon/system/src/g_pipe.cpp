@@ -16,7 +16,8 @@
 * 
 */
 
-#include <pipe.h>
+#include <g_logger.h>
+#include <g_pipe.h>
 
 static const GInt8* LOG_PREFIX = "gcommon.system.pipe";
 
@@ -49,7 +50,7 @@ bool WritePipe::Open(const GInt8* pipeName)
     {
         if (mkfifo(pipeName, 0777) != 0)
         {
-            POSIX_ERROR(LOG_PREFIX, "mkfifo failed. \n");
+            G_LOG_ERROR(LOG_PREFIX, "mkfifo failed. \n");
             return false;
         }
     }
@@ -83,7 +84,7 @@ bool ReadPipe::Open(const GInt8* pipeName)
     {
         if (mkfifo(pipeName, 0777) != 0)
         {
-            POSIX_ERROR(LOG_PREFIX, "mkfifo failed. \n");
+            G_LOG_ERROR(LOG_PREFIX, "mkfifo failed. \n");
             return false;
         }
     }

@@ -19,6 +19,7 @@
 #pragma once
 
 #include <unistd.h>
+#include <g_type.h>
 
 G_NS_GCOMMON_BEG
 

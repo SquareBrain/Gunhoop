@@ -35,7 +35,7 @@ bool Thread::Start()
 {
 	pthread_attr_t* attributes = NULL;
 	
-	D_Int32 ret = pthread_create(&m_threadId, attributes, EnterPoint, m_runnable);
+	GInt32 ret = pthread_create(&m_threadId, attributes, EnterPoint, m_runnable);
 
 	if (ret != 0)
 	{
@@ -61,7 +61,7 @@ pthread_t Thread::CreateThread(void* entry, void* argument, const bool autoRel)
 
 	pthread_t threadId = -1;
 
-	D_Int32 ret = pthread_create(&threadId, attributes, (ThreadFunPoint_t)entry, argument);
+	GInt32 ret = pthread_create(&threadId, attributes, (ThreadFunPoint_t)entry, argument);
 
 	if (ret != 0)
 	{
@@ -85,7 +85,6 @@ void* Thread::EnterPoint(void* argument)
 	return NULL;
 }
 
-//---------------------------class ThreadTask--------------------------//
 ThreadTask::ThreadTask(const bool autoRel) : m_threadId(-1), m_autoRel(autoRel)
 {
 }
@@ -98,7 +97,7 @@ bool ThreadTask::Start()
 {
 	pthread_attr_t* attributes = NULL;
 	
-	D_Int32 ret = pthread_create(&m_threadId, attributes, EnterPoint, this);
+	GInt32 ret = pthread_create(&m_threadId, attributes, EnterPoint, this);
 
 	if (ret != 0)
 	{

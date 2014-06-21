@@ -19,6 +19,7 @@
 
 #include <sys/time.h>
 #include <pthread.h>
+#include <g_type.h>
 
 G_NS_GCOMMON_BEG
 
@@ -87,4 +88,4 @@ private:
 	pthread_mutex_t		m_mutex;	
 };
 
-DUYE_POSIX_NS_END
+G_NS_GCOMMON_END
