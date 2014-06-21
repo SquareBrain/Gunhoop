@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    condition.cpp
+* @file	    g_condition.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -15,7 +15,7 @@
 * 
 */
 
-#include <condition.h>
+#include <g_condition.h>
 
 G_NS_GCOMMON_BEG
 

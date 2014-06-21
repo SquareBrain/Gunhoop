@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		shm.cpp
+* @file		g_shm.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -16,7 +16,7 @@
 * 
 */
 
-#include <shm.h>
+#include <g_shm.h>
 
 static const GInt8* LOG_PREFIX = "posix.ipc.shm";
 

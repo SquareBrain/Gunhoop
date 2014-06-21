@@ -1,10 +1,10 @@
 /************************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 *************************************************************************************/
 /**
-* @file		duye_system.cpp
+* @file		g_sys.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -15,21 +15,21 @@
 * 
 */
 
-#include <duye/posix/system/inc/duye_system.h>
+#include <g_sys.h>
 
-DUYE_POSIX_NS_BEG
+G_NS_GCOMMON_BEG
 
-D_UInt32 System::GetMaxFileNameSize()
+GUint32 System::GetMaxFileNameSize()
 {
     return MAX_FILE_NAME_SIZE;
 }
 
-D_Void System::Sleep(const D_UInt64 time)
+D_Void System::Sleep(const GUint64 time)
 {
     sleep(time);
 }
 
-D_Void System::Usleep(const D_UInt64 time)
+D_Void System::Usleep(const GUint64 time)
 {
     usleep(time);
 }

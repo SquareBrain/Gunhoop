@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		library.cpp
+* @file		g_library.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -15,7 +15,7 @@
 * 
 */
 
-#include <library.h>
+#include <g_library.h>
 
 G_NS_GCOMMON_BEG
 

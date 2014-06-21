@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		memory.cpp
+* @file		g_memory.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -16,7 +16,7 @@
 * 
 */
 
-#include <memory.h>
+#include <g_memory.h>
 
 G_NS_GCOMMON_BEG
 G_NS_GCOMMON_END
