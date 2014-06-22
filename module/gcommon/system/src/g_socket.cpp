@@ -16,7 +16,8 @@
 * 
 */
 
-#include <socket.h>
+#include <g_logger.h>
+#include <g_socket.h>
 
 static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.socket";
 
@@ -58,7 +59,7 @@ bool Socket::InitSocket(const GInt32 domain, const GInt32 type)
 		// init socket option
 		if (!InitOption())
 		{
-			POSIX_WARN(LOG_PREFIX, "CWSocket : Init socket option failed \n");
+			G_LOG_WARN(LOG_PREFIX, "CWSocket : Init socket option failed \n");
 		}
 	}
 

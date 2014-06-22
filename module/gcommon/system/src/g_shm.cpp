@@ -73,7 +73,7 @@ GResult Shm::Init()
         return SHM_PATH_EMPTY;
     }
     
-    D_Int32 fd = open(m_shmPath.c_str(), O_RDWR | O_CREAT);
+    GInt32 fd = open(m_shmPath.c_str(), O_RDWR | O_CREAT);
     if (fd < 0)
     {
         return OPEN_SHM_FAILED;
@@ -97,7 +97,7 @@ GResult Shm::Init()
 
     close(fd);
     
-    return G_OK;
+    return G_YES;
 }
     
 GResult Shm::Uninit()
@@ -114,7 +114,7 @@ GResult Shm::Uninit()
 
     m_shmAddr = NULL;
 
-    return G_OK;
+    return G_YES;
 }
      
 GResult Shm::Sync()
@@ -129,7 +129,7 @@ GResult Shm::Sync()
         return SYNC_SHM_FAILED;
     }
 
-    return G_OK;    
+    return G_YES;    
 } 
  
 GResult Shm::Write(const GUint32 offset, const GInt8* data, const GUint32 size)
@@ -143,7 +143,7 @@ GResult Shm::Write(const GUint32 offset, const GInt8* data, const GUint32 size)
 
     memcpy((GInt8*)m_shmAddr + offset, data, size);
     
-    return G_OK;        
+    return G_YES;        
 }
 
 GResult Shm::Read(const GUint32 offset, GInt8* data, const GUint32 size)
@@ -157,7 +157,7 @@ GResult Shm::Read(const GUint32 offset, GInt8* data, const GUint32 size)
 
     memcpy((GInt8*)data, (GInt8*)m_shmAddr + offset, size);
     
-    return G_OK;     
+    return G_YES;     
 }
 
 G_NS_GCOMMON_END

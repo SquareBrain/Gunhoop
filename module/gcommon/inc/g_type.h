@@ -19,6 +19,8 @@
 #pragma once
 
 #include <assert.h>
+#include <stddef.h>
+#include <stdio.h>
 
 // base type define
 typedef char                GInt8;

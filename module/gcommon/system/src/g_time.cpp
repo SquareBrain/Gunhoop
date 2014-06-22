@@ -19,15 +19,15 @@
 
 G_NS_GCOMMON_BEG
 
-SystemTime::SystemTime()
+Time::Time()
 {
 }
 
-SystemTime::~SystemTime()
+Time::~Time()
 {
 }
 
-bool SystemTime::GetSystemTimeA(GInt8* sysTime, const GUint64 bufSize)
+bool Time::GetTimeA(GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 8)
     {
@@ -41,7 +41,7 @@ bool SystemTime::GetSystemTimeA(GInt8* sysTime, const GUint64 bufSize)
     return true;
 }
 
-bool SystemTime::GetSystemTimeB(GInt8* sysTime, const GUint64 bufSize)
+bool Time::GetTimeB(GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 10)
     {
@@ -55,7 +55,7 @@ bool SystemTime::GetSystemTimeB(GInt8* sysTime, const GUint64 bufSize)
     return true;
 }
 
-bool SystemTime::GetSystemTimeC(GInt8* sysTime, const GUint64 bufSize)
+bool Time::GetTimeC(GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 10)
     {
@@ -69,7 +69,7 @@ bool SystemTime::GetSystemTimeC(GInt8* sysTime, const GUint64 bufSize)
     return true;
 }
 
-bool SystemTime::GetSystemTimeD(GInt8* sysTime, const GUint64 bufSize)
+bool Time::GetTimeD(GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 10)
     {
@@ -83,7 +83,7 @@ bool SystemTime::GetSystemTimeD(GInt8* sysTime, const GUint64 bufSize)
     return true;
 }
 
-bool SystemTime::GetSystemTimeE(GInt8* sysTime, const GUint64 bufSize)
+bool Time::GetTimeE(GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 14)
     {
