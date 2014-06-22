@@ -16,7 +16,7 @@
 */
 #include <g_master.h>
 
-G_SN_GMAPREDUCE_BEG
+G_NS_GMAPREDUCE_BEG
 
 Master::Master() 
 {
@@ -31,4 +31,4 @@ GResult Master::Start()
 	return G_YES;	
 }
 
-G_SN_GMAPREDUCE_END
+G_NS_GMAPREDUCE_END

@@ -18,7 +18,7 @@
 
 #include <g_type.h>
 
-G_SN_GMAPREDUCE_BEG
+G_NS_GMAPREDUCE_BEG
 
 class Master
 {
@@ -29,4 +29,4 @@ public:
 	GResult Start();
 };
 
-G_SN_GMAPREDUCE_END
+G_NS_GMAPREDUCE_END
