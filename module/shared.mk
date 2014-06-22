@@ -1,4 +1,4 @@
-INCLUDES+=$(GOHOOP_ROOT) 	
+INCLUDES+= 	
 
 SLIBS+=
 
@@ -26,9 +26,13 @@ SOURCE:=$(wildcard $(BUILD_PATH)/src/*.$(PS))
 CPPSRCS:=$(notdir $(SOURCE))
 OBJS:=$(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
 
+LIB_FLAGS:=$(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
+SLIB_FLAGS:=-Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive
+TARGET_FILE:=$(OUTPUT)/lib/$(TARGET).so.$(VERSION)
+
 $(TARGET) : $(OBJS)
-	$(CC) -shared -o $(OUTPUT)/lib/$(TARGET).so.$(VERSION) $(OBJS) -Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive $(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
-	@echo '++++++++++Build $(TARGET).$(VERSION).so Success++++++++++'
+	$(CC) -shared -o $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
+	@echo '++++++++++Build $(TARGET_FILE) Success++++++++++'
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 	@echo $<, `more $<|wc -l` lines
@@ -37,8 +41,8 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 .PHONY : all install clean cleanall 
 
 install :
-	@echo 'start install $(TARGET).so.$(VERSION) ...'
-	@echo 'install $(TARGET).so.$(VERSION) complete ...'
+	@echo 'start install $(TARGET_FILE) ...'
+	@echo 'install $(TARGET_FILE) complete ...'
 
 clean :
 	@rm $(OUTPUT)/obj -rf

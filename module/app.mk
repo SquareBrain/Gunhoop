@@ -24,9 +24,13 @@ SOURCE:=$(wildcard $(BUILD_PATH)/src/*.$(PS))
 CPPSRCS:=$(notdir $(SOURCE))
 OBJS:=$(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
 
+LIB_FLAGS:=$(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
+SLIB_FLAGS:=-Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive
+TARGET_FILE:=$(OUTPUT)/bin/$(TARGET).$(VERSION)
+
 $(TARGET) : $(OBJS)
-	$(CC) $(CPPFLAGS) $(OBJS) -o $(OUTPUT)/bin/$(TARGET).$(VERSION) $(SLIBS) $(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))  
-	@echo "++++++++++Build $(TARGET).$(VERSION) Success++++++++++"
+	$(CC) $(CPPFLAGS) $(OBJS) -o $(TARGET_FILE) $(SLIB_FLAGS) $(LIB_FLAGS)
+	@echo "++++++++++Build $(TARGET_FILE) Success++++++++++"
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 	@echo $<, `more $<|wc -l` lines
@@ -35,8 +39,8 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 .PHONY : all install clean 
 
 install :
-	@echo "start install $(TARGET).$(VERSION) ..."
-	@echo 'install $(TARGET).$(VERSION) complete ...'
+	@echo "start install $(TARGET_FILE) ..."
+	@echo 'install $(TARGET_FILE) complete ...'
 
 clean :
 	@rm $(OUTPUT)/obj -rf
