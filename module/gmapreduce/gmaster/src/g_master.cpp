@@ -1,4 +1,34 @@
-#include <master.h>
+/************************************************************************************
+**  
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+*
+*************************************************************************************/
+/**
+* @file     g_master.cpp
+* @version     
+* @brief      
+* @author   duye
+* @date     2014-06-22
+* @note 
+*
+*  1. 2014-06-22 duye Created this file
+* 
+*/
+#include <g_master.h>
 
-GMaster::GMaster() {}
-GMaster::~GMaster() {}
+G_SN_GMAPREDUCE_BEG
+
+Master::Master() 
+{
+}
+
+Master::~Master() 
+{
+}
+
+GResult Master::Start() 
+{
+	return G_YES;	
+}
+
+G_SN_GMAPREDUCE_END

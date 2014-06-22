@@ -44,4 +44,4 @@ clean :
 	@rm $(OUTPUT)/obj -rf
 
 cleanall :
-	@rm $(OUTPUT)/output -rf
+	@rm $(OUTPUT) -rf

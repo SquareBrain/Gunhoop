@@ -22,7 +22,7 @@
 #include <stddef.h>
 #include <stdio.h>
 
-// base type define
+// base type
 typedef char                GInt8;
 typedef short		        GInt16;
 typedef int                 GInt32;
@@ -33,14 +33,18 @@ typedef unsigned int        GUint32;
 typedef unsigned long long  GUint64;
 typedef int                 GResult;
 
+// method
+#define G_ASSERT(x)			assert(x)
+
 // result value
 #define G_YES				0
 #define G_NO				-1
 
+// name space
 #define G_NS_GCOMMON_BEG	namespace GCommon {
 #define G_NS_GCOMMON_END	}
-
-#define G_ASSERT(x)			assert(x)
+#define G_NS_GMAPREDUCE_BEG	namespace GMapreduce {
+#define G_NS_GMAPREDUCE_END	}
 
 // limits
 #define G_PATH_MAX			256
