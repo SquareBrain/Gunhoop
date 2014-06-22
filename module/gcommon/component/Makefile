@@ -1,4 +1,4 @@
-PRONAME:=gcomponent
+PRONAME:=component
 TARGET:=lib$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
