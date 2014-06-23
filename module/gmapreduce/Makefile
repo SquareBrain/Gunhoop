@@ -1,15 +1,15 @@
-all: gmaster gslave 
+all: tagmaster tagslave 
 
 clean:
-	$(MAKE) -C GMaster clean
-	$(MAKE) -C GSlave clean
+	$(MAKE) -C gmaster clean
+	$(MAKE) -C gslave clean
 
 cleanall:
-	$(MAKE) -C GMaster cleanall
-	$(MAKE) -C GSlave cleanall
+	$(MAKE) -C gmaster cleanall
+	$(MAKE) -C gslave cleanall
 
-gmaster:
-	$(MAKE) -C GMaster
+tagmaster:
+	$(MAKE) -C gmaster
 
-gslave:
-	$(MAKE) -C GSlave
+tagslave:
+	$(MAKE) -C gslave
