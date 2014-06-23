@@ -1,0 +1,63 @@
+\hypertarget{class_shm}{\section{Shm Class Reference}
+\label{class_shm}\index{Shm@{Shm}}
+}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries Error\-Code} \{ \\*
+{\bfseries O\-P\-E\-N\-\_\-\-S\-H\-M\-\_\-\-F\-A\-I\-L\-E\-D} = -\/2, 
+{\bfseries M\-U\-N\-M\-A\-P\-\_\-\-S\-H\-M\-\_\-\-F\-A\-I\-L\-E\-D} = -\/3, 
+{\bfseries M\-M\-A\-P\-\_\-\-S\-H\-M\-\_\-\-F\-A\-I\-L\-E\-D} = -\/4, 
+{\bfseries S\-Y\-N\-C\-\_\-\-S\-H\-M\-\_\-\-F\-A\-I\-L\-E\-D} = -\/5, 
+\\*
+{\bfseries W\-R\-I\-T\-E\-\_\-\-S\-H\-M\-\_\-\-P\-A\-R\-A\-\_\-\-F\-A\-I\-L\-E\-D} = -\/6, 
+{\bfseries R\-E\-A\-D\-\_\-\-S\-H\-M\-\_\-\-P\-A\-R\-A\-\_\-\-F\-A\-I\-L\-E\-D} = -\/7, 
+{\bfseries S\-H\-M\-\_\-\-N\-O\-\_\-\-I\-N\-I\-T} = -\/8, 
+{\bfseries S\-H\-M\-\_\-\-P\-A\-T\-H\-\_\-\-E\-M\-P\-T\-Y} = -\/9
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_shm_a37fabe66473698ab81513db7bcc5f7ac}{{\bfseries Shm} (const G\-Int8 $\ast$path, const G\-Uint32 size)}\label{class_shm_a37fabe66473698ab81513db7bcc5f7ac}
+
+\item 
+\hypertarget{class_shm_a8c2504cb03ebc12331da3c8da276658f}{{\bfseries Shm} (const std\-::string \&path, const G\-Uint32 size)}\label{class_shm_a8c2504cb03ebc12331da3c8da276658f}
+
+\item 
+\hypertarget{class_shm_a0bfe59af1d8925b1e09fd16c6060e6a0}{void {\bfseries Set\-Path} (const G\-Int8 $\ast$path)}\label{class_shm_a0bfe59af1d8925b1e09fd16c6060e6a0}
+
+\item 
+\hypertarget{class_shm_a892fdd13e0c051e8e0d5e154d573ab28}{void {\bfseries Set\-Path} (const std\-::string \&path)}\label{class_shm_a892fdd13e0c051e8e0d5e154d573ab28}
+
+\item 
+\hypertarget{class_shm_ac60b62ed292ab7f9deddc4e208d93441}{const std\-::string \& {\bfseries Get\-Path} () const }\label{class_shm_ac60b62ed292ab7f9deddc4e208d93441}
+
+\item 
+\hypertarget{class_shm_af256ba459390e95be16f508221d78436}{void {\bfseries Set\-Size} (const G\-Uint32 size)}\label{class_shm_af256ba459390e95be16f508221d78436}
+
+\item 
+\hypertarget{class_shm_abe391d38616be549409bba8ec74982c5}{G\-Uint32 {\bfseries Get\-Size} () const }\label{class_shm_abe391d38616be549409bba8ec74982c5}
+
+\item 
+\hypertarget{class_shm_a897f93c7828a5d54cb633cad72fcbcbf}{G\-Result {\bfseries Init} ()}\label{class_shm_a897f93c7828a5d54cb633cad72fcbcbf}
+
+\item 
+\hypertarget{class_shm_aa693abdb2aa7629e5a4adfd98ec4a158}{G\-Result {\bfseries Uninit} ()}\label{class_shm_aa693abdb2aa7629e5a4adfd98ec4a158}
+
+\item 
+\hypertarget{class_shm_a551920bc98263b6d6a31ee8ddab7429f}{G\-Result {\bfseries Sync} ()}\label{class_shm_a551920bc98263b6d6a31ee8ddab7429f}
+
+\item 
+\hypertarget{class_shm_ab337d9ff23973904552d9b60c6e19221}{G\-Result {\bfseries Write} (const G\-Uint32 offset, const G\-Int8 $\ast$data, const G\-Uint32 size)}\label{class_shm_ab337d9ff23973904552d9b60c6e19221}
+
+\item 
+\hypertarget{class_shm_afb2be3a86981bdf248563397463d73ec}{G\-Result {\bfseries Read} (const G\-Uint32 offset, G\-Int8 $\ast$data, const G\-Uint32 size)}\label{class_shm_afb2be3a86981bdf248563397463d73ec}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+gcommon/system/inc/\hyperlink{g__shm_8h}{g\-\_\-shm.\-h}\item 
+gcommon/system/src/\hyperlink{g__shm_8cpp}{g\-\_\-shm.\-cpp}\end{DoxyCompactItemize}
