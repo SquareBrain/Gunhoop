@@ -22,6 +22,9 @@
 
 G_NS_GCOMMON_BEG
 
+/** 
+ *  一个示范类，描述在此
+ */
 class ObjPoolIf
 {
 public:
@@ -30,6 +33,9 @@ public:
     virtual GResult Uninit() = 0;
 };
 
+/** 
+ *  一个示范类，描述在此
+ */
 template <class T>
 class ObjPool
 {
@@ -40,7 +46,14 @@ public:
     ObjPool();
     ObjPool(const GUint32 count);
     ~ObjPool();
-
+    
+    /**
+     * 一个普通函式 描述和参数等等的叙述
+     * @param a 整数参数
+     * @param s 字串指针参数
+     * @see Test() 参看..
+     * @return 返回值描述
+     */
     void SetCount(const GUint32 count);
 
 private:
