@@ -26,7 +26,7 @@ CPPSRCS:=$(notdir $(SOURCE))
 OBJS:=$(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
 
 LIB_FLAGS:=$(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
-SLIB_FLAGS:=-Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive
+SLIB_FLAGS:=$(SLIBS)
 TARGET_FILE:=$(OUTPUT)/lib/$(TARGET).a
 
 $(TARGET) : $(OBJS)

@@ -9,12 +9,12 @@ clean:
 	$(MAKE) -C gutils clean
 
 cleanall:
-		$(MAKE) -C gbase cleanall
-		$(MAKE) -C gcommon cleanall
-		$(MAKE) -C gdata cleanall
-		$(MAKE) -C gdfs cleanall
-		$(MAKE) -C gmapreduce cleanall
-		$(MAKE) -C gutils cleanall
+	$(MAKE) -C gbase cleanall
+	$(MAKE) -C gcommon cleanall
+	$(MAKE) -C gdata cleanall
+	$(MAKE) -C gdfs cleanall
+	$(MAKE) -C gmapreduce cleanall
+	$(MAKE) -C gutils cleanall
 
 tagbase:
 	$(MAKE) -C gbase 
