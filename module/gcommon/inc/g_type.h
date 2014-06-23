@@ -40,11 +40,19 @@ typedef int                 GResult;
 #define G_YES				0
 #define G_NO				-1
 
-// name space
-#define G_NS_GCOMMON_BEG	namespace GCommon {
-#define G_NS_GCOMMON_END	}
-#define G_NS_GMAPREDUCE_BEG	namespace GMapreduce {
-#define G_NS_GMAPREDUCE_END	}
-
 // limits
 #define G_PATH_MAX			256
+
+// name space
+#define G_NS_GBASE_BEG	    namespace GBase {
+#define G_NS_GBASE_END	    }
+#define G_NS_GCOMMON_BEG	namespace GCommon {
+#define G_NS_GCOMMON_END	}
+#define G_NS_GDATA_BEG	    namespace GData {
+#define G_NS_GDATA_END	    }
+#define G_NS_GDFS_BEG	    namespace GDfs {
+#define G_NS_GDFS_END	    }
+#define G_NS_GMAPREDUCE_BEG	namespace GMapreduce {
+#define G_NS_GMAPREDUCE_END	}
+#define G_NS_GUTILS_BEG	    namespace GUtils {
+#define G_NS_GUTILS_END	    }
