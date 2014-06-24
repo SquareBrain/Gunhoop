@@ -57,7 +57,7 @@ public:
     /**
      * let current thread has reached the awaited state,
      * utill be wake up or timeout return
-     * @param [in] timeout waitting timeout
+     * @param [in] timeout : waitting timeout
      * @return true/false
      * @note 
      */	
@@ -66,7 +66,7 @@ public:
 private: 
     /**
      * for to prevent copying
-     * @param [in] timeout waitting timeout
+     * @param
      * @return true/false
      * @note 
      */		

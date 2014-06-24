@@ -35,9 +35,15 @@ public:
     File();
     ~File();
 
- 	// brief : create file
-	// @para [in]filePath : file path
+ 	// brief : 
+	// @para 
 	// @return true on success, or false on error
+    /**
+     * create file
+     * @param [in] filePath : file path
+     * @return true/false
+     * @note 
+     */		
 	bool Create(const GInt8* filePath);    
 	bool Create(const std::string& filePath);    
 

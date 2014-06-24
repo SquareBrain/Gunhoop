@@ -19,17 +19,12 @@
 
 G_NS_GCOMMON_BEG
 
-GUint32 System::GetMaxFileNameSize()
-{
-    return MAX_FILE_NAME_SIZE;
-}
-
-void System::Sleep(const GUint64 time)
+void Sys::Sleep(const GUint64 time)
 {
     sleep(time);
 }
 
-void System::Usleep(const GUint64 time)
+void Sys::Usleep(const GUint64 time)
 {
     usleep(time);
 }

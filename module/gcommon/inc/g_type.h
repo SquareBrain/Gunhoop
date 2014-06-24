@@ -58,12 +58,12 @@ typedef int                 GResult;
 /** 
  * limits number for max path length
  */
-#define G_PATH_MAX			256
+#define G_PATH_MAX			512
 
 /** 
  * limits number for max file name length
  */
-#define G_PATH_MAX			256
+#define G_FILE_NAME_MAX	    256
 
 /** 
  * name space define
