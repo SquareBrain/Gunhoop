@@ -25,24 +25,6 @@ G_NS_GCOMMON_BEG
 
 /** 
  * POSIX condition wrapper
- * usage :
- *  Condition myCond;
- *
- *  void ThreadOne()
- *  {
- *      if (!myCond.Wait())
- *      {
- *          return;
- *      }
- *    
- *      // to do
- *  }
- *
- *  void ThreadTwo()
- *  {
- *      sleep(1);
- *      myCond.Signal();
- *  }
  */
 class Condition 
 {
@@ -60,7 +42,6 @@ public:
 	 
     /**
      * wake up all waitting threads
-     * @param [in] timeout waitting timeout
      * @return true/false
      * @note 
      */		
@@ -68,7 +49,6 @@ public:
 	
     /**
      * let current thread has reached the awaited state, utill be wake up
-     * @param [in] timeout waitting timeout
      * @return true/false
      * @note 
      */		
