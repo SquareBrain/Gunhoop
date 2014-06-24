@@ -1,21 +1,25 @@
-all: dini dxml target
+all: tagini taglogger tagxml taglibmk
 
 clean:
 	$(MAKE) -C ini clean
+	$(MAKE) -C logger clean
 	$(MAKE) -C xml clean
-	$(MAKE) -C util clean
+	$(MAKE) -C libmk clean
 
 cleanall:
 	$(MAKE) -C ini cleanall
+	$(MAKE) -C logger cleanall
 	$(MAKE) -C xml cleanall
-	$(MAKE) -C util cleanall
-	rm ./lib -rf
+	$(MAKE) -C libmk cleanall
 
-dini:    
+tagini:    
 	$(MAKE) -C ini 
 
-dxml:    
+taglogger:	  
+	$(MAKE) -C logger	
+
+tagxml:    
 	$(MAKE) -C xml 
 
-target:    
-	$(MAKE) -C util 
+taglibmk:    
+	$(MAKE) -C libmk 
