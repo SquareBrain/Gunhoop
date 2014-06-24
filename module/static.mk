@@ -1,4 +1,4 @@
-INCLUDES+=$(GOHOOP_ROOT) 	
+INCLUDES+=$(GOHOOP_TOP)/gcommon/inc	
 
 SLIBS+= 
 
