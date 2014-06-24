@@ -28,8 +28,9 @@
 
 G_NS_GCOMMON_BEG 
 
-// brief : shared memory for ipc
-// 
+/** 
+ * shared memory for ipc
+ */
 class Shm
 {
 public:

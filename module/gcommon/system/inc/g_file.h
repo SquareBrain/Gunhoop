@@ -26,7 +26,9 @@
 
 G_NS_GCOMMON_BEG
 
-// brief : file operation wrapper
+/** 
+ * file operation wrapper
+ */
 class File
 {
 public:

@@ -1,16 +1,17 @@
 /***********************************************************************************
 **  
-*    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+* @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
 ************************************************************************************/
 /**
-* @file		duye_ini.h
+* @file		g_ini.h
 * @version     
 * @brief      
 * @author   duye
 * @date     2013-11-15
 * @note 
 *
+*  2. 2014-06-24 duye Migration to Gohoop project
 *  1. 2013-11-15 duye Created this file
 * 
 */
@@ -19,11 +20,9 @@
 
 #include <list>
 #include <string>
+#include <g_type.h>
 
-#include <duye/util/inc/duye_util_def.h>
-#include <duye/util/ini/inc/duye_ini_section.h>
-
-DUYE_UTIL_NS_BEG
+G_NS_GUTILS_BEG
 
 typedef std::list<Section*> SectionList;
 
@@ -43,4 +42,4 @@ private:
     SectionList     m_sectionList;
 };
 
-DUYE_UTIL_NS_END
+G_NS_GUTILS_END

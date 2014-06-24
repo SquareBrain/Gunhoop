@@ -28,7 +28,9 @@
 
 G_NS_GCOMMON_BEG 
 
-// brief : posix socket wrapper class
+/** 
+ * posix socket wrapper class
+ */
 class Socket
 {
 public:

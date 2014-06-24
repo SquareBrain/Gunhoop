@@ -22,7 +22,9 @@
 #include <stddef.h>
 #include <stdio.h>
 
-// base type
+/** 
+ * base type define
+ */
 typedef char                GInt8;
 typedef short		        GInt16;
 typedef int                 GInt32;
@@ -33,20 +35,39 @@ typedef unsigned int        GUint32;
 typedef unsigned long long  GUint64;
 typedef int                 GResult;
 
-// interface
+/** 
+ * interface define
+ */
 #define interfce			struct;
 
-// method
+/** 
+ * assert
+ */
 #define G_ASSERT(x)			assert(x)
 
-// result value
+/** 
+ * result variable for successed
+ */
 #define G_YES				0
+
+/** 
+ * result variable for failed
+ */
 #define G_NO				-1
 
-// limits
+/** 
+ * limits number for max path length
+ */
 #define G_PATH_MAX			256
 
-// name space
+/** 
+ * limits number for max file name length
+ */
+#define G_PATH_MAX			256
+
+/** 
+ * name space define
+ */
 #define G_NS_GBASE_BEG	    namespace GBase {
 #define G_NS_GBASE_END	    }
 #define G_NS_GCOMMON_BEG	namespace GCommon {

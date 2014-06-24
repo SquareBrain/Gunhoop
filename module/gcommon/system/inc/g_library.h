@@ -22,7 +22,9 @@
 
 G_NS_GCOMMON_BEG
 
-// brief : shared library wrapper
+/** 
+ * shared library wrapper
+ */
 class SharedLibrary
 {
 public:

@@ -29,13 +29,14 @@
 
 G_NS_GCOMMON_BEG
 
-// brief : POSIX mutex wrapper
-//	
-// usage:
-//	Mutex mutex;
-//  mutex.Lock();
-//  mutex.Trylock();
-//  mutex.Unlock();
+/** 
+ * POSIX mutex wrapper
+ * usage:
+ *	Mutex mutex;
+ *  mutex.Lock();
+ *  mutex.Trylock();
+ *  mutex.Unlock(); 
+ */
 class Mutex
 {
 public:

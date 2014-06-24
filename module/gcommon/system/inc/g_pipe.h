@@ -26,8 +26,9 @@
 
 G_NS_GCOMMON_BEG 
 
-// brief : Pipe base class, be inherited by WritePipe and ReadPipe class
-// 
+/** 
+ * Pipe base class, be inherited by WritePipe and ReadPipe class
+ */
 class Pipe
 {
 public:

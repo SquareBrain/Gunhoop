@@ -25,15 +25,15 @@ DUYE_UTIL_NS_BEG
 
 typedef std::map<std::string, std::string> KeyValueMap;
 
-class Section
+class IniSection
 {
 public:
-    Section();
-    ~Section();
+    IniSection();
+    ~IniSection();
 
-    void AddKeyValue(const std::string& key, const std::string& value);
+    void addKeyValue(const std::string& key, const std::string& value);
 
-    const KeyValueMap& GetKeyValueMap() const;
+    const KeyValueMap& getKeyValueMap() const;
 
 private:
     KeyValueMap     m_keyValueMap;

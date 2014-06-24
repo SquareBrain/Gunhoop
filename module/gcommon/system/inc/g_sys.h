@@ -23,14 +23,19 @@
 
 G_NS_GCOMMON_BEG
 
+/** 
+ * 
+ */
 static const GUint32 MAX_FILE_NAME_SIZE = 127;
 
-// brief : POSIX condition wrapper
-class System
+/** 
+ * POSIX condition wrapper
+ */
+class Sys
 {
 public:
-    System() {}
-    ~System() {}
+    Sys() {}
+    ~Sys() {}
 
  	// brief : get max file name size
 	// @para 
