@@ -33,6 +33,9 @@ typedef unsigned int        GUint32;
 typedef unsigned long long  GUint64;
 typedef int                 GResult;
 
+// interface
+#define interfce			struct;
+
 // method
 #define G_ASSERT(x)			assert(x)
 
