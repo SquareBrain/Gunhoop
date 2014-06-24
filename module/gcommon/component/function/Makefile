@@ -1,4 +1,4 @@
-PRONAME:=component
+PRONAME:=function
 TARGET:=lib$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
