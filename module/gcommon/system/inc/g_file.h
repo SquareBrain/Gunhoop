@@ -35,104 +35,167 @@ public:
     File();
     ~File();
 
- 	// brief : 
-	// @para 
-	// @return true on success, or false on error
     /**
      * create file
      * @param [in] filePath : file path
      * @return true/false
      * @note 
      */		
-	bool Create(const GInt8* filePath);    
-	bool Create(const std::string& filePath);    
+	bool create(const GInt8* filePath);    
+	bool create(const std::string& filePath);    
 
- 	// brief : open file for read
-	// @para [in]filePath : file path
-	// @return true on success, or false on error	
-	bool OpenR(const GInt8* filePath);
-	bool OpenR(const std::string& filePath);
+    /**
+     * open file for reading
+     * @param [in] filePath : file path
+     * @return true/false
+     * @note 
+     */		
+	bool openR(const GInt8* filePath);
+	bool openR(const std::string& filePath);
 
- 	// brief : open file for write
-	// @para [in]filePath : file path
-	// @return true on success, or false on error	
-	bool OpenW(const GInt8* filePath);
-	bool OpenW(const std::string& filePath);
+    /**
+     * open file for writing
+     * @param [in] filePath : file path
+     * @return true/false
+     * @note 
+     */		
+	bool openW(const GInt8* filePath);
+	bool openW(const std::string& filePath);
 
- 	// brief : open file for write, and append content
-	// @para [in]filePath : file path
-	// @return true on success, or false on error	
-	bool OpenWA(const GInt8* filePath);	
-	bool OpenWA(const std::string& filePath);	
+    /**
+     * open file for writing, and appended content
+     * @param [in] filePath : file path
+     * @return true/false
+     * @note 
+     */			
+	bool openWA(const GInt8* filePath);	
+	bool openWA(const std::string& filePath);	
 
- 	// brief : open file for write, and create it when isn't exist
-	// @para [in]filePath : file path
-	// @return true on success, or false on error	
-	bool OpenWC(const GInt8* filePath);
-	bool OpenWC(const std::string& filePath);
+    /**
+     * open file for writing, and create it when isn't exist
+     * @param [in] filePath : file path
+     * @return true/false
+     * @note 
+     */		
+	bool openWC(const GInt8* filePath);
+	bool openWC(const std::string& filePath);
 
- 	// brief : open file for write, and create it when isn't exist, and append content
-	// @para [in]filePath : file path
-	// @return true on success, or false on error	
-	bool OpenWCA(const GInt8* filePath);	
-	bool OpenWCA(const std::string& filePath);	
+    /**
+     * open file for writing, and create it when isn't exist, and append content
+     * @param [in] filePath : file path
+     * @return true/false
+     * @note 
+     */		
+	bool openWCA(const GInt8* filePath);	
+	bool openWCA(const std::string& filePath);	
 
- 	// brief : open file for read and write
-	// @para [in]filePath : file path
-	// @return true on success, or false on error	
-	bool OpenRW(const GInt8* filePath);
-	bool OpenRW(const std::string& filePath);
+    /**
+     * open file for reading and writing
+     * @param [in] filePath : file path
+     * @return true/false
+     * @note 
+     */		
+	bool openRW(const GInt8* filePath);
+	bool openRW(const std::string& filePath);
 
- 	// brief : open file for read and write, and append content
-	// @para [in]filePath : file path
-	// @return true on success, or false on error	
-	bool OpenRWA(const GInt8* filePath);	
-	bool OpenRWA(const std::string& filePath);	
+    /**
+     * open file for reading and writeing, and appended content
+     * @param [in] filePath : file path
+     * @return true/false
+     * @note 
+     */		
+	bool openRWA(const GInt8* filePath);	
+	bool openRWA(const std::string& filePath);	
+	
+    /**
+     * open file for randing and writing, and craete it when isn't exist
+     * @param [in] filePath : file path
+     * @return true/false
+     * @note 
+     */		
+	bool openRWC(const GInt8* filePath);
+	bool openRWC(const std::string& filePath);
 
- 	// brief : open file for rand and write, and craete it when isn't exist
-	// @para [in]filePath : file path
-	// @return true on success, or false on error	
-	bool OpenRWC(const GInt8* filePath);
-	bool OpenRWC(const std::string& filePath);
+    /**
+     * open file for rand and write, and craete it when isn't exist, and append content
+     * @param [in] filePath : file path
+     * @return true/false
+     * @note 
+     */			
+	bool openRWCA(const GInt8* filePath);	
+	bool openRWCA(const std::string& filePath);	
 
- 	// brief : open file for rand and write, and craete it when isn't exist, and append content
-	// @para [in]filePath : file path
-	// @return true on success, or false on error	
-	bool OpenRWCA(const GInt8* filePath);	
-	bool OpenRWCA(const std::string& filePath);	
+    /**
+     * read file
+     * @param [out] buffer : output buffer
+	 * @param [in] size : the size of buffer     
+     * @return the size of read
+     * @note 
+     */			
+	GUint64 read(GInt8* buffer, const GUint64 size);
 
- 	// brief : read file
-	// @para [out]buffer : output buffer
-	// @para [in]size : the size of buffer
-	// @return the size of read
-	GUint64 Read(GInt8* buffer, const GUint64 size);
-	GUint64 Read(std::string& buffer, const GUint64 size);
+    /**
+     * read file
+     * @param [out] buffer : output buffer
+     * @return the size of read
+     * @note 
+     */		
+	GUint64 read(std::string& buffer);
 
- 	// brief : read file
- 	// @para [in]offset : the offset from the begin position
-	// @para [out]buffer : output buffer
-	// @para [in]size : the size of buffer
-	// @return the size of read
-	GUint64 ReadLine(const GUint64 offset, GInt8* buffer, const GUint64 size);	
-	GUint64 ReadLine(const GUint64 offset, std::string buffer, const GUint64 size);	
+    /**
+     * read a line    
+ 	 * @param [in] offset : the offset from the begin position
+	 * @param [out] buffer : output buffer
+	 * @param [in] size : the size of buffer    
+     * @return the size of readed
+     * @note 
+     */		
+	GUint64 readLine(const GUint64 offset, GInt8* buffer, const GUint64 size);
+	
+    /**
+     * read a line        
+ 	 * @param [in] offset : the offset from the begin position
+	 * @param [out] buffer : output buffer
+     * @return the size of readed
+     * @note 
+     */			
+	GUint64 readLine(const GUint64 offset, std::string buffer);	
 
- 	// brief : write file
-	// @para [in]buffer : input buffer
-	// @para [in]size : the size of buffer
-	// @return the size of write
-	GUint64 Write(const GInt8* buffer, const GUint64 size);	
-	GUint64 Write(const std::string& buffer, const GUint64 size);	
- 	// brief : close file
-	// @return true on success, or false on error
-	bool Close();
+    /**
+     * write file
+	 * @para [in] buffer : input buffer
+	 * @para [in] size : the size of buffer
+     * @return the size of writed
+     * @note 
+     */		
+	GUint64 write(const GInt8* buffer, const GUint64 size);
+
+    /**
+     * write file
+	 * @para [in] buffer : input buffer
+     * @return the size of writed
+     * @note 
+     */		
+	GUint64 write(const std::string& buffer);	
+	
+    /**
+     * close file
+	 * @para [in] buffer : input buffer
+     * @return true/false
+     * @note 
+     */		
+	bool close();
 
 private:
- 	// brief : origin API for open file
-	// @para [in]filePath : file path
-	// @para [in]flags : operation flags
-	// @para [in]mode : operation mode
-	// @return true on success, or false on error
-	bool OrgOpen(const GInt8* filePath, const GInt32 flags, const GUint32 mode = 0);
+    /**
+     * origin API for open file
+	 * @para [in] filePath : file path
+	 * @para [in] flags : operation flags
+	 * @para [in] mode : operation mode
+     * @return true/false
+     * @note 
+     */			
+	bool orgOpen(const GInt8* filePath, const GInt32 flags, const GUint32 mode = 0);
 
 private:
     GInt32			m_fd;
