@@ -1,25 +1,20 @@
-all: tagcomponent taglogger tagnetwork tagsystem
+all: tagcomponent tagsystem taglibmk
 
 clean:
 	$(MAKE) -C component clean
-	$(MAKE) -C logger clean
-	$(MAKE) -C network clean
 	$(MAKE) -C system clean
+	$(MAKE) -C libmk clean
 
 cleanall:
 	$(MAKE) -C component cleanall
-	$(MAKE) -C logger cleanall
-	$(MAKE) -C network cleanall
 	$(MAKE) -C system cleanall
-
+	$(MAKE) -C libmk cleanall
+	
 tagcomponent:
-	$(MAKE) -C component
-
-taglogger:
-	$(MAKE) -C logger 
-
-tagnetwork:    
-	$(MAKE) -C network    
+	$(MAKE) -C component 
 
 tagsystem:    
 	$(MAKE) -C system
+
+taglibmk:	  
+	$(MAKE) -C libmk
