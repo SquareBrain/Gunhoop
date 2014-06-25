@@ -69,7 +69,7 @@ public:
 	 * @return size/-1
      * @note 
      */		
-	GInt32 sendData(const GUint8* data, const GUint32 dataLen, const GInt32 flags = MSG_NOSIGNAL);
+	GInt64 sendData(const GUint8* data, const GUint64 dataLen, const GInt32 flags = MSG_NOSIGNAL);
 	
     /**
      * receive data
@@ -79,7 +79,7 @@ public:
 	 * @return size/-1
      * @note 
      */	
-	GInt32 recvData(GUint8** buffer, const GUint32 bufferSize, const GInt32 flags = 0);
+	GInt64 recvData(GUint8** buffer, const GUint64 bufferSize, const GInt32 flags = 0);
 
     /**
      * shutdown connecting
@@ -118,7 +118,7 @@ private:
 
 private:
     // socket file descrition
-	GInt32         m_sockfd;
+	GInt32          m_sockfd;
 	// address
 	sockaddr_in		m_addr;
 	// address length

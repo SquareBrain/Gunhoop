@@ -100,11 +100,11 @@ private:
 
 private:
 	// thread ID
-	pthread_t	m_threadId;
+	pthread_t	    m_threadId;
 	// indicate whether is detached with main thread£¬default is detached
-	bool		m_autoRel;
+	bool		    m_autoRel;
 	// user thread object
-	Runnable*	m_runnable;
+	Runnable*	    m_runnable;
 };
 
 /** 
@@ -147,10 +147,10 @@ private:
 
 private:
 	// thread ID
-	pthread_t	m_threadId;	
+	pthread_t	    m_threadId;	
 	// whether is detached with main thread, default is ture, 
 	// indicate detached with main thread
-	bool		m_autoRel;
+	bool		    m_autoRel;
 };
 
 /** 
@@ -164,10 +164,10 @@ public:
 	 * @param [in] entry : thread entry fucntion pointer
 	 * @param [in] argument : user data
 	 * @param [in] autoRel : whether support automatic release, default is yes
-	 * @return thread ID
+	 * @return thread ID / -1
      * @note 
      */		
-	static GUint32 CreateThread(void* entry, void* argument, const bool autoRel = true);
+	static GInt32 CreateThread(void* entry, void* argument, const bool autoRel = true);
 };
 
 G_NS_GCOMMON_END

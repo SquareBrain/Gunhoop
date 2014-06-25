@@ -84,7 +84,7 @@ public:
 	 * @return size/-1
      * @note 
      */		
-	GInt32 write(const GInt8* data, const GUint32 dataLen);
+	GInt64 write(const GInt8* data, const GUint64 dataLen);
 	
 private:
     /**
@@ -124,7 +124,7 @@ public:
 	 * @return size/-1
      * @note 
      */  	
-	GInt32 read(GInt8* buffer, const GUint32 bufferSize);    
+	GInt64 read(GInt8* buffer, const GUint64 bufferSize);    
 };
 
 G_NS_GCOMMON_END 

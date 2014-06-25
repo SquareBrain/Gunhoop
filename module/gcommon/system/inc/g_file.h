@@ -31,10 +31,10 @@ public:
     /**
      * create file
      * @param [in] filePath : file path
-     * @return true/false
+     * @return G_YES/G_NO
      * @note 
      */	
-    static bool createFile(const GInt8* filePath); 
+    static GResult createFile(const GInt8* filePath); 
 };
 
 /** 
@@ -44,115 +44,138 @@ class File
 {
 public:
     File();
+
+    /**
+     * set file path
+     * @param [in] filePath : file path
+     * @note 
+     */	    
+    explicit File(const GInt8* filePath);
+    
     ~File();
 
     /**
-     * open file for reading
+     * set file path
      * @param [in] filePath : file path
-     * @return true/false
+     * @return G_YES/G_NO
      * @note 
      */		
-	bool openR(const GInt8* filePath);
+	GResult setFilePath(const GInt8* filePath);
+
+    /**
+     * get file mode
+     * @return mode
+     * @note 
+     */		
+	GUint32 getMode() const;	
+	
+    /**
+     * open file for reading
+     * @param [in] filePath : file path
+     * @return G_YES/G_NO
+     * @note 
+     */		
+	GResult openR();
 
     /**
      * open file for writing
      * @param [in] filePath : file path
-     * @return true/false
+     * @return G_YES/G_NO
      * @note 
      */		
-	bool openW(const GInt8* filePath);
+	GResult openW(const GInt8* filePath);
 
     /**
      * open file for writing, and appended content
      * @param [in] filePath : file path
-     * @return true/false
+     * @return G_YES/G_NO
      * @note 
      */			
-	bool openWA(const GInt8* filePath);	
+	GResult openWA(const GInt8* filePath);	
 
     /**
      * open file for writing, and create it when isn't exist
      * @param [in] filePath : file path
-     * @return true/false
+     * @return G_YES/G_NO
      * @note 
      */		
-	bool openWC(const GInt8* filePath);
+	GResult openWC(const GInt8* filePath);
 
     /**
      * open file for writing, and create it when isn't exist, and append content
      * @param [in] filePath : file path
-     * @return true/false
+     * @return G_YES/G_NO
      * @note 
      */		
-	bool openWCA(const GInt8* filePath);	
+	GResult openWCA(const GInt8* filePath);	
 
     /**
      * open file for reading and writing
      * @param [in] filePath : file path
-     * @return true/false
+     * @return G_YES/G_NO
      * @note 
      */		
-	bool openRW(const GInt8* filePath);
+	GResult openRW(const GInt8* filePath);
 
     /**
      * open file for reading and writeing, and appended content
      * @param [in] filePath : file path
-     * @return true/false
+     * @return G_YES/G_NO
      * @note 
      */		
-	bool openRWA(const GInt8* filePath);	
+	GResult openRWA(const GInt8* filePath);	
 	
     /**
      * open file for randing and writing, and craete it when isn't exist
      * @param [in] filePath : file path
-     * @return true/false
+     * @return G_YES/G_NO
      * @note 
      */		
-	bool openRWC(const GInt8* filePath);
+	GResult openRWC(const GInt8* filePath);
 
     /**
      * open file for rand and write, and craete it when isn't exist, and append content
      * @param [in] filePath : file path
-     * @return true/false
+     * @return G_YES/G_NO
      * @note 
      */			
-	bool openRWCA(const GInt8* filePath);	
+	GResult openRWCA(const GInt8* filePath);	
 
     /**
      * read file
      * @param [out] buffer : output buffer
 	 * @param [in] size : the size of buffer     
-     * @return the size of read
+     * @return size/-1
      * @note 
      */			
-	GUint64 readFile(GInt8* buffer, const GUint64 size);
+	GInt64 readFile(GInt8* buffer, const GUint64 size);
 
     /**
      * read a line    
  	 * @param [in] offset : the offset from the begin position
 	 * @param [out] buffer : output buffer
 	 * @param [in] size : the size of buffer    
-     * @return the size of readed
+     * @return size/-1
      * @note 
      */		
-	GUint64 readLine(const GUint64 offset, GInt8* buffer, const GUint64 size);
+	GInt64 readLine(const GUint64 offset, GInt8* buffer, const GUint64 size);
 
     /**
      * write file
 	 * @param [in] buffer : input buffer
 	 * @param [in] size : the size of buffer
-     * @return the size of writed
+     * @return size/-1
      * @note 
      */		
-	GUint64 writeFile(const GInt8* buffer, const GUint64 size);
+	GInt64 writeFile(const GInt8* buffer, const GUint64 size);
 	
     /**
      * close file
 	 * @param [in] buffer : input buffer
-     * @return true/false
+     * @return G_YES/G_NO
      * @note 
      */		
-	bool closeFile();
+	GResult closeFile();
 
 private:
     /**
@@ -160,15 +183,17 @@ private:
 	 * @param [in] filePath : file path
 	 * @param [in] flags : operation flags
 	 * @param [in] mode : operation mode
-     * @return true/false
+     * @return G_YES/G_NO
      * @note 
      */			
-	bool orgOpen(const GInt8* filePath, const GInt32 flags, const GUint32 mode = 0);
+	GResult orgOpen(const GInt8* filePath, const GInt32 flags, const GUint32 mode = 0);
 
 private:
     GInt32			m_fd;
     GInt32			m_flags;
+    GUint32         m_mode;
 	GInt8		    m_path[G_PATH_MAX];
+	GUint32         m_pathLen;
 };
 
 G_NS_GCOMMON_END

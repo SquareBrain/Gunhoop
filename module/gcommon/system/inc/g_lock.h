@@ -81,7 +81,7 @@ private:
 
     /**
      * initialize mutex
-     * @param [in] kink : mutex type, reference constructor function
+     * @param [in] kind : mutex type, reference constructor function
      * @note 
      */		
 	void init(const GInt32 kind);

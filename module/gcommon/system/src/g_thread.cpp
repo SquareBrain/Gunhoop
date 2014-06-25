@@ -101,7 +101,7 @@ void* ThreadTask::enterPoint(void* argument)
 	return NULL;
 }
 
-GUint32 ThreadUtil::createThread(void* entry, void* argument, const bool autoRel)
+GInt32 ThreadUtil::createThread(void* entry, void* argument, const bool autoRel)
 {
 	pthread_attr_t* attributes = NULL;
 
@@ -110,7 +110,7 @@ GUint32 ThreadUtil::createThread(void* entry, void* argument, const bool autoRel
 	GInt32 ret = pthread_create(&threadId, attributes, (ThreadFunPoint_t)entry, argument);
 	if (ret != 0)
 	{
-		return threadId;
+		return (GInt32)threadId;
 	}
 
 	if (autoRel)
@@ -118,7 +118,7 @@ GUint32 ThreadUtil::createThread(void* entry, void* argument, const bool autoRel
 		pthread_detach(threadId);
 	}
 
-	return (GUint32)threadId;
+	return (GInt32)threadId;
 }
 
 G_NS_GCOMMON_END
