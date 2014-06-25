@@ -21,15 +21,7 @@ static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.time";
 
 G_NS_GCOMMON_BEG
 
-Time::Time()
-{
-}
-
-Time::~Time()
-{
-}
-
-bool Time::GetTimeA(GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::ConvTimeA(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 8)
     {
@@ -43,7 +35,7 @@ bool Time::GetTimeA(GInt8* sysTime, const GUint64 bufSize)
     return true;
 }
 
-bool Time::GetTimeB(GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::ConvTimeB(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 10)
     {
@@ -57,7 +49,7 @@ bool Time::GetTimeB(GInt8* sysTime, const GUint64 bufSize)
     return true;
 }
 
-bool Time::GetTimeC(GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::ConvTimeC(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 10)
     {
@@ -71,7 +63,7 @@ bool Time::GetTimeC(GInt8* sysTime, const GUint64 bufSize)
     return true;
 }
 
-bool Time::GetTimeD(GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::ConvTimeD(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 10)
     {
@@ -85,7 +77,7 @@ bool Time::GetTimeD(GInt8* sysTime, const GUint64 bufSize)
     return true;
 }
 
-bool Time::GetTimeE(GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::ConvTimeE(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 14)
     {

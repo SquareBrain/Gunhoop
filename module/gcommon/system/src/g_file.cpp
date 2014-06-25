@@ -22,17 +22,7 @@ static const GUint32 G_CREATE_MODE = 0x775;
 
 G_NS_GCOMMON_BEG
 
-File::File() : m_fd(-1), m_flags(0)
-{
-    m_path[0] = 0;
-}
-
-File::~File() 
-{
-    Close();
-}
-
-bool File::createFile(const GInt8* filePath)
+bool FileUtil::createFile(const GInt8* filePath)
 {
     GInt32 fd = creat(filePath, G_CREATE_MODE);
     if (fd != -1)
@@ -41,6 +31,16 @@ bool File::createFile(const GInt8* filePath)
     }
     
     return (fd != -1 ? true : false);
+}
+
+File::File() : m_fd(-1), m_flags(0)
+{
+    m_path[0] = 0;
+}
+
+File::~File() 
+{
+    Close();
 }
 
 bool File::openR(const GInt8* filePath)

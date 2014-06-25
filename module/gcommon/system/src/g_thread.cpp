@@ -32,7 +32,7 @@ Thread::~Thread()
 {
 }
 
-bool Thread::Start()
+bool Thread::start()
 {
 	pthread_attr_t* attributes = NULL;
 	
@@ -51,33 +51,12 @@ bool Thread::Start()
 	return true;
 }
 
-pthread_t Thread::GetThreadId() const
+GUint32 Thread::getThreadId() const
 {
-	return m_threadId;
+	return (GUint32)m_threadId;
 }
 
-pthread_t Thread::CreateThread(void* entry, void* argument, const bool autoRel)
-{
-	pthread_attr_t* attributes = NULL;
-
-	pthread_t threadId = -1;
-
-	GInt32 ret = pthread_create(&threadId, attributes, (ThreadFunPoint_t)entry, argument);
-
-	if (ret != 0)
-	{
-		return threadId;
-	}
-
-	if (autoRel)
-	{
-		pthread_detach(threadId);
-	}
-
-	return threadId;
-}
-
-void* Thread::EnterPoint(void* argument)
+void* Thread::enterPoint(void* argument)
 {
 	Runnable* runnable = static_cast<Runnable*>(argument);
 
@@ -94,7 +73,7 @@ ThreadTask::~ThreadTask()
 {
 }
 
-bool ThreadTask::Start()
+bool ThreadTask::start()
 {
 	pthread_attr_t* attributes = NULL;
 	
@@ -113,13 +92,33 @@ bool ThreadTask::Start()
 	return true;
 }
 
-void* ThreadTask::EnterPoint(void* argument)
+void* ThreadTask::enterPoint(void* argument)
 {
 	ThreadTask* threadTask = static_cast<ThreadTask*>(argument);
 
     threadTask->Run();
 
 	return NULL;
+}
+
+GUint32 ThreadUtil::createThread(void* entry, void* argument, const bool autoRel)
+{
+	pthread_attr_t* attributes = NULL;
+
+	pthread_t threadId = -1;
+
+	GInt32 ret = pthread_create(&threadId, attributes, (ThreadFunPoint_t)entry, argument);
+	if (ret != 0)
+	{
+		return threadId;
+	}
+
+	if (autoRel)
+	{
+		pthread_detach(threadId);
+	}
+
+	return (GUint32)threadId;
 }
 
 G_NS_GCOMMON_END

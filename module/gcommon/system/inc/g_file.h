@@ -25,6 +25,18 @@
 
 G_NS_GCOMMON_BEG
 
+class FileUtil
+{
+public:
+    /**
+     * create file
+     * @param [in] filePath : file path
+     * @return true/false
+     * @note 
+     */	
+    static bool createFile(const GInt8* filePath); 
+};
+
 /** 
  * file operation wrapper
  */
@@ -33,14 +45,6 @@ class File
 public:
     File();
     ~File();
-
-    /**
-     * create file
-     * @param [in] filePath : file path
-     * @return true/false
-     * @note 
-     */		
-	bool createFile(const GInt8* filePath);    
 
     /**
      * open file for reading
