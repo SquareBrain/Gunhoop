@@ -75,8 +75,8 @@ public:
     Shm();   
     /**
      * constructor
-	 * @para [in] shmPath : shm mapping file path
-	 * @para [in] shmSize : shm size
+	 * @param [in] shmPath : shm mapping file path
+	 * @param [in] shmSize : shm size
 	 * @return true/false
      * @note 
      */		
@@ -85,7 +85,7 @@ public:
 
     /**
      * set shm mapping file path
-	 * @para [in] shmPath : shm mapping file path     
+	 * @param [in] shmPath : shm mapping file path     
      * @note 
      */	
     void setShmPath(const GInt8* shmPath);
@@ -99,7 +99,7 @@ public:
 
     /**
      * set shm mapping file size
-     * @para [in] shmSize : shm size  
+     * @param [in] shmSize : shm size  
      * @note 
      */		
     void setShmSize(const GUint64 shmSize);
@@ -134,9 +134,9 @@ public:
    
     /**
      * write data to shm
-	 * @para [in] offset : offset of shm
-	 * @para [in] data : input data
-	 * @para [in] size : write size     
+	 * @param [in] offset : offset of shm
+	 * @param [in] data : input data
+	 * @param [in] size : write size     
      * @return G_YES/G_NO  
      * @note 
      */		
@@ -144,9 +144,9 @@ public:
 
     /**
      * read data from shm
-	 * @para [in]offset : offset of shm
-	 * @para [in]buffer : output buffer
-	 * @para [in]size : read size    
+	 * @param [in] offset : offset of shm
+	 * @param [in] buffer : output buffer
+	 * @param [in] size : read size    
      * @return G_YES/G_NO  
      * @note 
      */	

@@ -35,83 +35,86 @@ class Socket
 {
 public:
 	Socket();
-
-	// brief : constructor
-	// @para [in]ip : ip address
-	// @para [in]port : port
-	// note		
-	Socket(const GUint32 ip, const GUint16 port);
-	Socket(const GUint8* ip, const GUint16 port);
-
-	// brief : copy constructor
-	// @para [in]socket : Socket
-	// note	
-	Socket(const Socket& socket);
 	
+    /**
+     * constructor
+	 * @param [in] ip : ip address
+	 * @param [in] port : port
+     * @note 
+     */			
+	Socket(const GUint32 ip, const GUint16 port);
+
+    /**
+     * copy constructor
+	 * @param [in] socket : socket
+     * @note 
+     */			
+	Socket(const Socket& socket);
 	~Socket();
 	
-	// brief : init socket
-	// @para [in]domain : domain
-	// @para [in]type : socket type
-	// return : true/false
-	// note	
-	bool InitSocket(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
+    /**
+     * init socket
+	 * @param [in] domain : domain
+	 * @param [in] type : socket type
+	 * @return G_YES/G_NO
+     * @note 
+     */		
+	GResult initSocket(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
+			
+    /**
+     * send data
+	 * @param [in] data : send data
+	 * @param [in] dataLen : data length
+	 * @param [in] flags : flags
+	 * @return size/-1
+     * @note 
+     */		
+	GInt32 sendData(const GUint8* data, const GUint32 dataLen, const GInt32 flags = MSG_NOSIGNAL);
 	
-	// brief : send data
-	// @para [in]data : send data
-	// @para [in]dataLen : data length
-	// @para [in]flags : flags
-	// return : the size of send, failure return -1
-	// note		
-	GInt32 Send(const GUint8* data, const GUint32 dataLen, const GInt32 flags = MSG_NOSIGNAL);
+    /**
+     * receive data
+	 * @param [out] buffer : output buffer
+	 * @param [in] bufferSize : buffer size
+	 * @param [in] flags : flags
+	 * @return size/-1
+     * @note 
+     */	
+	GInt32 recvData(GUint8** buffer, const GUint32 bufferSize, const GInt32 flags = 0);
 
-	// brief : receive data
-	// @para [out]buffer : output buffer
-	// @para [in]bufferSize : buffer size
-	// @para [in]flags : flags
-	// return : the size of received, failure return -1
-	// note		
-	GInt32 Recv(GUint8** buffer, const GUint32 bufferSize, const GInt32 flags = 0);
+    /**
+     * shutdown connecting
+	 * @param [in] how : way
+	 * @return G_YES/G_NO
+     * @note 
+     */	
+	GResult shutdown(const GInt32 how = 0);
+		
+    /**
+     * setting address
+	 * @param [in] ip : ip address
+	 * @param [in] port : port
+     * @note 
+     */		
+	void setAddr(const GUint32 ip, const GUint16 port);
 
-	// brief : shutdown connecting 
-	// @para [in]how : way
-	// return : ture/false
-	// note		
-	bool Shutdown(const GInt32 how = 0);
-	
-	// brief : setting address
-	// @para [in]ip : ip address
-	// @para [in]port : port
-	// note		
-	void SetAddr(const GUint32 ip, const GUint16 port);	
-	void SetAddr(const GUint8* ip, const GUint16 port);
+    /**
+     * get ip address
+     * @return ip address
+     */		
+	GUint32 getIP() const;
 
-	// brief : get ip address
-	// return : ip address
-	// note			
-	GUint32 GetIP() const;
-	std::string GetIPString() const;
-
-	// brief : get port
-	// return : port
-	// note			
-	GUint16 GetPort() const;
-
-	// brief : setting address
-	// @para [in]addr : address
-	// note
-	void SetAddr(sockaddr_in addr);
-
-	// brief : get address
-	// return : address
-	// note		
-	sockaddr_in GetAddr() const;
+    /**
+     * get port
+     * @return port
+     */		
+	GUint16 getPort() const;
 
 private:
-	// brief : setting socket options 
-	// return : true/false
-	// note			
-	bool InitOption();
+    /**
+     * setting socket options 
+     * @return G_YES/G_NO
+     */		
+	GResult initOption();
 
 private:
     // socket file descrition

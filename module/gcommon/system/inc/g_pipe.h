@@ -46,8 +46,8 @@ public:
 protected:
     /**
      * Open the pipe
-	 * @para [in] pipeName : the pipe name
-	 * @para [in] mode : open mode
+	 * @param [in] pipeName : the pipe name
+	 * @param [in] mode : open mode
 	 * @return true/false
      * @note 
      */		
@@ -71,7 +71,7 @@ public:
 	
     /**
      * Open the pipe
-	 * @para [in] pipeName : the pipe name
+	 * @param [in] pipeName : the pipe name
 	 * @return true/false
      * @note 
      */			
@@ -79,8 +79,8 @@ public:
 	
     /**
      * Write data to pipe
-	 * @para [in] data 
-	 * @para [in] dataLen 
+	 * @param [in] data 
+	 * @param [in] dataLen 
 	 * @return size/-1
      * @note 
      */		
@@ -111,7 +111,7 @@ public:
 
     /**
      * open pipe
-     * @para [in] pipeName : pipe name
+     * @param [in] pipeName : pipe name
 	 * @return true/false
      * @note 
      */    
@@ -119,8 +119,8 @@ public:
 
     /**
      * read data from pipe
-	 * @para [out] buffer : template buffer
-	 * @para [in] bufferSize : template buffer size
+	 * @param [out] buffer : template buffer
+	 * @param [in] bufferSize : template buffer size
 	 * @return size/-1
      * @note 
      */  	
