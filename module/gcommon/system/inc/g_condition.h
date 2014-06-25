@@ -38,21 +38,21 @@ public:
      * @return true/false
      * @note 
      */ 
-	bool Signal();
+	bool signal();
 	 
     /**
      * wake up all waitting threads
      * @return true/false
      * @note 
      */		
-	bool Broadcast();
+	bool broadcast();
 	
     /**
      * let current thread has reached the awaited state, utill be wake up
      * @return true/false
      * @note 
      */		
-	bool Wait();
+	bool wait();
 	
     /**
      * let current thread has reached the awaited state,
@@ -61,7 +61,7 @@ public:
      * @return true/false
      * @note 
      */	
-	bool Wait(const GUint32 timeout);
+	bool wait(const GUint32 timeout);
 
 private: 
     /**

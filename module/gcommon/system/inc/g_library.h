@@ -31,16 +31,22 @@ public:
     SharedLibrary();
     ~SharedLibrary();
 
- 	// brief : load shared library
-	// @para [in]libFilePath : library path
-	// @para [in]flags : RTLD_LAZY|RTLD_NOW
-	// @return library handle on success, or NULL on error
-    static void* OpenLib(const GInt8* libFilePath, const GInt32 flags = RTLD_LAZY);
+    /**
+     * load shared library
+	 * @param [in] libFilePath : library path
+	 * @param [in] flags : RTLD_LAZY|RTLD_NOW
+     * @return handle/NULL
+     * @note 
+     */		
+    static void* openLib(const GInt8* libFilePath, const GInt32 flags = RTLD_LAZY);
 
- 	// brief : close shared library
-	// @para [in]handle : library handle
-	// @return true on success, or false on error    
-    static bool CloseLib(void* handle);
+    /**
+     * close shared library
+	 * @param [in] handle : library handle
+     * @return true/false
+     * @note 
+     */		
+    static bool closeLib(void* handle);
 };
 
 G_NS_GCOMMON_END

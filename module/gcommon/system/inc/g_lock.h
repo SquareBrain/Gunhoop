@@ -31,178 +31,167 @@ G_NS_GCOMMON_BEG
 
 /** 
  * POSIX mutex wrapper
- * usage:
- *	Mutex mutex;
- *  mutex.Lock();
- *  mutex.Trylock();
- *  mutex.Unlock(); 
  */
 class Mutex
 {
 public:
-	// brief :
-	// @para
-	// @return 
-	// note : default mutex type is PTHREAD_MUTEX_RECURSIVE
+    /**
+     * constructor
+     * @note default mutex type is PTHREAD_MUTEX_RECURSIVE
+     */	
 	Mutex();
 	
-	// brief :
-	// @para [in]kind : mutex type
-	// @return 
-	// note : have four mutex type, are PTHREAD_MUTEX_NORMAL、PTHREAD_MUTEX_RECURSIVE
-	// PTHREAD_MUTEX_ERRORCHECK、PTHREAD_MUTEX_DEFAULT
+    /**
+     * constructor
+     * @param [in] kind : mutex type
+     * @note have four mutex type, are PTHREAD_MUTEX_NORMAL、PTHREAD_MUTEX_RECURSIVE
+	 * PTHREAD_MUTEX_ERRORCHECK、PTHREAD_MUTEX_DEFAULT
+     */		
 	explicit Mutex(const GInt32 kind);
 	~Mutex();
 
-	// brief : lock mutex, enter to awaited state
-	// @para 
-	// @return true/false
-	// note:
-	bool Lock();
+    /**
+     * lock mutex, enter to awaited state
+     * @return true/false
+     * @note 
+     */		
+	bool lock();
+	
+    /**
+     * try to lock mutex, failure return immediately
+     * @return true/false
+     * @note 
+     */		
+	bool trylock();
 
-	// brief : try to lock mutex, failure return immediately
-	// @para 
-	// @return true/false
-	// note:	
-	bool Trylock();
-
-	// brief : release lock
-	// @para 
-	// @return true/false
-	// note:	
-	bool Unlock();
+    /**
+     * release lock
+     * @return true/false
+     * @note 
+     */		
+	bool unlock();
 
 private:
-	// brief : to prevent copying
-	// @para 
-	// @return 
-	// note:
+    /**
+     * to prevent copying
+     * @note 
+     */			
 	Mutex(const Mutex&); 
 	void operator=(const Mutex&);	
 
-	// brief : initialize mutex
-	// @para [in]kink : mutex type, reference constructor function
-	// @return
-	// note:	
-	void Init(const GInt32 kind);
+    /**
+     * initialize mutex
+     * @param [in] kink : mutex type, reference constructor function
+     * @note 
+     */		
+	void init(const GInt32 kind);
     
 private:
 	pthread_mutex_t	m_mutex;	
 };
 
-// brief : original lock wrapper
-//	
-// usage:
-//	OrgLock orgLock;
-//  orgLock.Lock();
-//  orgLock.Trylock();
-//  orgLock.Unlock();
+
+/** 
+ * original lock wrapper
+ */
 class OrgLock
 {
 public:
-	// brief :
-	// @para
-	// @return 
-	// note : default mutex type is PTHREAD_MUTEX_RECURSIVE
+    /**
+     * constructor
+     * @note default mutex type is PTHREAD_MUTEX_RECURSIVE
+     */		
 	OrgLock();
 	
-	// brief :
-	// @para [in]kind : mutex type
-	// @return 
-	// note : have four mutex type : PTHREAD_MUTEX_NORMAL、PTHREAD_MUTEX_RECURSIVE
-	// PTHREAD_MUTEX_ERRORCHECK、PTHREAD_MUTEX_DEFAULT	
+    /**
+     * constructor
+     * @param [in] kind : mutex type
+     * @note have four mutex type : PTHREAD_MUTEX_NORMAL、PTHREAD_MUTEX_RECURSIVE
+	 * PTHREAD_MUTEX_ERRORCHECK、PTHREAD_MUTEX_DEFAULT
+     */		
 	explicit OrgLock(const GInt32 kind);
 	virtual ~OrgLock();
 
-	// brief : locked and waitting
-	// @para 
-	// @return true/false
-	// note:
-	bool Lock();
-
-	// brief : try lock, if failed return immediately
-	// @para 
-	// @return true/false
-	// note:	
-	bool Trylock();
-
-	// brief : release lock
-	// @para  
-	// @return true/false
-	// note:		
-	bool Unlock();
+    /**
+     * locked and waitting
+     * @return true/false
+     * @note
+     */			
+	bool lock();
+	
+    /**
+     * try lock, if failed return immediately
+     * @return true/false
+     * @note
+     */		
+	bool trylock();
+	
+    /**
+     * release lock
+     * @return true/false
+     * @note
+     */		
+	bool unlock();
 
 private:
-	// brief : prevent copying
-	// @para 
-	// @return 
-	// note:
+    /**
+     * prevent copying
+     * @note
+     */		
 	OrgLock(const OrgLock&); 
+
+    /**
+     * prevent copying
+     * @note
+     */	
 	void operator=(const OrgLock&);	
 
 private:
 	Mutex*	m_mutex;
 };
 
-// brief : try lock wrapper
-//	
-// usage:
-//  Mutex mutex;
-//
-//  void MyFun()
-//  {
-//      // auto release lock
-//	    TryLock autoTryLock(mutex);
-//      if (!autoTryLock.Lock(1000))
-//      {
-//          return;
-//      }
-//      
-//      // to do
-//
-//      // not auto release lock
-//      TryLock notAutoTryLock(mutex, false);
-//      if (!autoTryLock.Lock(1000))
-//      {
-//          notAutoTryLock.Unlock();
-//          return;
-//      }     
-//      
-//      // to do
-//      
-//      notAutoTryLock.Unlock();
-//  }
+/** 
+ * try lock wrapper
+ */
 class TryLock
 {
 public:
-	// brief :
-	// @para [in]mutex : mutex
-	// @para [in]autoUnlock : whether release lock automatic
-	// @return 
-	// note
+    /**
+     * constructor
+	 * @param [in] mutex : mutex
+	 * @param [in] autoUnlock : whether release lock automatic
+     * @note 
+     */		
 	TryLock(Mutex& mutex, const bool autoUnlock = true);
-	
 	~TryLock();
 
-	// brief : try lock 
-	// @para [in]timeout : try lock timeout, default is zero, indicate try once, 
-	// then return immediately
-	// @return true/false
-	// note
-	bool Lock(const GUint32 timeout = 0);
+    /**
+     * try lock
+	 * @param [in] timeout : try lock timeout, default is zero, indicate try once, 
+	 * then return immediately
+	 * @return true/false
+     * @note 
+     */		
+	bool lock(const GUint32 timeout = 0);
 
-	// brief : release lock
-	// @para
-	// @return true/false
-	// note : if construct a release lock, invoke invalid
-	bool Unlock();
+    /**
+     * release lock
+	 * @return true/false
+     * @note if construct a release lock, invoke invalid
+     */			
+	bool unlock();
 
 private:
-	// brief : prevent copying
-	// @para 
-	// @return 
-	// note
-	TryLock(const TryLock&); 
+    /**
+     * prevent copying
+     * @note
+     */	
+	tryLock(const TryLock&); 
+	
+    /**
+     * prevent copying
+     * @note
+     */		
 	void operator=(const TryLock&);	
     
 private:
@@ -210,39 +199,35 @@ private:
 	bool	m_autoUnlock;
 };
 
-// brief : auto lock wrapper
-//	
-// usage :
-//  Mutex mutex;
-//
-//  void MyFun()
-//  {
-//      // auto release lock
-//	    AutoLock autoLock(mutex);
-//
-//      // to do
-//      // auto release lock, when return the function
-//  }
+/** 
+ * auto lock wrapper
+ */
 class AutoLock
 {
 public:
-	// brief :
-	// @para [in]mutex : mutex
-	// @return 
-	// note:
+    /**
+     * constructor
+	 * @param [in]mutex : mutex
+     * @note 
+     */			
 	explicit AutoLock(Mutex& mutex);
 	~AutoLock();
 
 private:
-	// brief : prevent copying
-	// @para 
-	// @return 
-	// note
+    /**
+     * prevent copying
+     * @note
+     */		
 	AutoLock(const AutoLock&);
+
+    /**
+     * prevent copying
+     * @note
+     */			
 	void operator=(const AutoLock&);
 
 private:
-	Mutex& m_mutex;
+	Mutex&      m_mutex;
 };
 
 G_NS_GCOMMON_END

@@ -163,8 +163,8 @@ public:
 
     /**
      * write file
-	 * @para [in] buffer : input buffer
-	 * @para [in] size : the size of buffer
+	 * @param [in] buffer : input buffer
+	 * @param [in] size : the size of buffer
      * @return the size of writed
      * @note 
      */		
@@ -172,7 +172,7 @@ public:
 
     /**
      * write file
-	 * @para [in] buffer : input buffer
+	 * @param [in] buffer : input buffer
      * @return the size of writed
      * @note 
      */		
@@ -180,7 +180,7 @@ public:
 	
     /**
      * close file
-	 * @para [in] buffer : input buffer
+	 * @param [in] buffer : input buffer
      * @return true/false
      * @note 
      */		
@@ -189,9 +189,9 @@ public:
 private:
     /**
      * origin API for open file
-	 * @para [in] filePath : file path
-	 * @para [in] flags : operation flags
-	 * @para [in] mode : operation mode
+	 * @param [in] filePath : file path
+	 * @param [in] flags : operation flags
+	 * @param [in] mode : operation mode
      * @return true/false
      * @note 
      */			
