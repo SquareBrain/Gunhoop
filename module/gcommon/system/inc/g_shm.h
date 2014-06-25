@@ -23,10 +23,48 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
-#include <string>
 #include <g_type.h>
 
 G_NS_GCOMMON_BEG 
+
+/** 
+ * shm error code
+ */
+typedef enum 
+{ 
+    /** 
+     * open shm failed
+     */        
+    OPEN_SHM_FAILED = -2,
+    /** 
+     * munmap failed
+     */           
+    MUNMAP_SHM_FAILED = -3,
+    /** 
+     * mmap failed
+     */           
+    MMAP_SHM_FAILED = -4,
+    /** 
+     * sync shm failed
+     */           
+    SYNC_SHM_FAILED = -5,
+    /** 
+     * write shm parameter failed
+     */           
+    WRITE_SHM_PARA_FAILED = -6,
+    /** 
+     * read shm parameter failed
+     */           
+    READ_SHM_PARA_FAILED = -7,
+    /** 
+     * shm not init
+     */           
+    SHM_NO_INIT = -8,
+    /** 
+     * shm path is empty
+     */           
+    SHM_PATH_EMPTY = -9
+} ShmErrorCode;
 
 /** 
  * shared memory for ipc
@@ -34,47 +72,35 @@ G_NS_GCOMMON_BEG
 class Shm
 {
 public:
-    typedef enum 
-    { 
-        // open shm failed
-        OPEN_SHM_FAILED = -2,
-        // munmap failed
-        MUNMAP_SHM_FAILED = -3,
-        // mmap failed
-        MMAP_SHM_FAILED = -4,
-        // sync shm failed
-        SYNC_SHM_FAILED = -5,
-        // write shm parameter failed
-        WRITE_SHM_PARA_FAILED = -6,
-        // read shm parameter failed
-        READ_SHM_PARA_FAILED = -7,
-        // shm not init
-        SHM_NO_INIT = -8,
-        // shm path is empty
-        SHM_PATH_EMPTY = -9
-        // uninit
-    } ErrorCode;
-    
-public:
-    Shm();
-	// brief : constructor
-	// @para [in]path : shm mapping file path
-	// @para [in]size : shm size
-	// note    
-    Shm(const GInt8* path, const GUint32 size);
-    Shm(const std::string& path, const GUint32 size);
+    Shm();   
+    /**
+     * constructor
+	 * @para [in] shmPath : shm mapping file path
+	 * @para [in] shmSize : shm size
+	 * @return true/false
+     * @note 
+     */		
+    Shm(const GInt8* shmPath, const GUint32 shmSize);
     ~Shm();
 
-	// brief : set shm mapping file path
-	// note  
-    void SetPath(const GInt8* path);
-    void SetPath(const std::string& path);
-    const std::string& GetPath() const;
+    /**
+     * set shm mapping file path
+	 * @para [in] shmPath : shm mapping file path     
+     * @note 
+     */	
+    void SetShmPath(const GInt8* shmPath);
+
+    /**
+     * set shm mapping file path
+	 * @return shm mapping file path   
+     * @note 
+     */	
+    GInt8* GetShmPath() const;
 
 	// brief : set/get shm mapping file size
 	// note  
-    void SetSize(const GUint32 size);
-    GUint32 GetSize() const;    
+    void SetShmSize(const GUint32 size);
+    GUint32 GetShmSize() const;    
     
 	// brief : init the shm
 	// return : successed : 0, failed : error code
@@ -108,7 +134,7 @@ public:
     GResult Read(const GUint32 offset, GInt8* data, const GUint32 size);
 
 private:
-	std::string		m_shmPath;
+	GInt8*		    m_shmPath[G_PATH_MAX];
 	GUint32			m_shmSize;	
 	void*			m_shmAddr;
 };

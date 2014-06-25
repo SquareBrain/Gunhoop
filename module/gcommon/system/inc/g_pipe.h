@@ -35,91 +35,96 @@ public:
 	Pipe() {}
 	virtual ~Pipe() {}
 	
-	// brief : Open the pipe
-	// @para [in]pipeName : the pipe name
-	// return : true/false
-	// note
-	virtual bool Open(const GInt8* pipeName) = 0;
+    /**
+     * Open the pipe
+	 * @param [in] pipeName : the pipe name 
+	 * @return true/false
+     * @note 
+     */			
+	virtual bool open(const GInt8* pipeName) = 0;
 
 protected:
-	// brief : call posix API
-	// @para [in]pipeName : the pipe name
-	// @para [in]mode : open mode
-	// return : true/false
-	// note
-    bool PosixOpen(const GInt8* pipeName, const GInt32 mode);
+    /**
+     * Open the pipe
+	 * @para [in] pipeName : the pipe name
+	 * @para [in] mode : open mode
+	 * @return true/false
+     * @note 
+     */		
+    bool orgOpen(const GInt8* pipeName, const GInt32 mode);
     
 protected:
-	// pipe descriptor
+    /** 
+     * pipe descriptor
+     */	
 	GInt32		m_pipefd;
 };
 
-// brief : Be used to write pipe
-// usage :
-//	void MyWritePipe()
-//	{
-// 		WritePipe writePipe;
-//		if (writePipe.Open("/tmp/testFifoFile"))
-//		{
-//          char* data = "test data";
-//		    writePipe.Write(data, strlen(data));
-//		}
-//	}
+/** 
+ * Be used to write pipe
+ */
 class WritePipe : public Pipe
 {
 public:
 	WritePipe() {}
 	virtual ~WritePipe() {}
 	
-	// brief : Open the pipe
-	// @para [in]pipeName : pipe name
-	// return : true/false
-	// note
-	virtual bool Open(const GInt8* pipeName);	
+    /**
+     * Open the pipe
+	 * @para [in] pipeName : the pipe name
+	 * @return true/false
+     * @note 
+     */			
+	virtual bool open(const GInt8* pipeName);	
 	
-	// brief : Write data to pipe
-	// @para [in]data 
-	// @para [in]dataLen 
-	// return : write size, failure return -1
-	// note
-	GInt32 Write(const GInt8* data, const GUint32 dataLen);
+    /**
+     * Write data to pipe
+	 * @para [in] data 
+	 * @para [in] dataLen 
+	 * @return size/-1
+     * @note 
+     */		
+	GInt32 write(const GInt8* data, const GUint32 dataLen);
 	
 private:
-	// brief : To pervent copy 
+    /**
+     * prevent copying
+     * @note
+     */	
 	WritePipe(const WritePipe&);
+
+    /**
+     * prevent copying
+     * @note
+     */		
 	void operator=(const WritePipe&);
 };
 
-// brief : be used to read pipe
-// usage :
-//	void MyReadPipe()
-//  {
-//      ReadPipe readPipe;
-//      if (readPipe.Open("/tmp/testFifoFile"))
-//      {
-//          char buffer[100] = {'\0'};
-//          readPipe.Read(buffer, 100);
-//          printf("read pipe : %s\n", buffer);
-//      }
-//  }
+/** 
+ * be used to read pipe
+ */
 class ReadPipe : public Pipe
 {
 public:
     ReadPipe() {}
     virtual ~ReadPipe() {}
 
-    // brief : open pipe
-    // @para [in]pipeName : pipe name
-    // return : true/false
-    // note
-    virtual bool Open(const GInt8* pipeName);
+    /**
+     * open pipe
+     * @para [in] pipeName : pipe name
+	 * @return true/false
+     * @note 
+     */    
+    virtual bool open(const GInt8* pipeName);
 
-	// brief : read data from pipe
-	// @para [out]buffer : template buffer
-	// @para [in]bufferSize : template buffer size
-	// return : read buffer size, failure return -1
-	// note
-	GInt32 Read(GInt8* buffer, const GUint32 bufferSize);    
+    /**
+     * read data from pipe
+	 * @para [out] buffer : template buffer
+	 * @para [in] bufferSize : template buffer size
+	 * @return size/-1
+     * @note 
+     */  	
+	GInt32 read(GInt8* buffer, const GUint32 bufferSize);    
 };
 
 G_NS_GCOMMON_END 

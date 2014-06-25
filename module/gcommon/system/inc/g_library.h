@@ -25,11 +25,11 @@ G_NS_GCOMMON_BEG
 /** 
  * shared library wrapper
  */
-class SharedLibrary
+class Library
 {
 public:
-    SharedLibrary();
-    ~SharedLibrary();
+    Library();
+    ~Library();
 
     /**
      * load shared library

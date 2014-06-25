@@ -23,7 +23,7 @@ static const GInt8* LOG_PREFIX = "gcommon.system.pipe";
 
 G_NS_GCOMMON_BEG
 
-bool Pipe::PosixOpen(const GInt8* pipeName, const GInt32 mode)
+bool Pipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
 {
     if (pipeName == NULL)
     {
@@ -39,7 +39,7 @@ bool Pipe::PosixOpen(const GInt8* pipeName, const GInt32 mode)
     return true;   
 }
 
-bool WritePipe::Open(const GInt8* pipeName)
+bool WritePipe::open(const GInt8* pipeName)
 {
     if (pipeName == NULL)
     {
@@ -58,7 +58,7 @@ bool WritePipe::Open(const GInt8* pipeName)
     return PosixOpen(pipeName, O_WRONLY | O_NONBLOCK);          
 }
 
-GInt32 WritePipe::Write(const GInt8* data, const GUint32 dataLen)
+GInt32 WritePipe::write(const GInt8* data, const GUint32 dataLen)
 {
     if (m_pipefd == -1)
     {
@@ -78,7 +78,7 @@ GInt32 WritePipe::Write(const GInt8* data, const GUint32 dataLen)
     return dataLen;    
 }
 
-bool ReadPipe::Open(const GInt8* pipeName)
+bool ReadPipe::open(const GInt8* pipeName)
 {
     if (access(pipeName, F_OK) == -1)
     {
@@ -92,7 +92,7 @@ bool ReadPipe::Open(const GInt8* pipeName)
     return PosixOpen(pipeName, O_RDONLY);        
 }
 
-GInt32 ReadPipe::Read(GInt8* buffer, const GUint32 bufferSize)
+GInt32 ReadPipe::read(GInt8* buffer, const GUint32 bufferSize)
 {
     if (m_pipefd == -1)
     {

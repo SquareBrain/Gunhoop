@@ -23,6 +23,7 @@ G_NS_GCOMMON_BEG
 
 File::File() : m_fd(-1), m_flags(0)
 {
+    m_path[0] = 0;
 }
 
 File::~File() 
@@ -30,7 +31,7 @@ File::~File()
     Close();
 }
 
-bool File::Create(const GInt8* filePath)
+bool File::createFile(const GInt8* filePath)
 {
     GInt32 fd = creat(filePath, G_CREATE_MODE);
     if (fd != -1)
@@ -41,125 +42,64 @@ bool File::Create(const GInt8* filePath)
     return (fd != -1 ? true : false);
 }
 
-bool File::Create(const std::string& filePath)
+bool File::openR(const GInt8* filePath)
 {
-	return Create(filePath.c_str()); 
+    return orgOpen(filePath, O_RDONLY);
 }
 
-bool File::OpenR(const GInt8* filePath)
+bool File::openW(const GInt8* filePath)
 {
-    return OrgOpen(filePath, O_RDONLY);
+    return orgOpen(filePath, O_WRONLY);
 }
 
-bool File::OpenR(const std::string& filePath)
+bool File::openWA(const GInt8* filePath)
 {
-	return OpenR(filePath.c_str());
+    return orgOpen(filePath, O_WRONLY | O_APPEND);
 }
 
-bool File::OpenW(const GInt8* filePath)
+bool File::openWC(const GInt8* filePath)
 {
-    return OrgOpen(filePath, O_WRONLY);
+    return orgOpen(filePath, O_WRONLY | O_CREAT, G_CREATE_MODE);
 }
 
-bool File::OpenW(const std::string& filePath)
+bool File::openWCA(const GInt8* filePath)
 {
-	return OpenW(filePath.c_str());
+    return orgOpen(filePath, O_WRONLY | O_CREAT | O_APPEND, G_CREATE_MODE);
 }
 
-bool File::OpenWA(const GInt8* filePath)
+bool File::openRW(const GInt8* filePath)
 {
-    return OrgOpen(filePath, O_WRONLY | O_APPEND);
+    return orgOpen(filePath, O_RDWR);
 }
 
-bool File::OpenWA(const std::string& filePath)
+bool File::openRWA(const GInt8* filePath)
 {
-	return OpenWA(filePath.c_str());
+    return orgOpen(filePath, O_RDWR | O_APPEND);
 }
 
-bool File::OpenWC(const GInt8* filePath)
+bool File::openRWC(const GInt8* filePath)
 {
-    return OrgOpen(filePath, O_WRONLY | O_CREAT, G_CREATE_MODE);
+    return orgOpen(filePath, O_RDWR | O_CREAT, G_CREATE_MODE);
 }
 
-bool File::OpenWC(const std::string& filePath)
+bool File::openRWCA(const GInt8* filePath)
 {
-	return OpenWC(filePath.c_str());
+    return orgOpen(filePath, O_RDWR | O_CREAT | O_APPEND, G_CREATE_MODE);
 }
 
-bool File::OpenWCA(const GInt8* filePath)
-{
-    return OrgOpen(filePath, O_WRONLY | O_CREAT | O_APPEND, G_CREATE_MODE);
-}
-
-bool File::OpenWCA(const std::string& filePath)
-{
-	return OpenWCA(filePath.c_str());
-}
-
-bool File::OpenRW(const GInt8* filePath)
-{
-    return OrgOpen(filePath, O_RDWR);
-}
-
-bool File::OpenRW(const std::string& filePath)
-{
-	return OpenRW(filePath.c_str());
-}
-
-bool File::OpenRWA(const GInt8* filePath)
-{
-    return OrgOpen(filePath, O_RDWR | O_APPEND);
-}
-
-bool File::OpenRWA(const std::string& filePath)
-{
-	return OpenRWA(filePath.c_str());
-}
-
-bool File::OpenRWC(const GInt8* filePath)
-{
-    return OrgOpen(filePath, O_RDWR | O_CREAT, G_CREATE_MODE);
-}
-
-bool File::OpenRWC(const std::string& filePath)
-{
-	return OpenRWC(filePath.c_str());
-}
-
-bool File::OpenRWCA(const GInt8* filePath)
-{
-    return OrgOpen(filePath, O_RDWR | O_CREAT | O_APPEND, G_CREATE_MODE);
-}
-
-bool File::OpenRWCA(const std::string& filePath)
-{
-	return OpenRWCA(filePath.c_str());
-}
-
-GUint64 File::Read(GInt8* buffer, const GUint64 size)
+GUint64 File::oead(GInt8* buffer, const GUint64 size)
 {
     G_ASSERT(buffer != NULL && size > 0);
     return read(m_fd, buffer, size);
 }
 
-GUint64 File::Read(std::string& buffer, const GUint64 size)
-{
-	buffer.resize(size);
-	return read(m_fd, (void*)buffer.c_str(), size);
-}
-
-GUint64 File::Write(const GInt8* buffer, const GUint64 size)
+GUint64 File::writeFile(const GInt8* buffer, const GUint64 size)
 {
     G_ASSERT(buffer != NULL && size > 0);
     return write(m_fd, buffer, size);
 }
 
-GUint64 File::Write(const std::string& buffer, const GUint64 size)
-{
-	return Write(buffer.c_str(), size);
-}
-
-bool File::Close()
+bool File::closeFile()
 {
     bool ret = true;
     if (m_fd == -1)
@@ -175,7 +115,7 @@ bool File::Close()
     return ret;
 }
 
-bool File::OrgOpen(const GInt8* filePath, const GInt32 flags, const GUint32 mode)
+bool File::orgOpen(const GInt8* filePath, const GInt32 flags, const GUint32 mode)
 {
     G_ASSERT(filePath != NULL);
     
@@ -187,8 +127,8 @@ bool File::OrgOpen(const GInt8* filePath, const GInt32 flags, const GUint32 mode
 		}
 		else
 		{
-			Close();
-			return OrgOpen(filePath, flags, mode);
+			closeFile();
+			return orgOpen(filePath, flags, mode);
 		}
     }
 

@@ -71,6 +71,11 @@ private:
      * @note 
      */		
 	Condition(const Condition&); 
+	
+    /**
+     * prevent copying
+     * @note
+     */	
 	void operator=(const Condition&);	
     
 private:

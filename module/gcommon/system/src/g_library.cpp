@@ -19,20 +19,20 @@
 
 G_NS_GCOMMON_BEG
 
-SharedLibrary::SharedLibrary()
+Library::Library()
 {
 }
 
-SharedLibrary::~SharedLibrary()
+Library::~Library()
 {
 }
 
-void* SharedLibrary::OpenLib(const GInt8* libFilePath, const GInt32 flags)
+void* Library::openLib(const GInt8* libFilePath, const GInt32 flags)
 {
     return dlopen(libFilePath, flags);
 }
 
-bool SharedLibrary::CloseLib(void* handle)
+bool Library::closeLib(void* handle)
 {
     return dlclose(handle) == 0 ? true : false;    
 }

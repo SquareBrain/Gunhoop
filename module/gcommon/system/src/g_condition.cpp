@@ -31,7 +31,7 @@ Condition::~Condition()
     pthread_mutex_destroy(&m_mutex);    
 }
 
-bool Condition::Signal()        
+bool Condition::signal()        
 {        
     pthread_mutex_lock(&m_mutex);
     GInt32 ret = pthread_cond_signal(&m_condition);
@@ -40,7 +40,7 @@ bool Condition::Signal()
     return (ret == 0 ? true : false);
 }    
 
-bool Condition::Broadcast() 
+bool Condition::broadcast() 
 {     
     pthread_mutex_lock(&m_mutex);
     GInt32 ret = pthread_cond_broadcast(&m_condition);
@@ -49,7 +49,7 @@ bool Condition::Broadcast()
     return (ret == 0 ? true : false);
 }     
 
-bool Condition::Wait()  
+bool Condition::wait()  
 {        
     pthread_mutex_lock(&m_mutex);
     GInt32 ret = pthread_cond_wait(&m_condition, &m_mutex);
@@ -58,7 +58,7 @@ bool Condition::Wait()
     return (ret == 0 ? true : false);
 }      
 
-bool Condition::Wait(const GUint32 timeout)     
+bool Condition::wait(const GUint32 timeout)     
 {       
     struct timeval now;    
     struct timespec tmpTimeout;  

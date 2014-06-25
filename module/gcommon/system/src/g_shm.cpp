@@ -24,16 +24,13 @@ G_NS_GCOMMON_BEG
 
 Shm::Shm() : m_shmSize(0), m_shmAddr(NULL)
 {
+    m_shmPath[0] = 0;
 }
 
-Shm::Shm(const GInt8* path, const GUint32 size) : m_shmSize(size), m_shmAddr(NULL)
+Shm::Shm(const GInt8* shmPath, const GUint32 shmSize) 
+    : m_shmSize(shmSize), m_shmAddr(NULL)
 {
-    m_shmPath.assign(path);      
-}
-
-Shm::Shm(const std::string& path, const GUint32 size) 
-    : m_shmPath(path), m_shmSize(size),  m_shmAddr(NULL)
-{
+    SetShmPath(shmPath);
 }
 
 Shm::~Shm()
@@ -41,27 +38,24 @@ Shm::~Shm()
     Uninit();    
 }
 
-void Shm::SetPath(const GInt8* path)
+void Shm::SetShmPath(const GInt8* shmPath)
 {
-    m_shmPath.assign(path);    
+    GUint32 len = strlen(shmPath);
+    memcpy(m_shmPath, shmPath, len);
+    m_shmPath[len] = 0;    
 }
 
-void Shm::SetPath(const std::string& path)
-{
-    m_shmPath = path;    
-}
-
-const std::string& Shm::GetPath() const
+GInt8* Shm::GetShmPath() const
 {
     return m_shmPath;
 }
 
-void Shm::SetSize(const GUint32 size)
+void Shm::SetShmSize(const GUint32 shmSize)
 {
-    m_shmSize = size;    
+    m_shmSize = shmSize;    
 }
 
-GUint32 Shm::GetSize() const
+GUint32 Shm::GetShmSize() const
 {
     return m_shmSize;
 }

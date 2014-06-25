@@ -48,22 +48,22 @@ Mutex::~Mutex()
 	pthread_mutex_destroy(&m_mutex);
 }
 
-bool Mutex::Lock() 
+bool Mutex::lock() 
 {
 	return pthread_mutex_lock(&m_mutex) == 0 ? true : false;
 }
 
-bool Mutex::Trylock()
+bool Mutex::trylock()
 {
 	return pthread_mutex_trylock(&m_mutex) == 0 ? true : false;
 }
 
-bool Mutex::Unlock()
+bool Mutex::unlock()
 {
 	return pthread_mutex_unlock(&m_mutex) == 0 ? true : false;
 }
 
-void Mutex::Init(const GInt32 kind)
+void Mutex::init(const GInt32 kind)
 {
 	pthread_mutexattr_t attr;
 	pthread_mutexattr_init(&attr);
@@ -87,17 +87,17 @@ OrgLock::~OrgLock()
 	delete m_mutex;
 }
 
-bool OrgLock::Lock()
+bool OrgLock::lock()
 {
 	return m_mutex->Lock();
 }
 
-bool OrgLock::Trylock()
+bool OrgLock::trylock()
 {
 	return m_mutex->Trylock();
 }
 
-bool OrgLock::Unlock()
+bool OrgLock::unlock()
 {
 	return m_mutex->Unlock();
 }
@@ -116,7 +116,7 @@ TryLock::~TryLock()
 	}
 }
 
-bool TryLock::Lock(const GUint32 timeout)
+bool TryLock::lock(const GUint32 timeout)
 {
 	if (m_mutex.Trylock())
 	{
@@ -152,7 +152,7 @@ bool TryLock::Lock(const GUint32 timeout)
 	return false;
 }
 
-bool TryLock::Unlock()
+bool TryLock::unlock()
 {
 	if (m_autoUnlock)
 	{
