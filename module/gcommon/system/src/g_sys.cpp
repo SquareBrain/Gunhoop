@@ -21,12 +21,12 @@ static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.sys";
 
 G_NS_GCOMMON_BEG
 
-void Sys::Sleep(const GUint64 time)
+void Sys::gsleep(const GUint64 time)
 {
     sleep(time);
 }
 
-void Sys::Usleep(const GUint64 time)
+void Sys::gusleep(const GUint64 time)
 {
     usleep(time);
 }

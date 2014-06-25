@@ -24,102 +24,79 @@
 
 G_NS_GCOMMON_BEG
 
-// brief : thread state
+/** 
+ * thread state
+ */
 enum ThreadState
 {
-	// running state
+    /** 
+     * running state
+     */	
 	THR_STATE_RUN = 0,
-	// stoped state
+    /** 
+     * stoped state
+     */		
 	THR_STATE_STOP,
-	// exit state
+    /** 
+     * exit state
+     */		
 	THR_STATE_EXIT
 };
 
-// brief : the pointer of thread enter
+/** 
+ * the pointer of thread enter
+ */
 typedef void* (*ThreadFunPoint_t)(void*);
 
-// brief : can be inherited ty user
-//	
-// usage:
-//	class MyThread : public Runnable
-//  {
-//  public:
-//      MyThread() {}
-//      virtual ~MyThread() {}
-//  
-//      virtual void Run()
-//      {
-//          // my thread
-//          for (;;) {}
-//      }
-//  }
-class Runnable
+/** 
+ * be inherited ty user
+ */
+interface Runnable
 {
 public:
 	virtual ~Runnable() {}
-	virtual void Run() = 0;
+	
+    /**
+     * user thread entry function
+     * @return G_YES/G_NO
+     * @note 
+     */			
+	virtual GResult run() = 0;
 };
 
-// brief : POSIX thread wrapper
-//	
-// usage:
-//	class MyThread : public Runnable
-//  {
-//  public:
-//      MyThread() {}
-//      virtual ~MyThread() {}
-//  
-//      virtual void Run()
-//      {
-//          // my thread
-//          for (;;) {}
-//      }
-//  }
-//  
-//  MyThread myThread;
-//  Thread newThread(&myThread);
-//  newThread.Start();
+/** 
+ * POSIX thread wrapper
+ */
 class Thread
 {
 public:
+    /**
+     * constructor
+	 * @param [in] target : user run target object
+	 * @param [in] autoRel : whether support automatic release, default is yes
+     * @note 
+     */		
     explicit Thread(Runnable* target, const bool autoRel = true);
     ~Thread();
 	
-	// brief : startup thread
-	// @para
-	// return true/false
-	bool Start();
+    /**
+     * startup thread
+     * @return G_YES/G_NO
+     * @note 
+     */		
+	GResult start();
 
-	// brief : get thread ID
-	// @para
-	// return : thread ID
-	pthread_t GetThreadId() const;
-
-	// brief : create a new thread
-	// @para [in]entry : the entry function for thread 
-	// @para [in]argument : thread argument
-	// @para [in]autoRel : whether detached with main thread, default is ture, 
-	// indicate detached with main thread
-	// return : thread ID
-	// usage :
-	//  void MyEntryFun(void* argument)
-	//	{
-	//	    for (;;) {}
-	//  }
-	//		
-	//	void* argument;
-	//	Thread::CreateThread(MyEntryFun, argument);
-	static pthread_t CreateThread(void* entry, void* argument, const bool autoRel = true);
+    /**
+     * get thread ID
+     * @return thread ID
+     * @note 
+     */		
+	GUint32 getThreadId() const;
 
 private:
-	// brief : prevent copying
 	Thread(const Thread&);
 	void operator=(const Thread&);
-	
-	// brief : thread entry
-	// @para [in]argument : thread argument
-	// return : reutrn description
-	static void* EnterPoint(void* argument);
+	static void* enterPoint(void* argument);
 
 private:
 	// thread ID
@@ -130,40 +107,33 @@ private:
 	Runnable*	m_runnable;
 };
 
-// brief : thread base class, be inherited by user
-// usage :
-//	class MyThreadTask : public ThreadTask
-//	{
-//	public:
-//		MyThreadTask() { this->Start(); }
-//		virtual ~MyThreadTask() {}
-//
-//	private:
-//		virtual Int8_t* Run()
-//		{
-//			// thread loop
-//			for (;;) {}
-//			return NULL;	
-//		}
-//	};
+/** 
+ * thread base class, be inherited by user
+ */
 class ThreadTask
 {
 public:
-	// brief : 
-	// @para [in]autoRel : whether is detached with main thread, default is detached
-	// note
+    /**
+     * constructor
+     * @para [in] autoRel : whether is detached with main thread, default is detached
+     * @note 
+     */		
 	explicit ThreadTask(const bool autoRel = true);
 	virtual ~ThreadTask();
 
-	// brief : startup thread
-	// @para
-	// return true/false
-	bool Start();
+    /**
+     * startup thread
+     * @return G_YES/G_NO
+     * @note 
+     */		
+	GResult start();
 
-	// brief : thread entry function
-	// @para
-	// note
-	virtual void Run() = 0;
+    /**
+     * thread entry function
+     * @return G_YES/G_NO
+     * @note 
+     */			
+	virtual GResult run() = 0;
 
 private:
 	// brief : prevate copying
@@ -181,6 +151,23 @@ private:
 	// whether is detached with main thread, default is ture, 
 	// indicate detached with main thread
 	bool		m_autoRel;
+};
+
+/** 
+ * POSIX thread static API used outside
+ */
+class ThreadUtil
+{
+public:
+    /**
+     * create thread
+	 * @param [in] entry : thread entry fucntion pointer
+	 * @param [in] argument : user data
+	 * @param [in] autoRel : whether support automatic release, default is yes
+	 * @return thread ID
+     * @note 
+     */		
+	static GUint32 CreateThread(void* entry, void* argument, const bool autoRel = true);
 };
 
 G_NS_GCOMMON_END

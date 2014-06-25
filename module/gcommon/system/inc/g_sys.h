@@ -31,18 +31,20 @@ class Sys
 public:
     Sys() {}
     ~Sys() {}
-
-	// brief : sleep
-	// @para time : second
-	// @return 
-	// note:    
-    static void Sleep(const GUint64 time);
-
-	// brief : usleep  
-	// @para time : millisecond
-	// @return 
-	// note:    
-    static void Usleep(const GUint64 time);
+   
+    /**
+     * sleep
+	 * @param [in] time : second
+     * @note 
+     */		
+    static void gsleep(const GUint64 time);
+ 
+    /**
+     * usleep
+	 * @param [in] time : millisecond
+     * @note 
+     */		
+    static void gusleep(const GUint64 time);
 };
 
 G_NS_GCOMMON_END
