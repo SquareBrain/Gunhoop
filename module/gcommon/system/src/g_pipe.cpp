@@ -19,7 +19,8 @@
 #include <g_logger.h>
 #include <g_pipe.h>
 
-static const GInt8* LOG_PREFIX = "gcommon.system.pipe";
+static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.pipe";
+
 
 G_NS_GCOMMON_BEG
 

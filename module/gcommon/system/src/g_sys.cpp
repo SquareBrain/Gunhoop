@@ -17,6 +17,8 @@
 
 #include <g_sys.h>
 
+static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.sys";
+
 G_NS_GCOMMON_BEG
 
 void Sys::Sleep(const GUint64 time)

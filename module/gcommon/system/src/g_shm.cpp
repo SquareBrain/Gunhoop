@@ -18,7 +18,7 @@
 
 #include <g_shm.h>
 
-static const GInt8* LOG_PREFIX = "posix.ipc.shm";
+static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.shm";
 
 G_NS_GCOMMON_BEG
 

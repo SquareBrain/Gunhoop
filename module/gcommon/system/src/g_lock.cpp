@@ -21,6 +21,8 @@
 
 #include <g_lock.h>
 
+static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.lock";
+
 G_NS_GCOMMON_BEG
 
 Mutex::Mutex()
@@ -128,7 +130,7 @@ bool TryLock::lock(const GUint32 timeout)
 		return false;    
 	}
 
-    // ∫¡√Î
+    // 
 	static const GUint32 sleepUnit = 10; 
 	GUint32 loops = timeout / sleepUnit + 1;
 						

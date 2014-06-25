@@ -34,10 +34,6 @@ G_NS_GCOMMON_BEG
 class Socket
 {
 public:
-    // the max request number, system default value it's 20
-    static const GUint32 MAX_REQ_NUM = 20;
-    
-public:
 	Socket();
 
 	// brief : constructor

@@ -17,6 +17,7 @@
 
 #include <g_file.h>
 
+static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.file";
 static const GUint32 G_CREATE_MODE = 0x775;
 
 G_NS_GCOMMON_BEG

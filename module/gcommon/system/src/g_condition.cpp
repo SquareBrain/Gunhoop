@@ -17,6 +17,8 @@
 
 #include <g_condition.h>
 
+static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.condition";
+
 G_NS_GCOMMON_BEG
 
 Condition::Condition()       

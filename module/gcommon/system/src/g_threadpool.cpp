@@ -18,6 +18,8 @@
 
 #include <g_threadpool.h> 
 
+static const GInt8* LOG_PREFIX = "gohoop.gcommon.component.threadpool";
+
 G_NS_GCOMMON_BEG
 
 ThreadPool::ThreadPool(const GUint32 threadCount) : m_threadCount(threadCount)
@@ -53,7 +55,6 @@ void ThreadPool::UninitThreadPool()
     
 }
 
-/*---------------------------ThreadWorker class----------------------*/
 ThreadWorker::ThreadWorker(const GUint32 workerId) 
 	: m_workerId(workerId)
 	, m_threadJob(NULL)

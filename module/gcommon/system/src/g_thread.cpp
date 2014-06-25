@@ -17,9 +17,10 @@
 
 #include <g_thread.h> 
 
+static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.thread";
+
 G_NS_GCOMMON_BEG
 
-//---------------------------Thread class---------------------------//
 Thread::Thread(Runnable* runnable, const bool autoRel) 
 	: m_threadId(-1)
 	, m_autoRel(autoRel)

@@ -21,6 +21,9 @@
 
 static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.socket";
 
+// the max request number, system default value it's 20
+static const GUint32 DEF_MAX_REQ_NUM = 20;
+
 G_NS_GCOMMON_BEG 
 
 Socket::Socket() : m_sockfd(0), m_addrLen(0)
