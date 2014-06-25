@@ -21,7 +21,6 @@
 
 static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.pipe";
 
-
 G_NS_GCOMMON_BEG
 
 bool Pipe::orgOpen(const GInt8* pipeName, const GInt32 mode)

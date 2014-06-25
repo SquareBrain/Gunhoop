@@ -17,6 +17,8 @@
 
 #include <g_library.h>
 
+static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.library";
+
 G_NS_GCOMMON_BEG
 
 Library::Library()

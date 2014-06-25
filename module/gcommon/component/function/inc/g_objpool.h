@@ -23,18 +23,28 @@
 G_NS_GCOMMON_BEG
 
 /** 
- *  一个示范类，描述在此
+ *  provide user inheritance
  */
-class ObjPoolIf
+interface ObjPoolIf
 {
 public:
     virtual ~ObjPoolIf() {}
-    virtual GResult Init() = 0;
-    virtual GResult Uninit() = 0;
+
+    /**
+     * be call by object pool, before used object
+     * @return G_YES/G_NO
+     */    
+    virtual GResult init() = 0;
+
+    /**
+     * be call by object pool, after using finished
+     * @return G_YES/G_NO
+     */   
+    virtual GResult uninit() = 0;
 };
 
 /** 
- *  一个示范类，描述在此
+ *  mamagement object set
  */
 template <class T>
 class ObjPool
@@ -44,24 +54,31 @@ public:
 
 public:
     ObjPool();
+    /**
+     * constructor
+     * @param count : the size of object pool
+     */    
     ObjPool(const GUint32 count);
     ~ObjPool();
     
     /**
-     * 一个普通函式 描述和参数等等的叙述
-     * @param a 整数参数
-     * @param s 字串指针参数
-     * @see Test() 参看..
-     * @return 返回值描述
+     * set the size of object pool
+     * @param count : the size of object pool
      */
-    void SetCount(const GUint32 count);
+    void setCount(const GUint32 count);
+
+    /**
+     * get the size of object pool
+     * @return count : the size of object pool
+     */
+    GUint32* getCount() const
 
 private:
     ObjPool(const ObjPool<T>&);
     ObjPool<T>& operator=(const ObjPool<T>&); 
 
-    void InitObjPool();
-    void ReleaseObjPool();
+    void initObjPool();
+    void releaseObjPool();
     
 private:    
     GUint32     m_count;
@@ -77,25 +94,31 @@ ObjPool<T>::ObjPool() : m_count(0)
 template <class T>
 ObjPool<T>::ObjPool(const GUint32 count) : m_count(count)
 {
-    InitObjPool();
+    initObjPool();
 }
 
 template <class T>
 ObjPool<T>::~ObjPool()
 {
-    ReleaseObjPool();   
+    releaseObjPool();   
 }
 
 template <class T>
-void ObjPool<T>::SetCount(const GUint32 count)
+void ObjPool<T>::setCount(const GUint32 count)
 {
-    ReleaseObjPool();
+    releaseObjPool();
     m_count = count;
-    InitObjPool();
+    initObjPool();
 }
 
 template <class T>
-void ObjPool<T>::InitObjPool()
+GUint32 ObjPool<T>::getCount()
+{
+    return m_count;
+}
+
+template <class T>
+void ObjPool<T>::initObjPool()
 {
     if (m_count == 0)
     {
@@ -113,7 +136,7 @@ void ObjPool<T>::InitObjPool()
 }
 
 template <class T>
-void ObjPool<T>::ReleaseObjPool()
+void ObjPool<T>::releaseObjPool()
 {
     if (m_count == 0)
     {
