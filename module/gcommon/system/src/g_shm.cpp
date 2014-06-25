@@ -22,46 +22,52 @@ static const GInt8* LOG_PREFIX = "posix.ipc.shm";
 
 G_NS_GCOMMON_BEG
 
-Shm::Shm() : m_shmSize(0), m_shmAddr(NULL)
+Shm::Shm() : m_shmSize(0), m_shmAddr(NULL), m_initFlags(false)
 {
     m_shmPath[0] = 0;
 }
 
 Shm::Shm(const GInt8* shmPath, const GUint32 shmSize) 
-    : m_shmSize(shmSize), m_shmAddr(NULL)
+    : m_shmSize(shmSize), m_shmAddr(NULL), m_initFlags(false)
 {
     SetShmPath(shmPath);
+    init();
 }
 
 Shm::~Shm()
 {
-    Uninit();    
+    uninit();    
 }
 
-void Shm::SetShmPath(const GInt8* shmPath)
+void Shm::setShmPath(const GInt8* shmPath)
 {
     GUint32 len = strlen(shmPath);
     memcpy(m_shmPath, shmPath, len);
     m_shmPath[len] = 0;    
 }
 
-GInt8* Shm::GetShmPath() const
+GInt8* Shm::getShmPath() const
 {
     return m_shmPath;
 }
 
-void Shm::SetShmSize(const GUint32 shmSize)
+void Shm::setShmSize(const GUint32 shmSize)
 {
     m_shmSize = shmSize;    
 }
 
-GUint32 Shm::GetShmSize() const
+GUint32 Shm::getShmSize() const
 {
     return m_shmSize;
 }
 
-GResult Shm::Init()
+GResult Shm::init()
 {
+    if (!m_initFlags)
+    {
+        return G_NO;
+    }
+
     if (m_shmPath.empty())
     {
         return SHM_PATH_EMPTY;
@@ -75,13 +81,6 @@ GResult Shm::Init()
 
     // setting file size
     ftruncate(fd, m_shmSize);
-
-    // bind shm file
-    if (m_shmAddr != NULL)
-    {
-        Uninit();   
-	} 
-    
     m_shmAddr = mmap(NULL, m_shmSize, PROT_WRITE | PROT_READ, MAP_SHARED, fd, 0);
     if (m_shmAddr == MAP_FAILED)
     {
@@ -90,15 +89,17 @@ GResult Shm::Init()
     }
 
     close(fd);
+
+    m_initFlags = true;
     
     return G_YES;
 }
     
-GResult Shm::Uninit()
+GResult Shm::uninit()
 {
-    if (m_shmAddr == NULL)
+    if (!m_initFlags)
     {
-        return SHM_NO_INIT;
+        return G_NO;
     }
     
     if (munmap(m_shmAddr, m_shmSize) < 0)
@@ -108,14 +109,16 @@ GResult Shm::Uninit()
 
     m_shmAddr = NULL;
 
+    m_initFlags = false;
+
     return G_YES;
 }
      
-GResult Shm::Sync()
+GResult Shm::syncShm()
 {
-    if (m_shmAddr == NULL)
+    if (!m_initFlags)
     {
-        return SHM_NO_INIT;
+        return G_NO;
     }
     
     if (msync(m_shmAddr, m_shmSize, MS_SYNC) < 0)
@@ -126,8 +129,13 @@ GResult Shm::Sync()
     return G_YES;    
 } 
  
-GResult Shm::Write(const GUint32 offset, const GInt8* data, const GUint32 size)
+GResult Shm::writeShm(const GUint32 offset, const GInt8* data, const GUint32 size)
 {
+    if (!m_initFlags)
+    {
+        return G_NO;
+    } 
+
     G_ASSERT(data != NULL && size > 0);
 
     if (data == NULL || size == 0 || offset + size > m_shmSize)
@@ -140,8 +148,13 @@ GResult Shm::Write(const GUint32 offset, const GInt8* data, const GUint32 size)
     return G_YES;        
 }
 
-GResult Shm::Read(const GUint32 offset, GInt8* data, const GUint32 size)
+GResult Shm::readShm(const GUint32 offset, GInt8* data, const GUint32 size)
 {
+    if (!m_initFlags)
+    {
+        return G_NO;
+    } 
+
     G_ASSERT(data != NULL && size > 0);
     
     if (data == NULL || size == 0 || offset + size > m_shmSize)

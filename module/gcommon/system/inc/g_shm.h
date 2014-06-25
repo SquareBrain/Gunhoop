@@ -80,7 +80,7 @@ public:
 	 * @return true/false
      * @note 
      */		
-    Shm(const GInt8* shmPath, const GUint32 shmSize);
+    Shm(const GInt8* shmPath, const GUint64 shmSize);
     ~Shm();
 
     /**
@@ -88,55 +88,75 @@ public:
 	 * @para [in] shmPath : shm mapping file path     
      * @note 
      */	
-    void SetShmPath(const GInt8* shmPath);
+    void setShmPath(const GInt8* shmPath);
 
     /**
      * set shm mapping file path
 	 * @return shm mapping file path   
      * @note 
      */	
-    GInt8* GetShmPath() const;
+    GInt8* getShmPath() const;
 
-	// brief : set/get shm mapping file size
-	// note  
-    void SetShmSize(const GUint32 size);
-    GUint32 GetShmSize() const;    
+    /**
+     * set shm mapping file size
+     * @para [in] shmSize : shm size  
+     * @note 
+     */		
+    void setShmSize(const GUint64 shmSize);
+
+    /**
+     * get shm mapping file size
+     * @return shm mapping file size   
+     * @note 
+     */	    
+    GUint64 getShmSize() const;    
     
-	// brief : init the shm
-	// return : successed : 0, failed : error code
-	// note  
-    GResult Init();
+    /**
+     * init the shm
+     * @return G_YES/G_NO  
+     * @note 
+     */	    	
+    GResult init();
+   
+    /**
+     * uninit the shm
+     * @return G_YES/G_NO  
+     * @note 
+     */	 	
+	GResult uninit();
+   
+    /**
+     * sync the shm
+     * @return G_YES/G_NO  
+     * @note 
+     */	
+    GResult syncShm();
+   
+    /**
+     * write data to shm
+	 * @para [in] offset : offset of shm
+	 * @para [in] data : input data
+	 * @para [in] size : write size     
+     * @return G_YES/G_NO  
+     * @note 
+     */		
+    GResult writeShm(const GUint32 offset, const GInt8* data, const GUint32 size);
 
-	// brief : uninit the shm
-	// return : successed : 0, failed : error code
-	// note      
-	GResult Uninit();
-
- 	// brief : sync the shm
-	// return : successed : 0, failed : error code
-	// note      
-    GResult Sync();
-
-	// brief : write data to shm
-	// @para [in]offset : offset of shm
-	// @para [in]data : input data
-	// @para [in]size : write size
-	// return : successed : 0, failed : error code
-	// note   
-    GResult Write(const GUint32 offset, const GInt8* data, const GUint32 size);
-
-	// brief : read data from shm
-	// @para [in]offset : offset of shm
-	// @para [in]data : output data
-	// @para [in]size : read size
-	// return : successed : 0, failed : error code
-	// note   
-    GResult Read(const GUint32 offset, GInt8* data, const GUint32 size);
+    /**
+     * read data from shm
+	 * @para [in]offset : offset of shm
+	 * @para [in]buffer : output buffer
+	 * @para [in]size : read size    
+     * @return G_YES/G_NO  
+     * @note 
+     */	
+    GResult readShm(const GUint32 offset, GInt8* buffer, const GUint32 size);
 
 private:
 	GInt8*		    m_shmPath[G_PATH_MAX];
-	GUint32			m_shmSize;	
+	GUint64			m_shmSize;	
 	void*			m_shmAddr;
+	bool            m_initFlags;
 };
 
 G_NS_GCOMMON_END
