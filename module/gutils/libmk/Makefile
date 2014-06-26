@@ -6,9 +6,9 @@ BUILD_PATH:=$(shell pwd)
 
 INCLUDES:=
 
-SLIBS:=../ini/output/lib/libini.a
+SLIBS:=../ini/output/lib/libiniparser.a
 	   ../logger/output/lib/liblogger.a
-	   ../xml/output/lib/libxml.a
+	   ../xml/output/lib/libxmlparser.a
 
 LIBS:=
 

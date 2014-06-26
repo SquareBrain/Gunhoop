@@ -1,4 +1,4 @@
-PRONAME:=ini
+PRONAME:=iniparser
 TARGET:=lib$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)

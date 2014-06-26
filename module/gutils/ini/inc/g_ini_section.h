@@ -25,8 +25,14 @@
 
 G_NS_GUTILS_BEG
 
+/** 
+ * key-value map
+ */
 typedef std::map<std::string, std::string> KeyValueMap;
 
+/** 
+ * ini file section
+ */
 class IniSection
 {
 public:

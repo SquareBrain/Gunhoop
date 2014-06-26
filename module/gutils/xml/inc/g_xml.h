@@ -19,5 +19,5 @@
 
 #include <duye/util/inc/duye_util_def.h>
 
-DUYE_UTIL_NS_BEG
-DUYE_UTIL_NS_END
+G_NS_GUTILS_BEG
+G_NS_END

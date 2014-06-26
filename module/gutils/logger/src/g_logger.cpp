@@ -17,7 +17,7 @@
 #include <cstdio>
 #include <g_logger.h>
 
-G_NS_GCOMMON_BEG
+G_NS_GUTILS_BEG
 
 GResult Logger::Init()
 {
@@ -54,4 +54,4 @@ void Logger::PrintTrace(const GInt8* prefix, const GInt8* str)
     printf("<TRACE><%s>%s", prefix, str);
 }
 
-G_NS_GCOMMON_END
+G_NS_END

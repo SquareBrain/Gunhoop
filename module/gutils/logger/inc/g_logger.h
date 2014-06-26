@@ -41,7 +41,7 @@
 #define G_LOG_TRACE(prefix, x) \
 	GCommon::Logger::PrintWarn(prefix, "trace");  
 
-G_NS_GCOMMON_BEG
+G_NS_GUTILS_BEG
 
 // brief : posix socket wrapper class
 class Logger
@@ -81,4 +81,4 @@ public:
     static void PrintTrace(const GInt8* prefix, const GInt8* str);
 };
 
-G_NS_GCOMMON_END
+G_NS_END
