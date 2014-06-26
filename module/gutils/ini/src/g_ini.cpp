@@ -11,11 +11,13 @@
 * @date     2013-11-15
 * @note 
 *
+*  2. 2014-06-26 duye removal to gohoop project
+*
 *  1. 2013-11-15 duye Created this file
 * 
 */
 
-#include <duye/util/ini/inc/duye_ini.h>
+#include <g_ini.h>
 
 G_NS_GUTILS_BEG
 

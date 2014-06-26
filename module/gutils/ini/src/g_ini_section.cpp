@@ -4,14 +4,14 @@
 *
 ************************************************************************************/
 /**
-* @file		g_ini.cpp
+* @file		g_ini_section.cpp
 * @version     
 * @brief      
 * @author   duye
 * @date     2014-03-15
 * @note 
 *
-*  2. 2014-06-26 duye Created this file
+*  2. 2014-06-26 duye removal to gohoop project
 *
 *  1. 2014-03-15 duye Created this file
 * 
@@ -21,20 +21,25 @@
 
 G_NS_GUTILS_BEG
 
-Section::Section()
+IniSection::IniSection()
 {
 }
 
-Section::~Section()
+IniSection::~IniSection()
 {
 }
 
-void Section::AddKeyValue(const std::string& key, const std::string& value)
+void IniSection::addKeyValue(const std::string& key, const std::string& value)
 {
     m_keyValueMap.insert(std::make_pair(key, value)); 
 }
 
-const KeyValueMap& Section::GetKeyValueMap() const
+const KeyValueMap& IniSection::getKeyValueMap() const
+{
+    return m_keyValueMap;
+}
+
+KeyValueMap& IniSection::getKeyValueMap()
 {
     return m_keyValueMap;
 }
