@@ -71,7 +71,6 @@ public:
 	
     /**
      * open file for reading
-     * @param [in] filePath : file path
      * @return G_YES/G_NO
      * @note 
      */		
@@ -79,67 +78,59 @@ public:
 
     /**
      * open file for writing
-     * @param [in] filePath : file path
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult openW(const GInt8* filePath);
+	GResult openW();
 
     /**
      * open file for writing, and appended content
-     * @param [in] filePath : file path
      * @return G_YES/G_NO
      * @note 
      */			
-	GResult openWA(const GInt8* filePath);	
+	GResult openWA();	
 
     /**
      * open file for writing, and create it when isn't exist
-     * @param [in] filePath : file path
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult openWC(const GInt8* filePath);
+	GResult openWC();
 
     /**
      * open file for writing, and create it when isn't exist, and append content
-     * @param [in] filePath : file path
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult openWCA(const GInt8* filePath);	
+	GResult openWCA();	
 
     /**
      * open file for reading and writing
-     * @param [in] filePath : file path
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult openRW(const GInt8* filePath);
+	GResult openRW();
 
     /**
      * open file for reading and writeing, and appended content
-     * @param [in] filePath : file path
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult openRWA(const GInt8* filePath);	
+	GResult openRWA();	
 	
     /**
      * open file for randing and writing, and craete it when isn't exist
-     * @param [in] filePath : file path
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult openRWC(const GInt8* filePath);
+	GResult openRWC();
 
     /**
      * open file for rand and write, and craete it when isn't exist, and append content
-     * @param [in] filePath : file path
      * @return G_YES/G_NO
      * @note 
      */			
-	GResult openRWCA(const GInt8* filePath);	
+	GResult openRWCA();	
 
     /**
      * read file
@@ -186,7 +177,7 @@ private:
      * @return G_YES/G_NO
      * @note 
      */			
-	GResult orgOpen(const GInt8* filePath, const GInt32 flags, const GUint32 mode = 0);
+	GResult orgOpen(const GInt32 flags, const GUint32 mode = 0);
 
 private:
     GInt32			m_fd;

@@ -87,42 +87,42 @@ GResult File::openR()
     return orgOpen(O_RDONLY);
 }
 
-GResult File::openW(const GInt8* filePath)
+GResult File::openW()
 {
     return orgOpen(O_WRONLY);
 }
 
-GResult File::openWA(const GInt8* filePath)
+GResult File::openWA()
 {
     return orgOpen(O_WRONLY | O_APPEND);
 }
 
-GResult File::openWC(const GInt8* filePath)
+GResult File::openWC()
 {
     return orgOpen(O_WRONLY | O_CREAT, G_CREATE_MODE);
 }
 
-GResult File::openWCA(const GInt8* filePath)
+GResult File::openWCA()
 {
     return orgOpen(O_WRONLY | O_CREAT | O_APPEND, G_CREATE_MODE);
 }
 
-GResult File::openRW(const GInt8* filePath)
+GResult File::openRW()
 {
     return orgOpen(O_RDWR);
 }
 
-GResult File::openRWA(const GInt8* filePath)
+GResult File::openRWA()
 {
     return orgOpen(O_RDWR | O_APPEND);
 }
 
-GResult File::openRWC(const GInt8* filePath)
+GResult File::openRWC()
 {
     return orgOpen(O_RDWR | O_CREAT, G_CREATE_MODE);
 }
 
-GResult File::openRWCA(const GInt8* filePath)
+GResult File::openRWCA()
 {
     return orgOpen(O_RDWR | O_CREAT | O_APPEND, G_CREATE_MODE);
 }
