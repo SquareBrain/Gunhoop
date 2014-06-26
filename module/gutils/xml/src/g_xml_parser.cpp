@@ -4,7 +4,7 @@
 *
 ************************************************************************************/
 /**
-* @file		g_xml.h
+* @file		g_xml_parser.h
 * @version     
 * @brief      
 * @author   duye
@@ -19,5 +19,13 @@
 #include <duye/util/xml/inc/duye_xml.h>
 
 G_NS_GUTILS_BEG
+
+XmlParser::XmlParser()
+{
+}
+
+XmlParser::~XmlParser()
+{
+}
 
 G_NS_END
