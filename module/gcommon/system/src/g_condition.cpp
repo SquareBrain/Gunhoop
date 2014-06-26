@@ -77,4 +77,4 @@ bool Condition::wait(const GUint32 timeout)
     return (ret == 0 ? true : false);
 }
 
-G_NS_GCOMMON_END
+G_NS_END

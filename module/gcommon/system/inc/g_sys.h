@@ -47,4 +47,4 @@ public:
     static void gusleep(const GUint64 time);
 };
 
-G_NS_GCOMMON_END
+G_NS_END

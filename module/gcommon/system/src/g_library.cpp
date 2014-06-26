@@ -39,4 +39,4 @@ bool Library::closeLib(void* handle)
     return dlclose(handle) == 0 ? true : false;    
 }
 
-G_NS_GCOMMON_END
+G_NS_END

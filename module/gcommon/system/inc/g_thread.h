@@ -170,4 +170,4 @@ public:
 	static GInt32 CreateThread(void* entry, void* argument, const bool autoRel = true);
 };
 
-G_NS_GCOMMON_END
+G_NS_END

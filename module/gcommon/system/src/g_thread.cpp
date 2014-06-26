@@ -121,4 +121,4 @@ GInt32 ThreadUtil::createThread(void* entry, void* argument, const bool autoRel)
 	return (GInt32)threadId;
 }
 
-G_NS_GCOMMON_END
+G_NS_END

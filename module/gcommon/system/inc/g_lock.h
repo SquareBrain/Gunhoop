@@ -230,4 +230,4 @@ private:
 	Mutex&      m_mutex;
 };
 
-G_NS_GCOMMON_END
+G_NS_END

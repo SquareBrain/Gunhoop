@@ -167,4 +167,4 @@ GResult Shm::readShm(const GUint32 offset, GInt8* data, const GUint32 size)
     return G_YES;     
 }
 
-G_NS_GCOMMON_END
+G_NS_END

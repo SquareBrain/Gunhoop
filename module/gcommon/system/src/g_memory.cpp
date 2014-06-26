@@ -21,4 +21,4 @@
 static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.memory";
 
 G_NS_GCOMMON_BEG
-G_NS_GCOMMON_END
+G_NS_END

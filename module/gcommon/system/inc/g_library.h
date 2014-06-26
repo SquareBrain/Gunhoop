@@ -49,4 +49,4 @@ public:
     static bool closeLib(void* handle);
 };
 
-G_NS_GCOMMON_END
+G_NS_END

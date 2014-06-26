@@ -31,4 +31,4 @@ void Sys::gusleep(const GUint64 time)
     usleep(time);
 }
 
-G_NS_GCOMMON_END
+G_NS_END

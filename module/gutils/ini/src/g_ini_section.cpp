@@ -4,20 +4,22 @@
 *
 ************************************************************************************/
 /**
-* @file		duye_ini.cpp
+* @file		g_ini.cpp
 * @version     
 * @brief      
 * @author   duye
 * @date     2014-03-15
 * @note 
 *
+*  2. 2014-06-26 duye Created this file
+*
 *  1. 2014-03-15 duye Created this file
 * 
 */
 
-#include <duye/util/ini/inc/duye_ini_section.h>
+#include <g_ini_section.h>
 
-DUYE_UTIL_NS_BEG
+G_NS_GUTILS_BEG
 
 Section::Section()
 {
@@ -37,4 +39,4 @@ const KeyValueMap& Section::GetKeyValueMap() const
     return m_keyValueMap;
 }
 
-DUYE_UTIL_NS_END
+G_NS_END

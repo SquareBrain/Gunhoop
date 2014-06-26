@@ -201,4 +201,4 @@ GResult File::orgOpen(const GInt32 flags, const GUint32 mode)
     return (m_fd != -1 ? true : false);
 }
 
-G_NS_GCOMMON_END
+G_NS_END

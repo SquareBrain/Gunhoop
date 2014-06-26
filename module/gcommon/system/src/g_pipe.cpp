@@ -114,5 +114,5 @@ GInt32 ReadPipe::read(GInt8* buffer, const GUint32 bufferSize)
     
     return bytes;    
 }
- 
-G_NS_GCOMMON_END
+
+G_NS_END

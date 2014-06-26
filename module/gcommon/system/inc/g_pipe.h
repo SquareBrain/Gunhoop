@@ -127,4 +127,4 @@ public:
 	GInt64 read(GInt8* buffer, const GUint64 bufferSize);    
 };
 
-G_NS_GCOMMON_END 
+G_NS_END 

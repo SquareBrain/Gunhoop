@@ -17,7 +17,7 @@
 
 #include <duye/util/ini/inc/duye_ini.h>
 
-DUYE_UTIL_NS_BEG
+G_NS_GUTILS_BEG
 
 IniParser::IniParser()
 {
@@ -25,26 +25,38 @@ IniParser::IniParser()
 
 IniParser::IniParser(const std::string& filePath)
 {
-    LoadFile(filePath);
+    loadFile(m_filePath);
 }
 
 IniParser::~IniParser()
 {
 }
 
-D_Result IniParser::LoadFile(const std::string& filePath)
+GResult IniParser::loadFile(const std::string& filePath)
 {
-    return D_SUCCESS;
+    m_inifile.
+    
+    return G_YES;
 }
 
-D_Result IniParser::ImportContent(const std::string& content)
+GResult IniParser::loadData(const std::string& fileData)
 {
-    return D_SUCCESS;
+    return G_YES;
 }
 
-const SectionList& IniParser::GetSectionList() const
+const SectionList& IniParser::getSectionList() const
 {
     return m_sectionList;
 }
 
-DUYE_UTIL_NS_END
+SectionList& IniParser::getSectionList()
+{
+    return m_sectionList;
+}
+
+GResult IniParser::saveFile() const
+{
+    return G_YES;
+}
+
+G_NS_END

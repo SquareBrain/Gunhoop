@@ -187,4 +187,4 @@ private:
 	GUint32         m_pathLen;
 };
 
-G_NS_GCOMMON_END
+G_NS_END

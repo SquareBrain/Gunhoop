@@ -53,4 +53,4 @@ T* Singleton<T>::GetInstance()
     return m_instance;
 }
 
-G_NS_GCOMMON_END
+G_NS_END

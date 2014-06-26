@@ -177,4 +177,4 @@ public:
 	virtual void Work(void* userData) = 0;
 };
 
-G_NS_GCOMMON_END
+G_NS_END

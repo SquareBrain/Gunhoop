@@ -21,7 +21,7 @@
 #include <string>
 #include <duye/util/inc/duye_util_def.h>
 
-DUYE_UTIL_NS_BEG
+G_NS_GUTILS_BEG
 
 typedef std::map<std::string, std::string> KeyValueMap;
 
@@ -39,4 +39,4 @@ private:
     KeyValueMap     m_keyValueMap;
 };
 
-DUYE_UTIL_NS_END
+G_NS_END

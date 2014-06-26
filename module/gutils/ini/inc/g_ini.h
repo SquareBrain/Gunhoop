@@ -21,25 +21,70 @@
 #include <list>
 #include <string>
 #include <g_type.h>
+#include <g_file.h>
 
 G_NS_GUTILS_BEG
 
+/** 
+ * ini file section list
+ */
 typedef std::list<Section*> SectionList;
 
+/** 
+ * POSIX condition wrapper
+ */
 class IniParser
 {
 public:
     IniParser();
+    /**
+     * constructor
+     * @param [in] filePath : file path
+     * @note 
+     */	    
     IniParser(const std::string& filePath);
     ~IniParser();
 
-    D_Result LoadFile(const std::string& filePath);
-    D_Result ImportContent(const std::string& content);
+    /**
+     * load file
+     * @param [in] filePath : file path
+     * @return G_YES/G_NO
+     * @note 
+     */	 
+    GResult loadFile(const std::string& filePath);
 
-    const SectionList& GetSectionList() const;
+    /**
+     * load data buffer
+     * @param [in] data : file data
+     * @return G_YES/G_NO
+     * @note 
+     */	     
+    GResult loadData(const std::string& data);
+
+    /**
+     * get ini configuration section with const reference
+     * @return const SectionList reference
+     * @note 
+     */	 
+    const SectionList& getSectionList() const;
+
+    /**
+     * get ini configuration section with no const
+     * @return SectionList reference
+     * @note 
+     */	 
+    SectionList& getSectionList();
+    
+    /**
+     * save file update
+     * @return G_YES/G_NO
+     * @note 
+     */	 
+    GResult saveFile() const;    
 
 private:
+    GCommon::File   m_inifile;
     SectionList     m_sectionList;
 };
 
-G_NS_GUTILS_END
+G_NS_END

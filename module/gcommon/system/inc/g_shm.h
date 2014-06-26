@@ -159,4 +159,4 @@ private:
 	bool            m_initFlags;
 };
 
-G_NS_GCOMMON_END
+G_NS_END
