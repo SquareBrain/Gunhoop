@@ -4,7 +4,7 @@
 *
 ************************************************************************************/
 /**
-* @file		duye_ini.cpp
+* @file		g_ini_parser.cpp
 * @version     
 * @brief      
 * @author   duye
