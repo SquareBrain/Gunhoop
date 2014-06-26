@@ -26,7 +26,7 @@ Slave::~Slave()
 {
 }
 
-GResult Slave::Start()
+GResult Slave::start()
 {
 	return G_YES;
 }

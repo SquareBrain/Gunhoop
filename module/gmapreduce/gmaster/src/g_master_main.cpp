@@ -22,6 +22,6 @@ int main()
 {
 	printf("Gohoop Master Start.\n");
 	GMapreduce::Master master;
-	master.Start();
+	master.start();
 	return 0;
 }

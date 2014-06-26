@@ -26,7 +26,7 @@ public:
 	Master();
 	~Master();
 
-	GResult Start();
+	GResult start();
 };
 
 G_NS_GMAPREDUCE_END

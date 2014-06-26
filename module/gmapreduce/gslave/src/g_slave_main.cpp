@@ -22,7 +22,7 @@ int main()
 	printf("Gohoop Master Start.\n");
 
 	GMapreduce::Slave slave;
-	slave.Start();
+	slave.start();
 
 	return 0;
 }

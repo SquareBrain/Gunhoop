@@ -25,7 +25,8 @@ class Slave
 public:
 	Slave();
 	~Slave();
-	GResult Start();
+	
+	GResult start();
 };
 
 G_NS_GMAPREDUCE_END

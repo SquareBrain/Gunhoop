@@ -44,7 +44,7 @@ public:
 };
 
 /** 
- *  mamagement object set
+ * mamagement object set
  */
 template <class T>
 class ObjPool

@@ -25,78 +25,100 @@
 
 G_NS_GCOMMON_BEG
 
-// default the count of thread pool
-static const GUint32 G_DEF_THREAD_COUNT = 20;
+/**
+ * thread job, be inherited by user
+ * usage:
+ *  class UserJob : public ThreaJob
+ *  {
+ *  public:
+ *      UserJob() {}
+ *      virtual UserJob() {}
+ *      
+ *      virtual void Work(void* userData)
+ *      {
+ *          // do user work
+ *      }
+ *  }
+ */
+interface ThreadJob
+{
+public:
+	~ThreadJob();
+
+    /**
+     * do user work
+     * @param [in] userData : user data
+     */  	
+	virtual void work(void* userData) = 0;
+};
 
 class ThreadWorker;
-class ThreadJob;
 
-// brief : thread pool implemention
-// usage :
-//  class MyJob : public ThreadJob
-//  {
-//  public:
-//      MyJob() {}
-//      virtual MyJob() {}
-//  
-//      virtual void Work(void* userData)
-//      {
-//          // TODO    
-//      }
-//  }
-//  
-//  int threadPoolSize = 90;
-//  ThreadPool myThreadPool(threadPoolSize);
-//
-//  MyJob myJob;
-//  void* userData = NULL;
-//  myThreadPool.DoJob(&myJob, userData))
+/** 
+ * thread pool implemention
+ */
 class ThreadPool
 {
 public:
-    // thread worker queue
+    /**
+     * thread worker queue
+     */      
 	typedef std::list<ThreadWorker*> ThreadWorkerList;
 
 public:
-    // brief : 
-    // @para [in]threadCount : the size of thread pool
-    // note
-	explicit ThreadPool(const GUint32 threadCount = G_DEF_THREAD_COUNT);
+    ThreadPool();
+
+    /**
+     * constructor
+     * @param [in] threadCount : thread pool count
+     */    
+	explicit ThreadPool(const GUint32 threadCount);
 	~ThreadPool();
 
-    // brief : start to do user job
-    // @para [in]threadJob : user job object
-    // @para [in]userData : user data
-    // return : true/false
-    // note
-	bool DoJob(ThreadJob* threadJob, void* userData);
+    /**
+     * start to do user job
+     * @param [in] threadJob : user job object
+     * @param [in] userData : user data
+     * @return G_YES/G_NO
+     */       
+	GResult doJob(ThreadJob* threadJob, void* userData);
 
-	// brief : get thread count
-	// @para
-	// return : the count of thread pool
-	// note
-	GUint32 GetThreadCount() const;
+    /**
+     * get thread count
+     * @param [in] threadJob : user job object
+     * @param [in] userData : user data
+     * @return the count of thread pool
+     */ 	
+	GUint32 getThreadCount() const;
 
 private:
-    // brief : prevent copying
+    /**
+     * prevent copying
+     */     
     ThreadPool(const ThreadPool&);
     void operator=(const ThreadPool&);
 
-    // brief : initialize thread pool
-	void InitThreadPool();
+    /**
+     * initialize thread pool
+     */       
+	void initThreadPool();
 
-	// brief : uninitialize thread pool
-	void UninitThreadPool();
+    /**
+     * uninitialize thread pool
+     */  	
+	void uninitThreadPool();
 
-	// brief : move idle thread worker from busy queue to idle queue
-	// @para [in]workerId : thread worker ID
-	// note
-	void MoveToIdleList(const GUint32 workerId);
+    /**
+     * move idle thread worker from busy queue to idle queue
+     * @param [in] workerId : thread worker ID
+     */ 	
+	void moveToIdleList(const GUint32 workerId);
 
-	// brief : move busy thread worker from idle queue to busy queue
-	// @para [in]workerId : thread worker ID
-	// note
-	void MoveToBusyList(const GUint32 workerId);
+    /**
+     * move busy thread worker from idle queue to busy queue
+     * @param [in]workerId : thread worker ID
+     */ 	
+	void moveToBusyList(const GUint32 workerId);
 
 private:
     // thread pool size
@@ -107,44 +129,55 @@ private:
 	ThreadWorkerList	m_busyThreadWorkerList;
 };
 
-// brief : thread worker, class ThreadPool depend on 
-// usage:
-//  void MyTestFun()
-//  {
-//      ThreadWorker threadWork;
-//  
-//      class MyJob : public ThreadJob {};
-//      ThreadJob* threadJob = new MyJob;
-//      void* userData;
-//      threadWork.DoWork(threadJob, userData);
-//  }
+/** 
+ * thread worker, class ThreadPool depend on 
+ * @usage:
+ *  void MyTestFun()
+ *  {
+ *      ThreadWorker threadWork;
+ *  
+ *      class MyJob : public ThreadJob {};
+ *      ThreadJob* threadJob = new MyJob;
+ *      void* userData;
+ *      threadWork.DoWork(threadJob, userData);
+ *  }
+ */
 class ThreadWorker : public ThreadTask
 {
 public:
-    // brief : 
-    // @para [in]workerId : setting worker ID
-    // note
+    /**
+     * constructor
+     * @param [in] workerId : worker ID
+     */       
 	explicit ThreadWorker(const GUint32 workerId);
 	virtual ~ThreadWorker();
 
-    // brief : get thread worker ID
-    // return : thread worker ID
-	GUint32 GetWorkerId() const;
+    /**
+     * get thread worker ID
+     * @param [in] workerId : worker ID
+     * @return thread worker ID
+     */     
+	GUint32 getWorkerId() const;
 
-	// brief : to do work
-	// @para [in] threadJob : user thread job
-	// @para [in] userData : user data
-	// return : true/false
-	// note
-	bool DoWork(ThreadJob* threadJob, void* userData);		
+    /**
+     * to do work
+	 * @param [in] threadJob : user thread job
+	 * @param [in] userData : user data
+	 * @return G_YES/G_NO
+     */  	
+	GResult doWork(ThreadJob* threadJob, void* userData);		
 
 private:
-    // brief : prevent copying
+    /**
+     * prevent copying
+     */     
 	ThreadWorker(const ThreadWorker&);
 	void operator=(const ThreadWorker&);
 	
-	// brief : thread run fucntion, loop 
-	void Run();
+    /**
+     * thread run fucntion, loop 
+     */	
+	void run();
 
 private:
     // thread worker ID, setting by external
@@ -155,26 +188,6 @@ private:
 	ThreadJob*		m_threadJob;	
 	// current running user data
 	void*			m_userData;	
-};
-
-// brief : thread job, be inherited by user
-// usage:
-//  class UserJob : public ThreaJob
-//  {
-//  public:
-//      UserJob() {}
-//      virtual UserJob() {}
-//      
-//      virtual void Work(void* userData)
-//      {
-//          // do user work
-//      }
-//  }
-class ThreadJob
-{
-public:
-	~ThreadJob();
-	virtual void Work(void* userData) = 0;
 };
 
 G_NS_END

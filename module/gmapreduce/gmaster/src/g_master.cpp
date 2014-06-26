@@ -26,7 +26,7 @@ Master::~Master()
 {
 }
 
-GResult Master::Start() 
+GResult Master::start() 
 {
 	return G_YES;	
 }

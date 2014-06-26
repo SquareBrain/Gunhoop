@@ -20,7 +20,15 @@
 
 static const GInt8* LOG_PREFIX = "gohoop.gcommon.component.threadpool";
 
+// default the count of thread pool
+static const GUint32 G_DEF_THREAD_COUNT = 20;
+
 G_NS_GCOMMON_BEG
+
+ThreadPool::ThreadPool() : m_threadCount(G_DEF_THREAD_COUNT)
+{
+    InitThreadPool();    
+}
 
 ThreadPool::ThreadPool(const GUint32 threadCount) : m_threadCount(threadCount)
 {
@@ -29,57 +37,58 @@ ThreadPool::ThreadPool(const GUint32 threadCount) : m_threadCount(threadCount)
 
 ThreadPool::~ThreadPool()
 {
-    
 }
 
-bool ThreadPool::DoJob(ThreadJob* threadJob, void* userData)
+GResult ThreadPool::doJob(ThreadJob* threadJob, void* userData)
 {
-	return true;
+	return G_YES;
 }
 
-GUint32 ThreadPool::GetThreadCount() const
+GUint32 ThreadPool::getThreadCount() const
 {
 	return m_threadCount;
 }
 
-void ThreadPool::InitThreadPool()
+GResult ThreadPool::initThreadPool()
 {
 	for (GUint32 i = 0; i < m_threadCount; i++)
 	{
 		m_idleThreadWorkerList.push_back(new ThreadWorker(i));		
 	}
+
+	return G_YES;
 }
 
-void ThreadPool::UninitThreadPool()
+GResult ThreadPool::uninitThreadPool()
 {
-    
+    return G_YES;    
 }
 
 ThreadWorker::ThreadWorker(const GUint32 workerId) 
 	: m_workerId(workerId)
 	, m_threadJob(NULL)
 {
-	this->Start();
+	this->start();
 }
 
 ThreadWorker::~ThreadWorker()
 {
 }
 
-GUint32 ThreadWorker::GetWorkerId() const
+GUint32 ThreadWorker::getWorkerId() const
 {
 	return m_workerId;
 }
 
-bool ThreadWorker::DoWork(ThreadJob* threadJob, void* userData)
+GResult ThreadWorker::doWork(ThreadJob* threadJob, void* userData)
 {
 	m_threadJob = threadJob;
 	m_userData = userData;
 
-	return true;
+	return G_YES;
 }
 
-void ThreadWorker::Run()
+void ThreadWorker::run()
 {
 	for (;;)
 	{
