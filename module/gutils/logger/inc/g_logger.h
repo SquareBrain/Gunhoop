@@ -21,63 +21,77 @@
 #include <g_type.h>
 
 #define G_LOG_INIT() \
-	GCommon::Logger::Init();
+	GUtils::LoggerUtil::Init();
     
 #define G_LOG_UNINIT() \
-	GCommon::Logger::Uninit();
+	GUtils::LoggerUtil::Uninit();
 
 #define G_LOG_ERROR(prefix, x) \
-	GCommon::Logger::PrintError(prefix, "error");
+	GUtils::LoggerUtil::PrintError(prefix, x);
 
 #define G_LOG_WARN(prefix, x) \
-	GCommon::Logger::PrintWarn(prefix, "warn");
+	GUtils::LoggerUtil::PrintWarn(prefix, x);
 
 #define G_LOG_INFO(prefix, x) \
-	GCommon::Logger::PrintWarn(prefix, "info");
+	GUtils::LoggerUtil::PrintWarn(prefix, x);
 
 #define G_LOG_DEBUG(prefix, x) \
-	GCommon::Logger::PrintWarn(prefix, "debug");    
+	GUtils::LoggerUtil::PrintWarn(prefix, x);    
 
 #define G_LOG_TRACE(prefix, x) \
-	GCommon::Logger::PrintWarn(prefix, "trace");  
+	GUtils::LoggerUtil::PrintWarn(prefix, x);  
 
 G_NS_GUTILS_BEG
 
 // brief : posix socket wrapper class
-class Logger
+class LoggerUtil
 {
-public:
-	// brief : init
-	// note		
+public:	
+    /**
+     * init
+     * @note 
+     */	 	
     static GResult Init();
-
-	// brief : uninit
-	// note		    
+	
+    /**
+     * uninit
+     * @note 
+     */	 	
     static GResult Uninit();
-
-	// brief : print error
-	// @para [in]str : error information
-	// note		    
+	
+    /**
+     * print error
+     * @para [in] str : error information
+     * @note 
+     */	 	
     static void PrintError(const GInt8* prefix, const GInt8* str);
-
-	// brief : print warn
-	// @para [in]str : error information
-	// note		    
+	
+    /**
+     * print warning
+     * @para [in] str : warning information
+     * @note 
+     */	
     static void PrintWarn(const GInt8* prefix, const GInt8* str);
 
-	// brief : print info
-	// @para [in]str : error information
-	// note		    
+    /**
+     * print print normal information
+     * @para [in] str : normal information
+     * @note 
+     */		
     static void PrintInfo(const GInt8* prefix, const GInt8* str);
-
-	// brief : print debug
-	// @para [in]str : error information
-	// note		    
+	
+    /**
+     * print print debug information
+     * @para [in] str : debug information
+     * @note 
+     */			
     static void PrintDebug(const GInt8* prefix, const GInt8* str);
 
-	// brief : print trace
-	// @para [in]str : error information
-	// note		    
+    /**
+     * print print trace information
+     * @para [in] str : trace information
+     * @note 
+     */			
     static void PrintTrace(const GInt8* prefix, const GInt8* str);
 };
 

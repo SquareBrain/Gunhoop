@@ -19,37 +19,37 @@
 
 G_NS_GUTILS_BEG
 
-GResult Logger::Init()
+GResult LoggerUtil::Init()
 {
     return true;
 }
        
-GResult Logger::Uninit()
+GResult LoggerUtil::Uninit()
 {
     return true;
 }
       
-void Logger::PrintError(const GInt8* prefix, const GInt8* str)
+void LoggerUtil::PrintError(const GInt8* prefix, const GInt8* str)
 {
     printf("<ERROR><%s>%s", prefix, str);
 }
    
-void Logger::PrintWarn(const GInt8* prefix, const GInt8* str)
+void LoggerUtil::PrintWarn(const GInt8* prefix, const GInt8* str)
 {
     printf("<WARN><%s>%s", prefix, str);
 }
        
-void Logger::PrintInfo(const GInt8* prefix, const GInt8* str)
+void LoggerUtil::PrintInfo(const GInt8* prefix, const GInt8* str)
 {
     printf("<INFO><%s>%s", prefix, str);
 }
        
-void Logger::PrintDebug(const GInt8* prefix, const GInt8* str)
+void LoggerUtil::PrintDebug(const GInt8* prefix, const GInt8* str)
 {
     printf("<DEBUG><%s>%s", prefix, str);
 }
 
-void Logger::PrintTrace(const GInt8* prefix, const GInt8* str)
+void LoggerUtil::PrintTrace(const GInt8* prefix, const GInt8* str)
 {
     printf("<TRACE><%s>%s", prefix, str);
 }
