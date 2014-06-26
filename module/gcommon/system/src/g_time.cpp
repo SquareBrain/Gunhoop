@@ -21,7 +21,7 @@ static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.time";
 
 G_NS_GCOMMON_BEG
 
-bool TimeUtil::ConvTimeA(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::convTimeA(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 8)
     {
@@ -35,7 +35,7 @@ bool TimeUtil::ConvTimeA(const GUint64 sysTime, GInt8* sysTime, const GUint64 bu
     return true;
 }
 
-bool TimeUtil::ConvTimeB(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::convTimeB(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 10)
     {
@@ -49,7 +49,7 @@ bool TimeUtil::ConvTimeB(const GUint64 sysTime, GInt8* sysTime, const GUint64 bu
     return true;
 }
 
-bool TimeUtil::ConvTimeC(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::convTimeC(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 10)
     {
@@ -63,7 +63,7 @@ bool TimeUtil::ConvTimeC(const GUint64 sysTime, GInt8* sysTime, const GUint64 bu
     return true;
 }
 
-bool TimeUtil::ConvTimeD(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::convTimeD(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 10)
     {
@@ -77,7 +77,7 @@ bool TimeUtil::ConvTimeD(const GUint64 sysTime, GInt8* sysTime, const GUint64 bu
     return true;
 }
 
-bool TimeUtil::ConvTimeE(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::convTimeE(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
 {
     if (sysTime == NULL && bufSize < 14)
     {
