@@ -1,0 +1,90 @@
+/** 
+* @mainpage CMSClient Library（CMSCL）
+*
+* @section intro_sec 简介
+*
+*       CMSClient Library（简称CMSCL），CMS是指Configuration Management Service。此模块专门针对访问CMS服务
+*		而开发，提供简洁的访问方式. 这些方法与CMS的Action一一对应。对外以动态库的方式提供，发布头文件和动态库文件。
+*
+* @section version_sec 版本
+*
+*       2014-06-16  Release 1.0.0   First release
+*
+* @section author_sec 作者
+*
+*       王伟    (wangwei@fubang.net)
+*       杨凌昊  (yanglinghao@fubang.net)
+*
+* @section install_sec 使用
+*       
+*       输出文件：
+*           - 头文件 : CMSClient.h
+*           - 库文件 : libCMSClient.so      
+*
+*       编译安装：
+*           - 设置编译环境  
+*               1. 任何目录执行
+*               #SetEnv_PumaArmV2 rXXX 
+*
+*               2. 在目录 Puma_mini/Develop/workgroup 执行
+*               #source setenv.sh
+*
+*           - 仅生成libCMSClient.so  
+*               #make
+*
+*           - 生成libCMSClient.so、测试程序、桩程序   
+*               #make buildall
+*
+*           - 清除编译  
+*               #make clean
+*               #make cleanall
+*
+*           - 安装  
+*               #make install
+*               注:安装到Puma_mini/Develop/workgroup/T.NMS/build目录下
+*           
+*       方法列表:
+*           - int CMSClient_Init(CMSClient_CMS_VERSION cmsVersion);
+*           - int CMSClient_Uninit();
+*           - int CMSClient_RegistCallbackFunc(const CMSClient_CallbackFunc* callback);
+*           - int CMSClient_UnregistCallbackFunc(const CMSClient_CallbackFunc* callback);
+*           - int CMSClient_GetDeviceUUID(CMSClient_Device device, char** uuid);
+*           - int CMSClient_RetriveDeviceByUUID(const char* uuid, CMSClient_Device *device);
+*           - int CMSClient_Subsribe(CMSClient_Device device, CMSClient_Service service);
+*           - int CMSClient_Unsubsribe(CMSClient_Device device, CMSClient_Service service);
+*           - int CMSClient_RenewSubsription(CMSClient_Device device, CMSClient_Service service);
+*           - int CMSClient_GetSupportedDataModels(CMSClient_Device device, A_ARG_TYPE_SupportedDataModels* supportedDataModels);
+*           - int CMSClient_GetSupportedParameters(CMSClient_Device device, A_ARG_TYPE_StructurePath StartingNode, A_ARG_TYPE_SearchDepth SearchDepth, A_ARG_TYPE_StructurePathList * Result);
+*           - int CMSClient_GetInstances(CMSClient_Device device, A_ARG_TYPE_PartialPath StartingNode, A_ARG_TYPE_SearchDepth SearchDepth, A_ARG_TYPE_InstancePathList* Result);
+*           - int CMSClient_GetValues(CMSClient_Device device, A_ARG_TYPE_ContentPathList Parameters, A_ARG_TYPE_ParameterValueList * ParameterValueList);
+*           - int CMSClient_GetAttributes(CMSClient_Device device, A_ARG_TYPE_NodeAttributePathList Parameters, A_ARG_TYPE_NodeAttributeValueList* NodeAttributeValueList);
+*           - int CMSClient_GetSelectedValues(CMSClient_Device device, A_ARG_TYPE_StructurePath StartingNode, A_ARG_TYPE_Filter Filter, A_ARG_TYPE_ParameterValueList * ParameterValueList);
+*           - int CMSClient_SetValues(CMSClient_Device device, A_ARG_TYPE_ParameterValueList ParameterValueList, A_ARG_TYPE_ChangeStatus* Status);
+*           - int CMSClient_CreateInstance(CMSClient_Device device, A_ARG_TYPE_MultiInstancePath MultiInstanceName, A_ARG_TYPE_ParameterInitialValueList ChildrenInitialization, A_ARG_TYPE_InstancePath* InstanceIdentifier, A_ARG_TYPE_ChangeStatus* Status);
+*    
+*       使用实例:
+*           #include <CMSClient.h>
+*           
+*           int main()
+*           {
+*               if (!CMSClient_Init(cmsVersion))
+*               {
+*                   reutrn -1;
+*               }
+*               
+*               CMSClient_RegistCallbackFunc(callback);
+*               
+*               // CMSClient_GetDeviceUUID();
+*               // CMSClient_Subsribe();
+*               // CMSClient_GetSupportedDataModels();
+*               // CMSClient_CreateInstance();
+*               // .....................
+*
+*               CMSClient_RegistCallbackFunc(callback);
+*
+*               CMSClient_Uninit();
+*   
+*               return 0;
+*           }
+*               
+*/
