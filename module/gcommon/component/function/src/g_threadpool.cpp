@@ -18,7 +18,7 @@
 
 #include <g_threadpool.h> 
 
-static const GInt8* LOG_PREFIX = "gohoop.gcommon.component.threadpool";
+static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.component.threadpool";
 
 // default the count of thread pool
 static const GUint32 G_DEF_THREAD_COUNT = 20;
@@ -27,16 +27,17 @@ G_NS_GCOMMON_BEG
 
 ThreadPool::ThreadPool() : m_threadCount(G_DEF_THREAD_COUNT)
 {
-    InitThreadPool();    
+    initThreadPool();    
 }
 
 ThreadPool::ThreadPool(const GUint32 threadCount) : m_threadCount(threadCount)
 {
-    InitThreadPool();    
+    initThreadPool();    
 }
 
 ThreadPool::~ThreadPool()
 {
+    uninitThreadPool();   
 }
 
 GResult ThreadPool::doJob(ThreadJob* threadJob, void* userData)
@@ -88,20 +89,22 @@ GResult ThreadWorker::doWork(ThreadJob* threadJob, void* userData)
 	return G_YES;
 }
 
-void ThreadWorker::run()
+GResult ThreadWorker::run()
 {
 	for (;;)
 	{
-		m_condition.Wait();
+		m_condition.wait();
 		if (NULL == m_threadJob)	
 		{
 			continue;
 		}
 
-		m_threadJob->Work(m_userData);
+		m_threadJob->work(m_userData);
 		m_threadJob = NULL;
 		m_userData = NULL;
 	}
+
+	return G_YES;
 }
 
 G_NS_END

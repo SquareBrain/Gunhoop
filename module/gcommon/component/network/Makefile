@@ -10,4 +10,4 @@ LIBS_PATH:=
 
 LIBS:= 
 
-include ../../shared.mk
+include ../../../static.mk

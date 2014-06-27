@@ -71,7 +71,7 @@ public:
      * get the size of object pool
      * @return count : the size of object pool
      */
-    GUint32* getCount() const
+    GUint32 getCount() const;
 
 private:
     ObjPool(const ObjPool<T>&);
@@ -112,7 +112,7 @@ void ObjPool<T>::setCount(const GUint32 count)
 }
 
 template <class T>
-GUint32 ObjPool<T>::getCount()
+GUint32 ObjPool<T>::getCount() const
 {
     return m_count;
 }

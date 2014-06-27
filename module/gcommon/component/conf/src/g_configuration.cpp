@@ -15,5 +15,5 @@
 * 
 */
 
-#include "g_configuration.h"
+#include <g_configuration.h>
 

@@ -12,4 +12,4 @@ SLIBS_PATH:=
 
 SLIBS:= 
 
-include ../../static.mk
+include ../../../static.mk

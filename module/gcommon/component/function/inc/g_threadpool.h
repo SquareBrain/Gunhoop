@@ -100,13 +100,15 @@ private:
 
     /**
      * initialize thread pool
+     * @return G_YES/G_NO
      */       
-	void initThreadPool();
+	GResult initThreadPool();
 
     /**
      * uninitialize thread pool
+     * @return G_YES/G_NO
      */  	
-	void uninitThreadPool();
+	GResult uninitThreadPool();
 
     /**
      * move idle thread worker from busy queue to idle queue
@@ -175,9 +177,11 @@ private:
 	void operator=(const ThreadWorker&);
 	
     /**
-     * thread run fucntion, loop 
+     * thread entry function
+     * @return G_YES/G_NO
+     * @note 
      */	
-	void run();
+	GResult run();
 
 private:
     // thread worker ID, setting by external
