@@ -21,72 +21,72 @@ static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.time";
 
 G_NS_GCOMMON_BEG
 
-bool TimeUtil::convTimeA(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
-    if (sysTime == NULL && bufSize < 8)
+    if (outSysTime == NULL)
     {
         return false;
     }
     
     const GInt8* curSysTime = "20140309";
     
-    sprintf(sysTime, "%s", curSysTime);
+    sprintf(outSysTime, "%s", curSysTime);
 
     return true;
 }
 
-bool TimeUtil::convTimeB(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
-    if (sysTime == NULL && bufSize < 10)
+    if (outSysTime == NULL)
     {
         return false;
     }
     
     const GInt8* curSysTime = "2014-03-09";
     
-    sprintf(sysTime, "%s", curSysTime);
+    sprintf(outSysTime, "%s", curSysTime);
 
     return true;
 }
 
-bool TimeUtil::convTimeC(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
-    if (sysTime == NULL && bufSize < 10)
+    if (outSysTime == NULL)
     {
         return false;
     }
     
     const GInt8* curSysTime = "2014/03/09";
     
-    sprintf(sysTime, "%s", curSysTime);
+    sprintf(outSysTime, "%s", curSysTime);
 
     return true;
 }
 
-bool TimeUtil::convTimeD(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
-    if (sysTime == NULL && bufSize < 10)
+    if (outSysTime == NULL)
     {
         return false;
     }
     
     const GInt8* curSysTime = "2014.03.09";
     
-    sprintf(sysTime, "%s", curSysTime);
+    sprintf(outSysTime, "%s", curSysTime);
 
     return true;
 }
 
-bool TimeUtil::convTimeE(const GUint64 sysTime, GInt8* sysTime, const GUint64 bufSize)
+bool TimeUtil::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
-    if (sysTime == NULL && bufSize < 14)
+    if (outSysTime == NULL && bufSize < 14)
     {
         return false;
     }
     
     const GInt8* curSysTime = "2014-03-09:999";
     
-    sprintf(sysTime, "%s", curSysTime);
+    sprintf(outSysTime, "%s", curSysTime);
 
     return true;
 }

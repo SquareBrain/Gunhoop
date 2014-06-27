@@ -38,7 +38,7 @@ typedef int                 GResult;
 /** 
  * interface define
  */
-#define interface			struct;
+#define interface			struct
 
 /** 
  * assert
@@ -68,15 +68,6 @@ typedef int                 GResult;
 /** 
  * name space define
  */
-/*
-namespace GBase { }
-namespace GCommon { }
-namespace GData { }
-namespace GDfs { }
-namespace GMapreduce { }
-namespace GUtils { }
-*/
-
 #define G_NS_END	        }
 #define G_NS_GBASE_BEG	    namespace GBase {
 #define G_NS_GCOMMON_BEG	namespace GCommon {
