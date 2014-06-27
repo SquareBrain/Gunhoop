@@ -1,25 +1,42 @@
 var NAVTREE =
 [
-  [ "Main Page", "index.html", [
+  [ "My Project", "index.html", [
+    [ "Gohoop Distributed Platform（GHDP）", "index.html", [
+      [ "Authors", "index.html#author_sec", null ],
+      [ "Introduction", "index.html#intro_sec", null ],
+      [ "Background", "index.html#back_sec", null ],
+      [ "Release", "index.html#version_sec", null ]
+    ] ],
     [ "Classes", null, [
       [ "Class List", "annotated.html", "annotated" ],
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ]
+        [ "Functions", "functions_func.html", null ],
+        [ "Variables", "functions_vars.html", null ],
+        [ "Typedefs", "functions_type.html", null ]
       ] ]
     ] ],
     [ "Files", null, [
-      [ "File List", "files.html", "files" ]
-    ] ]
+      [ "File List", "files.html", "files" ],
+      [ "File Members", "globals.html", [
+        [ "All", "globals.html", null ],
+        [ "Variables", "globals_vars.html", null ],
+        [ "Typedefs", "globals_type.html", null ],
+        [ "Enumerations", "globals_enum.html", null ],
+        [ "Enumerator", "globals_eval.html", null ],
+        [ "Macros", "globals_defs.html", null ]
+      ] ]
+    ] ],
+    [ "Examples", "examples.html", "examples" ]
   ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"annotated.html",
-"g__logger_8h.html"
+"_c_m_s_observer_8cpp-example.html",
+"g__memory_8h.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

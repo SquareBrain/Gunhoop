@@ -3,6 +3,10 @@
 }
 
 
+{\ttfamily \#include $<$gcommon/system/inc/g\-\_\-pipe.\-h$>$}
+
+
+
 Inheritance diagram for Write\-Pipe\-:
 
 
@@ -10,13 +14,60 @@ Collaboration diagram for Write\-Pipe\-:
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_write_pipe_a4bc1aebd61af113b228c305043357796}{virtual bool {\bfseries Open} (const G\-Int8 $\ast$pipe\-Name)}\label{class_write_pipe_a4bc1aebd61af113b228c305043357796}
-
+virtual bool \hyperlink{class_write_pipe_a017e340c73031692d55b299e16da3e0b}{open\-Pipe} (const \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$pipe\-Name)
 \item 
-\hypertarget{class_write_pipe_ab6f05f64cc91f58c28d99191072fe5b9}{G\-Int32 {\bfseries Write} (const G\-Int8 $\ast$data, const G\-Uint32 data\-Len)}\label{class_write_pipe_ab6f05f64cc91f58c28d99191072fe5b9}
-
+G\-Int64 \hyperlink{class_write_pipe_a421988218fe8d1a605de3dc53920a51f}{write\-Data} (const \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$data, const G\-Uint64 length)
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Be used to write pipe 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_write_pipe_a017e340c73031692d55b299e16da3e0b}{\index{Write\-Pipe@{Write\-Pipe}!open\-Pipe@{open\-Pipe}}
+\index{open\-Pipe@{open\-Pipe}!WritePipe@{Write\-Pipe}}
+\subsubsection[{open\-Pipe}]{\setlength{\rightskip}{0pt plus 5cm}bool Write\-Pipe\-::open\-Pipe (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-Int8} $\ast$}]{pipe\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_write_pipe_a017e340c73031692d55b299e16da3e0b}
+Open the pipe 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em pipe\-Name} & \-: the pipe name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Implements \hyperlink{class_pipe_a6e20309a4e8ecc7317dd5f8e1bd320cb}{Pipe}.
+
+\hypertarget{class_write_pipe_a421988218fe8d1a605de3dc53920a51f}{\index{Write\-Pipe@{Write\-Pipe}!write\-Data@{write\-Data}}
+\index{write\-Data@{write\-Data}!WritePipe@{Write\-Pipe}}
+\subsubsection[{write\-Data}]{\setlength{\rightskip}{0pt plus 5cm}G\-Int64 Write\-Pipe\-::write\-Data (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-Int8} $\ast$}]{data, }
+\item[{const G\-Uint64}]{length}
+\end{DoxyParamCaption}
+)}}\label{class_write_pipe_a421988218fe8d1a605de3dc53920a51f}
+Write data to pipe 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em data} & \-: write data \\
+\hline
+\mbox{\tt in}  & {\em length} & \-: data length \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size/-\/1 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}

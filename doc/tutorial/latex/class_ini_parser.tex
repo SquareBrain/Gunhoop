@@ -1,24 +1,127 @@
 \hypertarget{class_ini_parser}{\section{Ini\-Parser Class Reference}
 \label{class_ini_parser}\index{Ini\-Parser@{Ini\-Parser}}
 }
+
+
+{\ttfamily \#include $<$gutils/ini/inc/g\-\_\-ini\-\_\-parser.\-h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_ini_parser_af312e99e13307e8da4c1e605297647c4}{{\bfseries Ini\-Parser} (const std\-::string \&file\-Path)}\label{class_ini_parser_af312e99e13307e8da4c1e605297647c4}
-
+\hyperlink{class_ini_parser_af312e99e13307e8da4c1e605297647c4}{Ini\-Parser} (const std\-::string \&file\-Path)
 \item 
-\hypertarget{class_ini_parser_ac66f1a3325a0df551e127596164fb29a}{D\-\_\-\-Result {\bfseries Load\-File} (const std\-::string \&file\-Path)}\label{class_ini_parser_ac66f1a3325a0df551e127596164fb29a}
-
+G\-Result \hyperlink{class_ini_parser_a3e9056cb58c7a57b431fa273810286a1}{load\-File} (const std\-::string \&file\-Path)
 \item 
-\hypertarget{class_ini_parser_a19ea82b8f7bdbfe988a68124c92a2fbc}{D\-\_\-\-Result {\bfseries Import\-Content} (const std\-::string \&content)}\label{class_ini_parser_a19ea82b8f7bdbfe988a68124c92a2fbc}
-
+G\-Result \hyperlink{class_ini_parser_a80554472e3fce746686e5e3f0634a9d1}{load\-Data} (const std\-::string \&data)
 \item 
-\hypertarget{class_ini_parser_ac91f2619ca5495e4f73d0d0f41dba7b9}{const Section\-List \& {\bfseries Get\-Section\-List} () const }\label{class_ini_parser_ac91f2619ca5495e4f73d0d0f41dba7b9}
-
+const Section\-List \& \hyperlink{class_ini_parser_a802cdd1b91a9fe04fbb11b33b8492702}{get\-Section\-List} () const 
+\item 
+Section\-List \& \hyperlink{class_ini_parser_a1e571eb4ccefa184f2cdd2ec50b6403e}{get\-Section\-List} ()
+\item 
+G\-Result \hyperlink{class_ini_parser_aa669c07fa17bcb13597ba6dba6772952}{save\-File} () const 
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+P\-O\-S\-I\-X condition wrapper 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_ini_parser_af312e99e13307e8da4c1e605297647c4}{\index{Ini\-Parser@{Ini\-Parser}!Ini\-Parser@{Ini\-Parser}}
+\index{Ini\-Parser@{Ini\-Parser}!IniParser@{Ini\-Parser}}
+\subsubsection[{Ini\-Parser}]{\setlength{\rightskip}{0pt plus 5cm}Ini\-Parser\-::\-Ini\-Parser (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{file\-Path}
+\end{DoxyParamCaption}
+)}}\label{class_ini_parser_af312e99e13307e8da4c1e605297647c4}
+constructor 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em file\-Path} & \-: file path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_ini_parser_a802cdd1b91a9fe04fbb11b33b8492702}{\index{Ini\-Parser@{Ini\-Parser}!get\-Section\-List@{get\-Section\-List}}
+\index{get\-Section\-List@{get\-Section\-List}!IniParser@{Ini\-Parser}}
+\subsubsection[{get\-Section\-List}]{\setlength{\rightskip}{0pt plus 5cm}const Section\-List \& Ini\-Parser\-::get\-Section\-List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_ini_parser_a802cdd1b91a9fe04fbb11b33b8492702}
+get ini configuration section with const reference \begin{DoxyReturn}{Returns}
+const Section\-List reference 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_ini_parser_a1e571eb4ccefa184f2cdd2ec50b6403e}{\index{Ini\-Parser@{Ini\-Parser}!get\-Section\-List@{get\-Section\-List}}
+\index{get\-Section\-List@{get\-Section\-List}!IniParser@{Ini\-Parser}}
+\subsubsection[{get\-Section\-List}]{\setlength{\rightskip}{0pt plus 5cm}Section\-List \& Ini\-Parser\-::get\-Section\-List (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_ini_parser_a1e571eb4ccefa184f2cdd2ec50b6403e}
+get ini configuration section with no const \begin{DoxyReturn}{Returns}
+Section\-List reference 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_ini_parser_a80554472e3fce746686e5e3f0634a9d1}{\index{Ini\-Parser@{Ini\-Parser}!load\-Data@{load\-Data}}
+\index{load\-Data@{load\-Data}!IniParser@{Ini\-Parser}}
+\subsubsection[{load\-Data}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result Ini\-Parser\-::load\-Data (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{data}
+\end{DoxyParamCaption}
+)}}\label{class_ini_parser_a80554472e3fce746686e5e3f0634a9d1}
+load data buffer 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em data} & \-: file data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_ini_parser_a3e9056cb58c7a57b431fa273810286a1}{\index{Ini\-Parser@{Ini\-Parser}!load\-File@{load\-File}}
+\index{load\-File@{load\-File}!IniParser@{Ini\-Parser}}
+\subsubsection[{load\-File}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result Ini\-Parser\-::load\-File (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{file\-Path}
+\end{DoxyParamCaption}
+)}}\label{class_ini_parser_a3e9056cb58c7a57b431fa273810286a1}
+load file 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em file\-Path} & \-: file path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_ini_parser_aa669c07fa17bcb13597ba6dba6772952}{\index{Ini\-Parser@{Ini\-Parser}!save\-File@{save\-File}}
+\index{save\-File@{save\-File}!IniParser@{Ini\-Parser}}
+\subsubsection[{save\-File}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result Ini\-Parser\-::save\-File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_ini_parser_aa669c07fa17bcb13597ba6dba6772952}
+save file update \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-gutils/ini/inc/\hyperlink{duye__ini_8h}{duye\-\_\-ini.\-h}\item 
-gutils/ini/src/\hyperlink{duye__ini_8cpp}{duye\-\_\-ini.\-cpp}\end{DoxyCompactItemize}
+gutils/ini/inc/g\-\_\-ini\-\_\-parser.\-h\item 
+gutils/ini/src/\hyperlink{g__ini__parser_8cpp}{g\-\_\-ini\-\_\-parser.\-cpp}\end{DoxyCompactItemize}

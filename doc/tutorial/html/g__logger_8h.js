@@ -1,6 +1,6 @@
 var g__logger_8h =
 [
-    [ "Logger", "class_logger.html", null ],
+    [ "LoggerUtil", "class_logger_util.html", null ],
     [ "G_LOG_DEBUG", "g__logger_8h.html#a11bafa99943a0ecce828e5c396219a41", null ],
     [ "G_LOG_ERROR", "g__logger_8h.html#a3e1f1519bea7ab6ead1cdc776b1cf911", null ],
     [ "G_LOG_INFO", "g__logger_8h.html#a462abee532dd170d6459dbdacfdc2d83", null ],

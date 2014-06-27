@@ -1,5 +1,5 @@
-\hypertarget{g__logger_8h}{\section{gcommon/logger/inc/g\-\_\-logger.h File Reference}
-\label{g__logger_8h}\index{gcommon/logger/inc/g\-\_\-logger.\-h@{gcommon/logger/inc/g\-\_\-logger.\-h}}
+\hypertarget{g__logger_8h}{\section{gutils/logger/inc/g\-\_\-logger.h File Reference}
+\label{g__logger_8h}\index{gutils/logger/inc/g\-\_\-logger.\-h@{gutils/logger/inc/g\-\_\-logger.\-h}}
 }
 {\ttfamily \#include $<$g\-\_\-type.\-h$>$}\\*
 Include dependency graph for g\-\_\-logger.\-h\-:
@@ -7,30 +7,30 @@ This graph shows which files directly or indirectly include this file\-:
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \hyperlink{class_logger}{Logger}
+class \hyperlink{class_logger_util}{Logger\-Util}
 \end{DoxyCompactItemize}
 \subsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{g__logger_8h_ab10c581d00a6e7729c2892efab590331}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-I\-T}()~G\-Common\-::\-Logger\-::\-Init();}\label{g__logger_8h_ab10c581d00a6e7729c2892efab590331}
+\hypertarget{g__logger_8h_ab10c581d00a6e7729c2892efab590331}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-I\-T}()~G\-Utils\-::\-Logger\-Util\-::\-Init();}\label{g__logger_8h_ab10c581d00a6e7729c2892efab590331}
 
 \item 
-\hypertarget{g__logger_8h_a44d07250d15a13765eb0482c4f1f1bb5}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-U\-N\-I\-N\-I\-T}()~G\-Common\-::\-Logger\-::\-Uninit();}\label{g__logger_8h_a44d07250d15a13765eb0482c4f1f1bb5}
+\hypertarget{g__logger_8h_a44d07250d15a13765eb0482c4f1f1bb5}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-U\-N\-I\-N\-I\-T}()~G\-Utils\-::\-Logger\-Util\-::\-Uninit();}\label{g__logger_8h_a44d07250d15a13765eb0482c4f1f1bb5}
 
 \item 
-\hypertarget{g__logger_8h_a3e1f1519bea7ab6ead1cdc776b1cf911}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-E\-R\-R\-O\-R}(prefix, x)~G\-Common\-::\-Logger\-::\-Print\-Error(prefix, \char`\"{}error\char`\"{});}\label{g__logger_8h_a3e1f1519bea7ab6ead1cdc776b1cf911}
+\hypertarget{g__logger_8h_a3e1f1519bea7ab6ead1cdc776b1cf911}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-E\-R\-R\-O\-R}(prefix, x)~G\-Utils\-::\-Logger\-Util\-::\-Print\-Error(prefix, x);}\label{g__logger_8h_a3e1f1519bea7ab6ead1cdc776b1cf911}
 
 \item 
-\hypertarget{g__logger_8h_ac1462449e0983e69faf5cc4c61dfd4c2}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-W\-A\-R\-N}(prefix, x)~G\-Common\-::\-Logger\-::\-Print\-Warn(prefix, \char`\"{}warn\char`\"{});}\label{g__logger_8h_ac1462449e0983e69faf5cc4c61dfd4c2}
+\hypertarget{g__logger_8h_ac1462449e0983e69faf5cc4c61dfd4c2}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-W\-A\-R\-N}(prefix, x)~G\-Utils\-::\-Logger\-Util\-::\-Print\-Warn(prefix, x);}\label{g__logger_8h_ac1462449e0983e69faf5cc4c61dfd4c2}
 
 \item 
-\hypertarget{g__logger_8h_a462abee532dd170d6459dbdacfdc2d83}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-F\-O}(prefix, x)~G\-Common\-::\-Logger\-::\-Print\-Warn(prefix, \char`\"{}info\char`\"{});}\label{g__logger_8h_a462abee532dd170d6459dbdacfdc2d83}
+\hypertarget{g__logger_8h_a462abee532dd170d6459dbdacfdc2d83}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-F\-O}(prefix, x)~G\-Utils\-::\-Logger\-Util\-::\-Print\-Warn(prefix, x);}\label{g__logger_8h_a462abee532dd170d6459dbdacfdc2d83}
 
 \item 
-\hypertarget{g__logger_8h_a11bafa99943a0ecce828e5c396219a41}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-D\-E\-B\-U\-G}(prefix, x)~G\-Common\-::\-Logger\-::\-Print\-Warn(prefix, \char`\"{}debug\char`\"{});}\label{g__logger_8h_a11bafa99943a0ecce828e5c396219a41}
+\hypertarget{g__logger_8h_a11bafa99943a0ecce828e5c396219a41}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-D\-E\-B\-U\-G}(prefix, x)~G\-Utils\-::\-Logger\-Util\-::\-Print\-Warn(prefix, x);}\label{g__logger_8h_a11bafa99943a0ecce828e5c396219a41}
 
 \item 
-\hypertarget{g__logger_8h_a9501d50d07d16b6e76b9666e45ae8cbc}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-T\-R\-A\-C\-E}(prefix, x)~G\-Common\-::\-Logger\-::\-Print\-Warn(prefix, \char`\"{}trace\char`\"{});}\label{g__logger_8h_a9501d50d07d16b6e76b9666e45ae8cbc}
+\hypertarget{g__logger_8h_a9501d50d07d16b6e76b9666e45ae8cbc}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-T\-R\-A\-C\-E}(prefix, x)~G\-Utils\-::\-Logger\-Util\-::\-Print\-Warn(prefix, x);}\label{g__logger_8h_a9501d50d07d16b6e76b9666e45ae8cbc}
 
 \end{DoxyCompactItemize}
 

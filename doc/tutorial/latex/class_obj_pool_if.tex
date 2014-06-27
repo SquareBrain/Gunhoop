@@ -3,22 +3,43 @@
 }
 
 
-{\ttfamily \#include $<$gcommon/component/inc/g\-\_\-objpool.\-h$>$}
+{\ttfamily \#include $<$gcommon/component/function/inc/g\-\_\-objpool.\-h$>$}
 
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_obj_pool_if_aeff8f83d806dc7527b3513b98736cabb}{virtual G\-Result {\bfseries Init} ()=0}\label{class_obj_pool_if_aeff8f83d806dc7527b3513b98736cabb}
-
+virtual G\-Result \hyperlink{class_obj_pool_if_a889158beb58daea8e4b245bdeb443975}{init} ()=0
 \item 
-\hypertarget{class_obj_pool_if_a83c03d896c3ebcb837febc50f8d53d4f}{virtual G\-Result {\bfseries Uninit} ()=0}\label{class_obj_pool_if_a83c03d896c3ebcb837febc50f8d53d4f}
-
+virtual G\-Result \hyperlink{class_obj_pool_if_a5ea166cacebe99ed10d71440277a9243}{uninit} ()=0
 \end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-一个示范类，描述在此 
+provide user inheritance 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_obj_pool_if_a889158beb58daea8e4b245bdeb443975}{\index{Obj\-Pool\-If@{Obj\-Pool\-If}!init@{init}}
+\index{init@{init}!ObjPoolIf@{Obj\-Pool\-If}}
+\subsubsection[{init}]{\setlength{\rightskip}{0pt plus 5cm}virtual G\-Result Obj\-Pool\-If\-::init (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_obj_pool_if_a889158beb58daea8e4b245bdeb443975}
+be call by object pool, before used object \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\hypertarget{class_obj_pool_if_a5ea166cacebe99ed10d71440277a9243}{\index{Obj\-Pool\-If@{Obj\-Pool\-If}!uninit@{uninit}}
+\index{uninit@{uninit}!ObjPoolIf@{Obj\-Pool\-If}}
+\subsubsection[{uninit}]{\setlength{\rightskip}{0pt plus 5cm}virtual G\-Result Obj\-Pool\-If\-::uninit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_obj_pool_if_a5ea166cacebe99ed10d71440277a9243}
+be call by object pool, after using finished \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+
 
 The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
 \item 
-gcommon/component/inc/\hyperlink{g__objpool_8h}{g\-\_\-objpool.\-h}\end{DoxyCompactItemize}
+gcommon/component/function/inc/\hyperlink{g__objpool_8h}{g\-\_\-objpool.\-h}\end{DoxyCompactItemize}

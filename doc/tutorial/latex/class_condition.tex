@@ -1,21 +1,84 @@
 \hypertarget{class_condition}{\section{Condition Class Reference}
 \label{class_condition}\index{Condition@{Condition}}
 }
+
+
+{\ttfamily \#include $<$gcommon/system/inc/g\-\_\-condition.\-h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_condition_a7e3d3131095df5f1f172a855f318f04f}{bool {\bfseries Signal} ()}\label{class_condition_a7e3d3131095df5f1f172a855f318f04f}
-
+bool \hyperlink{class_condition_a99978f55fcc7ce22ff493c342a316f17}{signal} ()
 \item 
-\hypertarget{class_condition_a43d4163606d08a7e62cdc4a1c17410c1}{bool {\bfseries Broadcast} ()}\label{class_condition_a43d4163606d08a7e62cdc4a1c17410c1}
-
+bool \hyperlink{class_condition_a2ef7af4f232096d47fdee3770b551466}{broadcast} ()
 \item 
-\hypertarget{class_condition_a985e7117577534e449b37d7e5c258f68}{bool {\bfseries Wait} ()}\label{class_condition_a985e7117577534e449b37d7e5c258f68}
-
+bool \hyperlink{class_condition_a88c0022ac6c06d6ae19fcf0ae6b1fe5f}{wait} ()
 \item 
-\hypertarget{class_condition_a6cc48d5c500d3ec4c88c7a4edfae3445}{bool {\bfseries Wait} (const G\-Uint32 timeout)}\label{class_condition_a6cc48d5c500d3ec4c88c7a4edfae3445}
-
+bool \hyperlink{class_condition_a656bcfb272e325722553e0105f1486df}{wait} (const G\-Uint32 timeout)
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+P\-O\-S\-I\-X condition wrapper 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_condition_a2ef7af4f232096d47fdee3770b551466}{\index{Condition@{Condition}!broadcast@{broadcast}}
+\index{broadcast@{broadcast}!Condition@{Condition}}
+\subsubsection[{broadcast}]{\setlength{\rightskip}{0pt plus 5cm}bool Condition\-::broadcast (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_condition_a2ef7af4f232096d47fdee3770b551466}
+wake up all waitting threads \begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_condition_a99978f55fcc7ce22ff493c342a316f17}{\index{Condition@{Condition}!signal@{signal}}
+\index{signal@{signal}!Condition@{Condition}}
+\subsubsection[{signal}]{\setlength{\rightskip}{0pt plus 5cm}bool Condition\-::signal (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_condition_a99978f55fcc7ce22ff493c342a316f17}
+wake up the waitting thread, only wake up one thread, according to the thread priority and waitting time. \begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_condition_a88c0022ac6c06d6ae19fcf0ae6b1fe5f}{\index{Condition@{Condition}!wait@{wait}}
+\index{wait@{wait}!Condition@{Condition}}
+\subsubsection[{wait}]{\setlength{\rightskip}{0pt plus 5cm}bool Condition\-::wait (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_condition_a88c0022ac6c06d6ae19fcf0ae6b1fe5f}
+let current thread has reached the awaited state, utill be wake up \begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_condition_a656bcfb272e325722553e0105f1486df}{\index{Condition@{Condition}!wait@{wait}}
+\index{wait@{wait}!Condition@{Condition}}
+\subsubsection[{wait}]{\setlength{\rightskip}{0pt plus 5cm}bool Condition\-::wait (
+\begin{DoxyParamCaption}
+\item[{const G\-Uint32}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{class_condition_a656bcfb272e325722553e0105f1486df}
+let current thread has reached the awaited state, utill be wake up or timeout return 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em timeout} & \-: waitting timeout \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}

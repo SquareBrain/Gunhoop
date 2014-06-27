@@ -2,8 +2,13 @@ var searchData=
 [
   ['g_5fcondition_2ecpp',['g_condition.cpp',['../g__condition_8cpp.html',1,'']]],
   ['g_5fcondition_2eh',['g_condition.h',['../g__condition_8h.html',1,'']]],
+  ['g_5fconfiguration_2ecpp',['g_configuration.cpp',['../g__configuration_8cpp.html',1,'']]],
+  ['g_5fconfiguration_2eh',['g_configuration.h',['../g__configuration_8h.html',1,'']]],
   ['g_5ffile_2ecpp',['g_file.cpp',['../g__file_8cpp.html',1,'']]],
   ['g_5ffile_2eh',['g_file.h',['../g__file_8h.html',1,'']]],
+  ['g_5fini_5fparser_2ecpp',['g_ini_parser.cpp',['../g__ini__parser_8cpp.html',1,'']]],
+  ['g_5fini_5fsection_2ecpp',['g_ini_section.cpp',['../g__ini__section_8cpp.html',1,'']]],
+  ['g_5fini_5fsection_2eh',['g_ini_section.h',['../g__ini__section_8h.html',1,'']]],
   ['g_5flibrary_2ecpp',['g_library.cpp',['../g__library_8cpp.html',1,'']]],
   ['g_5flibrary_2eh',['g_library.h',['../g__library_8h.html',1,'']]],
   ['g_5flock_2ecpp',['g_lock.cpp',['../g__lock_8cpp.html',1,'']]],
@@ -38,5 +43,6 @@ var searchData=
   ['g_5fthreadpool_2eh',['g_threadpool.h',['../g__threadpool_8h.html',1,'']]],
   ['g_5ftime_2ecpp',['g_time.cpp',['../g__time_8cpp.html',1,'']]],
   ['g_5ftime_2eh',['g_time.h',['../g__time_8h.html',1,'']]],
-  ['g_5ftype_2eh',['g_type.h',['../g__type_8h.html',1,'']]]
+  ['g_5ftype_2eh',['g_type.h',['../g__type_8h.html',1,'']]],
+  ['g_5fxml_5fparser_2eh',['g_xml_parser.h',['../g__xml__parser_8h.html',1,'']]]
 ];

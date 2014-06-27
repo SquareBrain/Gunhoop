@@ -3,26 +3,82 @@
 }
 
 
+{\ttfamily \#include $<$gcommon/system/inc/g\-\_\-pipe.\-h$>$}
+
+
+
 Inheritance diagram for Pipe\-:
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_pipe_aee00aabd9aaba6e7ed6e4c39ed330b2c}{virtual bool {\bfseries Open} (const G\-Int8 $\ast$pipe\-Name)=0}\label{class_pipe_aee00aabd9aaba6e7ed6e4c39ed330b2c}
-
+virtual bool \hyperlink{class_pipe_a6e20309a4e8ecc7317dd5f8e1bd320cb}{open\-Pipe} (const \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$pipe\-Name)=0
 \end{DoxyCompactItemize}
 \subsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_pipe_af12b6ee086bfce472bcad0e6c7dd030f}{bool {\bfseries Posix\-Open} (const G\-Int8 $\ast$pipe\-Name, const G\-Int32 mode)}\label{class_pipe_af12b6ee086bfce472bcad0e6c7dd030f}
-
+bool \hyperlink{class_pipe_a3b48beaaa23ac6c9a852d1b9eb2f82b7}{org\-Open} (const \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$pipe\-Name, const G\-Int32 mode)
 \end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_pipe_a7776259caf82021e2ac6e1de6a14941b}{G\-Int32 {\bfseries m\-\_\-pipefd}}\label{class_pipe_a7776259caf82021e2ac6e1de6a14941b}
-
+G\-Int32 \hyperlink{class_pipe_a7776259caf82021e2ac6e1de6a14941b}{m\-\_\-pipefd}
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+\hyperlink{class_pipe}{Pipe} base class, be inherited by \hyperlink{class_write_pipe}{Write\-Pipe} and \hyperlink{class_read_pipe}{Read\-Pipe} class 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_pipe_a6e20309a4e8ecc7317dd5f8e1bd320cb}{\index{Pipe@{Pipe}!open\-Pipe@{open\-Pipe}}
+\index{open\-Pipe@{open\-Pipe}!Pipe@{Pipe}}
+\subsubsection[{open\-Pipe}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool Pipe\-::open\-Pipe (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-Int8} $\ast$}]{pipe\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_pipe_a6e20309a4e8ecc7317dd5f8e1bd320cb}
+Open the pipe 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em pipe\-Name} & \-: the pipe name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Implemented in \hyperlink{class_read_pipe_a61b8f2e60b4feed41baf3b262275b637}{Read\-Pipe}, and \hyperlink{class_write_pipe_a017e340c73031692d55b299e16da3e0b}{Write\-Pipe}.
+
+\hypertarget{class_pipe_a3b48beaaa23ac6c9a852d1b9eb2f82b7}{\index{Pipe@{Pipe}!org\-Open@{org\-Open}}
+\index{org\-Open@{org\-Open}!Pipe@{Pipe}}
+\subsubsection[{org\-Open}]{\setlength{\rightskip}{0pt plus 5cm}G\-\_\-\-N\-S\-\_\-\-G\-C\-O\-M\-M\-O\-N\-\_\-\-B\-E\-G bool Pipe\-::org\-Open (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-Int8} $\ast$}]{pipe\-Name, }
+\item[{const G\-Int32}]{mode}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_pipe_a3b48beaaa23ac6c9a852d1b9eb2f82b7}
+Open the pipe 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em pipe\-Name} & \-: the pipe name \\
+\hline
+\mbox{\tt in}  & {\em mode} & \-: open mode \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_pipe_a7776259caf82021e2ac6e1de6a14941b}{\index{Pipe@{Pipe}!m\-\_\-pipefd@{m\-\_\-pipefd}}
+\index{m\-\_\-pipefd@{m\-\_\-pipefd}!Pipe@{Pipe}}
+\subsubsection[{m\-\_\-pipefd}]{\setlength{\rightskip}{0pt plus 5cm}G\-Int32 Pipe\-::m\-\_\-pipefd\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_pipe_a7776259caf82021e2ac6e1de6a14941b}
+pipe descriptor 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 

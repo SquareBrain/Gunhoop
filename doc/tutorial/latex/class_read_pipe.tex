@@ -3,6 +3,10 @@
 }
 
 
+{\ttfamily \#include $<$gcommon/system/inc/g\-\_\-pipe.\-h$>$}
+
+
+
 Inheritance diagram for Read\-Pipe\-:
 
 
@@ -10,13 +14,60 @@ Collaboration diagram for Read\-Pipe\-:
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_read_pipe_ad7a55fb5526056bff78c1c81a43a4d2e}{virtual bool {\bfseries Open} (const G\-Int8 $\ast$pipe\-Name)}\label{class_read_pipe_ad7a55fb5526056bff78c1c81a43a4d2e}
-
+virtual bool \hyperlink{class_read_pipe_a61b8f2e60b4feed41baf3b262275b637}{open\-Pipe} (const \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$pipe\-Name)
 \item 
-\hypertarget{class_read_pipe_af9d3e7d572f66cc5f85d319add0cbef5}{G\-Int32 {\bfseries Read} (G\-Int8 $\ast$buffer, const G\-Uint32 buffer\-Size)}\label{class_read_pipe_af9d3e7d572f66cc5f85d319add0cbef5}
-
+G\-Int64 \hyperlink{class_read_pipe_acd4e343d5753b703c1a5d85f0d9b6e52}{read\-Data} (\hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$buffer, const G\-Uint64 size)
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+be used to read pipe 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_read_pipe_a61b8f2e60b4feed41baf3b262275b637}{\index{Read\-Pipe@{Read\-Pipe}!open\-Pipe@{open\-Pipe}}
+\index{open\-Pipe@{open\-Pipe}!ReadPipe@{Read\-Pipe}}
+\subsubsection[{open\-Pipe}]{\setlength{\rightskip}{0pt plus 5cm}bool Read\-Pipe\-::open\-Pipe (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-Int8} $\ast$}]{pipe\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_read_pipe_a61b8f2e60b4feed41baf3b262275b637}
+open pipe 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em pipe\-Name} & \-: pipe name \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+Implements \hyperlink{class_pipe_a6e20309a4e8ecc7317dd5f8e1bd320cb}{Pipe}.
+
+\hypertarget{class_read_pipe_acd4e343d5753b703c1a5d85f0d9b6e52}{\index{Read\-Pipe@{Read\-Pipe}!read\-Data@{read\-Data}}
+\index{read\-Data@{read\-Data}!ReadPipe@{Read\-Pipe}}
+\subsubsection[{read\-Data}]{\setlength{\rightskip}{0pt plus 5cm}G\-Int64 Read\-Pipe\-::read\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-Int8} $\ast$}]{buffer, }
+\item[{const G\-Uint64}]{size}
+\end{DoxyParamCaption}
+)}}\label{class_read_pipe_acd4e343d5753b703c1a5d85f0d9b6e52}
+read data from pipe 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em buffer} & \-: output buffer \\
+\hline
+\mbox{\tt in}  & {\em size} & \-: output buffer size \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size/-\/1 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}

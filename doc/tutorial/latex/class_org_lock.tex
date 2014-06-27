@@ -1,21 +1,96 @@
 \hypertarget{class_org_lock}{\section{Org\-Lock Class Reference}
 \label{class_org_lock}\index{Org\-Lock@{Org\-Lock}}
 }
+
+
+{\ttfamily \#include $<$gcommon/system/inc/g\-\_\-lock.\-h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_org_lock_a9cd83be455e4dd5416d86f40e3d35bcb}{{\bfseries Org\-Lock} (const G\-Int32 kind)}\label{class_org_lock_a9cd83be455e4dd5416d86f40e3d35bcb}
-
+\hyperlink{class_org_lock_a7052a50429112209f92b51f5bc7f8e8a}{Org\-Lock} ()
 \item 
-\hypertarget{class_org_lock_a10023c99c490bad83899a964fad72ba9}{bool {\bfseries Lock} ()}\label{class_org_lock_a10023c99c490bad83899a964fad72ba9}
-
+\hyperlink{class_org_lock_a9cd83be455e4dd5416d86f40e3d35bcb}{Org\-Lock} (const G\-Int32 kind)
 \item 
-\hypertarget{class_org_lock_ab036157ef7310fb6b5a9544ae72890d9}{bool {\bfseries Trylock} ()}\label{class_org_lock_ab036157ef7310fb6b5a9544ae72890d9}
-
+bool \hyperlink{class_org_lock_a3dafc3958f75366501acd9e755997968}{lock} ()
 \item 
-\hypertarget{class_org_lock_ab5dbc7a41deadfe907cc9ce0bbed53f1}{bool {\bfseries Unlock} ()}\label{class_org_lock_ab5dbc7a41deadfe907cc9ce0bbed53f1}
-
+bool \hyperlink{class_org_lock_affe56036a7ffb107512533a0ec8e8953}{trylock} ()
+\item 
+bool \hyperlink{class_org_lock_ae3378091d83bcb20359b7110e049b1f8}{unlock} ()
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+original lock wrapper 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_org_lock_a7052a50429112209f92b51f5bc7f8e8a}{\index{Org\-Lock@{Org\-Lock}!Org\-Lock@{Org\-Lock}}
+\index{Org\-Lock@{Org\-Lock}!OrgLock@{Org\-Lock}}
+\subsubsection[{Org\-Lock}]{\setlength{\rightskip}{0pt plus 5cm}Org\-Lock\-::\-Org\-Lock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_org_lock_a7052a50429112209f92b51f5bc7f8e8a}
+constructor \begin{DoxyNote}{Note}
+default mutex type is P\-T\-H\-R\-E\-A\-D\-\_\-\-M\-U\-T\-E\-X\-\_\-\-R\-E\-C\-U\-R\-S\-I\-V\-E 
+\end{DoxyNote}
+\hypertarget{class_org_lock_a9cd83be455e4dd5416d86f40e3d35bcb}{\index{Org\-Lock@{Org\-Lock}!Org\-Lock@{Org\-Lock}}
+\index{Org\-Lock@{Org\-Lock}!OrgLock@{Org\-Lock}}
+\subsubsection[{Org\-Lock}]{\setlength{\rightskip}{0pt plus 5cm}Org\-Lock\-::\-Org\-Lock (
+\begin{DoxyParamCaption}
+\item[{const G\-Int32}]{kind}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_org_lock_a9cd83be455e4dd5416d86f40e3d35bcb}
+constructor 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em kind} & \-: mutex type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+have four mutex type \-: P\-T\-H\-R\-E\-A\-D\-\_\-\-M\-U\-T\-E\-X\-\_\-\-N\-O\-R\-M\-A\-L、\-P\-T\-H\-R\-E\-A\-D\-\_\-\-M\-U\-T\-E\-X\-\_\-\-R\-E\-C\-U\-R\-S\-I\-V\-E P\-T\-H\-R\-E\-A\-D\-\_\-\-M\-U\-T\-E\-X\-\_\-\-E\-R\-R\-O\-R\-C\-H\-E\-C\-K、\-P\-T\-H\-R\-E\-A\-D\-\_\-\-M\-U\-T\-E\-X\-\_\-\-D\-E\-F\-A\-U\-L\-T 
+\end{DoxyNote}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_org_lock_a3dafc3958f75366501acd9e755997968}{\index{Org\-Lock@{Org\-Lock}!lock@{lock}}
+\index{lock@{lock}!OrgLock@{Org\-Lock}}
+\subsubsection[{lock}]{\setlength{\rightskip}{0pt plus 5cm}bool Org\-Lock\-::lock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_org_lock_a3dafc3958f75366501acd9e755997968}
+locked and waitting \begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_org_lock_affe56036a7ffb107512533a0ec8e8953}{\index{Org\-Lock@{Org\-Lock}!trylock@{trylock}}
+\index{trylock@{trylock}!OrgLock@{Org\-Lock}}
+\subsubsection[{trylock}]{\setlength{\rightskip}{0pt plus 5cm}bool Org\-Lock\-::trylock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_org_lock_affe56036a7ffb107512533a0ec8e8953}
+try lock, if failed return immediately \begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_org_lock_ae3378091d83bcb20359b7110e049b1f8}{\index{Org\-Lock@{Org\-Lock}!unlock@{unlock}}
+\index{unlock@{unlock}!OrgLock@{Org\-Lock}}
+\subsubsection[{unlock}]{\setlength{\rightskip}{0pt plus 5cm}bool Org\-Lock\-::unlock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_org_lock_ae3378091d83bcb20359b7110e049b1f8}
+release lock \begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}

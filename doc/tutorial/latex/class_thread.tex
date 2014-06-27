@@ -1,24 +1,72 @@
 \hypertarget{class_thread}{\section{Thread Class Reference}
 \label{class_thread}\index{Thread@{Thread}}
 }
+
+
+{\ttfamily \#include $<$gcommon/system/inc/g\-\_\-thread.\-h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_thread_ac90033f2640b175ecb0df2212172e65e}{{\bfseries Thread} (\hyperlink{class_runnable}{Runnable} $\ast$target, const bool auto\-Rel=true)}\label{class_thread_ac90033f2640b175ecb0df2212172e65e}
-
+\hyperlink{class_thread_ac90033f2640b175ecb0df2212172e65e}{Thread} (\hyperlink{class_runnable}{Runnable} $\ast$target, const bool auto\-Rel=true)
 \item 
-\hypertarget{class_thread_a279c2b78aa2bf43371f2462623588830}{bool {\bfseries Start} ()}\label{class_thread_a279c2b78aa2bf43371f2462623588830}
-
+G\-Result \hyperlink{class_thread_a7a9e98e778e03a5264e63c3b990c279c}{start} ()
 \item 
-\hypertarget{class_thread_a81ac4cfd9d0327fdab907c4e173af6b2}{pthread\-\_\-t {\bfseries Get\-Thread\-Id} () const }\label{class_thread_a81ac4cfd9d0327fdab907c4e173af6b2}
-
+G\-Uint32 \hyperlink{class_thread_a4467228a9966f07adb75752a88b26738}{get\-Thread\-Id} () const 
 \end{DoxyCompactItemize}
-\subsection*{Static Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\hypertarget{class_thread_abe2166ea1ec764ced0792353c0ecb538}{static pthread\-\_\-t {\bfseries Create\-Thread} (void $\ast$entry, void $\ast$argument, const bool auto\-Rel=true)}\label{class_thread_abe2166ea1ec764ced0792353c0ecb538}
 
-\end{DoxyCompactItemize}
+
+\subsection{Detailed Description}
+P\-O\-S\-I\-X thread wrapper 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_thread_ac90033f2640b175ecb0df2212172e65e}{\index{Thread@{Thread}!Thread@{Thread}}
+\index{Thread@{Thread}!Thread@{Thread}}
+\subsubsection[{Thread}]{\setlength{\rightskip}{0pt plus 5cm}G\-\_\-\-N\-S\-\_\-\-G\-C\-O\-M\-M\-O\-N\-\_\-\-B\-E\-G Thread\-::\-Thread (
+\begin{DoxyParamCaption}
+\item[{{\bf Runnable} $\ast$}]{target, }
+\item[{const bool}]{auto\-Rel = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_thread_ac90033f2640b175ecb0df2212172e65e}
+constructor 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em target} & \-: user run target object \\
+\hline
+\mbox{\tt in}  & {\em auto\-Rel} & \-: whether support automatic release, default is yes \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_thread_a4467228a9966f07adb75752a88b26738}{\index{Thread@{Thread}!get\-Thread\-Id@{get\-Thread\-Id}}
+\index{get\-Thread\-Id@{get\-Thread\-Id}!Thread@{Thread}}
+\subsubsection[{get\-Thread\-Id}]{\setlength{\rightskip}{0pt plus 5cm}G\-Uint32 Thread\-::get\-Thread\-Id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_thread_a4467228a9966f07adb75752a88b26738}
+get thread I\-D \begin{DoxyReturn}{Returns}
+thread I\-D 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_thread_a7a9e98e778e03a5264e63c3b990c279c}{\index{Thread@{Thread}!start@{start}}
+\index{start@{start}!Thread@{Thread}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result Thread\-::start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_thread_a7a9e98e778e03a5264e63c3b990c279c}
+startup thread \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}

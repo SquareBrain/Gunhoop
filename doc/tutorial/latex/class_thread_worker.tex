@@ -3,6 +3,10 @@
 }
 
 
+{\ttfamily \#include $<$gcommon/component/function/inc/g\-\_\-threadpool.\-h$>$}
+
+
+
 Inheritance diagram for Thread\-Worker\-:
 
 
@@ -10,18 +14,71 @@ Collaboration diagram for Thread\-Worker\-:
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_thread_worker_aab0b03ce7564a625cc37b091be3eddcd}{{\bfseries Thread\-Worker} (const G\-Uint32 worker\-Id)}\label{class_thread_worker_aab0b03ce7564a625cc37b091be3eddcd}
-
+\hyperlink{class_thread_worker_aab0b03ce7564a625cc37b091be3eddcd}{Thread\-Worker} (const G\-Uint32 worker\-Id)
 \item 
-\hypertarget{class_thread_worker_a008e0fb55e47ee36f25efee152b51211}{G\-Uint32 {\bfseries Get\-Worker\-Id} () const }\label{class_thread_worker_a008e0fb55e47ee36f25efee152b51211}
-
+G\-Uint32 \hyperlink{class_thread_worker_a70bf08819fe584ec99aa22955895a24a}{get\-Worker\-Id} () const 
 \item 
-\hypertarget{class_thread_worker_a536e41e074c1bbe685d5d32a7a17b714}{bool {\bfseries Do\-Work} (\hyperlink{class_thread_job}{Thread\-Job} $\ast$thread\-Job, void $\ast$user\-Data)}\label{class_thread_worker_a536e41e074c1bbe685d5d32a7a17b714}
-
+G\-Result \hyperlink{class_thread_worker_adba37834fdaa63a62eb10e6c145cfbc5}{do\-Work} (\hyperlink{class_thread_job}{Thread\-Job} $\ast$thread\-Job, void $\ast$user\-Data)
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+thread worker, class \hyperlink{class_thread_pool}{Thread\-Pool} depend on \-: void My\-Test\-Fun() \{ \hyperlink{class_thread_worker}{Thread\-Worker} thread\-Work;
+
+class My\-Job \-: public \hyperlink{class_thread_job}{Thread\-Job} \{\}; Thread\-Job$\ast$ thread\-Job = new My\-Job; void$\ast$ user\-Data; thread\-Work.\-Do\-Work(thread\-Job, user\-Data); \} 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_thread_worker_aab0b03ce7564a625cc37b091be3eddcd}{\index{Thread\-Worker@{Thread\-Worker}!Thread\-Worker@{Thread\-Worker}}
+\index{Thread\-Worker@{Thread\-Worker}!ThreadWorker@{Thread\-Worker}}
+\subsubsection[{Thread\-Worker}]{\setlength{\rightskip}{0pt plus 5cm}Thread\-Worker\-::\-Thread\-Worker (
+\begin{DoxyParamCaption}
+\item[{const G\-Uint32}]{worker\-Id}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_thread_worker_aab0b03ce7564a625cc37b091be3eddcd}
+constructor 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em worker\-Id} & \-: worker I\-D \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_thread_worker_adba37834fdaa63a62eb10e6c145cfbc5}{\index{Thread\-Worker@{Thread\-Worker}!do\-Work@{do\-Work}}
+\index{do\-Work@{do\-Work}!ThreadWorker@{Thread\-Worker}}
+\subsubsection[{do\-Work}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result Thread\-Worker\-::do\-Work (
+\begin{DoxyParamCaption}
+\item[{{\bf Thread\-Job} $\ast$}]{thread\-Job, }
+\item[{void $\ast$}]{user\-Data}
+\end{DoxyParamCaption}
+)}}\label{class_thread_worker_adba37834fdaa63a62eb10e6c145cfbc5}
+to do work 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em thread\-Job} & \-: user thread job \\
+\hline
+\mbox{\tt in}  & {\em user\-Data} & \-: user data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\hypertarget{class_thread_worker_a70bf08819fe584ec99aa22955895a24a}{\index{Thread\-Worker@{Thread\-Worker}!get\-Worker\-Id@{get\-Worker\-Id}}
+\index{get\-Worker\-Id@{get\-Worker\-Id}!ThreadWorker@{Thread\-Worker}}
+\subsubsection[{get\-Worker\-Id}]{\setlength{\rightskip}{0pt plus 5cm}G\-Uint32 Thread\-Worker\-::get\-Worker\-Id (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_thread_worker_a70bf08819fe584ec99aa22955895a24a}
+get thread worker I\-D 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em worker\-Id} & \-: worker I\-D \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+thread worker I\-D 
+\end{DoxyReturn}
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 
-gcommon/system/inc/\hyperlink{g__threadpool_8h}{g\-\_\-threadpool.\-h}\item 
-gcommon/system/src/\hyperlink{g__threadpool_8cpp}{g\-\_\-threadpool.\-cpp}\end{DoxyCompactItemize}
+gcommon/component/function/inc/\hyperlink{g__threadpool_8h}{g\-\_\-threadpool.\-h}\item 
+gcommon/component/function/src/\hyperlink{g__threadpool_8cpp}{g\-\_\-threadpool.\-cpp}\end{DoxyCompactItemize}

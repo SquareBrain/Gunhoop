@@ -1,60 +1,176 @@
 \hypertarget{class_shm}{\section{Shm Class Reference}
 \label{class_shm}\index{Shm@{Shm}}
 }
-\subsection*{Public Types}
-\begin{DoxyCompactItemize}
-\item 
-enum {\bfseries Error\-Code} \{ \\*
-{\bfseries O\-P\-E\-N\-\_\-\-S\-H\-M\-\_\-\-F\-A\-I\-L\-E\-D} = -\/2, 
-{\bfseries M\-U\-N\-M\-A\-P\-\_\-\-S\-H\-M\-\_\-\-F\-A\-I\-L\-E\-D} = -\/3, 
-{\bfseries M\-M\-A\-P\-\_\-\-S\-H\-M\-\_\-\-F\-A\-I\-L\-E\-D} = -\/4, 
-{\bfseries S\-Y\-N\-C\-\_\-\-S\-H\-M\-\_\-\-F\-A\-I\-L\-E\-D} = -\/5, 
-\\*
-{\bfseries W\-R\-I\-T\-E\-\_\-\-S\-H\-M\-\_\-\-P\-A\-R\-A\-\_\-\-F\-A\-I\-L\-E\-D} = -\/6, 
-{\bfseries R\-E\-A\-D\-\_\-\-S\-H\-M\-\_\-\-P\-A\-R\-A\-\_\-\-F\-A\-I\-L\-E\-D} = -\/7, 
-{\bfseries S\-H\-M\-\_\-\-N\-O\-\_\-\-I\-N\-I\-T} = -\/8, 
-{\bfseries S\-H\-M\-\_\-\-P\-A\-T\-H\-\_\-\-E\-M\-P\-T\-Y} = -\/9
- \}
-\end{DoxyCompactItemize}
+
+
+{\ttfamily \#include $<$gcommon/system/inc/g\-\_\-shm.\-h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_shm_a37fabe66473698ab81513db7bcc5f7ac}{{\bfseries Shm} (const G\-Int8 $\ast$path, const G\-Uint32 size)}\label{class_shm_a37fabe66473698ab81513db7bcc5f7ac}
-
+\hyperlink{class_shm_a0a127337c0f6906eda6c6207a972d523}{Shm} (const \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$shm\-Path, const G\-Uint64 shm\-Size)
 \item 
-\hypertarget{class_shm_a8c2504cb03ebc12331da3c8da276658f}{{\bfseries Shm} (const std\-::string \&path, const G\-Uint32 size)}\label{class_shm_a8c2504cb03ebc12331da3c8da276658f}
-
+void \hyperlink{class_shm_aea75252eb2b613cbee7a869d2c534b20}{set\-Shm\-Path} (const \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$shm\-Path)
 \item 
-\hypertarget{class_shm_a0bfe59af1d8925b1e09fd16c6060e6a0}{void {\bfseries Set\-Path} (const G\-Int8 $\ast$path)}\label{class_shm_a0bfe59af1d8925b1e09fd16c6060e6a0}
-
+\hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$ \hyperlink{class_shm_a98284e711acad9fe24a10191d2bedcd9}{get\-Shm\-Path} ()
 \item 
-\hypertarget{class_shm_a892fdd13e0c051e8e0d5e154d573ab28}{void {\bfseries Set\-Path} (const std\-::string \&path)}\label{class_shm_a892fdd13e0c051e8e0d5e154d573ab28}
-
+void \hyperlink{class_shm_ae8a97b4f184bf40ee541b6bab969b4b0}{set\-Shm\-Size} (const G\-Uint64 shm\-Size)
 \item 
-\hypertarget{class_shm_ac60b62ed292ab7f9deddc4e208d93441}{const std\-::string \& {\bfseries Get\-Path} () const }\label{class_shm_ac60b62ed292ab7f9deddc4e208d93441}
-
+G\-Uint64 \hyperlink{class_shm_abfbaf5c9578df7f7b7d9532ba12c3a2a}{get\-Shm\-Size} () const 
 \item 
-\hypertarget{class_shm_af256ba459390e95be16f508221d78436}{void {\bfseries Set\-Size} (const G\-Uint32 size)}\label{class_shm_af256ba459390e95be16f508221d78436}
-
+G\-Result \hyperlink{class_shm_af02357e3e7a61a2d8473883bfb5eaadd}{sync\-Shm} ()
 \item 
-\hypertarget{class_shm_abe391d38616be549409bba8ec74982c5}{G\-Uint32 {\bfseries Get\-Size} () const }\label{class_shm_abe391d38616be549409bba8ec74982c5}
-
+G\-Result \hyperlink{class_shm_a260079dd828124a3f7fd2ded10d0d6bb}{write\-Shm} (const G\-Uint32 offset, const \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$data, const G\-Uint32 size)
 \item 
-\hypertarget{class_shm_a897f93c7828a5d54cb633cad72fcbcbf}{G\-Result {\bfseries Init} ()}\label{class_shm_a897f93c7828a5d54cb633cad72fcbcbf}
-
-\item 
-\hypertarget{class_shm_aa693abdb2aa7629e5a4adfd98ec4a158}{G\-Result {\bfseries Uninit} ()}\label{class_shm_aa693abdb2aa7629e5a4adfd98ec4a158}
-
-\item 
-\hypertarget{class_shm_a551920bc98263b6d6a31ee8ddab7429f}{G\-Result {\bfseries Sync} ()}\label{class_shm_a551920bc98263b6d6a31ee8ddab7429f}
-
-\item 
-\hypertarget{class_shm_ab337d9ff23973904552d9b60c6e19221}{G\-Result {\bfseries Write} (const G\-Uint32 offset, const G\-Int8 $\ast$data, const G\-Uint32 size)}\label{class_shm_ab337d9ff23973904552d9b60c6e19221}
-
-\item 
-\hypertarget{class_shm_afb2be3a86981bdf248563397463d73ec}{G\-Result {\bfseries Read} (const G\-Uint32 offset, G\-Int8 $\ast$data, const G\-Uint32 size)}\label{class_shm_afb2be3a86981bdf248563397463d73ec}
-
+G\-Result \hyperlink{class_shm_a22e8315282bae8476920bd418578fe72}{read\-Shm} (const G\-Uint32 offset, \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$buffer, const G\-Uint32 size)
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+shared memory for ipc 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_shm_a0a127337c0f6906eda6c6207a972d523}{\index{Shm@{Shm}!Shm@{Shm}}
+\index{Shm@{Shm}!Shm@{Shm}}
+\subsubsection[{Shm}]{\setlength{\rightskip}{0pt plus 5cm}Shm\-::\-Shm (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-Int8} $\ast$}]{shm\-Path, }
+\item[{const G\-Uint64}]{shm\-Size}
+\end{DoxyParamCaption}
+)}}\label{class_shm_a0a127337c0f6906eda6c6207a972d523}
+constructor 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em shm\-Path} & \-: shm mapping file path \\
+\hline
+\mbox{\tt in}  & {\em shm\-Size} & \-: shm size \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_shm_a98284e711acad9fe24a10191d2bedcd9}{\index{Shm@{Shm}!get\-Shm\-Path@{get\-Shm\-Path}}
+\index{get\-Shm\-Path@{get\-Shm\-Path}!Shm@{Shm}}
+\subsubsection[{get\-Shm\-Path}]{\setlength{\rightskip}{0pt plus 5cm}{\bf G\-Int8} $\ast$ Shm\-::get\-Shm\-Path (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_shm_a98284e711acad9fe24a10191d2bedcd9}
+set shm mapping file path \begin{DoxyReturn}{Returns}
+shm mapping file path 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_shm_abfbaf5c9578df7f7b7d9532ba12c3a2a}{\index{Shm@{Shm}!get\-Shm\-Size@{get\-Shm\-Size}}
+\index{get\-Shm\-Size@{get\-Shm\-Size}!Shm@{Shm}}
+\subsubsection[{get\-Shm\-Size}]{\setlength{\rightskip}{0pt plus 5cm}G\-Uint64 Shm\-::get\-Shm\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_shm_abfbaf5c9578df7f7b7d9532ba12c3a2a}
+get shm mapping file size \begin{DoxyReturn}{Returns}
+shm mapping file size 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_shm_a22e8315282bae8476920bd418578fe72}{\index{Shm@{Shm}!read\-Shm@{read\-Shm}}
+\index{read\-Shm@{read\-Shm}!Shm@{Shm}}
+\subsubsection[{read\-Shm}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result Shm\-::read\-Shm (
+\begin{DoxyParamCaption}
+\item[{const G\-Uint32}]{offset, }
+\item[{{\bf G\-Int8} $\ast$}]{buffer, }
+\item[{const G\-Uint32}]{size}
+\end{DoxyParamCaption}
+)}}\label{class_shm_a22e8315282bae8476920bd418578fe72}
+read data from shm 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em offset} & \-: offset of shm \\
+\hline
+\mbox{\tt in}  & {\em buffer} & \-: output buffer \\
+\hline
+\mbox{\tt in}  & {\em size} & \-: read size \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_shm_aea75252eb2b613cbee7a869d2c534b20}{\index{Shm@{Shm}!set\-Shm\-Path@{set\-Shm\-Path}}
+\index{set\-Shm\-Path@{set\-Shm\-Path}!Shm@{Shm}}
+\subsubsection[{set\-Shm\-Path}]{\setlength{\rightskip}{0pt plus 5cm}void Shm\-::set\-Shm\-Path (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-Int8} $\ast$}]{shm\-Path}
+\end{DoxyParamCaption}
+)}}\label{class_shm_aea75252eb2b613cbee7a869d2c534b20}
+set shm mapping file path 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em shm\-Path} & \-: shm mapping file path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_shm_ae8a97b4f184bf40ee541b6bab969b4b0}{\index{Shm@{Shm}!set\-Shm\-Size@{set\-Shm\-Size}}
+\index{set\-Shm\-Size@{set\-Shm\-Size}!Shm@{Shm}}
+\subsubsection[{set\-Shm\-Size}]{\setlength{\rightskip}{0pt plus 5cm}void Shm\-::set\-Shm\-Size (
+\begin{DoxyParamCaption}
+\item[{const G\-Uint64}]{shm\-Size}
+\end{DoxyParamCaption}
+)}}\label{class_shm_ae8a97b4f184bf40ee541b6bab969b4b0}
+set shm mapping file size 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em shm\-Size} & \-: shm size \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_shm_af02357e3e7a61a2d8473883bfb5eaadd}{\index{Shm@{Shm}!sync\-Shm@{sync\-Shm}}
+\index{sync\-Shm@{sync\-Shm}!Shm@{Shm}}
+\subsubsection[{sync\-Shm}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result Shm\-::sync\-Shm (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_shm_af02357e3e7a61a2d8473883bfb5eaadd}
+sync the shm \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_shm_a260079dd828124a3f7fd2ded10d0d6bb}{\index{Shm@{Shm}!write\-Shm@{write\-Shm}}
+\index{write\-Shm@{write\-Shm}!Shm@{Shm}}
+\subsubsection[{write\-Shm}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result Shm\-::write\-Shm (
+\begin{DoxyParamCaption}
+\item[{const G\-Uint32}]{offset, }
+\item[{const {\bf G\-Int8} $\ast$}]{data, }
+\item[{const G\-Uint32}]{size}
+\end{DoxyParamCaption}
+)}}\label{class_shm_a260079dd828124a3f7fd2ded10d0d6bb}
+write data to shm 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em offset} & \-: offset of shm \\
+\hline
+\mbox{\tt in}  & {\em data} & \-: input data \\
+\hline
+\mbox{\tt in}  & {\em size} & \-: write size \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}

@@ -1,21 +1,96 @@
 \hypertarget{class_mutex}{\section{Mutex Class Reference}
 \label{class_mutex}\index{Mutex@{Mutex}}
 }
+
+
+{\ttfamily \#include $<$gcommon/system/inc/g\-\_\-lock.\-h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_mutex_a29cfd4c3ad3d2878290408d7e92d8b94}{{\bfseries Mutex} (const G\-Int32 kind)}\label{class_mutex_a29cfd4c3ad3d2878290408d7e92d8b94}
-
+\hyperlink{class_mutex_a577ca9db2a3c4333bc8d0228e2491b04}{Mutex} ()
 \item 
-\hypertarget{class_mutex_ae520c021cd6b107ba62152ad3beecd60}{bool {\bfseries Lock} ()}\label{class_mutex_ae520c021cd6b107ba62152ad3beecd60}
-
+\hyperlink{class_mutex_a29cfd4c3ad3d2878290408d7e92d8b94}{Mutex} (const G\-Int32 kind)
 \item 
-\hypertarget{class_mutex_afd571c6400433b5a0c8e661cc9fce0e9}{bool {\bfseries Trylock} ()}\label{class_mutex_afd571c6400433b5a0c8e661cc9fce0e9}
-
+bool \hyperlink{class_mutex_a5153267b9c954e794863dd94900a0e3b}{lock} ()
 \item 
-\hypertarget{class_mutex_a4e0f497d5902ef4d2fcee59d2f9a57a9}{bool {\bfseries Unlock} ()}\label{class_mutex_a4e0f497d5902ef4d2fcee59d2f9a57a9}
-
+bool \hyperlink{class_mutex_a2975f84f1804e5167d674c25aa18d087}{trylock} ()
+\item 
+bool \hyperlink{class_mutex_adc0b8b863a4e7350297373127a9c7016}{unlock} ()
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+P\-O\-S\-I\-X mutex wrapper 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_mutex_a577ca9db2a3c4333bc8d0228e2491b04}{\index{Mutex@{Mutex}!Mutex@{Mutex}}
+\index{Mutex@{Mutex}!Mutex@{Mutex}}
+\subsubsection[{Mutex}]{\setlength{\rightskip}{0pt plus 5cm}G\-\_\-\-N\-S\-\_\-\-G\-C\-O\-M\-M\-O\-N\-\_\-\-B\-E\-G Mutex\-::\-Mutex (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_mutex_a577ca9db2a3c4333bc8d0228e2491b04}
+constructor \begin{DoxyNote}{Note}
+default mutex type is P\-T\-H\-R\-E\-A\-D\-\_\-\-M\-U\-T\-E\-X\-\_\-\-R\-E\-C\-U\-R\-S\-I\-V\-E 
+\end{DoxyNote}
+\hypertarget{class_mutex_a29cfd4c3ad3d2878290408d7e92d8b94}{\index{Mutex@{Mutex}!Mutex@{Mutex}}
+\index{Mutex@{Mutex}!Mutex@{Mutex}}
+\subsubsection[{Mutex}]{\setlength{\rightskip}{0pt plus 5cm}Mutex\-::\-Mutex (
+\begin{DoxyParamCaption}
+\item[{const G\-Int32}]{kind}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_mutex_a29cfd4c3ad3d2878290408d7e92d8b94}
+constructor 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em kind} & \-: mutex type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+have four mutex type, are P\-T\-H\-R\-E\-A\-D\-\_\-\-M\-U\-T\-E\-X\-\_\-\-N\-O\-R\-M\-A\-L、\-P\-T\-H\-R\-E\-A\-D\-\_\-\-M\-U\-T\-E\-X\-\_\-\-R\-E\-C\-U\-R\-S\-I\-V\-E P\-T\-H\-R\-E\-A\-D\-\_\-\-M\-U\-T\-E\-X\-\_\-\-E\-R\-R\-O\-R\-C\-H\-E\-C\-K、\-P\-T\-H\-R\-E\-A\-D\-\_\-\-M\-U\-T\-E\-X\-\_\-\-D\-E\-F\-A\-U\-L\-T 
+\end{DoxyNote}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_mutex_a5153267b9c954e794863dd94900a0e3b}{\index{Mutex@{Mutex}!lock@{lock}}
+\index{lock@{lock}!Mutex@{Mutex}}
+\subsubsection[{lock}]{\setlength{\rightskip}{0pt plus 5cm}bool Mutex\-::lock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_mutex_a5153267b9c954e794863dd94900a0e3b}
+lock mutex, enter to awaited state \begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_mutex_a2975f84f1804e5167d674c25aa18d087}{\index{Mutex@{Mutex}!trylock@{trylock}}
+\index{trylock@{trylock}!Mutex@{Mutex}}
+\subsubsection[{trylock}]{\setlength{\rightskip}{0pt plus 5cm}bool Mutex\-::trylock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_mutex_a2975f84f1804e5167d674c25aa18d087}
+try to lock mutex, failure return immediately \begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_mutex_adc0b8b863a4e7350297373127a9c7016}{\index{Mutex@{Mutex}!unlock@{unlock}}
+\index{unlock@{unlock}!Mutex@{Mutex}}
+\subsubsection[{unlock}]{\setlength{\rightskip}{0pt plus 5cm}bool Mutex\-::unlock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_mutex_adc0b8b863a4e7350297373127a9c7016}
+release lock \begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}

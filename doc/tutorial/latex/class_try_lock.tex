@@ -1,18 +1,77 @@
 \hypertarget{class_try_lock}{\section{Try\-Lock Class Reference}
 \label{class_try_lock}\index{Try\-Lock@{Try\-Lock}}
 }
+
+
+{\ttfamily \#include $<$gcommon/system/inc/g\-\_\-lock.\-h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{class_try_lock_a432af9ad803f00fd64282034cdd36c2d}{{\bfseries Try\-Lock} (\hyperlink{class_mutex}{Mutex} \&mutex, const bool auto\-Unlock=true)}\label{class_try_lock_a432af9ad803f00fd64282034cdd36c2d}
-
+\hyperlink{class_try_lock_a432af9ad803f00fd64282034cdd36c2d}{Try\-Lock} (\hyperlink{class_mutex}{Mutex} \&mutex, const bool auto\-Unlock=true)
 \item 
-\hypertarget{class_try_lock_ae584c0b7332f95303f959fe2e19df39c}{bool {\bfseries Lock} (const G\-Uint32 timeout=0)}\label{class_try_lock_ae584c0b7332f95303f959fe2e19df39c}
-
+bool \hyperlink{class_try_lock_a8b1300bf278d1469063981cd6e0a436e}{lock} (const G\-Uint32 timeout=0)
 \item 
-\hypertarget{class_try_lock_ab432cef2e12b8668fff305e1967cae6c}{bool {\bfseries Unlock} ()}\label{class_try_lock_ab432cef2e12b8668fff305e1967cae6c}
-
+bool \hyperlink{class_try_lock_a2ceb879be9ab168d662332bacdf58cf7}{unlock} ()
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+try lock wrapper 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_try_lock_a432af9ad803f00fd64282034cdd36c2d}{\index{Try\-Lock@{Try\-Lock}!Try\-Lock@{Try\-Lock}}
+\index{Try\-Lock@{Try\-Lock}!TryLock@{Try\-Lock}}
+\subsubsection[{Try\-Lock}]{\setlength{\rightskip}{0pt plus 5cm}Try\-Lock\-::\-Try\-Lock (
+\begin{DoxyParamCaption}
+\item[{{\bf Mutex} \&}]{mutex, }
+\item[{const bool}]{auto\-Unlock = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{class_try_lock_a432af9ad803f00fd64282034cdd36c2d}
+constructor 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em mutex} & \-: mutex \\
+\hline
+\mbox{\tt in}  & {\em auto\-Unlock} & \-: whether release lock automatic \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_try_lock_a8b1300bf278d1469063981cd6e0a436e}{\index{Try\-Lock@{Try\-Lock}!lock@{lock}}
+\index{lock@{lock}!TryLock@{Try\-Lock}}
+\subsubsection[{lock}]{\setlength{\rightskip}{0pt plus 5cm}bool Try\-Lock\-::lock (
+\begin{DoxyParamCaption}
+\item[{const G\-Uint32}]{timeout = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_try_lock_a8b1300bf278d1469063981cd6e0a436e}
+try lock 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em timeout} & \-: try lock timeout, default is zero, indicate try once, then return immediately \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_try_lock_a2ceb879be9ab168d662332bacdf58cf7}{\index{Try\-Lock@{Try\-Lock}!unlock@{unlock}}
+\index{unlock@{unlock}!TryLock@{Try\-Lock}}
+\subsubsection[{unlock}]{\setlength{\rightskip}{0pt plus 5cm}bool Try\-Lock\-::unlock (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_try_lock_a2ceb879be9ab168d662332bacdf58cf7}
+release lock \begin{DoxyReturn}{Returns}
+true/false 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+if construct a release lock, invoke invalid 
+\end{DoxyNote}
 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
