@@ -1,5 +1,5 @@
 INCLUDES+= \
-	$(GOHOOP_TOP)/gcommon/inc \	
+	$(GOHOOP_TOP)/gcommon/inc \
 	$(GOHOOP_TOP)/gcommon/component/conf/inc \
 	$(GOHOOP_TOP)/gcommon/component/filesys/inc \
 	$(GOHOOP_TOP)/gcommon/component/function/inc \
