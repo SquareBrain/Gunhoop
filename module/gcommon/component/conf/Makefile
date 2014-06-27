@@ -1,4 +1,4 @@
-PRONAME:=configuration
+PRONAME:=conf
 TARGET:=lib$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)

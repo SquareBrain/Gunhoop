@@ -1,10 +1,12 @@
-INCLUDES+=$(GOHOOP_TOP)/gcommon/inc 	
+INCLUDES+= \
+	$(GOHOOP_TOP)/gcommon/inc \
 	$(GOHOOP_TOP)/gcommon/component/conf/inc \
 	$(GOHOOP_TOP)/gcommon/component/filesys/inc \
 	$(GOHOOP_TOP)/gcommon/component/function/inc \
 	$(GOHOOP_TOP)/gcommon/component/iostream/inc \
 	$(GOHOOP_TOP)/gcommon/component/network/inc \
-	$(GOHOOP_TOP)/gcommon/system/inc
+	$(GOHOOP_TOP)/gcommon/system/inc \
+	$(GOHOOP_TOP)/gutils/logger/inc
 
 SLIBS+=
 
