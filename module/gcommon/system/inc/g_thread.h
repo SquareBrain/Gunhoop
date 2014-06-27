@@ -51,9 +51,8 @@ typedef void* (*ThreadFunPoint_t)(void*);
 /** 
  * be inherited ty user
  */
-class Runnable
+interface Runnable
 {
-public:
 	virtual ~Runnable() {}
 	
     /**
@@ -143,7 +142,7 @@ private:
 	// brief : inner used for starting thread
 	// @para [in]argument : thread argument
 	// return : thread return description
-	static void* EnterPoint(void* argument);	
+	static void* enterPoint(void* argument);	
 
 private:
 	// thread ID
@@ -167,7 +166,7 @@ public:
 	 * @return thread ID / -1
      * @note 
      */		
-	static GInt32 CreateThread(void* entry, void* argument, const bool autoRel = true);
+	static GInt32 createThread(void* entry, void* argument, const bool autoRel = true);
 };
 
 G_NS_END
