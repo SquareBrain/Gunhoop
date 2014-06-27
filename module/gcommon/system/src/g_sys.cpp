@@ -17,7 +17,7 @@
 
 #include <g_sys.h>
 
-static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.sys";
+static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.sys";
 
 G_NS_GCOMMON_BEG
 

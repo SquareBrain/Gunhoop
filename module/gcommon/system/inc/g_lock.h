@@ -186,7 +186,7 @@ private:
      * prevent copying
      * @note
      */	
-	tryLock(const TryLock&); 
+	TryLock(const TryLock&); 
 	
     /**
      * prevent copying

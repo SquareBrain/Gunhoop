@@ -41,7 +41,7 @@ public:
 	 * @return true/false
      * @note 
      */			
-	virtual bool open(const GInt8* pipeName) = 0;
+	virtual bool openPipe(const GInt8* pipeName) = 0;
 
 protected:
     /**
@@ -75,16 +75,16 @@ public:
 	 * @return true/false
      * @note 
      */			
-	virtual bool open(const GInt8* pipeName);	
+	virtual bool openPipe(const GInt8* pipeName);	
 	
     /**
      * Write data to pipe
-	 * @param [in] data 
-	 * @param [in] dataLen 
+	 * @param [in] data : write data
+	 * @param [in] length : data length
 	 * @return size/-1
      * @note 
      */		
-	GInt64 write(const GInt8* data, const GUint64 dataLen);
+	GInt64 writeData(const GInt8* data, const GUint64 length);
 	
 private:
     /**
@@ -115,16 +115,16 @@ public:
 	 * @return true/false
      * @note 
      */    
-    virtual bool open(const GInt8* pipeName);
+    virtual bool openPipe(const GInt8* pipeName);
 
     /**
      * read data from pipe
-	 * @param [out] buffer : template buffer
-	 * @param [in] bufferSize : template buffer size
+	 * @param [out] buffer : output buffer
+	 * @param [in] size : output buffer size
 	 * @return size/-1
      * @note 
      */  	
-	GInt64 read(GInt8* buffer, const GUint64 bufferSize);    
+	GInt64 readData(GInt8* buffer, const GUint64 size);    
 };
 
 G_NS_END 

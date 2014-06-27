@@ -95,7 +95,7 @@ public:
 	 * @return shm mapping file path   
      * @note 
      */	
-    GInt8* getShmPath() const;
+    GInt8* getShmPath();
 
     /**
      * set shm mapping file size
@@ -110,20 +110,6 @@ public:
      * @note 
      */	    
     GUint64 getShmSize() const;    
-    
-    /**
-     * init the shm
-     * @return G_YES/G_NO  
-     * @note 
-     */	    	
-    GResult init();
-   
-    /**
-     * uninit the shm
-     * @return G_YES/G_NO  
-     * @note 
-     */	 	
-	GResult uninit();
    
     /**
      * sync the shm
@@ -153,7 +139,22 @@ public:
     GResult readShm(const GUint32 offset, GInt8* buffer, const GUint32 size);
 
 private:
-	GInt8*		    m_shmPath[G_PATH_MAX];
+    /**
+     * init the shm
+     * @return G_YES/G_NO  
+     * @note 
+     */	    	
+    GResult init();
+   
+    /**
+     * uninit the shm
+     * @return G_YES/G_NO  
+     * @note 
+     */	 	
+	GResult uninit();
+
+private:
+	GInt8		    m_shmPath[G_PATH_MAX];
 	GUint64			m_shmSize;	
 	void*			m_shmAddr;
 	bool            m_initFlags;

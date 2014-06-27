@@ -19,7 +19,7 @@
 #include <g_logger.h>
 #include <g_pipe.h>
 
-static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.pipe";
+static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.pipe";
 
 G_NS_GCOMMON_BEG
 
@@ -39,7 +39,7 @@ bool Pipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
     return true;   
 }
 
-bool WritePipe::open(const GInt8* pipeName)
+bool WritePipe::openPipe(const GInt8* pipeName)
 {
     if (pipeName == NULL)
     {
@@ -50,15 +50,15 @@ bool WritePipe::open(const GInt8* pipeName)
     {
         if (mkfifo(pipeName, 0777) != 0)
         {
-            G_LOG_ERROR(LOG_PREFIX, "mkfifo failed. \n");
+            G_LOG_ERROR(G_LOG_PREFIX, "mkfifo failed. \n");
             return false;
         }
     }
 
-    return PosixOpen(pipeName, O_WRONLY | O_NONBLOCK);          
+    return orgOpen(pipeName, O_WRONLY | O_NONBLOCK);          
 }
 
-GInt32 WritePipe::write(const GInt8* data, const GUint32 dataLen)
+GInt64 WritePipe::writeData(const GInt8* data, const GUint64 length)
 {
     if (m_pipefd == -1)
     {
@@ -69,30 +69,31 @@ GInt32 WritePipe::write(const GInt8* data, const GUint32 dataLen)
     {
         return -1;
     }
-    
-    if (write(m_pipefd, data, dataLen) == -1)
+
+    GInt64 bytes = -1;
+    if ((bytes = write(m_pipefd, data, length)) == -1)
     {
         return -1;
     }
     
-    return dataLen;    
+    return bytes;    
 }
 
-bool ReadPipe::open(const GInt8* pipeName)
+bool ReadPipe::openPipe(const GInt8* pipeName)
 {
     if (access(pipeName, F_OK) == -1)
     {
         if (mkfifo(pipeName, 0777) != 0)
         {
-            G_LOG_ERROR(LOG_PREFIX, "mkfifo failed. \n");
+            G_LOG_ERROR(G_LOG_PREFIX, "mkfifo failed. \n");
             return false;
         }
     }
 
-    return PosixOpen(pipeName, O_RDONLY);        
+    return orgOpen(pipeName, O_RDONLY);        
 }
 
-GInt32 ReadPipe::read(GInt8* buffer, const GUint32 bufferSize)
+GInt64 ReadPipe::readData(GInt8* buffer, const GUint64 size)
 {
     if (m_pipefd == -1)
     {
@@ -104,13 +105,11 @@ GInt32 ReadPipe::read(GInt8* buffer, const GUint32 bufferSize)
         return -1;
     }
     
-    GInt32 bytes = read(m_pipefd, buffer, bufferSize);
-    if (bytes == -1)
+    GInt32 bytes = -1;
+    if ((bytes = read(m_pipefd, buffer, size)) == -1)
     {
         return -1;
     }
-
-    buffer[bytes] = '\0';
     
     return bytes;    
 }

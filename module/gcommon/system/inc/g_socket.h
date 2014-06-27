@@ -59,7 +59,7 @@ public:
 	 * @return G_YES/G_NO
      * @note 
      */		
-	GResult initSocket(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
+	GResult openSocket(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
 			
     /**
      * send data
@@ -69,7 +69,7 @@ public:
 	 * @return size/-1
      * @note 
      */		
-	GInt64 sendData(const GUint8* data, const GUint64 dataLen, const GInt32 flags = MSG_NOSIGNAL);
+	GInt64 sendData(const GUint8* data, const GUint64 length, const GInt32 flags = MSG_NOSIGNAL);
 	
     /**
      * receive data
@@ -79,7 +79,7 @@ public:
 	 * @return size/-1
      * @note 
      */	
-	GInt64 recvData(GUint8** buffer, const GUint64 bufferSize, const GInt32 flags = 0);
+	GInt64 recvData(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 
     /**
      * shutdown connecting
@@ -87,7 +87,7 @@ public:
 	 * @return G_YES/G_NO
      * @note 
      */	
-	GResult shutdown(const GInt32 how = 0);
+	GResult closeSocket(const GInt32 how = 0);
 		
     /**
      * setting address

@@ -17,7 +17,7 @@
 
 #include <g_time.h>
 
-static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.time";
+static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.time";
 
 G_NS_GCOMMON_BEG
 

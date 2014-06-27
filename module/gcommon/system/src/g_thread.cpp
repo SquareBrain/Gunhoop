@@ -17,7 +17,7 @@
 
 #include <g_thread.h> 
 
-static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.thread";
+static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.thread";
 
 G_NS_GCOMMON_BEG
 
@@ -32,7 +32,7 @@ Thread::~Thread()
 {
 }
 
-bool Thread::start()
+GResult Thread::start()
 {
 	pthread_attr_t* attributes = NULL;
 	
@@ -40,7 +40,7 @@ bool Thread::start()
 
 	if (ret != 0)
 	{
-		return false;
+		return G_NO;
 	}
 
 	if (m_autoRel)
@@ -48,7 +48,7 @@ bool Thread::start()
 		pthread_detach(m_threadId);
 	}
 
-	return true;
+	return G_YES;
 }
 
 GUint32 Thread::getThreadId() const

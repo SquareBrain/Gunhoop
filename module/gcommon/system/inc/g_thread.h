@@ -51,7 +51,7 @@ typedef void* (*ThreadFunPoint_t)(void*);
 /** 
  * be inherited ty user
  */
-interface Runnable
+class Runnable
 {
 public:
 	virtual ~Runnable() {}

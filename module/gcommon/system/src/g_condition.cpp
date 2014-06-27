@@ -17,7 +17,7 @@
 
 #include <g_condition.h>
 
-static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.condition";
+static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.condition";
 
 G_NS_GCOMMON_BEG
 

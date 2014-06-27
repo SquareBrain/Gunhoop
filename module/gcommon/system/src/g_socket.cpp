@@ -19,26 +19,21 @@
 #include <g_logger.h>
 #include <g_socket.h>
 
-static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.socket";
+static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.socket";
 
 // the max request number, system default value it's 20
-static const GUint32 DEF_MAX_REQ_NUM = 20;
+static const GUint32 G_DEF_MAX_REQ = 20;
 
 G_NS_GCOMMON_BEG 
 
-Socket::Socket() : m_sockfd(0), m_addrLen(0)
+Socket::Socket() : m_sockfd(-1), m_addrLen(0)
 {
 }
 
 Socket::Socket(const GUint32 ip, const GUint16 port) 
-    : m_sockfd(0), m_addrLen(0)
+    : m_sockfd(-1), m_addrLen(0)
 {
-    SetAddr(ip, port);        
-}
-
-Socket::Socket(const GUint8* ip, const GUint16 port) 
-    : m_sockfd(0), m_addrLen(0)
-{
+    setAddr(ip, port);        
 }
 
 Socket::Socket(const Socket& socket)
@@ -52,41 +47,46 @@ Socket::Socket(const Socket& socket)
 
 Socket::~Socket()
 {
-	Shutdown(m_sockfd);
+	closeSocket(m_sockfd);
 }
 
-bool Socket::initSocket(const GInt32 domain, const GInt32 type)
+GResult Socket::openSocket(const GInt32 domain, const GInt32 type)
 {
-	m_sockfd = socket(domain, type, 0);
-
-	if (m_sockfd != -1)
+	if ((m_sockfd = socket(domain, type, 0)) == -1)
 	{
-		// init socket option
-		if (!initOption())
-		{
-			G_LOG_WARN(LOG_PREFIX, "CWSocket : Init socket option failed \n");
-		}
+	    return G_NO;
 	}
 
-	return m_sockfd != -1;
+	// init socket option
+	if (!initOption())
+	{
+		G_LOG_WARN(G_LOG_PREFIX, "CWSocket : Init socket option failed \n");
+	}	
+
+	return G_YES;
 }
 
-GInt32 Socket::sendData(const GUint8* msg, const GUint32 msgLen, const GInt32 flags)
+GInt64 Socket::sendData(const GUint8* data, const GUint64 length, const GInt32 flags)
 {
-	return send(m_sockfd, msg, msgLen, flags);
+	return send(m_sockfd, data, length, flags);
 }
 
-GInt32 Socket::recvData(GUint8** buf, const GUint32 bufLen, const GInt32 flags)
+GInt64 Socket::recvData(GUint8* buffer, const GUint64 size, const GInt32 flags)
 {
-	return recv(m_sockfd, *buf, bufLen, flags);
+	return recv(m_sockfd, buffer, size, flags);
 }
 
-bool Socket::shutdown(const GInt32 how)
+GResult Socket::closeSocket(const GInt32 how)
 {
 	// how = 0 : stop receive data
 	// how = 1 : stop send data
 	// how = 2 : both above way
-	return shutdown(m_sockfd, how) == 0;
+	if (m_sockfd == -1)
+	{
+	    return G_YES;
+	}
+	
+	return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
 }
 
 void Socket::setAddr(const GUint32 ip, const GUint16 port)
@@ -108,9 +108,9 @@ GUint16 Socket::getPort() const
 	return ntohs(m_addr.sin_port);
 }
 
-bool Socket::initOption()
+GResult Socket::initOption()
 {
-	bool ret = true;
+	GResult ret = G_YES;
 
 	// address reuse flag, 1 reuse
 	GInt32 reuse = 1;
@@ -169,7 +169,7 @@ bool Socket::initOption()
 	struct STR_Linger
 	{
 		GInt16 l_onoff;
-		GInt16	l_linger;
+		GInt16 l_linger;
 	};
 
 	/*

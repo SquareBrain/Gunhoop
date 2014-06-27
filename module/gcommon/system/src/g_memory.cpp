@@ -18,7 +18,7 @@
 
 #include <g_memory.h>
 
-static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.memory";
+static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.memory";
 
 G_NS_GCOMMON_BEG
 G_NS_END

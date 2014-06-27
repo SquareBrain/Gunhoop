@@ -21,13 +21,13 @@
 
 #include <g_lock.h>
 
-static const GInt8* LOG_PREFIX = "gohoop.gcommon.system.lock";
+static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.lock";
 
 G_NS_GCOMMON_BEG
 
 Mutex::Mutex()
 {
-	Init(PTHREAD_MUTEX_RECURSIVE);
+	init(PTHREAD_MUTEX_RECURSIVE);
 }
 
 Mutex::Mutex(const GInt32 kind)
@@ -37,11 +37,11 @@ Mutex::Mutex(const GInt32 kind)
 		kind != PTHREAD_MUTEX_ERRORCHECK &&
 		kind != PTHREAD_MUTEX_DEFAULT)
 	{
-		Init(PTHREAD_MUTEX_DEFAULT);
+		init(PTHREAD_MUTEX_DEFAULT);
 	}
 	else
 	{
-		Init(kind);
+		init(kind);
 	}
 }
 
@@ -91,17 +91,17 @@ OrgLock::~OrgLock()
 
 bool OrgLock::lock()
 {
-	return m_mutex->Lock();
+	return m_mutex->lock();
 }
 
 bool OrgLock::trylock()
 {
-	return m_mutex->Trylock();
+	return m_mutex->trylock();
 }
 
 bool OrgLock::unlock()
 {
-	return m_mutex->Unlock();
+	return m_mutex->unlock();
 }
 
 TryLock::TryLock(Mutex& mutex, const bool autoUnlock) 
@@ -114,13 +114,13 @@ TryLock::~TryLock()
 {
 	if (m_autoUnlock)
 	{
-		m_mutex.Unlock();
+		m_mutex.unlock();
 	}
 }
 
 bool TryLock::lock(const GUint32 timeout)
 {
-	if (m_mutex.Trylock())
+	if (m_mutex.trylock())
 	{
 		return true;
 	}
@@ -145,7 +145,7 @@ bool TryLock::lock(const GUint32 timeout)
 			usleep(1000 * sleepUnit);    
 		}
 
-		if (m_mutex.Trylock())
+		if (m_mutex.trylock())
 		{
 			return true;
 		}
@@ -161,17 +161,17 @@ bool TryLock::unlock()
 		return false;
 	}
 
-	return m_mutex.Unlock();
+	return m_mutex.unlock();
 }
 
 AutoLock::AutoLock(Mutex& mutex) : m_mutex(mutex)
 {
-	m_mutex.Lock();
+	m_mutex.lock();
 }
 
 AutoLock::~AutoLock()
 {
-	m_mutex.Unlock();
+	m_mutex.unlock();
 }
 
 G_NS_END
