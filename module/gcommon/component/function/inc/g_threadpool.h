@@ -40,10 +40,10 @@ G_NS_GCOMMON_BEG
  *      }
  *  }
  */
-interface ThreadJob
+class ThreadJob
 {
 public:
-	~ThreadJob();
+	~ThreadJob() {}
 
     /**
      * do user work

@@ -25,7 +25,7 @@ G_NS_GCOMMON_BEG
 /** 
  *  provide user inheritance
  */
-interface ObjPoolIf
+class ObjPoolIf
 {
 public:
     virtual ~ObjPoolIf() {}
