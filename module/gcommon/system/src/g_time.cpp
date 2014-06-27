@@ -79,7 +79,7 @@ bool TimeUtil::convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint
 
 bool TimeUtil::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
-    if (outSysTime == NULL && bufSize < 14)
+    if (outSysTime == NULL)
     {
         return false;
     }
