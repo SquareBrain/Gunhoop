@@ -1,21 +1,19 @@
-all:tagcomponent tagsystem taglibmk
+SUBDIRS:= \
+	component \
+	system
 
-clean:
-	$(MAKE) -C component clean
-	$(MAKE) -C system clean
-	$(MAKE) -f module.mk clean
-
-cleanall:
-	$(MAKE) -C component cleanall
-	$(MAKE) -C system cleanall
-	$(MAKE) -f module.mk cleanall
-	
-tagcomponent:
-	$(MAKE) -C component 
-
-tagsystem:    
-	$(MAKE) -C system
-
-taglibmk:    
+all:
+	@for SUBDIR in $(SUBDIRS);do $(MAKE) -C $$SUBDIR;done
 	$(MAKE) -f module_shared.mk
 	$(MAKE) -f module_static.mk
+
+clean:
+	@for SUBDIR in $(SUBDIRS);do $(MAKE) -C $$SUBDIR clean;done
+	$(MAKE) -f module_shared.mk clean
+	$(MAKE) -f module_static.mk clean
+
+cleanall:
+	@for SUBDIR in $(SUBDIRS);do $(MAKE) -C $$SUBDIR cleanall;done
+	$(MAKE) -f module_shared.mk cleanall
+	$(MAKE) -f module_static.mk cleanall
+
