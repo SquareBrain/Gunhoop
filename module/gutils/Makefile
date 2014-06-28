@@ -4,13 +4,13 @@ clean:
 	$(MAKE) -C ini clean
 	$(MAKE) -C logger clean
 	$(MAKE) -C xml clean
-	$(MAKE) -C libmk clean
+	$(MAKE) -f module.mk clean
 
 cleanall:
 	$(MAKE) -C ini cleanall
 	$(MAKE) -C logger cleanall
 	$(MAKE) -C xml cleanall
-	$(MAKE) -C libmk cleanall
+	$(MAKE) -f module.mk cleanall
 
 tagini:    
 	$(MAKE) -C ini 
@@ -22,4 +22,4 @@ tagxml:
 	$(MAKE) -C xml 
 
 taglibmk:    
-	$(MAKE) -C libmk 
+	$(MAKE) -f module.mk 

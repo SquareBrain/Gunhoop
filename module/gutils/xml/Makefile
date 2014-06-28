@@ -1,4 +1,4 @@
-PRONAME:=xmlparser
+PRONAME:=xml
 TARGET:=lib$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
