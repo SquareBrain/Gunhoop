@@ -55,7 +55,7 @@ install:
 
 clean:
 	@rm $(OUTPUT)/obj -rf
-ifneq ($(SOURCE), )	
+ifneq ($(SOURCE),)	
 	@touch -a $(SOURCE)
 endif
 
