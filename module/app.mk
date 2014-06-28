@@ -37,7 +37,7 @@ LIB_FLAGS:=$(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
 SLIB_FLAGS:=-Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive
 TARGET_FILE:=$(OUTPUT)/bin/$(TARGET).$(VERSION)
 
-$(TARGET) : $(OBJS)
+$(TARGET):$(OBJS)
 	$(CC) $(CPPFLAGS) $(OBJS) -o $(TARGET_FILE) $(SLIB_FLAGS) $(LIB_FLAGS)
 	@echo "++++++++++Build $(TARGET_FILE) Success++++++++++"
 
@@ -45,14 +45,16 @@ $(OBJDIR)/%.o:%.$(PS)
 	@echo $(CC) $<, `more $<|wc -l` lines ....
 	@$(CC) -c $(CPPFLAGS) -o $@ $< 
 
-.PHONY : all install clean 
+.PHONY:install clean cleanall
+.IGNORE:clean cleanall
 
-install :
+install:
 	@echo "start install $(TARGET_FILE) ..."
 	@echo 'install $(TARGET_FILE) complete ...'
 
-clean :
+clean:
 	@rm $(OUTPUT)/obj -rf
+	@touch -a $(SOURCE)
 
-cleanall :
+cleanall:clean
 	@rm $(OUTPUT) -rf

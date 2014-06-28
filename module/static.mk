@@ -45,7 +45,8 @@ $(OBJDIR)/%.o:%.$(PS)
 	@echo $(CC) $<, `more $<|wc -l` lines ....
 	@$(CC) -c $(CPPFLAGS) -o $@ $< 
 	
-.PHONY : all install clean cleanall 
+.PHONY:install clean cleanall 
+.IGNORE:clean cleanall
 
 install:
 	@echo "start install $(TARGET_FILE) ..."
@@ -53,6 +54,7 @@ install:
 
 clean:
 	@rm $(OUTPUT)/obj -rf
+	@touch -a $(SOURCE)
 
-cleanall:
+cleanall:clean
 	@rm $(OUTPUT) -rf
