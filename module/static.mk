@@ -20,7 +20,7 @@ $(shell mkdir -p $(OUTPUT)/lib)
 $(shell mkdir -p $(OUTPUT)/obj)
 
 OBJDIR:=$(OUTPUT)/obj
-SRCDIR:=$(BUILD_PATH)/src
+SRCDIR+=$(BUILD_PATH)/src
 
 PS:=cpp
 CC:=g++
@@ -28,7 +28,7 @@ CPPFLAGS:=-Wall -g -O0 -march=i686
 CPPFLAGS+=$(addprefix -I, $(INCLUDES))
 CPPFLAGS+=$(addprefix -D, $(PRE_DEFINED))
 
-SOURCE:=$(wildcard $(BUILD_PATH)/src/*.$(PS))
+SOURCE:=$(wildcard $()/*.$(PS))
 
 CPPSRCS:=$(notdir $(SOURCE))
 OBJS:=$(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
@@ -41,7 +41,7 @@ $(TARGET) : $(OBJS)
 	ar rcs $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
 	@echo "++++++++++Build $(TARGET_FILE) Success++++++++++"
 
-$(OBJDIR)/%.o:$(SRCDIR)/%.cpp
+$(OBJS):$(SOURCE)
 	@echo compile file $<, `more $<|wc -l` lines ....
 	$(CC) -c $(CPPFLAGS) -o $@ $< 
 
