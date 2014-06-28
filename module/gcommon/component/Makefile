@@ -1,30 +1,20 @@
-all: tagconf tagfilesys tagfunction tagiostream tagnetwork
+PRONAME:=component
+TARGET:=lib$(PRONAME)
+PRE_DEFINED:= 
+BUILD_PATH:=$(shell pwd)
+INCLUDES:=$(BUILD_PATH)/inc \
 
-clean:
-	$(MAKE) -C conf clean
-	$(MAKE) -C filesys clean
-	$(MAKE) -C function clean
-	$(MAKE) -C iostream clean
-	$(MAKE) -C network clean
+SRCDIRS:= \
+	$(BUILD_PATH)/conf/src \
+	$(BUILD_PATH)/filesys/src \
+	$(BUILD_PATH)/function/src \
+	$(BUILD_PATH)/iostream/src \
+	$(BUILD_PATH)/network/src
 
-cleanall:
-	$(MAKE) -C conf cleanall
-	$(MAKE) -C filesys cleanall
-	$(MAKE) -C function cleanall
-	$(MAKE) -C iostream cleanall
-	$(MAKE) -C network cleanall
+LIBS_PATH:= 
 
-tagconf:
-	$(MAKE) -C conf
+LIBS:= 
 
-tagfilesys:
-	$(MAKE) -C filesys	
+SLIBS:= 
 
-tagfunction:
-	$(MAKE) -C function
-
-tagiostream:
-	$(MAKE) -C iostream
-
-tagnetwork:
-	$(MAKE) -C network
+include ../../static.mk

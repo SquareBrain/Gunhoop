@@ -20,7 +20,7 @@ $(shell mkdir -p $(OUTPUT)/lib)
 $(shell mkdir -p $(OUTPUT)/obj)
 
 OBJDIR:=$(OUTPUT)/obj
-SRCDIR:=$(BUILD_PATH)/src
+VPATH:=$(SRCDIRS)
 
 PS:=cpp
 CC:=g++
@@ -29,7 +29,7 @@ CPPFLAGS+=-fPIC
 CPPFLAGS+=$(addprefix -I, $(INCLUDES))
 CPPFLAGS+=$(addprefix -D, $(PRE_DEFINED))
 
-SOURCE:=$(wildcard $(BUILD_PATH)/src/*.$(PS))
+SOURCE:=$(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.$(PS)))
 
 CPPSRCS:=$(notdir $(SOURCE))
 OBJS:=$(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
@@ -42,9 +42,9 @@ $(TARGET) : $(OBJS)
 	$(CC) -shared -o $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
 	@echo '++++++++++Build $(TARGET_FILE) Success++++++++++'
 
-$(OBJDIR)/%.o:$(SRCDIR)/%.cpp
-	@echo $<, `more $<|wc -l` lines
-	$(CC) -c $(CPPFLAGS) -o $@ $< 
+$(OBJDIR)/%.o:%.$(PS)
+	@echo $(CC) $<, `more $<|wc -l` lines ....
+	@$(CC) -c $(CPPFLAGS) -o $@ $< 	
 
 .PHONY : all install clean cleanall 
 

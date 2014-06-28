@@ -20,7 +20,7 @@ $(shell mkdir -p $(OUTPUT)/lib)
 $(shell mkdir -p $(OUTPUT)/obj)
 
 OBJDIR:=$(OUTPUT)/obj
-SRCDIR+=$(BUILD_PATH)/src
+VPATH:=$(SRCDIRS)
 
 PS:=cpp
 CC:=g++
@@ -28,7 +28,7 @@ CPPFLAGS:=-Wall -g -O0 -march=i686
 CPPFLAGS+=$(addprefix -I, $(INCLUDES))
 CPPFLAGS+=$(addprefix -D, $(PRE_DEFINED))
 
-SOURCE:=$(wildcard $()/*.$(PS))
+SOURCE:=$(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.$(PS)))
 
 CPPSRCS:=$(notdir $(SOURCE))
 OBJS:=$(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
@@ -37,14 +37,14 @@ LIB_FLAGS:=$(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
 SLIB_FLAGS:=$(SLIBS)
 TARGET_FILE:=$(OUTPUT)/lib/$(TARGET).a
 
-$(TARGET) : $(OBJS)
-	ar rcs $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
+$(TARGET):$(OBJS) 
+	@ar rcs $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
 	@echo "++++++++++Build $(TARGET_FILE) Success++++++++++"
 
-$(OBJS):$(SOURCE)
-	@echo compile file $<, `more $<|wc -l` lines ....
-	$(CC) -c $(CPPFLAGS) -o $@ $< 
-
+$(OBJDIR)/%.o:%.$(PS)
+	@echo $(CC) $<, `more $<|wc -l` lines ....
+	@$(CC) -c $(CPPFLAGS) -o $@ $< 
+	
 .PHONY : all install clean cleanall 
 
 install:
