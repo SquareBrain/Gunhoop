@@ -51,8 +51,8 @@ install:
 	@echo "start install $(TARGET_FILE) ..."
 	@echo "install $(TARGET_FILE) complete ..."
 
-clean :
+clean:
 	@rm $(OUTPUT)/obj -rf
 
-cleanall :
+cleanall:
 	@rm $(OUTPUT) -rf
