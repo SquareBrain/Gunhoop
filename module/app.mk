@@ -39,18 +39,18 @@ TARGET_FILE:=$(OUTPUT)/bin/$(TARGET).$(VERSION)
 
 $(TARGET):$(OBJS)
 	$(CC) $(CPPFLAGS) $(OBJS) -o $(TARGET_FILE) $(SLIB_FLAGS) $(LIB_FLAGS)
-	@echo "++++++++++Build $(TARGET_FILE) Success++++++++++"
+	@echo "Build $(TARGET_FILE) Success"
 
 $(OBJDIR)/%.o:%.$(PS)
-	@echo $(CC) $<, `more $<|wc -l` lines ....
+	@echo $(CC) $<, `more $<|wc -l` lines
 	@$(CC) -c $(CPPFLAGS) -o $@ $< 
 
 .PHONY:install clean cleanall
 .IGNORE:clean cleanall
 
 install:
-	@echo "start install $(TARGET_FILE) ..."
-	@echo "install $(TARGET_FILE) complete ..."
+	@echo "Start Install $(TARGET_FILE)"
+	@echo "Install $(TARGET_FILE) Complete"
 
 clean:
 	@rm $(OUTPUT)/obj -rf

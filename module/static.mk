@@ -38,19 +38,21 @@ SLIB_FLAGS:=$(SLIBS)
 TARGET_FILE:=$(OUTPUT)/lib/$(TARGET).a
 
 $(TARGET):$(OBJS) 
-	@ar rcs $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
-	@echo "++++++++++Build $(TARGET_FILE) Success++++++++++"
+	@ar rcs $(TARGET_FILE).$(VERSION) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
+	@rm $(TARGET_FILE) -f
+	@ln -s $(TARGET_FILE).$(VERSION) $(TARGET_FILE)
+	@echo "Build $(TARGET_FILE).$(VERSION) Success"
 
 $(OBJDIR)/%.o:%.$(PS)
-	@echo $(CC) $<, `more $<|wc -l` lines ....
+	@echo $(CC) $<, `more $<|wc -l` lines
 	@$(CC) -c $(CPPFLAGS) -o $@ $< 
 	
 .PHONY:install clean cleanall 
 .IGNORE:clean cleanall
 
 install:
-	@echo "start install $(TARGET_FILE) ..."
-	@echo "install $(TARGET_FILE) complete ..."
+	@echo "Start Install $(TARGET_FILE).$(VERSION)"
+	@echo "Install $(TARGET_FILE).$(VERSION) Complete"
 
 clean:
 	@rm $(OUTPUT)/obj -rf

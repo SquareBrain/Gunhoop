@@ -1,5 +1,6 @@
 PRONAME:=component
 TARGET:=lib$(PRONAME)
+VERSION:=1.0.0
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
 INCLUDES:=$(BUILD_PATH)/inc \
