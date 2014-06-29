@@ -50,7 +50,7 @@ $(OBJDIR)/%.o:%.$(PS)
 
 install:
 	@echo "start install $(TARGET_FILE) ..."
-	@echo 'install $(TARGET_FILE) complete ...'
+	@echo "install $(TARGET_FILE) complete ..."
 
 clean:
 	@rm $(OUTPUT)/obj -rf
