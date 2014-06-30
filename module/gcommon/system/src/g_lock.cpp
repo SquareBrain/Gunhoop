@@ -18,7 +18,7 @@
 * 	c. Modify TryLock class implimenting
 * 1. 2013-11-26 duye Created this file
 */
-
+#include <g_logger.h>
 #include <g_lock.h>
 
 static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.lock";
@@ -127,10 +127,10 @@ bool TryLock::lock(const GUint32 timeout)
 
 	if (timeout == 0)
 	{
+	    G_LOG_ERROR(G_LOG_PREFIX, "timeout should > 0, %s:%d", __FILE__, __LINE__);
 		return false;    
 	}
 
-    // 
 	static const GUint32 sleepUnit = 10; 
 	GUint32 loops = timeout / sleepUnit + 1;
 						
@@ -151,6 +151,8 @@ bool TryLock::lock(const GUint32 timeout)
 		}
 	} while(--loops);
 
+    G_LOG_ERROR(G_LOG_PREFIX, "time out, and lock failed, %s:%d", __FILE__, __LINE__);
+    
 	return false;
 }
 
@@ -158,6 +160,7 @@ bool TryLock::unlock()
 {
 	if (m_autoUnlock)
 	{
+	    G_LOG_WARN(G_LOG_PREFIX, "this is automation unlock, %s:%d", __FILE__, __LINE__);
 		return false;
 	}
 

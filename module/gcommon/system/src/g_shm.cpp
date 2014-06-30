@@ -15,7 +15,7 @@
 *  1. 2014-02-22 duye Created this file
 * 
 */
-
+#include <g_logger.h>
 #include <g_shm.h>
 
 static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.shm";
@@ -69,26 +69,42 @@ GResult Shm::syncShm()
 {
     if (!m_initFlags)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "shm hasn't init, %s:%d", __FILE__, __LINE__);
         return G_NO;
     }
     
     if (msync(m_shmAddr, m_shmSize, MS_SYNC) < 0)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "call msync() failed, %s:%d", __FILE__, __LINE__);
         return SYNC_SHM_FAILED;
     }
 
     return G_YES;    
 } 
  
-GResult Shm::writeShm(const GUint32 offset, const GInt8* data, const GUint32 size)
+GResult Shm::writeShm(const GUint32 offset, const GInt8* data, const GUint32 length)
 {
     if (!m_initFlags)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "shm hasn't init, %s:%d", __FILE__, __LINE__);
         return G_NO;
     } 
 
-    if (data == NULL || size == 0 || offset + size > m_shmSize)
+    if (data == NULL)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "input data is NULL, %s:%d", __FILE__, __LINE__);
+        return WRITE_SHM_PARA_FAILED;
+    }
+    
+    if (length == 0)
+    {
+        G_LOG_ERROR(G_LOG_PREFIX, "input data length is zero, %s:%d", __FILE__, __LINE__);
+        return WRITE_SHM_PARA_FAILED;
+    }
+    
+    if (offset + length > m_shmSize)
+    {
+        G_LOG_ERROR(G_LOG_PREFIX, "will write data length over shm size, %s:%d", __FILE__, __LINE__);
         return WRITE_SHM_PARA_FAILED;
     }
 
@@ -97,16 +113,30 @@ GResult Shm::writeShm(const GUint32 offset, const GInt8* data, const GUint32 siz
     return G_YES;        
 }
 
-GResult Shm::readShm(const GUint32 offset, GInt8* data, const GUint32 size)
+GResult Shm::readShm(const GUint32 offset, GInt8* buffer, const GUint32 size)
 {
     if (!m_initFlags)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "shm hasn't init, %s:%d", __FILE__, __LINE__);
         return G_NO;
     } 
 
-    if (data == NULL || size == 0 || offset + size > m_shmSize)
+    if (buffer == NULL)
     {
-        return READ_SHM_PARA_FAILED;
+        G_LOG_ERROR(G_LOG_PREFIX, "output buffer is NULL, %s:%d", __FILE__, __LINE__);
+        return WRITE_SHM_PARA_FAILED;
+    }
+    
+    if (size == 0)
+    {
+        G_LOG_ERROR(G_LOG_PREFIX, "ouput buffer size is zero, %s:%d", __FILE__, __LINE__);
+        return WRITE_SHM_PARA_FAILED;
+    }
+    
+    if (offset + size > m_shmSize)
+    {
+        G_LOG_ERROR(G_LOG_PREFIX, "will read length over shm size, %s:%d", __FILE__, __LINE__);
+        return WRITE_SHM_PARA_FAILED;
     }
 
     memcpy((GInt8*)data, (GInt8*)m_shmAddr + offset, size);
@@ -116,19 +146,22 @@ GResult Shm::readShm(const GUint32 offset, GInt8* data, const GUint32 size)
 
 GResult Shm::init()
 {
-    if (!m_initFlags)
+    if (m_initFlags)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "shm had init, %s:%d", __FILE__, __LINE__);
         return G_NO;
     }
 
     if (strlen(m_shmPath) == 0)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "shm path is empty, %s:%d", __FILE__, __LINE__);
         return SHM_PATH_EMPTY;
     }
     
     GInt32 fd = open(m_shmPath, O_RDWR | O_CREAT);
     if (fd < 0)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "open shm file failed, %s:%d", __FILE__, __LINE__);
         return OPEN_SHM_FAILED;
     }
 
@@ -143,6 +176,7 @@ GResult Shm::init()
     if (m_shmAddr == MAP_FAILED)
     {
         close(fd);
+        G_LOG_ERROR(G_LOG_PREFIX, "call mmap() failed, %s:%d", __FILE__, __LINE__);
         return MMAP_SHM_FAILED;
     }
 
@@ -157,11 +191,13 @@ GResult Shm::uninit()
 {
     if (!m_initFlags)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "shm hasn't init, %s:%d", __FILE__, __LINE__);
         return G_NO;
     }
     
     if (munmap(m_shmAddr, m_shmSize) < 0)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "call munmap failed, %s:%d", __FILE__, __LINE__);
         return MUNMAP_SHM_FAILED;
     }
 

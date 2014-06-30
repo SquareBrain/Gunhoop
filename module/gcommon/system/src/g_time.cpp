@@ -14,7 +14,7 @@
 *  1. 2014-03-09 duye Created this file
 * 
 */
-
+#include <g_logger.h>
 #include <g_time.h>
 
 static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.time";

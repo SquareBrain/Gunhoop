@@ -14,7 +14,7 @@
 *  1. 2013-06-20 duye Created this file
 * 
 */
-
+#include <g_logger.h>
 #include <g_file.h>
 
 static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.file";
@@ -60,7 +60,8 @@ File::~File()
 GResult File::setFilePath(const GInt8* filePath)
 {
     if (m_pathLen > 0)
-    {
+    {   
+        G_LOG_ERROR(G_LOG_PREFIX, "file path has exist, %s:%d", __FILE__, __LINE__);
         return G_NO;
     }
     
@@ -73,6 +74,8 @@ GResult File::setFilePath(const GInt8* filePath)
     }    
     else
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "file path too long, should < %d, %s:%d", 
+            G_PATH_MAX, __FILE__, __LINE__);
         return G_NO;   
     }
 
@@ -135,6 +138,7 @@ GInt64 File::readFile(GInt8* buffer, const GUint64 size)
 
     if (m_fd <= 0)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "file don't open, %s:%d", __FILE__, __LINE__); 
         return G_NO;
     }
     
@@ -147,6 +151,7 @@ GInt64 File::readLine(const GUint64 offset, GInt8* buffer, const GUint64 size)
     
     if (m_fd <= 0)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "file don't open, %s:%d", __FILE__, __LINE__);
         return G_NO;
     }
     
@@ -159,6 +164,7 @@ GInt64 File::writeFile(const GInt8* buffer, const GUint64 size)
 
     if (m_fd <= 0)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "file don't open, %s:%d", __FILE__, __LINE__);
         return G_NO;
     }
     
@@ -169,6 +175,7 @@ GResult File::closeFile()
 {
     if (m_fd < 0)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "file don't open, %s:%d", __FILE__, __LINE__);
         return G_NO;
     }
 
@@ -185,11 +192,13 @@ GResult File::orgOpen(const GInt32 flags, const GUint32 mode)
 {    
     if (m_fd > 0)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "file had opened, %s:%d", __FILE__, __LINE__);
         return G_NO;
     }
 
     if (m_pathLen == 0)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "hasn't set file path, %s:%d", __FILE__, __LINE__);
         return G_NO;   
     }
     
@@ -198,6 +207,11 @@ GResult File::orgOpen(const GInt32 flags, const GUint32 mode)
     {
         m_flags = flags;   
         m_mode = mode;
+    }
+    else
+    {
+        G_LOG_ERROR(G_LOG_PREFIX, "open file '%s' failed, check whether exist this file path, %s:%d", 
+            m_path, __FILE__, __LINE__);
     }
 
     return (m_fd != -1 ? true : false);

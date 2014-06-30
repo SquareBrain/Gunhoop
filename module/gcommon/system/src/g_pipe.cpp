@@ -27,12 +27,23 @@ bool Pipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
 {
     if (pipeName == NULL)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "pipe name is NULL, %s:%d", __FILE__, __LINE__);
         return false;
     }
+    
+    if (access(pipeName, F_OK) == -1)
+    {
+        if (mkfifo(pipeName, 0777) != 0)
+        {
+            G_LOG_ERROR(G_LOG_PREFIX, "call mkfifo() failed, %s:%d", __FILE__, __LINE__);
+            return false;
+        }
+    }    
 
     m_pipefd = open(pipeName, mode);
     if (m_pipefd == -1)
     {
+        G_LOG_ERROR(G_LOG_PREFIX, "open pipe '%s' failed, %s:%d", pipeName, __FILE__, __LINE__);
         return false;
     }
 
@@ -41,20 +52,6 @@ bool Pipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
 
 bool WritePipe::openPipe(const GInt8* pipeName)
 {
-    if (pipeName == NULL)
-    {
-        return false;
-    }
-
-    if (access(pipeName, F_OK) == -1)
-    {
-        if (mkfifo(pipeName, 0777) != 0)
-        {
-            G_LOG_ERROR(G_LOG_PREFIX, "mkfifo failed. \n");
-            return false;
-        }
-    }
-
     return orgOpen(pipeName, O_WRONLY | O_NONBLOCK);          
 }
 
@@ -62,18 +59,27 @@ GInt64 WritePipe::writeData(const GInt8* data, const GUint64 length)
 {
     if (m_pipefd == -1)
     {
-        return -1;
+        G_LOG_ERROR(G_LOG_PREFIX, "pipe hasn't open, %s:%d", __FILE__, __LINE__);
+        return G_NO;
     }
     
     if (data == NULL)
     {
-        return -1;
+        G_LOG_ERROR(G_LOG_PREFIX, "input data is NULL, %s:%d", __FILE__, __LINE__);
+        return G_NO;
     }
+
+    if (length == 0)
+    {
+        G_LOG_ERROR(G_LOG_PREFIX, "input data size is zero, %s:%d", __FILE__, __LINE__);
+        return G_NO;        
+    }    
 
     GInt64 bytes = -1;
     if ((bytes = write(m_pipefd, data, length)) == -1)
     {
-        return -1;
+        G_LOG_ERROR(G_LOG_PREFIX, "write pipe failed, %s:%d", __FILE__, __LINE__);
+        return G_NO;
     }
     
     return bytes;    
@@ -81,15 +87,6 @@ GInt64 WritePipe::writeData(const GInt8* data, const GUint64 length)
 
 bool ReadPipe::openPipe(const GInt8* pipeName)
 {
-    if (access(pipeName, F_OK) == -1)
-    {
-        if (mkfifo(pipeName, 0777) != 0)
-        {
-            G_LOG_ERROR(G_LOG_PREFIX, "mkfifo failed. \n");
-            return false;
-        }
-    }
-
     return orgOpen(pipeName, O_RDONLY);        
 }
 
@@ -97,18 +94,27 @@ GInt64 ReadPipe::readData(GInt8* buffer, const GUint64 size)
 {
     if (m_pipefd == -1)
     {
-        return -1;
+        G_LOG_ERROR(G_LOG_PREFIX, "pipe hasn't open, %s:%d", __FILE__, __LINE__);
+        return G_NO;
     }
 
     if (buffer == NULL)
     {
-        return -1;
+        G_LOG_ERROR(G_LOG_PREFIX, "output buffer is NULL, %s:%d", __FILE__, __LINE__);
+        return G_NO;
+    }
+
+    if (size == 0)
+    {
+        G_LOG_ERROR(G_LOG_PREFIX, "output buffer size is zero, %s:%d", __FILE__, __LINE__);
+        return G_NO;        
     }
     
     GInt32 bytes = -1;
     if ((bytes = read(m_pipefd, buffer, size)) == -1)
     {
-        return -1;
+        G_LOG_ERROR(G_LOG_PREFIX, "read pipe failed, %s:%d", __FILE__, __LINE__);
+        return G_NO;
     }
     
     return bytes;    

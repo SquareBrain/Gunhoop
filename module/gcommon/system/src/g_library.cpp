@@ -14,10 +14,7 @@
 *  1. 2014-06-20 duye Created this file
 * 
 */
-
 #include <g_library.h>
-
-static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.library";
 
 G_NS_GCOMMON_BEG
 

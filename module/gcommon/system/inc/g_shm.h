@@ -126,7 +126,7 @@ public:
      * @return G_YES/G_NO  
      * @note 
      */		
-    GResult writeShm(const GUint32 offset, const GInt8* data, const GUint32 size);
+    GResult writeShm(const GUint32 offset, const GInt8* data, const GUint32 length);
 
     /**
      * read data from shm

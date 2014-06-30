@@ -14,10 +14,7 @@
 *  1. 2013-06-20 duye Created this file
 * 
 */
-
 #include <g_condition.h>
-
-static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.condition";
 
 G_NS_GCOMMON_BEG
 

@@ -40,9 +40,6 @@ Socket::Socket(const Socket& socket)
 {
     m_sockfd = socket.m_sockfd;
     m_addr = socket.m_addr;
-    
-	//SetSockfd(socket.GetSockfd());
-	//SetAddr(socket.GetAddr());
 }
 
 Socket::~Socket()
@@ -54,13 +51,14 @@ GResult Socket::openSocket(const GInt32 domain, const GInt32 type)
 {
 	if ((m_sockfd = socket(domain, type, 0)) == -1)
 	{
+	    G_LOG_ERROR(G_LOG_PREFIX, "open socket() failed, %s:%d", __FILE__, __LINE__);
 	    return G_NO;
 	}
 
 	// init socket option
 	if (!initOption())
 	{
-		G_LOG_WARN(G_LOG_PREFIX, "CWSocket : Init socket option failed \n");
+	    G_LOG_ERROR(G_LOG_PREFIX, "init socket option failed, %s:%d", __FILE__, __LINE__);
 	}	
 
 	return G_YES;
@@ -83,6 +81,7 @@ GResult Socket::closeSocket(const GInt32 how)
 	// how = 2 : both above way
 	if (m_sockfd == -1)
 	{
+	    G_LOG_ERROR(G_LOG_PREFIX, "socket hasn't open, %s:%d", __FILE__, __LINE__);
 	    return G_YES;
 	}
 	
@@ -126,6 +125,7 @@ GResult Socket::initOption()
 	// set address reuse
 	if (setsockopt(m_sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
 	{
+	    G_LOG_WARN(G_LOG_PREFIX, "set address reuse failed, %s:%d", __FILE__, __LINE__);
 		ret = false;	
 	}
 	
