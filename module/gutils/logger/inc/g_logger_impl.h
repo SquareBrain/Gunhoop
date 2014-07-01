@@ -131,7 +131,7 @@ public:
         const GInt8* log);   
 
 private:
-    GResult getModuleRule(const std::string& moduleName, ModuleRule* moduleRule);
+    GResult findModuleRule(const std::string& moduleName, ModuleRule* moduleRule);
 
 private:
     LogLevelMap         m_logLevelMap;

@@ -38,7 +38,7 @@ void LoggerUtil::printError(const GInt8* module,
     const GInt8* function,
     const GInt8* log)
 {
-    Logger::GetInstance()->printLog(LOG_ERROR, );    
+    Logger::GetInstance()->printLog(LOG_ERROR, module, file, line, function, log);    
 }
 
 void LoggerUtil::printWarn(const GInt8* module, 
