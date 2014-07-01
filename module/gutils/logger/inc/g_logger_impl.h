@@ -104,8 +104,8 @@ class Logger : public GCommon::Singleton<Logger>
 {
 public:
     // <module_name, module_rule>
-    typedef std::map<std::string, ModuleRule> ModuleRuleMap;
-    typedef std::map<LogLevel, std::string> LogLevelMap;
+    typedef std::map<std::string, ModuleRule*> ModuleRuleMap;
+    typedef std::map<LogLevel, const GInt8*> LogLevelMap;
     
 public:
     Logger();
@@ -123,7 +123,7 @@ public:
      * @param [in] function : function name
      * @param [in] log : log content
      */	 	
-    static void printLog(const LogLevel logLevel, 
+    void printLog(const LogLevel logLevel, 
         const GInt8* module, 
         const GInt8* file, 
         const GUint32 line, 
@@ -131,7 +131,7 @@ public:
         const GInt8* log);   
 
 private:
-    GResult findModuleRule(const std::string& moduleName, ModuleRule* moduleRule);
+    GResult findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule);
 
 private:
     LogLevelMap         m_logLevelMap;

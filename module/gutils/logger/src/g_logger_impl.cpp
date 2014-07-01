@@ -89,9 +89,9 @@ void Logger::printLog(const LogLevel logLevel,
     pos += sprintf(printBuf + pos, "%s", log);
 
     // add word wrap
-    if (m_globalRule->isWordWrap())
+    if (m_globalRule.isWordWrap())
     {
-        pos += sprintf(printBuf + pos, "\n", log);    
+        pos += sprintf(printBuf + pos, "\n");    
     }
     
     printf("%s", printBuf);
@@ -160,7 +160,6 @@ bool GlobalRule::isWordWrap() const
     
 ModuleRule::ModuleRule() : m_logLevel(LOG_ERROR), m_printLevel(PRINT_BASIC)
 {
-    m_levelName.assign("");
 }
 
 ModuleRule::~ModuleRule()
