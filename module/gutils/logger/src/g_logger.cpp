@@ -47,6 +47,7 @@ void LoggerUtil::printWarn(const GInt8* module,
     const GInt8* function,
     const GInt8* log)
 {
+    Logger::GetInstance()->printLog(LOG_WARN, module, file, line, function, log);
 }
 
 void LoggerUtil::printInfo(const GInt8* module, 
@@ -55,6 +56,7 @@ void LoggerUtil::printInfo(const GInt8* module,
     const GInt8* function,
     const GInt8* log)
 {
+    Logger::GetInstance()->printLog(LOG_INFO, module, file, line, function, log);
 }
 
 void LoggerUtil::printDebug(const GInt8* module, 
@@ -63,6 +65,7 @@ void LoggerUtil::printDebug(const GInt8* module,
     const GInt8* function,
     const GInt8* log)
 {
+    Logger::GetInstance()->printLog(LOG_DEBUG, module, file, line, function, log);
 }
 
 void LoggerUtil::printTrace(const GInt8* module, 
@@ -71,6 +74,7 @@ void LoggerUtil::printTrace(const GInt8* module,
     const GInt8* function,
     const GInt8* log)
 {
+    Logger::GetInstance()->printLog(LOG_TRACE, module, file, line, function, log);
 }
 
 G_NS_END
