@@ -36,8 +36,7 @@ IniParser::~IniParser()
 
 GResult IniParser::loadFile(const std::string& filePath)
 {
-    m_inifile.
-    
+    m_filePath = filePath;
     return G_YES;
 }
 

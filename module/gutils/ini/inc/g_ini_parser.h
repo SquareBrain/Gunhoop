@@ -85,7 +85,7 @@ public:
     GResult saveFile() const;    
 
 private:
-    GCommon::File   m_inifile;
+    std::string     m_filePath;
     SectionList     m_sectionList;
 };
 
