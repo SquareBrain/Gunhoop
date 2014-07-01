@@ -34,7 +34,12 @@ OBJS:=$(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
 
 LIB_FLAGS:=$(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
 SLIB_FLAGS:=-Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive
-TARGET_FILE:=$(OUTPUT)/bin/$(TARGET).$(VERSION)
+
+TARGET_FILE:=$(OUTPUT)/bin/$(TARGET)
+
+ifdef VERSION
+	TARGET_FILE:=$(OUTPUT)/bin/$(TARGET).$(VERSION)
+endif
 
 $(TARGET):$(OBJS)
 	$(CC) $(CPPFLAGS) $(OBJS) -o $(TARGET_FILE) $(SLIB_FLAGS) $(LIB_FLAGS)

@@ -35,13 +35,15 @@ OBJS:=$(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
 
 LIB_FLAGS:=$(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
 SLIB_FLAGS:=-Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive
+
 TARGET_FILE:=$(OUTPUT)/lib/$(TARGET).so
+ifdef VERSION
+	TARGET_FILE:=$(OUTPUT)/lib/$(TARGET).so.$(VERSION)
+endif
 
 $(TARGET):$(OBJS)
-	$(CC) -shared -o $(TARGET_FILE).$(VERSION) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
-	@rm $(TARGET_FILE) -f
-	@ln -s $(TARGET_FILE).$(VERSION) $(TARGET_FILE)	
-	@echo 'Build $(TARGET_FILE).$(VERSION) Success'
+	$(CC) -shared -o $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
+	@echo 'Build $(TARGET_FILE) Success'
 
 $(OBJDIR)/%.o:%.$(PS)
 	@echo $(CC) $<, `more $<|wc -l` lines
@@ -51,8 +53,8 @@ $(OBJDIR)/%.o:%.$(PS)
 .IGNORE:clean cleanall
 
 install:
-	@echo "Start Install $(TARGET_FILE).$(VERSION)"
-	@echo "Install $(TARGET_FILE).$(VERSION) Complete"
+	@echo "Start Install $(TARGET_FILE)"
+	@echo "Install $(TARGET_FILE) Complete"
 
 clean:
 	@rm $(OUTPUT)/obj -rf
