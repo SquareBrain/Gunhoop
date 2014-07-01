@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <g_type.h>
+#include <g_logger_impl.h>
 
 #define G_LOG_INIT() \
 	GUtils::LoggerUtil::Init();
@@ -27,72 +27,16 @@
 	GUtils::LoggerUtil::Uninit();
 
 #define G_LOG_ERROR(module, args...) \
-	GUtils::LoggerUtil::PrintError(module, __FILE__, __LINE__, __FUNCTION__, ##args);
+	GUtils::LoggerUtil::PrintError(__FILE__, __LINE__, __FUNCTION__, module, ##args);
 
 #define G_LOG_WARN(module, args...) \
-	GUtils::LoggerUtil::PrintWarn(module, __FILE__, __LINE__, __FUNCTION__, ##args);
+	GUtils::LoggerUtil::PrintWarn(__FILE__, __LINE__, __FUNCTION__, module, ##args);
 
 #define G_LOG_INFO(module, args...) \
-	GUtils::LoggerUtil::PrintInfo(module, __FILE__, __LINE__, __FUNCTION__, ##args);
+	GUtils::LoggerUtil::PrintInfo(__FILE__, __LINE__, __FUNCTION__, module, ##args);
 
 #define G_LOG_DEBUG(module, args...) \
-	GUtils::LoggerUtil::PrintDebug(module, __FILE__, __LINE__, __FUNCTION__, ##args);    
+	GUtils::LoggerUtil::PrintDebug(__FILE__, __LINE__, __FUNCTION__, module,##args);    
 
 #define G_LOG_TRACE(module, args...) \
-	GUtils::LoggerUtil::PrintTrace(module, __FILE__, __LINE__, __FUNCTION__, ##args);  
-
-G_NS_GUTILS_BEG
-
-// brief : posix socket wrapper class
-class LoggerUtil
-{
-public:	
-    /**
-     * init
-     * @note 
-     */	 	
-    static GResult Init();
-	
-    /**
-     * uninit
-     * @note 
-     */	 	
-    static GResult Uninit();
-	
-    /**
-     * print error
-     * @para [in] str : error information
-     * @note 
-     */	 	
-    static void PrintError(const GInt8* prefix, const GInt8* str);
-	
-    /**
-     * print warning
-     * @para [in] str : warning information
-     * @note 
-     */	
-    static void PrintWarn(const GInt8* prefix, const GInt8* str);
-
-    /**
-     * print print normal information
-     * @para [in] str : normal information
-     * @note 
-     */		
-    static void PrintInfo(const GInt8* prefix, const GInt8* str);
-	
-    /**
-     * print print debug information
-     * @para [in] str : debug information
-     * @note 
-     */			
-    static void PrintDebug(const GInt8* prefix, const GInt8* str);
-
-    /**
-     * print print trace information
-     * @para [in] str : trace information
-     * @note 
-     */			
-    static void PrintTrace(const GInt8* prefix, const GInt8* str);
-};
-
-G_NS_END
+	GUtils::LoggerUtil::PrintTrace(__FILE__, __LINE__, __FUNCTION__, module, ##args);  
