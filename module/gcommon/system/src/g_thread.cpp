@@ -38,7 +38,7 @@ GResult Thread::start()
 	GResult ret = pthread_create(&m_threadId, attributes, enterPoint, m_runnable);
 	if (ret != 0)
 	{
-	    G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed, %s:%d", __FILE__, __LINE__);
+	    G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed");
 		return G_NO;
 	}
 
@@ -76,7 +76,7 @@ GResult ThreadTask::start()
 	GInt32 ret = pthread_create(&m_threadId, attributes, enterPoint, this);
 	if (ret != 0)
 	{
-	    G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed, %s:%d", __FILE__, __LINE__);
+	    G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed");
 		return G_NO;
 	}
 
@@ -103,7 +103,7 @@ GInt32 ThreadUtil::createThread(void* entry, void* argument, const bool autoRel)
 	GInt32 ret = pthread_create(&threadId, attributes, (ThreadFunPoint_t)entry, argument);
 	if (ret != 0)
 	{
-	    G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed, %s:%d", __FILE__, __LINE__);
+	    G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed");
 		return (GInt32)threadId;
 	}
 
