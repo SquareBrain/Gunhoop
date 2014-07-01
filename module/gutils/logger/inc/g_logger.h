@@ -26,20 +26,20 @@
 #define G_LOG_UNINIT() \
 	GUtils::LoggerUtil::Uninit();
 
-#define G_LOG_ERROR(prefix, x) \
-	GUtils::LoggerUtil::PrintError(prefix, x);
+#define G_LOG_ERROR(module, args...) \
+	GUtils::LoggerUtil::PrintError(module, __FILE__, __LINE__, __FUNCTION__, ##args);
 
-#define G_LOG_WARN(prefix, x) \
-	GUtils::LoggerUtil::PrintWarn(prefix, x);
+#define G_LOG_WARN(module, args...) \
+	GUtils::LoggerUtil::PrintWarn(module, __FILE__, __LINE__, __FUNCTION__, ##args);
 
-#define G_LOG_INFO(prefix, x) \
-	GUtils::LoggerUtil::PrintWarn(prefix, x);
+#define G_LOG_INFO(module, args...) \
+	GUtils::LoggerUtil::PrintInfo(module, __FILE__, __LINE__, __FUNCTION__, ##args);
 
-#define G_LOG_DEBUG(prefix, x) \
-	GUtils::LoggerUtil::PrintWarn(prefix, x);    
+#define G_LOG_DEBUG(module, args...) \
+	GUtils::LoggerUtil::PrintDebug(module, __FILE__, __LINE__, __FUNCTION__, ##args);    
 
-#define G_LOG_TRACE(prefix, x) \
-	GUtils::LoggerUtil::PrintWarn(prefix, x);  
+#define G_LOG_TRACE(module, args...) \
+	GUtils::LoggerUtil::PrintTrace(module, __FILE__, __LINE__, __FUNCTION__, ##args);  
 
 G_NS_GUTILS_BEG
 
