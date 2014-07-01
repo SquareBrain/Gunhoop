@@ -21,22 +21,22 @@
 #include <g_logger_impl.h>
 
 #define G_LOG_INIT() \
-	GUtils::LoggerUtil::Init();
+	GUtils::LoggerUtil::init();
     
 #define G_LOG_UNINIT() \
-	GUtils::LoggerUtil::Uninit();
+	GUtils::LoggerUtil::uninit();
 
 #define G_LOG_ERROR(module, args...) \
-	GUtils::LoggerUtil::PrintError(__FILE__, __LINE__, __FUNCTION__, module, ##args);
+	GUtils::LoggerUtil::printError(__FILE__, __LINE__, __FUNCTION__, module, ##args);
 
 #define G_LOG_WARN(module, args...) \
-	GUtils::LoggerUtil::PrintWarn(__FILE__, __LINE__, __FUNCTION__, module, ##args);
+	GUtils::LoggerUtil::printWarn(__FILE__, __LINE__, __FUNCTION__, module, ##args);
 
 #define G_LOG_INFO(module, args...) \
-	GUtils::LoggerUtil::PrintInfo(__FILE__, __LINE__, __FUNCTION__, module, ##args);
+	GUtils::LoggerUtil::printInfo(__FILE__, __LINE__, __FUNCTION__, module, ##args);
 
 #define G_LOG_DEBUG(module, args...) \
-	GUtils::LoggerUtil::PrintDebug(__FILE__, __LINE__, __FUNCTION__, module,##args);    
+	GUtils::LoggerUtil::printDebug(__FILE__, __LINE__, __FUNCTION__, module,##args);    
 
 #define G_LOG_TRACE(module, args...) \
-	GUtils::LoggerUtil::PrintTrace(__FILE__, __LINE__, __FUNCTION__, module, ##args);  
+	GUtils::LoggerUtil::printTrace(__FILE__, __LINE__, __FUNCTION__, module, ##args);  
