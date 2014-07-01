@@ -15,10 +15,7 @@
 *  1. 2014-02-22 duye Created this file
 * 
 */
-#include <g_logger.h>
 #include <g_shm.h>
-
-static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.shm";
 
 // default shm size is 10M
 static const GUint64 G_DEF_SHM_SIZE = 1024 * 1024 * 10;
@@ -69,13 +66,13 @@ GResult Shm::syncShm()
 {
     if (!m_initFlags)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "shm hasn't init");
+        //G_LOG_ERROR(G_LOG_PREFIX, "shm hasn't init");
         return G_NO;
     }
     
     if (msync(m_shmAddr, m_shmSize, MS_SYNC) < 0)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "call msync() failed");
+        //G_LOG_ERROR(G_LOG_PREFIX, "call msync() failed");
         return SYNC_SHM_FAILED;
     }
 
@@ -86,29 +83,29 @@ GResult Shm::writeShm(const GUint32 offset, const GInt8* data, const GUint32 len
 {
     if (!m_initFlags)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "shm hasn't init");
+        //G_LOG_ERROR(G_LOG_PREFIX, "shm hasn't init");
         return G_NO;
     } 
 
     if (data == NULL)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "input data is NULL");
+        //G_LOG_ERROR(G_LOG_PREFIX, "input data is NULL");
         return WRITE_SHM_PARA_FAILED;
     }
     
     if (length == 0)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "input data length is zero");
+        //G_LOG_ERROR(G_LOG_PREFIX, "input data length is zero");
         return WRITE_SHM_PARA_FAILED;
     }
     
     if (offset + length > m_shmSize)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "will write data length over shm size");
+        //G_LOG_ERROR(G_LOG_PREFIX, "will write data length over shm size");
         return WRITE_SHM_PARA_FAILED;
     }
 
-    memcpy((GInt8*)m_shmAddr + offset, data, size);
+    memcpy((GInt8*)m_shmAddr + offset, data, length);
     
     return G_YES;        
 }
@@ -117,29 +114,29 @@ GResult Shm::readShm(const GUint32 offset, GInt8* buffer, const GUint32 size)
 {
     if (!m_initFlags)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "shm hasn't init");
+        //G_LOG_ERROR(G_LOG_PREFIX, "shm hasn't init");
         return G_NO;
     } 
 
     if (buffer == NULL)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "output buffer is NULL");
+        //G_LOG_ERROR(G_LOG_PREFIX, "output buffer is NULL");
         return WRITE_SHM_PARA_FAILED;
     }
     
     if (size == 0)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "ouput buffer size is zero");
+        //G_LOG_ERROR(G_LOG_PREFIX, "ouput buffer size is zero");
         return WRITE_SHM_PARA_FAILED;
     }
     
     if (offset + size > m_shmSize)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "will read length over shm size");
+        //G_LOG_ERROR(G_LOG_PREFIX, "will read length over shm size");
         return WRITE_SHM_PARA_FAILED;
     }
 
-    memcpy((GInt8*)data, (GInt8*)m_shmAddr + offset, size);
+    memcpy((GInt8*)buffer, (GInt8*)m_shmAddr + offset, size);
     
     return G_YES;     
 }
@@ -148,20 +145,20 @@ GResult Shm::init()
 {
     if (m_initFlags)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "shm had init");
+        //G_LOG_ERROR(G_LOG_PREFIX, "shm had init");
         return G_NO;
     }
 
     if (strlen(m_shmPath) == 0)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "shm path is empty");
+        //G_LOG_ERROR(G_LOG_PREFIX, "shm path is empty");
         return SHM_PATH_EMPTY;
     }
     
     GInt32 fd = open(m_shmPath, O_RDWR | O_CREAT);
     if (fd < 0)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "open shm file failed");
+        //G_LOG_ERROR(G_LOG_PREFIX, "open shm file failed");
         return OPEN_SHM_FAILED;
     }
 
@@ -176,7 +173,7 @@ GResult Shm::init()
     if (m_shmAddr == MAP_FAILED)
     {
         close(fd);
-        G_LOG_ERROR(G_LOG_PREFIX, "call mmap() failed");
+        //G_LOG_ERROR(G_LOG_PREFIX, "call mmap() failed");
         return MMAP_SHM_FAILED;
     }
 
@@ -191,13 +188,13 @@ GResult Shm::uninit()
 {
     if (!m_initFlags)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "shm hasn't init");
+        //G_LOG_ERROR(G_LOG_PREFIX, "shm hasn't init");
         return G_NO;
     }
     
     if (munmap(m_shmAddr, m_shmSize) < 0)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "call munmap failed");
+        //G_LOG_ERROR(G_LOG_PREFIX, "call munmap failed");
         return MUNMAP_SHM_FAILED;
     }
 

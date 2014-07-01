@@ -18,7 +18,7 @@
 
 #include <g_threadpool.h> 
 
-static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.component.threadpool";
+//static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.component.threadpool";
 
 // default the count of thread pool
 static const GUint32 G_DEF_THREAD_COUNT = 20;

@@ -14,10 +14,7 @@
 *  1. 2013-11-26 duye Created this file
 * 
 */
-#include <g_logger.h>
 #include <g_thread.h> 
-
-static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.thread";
 
 G_NS_GCOMMON_BEG
 
@@ -38,7 +35,7 @@ GResult Thread::start()
 	GResult ret = pthread_create(&m_threadId, attributes, enterPoint, m_runnable);
 	if (ret != 0)
 	{
-	    G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed");
+	    //G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed");
 		return G_NO;
 	}
 
@@ -76,7 +73,7 @@ GResult ThreadTask::start()
 	GInt32 ret = pthread_create(&m_threadId, attributes, enterPoint, this);
 	if (ret != 0)
 	{
-	    G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed");
+	    //G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed");
 		return G_NO;
 	}
 
@@ -103,7 +100,7 @@ GInt32 ThreadUtil::createThread(void* entry, void* argument, const bool autoRel)
 	GInt32 ret = pthread_create(&threadId, attributes, (ThreadFunPoint_t)entry, argument);
 	if (ret != 0)
 	{
-	    G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed");
+	    //G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed");
 		return (GInt32)threadId;
 	}
 

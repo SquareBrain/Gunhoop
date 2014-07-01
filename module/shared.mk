@@ -6,7 +6,6 @@ INCLUDES+= \
 	$(GOHOOP_TOP)/gcommon/component/iostream/inc \
 	$(GOHOOP_TOP)/gcommon/component/network/inc \
 	$(GOHOOP_TOP)/gcommon/system/inc \
-	$(GOHOOP_TOP)/gutils/logger/inc
 
 SLIBS+=
 

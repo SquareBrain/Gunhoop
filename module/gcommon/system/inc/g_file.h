@@ -23,6 +23,8 @@
 #include <string.h>
 #include <g_type.h>
 
+static const GUint32 DEF_ERROR_BUF_SIZE = 256;
+
 G_NS_GCOMMON_BEG
 
 class FileUtil
@@ -168,6 +170,15 @@ public:
      */		
 	GResult closeFile();
 
+    /**
+     * get last error string
+	 * @param [out] error : output buffer
+	 * @param [in] size : output buffer size
+     * @return G_YES/G_NO
+     * @note 
+     */		
+	GResult getLastError(GInt8* error, const GUint32 size);	
+
 private:
     /**
      * origin API for open file
@@ -178,6 +189,13 @@ private:
      * @note 
      */			
 	GResult orgOpen(const GInt32 flags, const GUint32 mode = 0);
+	
+    /**
+     * origin set program running error
+	 * @param [in] error : error string
+     * @note 
+     */		
+	void setError(const GInt8* error);
 
 private:
     GInt32			m_fd;
@@ -185,6 +203,7 @@ private:
     GUint32         m_mode;
 	GInt8		    m_path[G_PATH_MAX];
 	GUint32         m_pathLen;
+	GInt8           m_error[DEF_ERROR_BUF_SIZE];
 };
 
 G_NS_END

@@ -14,10 +14,7 @@
 *  1. 2013-06-20 duye Created this file
 * 
 */
-#include <g_logger.h>
 #include <g_file.h>
-
-static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.file";
 
 // default create file permissions
 static const GUint32 G_CREATE_MODE = 0x775;
@@ -38,10 +35,11 @@ GResult FileUtil::createFile(const GInt8* filePath)
 
 File::File() : m_fd(-1), m_flags(0), m_mode(0), m_pathLen(0)
 {
+    m_error[0] = 0;
     m_path[0] = 0;
 }
 
-File::File(const GInt8* filePath)
+File::File(const GInt8* filePath) : m_fd(-1), m_flags(0), m_mode(0), m_pathLen(0)
 {
     GUint32 len = strlen(filePath);
     if (len < G_PATH_MAX)
@@ -50,6 +48,8 @@ File::File(const GInt8* filePath)
         m_path[len] = 0;
         m_pathLen = len;
     }
+
+    m_error[0] = 0;
 }
 
 File::~File() 
@@ -61,7 +61,7 @@ GResult File::setFilePath(const GInt8* filePath)
 {
     if (m_pathLen > 0)
     {   
-        G_LOG_ERROR(G_LOG_PREFIX, "file path has exist");
+        setError("file path has exist");
         return G_NO;
     }
     
@@ -74,7 +74,7 @@ GResult File::setFilePath(const GInt8* filePath)
     }    
     else
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "file path too long, should < %d", G_PATH_MAX);
+        setError("file path too long");
         return G_NO;   
     }
 
@@ -137,7 +137,7 @@ GInt64 File::readFile(GInt8* buffer, const GUint64 size)
 
     if (m_fd <= 0)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "file don't open"); 
+        setError("file don't open");
         return G_NO;
     }
     
@@ -150,7 +150,7 @@ GInt64 File::readLine(const GUint64 offset, GInt8* buffer, const GUint64 size)
     
     if (m_fd <= 0)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "file don't open");
+        setError("file don't open");
         return G_NO;
     }
     
@@ -163,7 +163,7 @@ GInt64 File::writeFile(const GInt8* buffer, const GUint64 size)
 
     if (m_fd <= 0)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "file don't open");
+        setError("file don't open");
         return G_NO;
     }
     
@@ -174,7 +174,7 @@ GResult File::closeFile()
 {
     if (m_fd < 0)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "file don't open");
+        setError("file don't open");
         return G_NO;
     }
 
@@ -187,17 +187,25 @@ GResult File::closeFile()
     return ret;
 }
 
+GResult File::getLastError(GInt8* error, const GUint32 size)
+{
+    GUint32 len = (size <= strlen(m_error) ? size - 1 : strlen(m_error));
+    memcpy(error, m_error, len); 
+    error[len] = 0;
+    return G_YES;
+}
+
 GResult File::orgOpen(const GInt32 flags, const GUint32 mode)
 {    
     if (m_fd > 0)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "file had opened");
+        setError("file had opened");
         return G_NO;
     }
 
     if (m_pathLen == 0)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "hasn't set file path");
+        setError("hasn't set file path");
         return G_NO;   
     }
     
@@ -209,11 +217,17 @@ GResult File::orgOpen(const GInt32 flags, const GUint32 mode)
     }
     else
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "open file '%s' failed, check whether exist this file path", 
-            m_path);
+        setError("open file failed, check whether exist this file path");
     }
 
     return (m_fd != -1 ? true : false);
+}
+
+void File::setError(const GInt8* error)
+{
+    GUint32 len = (strlen(error) < DEF_ERROR_BUF_SIZE ? strlen(error) : DEF_ERROR_BUF_SIZE - 1);
+    memcpy(m_error, error, len);
+    m_error[len] = 0;
 }
 
 G_NS_END

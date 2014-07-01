@@ -15,10 +15,7 @@
 *  1. 2014-02-23 duye Created this file
 * 
 */
-#include <g_logger.h>
 #include <g_memory.h>
-
-static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.memory";
 
 G_NS_GCOMMON_BEG
 G_NS_END

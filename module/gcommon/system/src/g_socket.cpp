@@ -15,11 +15,7 @@
 *  1. 2014-02-16 duye Created this file
 * 
 */
-
-#include <g_logger.h>
 #include <g_socket.h>
-
-static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.system.socket";
 
 // the max request number, system default value it's 20
 static const GUint32 G_DEF_MAX_REQ = 20;
@@ -51,14 +47,14 @@ GResult Socket::openSocket(const GInt32 domain, const GInt32 type)
 {
 	if ((m_sockfd = socket(domain, type, 0)) == -1)
 	{
-	    G_LOG_ERROR(G_LOG_PREFIX, "open socket() failed");
+	    //G_LOG_ERROR(G_LOG_PREFIX, "open socket() failed");
 	    return G_NO;
 	}
 
 	// init socket option
 	if (!initOption())
 	{
-	    G_LOG_ERROR(G_LOG_PREFIX, "init socket option failed");
+	    //G_LOG_ERROR(G_LOG_PREFIX, "init socket option failed");
 	}	
 
 	return G_YES;
@@ -81,7 +77,7 @@ GResult Socket::closeSocket(const GInt32 how)
 	// how = 2 : both above way
 	if (m_sockfd == -1)
 	{
-	    G_LOG_ERROR(G_LOG_PREFIX, "socket hasn't open");
+	    //G_LOG_ERROR(G_LOG_PREFIX, "socket hasn't open");
 	    return G_YES;
 	}
 	
@@ -125,7 +121,7 @@ GResult Socket::initOption()
 	// set address reuse
 	if (setsockopt(m_sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
 	{
-	    G_LOG_WARN(G_LOG_PREFIX, "set address reuse failed");
+	    //G_LOG_WARN(G_LOG_PREFIX, "set address reuse failed");
 		ret = false;	
 	}
 	
