@@ -1,25 +1,19 @@
-all: tagini taglogger tagxml taglibmk
+SUBDIRS:= \
+	ini \
+	logger \
+	xml
+
+all:
+	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR; done
+	$(MAKE) -f module_shared.mk
+	$(MAKE) -f module_static.mk
 
 clean:
-	$(MAKE) -C ini clean
-	$(MAKE) -C logger clean
-	$(MAKE) -C xml clean
-	$(MAKE) -f module.mk clean
+	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR clean; done
+	$(MAKE) -f module_shared.mk clean
+	$(MAKE) -f module_static.mk clean
 
 cleanall:
-	$(MAKE) -C ini cleanall
-	$(MAKE) -C logger cleanall
-	$(MAKE) -C xml cleanall
-	$(MAKE) -f module.mk cleanall
-
-tagini:    
-	$(MAKE) -C ini 
-
-taglogger:	  
-	$(MAKE) -C logger	
-
-tagxml:    
-	$(MAKE) -C xml 
-
-taglibmk:    
-	$(MAKE) -f module.mk 
+	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR cleanall; done
+	$(MAKE) -f module_shared.mk cleanall
+	$(MAKE) -f module_static.mk cleanall
