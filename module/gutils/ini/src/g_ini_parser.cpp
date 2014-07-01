@@ -17,7 +17,7 @@
 * 
 */
 
-#include <g_ini.h>
+#include <g_ini_parser.h>
 
 G_NS_GUTILS_BEG
 

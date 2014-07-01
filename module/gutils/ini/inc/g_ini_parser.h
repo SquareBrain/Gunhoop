@@ -25,10 +25,12 @@
 
 G_NS_GUTILS_BEG
 
+class IniSection;
+
 /** 
  * ini file section list
  */
-typedef std::list<Section*> SectionList;
+typedef std::list<IniSection*> SectionList;
 
 /** 
  * POSIX condition wrapper

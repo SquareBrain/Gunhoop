@@ -16,7 +16,7 @@
 *  1. 2013-11-15 duye Created this file
 * 
 */ 
-#include <duye/util/xml/inc/duye_xml.h>
+#include <g_xml_parser.h>
 
 G_NS_GUTILS_BEG
 

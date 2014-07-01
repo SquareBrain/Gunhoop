@@ -18,9 +18,10 @@
 
 #pragma once
 
-#include <duye/util/inc/duye_util_def.h>
+#include <g_type.h>
 
 G_NS_GUTILS_BEG
+
 class XmlParser
 {
 public:

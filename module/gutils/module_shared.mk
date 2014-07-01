@@ -11,9 +11,11 @@ LIBS_PATH:=
 LIBS:= 
 
 MODULE_PATH:=$(GOHOOP_TOP)/gutils
-SLIBS:= \
-	$(MODULE_PATH)/ini/output/lib/libcomponent.a \
-	$(MODULE_PATH)/logger/output/lib/libsystem.a \
-	$(MODULE_PATH)/xml/output/lib/libsystem.a
+MODULE:= \
+	ini \
+	logger \
+	xml
+
+SLIBS:=$(foreach module, $(MODULE), $(MODULE_PATH)/$(module)/output/lib/lib$(module).a)
 
 include ../shared.mk
