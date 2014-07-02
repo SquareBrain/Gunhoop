@@ -15,13 +15,11 @@
 *  1. 2013-11-15 duye Created this file
 * 
 */
-
 #pragma once
 
 #include <list>
 #include <string>
 #include <g_type.h>
-#include <g_file.h>
 
 G_NS_GUTILS_BEG
 

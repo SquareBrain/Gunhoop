@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_time.cpp
+* @file		g_timeconv.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -14,67 +14,67 @@
 *  1. 2014-03-09 duye Created this file
 * 
 */
-#include <g_time.h>
+#include <g_timeconv.h>
 
 G_NS_GCOMMON_BEG
 
-bool TimeUtil::convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+GResult TimeConv::convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
     if (outSysTime == NULL)
     {
-        return false;
+        return G_NO;
     }
     
     const GInt8* curSysTime = "20140309";
     
     sprintf(outSysTime, "%s", curSysTime);
 
-    return true;
+    return G_YES;
 }
 
-bool TimeUtil::convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+GResult TimeConv::convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
     if (outSysTime == NULL)
     {
-        return false;
+        return G_NO;
     }
     
     const GInt8* curSysTime = "2014-03-09";
     
     sprintf(outSysTime, "%s", curSysTime);
 
-    return true;
+    return G_YES;
 }
 
-bool TimeUtil::convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+GResult TimeConv::convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
     if (outSysTime == NULL)
     {
-        return false;
+        return G_NO;
     }
     
     const GInt8* curSysTime = "2014/03/09";
     
     sprintf(outSysTime, "%s", curSysTime);
 
-    return true;
+    return G_YES;
 }
 
-bool TimeUtil::convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+GResult TimeConv::convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
     if (outSysTime == NULL)
     {
-        return false;
+        return G_NO;
     }
     
     const GInt8* curSysTime = "2014.03.09";
     
     sprintf(outSysTime, "%s", curSysTime);
 
-    return true;
+    return G_YES;
 }
 
-bool TimeUtil::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+GResult TimeConv::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
     if (outSysTime == NULL)
     {
@@ -85,7 +85,7 @@ bool TimeUtil::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint
     
     sprintf(outSysTime, "%s", curSysTime);
 
-    return true;
+    return G_YES;
 }
 
 G_NS_END

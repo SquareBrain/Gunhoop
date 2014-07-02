@@ -16,7 +16,7 @@
 *  1. 2013-11-15 duye Created this file
 * 
 */
-
+#include <g_file.h>
 #include <g_ini_parser.h>
 
 G_NS_GUTILS_BEG

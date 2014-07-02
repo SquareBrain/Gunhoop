@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_time.h
+* @file		g_timeconv.h
 * @version     
 * @brief      
 * @author   duye
@@ -15,7 +15,6 @@
 *  1. 2014-03-09 duye Created this file
 * 
 */
-
 #pragma once
 
 #include <g_type.h>
@@ -23,9 +22,9 @@
 G_NS_GCOMMON_BEG
 
 /** 
- * POSIX system time
+ * time convert wrapper
  */
-class TimeUtil
+class TimeConv
 {
 public:
     /**
@@ -33,50 +32,50 @@ public:
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
-	 * @return true/false
+	 * @return G_YES/G_NO
      * @note 
      */			
-    static bool convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
+    static GResult convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
 
     /**
      * get system time format:2014-03-09
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
-	 * @return true/false
+	 * @return G_YES/G_NO
      * @note 
      */		
-    static bool convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
+    static GResult convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
  
     /**
      * get system time format:2014/03/09
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
-	 * @return true/false
+	 * @return G_YES/G_NO
      * @note 
      */		
-    static bool convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
+    static GResult convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
   
     /**
      * get system time format:2014.03.09
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
-	 * @return true/false
+	 * @return G_YES/G_NO
      * @note 
      */		
-    static bool convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
+    static GResult convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
 
     /**
      * get system time format:2014-03-09:999
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
-	 * @return true/false
+	 * @return G_YES/G_NO
      * @note 
      */		
-    static bool convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);
+    static GResult convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);
 };
 
 G_NS_END

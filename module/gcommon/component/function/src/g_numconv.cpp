@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_time.cpp
+* @file		g_numconv.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -14,78 +14,48 @@
 *  1. 2014-03-09 duye Created this file
 * 
 */
-#include <g_time.h>
+#include <g_numconv.h>
 
 G_NS_GCOMMON_BEG
 
-bool TimeUtil::convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+GResult NumConv::strToInt16(GInt8* str, GInt16& num)
 {
-    if (outSysTime == NULL)
-    {
-        return false;
-    }
-    
-    const GInt8* curSysTime = "20140309";
-    
-    sprintf(outSysTime, "%s", curSysTime);
-
-    return true;
+    return G_YES;
 }
-
-bool TimeUtil::convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+       
+GResult NumConv::strToInt32(GInt8* str, GInt32& num)
 {
-    if (outSysTime == NULL)
-    {
-        return false;
-    }
-    
-    const GInt8* curSysTime = "2014-03-09";
-    
-    sprintf(outSysTime, "%s", curSysTime);
-
-    return true;
+    return G_YES;
 }
-
-bool TimeUtil::convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+      
+GResult NumConv::strToInt64(GInt8* str, GInt64& num)
 {
-    if (outSysTime == NULL)
-    {
-        return false;
-    }
-    
-    const GInt8* curSysTime = "2014/03/09";
-    
-    sprintf(outSysTime, "%s", curSysTime);
-
-    return true;
+    return G_YES;
 }
-
-bool TimeUtil::convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+         
+GResult NumConv::strToUint16(GInt8* str, GUint16& num)
 {
-    if (outSysTime == NULL)
-    {
-        return false;
-    }
-    
-    const GInt8* curSysTime = "2014.03.09";
-    
-    sprintf(outSysTime, "%s", curSysTime);
-
-    return true;
+    return G_YES;
 }
-
-bool TimeUtil::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+      
+GResult NumConv::strToUint32(GInt8* str, GUint32& num)  
 {
-    if (outSysTime == NULL)
-    {
-        return false;
-    }
+    return G_YES;
+}
+       
+GResult NumConv::strToUint64(GInt8* str, GUint64& num) 
+{
+    return G_YES;
+}
+     
+GResult NumConv::numToStr(GInt64& num, GInt8* buffer, const GUint32 size) 
+{
+    return G_YES;
+}
     
-    const GInt8* curSysTime = "2014-03-09:999";
-    
-    sprintf(outSysTime, "%s", curSysTime);
-
-    return true;
+GResult NumConv::numToStr(GUint64& num, GInt8* buffer, const GUint32 size)    
+{
+    return G_YES;
 }
 
 G_NS_END

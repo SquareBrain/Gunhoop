@@ -4,15 +4,14 @@
 *
 *************************************************************************************/
 /**
-* @file		g_time.h
+* @file		g_numconv.h
 * @version     
 * @brief      
 * @author   duye
-* @date     2014-03-09
+* @date     2014-07-02
 * @note 
 *
-*  2. 2014-06-21 duye move to gohoop project 
-*  1. 2014-03-09 duye Created this file
+*  1. 2014-07-02 duye Created this file
 * 
 */
 
@@ -23,60 +22,84 @@
 G_NS_GCOMMON_BEG
 
 /** 
- * POSIX system time
+ * number convert wrapper
  */
-class TimeUtil
+class NumConv
 {
 public:
     /**
-     * get system time format:20140309
-	 * @param [in]sysTime : input system time with nanosecond
-	 * @param [out]sysTimeStr : output system time with nanosecond
-	 * @param [in] bufSize : output buffer size
-	 * @return true/false
+     * convert string to int16
+	 * @param [in]str : input number with string format
+	 * @param [out]num : output number
+	 * @return G_YES/G_NO
      * @note 
      */			
-    static bool convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
+    static GResult strToInt16(GInt8* str, GInt16& num);  
 
     /**
-     * get system time format:2014-03-09
-	 * @param [in]sysTime : input system time with nanosecond
-	 * @param [out]sysTimeStr : output system time with nanosecond
-	 * @param [in] bufSize : output buffer size
-	 * @return true/false
+     * convert string to int32
+	 * @param [in]str : input number with string format
+	 * @param [out]num : output number
+	 * @return G_YES/G_NO
      * @note 
-     */		
-    static bool convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
+     */			
+    static GResult strToInt32(GInt8* str, GInt32& num); 
  
     /**
-     * get system time format:2014/03/09
-	 * @param [in]sysTime : input system time with nanosecond
-	 * @param [out]sysTimeStr : output system time with nanosecond
-	 * @param [in] bufSize : output buffer size
-	 * @return true/false
+     * convert string to int64
+	 * @param [in]str : input number with string format
+	 * @param [out]num : output number
+	 * @return G_YES/G_NO
      * @note 
-     */		
-    static bool convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
+     */			
+    static GResult strToInt64(GInt8* str, GInt64& num); 
   
     /**
-     * get system time format:2014.03.09
-	 * @param [in]sysTime : input system time with nanosecond
-	 * @param [out]sysTimeStr : output system time with nanosecond
-	 * @param [in] bufSize : output buffer size
-	 * @return true/false
+     * convert string to uint16
+	 * @param [in]str : input number with string format
+	 * @param [out]num : output number
+	 * @return G_YES/G_NO
      * @note 
-     */		
-    static bool convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
+     */			
+    static GResult strToUint16(GInt8* str, GUint16& num);  
 
     /**
-     * get system time format:2014-03-09:999
-	 * @param [in]sysTime : input system time with nanosecond
-	 * @param [out]sysTimeStr : output system time with nanosecond
-	 * @param [in] bufSize : output buffer size
-	 * @return true/false
+     * convert string to uint32
+	 * @param [in]str : input number with string format
+	 * @param [out]num : output number
+	 * @return G_YES/G_NO
      * @note 
-     */		
-    static bool convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);
+     */			
+    static GResult strToUint32(GInt8* str, GUint32& num);     
+
+    /**
+     * convert string to uint64
+	 * @param [in]str : input number with string format
+	 * @param [out]num : output number
+	 * @return G_YES/G_NO
+     * @note 
+     */			
+    static GResult strToUint64(GInt8* str, GUint64& num); 
+
+    /**
+     * convert number to number
+	 * @param [in]num : input number with string format
+	 * @param [out]buffer : output buffer
+	 * @param [in]size : output buffer size
+	 * @return G_YES/G_NO
+     * @note 
+     */			
+    static GResult numToStr(GInt64& num, GInt8* buffer, const GUint32 size); 
+
+    /**
+     * convert number to unsigned number
+	 * @param [in]num : input number with string format
+	 * @param [out]buffer : output buffer
+	 * @param [in]size : output buffer size
+	 * @return G_YES/G_NO
+     * @note 
+     */			
+    static GResult numToStr(GUint64& num, GInt8* buffer, const GUint32 size);    
 };
 
 G_NS_END
