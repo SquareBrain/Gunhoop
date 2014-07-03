@@ -22,13 +22,10 @@
 #include <map>
 #include <string>
 #include <g_type.h>
+#include <g_lock.h>
 
 G_NS_GUTILS_BEG
 
-/** 
- * key-value map
- */
-typedef std::map<std::string, std::string> KeyValueMap;
 
 /** 
  * ini file section
@@ -36,35 +33,70 @@ typedef std::map<std::string, std::string> KeyValueMap;
 class IniSection
 {
 public:
+    /** 
+     * key-value map
+     */
+    typedef std::map<std::string, std::string> KeyValueMap;
+
+public:
     IniSection();
+
+    /**
+     * constructor
+     * @param [in] sectionName : section name
+     * @return KeyValueMap const reference
+     * @note 
+     */	    
+    explicit IniSection(const std::string& sectionName);
+    
     ~IniSection();
 
     /**
-     * add key-value
-     * @param [in] key : attribute name
-     * @param [in] value : attribute value
-     * @note 
-     */	
-    void addKeyValue(const std::string& key, const std::string& value);
-    
-    /**
-     * get key-value map const reference
+     * set ini section name
      * @param [in] filePath : file path
      * @return KeyValueMap const reference
      * @note 
      */	
-    const KeyValueMap& getKeyValueMap() const;
-
+    void setSectionName(const std::string& sectionName);    
+    
     /**
-     * get key-value map reference
+     * get ini section name
      * @param [in] filePath : file path
-     * @return KeyValueMap reference
+     * @return KeyValueMap const reference
      * @note 
      */	
-    KeyValueMap& getKeyValueMap(); 
+    const std::string& getSectionName() const;
+    
+    /**
+     * add parameter ane value
+     * @param [in] para : parameter
+     * @param [in] value : value
+     * @return G_YES/G_NO
+     * @note 
+     */	
+    GResult addPara(const std::string& para, const std::string& value);
 
+    /**
+     * delete parameter
+     * @param [in] para : parameter
+     * @return G_YES/G_NO
+     * @note 
+     */	
+    GResult delPara(const std::string& para); 
+    
+    /**
+     * update parameter value
+     * @param [in] para : parameter
+     * @param [in] value : value
+     * @return G_YES/G_NO
+     * @note 
+     */	
+    GResult updatePara(const std::string& para, const std::string& value);
+    
 private:
+    std::string     m_sectionName;
     KeyValueMap     m_keyValueMap;
+    GCommon::Mutex  m_mapLock;
 };
 
 G_NS_END

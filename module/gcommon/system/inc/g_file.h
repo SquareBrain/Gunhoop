@@ -135,6 +135,15 @@ public:
 	GResult openRWCA();	
 
     /**
+     * get file size
+     * @param [out] buffer : output buffer
+	 * @param [in] size : the size of buffer     
+     * @return size/-1
+     * @note 
+     */			
+	GInt64 getFileSize();
+	
+    /**
      * read file
      * @param [out] buffer : output buffer
 	 * @param [in] size : the size of buffer     

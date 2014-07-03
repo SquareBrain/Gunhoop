@@ -17,18 +17,20 @@
 */
 #pragma once
 
-#include <list>
+#include <map>
 #include <string>
 #include <g_type.h>
+#include <g_lock.h>
 
 G_NS_GUTILS_BEG
 
 class IniSection;
 
 /** 
- * ini file section list
+ * ini file section map
+ * <section_name, ini_section>
  */
-typedef std::list<IniSection*> SectionList;
+typedef std::map<std::string, IniSection*> IniSectionMap;
 
 /** 
  * POSIX condition wrapper
@@ -54,37 +56,61 @@ public:
     GResult loadFile(const std::string& filePath);
 
     /**
-     * load data buffer
+     * import data from buffer
      * @param [in] data : file data
      * @return G_YES/G_NO
      * @note 
      */	     
-    GResult loadData(const std::string& data);
+    GResult importData(const std::string& data);
 
     /**
-     * get ini configuration section with const reference
-     * @return const SectionList reference
+     * import data from buffer
+     * @param [in] data : file data
+     * @param [in] length : data length
+     * @return G_YES/G_NO
      * @note 
-     */	 
-    const SectionList& getSectionList() const;
+     */	     
+    GResult importData(const GInt8* data, const GUint64 length);    
 
     /**
-     * get ini configuration section with no const
-     * @return SectionList reference
+     * get value
+     * @param [in] section : section name
+     * @param [in] paraName : parameter name
+     * @param [out] value : return value
+     * @return G_YES/G_NO
      * @note 
      */	 
-    SectionList& getSectionList();
+    GResult getParaVal(const std::string& section, 
+        const std::string paraName, 
+        std::string& value);
+
+    /**
+     * set value
+     * @param [in] section : section name
+     * @param [in] paraName : parameter name
+     * @param [in] value : set value
+     * @return G_YES/G_NO
+     * @note 
+     */	 
+    GResult setParaVal(const std::string& section, 
+        const std::string paraName, 
+        const std::string& value);    
     
     /**
-     * save file update
+     * save configuration to file
      * @return G_YES/G_NO
      * @note 
      */	 
     GResult saveFile() const;    
 
 private:
-    std::string     m_filePath;
-    SectionList     m_sectionList;
+    void cleanIniSectionMap();
+    GResult parserSection(const GInt8* data, const GUint64& length);
+
+private:
+    std::string         m_filePath;
+    IniSectionMap       m_iniSectionMap;
+    GCommon::Mutex      m_mapLock;
 };
 
 G_NS_END

@@ -131,6 +131,19 @@ GResult File::openRWCA()
     return orgOpen(O_RDWR | O_CREAT | O_APPEND, G_CREATE_MODE);
 }
 
+GInt64 File::getFileSize()
+{
+    if (m_fd <= 0)
+    {
+        setError("file don't open");
+        return G_NO;
+    }    
+
+    GInt64 fileSize = 0;
+    
+    return fileSize;
+}
+
 GInt64 File::readFile(GInt8* buffer, const GUint64 size)
 {
     G_ASSERT(buffer != NULL && size > 0);
