@@ -11,7 +11,7 @@
 * @date     2014-07-03
 * @note 
 *
-*  1. 2014-07-03 ylh Created this file
+*  1. 2014-07-03 duye Created this file
 * 
 */
 
@@ -70,4 +70,3 @@ GInt32 FilterInputStream::skip(GInt32 iNum)
 {
 	return 0;	
 }
-
