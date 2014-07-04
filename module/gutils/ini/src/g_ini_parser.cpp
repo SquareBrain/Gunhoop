@@ -85,16 +85,18 @@ GResult IniParser::importData(const GInt8* data, const GUint64 length)
     
     while (length--)
     {
-        switch ()
+        switch (data[offset])
         {
         case '[':
-            parserSection(data + offset, length);
+            if (parserSection(data, length, offset) != G_YES)
+            {
+                return G_NO;
+            }
             break;
         default:
+            offset++;
             break;
         }
-
-        offset++;
     }
     
     return G_YES;
@@ -130,10 +132,12 @@ void IniParser::cleanIniSectionMap()
     }
 }
 
-GResult IniParser::parserSection(const GInt8* data, const GUint64& length, )
+GResult IniParser::parserSection(const GInt8* data, 
+    const GUint64 length, 
+    GUint64& offset)
 {
-    GUint64 begPos = 0;
-    GUint64 endPos = 0;
+    GUint64 begPos = offset;
+    GUint64 endPos = offset;
     bool findSectionEnd = false;
     
     while (data[endPos] != 0)
@@ -160,14 +164,17 @@ GResult IniParser::parserSection(const GInt8* data, const GUint64& length, )
         }
     }
 
+    if (endPos - begPos <= 1)
+    {
+        return G_NO;    
+    }
+
     std::string sectionName(data + endPos, endPos - begPos);
     IniSection* section = new IniSection(sectionName);
 
     getOneLine();
     
     offset = endPos;
-
-    
 }
 
 G_NS_END
