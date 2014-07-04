@@ -83,7 +83,7 @@ GResult IniParser::importData(const GInt8* data, const GUint64 length)
 {
     GUint64 offset = 0;
     
-    while (length--)
+    while (offset < length)
     {
         switch (data[offset])
         {
@@ -166,15 +166,39 @@ GResult IniParser::parserSection(const GInt8* data,
 
     if (endPos - begPos <= 1)
     {
+        offset = endPos;
         return G_NO;    
     }
 
-    std::string sectionName(data + endPos, endPos - begPos);
+    std::string sectionName(data + begPos, endPos - begPos);
     IniSection* section = new IniSection(sectionName);
 
-    getOneLine();
+    std::string lineStr;
+    while (getOneLine(data + endPos, length - offset, lineStr)) == G_YES)
+    {
+        
+        lineLen = 0;
+    }
+    
+    m_iniSectionMap.insert(std::make_pair(sectionName, section));
     
     offset = endPos;
+}
+
+GResult IniParser::getOneLine(const GInt8* data, 
+    const GUint64 length, 
+    std::string& lineStr)
+{
+    GUint64 endPos = 0;
+    while (endPos < length)
+    {
+        if (data[endPos++] == '\n')
+        {
+            break;
+        }
+    }
+
+    
 }
 
 G_NS_END
