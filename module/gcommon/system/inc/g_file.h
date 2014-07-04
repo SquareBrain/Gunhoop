@@ -24,6 +24,14 @@ static const GUint32 DEF_ERROR_BUF_SIZE = 256;
 
 G_NS_GCOMMON_BEG
 
+typedef enum
+{
+    ONLY_READ = 1,
+    ONLY_WRITE = 2,
+    READ_WRITE = 4,
+    OPEN_APPEND = 8
+} OpenMode;
+
 class FileUtil
 {
 public:
@@ -60,77 +68,22 @@ public:
      * @note 
      */		
 	GResult setFilePath(const GInt8* filePath);
-
-    /**
-     * get file mode
-     * @return mode
-     * @note 
-     */		
-	GUint32 getMode() const;	
 	
     /**
      * open file for reading
+     * @param [in] flags : open mode flags
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult openR();
+	GResult openFile(const GUint64 flags);
 
     /**
-     * open file for writing
+     * close file
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult openW();
-
-    /**
-     * open file for writing, and appended content
-     * @return G_YES/G_NO
-     * @note 
-     */			
-	GResult openWA();	
-
-    /**
-     * open file for writing, and create it when isn't exist
-     * @return G_YES/G_NO
-     * @note 
-     */		
-	GResult openWC();
-
-    /**
-     * open file for writing, and create it when isn't exist, and append content
-     * @return G_YES/G_NO
-     * @note 
-     */		
-	GResult openWCA();	
-
-    /**
-     * open file for reading and writing
-     * @return G_YES/G_NO
-     * @note 
-     */		
-	GResult openRW();
-
-    /**
-     * open file for reading and writeing, and appended content
-     * @return G_YES/G_NO
-     * @note 
-     */		
-	GResult openRWA();	
-	
-    /**
-     * open file for randing and writing, and craete it when isn't exist
-     * @return G_YES/G_NO
-     * @note 
-     */		
-	GResult openRWC();
-
-    /**
-     * open file for rand and write, and craete it when isn't exist, and append content
-     * @return G_YES/G_NO
-     * @note 
-     */			
-	GResult openRWCA();	
-
+    GResult closeFile();
+    
     /**
      * get file size
      * @param [out] buffer : output buffer
@@ -150,16 +103,6 @@ public:
 	GInt64 readFile(GInt8* buffer, const GUint64 size);
 
     /**
-     * read a line    
- 	 * @param [in] offset : the offset from the begin position
-	 * @param [out] buffer : output buffer
-	 * @param [in] size : the size of buffer    
-     * @return size/-1
-     * @note 
-     */		
-	GInt64 readLine(const GUint64 offset, GInt8* buffer, const GUint64 size);
-
-    /**
      * write file
 	 * @param [in] buffer : input buffer
 	 * @param [in] size : the size of buffer
@@ -168,13 +111,6 @@ public:
      */		
 	GInt64 writeFile(const GInt8* buffer, const GUint64 size);
 	
-    /**
-     * close file
-	 * @param [in] buffer : input buffer
-     * @return G_YES/G_NO
-     * @note 
-     */		
-	GResult closeFile();
 
     /**
      * get last error string
@@ -193,7 +129,7 @@ private:
      * @return G_YES/G_NO
      * @note 
      */			
-	GResult orgOpen(const GInt32 flags, const GUint32 mode = 0);
+	GResult orgOpen(const GInt32 flags, const GUint32 mode);
 	
     /**
      * origin set program running error

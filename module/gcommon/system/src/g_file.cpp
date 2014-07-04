@@ -84,54 +84,55 @@ GResult File::setFilePath(const GInt8* filePath)
     return G_YES;
 }
 
-GUint32 File::getMode() const
+GResult File::openFile(const GUint64 flags)
 {
-    return m_fileStat.st_mode;
+    GInt32 openFlags = 0;
+    if (flags | ONLY_READ)
+    {
+        openFlags = O_RDONLY;
+    }
+    else if (flags | ONLY_WRITE)
+    {
+        openFlags = O_WRONLY | O_CREAT;
+    }
+    else if (flags | READ_WRITE)
+    {
+        openFlags = O_RDWR | O_CREAT;        
+    }
+    else if (flags | OPEN_APPEND)
+    {
+        if (openFlags == 0)
+        {
+            return G_NO;
+        }
+
+        openFlags |= O_APPEND;
+    }
+
+    if (openFlags == 0)
+    {
+        setError("input open mode error");
+        return G_NO;
+    }
+    
+    return orgOpen(openFlags, G_CREATE_MODE);          
 }
 
-GResult File::openR()
+GResult File::closeFile()
 {
-    return orgOpen(O_RDONLY);
-}
+    if (m_fd < 0)
+    {
+        setError("file don't open");
+        return G_NO;
+    }
 
-GResult File::openW()
-{
-    return orgOpen(O_WRONLY);
-}
+    GResult ret = (close(m_fd) != -1 ? G_YES : G_NO);
+    
+    m_fd = -1;
+    m_path[0] = 0;
+    m_flags = 0;
 
-GResult File::openWA()
-{
-    return orgOpen(O_WRONLY | O_APPEND);
-}
-
-GResult File::openWC()
-{
-    return orgOpen(O_WRONLY | O_CREAT, G_CREATE_MODE);
-}
-
-GResult File::openWCA()
-{
-    return orgOpen(O_WRONLY | O_CREAT | O_APPEND, G_CREATE_MODE);
-}
-
-GResult File::openRW()
-{
-    return orgOpen(O_RDWR);
-}
-
-GResult File::openRWA()
-{
-    return orgOpen(O_RDWR | O_APPEND);
-}
-
-GResult File::openRWC()
-{
-    return orgOpen(O_RDWR | O_CREAT, G_CREATE_MODE);
-}
-
-GResult File::openRWCA()
-{
-    return orgOpen(O_RDWR | O_CREAT | O_APPEND, G_CREATE_MODE);
+    return ret;
 }
 
 GInt64 File::getFileSize()
@@ -158,19 +159,6 @@ GInt64 File::readFile(GInt8* buffer, const GUint64 size)
     return read(m_fd, buffer, size);
 }
 
-GInt64 File::readLine(const GUint64 offset, GInt8* buffer, const GUint64 size)
-{
-    G_ASSERT(buffer != NULL && size > 0);
-    
-    if (m_fd <= 0)
-    {
-        setError("file don't open");
-        return G_NO;
-    }
-    
-    return read(m_fd, buffer, size);    
-}
-
 GInt64 File::writeFile(const GInt8* buffer, const GUint64 size)
 {
     G_ASSERT(buffer != NULL && size > 0);
@@ -182,23 +170,6 @@ GInt64 File::writeFile(const GInt8* buffer, const GUint64 size)
     }
     
     return write(m_fd, buffer, size);
-}
-
-GResult File::closeFile()
-{
-    if (m_fd < 0)
-    {
-        setError("file don't open");
-        return G_NO;
-    }
-
-    GResult ret = (close(m_fd) != -1 ? G_YES : G_NO);
-    
-    m_fd = -1;
-    m_path[0] = 0;
-    m_flags = 0;
-
-    return ret;
 }
 
 GResult File::getLastError(GInt8* error, const GUint32 size)
