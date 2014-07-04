@@ -70,11 +70,10 @@ public:
         * read(pBuffer, 0, iLen) 
         * @param [out] pBuffer the buffer into which the data is read.
         * @param [in] iBufferLen the length of the buffer.
-        * @param [in] iLen the maximum number of bytes to read.
         * @return the total number of bytes read into the buffer, or -1 is there is no more data because the end of the stream has been reached.
         * @note 
         */
-	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iLen);
+	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen);
 
 	/**
         * @brief Returns the number of bytes that can be read (or skipped over) from this input stream without blocking by the next caller of a method for this input stream. The next caller might be the same thread or another thread.

@@ -47,9 +47,9 @@ bool InputStream::markSupported()
 	return false;
 }
 
-GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iLen)
+GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen)
 {
-	return read(pBuffer, iBufferLen, 0, iLen);
+	return read(pBuffer, iBufferLen, 0, iBufferLen);
 }
 
 GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen)
@@ -99,7 +99,7 @@ GInt64 InputStream::skip(GInt64 lNum)
 
 	while (lRemaining > 0)
 	{
-		iReadLen = read(ms_szSkipBuffer, 0, 
+		iReadLen = read(ms_szSkipBuffer, SKIP_BUFFER_SIZE, 0,
 			static_cast<GInt32>(lRemaining > SKIP_BUFFER_SIZE ? SKIP_BUFFER_SIZE : lRemaining));
 		if (iReadLen < 0)
 		{
