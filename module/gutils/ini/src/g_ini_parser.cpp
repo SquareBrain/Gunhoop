@@ -16,6 +16,7 @@
 * 
 */
 #include <g_file.h>
+#include <g_ini_section.h>
 #include <g_ini_parser.h>
 
 G_NS_GUTILS_BEG
@@ -48,7 +49,7 @@ GResult IniParser::loadFile(const std::string& filePath)
     m_filePath = filePath;
 
     GCommon::File file(m_filePath.c_str());
-    if (file.openR() != G_YES)
+    if (file.openFile(ONLY_READ) != G_YES)
     {
         return G_NO;
     }
@@ -70,6 +71,7 @@ GResult IniParser::loadFile(const std::string& filePath)
     GResult ret = importData(buffer, fileSize);
 
     delete [] buffer;
+    buffer = NULL;
     
     return ret;
 }
@@ -174,15 +176,15 @@ GResult IniParser::parserSection(const GInt8* data,
     IniSection* section = new IniSection(sectionName);
 
     std::string lineStr;
-    while (getOneLine(data + endPos, length - offset, lineStr)) == G_YES)
+    while (getOneLine(data + endPos, length - offset, lineStr) == G_YES)
     {
-        
-        lineLen = 0;
     }
     
     m_iniSectionMap.insert(std::make_pair(sectionName, section));
     
     offset = endPos;
+
+    return G_YES;
 }
 
 GResult IniParser::getOneLine(const GInt8* data, 
@@ -198,7 +200,7 @@ GResult IniParser::getOneLine(const GInt8* data,
         }
     }
 
-    
+    return G_YES;
 }
 
 G_NS_END

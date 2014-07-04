@@ -105,9 +105,14 @@ public:
 
 private:
     void cleanIniSectionMap();
+    
     GResult parserSection(const GInt8* data, 
         const GUint64 length, 
         GUint64& offset);
+
+    GResult getOneLine(const GInt8* data, 
+        const GUint64 length, 
+        std::string& lineStr);        
 
 private:
     std::string         m_filePath;

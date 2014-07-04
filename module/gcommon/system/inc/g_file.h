@@ -22,16 +22,22 @@
 
 static const GUint32 DEF_ERROR_BUF_SIZE = 256;
 
-G_NS_GCOMMON_BEG
-
+/** 
+ * file open flags
+ */
 typedef enum
 {
     ONLY_READ = 1,
     ONLY_WRITE = 2,
     READ_WRITE = 4,
     OPEN_APPEND = 8
-} OpenMode;
+} OpenFlags;
 
+G_NS_GCOMMON_BEG
+
+/** 
+ * file utility
+ */
 class FileUtil
 {
 public:
