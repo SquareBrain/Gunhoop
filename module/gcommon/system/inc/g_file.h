@@ -18,9 +18,6 @@
 #pragma once
 
 #include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <string.h>
 #include <g_type.h>
 
 static const GUint32 DEF_ERROR_BUF_SIZE = 256;
@@ -191,7 +188,6 @@ public:
 private:
     /**
      * origin API for open file
-	 * @param [in] filePath : file path
 	 * @param [in] flags : operation flags
 	 * @param [in] mode : operation mode
      * @return G_YES/G_NO
@@ -208,8 +204,8 @@ private:
 
 private:
     GInt32			m_fd;
+    struct stat     m_fileStat;
     GInt32			m_flags;
-    GUint32         m_mode;
 	GInt8		    m_path[G_PATH_MAX];
 	GUint32         m_pathLen;
 	GInt8           m_error[DEF_ERROR_BUF_SIZE];

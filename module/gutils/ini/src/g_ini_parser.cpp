@@ -12,7 +12,6 @@
 * @note 
 *
 *  2. 2014-06-26 duye removal to gohoop project
-*
 *  1. 2013-11-15 duye Created this file
 * 
 */
@@ -48,7 +47,7 @@ GResult IniParser::loadFile(const std::string& filePath)
     
     m_filePath = filePath;
 
-    GCommon::File file(filePath.c_str());
+    GCommon::File file(m_filePath.c_str());
     if (file.openR() != G_YES)
     {
         return G_NO;

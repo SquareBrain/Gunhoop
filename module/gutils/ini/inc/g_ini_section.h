@@ -12,7 +12,6 @@
 * @note 
 *
 *  2. 2014-06-26 duye removal to gohoop project
-*
 *  1. 2014-03-15 duye Created this file
 * 
 */
@@ -25,7 +24,6 @@
 #include <g_lock.h>
 
 G_NS_GUTILS_BEG
-
 
 /** 
  * ini file section

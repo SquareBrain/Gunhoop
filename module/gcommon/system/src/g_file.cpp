@@ -14,6 +14,9 @@
 *  1. 2013-06-20 duye Created this file
 * 
 */
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
 #include <g_file.h>
 
 // default create file permissions
@@ -33,13 +36,13 @@ GResult FileUtil::createFile(const GInt8* filePath)
     return G_NO;
 }
 
-File::File() : m_fd(-1), m_flags(0), m_mode(0), m_pathLen(0)
+File::File() : m_fd(-1), m_flags(0), m_pathLen(0)
 {
     m_error[0] = 0;
     m_path[0] = 0;
 }
 
-File::File(const GInt8* filePath) : m_fd(-1), m_flags(0), m_mode(0), m_pathLen(0)
+File::File(const GInt8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
 {
     GUint32 len = strlen(filePath);
     if (len < G_PATH_MAX)
@@ -83,7 +86,7 @@ GResult File::setFilePath(const GInt8* filePath)
 
 GUint32 File::getMode() const
 {
-    return m_mode;
+    return m_fileStat.st_mode;
 }
 
 GResult File::openR()
@@ -139,9 +142,7 @@ GInt64 File::getFileSize()
         return G_NO;
     }    
 
-    GInt64 fileSize = 0;
-    
-    return fileSize;
+    return (GInt64)(m_fileStat.st_size);
 }
 
 GInt64 File::readFile(GInt8* buffer, const GUint64 size)
@@ -225,8 +226,8 @@ GResult File::orgOpen(const GInt32 flags, const GUint32 mode)
     m_fd = open(m_path, flags, mode);
     if (m_fd > 0)
     {
-        m_flags = flags;   
-        m_mode = mode;
+        m_flags = flags;
+        fstat(m_fd, &m_fileStat);
     }
     else
     {
