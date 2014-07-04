@@ -81,7 +81,7 @@ public:
      * @note 
      */	 
     GResult getParaVal(const std::string& section, 
-        const std::string paraName, 
+        const std::string& paraName, 
         std::string& value);
 
     /**
@@ -93,15 +93,41 @@ public:
      * @note 
      */	 
     GResult setParaVal(const std::string& section, 
-        const std::string paraName, 
+        const std::string& paraName, 
         const std::string& value);    
+    /**
+     * del section
+     * @param [in] section : section name
+     * @param [in] paraName : parameter name
+     * @param [in] value : set value
+     * @return G_YES/G_NO
+     * @note 
+     */	 
+    GResult delSection(const std::string& section);
+    
+    /**
+     * del parameter
+     * @param [in] section : section name
+     * @param [in] paraName : parameter name
+     * @param [in] value : set value
+     * @return G_YES/G_NO
+     * @note 
+     */	 
+    GResult delPara(const std::string& section, const std::string& paraName); 
     
     /**
      * save configuration to file
      * @return G_YES/G_NO
      * @note 
      */	 
-    GResult saveFile() const;    
+    GResult saveFile();  
+
+    /**
+     * save configuration to file
+     * @return G_YES/G_NO
+     * @note 
+     */	 
+    GResult saveFile(const std::string& filePath);    
 
 private:
     void cleanIniSectionMap();

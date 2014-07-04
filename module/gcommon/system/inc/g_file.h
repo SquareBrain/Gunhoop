@@ -94,7 +94,7 @@ public:
      * get file size
      * @param [out] buffer : output buffer
 	 * @param [in] size : the size of buffer     
-     * @return size/-1
+     * @return size/G_NO
      * @note 
      */			
 	GInt64 getFileSize();
@@ -103,7 +103,7 @@ public:
      * read file
      * @param [out] buffer : output buffer
 	 * @param [in] size : the size of buffer     
-     * @return size/-1
+     * @return size/G_NO
      * @note 
      */			
 	GInt64 readFile(GInt8* buffer, const GUint64 size);
@@ -112,11 +112,10 @@ public:
      * write file
 	 * @param [in] buffer : input buffer
 	 * @param [in] size : the size of buffer
-     * @return size/-1
+     * @return size/G_NO
      * @note 
      */		
-	GInt64 writeFile(const GInt8* buffer, const GUint64 size);
-	
+	GInt64 writeFile(const GInt8* data, const GUint64 length);
 
     /**
      * get last error string

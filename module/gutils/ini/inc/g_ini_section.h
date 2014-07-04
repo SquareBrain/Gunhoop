@@ -50,21 +50,23 @@ public:
     ~IniSection();
 
     /**
-     * set ini section name
-     * @param [in] filePath : file path
-     * @return KeyValueMap const reference
+     * get value
+     * @param [in] para : parameter
+     * @param [in] value : value
+     * @return G_YES/G_NO
      * @note 
      */	
-    void setSectionName(const std::string& sectionName);    
-    
+    GResult getPara(const std::string& para, std::string& value); 
+
     /**
-     * get ini section name
-     * @param [in] filePath : file path
-     * @return KeyValueMap const reference
+     * set value
+     * @param [in] para : parameter
+     * @param [in] value : value
+     * @return G_YES/G_NO
      * @note 
      */	
-    const std::string& getSectionName() const;
-    
+    GResult setPara(const std::string& para, const std::string& value);    
+
     /**
      * add parameter ane value
      * @param [in] para : parameter
@@ -80,16 +82,14 @@ public:
      * @return G_YES/G_NO
      * @note 
      */	
-    GResult delPara(const std::string& para); 
-    
+    GResult delPara(const std::string& para);
+
     /**
-     * update parameter value
-     * @param [in] para : parameter
-     * @param [in] value : value
-     * @return G_YES/G_NO
+     * get keyValueMap
+     * @return m_keyValueMap 
      * @note 
      */	
-    GResult updatePara(const std::string& para, const std::string& value);
+    const KeyValueMap& getkeyValueMap() const;   
     
 private:
     std::string     m_sectionName;

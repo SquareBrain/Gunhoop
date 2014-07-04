@@ -148,7 +148,11 @@ GInt64 File::getFileSize()
 
 GInt64 File::readFile(GInt8* buffer, const GUint64 size)
 {
-    G_ASSERT(buffer != NULL && size > 0);
+    if (buffer == NULL || size <= 0)
+    {
+        setError("input parameter is error");
+        return G_NO;        
+    }
 
     if (m_fd <= 0)
     {
@@ -159,9 +163,13 @@ GInt64 File::readFile(GInt8* buffer, const GUint64 size)
     return read(m_fd, buffer, size);
 }
 
-GInt64 File::writeFile(const GInt8* buffer, const GUint64 size)
+GInt64 File::writeFile(const GInt8* data, const GUint64 length)
 {
-    G_ASSERT(buffer != NULL && size > 0);
+    if (data == NULL || length <= 0)
+    {
+        setError("input parameter is error");
+        return G_NO;        
+    }
 
     if (m_fd <= 0)
     {
@@ -169,7 +177,7 @@ GInt64 File::writeFile(const GInt8* buffer, const GUint64 size)
         return G_NO;
     }
     
-    return write(m_fd, buffer, size);
+    return write(m_fd, data, length);
 }
 
 GResult File::getLastError(GInt8* error, const GUint32 size)

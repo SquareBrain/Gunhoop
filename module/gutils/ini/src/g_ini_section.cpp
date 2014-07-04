@@ -27,21 +27,41 @@ IniSection::IniSection()
 
 IniSection::IniSection(const std::string& sectionName)
 {
-    setSectionName(sectionName);    
+    m_sectionName = sectionName;
 }
 
 IniSection::~IniSection()
 {
 }
 
-void IniSection::setSectionName(const std::string& sectionName)
+GResult IniSection::getPara(const std::string& para, std::string& value)
 {
-    m_sectionName = sectionName;
+    GCommon::AutoLock autoLock(m_mapLock);
+    
+    KeyValueMap::iterator iter = m_keyValueMap.find(para);
+    if (iter == m_keyValueMap.end())
+    {
+        return G_NO;
+    }
+    
+    value.assign(iter->second);
+
+    return G_YES;    
 }
 
-const std::string& IniSection::getSectionName() const
+GResult IniSection::setPara(const std::string& para, const std::string& value)
 {
-    return m_sectionName;
+    GCommon::AutoLock autoLock(m_mapLock);
+    
+    KeyValueMap::iterator iter = m_keyValueMap.find(para);
+    if (iter == m_keyValueMap.end())
+    {
+        return G_NO;
+    }
+    
+    iter->second = value;
+
+    return G_YES;   
 }
 
 GResult IniSection::addPara(const std::string& para, const std::string& value)
@@ -74,19 +94,9 @@ GResult IniSection::delPara(const std::string& para)
     return G_YES;
 }
 
-GResult IniSection::updatePara(const std::string& para, const std::string& value)
+const IniSection::KeyValueMap& IniSection::getkeyValueMap() const
 {
-    GCommon::AutoLock autoLock(m_mapLock);
-    
-    KeyValueMap::iterator iter = m_keyValueMap.find(para);
-    if (iter == m_keyValueMap.end())
-    {
-        return G_NO;
-    }
-    
-    iter->second = value;
-
-    return G_YES;   
+    return m_keyValueMap; 
 }
 
 G_NS_END
