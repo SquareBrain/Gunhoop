@@ -4,7 +4,7 @@
 *
 ************************************************************************************/
 /**
-* @file		g_ini_parser.cpp
+* @file		g_ini_file.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -17,26 +17,26 @@
 */
 #include <g_file.h>
 #include <g_ini_section.h>
-#include <g_ini_parser.h>
+#include <g_ini_file.h>
 
 G_NS_GUTILS_BEG
 
 static const GUint64 INI_TMP_BUF_SIZE = 1024 * 10;
 
-IniParser::IniParser()
+IniFile::IniFile()
 {
 }
 
-IniParser::IniParser(const std::string& filePath)
+IniFile::IniFile(const std::string& filePath)
 {
     loadFile(m_filePath);
 }
 
-IniParser::~IniParser()
+IniFile::~IniFile()
 {
 }
 
-GResult IniParser::loadFile(const std::string& filePath)
+GResult IniFile::loadFile(const std::string& filePath)
 {
     if (m_filePath == filePath)
     {
@@ -81,12 +81,12 @@ GResult IniParser::loadFile(const std::string& filePath)
     return ret;
 }
 
-GResult IniParser::importData(const std::string& fileData)
+GResult IniFile::importData(const std::string& fileData)
 {
     return importData(fileData.c_str(), fileData.length());
 }
 
-GResult IniParser::importData(const GInt8* data, const GUint64 length)
+GResult IniFile::importData(const GInt8* data, const GUint64 length)
 {
     GUint64 offset = 0;
     
@@ -109,7 +109,7 @@ GResult IniParser::importData(const GInt8* data, const GUint64 length)
     return G_YES;
 }
 
-GResult IniParser::getParaVal(const std::string& section, 
+GResult IniFile::getParaVal(const std::string& section, 
     const std::string& paraName, 
     std::string& value)
 {
@@ -123,7 +123,7 @@ GResult IniParser::getParaVal(const std::string& section,
     return iter->second->getPara(paraName, value);
 }
 
-GResult IniParser::setParaVal(const std::string& section, 
+GResult IniFile::setParaVal(const std::string& section, 
     const std::string& paraName, 
     const std::string& value)
 {
@@ -137,7 +137,7 @@ GResult IniParser::setParaVal(const std::string& section,
     return iter->second->setPara(paraName, value);    
 }
 
-GResult IniParser::delSection(const std::string& section)
+GResult IniFile::delSection(const std::string& section)
 {
     GCommon::AutoLock autoLock(m_mapLock); 
     IniSectionMap::iterator iter = m_iniSectionMap.find(section);
@@ -151,7 +151,7 @@ GResult IniParser::delSection(const std::string& section)
     return G_YES;    
 }
 
-GResult IniParser::delPara(const std::string& section, const std::string& paraName)
+GResult IniFile::delPara(const std::string& section, const std::string& paraName)
 {
     GCommon::AutoLock autoLock(m_mapLock); 
     IniSectionMap::iterator iter = m_iniSectionMap.find(section);
@@ -163,7 +163,7 @@ GResult IniParser::delPara(const std::string& section, const std::string& paraNa
     return iter->second->delPara(paraName);     
 }
 
-GResult IniParser::saveFile()
+GResult IniFile::saveFile()
 {
     if (m_filePath.empty())
     {
@@ -175,7 +175,7 @@ GResult IniParser::saveFile()
     return G_YES;
 }
 
-GResult IniParser::saveFile(const std::string& filePath)
+GResult IniFile::saveFile(const std::string& filePath)
 {
     if (filePath.empty())
     {
@@ -229,7 +229,7 @@ GResult IniParser::saveFile(const std::string& filePath)
     return G_YES;
 }
 
-void IniParser::cleanIniSectionMap()
+void IniFile::cleanIniSectionMap()
 {
     GCommon::AutoLock autoLock(m_mapLock); 
     
@@ -241,7 +241,7 @@ void IniParser::cleanIniSectionMap()
     }
 }
 
-GResult IniParser::parserSection(const GInt8* data, 
+GResult IniFile::parserSection(const GInt8* data, 
     const GUint64 length, 
     GUint64& offset)
 {
@@ -302,7 +302,7 @@ GResult IniParser::parserSection(const GInt8* data,
     return G_YES;
 }
 
-GResult IniParser::getOneLine(const GInt8* data, 
+GResult IniFile::getOneLine(const GInt8* data, 
     const GUint64 length, 
     std::string& lineStr)
 {

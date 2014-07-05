@@ -4,7 +4,7 @@
 *
 ************************************************************************************/
 /**
-* @file		g_ini_parser.h
+* @file		g_ini_file.h
 * @version     
 * @brief      
 * @author   duye
@@ -35,17 +35,17 @@ typedef std::map<std::string, IniSection*> IniSectionMap;
 /** 
  * POSIX condition wrapper
  */
-class IniParser
+class IniFile
 {
 public:
-    IniParser();
+    IniFile();
     /**
      * constructor
      * @param [in] filePath : file path
      * @note 
      */	    
-    IniParser(const std::string& filePath);
-    ~IniParser();
+    IniFile(const std::string& filePath);
+    ~IniFile();
 
     /**
      * load file

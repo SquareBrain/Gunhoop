@@ -15,9 +15,15 @@
 * 
 */
 #include <stdio.h>
+#include <g_file.h>
 #include <g_logger_impl.h>
 
+// the max buffer size of in one line
 static const GUint64 DEF_ONE_LINE_BUF_SIZE = 1024;
+
+// the configuration file name
+static const GInt8* DEF_CONF_FILE_NAME = "glog.conf";
+
 
 G_NS_GUTILS_BEG
 
@@ -36,6 +42,9 @@ GResult Logger::init()
     m_logLevelMap.insert(std::make_pair(LOG_INFO, "INFO"));
     m_logLevelMap.insert(std::make_pair(LOG_DEBUG, "DEBUG"));
     m_logLevelMap.insert(std::make_pair(LOG_TRACE, "TRACE"));
+
+    // read configuration file
+    
     
     return G_YES;
 }
