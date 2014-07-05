@@ -15,6 +15,6 @@ LIBS_PATH:=
 
 LIBS:= 
 
-SLIBS:= 
+SLIBS:=
 
 include ../../static.mk
