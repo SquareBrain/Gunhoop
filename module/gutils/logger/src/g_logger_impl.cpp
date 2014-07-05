@@ -44,6 +44,11 @@ GResult Logger::init()
     m_logLevelMap.insert(std::make_pair(LOG_TRACE, "TRACE"));
 
     // read configuration file
+    if (m_iniFile.loadFile(DEF_CONF_FILE_NAME) != G_YES)
+    {
+        return G_NO;
+    }
+
     
     
     return G_YES;

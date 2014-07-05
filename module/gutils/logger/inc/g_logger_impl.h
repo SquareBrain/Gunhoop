@@ -20,6 +20,7 @@
 #include <string>
 #include <g_type.h>
 #include <g_singleton.h>
+#include <g_ini_file.h>
 
 G_NS_GUTILS_BEG
 
@@ -137,6 +138,7 @@ private:
     LogLevelMap         m_logLevelMap;
     GlobalRule          m_globalRule;
     ModuleRuleMap       m_moduleRuleMap;
+    IniFile             m_iniFile;
 };
 
 G_NS_END
