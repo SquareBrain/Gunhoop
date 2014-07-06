@@ -8,8 +8,6 @@ LIBS_PATH:=
 
 LIBS:= 
 
-SLIBS_PATH:= 
-
 SLIBS:= 
 
 include ../../../static.mk

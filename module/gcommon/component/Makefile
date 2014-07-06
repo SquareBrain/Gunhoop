@@ -2,14 +2,18 @@ PRONAME:=component
 TARGET:=lib$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
-INCLUDES:=$(BUILD_PATH)/inc \
 
-SRCDIRS:= \
-	$(BUILD_PATH)/conf/src \
-	$(BUILD_PATH)/filesys/src \
-	$(BUILD_PATH)/function/src \
-	$(BUILD_PATH)/iostream/src \
-	$(BUILD_PATH)/network/src
+SUBDIRS:= \
+	conf \
+	filesys \
+	function \
+	iostream \
+	network
+
+INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc) \
+	$(GOHOOP_TOP)/gcommon/system/inc
+	
+SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/src)
 
 LIBS_PATH:= 
 

@@ -6,9 +6,7 @@ INCLUDES:=$(BUILD_PATH)/inc \
 
 LIBS_PATH:= 
 
-LIBS:= 
-
-SLIBS_PATH:= 
+LIBS:=
 
 SLIBS:= 
 

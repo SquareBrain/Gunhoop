@@ -8,9 +8,7 @@ SRCDIRS:=$(BUILD_PATH)/src
 
 LIBS_PATH:= 
 
-LIBS:= 
-
-SLIBS_PATH:= 
+LIBS:=
 
 SLIBS:= 
 

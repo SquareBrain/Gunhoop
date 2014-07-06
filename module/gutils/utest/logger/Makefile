@@ -7,9 +7,10 @@ INCLUDES:=$(GOHOOP_TOP)/gutils/logger/inc
 
 SRCDIRS:=$(BUILD_PATH)
 
-LIBS_PATH:=$(GOHOOP_TOP)/gutils/output/lib 
+LIBS_PATH:=$(GOHOOP_TOP)/gutils/output/lib \
+	$(GOHOOP_TOP)/gcommon/output/lib
 
-LIBS:=gutils
+LIBS:=gutils gcommon pthread
 
 SLIBS:=
 
