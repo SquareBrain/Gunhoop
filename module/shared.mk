@@ -44,7 +44,7 @@ endif
 $(TARGET):$(OBJS)
 	$(CC) -shared -o $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
 ifdef VERSION
-	@ln -s $(TARGET_FILE) $(OUTPUT)/lib/$(TARGET).so
+	@ln -sf $(TARGET_FILE) $(OUTPUT)/lib/$(TARGET).so
 endif	
 	@echo 'Build $(TARGET_FILE) Success'
 

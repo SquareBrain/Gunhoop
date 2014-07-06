@@ -7,7 +7,7 @@ INCLUDES:=$(BUILD_PATH)/inc \
 
 SRCDIRS:=$(BUILD_PATH)/src
 
-LIBS_PATH:= 
+LIBS_PATH:=
 
 LIBS:=
 

@@ -7,11 +7,11 @@ INCLUDES+= \
 	$(GOHOOP_TOP)/gcommon/component/network/inc \
 	$(GOHOOP_TOP)/gcommon/system/inc \
 
-SLIBS+= 
-
 LIBS+= 
 
 LIBS_PATH+= 
+
+SLIBS+=
 
 #create dir
 OUTPUT:=$(BUILD_PATH)/output
@@ -44,7 +44,7 @@ endif
 $(TARGET):$(OBJS) 
 	@ar rcs $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
 ifdef VERSION
-	@ln -s $(TARGET_FILE) $(OUTPUT)/lib/$(TARGET).a
+	@ln -sf $(TARGET_FILE) $(OUTPUT)/lib/$(TARGET).a
 endif	
 	@echo "Build $(TARGET_FILE) Success"
 
