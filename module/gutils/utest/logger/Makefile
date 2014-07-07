@@ -10,7 +10,7 @@ SRCDIRS:=$(BUILD_PATH)
 LIBS_PATH:=$(GOHOOP_TOP)/gutils/output/lib \
 	$(GOHOOP_TOP)/gcommon/output/lib
 
-LIBS:=gutils gcommon pthread
+LIBS:=gutils gcommon pthread dl
 
 SLIBS:=
 

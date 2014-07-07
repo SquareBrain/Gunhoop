@@ -51,6 +51,10 @@ $(OBJDIR)/%.o:%.$(PS)
 
 install:
 	@echo "Start Install $(TARGET_FILE)"
+	@cp -f $(TARGET_FILE) /usr/lib
+ifdef VERSION	
+	@ln -sf /usr/lib/$(TARGET).a.$(VERSION) /usr/lib/$(TARGET).a
+endif	
 	@echo "Install $(TARGET_FILE) Complete"
 
 clean:

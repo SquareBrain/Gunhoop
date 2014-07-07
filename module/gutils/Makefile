@@ -13,10 +13,14 @@ clean:
 	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR clean; done
 	$(MAKE) -f module_shared.mk clean
 	$(MAKE) -f module_static.mk clean
-#$(MAKE) -C utest clean
+	#$(MAKE) -C utest clean
 
 cleanall:
 	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR cleanall; done
 	$(MAKE) -f module_shared.mk cleanall
 	$(MAKE) -f module_static.mk cleanall
-#$(MAKE) -C utest cleanall
+	#$(MAKE) -C utest cleanall
+
+install:
+	$(MAKE) -f module_shared.mk install
+	$(MAKE) -f module_static.mk install	
