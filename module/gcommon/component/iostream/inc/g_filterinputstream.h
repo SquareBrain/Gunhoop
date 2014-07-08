@@ -28,7 +28,7 @@ class FilterInputStream : public InputStream
 {
 public:
 	FilterInputStream(InputStream& in); 
-	virtual ~FilterInputStream(); 
+	virtual ~FilterInputStream();
 
 	/**
 	  * @brief Returns the number of bytes that can be read (or skipped over) from this input stream without blocking by the next caller of a method for this input stream. The next caller might be the same thread or another thread.
