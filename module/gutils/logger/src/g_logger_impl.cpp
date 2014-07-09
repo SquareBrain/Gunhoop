@@ -29,6 +29,7 @@ G_NS_GUTILS_BEG
 
 Logger::Logger()
 {
+    m_error[0] = 0;
 }
 
 Logger::~Logger()
@@ -46,10 +47,9 @@ GResult Logger::init()
     // read configuration file
     if (m_iniFile.loadFile(DEF_CONF_FILE_NAME) != G_YES)
     {
+        setError("load file '%s' failed", DEF_CONF_FILE_NAME);
         return G_NO;
     }
-
-    
     
     return G_YES;
 }
@@ -111,6 +111,11 @@ void Logger::printLog(const LogLevel logLevel,
     printf("%s", printBuf);
 }
 
+GInt8* Logger::getError()
+{
+    return m_error;
+}
+
 GResult Logger::findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule)
 {
     ModuleRuleMap::iterator iter = m_moduleRuleMap.find(moduleName); 
@@ -122,6 +127,11 @@ GResult Logger::findModuleRule(const std::string& moduleName, ModuleRule*& modul
     moduleRule = iter->second;
 
     return G_YES;
+}
+
+void Logger::setError(GInt8* error);
+{
+    strcpy(m_error, error);
 }
 
 GlobalRule::GlobalRule() : m_fileSize(0), m_fileCount(0), m_isWordWrap(true)

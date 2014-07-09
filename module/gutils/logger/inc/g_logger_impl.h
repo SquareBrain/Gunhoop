@@ -129,16 +129,24 @@ public:
         const GInt8* file, 
         const GUint32 line, 
         const GInt8* function,
-        const GInt8* log);   
+        const GInt8* log); 
+        
+    /**
+     * get error string
+     * @return error string
+     */	
+    GInt8* getError();    
 
 private:
     GResult findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule);
+    void setError(GInt8* error);
 
 private:
     LogLevelMap         m_logLevelMap;
     GlobalRule          m_globalRule;
     ModuleRuleMap       m_moduleRuleMap;
     IniFile             m_iniFile;
+    GInt8               m_error[128];
 };
 
 G_NS_END

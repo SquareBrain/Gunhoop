@@ -25,6 +25,7 @@ static const GUint64 INI_TMP_BUF_SIZE = 1024 * 10;
 
 IniFile::IniFile()
 {
+    m_error[0] = 0;
 }
 
 IniFile::IniFile(const std::string& filePath)
@@ -40,7 +41,8 @@ GResult IniFile::loadFile(const std::string& filePath)
 {
     if (m_filePath == filePath)
     {
-        return G_YES;
+        setError("file has load");
+        return G_NO;
     }
 
     if (!m_filePath.empty())
@@ -53,6 +55,7 @@ GResult IniFile::loadFile(const std::string& filePath)
     GCommon::File file(m_filePath.c_str());
     if (file.openFile(ONLY_READ) != G_YES)
     {
+        setError("open file failed");
         return G_NO;
     }
 
@@ -60,6 +63,7 @@ GResult IniFile::loadFile(const std::string& filePath)
     if (fileSize <= 0)
     {   
         file.closeFile();
+        setError("file is empty");
         return G_NO;
     }
     
@@ -69,6 +73,7 @@ GResult IniFile::loadFile(const std::string& filePath)
     
     if (readSize != fileSize)
     {
+        setError("read file failed");
         return G_NO;    
     }
 
@@ -97,6 +102,7 @@ GResult IniFile::importData(const GInt8* data, const GUint64 length)
         case '[':
             if (parserSection(data, length, offset) != G_YES)
             {
+                setError("file section failed");
                 return G_NO;
             }
             break;
@@ -117,6 +123,7 @@ GResult IniFile::getParaVal(const std::string& section,
     IniSectionMap::iterator iter = m_iniSectionMap.find(section);
     if (iter == m_iniSectionMap.end())
     {
+        setError("section failed");
         return G_NO;
     }
 
@@ -229,6 +236,11 @@ GResult IniFile::saveFile(const std::string& filePath)
     return G_YES;
 }
 
+GInt8* IniFile::getError()
+{
+    return m_error;
+}
+
 void IniFile::cleanIniSectionMap()
 {
     GCommon::AutoLock autoLock(m_mapLock); 
@@ -323,6 +335,11 @@ GResult IniFile::getOneLine(const GInt8* data,
     lineStr.assign(data, endPos);
 
     return G_YES;
+}
+
+void IniFile::setError(const char *args,...)
+{
+    strcpy(m_error, error);
 }
 
 G_NS_END

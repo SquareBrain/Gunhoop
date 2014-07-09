@@ -17,9 +17,8 @@
 
 #include <g_inputstream.h>
 
-using namespace GCommon;
 
-
+G_NS_GCOMMON_BEG
 
 InputStream::InputStream()
 {
@@ -111,3 +110,4 @@ GInt64 InputStream::skip(GInt64 lNum)
 	return lNum - lRemaining;	
 }
 
+G_NS_END

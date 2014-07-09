@@ -129,6 +129,13 @@ public:
      */	 
     GResult saveFile(const std::string& filePath);    
 
+    /**
+     * get error string
+     * @return error string
+     * @note 
+     */	 
+    GInt8* getError();     
+
 private:
     void cleanIniSectionMap();
     
@@ -138,12 +145,15 @@ private:
 
     GResult getOneLine(const GInt8* data, 
         const GUint64 length, 
-        std::string& lineStr);        
+        std::string& lineStr);  
+
+    void setError(GInt8* error);
 
 private:
     std::string         m_filePath;
     IniSectionMap       m_iniSectionMap;
     GCommon::Mutex      m_mapLock;
+    GInt8               m_error[128];
 };
 
 G_NS_END
