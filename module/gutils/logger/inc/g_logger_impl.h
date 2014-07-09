@@ -129,7 +129,8 @@ public:
         const GInt8* file, 
         const GUint32 line, 
         const GInt8* function,
-        const GInt8* log); 
+        const GInt8* format,
+        va_list vaList); 
         
     /**
      * get error string

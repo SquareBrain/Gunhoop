@@ -64,8 +64,9 @@ void Logger::printLog(const LogLevel logLevel,
     const GInt8* file, 
     const GUint32 line, 
     const GInt8* function,
-    const GInt8* log)
-{
+    const GInt8* format,
+    va_list vaList)
+{   
     ModuleRule* moduleRule = NULL;
     if (findModuleRule(std::string(module), moduleRule) == G_NO)
     {
@@ -100,7 +101,7 @@ void Logger::printLog(const LogLevel logLevel,
     }
 
     // add log content
-    pos += sprintf(printBuf + pos, "%s", log);
+    pos += vsnprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, format, vaList);
 
     // add word wrap
     if (m_globalRule.isWordWrap())
