@@ -60,3 +60,8 @@ typedef int                 GResult;
  * limits number for file name max length
  */
 #define G_FILE_NAME_MAX	    256
+
+/** 
+ * limits number for error info buffer size
+ */
+#define G_ERROR_BUF_SIZE	128
