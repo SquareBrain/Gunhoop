@@ -1,5 +1,5 @@
 INCLUDES+= \
-	$(GOHOOP_TOP)/gcommon/inc \
+	$(GOHOOP_TOP)/gsystem/inc
 
 SLIBS+= 
 
