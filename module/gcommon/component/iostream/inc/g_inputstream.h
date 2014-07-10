@@ -107,7 +107,7 @@ private:
 	{
 		SKIP_BUFFER_SIZE = 2048
 	};
-    GInt8 ms_szSkipBuffer[SKIP_BUFFER_SIZE];
+	static GInt8 ms_szSkipBuffer[SKIP_BUFFER_SIZE];
 };
 
 G_NS_END

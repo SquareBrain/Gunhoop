@@ -20,6 +20,8 @@
 
 G_NS_GCOMMON_BEG
 
+GInt8 InputStream::ms_szSkipBuffer[SKIP_BUFFER_SIZE] ={0};
+
 InputStream::InputStream()
 {
 }
