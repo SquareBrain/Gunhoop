@@ -20,8 +20,6 @@
 */
 #include <g_lock.h>
 
-G_NS_GCOMMON_BEG
-
 Mutex::Mutex()
 {
 	init(PTHREAD_MUTEX_RECURSIVE);
@@ -173,5 +171,3 @@ AutoLock::~AutoLock()
 {
 	m_mutex.unlock();
 }
-
-G_NS_END

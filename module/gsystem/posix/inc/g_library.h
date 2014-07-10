@@ -18,9 +18,7 @@
 #pragma once
 
 #include <dlfcn.h>
-#include <g_type.h>
-
-G_NS_GCOMMON_BEG
+#include <g_system.h>
 
 /** 
  * shared library wrapper
@@ -48,5 +46,3 @@ public:
      */		
     static bool closeLib(void* handle);
 };
-
-G_NS_END

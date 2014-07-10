@@ -16,8 +16,6 @@
 */
 #include <g_library.h>
 
-G_NS_GCOMMON_BEG
-
 Library::Library()
 {
 }
@@ -35,5 +33,3 @@ bool Library::closeLib(void* handle)
 {
     return dlclose(handle) == 0 ? true : false;    
 }
-
-G_NS_END

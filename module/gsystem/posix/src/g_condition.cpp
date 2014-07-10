@@ -16,8 +16,6 @@
 */
 #include <g_condition.h>
 
-G_NS_GCOMMON_BEG
-
 Condition::Condition()       
 { 
     pthread_cond_init(&m_condition, 0);        
@@ -73,5 +71,3 @@ bool Condition::wait(const GUint32 timeout)
 
     return (ret == 0 ? true : false);
 }
-
-G_NS_END

@@ -16,8 +16,6 @@
 */
 #include <g_thread.h> 
 
-G_NS_GCOMMON_BEG
-
 Thread::Thread(Runnable* runnable, const bool autoRel) 
 	: m_threadId(-1)
 	, m_autoRel(autoRel)
@@ -111,5 +109,3 @@ GInt32 ThreadUtil::createThread(void* entry, void* argument, const bool autoRel)
 
 	return (GInt32)threadId;
 }
-
-G_NS_END

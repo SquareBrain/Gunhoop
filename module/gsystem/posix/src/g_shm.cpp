@@ -20,8 +20,6 @@
 // default shm size is 10M
 static const GUint64 G_DEF_SHM_SIZE = 1024 * 1024 * 10;
 
-G_NS_GCOMMON_BEG
-
 Shm::Shm() : m_shmSize(0), m_shmAddr(NULL), m_initFlags(false)
 {
     m_shmPath[0] = 0;
@@ -204,5 +202,3 @@ GResult Shm::uninit()
 
     return G_YES;
 }
-
-G_NS_END

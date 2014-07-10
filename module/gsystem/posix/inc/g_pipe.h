@@ -22,9 +22,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <g_type.h>
-
-G_NS_GCOMMON_BEG 
+#include <g_system.h>
 
 /** 
  * Pipe base class, be inherited by WritePipe and ReadPipe class
@@ -126,5 +124,3 @@ public:
      */  	
 	GInt64 readData(GInt8* buffer, const GUint64 size);    
 };
-
-G_NS_END 

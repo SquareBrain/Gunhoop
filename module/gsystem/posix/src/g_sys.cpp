@@ -16,8 +16,6 @@
 */
 #include <g_sys.h>
 
-G_NS_GCOMMON_BEG
-
 void Sys::gsleep(const GUint64 time)
 {
     sleep(time);
@@ -27,5 +25,3 @@ void Sys::gusleep(const GUint64 time)
 {
     usleep(time);
 }
-
-G_NS_END

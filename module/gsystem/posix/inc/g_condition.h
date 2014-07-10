@@ -19,9 +19,7 @@
 
 #include <sys/time.h>
 #include <pthread.h>
-#include <g_type.h>
-
-G_NS_GCOMMON_BEG
+#include <g_system.h>
 
 /** 
  * POSIX condition wrapper
@@ -82,5 +80,3 @@ private:
 	pthread_cond_t		m_condition;
 	pthread_mutex_t		m_mutex;	
 };
-
-G_NS_END

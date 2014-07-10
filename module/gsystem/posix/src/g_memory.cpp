@@ -17,5 +17,3 @@
 */
 #include <g_memory.h>
 
-G_NS_GCOMMON_BEG
-G_NS_END

@@ -23,9 +23,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
-#include <g_type.h>
-
-G_NS_GCOMMON_BEG 
+#include <g_system.h>
 
 /** 
  * shm error code
@@ -159,5 +157,3 @@ private:
 	void*			m_shmAddr;
 	bool            m_initFlags;
 };
-
-G_NS_END

@@ -17,8 +17,6 @@
 */
 #include <g_pipe.h>
 
-G_NS_GCOMMON_BEG
-
 bool Pipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
 {
     if (pipeName == NULL)
@@ -115,5 +113,3 @@ GInt64 ReadPipe::readData(GInt8* buffer, const GUint64 size)
     
     return bytes;    
 }
-
-G_NS_END

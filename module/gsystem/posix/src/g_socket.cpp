@@ -20,8 +20,6 @@
 // the max request number, system default value it's 20
 static const GUint32 G_DEF_MAX_REQ = 20;
 
-G_NS_GCOMMON_BEG 
-
 Socket::Socket() : m_sockfd(-1), m_addrLen(0)
 {
 }
@@ -180,5 +178,3 @@ GResult Socket::initOption()
 
 	return ret;
 }
-
-G_NS_END

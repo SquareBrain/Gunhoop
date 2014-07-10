@@ -18,9 +18,7 @@
 
 #pragma once
 
-#include <g_type.h>
-
-G_NS_GCOMMON_BEG
+#include <g_system.h>
 
 /** 
  * POSIX system time
@@ -78,5 +76,3 @@ public:
      */		
     static bool convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);
 };
-
-G_NS_END

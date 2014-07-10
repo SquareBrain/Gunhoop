@@ -25,9 +25,7 @@
 
 #include <pthread.h>
 #include <unistd.h>
-#include <g_type.h>
-
-G_NS_GCOMMON_BEG
+#include <g_system.h>
 
 /** 
  * POSIX mutex wrapper
@@ -229,5 +227,3 @@ private:
 private:
 	Mutex&      m_mutex;
 };
-
-G_NS_END

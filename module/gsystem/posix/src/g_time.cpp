@@ -16,8 +16,6 @@
 */
 #include <g_time.h>
 
-G_NS_GCOMMON_BEG
-
 bool TimeUtil::convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
     if (outSysTime == NULL)
@@ -87,5 +85,3 @@ bool TimeUtil::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint
 
     return true;
 }
-
-G_NS_END

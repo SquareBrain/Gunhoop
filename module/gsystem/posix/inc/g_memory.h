@@ -17,9 +17,4 @@
 */
 
 #pragma once
-#include <g_type.h>
-
-G_NS_GCOMMON_BEG
-
-
-G_NS_END
+#include <g_system.h>

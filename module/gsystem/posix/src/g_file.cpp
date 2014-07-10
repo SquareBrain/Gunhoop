@@ -14,6 +14,7 @@
 *  1. 2013-06-20 duye Created this file
 * 
 */
+#include <stdarg.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
@@ -21,8 +22,6 @@
 
 // default create file permissions
 static const GUint32 G_CREATE_MODE = 0x775;
-
-G_NS_GCOMMON_BEG
 
 GResult FileUtil::createFile(const GInt8* filePath)
 {
@@ -223,5 +222,3 @@ void File::setError(const GInt8* args, ...)
 	vsnprintf(m_error, G_ERROR_BUF_SIZE, args, vaList);
     va_end(vaList);	
 }
-
-G_NS_END

@@ -20,9 +20,7 @@
 #pragma once
 
 #include <pthread.h> 
-#include <g_type.h>
-
-G_NS_GCOMMON_BEG
+#include <g_system.h>
 
 /** 
  * thread state
@@ -169,5 +167,3 @@ public:
      */		
 	static GInt32 createThread(void* entry, void* argument, const bool autoRel = true);
 };
-
-G_NS_END

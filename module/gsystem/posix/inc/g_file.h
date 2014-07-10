@@ -18,7 +18,7 @@
 #pragma once
 
 #include <sys/stat.h>
-#include <g_type.h>
+#include <g_system.h>
 
 /** 
  * file open flags
@@ -30,8 +30,6 @@ typedef enum
     READ_WRITE = 4,
     OPEN_APPEND = 8
 } OpenFlags;
-
-G_NS_GCOMMON_BEG
 
 /** 
  * file utility
@@ -149,5 +147,3 @@ private:
 	GUint32         m_pathLen;
 	GInt8           m_error[G_ERROR_BUF_SIZE];
 };
-
-G_NS_END

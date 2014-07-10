@@ -24,9 +24,7 @@
 
 #include <string.h>
 #include <string>
-#include <g_type.h>
-
-G_NS_GCOMMON_BEG 
+#include <g_system.h>
 
 /** 
  * posix socket wrapper class
@@ -124,5 +122,3 @@ private:
 	// address length
 	socklen_t		m_addrLen;			
 };
-
-G_NS_END
