@@ -1,6 +1,5 @@
 SUBDIRS:= \
-	component \
-	system
+	component
 
 all:
 	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR; done
