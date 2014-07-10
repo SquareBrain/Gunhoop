@@ -140,14 +140,14 @@ public:
 
 private:
     GResult findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule);
-    void setError(GInt8* error);
+    void setError(const GInt8* args, ...);
 
 private:
     LogLevelMap         m_logLevelMap;
     GlobalRule          m_globalRule;
     ModuleRuleMap       m_moduleRuleMap;
     IniFile             m_iniFile;
-    GInt8               m_error[128];
+    GInt8               m_error[G_ERROR_BUF_SIZE];
 };
 
 G_NS_END

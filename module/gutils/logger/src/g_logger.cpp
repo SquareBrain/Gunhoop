@@ -14,6 +14,7 @@
 *  1. 2014-07-01 duye Created this file
 * 
 */
+#include <stdarg.h>
 #include <stdio.h>
 #include <g_logger_impl.h>
 #include <g_logger.h>

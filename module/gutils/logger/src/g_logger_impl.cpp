@@ -14,6 +14,7 @@
 *  1. 2014-07-01 duye Created this file
 * 
 */
+#include <stdarg.h>
 #include <stdio.h>
 #include <g_file.h>
 #include <g_logger_impl.h>
@@ -130,9 +131,12 @@ GResult Logger::findModuleRule(const std::string& moduleName, ModuleRule*& modul
     return G_YES;
 }
 
-void Logger::setError(GInt8* error);
+void Logger::setError(const GInt8* args, ...)
 {
-    strcpy(m_error, error);
+    va_list vaList;
+	va_start(vaList, args);    
+	vsnprintf(m_error, G_ERROR_BUF_SIZE, args, vaList);
+    va_end(vaList);	
 }
 
 GlobalRule::GlobalRule() : m_fileSize(0), m_fileCount(0), m_isWordWrap(true)

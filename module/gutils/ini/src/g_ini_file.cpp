@@ -15,6 +15,7 @@
 *  1. 2013-11-15 duye Created this file
 * 
 */
+#include <stdarg.h>
 #include <g_file.h>
 #include <g_ini_section.h>
 #include <g_ini_file.h>
@@ -339,7 +340,10 @@ GResult IniFile::getOneLine(const GInt8* data,
 
 void IniFile::setError(const char *args,...)
 {
-    strcpy(m_error, error);
+    va_list vaList;
+	va_start(vaList, args);    
+	vsnprintf(m_error, G_ERROR_BUF_SIZE, args, vaList);
+    va_end(vaList);	
 }
 
 G_NS_END

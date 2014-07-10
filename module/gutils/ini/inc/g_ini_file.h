@@ -147,13 +147,13 @@ private:
         const GUint64 length, 
         std::string& lineStr);  
 
-    void setError(GInt8* error);
+    void setError(const GInt8* args, ...);
 
 private:
     std::string         m_filePath;
     IniSectionMap       m_iniSectionMap;
     GCommon::Mutex      m_mapLock;
-    GInt8               m_error[128];
+    GInt8               m_error[G_ERROR_BUF_SIZE];
 };
 
 G_NS_END
