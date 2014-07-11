@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_type.h
+* @file	    g_namespace.h
 * @version     
 * @brief      
 * @author   duye
@@ -27,4 +27,3 @@
 #define G_NS_GDATA_BEG	    namespace GData {
 #define G_NS_GDFS_BEG	    namespace GDfs {
 #define G_NS_GMAPREDUCE_BEG	namespace GMapreduce {
-#define G_NS_GUTILS_BEG	    namespace GUtils {
