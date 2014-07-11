@@ -19,37 +19,15 @@
 
 #pragma once
 
-#include <assert.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <g_type.h>
-
-/** 
- * assert
- */
-#define G_ASSERT(x)			assert(x)
-
-/** 
- * result variable for successed
- */
-#define G_YES				0
-
-/** 
- * result variable for failed
- */
-#define G_NO				-1
-
-/** 
- * limits number for path max length
- */
-#define G_PATH_MAX			512
-
-/** 
- * limits number for file name max length
- */
-#define G_FILE_NAME_MAX	    256
-
-/** 
- * limits number for error info buffer size
- */
-#define G_ERROR_BUF_SIZE	128
+#include <posix/inc/g_condition.h>
+#include <posix/inc/g_file.h>
+#include <g_library.h>
+#include <g_lock.h>
+#include <g_memory.h>
+#include <g_pipe.h>
+#include <g_shm.h>
+#include <g_socket.h>
+#include <g_sys.h>
+#include <g_thread.h>
+#include <g_file.h>
+#include <g_time.h>
