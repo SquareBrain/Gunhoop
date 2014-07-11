@@ -20,6 +20,7 @@
 #include <string>
 #include <g_common.h>
 #include <g_file.h>
+#include <g_inputstream.h>
 
 G_NS_GCOMMON_BEG
 
@@ -27,7 +28,6 @@ class FileInputStream : public InputStream
 {
 public:
 	FileInputStream(File file);
-	FileInputStream(FILE* fd);
 	FileInputStream(std::string filepath);
 	virtual ~FileInputStream(); 
 
@@ -44,21 +44,6 @@ public:
         * The close method of InputStream does nothing.
         */
 	virtual void close();
-
-	/**
-        * @brief Marks the current position in this input stream. A subsequent call to the reset method repositions this stream at the last marked position so that subsequent reads re-read the same bytes.
-        * The readlimit arguments tells this input stream to allow that many bytes to be read before the mark position gets invalidated.
-        * The general contract of mark is that, if the method markSupported returns true, the stream somehow remembers all the bytes read after the call to mark and stands ready to supply those same bytes again if and whenever the method reset is called. However, the stream is not required to remember any data at all if more than readlimit bytes are read from the stream before reset is called.
-        * The mark method of InputStream does nothing.
-        * @param [in] iReadlimit the maximum limit of bytes that can be read before the mark position becomes invalid.
-        */
-	virtual void mark(GInt32 iReadlimit);
-
-	/**
-        * @brief Tests if this input stream supports the mark and reset methods. Whether or not mark and reset are supported is an invariant property of a particular input stream instance. The markSupported method of InputStream returns false.
-        * @return true if this stream instance supports the mark and reset methods; false otherwise.
-        */
-	virtual bool markSupported();
 
 	/**
         * @brief Reads the next byte of data from the input stream. The value byte is returned as an int in the range 0 to 255. If no byte is available because the end of the stream has been reached, the value -1 is returned. This method blocks until input data is available, the end of the stream is detected, or an exception is thrown.
@@ -90,12 +75,6 @@ public:
 	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen);
 
 	/**
-        * @brief Repositions this stream to the position at the time the mark method was last called on this input stream.
-  	  * The method reset for class InputStream does nothing
-        */
-	virtual void reset();
-
-	/**
         * @brief Skips over and discards n bytes of data from this input stream. The skip method may, for a variety of reasons, end up skipping over some smaller number of bytes, possibly 0. This may result from any of a number of conditions; reaching end of file before n bytes have been skipped is only one possibility. The actual number of bytes skipped is returned. If n is negative, no bytes are skipped.
         * The skip method of InputStream creates a byte array and then repeatedly reads into it until n bytes have been read or the end of the stream has been reached. 
         * Subclasses are encouraged to provide a more efficient implementation of this method.
@@ -104,8 +83,13 @@ public:
         */
 	virtual GInt64 skip(GInt64 lNum);
 
+	File GetFile();
+
+protected:
+	void finalize();
+
 private:
-	;
+	File m_file;
 };
 
 G_NS_END
