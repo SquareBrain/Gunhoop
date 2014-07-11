@@ -19,7 +19,7 @@
 #pragma once
 
 #include <list>
-#include <g_type.h>
+#include <g_common.h>
 #include <g_thread.h>
 #include <g_condition.h>
 

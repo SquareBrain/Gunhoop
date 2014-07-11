@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <g_type.h>
+#include <g_common.h>
 #include <g_filterinputstream.h>
 #include <g_datainput.h>
 

@@ -18,7 +18,7 @@
 #pragma once
 
 #include <list>
-#include <g_type.h>
+#include <g_common.h>
 
 G_NS_GCOMMON_BEG
 
