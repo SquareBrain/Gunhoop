@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_sys.cpp
+* @file		g_GSys.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -14,14 +14,14 @@
 *  1. 2014-03-04 duye Created this file
 * 
 */
-#include <g_sys.h>
+#include <g_GSys.h>
 
-void Sys::gsleep(const GUint64 time)
+void GSys::gsleep(const GUint64 time)
 {
     sleep(time);
 }
 
-void Sys::gusleep(const GUint64 time)
+void GSys::gusleep(const GUint64 time)
 {
     usleep(time);
 }

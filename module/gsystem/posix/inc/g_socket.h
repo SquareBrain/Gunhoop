@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file     g_socket.h
+* @file     g_GSocket.h
 * @version     
 * @brief      
 * @author   duye
@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <sys/socket.h>
+#include <sys/GSocket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
@@ -27,12 +27,12 @@
 #include <g_type.h>
 
 /** 
- * posix socket wrapper class
+ * posix GSocket wrapper class
  */
-class Socket
+class GSocket
 {
 public:
-	Socket();
+	GSocket();
 	
     /**
      * constructor
@@ -40,24 +40,24 @@ public:
 	 * @param [in] port : port
      * @note 
      */			
-	Socket(const GUint32 ip, const GUint16 port);
+	GSocket(const GUint32 ip, const GUint16 port);
 
     /**
      * copy constructor
-	 * @param [in] socket : socket
+	 * @param [in] GSocket : GSocket
      * @note 
      */			
-	Socket(const Socket& socket);
-	~Socket();
+	GSocket(const GSocket& GSocket);
+	~GSocket();
 	
     /**
-     * init socket
+     * init GSocket
 	 * @param [in] domain : domain
-	 * @param [in] type : socket type
+	 * @param [in] type : GSocket type
 	 * @return G_YES/G_NO
      * @note 
      */		
-	GResult openSocket(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
+	GResult openGSocket(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
 			
     /**
      * send data
@@ -85,7 +85,7 @@ public:
 	 * @return G_YES/G_NO
      * @note 
      */	
-	GResult closeSocket(const GInt32 how = 0);
+	GResult closeGSocket(const GInt32 how = 0);
 		
     /**
      * setting address
@@ -109,13 +109,13 @@ public:
 
 private:
     /**
-     * setting socket options 
+     * setting GSocket options 
      * @return G_YES/G_NO
      */		
 	GResult initOption();
 
 private:
-    // socket file descrition
+    // GSocket file descrition
 	GInt32          m_sockfd;
 	// address
 	sockaddr_in		m_addr;

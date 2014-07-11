@@ -14,9 +14,9 @@
 * 4. 2014-06-20 duye move to gohoop project
 * 3. 2014-01-09 duye Add comments
 * 2. 2014-01-04 duye 
-* 	a. Modify Mutex function TryLock to Trylock()
-* 	b. Add function Trylock() for class OrgLock
-* 	c. Modify TryLock class implimenting
+* 	a. Modify GMutex function GTryLock to GTryLock()
+* 	b. Add function GTryLock() for class GOrgLock
+* 	c. Modify GTryLock class implimenting
 *
 * 1. 2013-11-26 duye Created this file
 */
@@ -28,39 +28,39 @@
 #include <g_type.h>
 
 /** 
- * POSIX mutex wrapper
+ * POSIX GMutex wrapper
  */
-class Mutex
+class GMutex
 {
 public:
     /**
      * constructor
-     * @note default mutex type is PTHREAD_MUTEX_RECURSIVE
+     * @note default GMutex type is PTHREAD_GMutex_RECURSIVE
      */	
-	Mutex();
+	GMutex();
 	
     /**
      * constructor
-     * @param [in] kind : mutex type
-     * @note have four mutex type, are PTHREAD_MUTEX_NORMAL、PTHREAD_MUTEX_RECURSIVE
-	 * PTHREAD_MUTEX_ERRORCHECK、PTHREAD_MUTEX_DEFAULT
+     * @param [in] kind : GMutex type
+     * @note have four GMutex type, are PTHREAD_GMutex_NORMAL、PTHREAD_GMutex_RECURSIVE
+	 * PTHREAD_GMutex_ERRORCHECK、PTHREAD_GMutex_DEFAULT
      */		
-	explicit Mutex(const GInt32 kind);
-	~Mutex();
+	explicit GMutex(const GInt32 kind);
+	~GMutex();
 
     /**
-     * lock mutex, enter to awaited state
+     * lock GMutex, enter to awaited state
      * @return true/false
      * @note 
      */		
 	bool lock();
 	
     /**
-     * try to lock mutex, failure return immediately
+     * try to lock GMutex, failure return immediately
      * @return true/false
      * @note 
      */		
-	bool trylock();
+	bool GTryLock();
 
     /**
      * release lock
@@ -74,41 +74,41 @@ private:
      * to prevent copying
      * @note 
      */			
-	Mutex(const Mutex&); 
-	void operator=(const Mutex&);	
+	GMutex(const GMutex&); 
+	void operator=(const GMutex&);	
 
     /**
-     * initialize mutex
-     * @param [in] kind : mutex type, reference constructor function
+     * initialize GMutex
+     * @param [in] kind : GMutex type, reference constructor function
      * @note 
      */		
 	void init(const GInt32 kind);
     
 private:
-	pthread_mutex_t	m_mutex;	
+	pthread_GMutex_t	m_GMutex;	
 };
 
 
 /** 
  * original lock wrapper
  */
-class OrgLock
+class GOrgLock
 {
 public:
     /**
      * constructor
-     * @note default mutex type is PTHREAD_MUTEX_RECURSIVE
+     * @note default GMutex type is PTHREAD_GMutex_RECURSIVE
      */		
-	OrgLock();
+	GOrgLock();
 	
     /**
      * constructor
-     * @param [in] kind : mutex type
-     * @note have four mutex type : PTHREAD_MUTEX_NORMAL、PTHREAD_MUTEX_RECURSIVE
-	 * PTHREAD_MUTEX_ERRORCHECK、PTHREAD_MUTEX_DEFAULT
+     * @param [in] kind : GMutex type
+     * @note have four GMutex type : PTHREAD_GMutex_NORMAL、PTHREAD_GMutex_RECURSIVE
+	 * PTHREAD_GMutex_ERRORCHECK、PTHREAD_GMutex_DEFAULT
      */		
-	explicit OrgLock(const GInt32 kind);
-	virtual ~OrgLock();
+	explicit GOrgLock(const GInt32 kind);
+	virtual ~GOrgLock();
 
     /**
      * locked and waitting
@@ -122,7 +122,7 @@ public:
      * @return true/false
      * @note
      */		
-	bool trylock();
+	bool GTryLock();
 	
     /**
      * release lock
@@ -136,32 +136,32 @@ private:
      * prevent copying
      * @note
      */		
-	OrgLock(const OrgLock&); 
+	GOrgLock(const GOrgLock&); 
 
     /**
      * prevent copying
      * @note
      */	
-	void operator=(const OrgLock&);	
+	void operator=(const GOrgLock&);	
 
 private:
-	Mutex*	m_mutex;
+	GMutex*	m_GMutex;
 };
 
 /** 
  * try lock wrapper
  */
-class TryLock
+class GTryLock
 {
 public:
     /**
      * constructor
-	 * @param [in] mutex : mutex
+	 * @param [in] GMutex : GMutex
 	 * @param [in] autoUnlock : whether release lock automatic
      * @note 
      */		
-	TryLock(Mutex& mutex, const bool autoUnlock = true);
-	~TryLock();
+	GTryLock(GMutex& GMutex, const bool autoUnlock = true);
+	~GTryLock();
 
     /**
      * try lock
@@ -184,46 +184,46 @@ private:
      * prevent copying
      * @note
      */	
-	TryLock(const TryLock&); 
+	GTryLock(const GTryLock&); 
 	
     /**
      * prevent copying
      * @note
      */		
-	void operator=(const TryLock&);	
+	void operator=(const GTryLock&);	
     
 private:
-	Mutex&	m_mutex;
+	GMutex&	m_GMutex;
 	bool	m_autoUnlock;
 };
 
 /** 
  * auto lock wrapper
  */
-class AutoLock
+class GAutoLock
 {
 public:
     /**
      * constructor
-	 * @param [in]mutex : mutex
+	 * @param [in]GMutex : GMutex
      * @note 
      */			
-	explicit AutoLock(Mutex& mutex);
-	~AutoLock();
+	explicit GAutoLock(GMutex& GMutex);
+	~GAutoLock();
 
 private:
     /**
      * prevent copying
      * @note
      */		
-	AutoLock(const AutoLock&);
+	GAutoLock(const GAutoLock&);
 
     /**
      * prevent copying
      * @note
      */			
-	void operator=(const AutoLock&);
+	void operator=(const GAutoLock&);
 
 private:
-	Mutex&      m_mutex;
+	GMutex&      m_GMutex;
 };

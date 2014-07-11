@@ -16,7 +16,7 @@
 */
 #include <g_time.h>
 
-bool TimeUtil::convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+bool GTimeUtil::convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
     if (outSysTime == NULL)
     {
@@ -30,7 +30,7 @@ bool TimeUtil::convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint
     return true;
 }
 
-bool TimeUtil::convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+bool GTimeUtil::convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
     if (outSysTime == NULL)
     {
@@ -44,7 +44,7 @@ bool TimeUtil::convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint
     return true;
 }
 
-bool TimeUtil::convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+bool GTimeUtil::convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
     if (outSysTime == NULL)
     {
@@ -58,7 +58,7 @@ bool TimeUtil::convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint
     return true;
 }
 
-bool TimeUtil::convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+bool GTimeUtil::convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
     if (outSysTime == NULL)
     {
@@ -72,7 +72,7 @@ bool TimeUtil::convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint
     return true;
 }
 
-bool TimeUtil::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+bool GTimeUtil::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
     if (outSysTime == NULL)
     {

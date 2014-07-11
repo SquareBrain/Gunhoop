@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_condition.h
+* @file	    g_GCondition.h
 * @version     
 * @brief      
 * @author   duye
@@ -22,13 +22,13 @@
 #include <g_type.h>
 
 /** 
- * POSIX condition wrapper
+ * POSIX GCondition wrapper
  */
-class Condition 
+class GGCondition 
 {
 public:
-	Condition();
-	~Condition();
+	GCondition();
+	~GCondition();
 
     /**
      * wake up the waitting thread, only wake up one thread,
@@ -68,15 +68,15 @@ private:
      * @return true/false
      * @note 
      */		
-	Condition(const Condition&); 
+	GCondition(const GCondition&); 
 	
     /**
      * prevent copying
      * @note
      */	
-	void operator=(const Condition&);	
+	void operator=(const GCondition&);	
     
 private:
-	pthread_cond_t		m_condition;
+	pthread_cond_t		m_GCondition;
 	pthread_mutex_t		m_mutex;	
 };

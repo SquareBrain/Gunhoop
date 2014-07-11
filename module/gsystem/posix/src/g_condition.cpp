@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_condition.cpp
+* @file	    g_GCondition.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -16,46 +16,46 @@
 */
 #include <g_condition.h>
 
-Condition::Condition()       
+GCondition::GCondition()       
 { 
-    pthread_cond_init(&m_condition, 0);        
+    pthread_cond_init(&m_GCondition, 0);        
     pthread_mutex_init(&m_mutex, 0);       
 }       
 
-Condition::~Condition()     
+GCondition::~GCondition()     
 {      
-    pthread_cond_destroy(&m_condition);        
+    pthread_cond_destroy(&m_GCondition);        
     pthread_mutex_destroy(&m_mutex);    
 }
 
-bool Condition::signal()        
+bool GCondition::signal()        
 {        
     pthread_mutex_lock(&m_mutex);
-    GInt32 ret = pthread_cond_signal(&m_condition);
+    GInt32 ret = pthread_cond_signal(&m_GCondition);
     pthread_mutex_unlock(&m_mutex);
     
     return (ret == 0 ? true : false);
 }    
 
-bool Condition::broadcast() 
+bool GCondition::broadcast() 
 {     
     pthread_mutex_lock(&m_mutex);
-    GInt32 ret = pthread_cond_broadcast(&m_condition);
+    GInt32 ret = pthread_cond_broadcast(&m_GCondition);
     pthread_mutex_unlock(&m_mutex);
 
     return (ret == 0 ? true : false);
 }     
 
-bool Condition::wait()  
+bool GCondition::wait()  
 {        
     pthread_mutex_lock(&m_mutex);
-    GInt32 ret = pthread_cond_wait(&m_condition, &m_mutex);
+    GInt32 ret = pthread_cond_wait(&m_GCondition, &m_mutex);
     pthread_mutex_unlock(&m_mutex);
 
     return (ret == 0 ? true : false);
 }      
 
-bool Condition::wait(const GUint32 timeout)     
+bool GCondition::wait(const GUint32 timeout)     
 {       
     struct timeval now;    
     struct timespec tmpTimeout;  
@@ -66,7 +66,7 @@ bool Condition::wait(const GUint32 timeout)
     tmpTimeout.tv_nsec = now.tv_usec * 1000 + timeout % 1000 * 1000 * 1000;    
 
     pthread_mutex_lock(&m_mutex);
-    GInt32 ret = pthread_cond_timedwait(&m_condition, &m_mutex, &tmpTimeout);
+    GInt32 ret = pthread_cond_timedwait(&m_GCondition, &m_mutex, &tmpTimeout);
     pthread_mutex_unlock(&m_mutex);
 
     return (ret == 0 ? true : false);

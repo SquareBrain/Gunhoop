@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file     g_socket.cpp
+* @file     g_GSocket.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -15,74 +15,74 @@
 *  1. 2014-02-16 duye Created this file
 * 
 */
-#include <g_socket.h>
+#include <g_GSocket.h>
 
 // the max request number, system default value it's 20
 static const GUint32 G_DEF_MAX_REQ = 20;
 
-Socket::Socket() : m_sockfd(-1), m_addrLen(0)
+GSocket::GSocket() : m_sockfd(-1), m_addrLen(0)
 {
 }
 
-Socket::Socket(const GUint32 ip, const GUint16 port) 
+GSocket::GSocket(const GUint32 ip, const GUint16 port) 
     : m_sockfd(-1), m_addrLen(0)
 {
     setAddr(ip, port);        
 }
 
-Socket::Socket(const Socket& socket)
+GSocket::GSocket(const GSocket& GSocket)
 {
-    m_sockfd = socket.m_sockfd;
-    m_addr = socket.m_addr;
+    m_sockfd = GSocket.m_sockfd;
+    m_addr = GSocket.m_addr;
 }
 
-Socket::~Socket()
+GSocket::~GSocket()
 {
-	closeSocket(m_sockfd);
+	closeGSocket(m_sockfd);
 }
 
-GResult Socket::openSocket(const GInt32 domain, const GInt32 type)
+GResult GSocket::openGSocket(const GInt32 domain, const GInt32 type)
 {
-	if ((m_sockfd = socket(domain, type, 0)) == -1)
+	if ((m_sockfd = GSocket(domain, type, 0)) == -1)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "open socket() failed");
+	    //G_LOG_ERROR(G_LOG_PREFIX, "open GSocket() failed");
 	    return G_NO;
 	}
 
-	// init socket option
+	// init GSocket option
 	if (!initOption())
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "init socket option failed");
+	    //G_LOG_ERROR(G_LOG_PREFIX, "init GSocket option failed");
 	}	
 
 	return G_YES;
 }
 
-GInt64 Socket::sendData(const GUint8* data, const GUint64 length, const GInt32 flags)
+GInt64 GSocket::sendData(const GUint8* data, const GUint64 length, const GInt32 flags)
 {
 	return send(m_sockfd, data, length, flags);
 }
 
-GInt64 Socket::recvData(GUint8* buffer, const GUint64 size, const GInt32 flags)
+GInt64 GSocket::recvData(GUint8* buffer, const GUint64 size, const GInt32 flags)
 {
 	return recv(m_sockfd, buffer, size, flags);
 }
 
-GResult Socket::closeSocket(const GInt32 how)
+GResult GSocket::closeGSocket(const GInt32 how)
 {
 	// how = 0 : stop receive data
 	// how = 1 : stop send data
 	// how = 2 : both above way
 	if (m_sockfd == -1)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "socket hasn't open");
+	    //G_LOG_ERROR(G_LOG_PREFIX, "GSocket hasn't open");
 	    return G_YES;
 	}
 	
 	return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
 }
 
-void Socket::setAddr(const GUint32 ip, const GUint16 port)
+void GSocket::setAddr(const GUint32 ip, const GUint16 port)
 {
 	m_addr.sin_family = AF_INET;		// RF_INET
 	m_addr.sin_port = htons(port);		// port
@@ -91,17 +91,17 @@ void Socket::setAddr(const GUint32 ip, const GUint16 port)
 	m_addrLen = sizeof(struct sockaddr);
 }
 
-GUint32 Socket::getIP() const
+GUint32 GSocket::getIP() const
 {
 	return ntohl(m_addr.sin_addr.s_addr);
 }
 
-GUint16 Socket::getPort() const
+GUint16 GSocket::getPort() const
 {
 	return ntohs(m_addr.sin_port);
 }
 
-GResult Socket::initOption()
+GResult GSocket::initOption()
 {
 	GResult ret = G_YES;
 
@@ -113,53 +113,53 @@ GResult Socket::initOption()
 	//int rtime = 1000;
 	// receive and send data buffer size
 	GInt32 bufsize = 0xFFFF;
-	// don't copy data from system buffer to socket buffer
+	// don't copy data from system buffer to GSocket buffer
 	GInt32 nosize = 0;
 
 	// set address reuse
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockfd, SOL_GSocket, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
 	{
 	    //G_LOG_WARN(G_LOG_PREFIX, "set address reuse failed");
 		ret = false;	
 	}
 	
 	// set send data time limit
-	//if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDTIMEO, (const char*)&stime, sizeof(int)) == -1)
+	//if (setsockopt(m_sockfd, SOL_GSocket, SO_SNDTIMEO, (const char*)&stime, sizeof(int)) == -1)
 	//{
 	//	ret = false;
 	//}
 
 	// set receive data time limit
-	//if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&rtime, sizeof(int)) == -1)
+	//if (setsockopt(m_sockfd, SOL_GSocket, SO_RCVTIMEO, (const char*)&rtime, sizeof(int)) == -1)
 	//{
 	//	ret = false;
 	//}
 
 	// set send data buffer size
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockfd, SOL_GSocket, SO_SNDBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 
 	// set receive data buffer size
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockfd, SOL_GSocket, SO_RCVBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 	
-	// don't copy data from system buffer to socket buffer when send data
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
+	// don't copy data from system buffer to GSocket buffer when send data
+	if (setsockopt(m_sockfd, SOL_GSocket, SO_SNDBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 
-	// don't copy data from system buffer to socket buffer when receive data
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
+	// don't copy data from system buffer to GSocket buffer when receive data
+	if (setsockopt(m_sockfd, SOL_GSocket, SO_RCVBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 
-	// let data send completly after execute close socket
+	// let data send completly after execute close GSocket
 	struct STR_Linger
 	{
 		GInt16 l_onoff;
@@ -170,7 +170,7 @@ GResult Socket::initOption()
 	STR_Linger linger;
 	linger.l_onoff = 1;		// 1. allow wait; 0. force close
 	linger.l_linger = 1;	// the time of waiting unit s
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_LINGER, (const char*)&linger, sizeof(STR_Linger)) == -1)
+	if (setsockopt(m_sockfd, SOL_GSocket, SO_LINGER, (const char*)&linger, sizeof(STR_Linger)) == -1)
 	{
 		ret = false;
 	}

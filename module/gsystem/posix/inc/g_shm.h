@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file     g_shm.h
+* @file     g_GShm.h
 * @version     
 * @brief      
 * @author   duye
@@ -26,134 +26,134 @@
 #include <g_type.h>
 
 /** 
- * shm error code
+ * GShm error code
  */
 typedef enum 
 { 
     /** 
-     * open shm failed
+     * open GShm failed
      */        
-    OPEN_SHM_FAILED = -2,
+    OPEN_GShm_FAILED = -2,
     /** 
      * munmap failed
      */           
-    MUNMAP_SHM_FAILED = -3,
+    MUNMAP_GShm_FAILED = -3,
     /** 
      * mmap failed
      */           
-    MMAP_SHM_FAILED = -4,
+    MMAP_GShm_FAILED = -4,
     /** 
-     * sync shm failed
+     * sync GShm failed
      */           
-    SYNC_SHM_FAILED = -5,
+    SYNC_GShm_FAILED = -5,
     /** 
-     * write shm parameter failed
+     * write GShm parameter failed
      */           
-    WRITE_SHM_PARA_FAILED = -6,
+    WRITE_GShm_PARA_FAILED = -6,
     /** 
-     * read shm parameter failed
+     * read GShm parameter failed
      */           
-    READ_SHM_PARA_FAILED = -7,
+    READ_GShm_PARA_FAILED = -7,
     /** 
-     * shm not init
+     * GShm not init
      */           
-    SHM_NO_INIT = -8,
+    GShm_NO_INIT = -8,
     /** 
-     * shm path is empty
+     * GShm path is empty
      */           
-    SHM_PATH_EMPTY = -9
-} ShmErrorCode;
+    GShm_PATH_EMPTY = -9
+} GShmErrorCode;
 
 /** 
  * shared memory for ipc
  */
-class Shm
+class GShm
 {
 public:
-    Shm();   
+    GShm();   
     /**
      * constructor
-	 * @param [in] shmPath : shm mapping file path
-	 * @param [in] shmSize : shm size
+	 * @param [in] GShmPath : GShm mapping file path
+	 * @param [in] GShmSize : GShm size
 	 * @return true/false
      * @note 
      */		
-    Shm(const GInt8* shmPath, const GUint64 shmSize);
-    ~Shm();
+    GShm(const GInt8* GShmPath, const GUint64 GShmSize);
+    ~GShm();
 
     /**
-     * set shm mapping file path
-	 * @param [in] shmPath : shm mapping file path     
+     * set GShm mapping file path
+	 * @param [in] GShmPath : GShm mapping file path     
      * @note 
      */	
-    void setShmPath(const GInt8* shmPath);
+    void setGShmPath(const GInt8* GShmPath);
 
     /**
-     * set shm mapping file path
-	 * @return shm mapping file path   
+     * set GShm mapping file path
+	 * @return GShm mapping file path   
      * @note 
      */	
-    GInt8* getShmPath();
+    GInt8* getGShmPath();
 
     /**
-     * set shm mapping file size
-     * @param [in] shmSize : shm size  
+     * set GShm mapping file size
+     * @param [in] GShmSize : GShm size  
      * @note 
      */		
-    void setShmSize(const GUint64 shmSize);
+    void setGShmSize(const GUint64 GShmSize);
 
     /**
-     * get shm mapping file size
-     * @return shm mapping file size   
+     * get GShm mapping file size
+     * @return GShm mapping file size   
      * @note 
      */	    
-    GUint64 getShmSize() const;    
+    GUint64 getGShmSize() const;    
    
     /**
-     * sync the shm
+     * sync the GShm
      * @return G_YES/G_NO  
      * @note 
      */	
-    GResult syncShm();
+    GResult syncGShm();
    
     /**
-     * write data to shm
-	 * @param [in] offset : offset of shm
+     * write data to GShm
+	 * @param [in] offset : offset of GShm
 	 * @param [in] data : input data
 	 * @param [in] size : write size     
      * @return G_YES/G_NO  
      * @note 
      */		
-    GResult writeShm(const GUint32 offset, const GInt8* data, const GUint32 length);
+    GResult writeGShm(const GUint32 offset, const GInt8* data, const GUint32 length);
 
     /**
-     * read data from shm
-	 * @param [in] offset : offset of shm
+     * read data from GShm
+	 * @param [in] offset : offset of GShm
 	 * @param [in] buffer : output buffer
 	 * @param [in] size : read size    
      * @return G_YES/G_NO  
      * @note 
      */	
-    GResult readShm(const GUint32 offset, GInt8* buffer, const GUint32 size);
+    GResult readGShm(const GUint32 offset, GInt8* buffer, const GUint32 size);
 
 private:
     /**
-     * init the shm
+     * init the GShm
      * @return G_YES/G_NO  
      * @note 
      */	    	
     GResult init();
    
     /**
-     * uninit the shm
+     * uninit the GShm
      * @return G_YES/G_NO  
      * @note 
      */	 	
 	GResult uninit();
 
 private:
-	GInt8		    m_shmPath[G_PATH_MAX];
-	GUint64			m_shmSize;	
-	void*			m_shmAddr;
+	GInt8		    m_GShmPath[G_PATH_MAX];
+	GUint64			m_GShmSize;	
+	void*			m_GShmAddr;
 	bool            m_initFlags;
 };

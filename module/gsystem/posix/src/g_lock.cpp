@@ -13,26 +13,26 @@
 *
 * 3. 2014-06-21 duye move to gohoop project 
 * 2. 2014-01-04 duye 
-* 	a. Change Mutex function TryLock() to Trylock()
-* 	b. Add function Trylock() for OrgLock class
-* 	c. Modify TryLock class implimenting
+* 	a. Change GMutex function GTryLock() to GTryLock()
+* 	b. Add function GTryLock() for GOrgLock class
+* 	c. Modify GTryLock class implimenting
 * 1. 2013-11-26 duye Created this file
 */
 #include <g_lock.h>
 
-Mutex::Mutex()
+GMutex::GMutex()
 {
-	init(PTHREAD_MUTEX_RECURSIVE);
+	init(PTHREAD_GMutex_RECURSIVE);
 }
 
-Mutex::Mutex(const GInt32 kind)
+GMutex::GMutex(const GInt32 kind)
 {
-	if (kind != PTHREAD_MUTEX_NORMAL && 
-		kind != PTHREAD_MUTEX_RECURSIVE &&
-		kind != PTHREAD_MUTEX_ERRORCHECK &&
-		kind != PTHREAD_MUTEX_DEFAULT)
+	if (kind != PTHREAD_GMutex_NORMAL && 
+		kind != PTHREAD_GMutex_RECURSIVE &&
+		kind != PTHREAD_GMutex_ERRORCHECK &&
+		kind != PTHREAD_GMutex_DEFAULT)
 	{
-		init(PTHREAD_MUTEX_DEFAULT);
+		init(PTHREAD_GMutex_DEFAULT);
 	}
 	else
 	{
@@ -40,72 +40,72 @@ Mutex::Mutex(const GInt32 kind)
 	}
 }
 
-Mutex::~Mutex()
+GMutex::~GMutex()
 {
-	pthread_mutex_destroy(&m_mutex);
+	pthread_GMutex_destroy(&m_mutex);
 }
 
-bool Mutex::lock() 
+bool GMutex::lock() 
 {
-	return pthread_mutex_lock(&m_mutex) == 0 ? true : false;
+	return pthread_GMutex_lock(&m_mutex) == 0 ? true : false;
 }
 
-bool Mutex::trylock()
+bool GMutex::GTryLock()
 {
-	return pthread_mutex_trylock(&m_mutex) == 0 ? true : false;
+	return pthread_GMutex_GTryLock(&m_mutex) == 0 ? true : false;
 }
 
-bool Mutex::unlock()
+bool GMutex::unlock()
 {
-	return pthread_mutex_unlock(&m_mutex) == 0 ? true : false;
+	return pthread_GMutex_unlock(&m_mutex) == 0 ? true : false;
 }
 
-void Mutex::init(const GInt32 kind)
+void GMutex::init(const GInt32 kind)
 {
-	pthread_mutexattr_t attr;
-	pthread_mutexattr_init(&attr);
-	pthread_mutexattr_settype(&attr, kind);
-	pthread_mutex_init(&m_mutex, &attr);
-	pthread_mutexattr_destroy(&attr);
+	pthread_GMutexattr_t attr;
+	pthread_GMutexattr_init(&attr);
+	pthread_GMutexattr_settype(&attr, kind);
+	pthread_GMutex_init(&m_mutex, &attr);
+	pthread_GMutexattr_destroy(&attr);
 }
 
-OrgLock::OrgLock() : m_mutex(NULL)
+GOrgLock::GOrgLock() : m_mutex(NULL)
 {
-	m_mutex = new Mutex();	
+	m_mutex = new GMutex();	
 }
 
-OrgLock::OrgLock(const GInt32 kind) : m_mutex(NULL)
+GOrgLock::GOrgLock(const GInt32 kind) : m_mutex(NULL)
 {
-	m_mutex = new Mutex(kind);	
+	m_mutex = new GMutex(kind);	
 }
 
-OrgLock::~OrgLock() 
+GOrgLock::~GOrgLock() 
 {
 	delete m_mutex;
 }
 
-bool OrgLock::lock()
+bool GOrgLock::lock()
 {
 	return m_mutex->lock();
 }
 
-bool OrgLock::trylock()
+bool GOrgLock::GTryLock()
 {
-	return m_mutex->trylock();
+	return m_mutex->GTryLock();
 }
 
-bool OrgLock::unlock()
+bool GOrgLock::unlock()
 {
 	return m_mutex->unlock();
 }
 
-TryLock::TryLock(Mutex& mutex, const bool autoUnlock) 
+GTryLock::GTryLock(GMutex& mutex, const bool autoUnlock) 
 	: m_mutex(mutex)
 	, m_autoUnlock(autoUnlock)
 {
 }
 
-TryLock::~TryLock() 
+GTryLock::~GTryLock() 
 {
 	if (m_autoUnlock)
 	{
@@ -113,9 +113,9 @@ TryLock::~TryLock()
 	}
 }
 
-bool TryLock::lock(const GUint32 timeout)
+bool GTryLock::lock(const GUint32 timeout)
 {
-	if (m_mutex.trylock())
+	if (m_mutex.GTryLock())
 	{
 		return true;
 	}
@@ -140,7 +140,7 @@ bool TryLock::lock(const GUint32 timeout)
 			usleep(1000 * sleepUnit);    
 		}
 
-		if (m_mutex.trylock())
+		if (m_mutex.GTryLock())
 		{
 			return true;
 		}
@@ -151,7 +151,7 @@ bool TryLock::lock(const GUint32 timeout)
 	return false;
 }
 
-bool TryLock::unlock()
+bool GTryLock::unlock()
 {
 	if (m_autoUnlock)
 	{
@@ -162,12 +162,12 @@ bool TryLock::unlock()
 	return m_mutex.unlock();
 }
 
-AutoLock::AutoLock(Mutex& mutex) : m_mutex(mutex)
+GAutoLock::GAutoLock(GMutex& mutex) : m_mutex(mutex)
 {
 	m_mutex.lock();
 }
 
-AutoLock::~AutoLock()
+GAutoLock::~GAutoLock()
 {
 	m_mutex.unlock();
 }

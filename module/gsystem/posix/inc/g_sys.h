@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_sys.h
+* @file		g_GSys.h
 * @version     
 * @brief      
 * @author   duye
@@ -22,13 +22,13 @@
 #include <g_type.h>
 
 /** 
- * POSIX system common API wrapper
+ * POSIX GSystem common API wrapper
  */
-class Sys
+class GSys
 {
 public:
-    Sys() {}
-    ~Sys() {}
+    GSys() {}
+    ~GSys() {}
    
     /**
      * sleep

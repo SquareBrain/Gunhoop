@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_thread.cpp
+* @file	    g_GThread.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -14,98 +14,98 @@
 *  1. 2013-11-26 duye Created this file
 * 
 */
-#include <g_thread.h> 
+#include <g_GThread.h> 
 
-Thread::Thread(Runnable* runnable, const bool autoRel) 
-	: m_threadId(-1)
+GThread::GThread(Runnable* runnable, const bool autoRel) 
+	: m_GThreadId(-1)
 	, m_autoRel(autoRel)
 	, m_runnable(runnable)
 {
 }
 
-Thread::~Thread()
+GThread::~GThread()
 {
 }
 
-GResult Thread::start()
+GResult GThread::start()
 {
-	pthread_attr_t* attributes = NULL;
-	GResult ret = pthread_create(&m_threadId, attributes, enterPoint, m_runnable);
+	pGThread_attr_t* attributes = NULL;
+	GResult ret = pGThread_create(&m_GThreadId, attributes, enterPoint, m_runnable);
 	if (ret != 0)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed");
+	    //G_LOG_ERROR(G_LOG_PREFIX, "call pGThread_create() failed");
 		return G_NO;
 	}
 
 	if (m_autoRel)
 	{
-		pthread_detach(m_threadId);
+		pGThread_detach(m_GThreadId);
 	}
 
 	return G_YES;
 }
 
-GUint32 Thread::getThreadId() const
+GUint32 GThread::getGThreadId() const
 {
-	return (GUint32)m_threadId;
+	return (GUint32)m_GThreadId;
 }
 
-void* Thread::enterPoint(void* argument)
+void* GThread::enterPoint(void* argument)
 {
 	Runnable* runnable = static_cast<Runnable*>(argument);
     runnable->run();
 	return NULL;
 }
 
-ThreadTask::ThreadTask(const bool autoRel) : m_threadId(-1), m_autoRel(autoRel)
+GThreadTask::GThreadTask(const bool autoRel) : m_GThreadId(-1), m_autoRel(autoRel)
 {
 }
 
-ThreadTask::~ThreadTask()
+GThreadTask::~GThreadTask()
 {
 }
 
-GResult ThreadTask::start()
+GResult GThreadTask::start()
 {
-	pthread_attr_t* attributes = NULL;
-	GInt32 ret = pthread_create(&m_threadId, attributes, enterPoint, this);
+	pGThread_attr_t* attributes = NULL;
+	GInt32 ret = pGThread_create(&m_GThreadId, attributes, enterPoint, this);
 	if (ret != 0)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed");
+	    //G_LOG_ERROR(G_LOG_PREFIX, "call pGThread_create() failed");
 		return G_NO;
 	}
 
 	if (m_autoRel)
 	{
-		pthread_detach(m_threadId);
+		pGThread_detach(m_GThreadId);
 	}
 
 	return G_YES;
 }
 
-void* ThreadTask::enterPoint(void* argument)
+void* GThreadTask::enterPoint(void* argument)
 {
-	ThreadTask* threadTask = static_cast<ThreadTask*>(argument);
-    threadTask->run();
+	GThreadTask* GThreadTask = static_cast<GThreadTask*>(argument);
+    GThreadTask->run();
 	return NULL;
 }
 
-GInt32 ThreadUtil::createThread(void* entry, void* argument, const bool autoRel)
+GInt32 GThreadUtil::createGThread(void* entry, void* argument, const bool autoRel)
 {
-	pthread_attr_t* attributes = NULL;
-	pthread_t threadId = -1;
+	pGThread_attr_t* attributes = NULL;
+	pGThread_t GThreadId = -1;
 
-	GInt32 ret = pthread_create(&threadId, attributes, (ThreadFunPoint_t)entry, argument);
+	GInt32 ret = pGThread_create(&GThreadId, attributes, (GThreadFunPoint_t)entry, argument);
 	if (ret != 0)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "call pthread_create() failed");
-		return (GInt32)threadId;
+	    //G_LOG_ERROR(G_LOG_PREFIX, "call pGThread_create() failed");
+		return (GInt32)GThreadId;
 	}
 
 	if (autoRel)
 	{
-		pthread_detach(threadId);
+		pGThread_detach(GThreadId);
 	}
 
-	return (GInt32)threadId;
+	return (GInt32)GThreadId;
 }

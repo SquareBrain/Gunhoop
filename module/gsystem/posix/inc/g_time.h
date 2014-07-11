@@ -23,7 +23,7 @@
 /** 
  * POSIX system time
  */
-class TimeUtil
+class GTimeUtil
 {
 public:
     /**

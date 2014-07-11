@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_library.cpp
+* @file		g_GLibrary.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -16,20 +16,20 @@
 */
 #include <g_library.h>
 
-Library::Library()
+GLibrary::GLibrary()
 {
 }
 
-Library::~Library()
+GLibrary::~GLibrary()
 {
 }
 
-void* Library::openLib(const GInt8* libFilePath, const GInt32 flags)
+void* GLibrary::openLib(const GInt8* libFilePath, const GInt32 flags)
 {
     return dlopen(libFilePath, flags);
 }
 
-bool Library::closeLib(void* handle)
+bool GLibrary::closeLib(void* handle)
 {
     return dlclose(handle) == 0 ? true : false;    
 }

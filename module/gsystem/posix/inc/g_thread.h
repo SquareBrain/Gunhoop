@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_thread.h
+* @file	    g_GThread.h
 * @version     
 * @brief      
 * @author   duye
@@ -19,13 +19,13 @@
 
 #pragma once
 
-#include <pthread.h> 
+#include <pGThread.h> 
 #include <g_type.h>
 
 /** 
- * thread state
+ * GThread state
  */
-enum ThreadState
+enum GGThreadState
 {
     /** 
      * running state
@@ -42,20 +42,20 @@ enum ThreadState
 };
 
 /** 
- * the pointer of thread enter
+ * the pointer of GThread enter
  */
-typedef void* (*ThreadFunPoint_t)(void*);
+typedef void* (*GThreadFunPoint_t)(void*);
 
 /** 
  * be inherited ty user
  */
-class Runnable
+class GRunnable
 {
 public:
-	virtual ~Runnable() {}
+	virtual ~GRunnable() {}
 	
     /**
-     * user thread entry function
+     * user GThread entry function
      * @return G_YES/G_NO
      * @note 
      */			
@@ -63,9 +63,9 @@ public:
 };
 
 /** 
- * POSIX thread wrapper
+ * POSIX GThread wrapper
  */
-class Thread
+class GThread
 {
 public:
     /**
@@ -74,60 +74,60 @@ public:
 	 * @param [in] autoRel : whether support automatic release, default is yes
      * @note 
      */		
-    explicit Thread(Runnable* target, const bool autoRel = true);
-    ~Thread();
+    explicit GThread(GRunnable* target, const bool autoRel = true);
+    ~GThread();
 	
     /**
-     * startup thread
+     * startup GThread
      * @return G_YES/G_NO
      * @note 
      */		
 	GResult start();
 
     /**
-     * get thread ID
-     * @return thread ID
+     * get GThread ID
+     * @return GThread ID
      * @note 
      */		
-	GUint32 getThreadId() const;
+	GUint32 getGThreadId() const;
 
 private:
-	Thread(const Thread&);
-	void operator=(const Thread&);
+	GThread(const GThread&);
+	void operator=(const GThread&);
 	static void* enterPoint(void* argument);
 
 private:
-	// thread ID
-	pthread_t	    m_threadId;
-	// indicate whether is detached with main thread£¬default is detached
+	// GThread ID
+	pGThread_t	    m_GThreadId;
+	// indicate whether is detached with main GThread£¬default is detached
 	bool		    m_autoRel;
-	// user thread object
-	Runnable*	    m_runnable;
+	// user GThread object
+	GRunnable*	    m_GRunnable;
 };
 
 /** 
- * thread base class, be inherited by user
+ * GThread base class, be inherited by user
  */
-class ThreadTask
+class GThreadTask
 {
 public:
     /**
      * constructor
-     * @para [in] autoRel : whether is detached with main thread, default is detached
+     * @para [in] autoRel : whether is detached with main GThread, default is detached
      * @note 
      */		
-	explicit ThreadTask(const bool autoRel = true);
-	virtual ~ThreadTask();
+	explicit GThreadTask(const bool autoRel = true);
+	virtual ~GThreadTask();
 
     /**
-     * startup thread
+     * startup GThread
      * @return G_YES/G_NO
      * @note 
      */		
 	GResult start();
 
     /**
-     * thread entry function
+     * GThread entry function
      * @return G_YES/G_NO
      * @note 
      */			
@@ -135,35 +135,35 @@ public:
 
 private:
 	// brief : prevate copying
-	ThreadTask(const ThreadTask&);
-	void operator=(const ThreadTask&);
+	GThreadTask(const GThreadTask&);
+	void operator=(const GThreadTask&);
 	
-	// brief : inner used for starting thread
-	// @para [in]argument : thread argument
-	// return : thread return description
+	// brief : inner used for starting GThread
+	// @para [in]argument : GThread argument
+	// return : GThread return description
 	static void* enterPoint(void* argument);	
 
 private:
-	// thread ID
-	pthread_t	    m_threadId;	
-	// whether is detached with main thread, default is ture, 
-	// indicate detached with main thread
+	// GThread ID
+	pGThread_t	    m_GThreadId;	
+	// whether is detached with main GThread, default is ture, 
+	// indicate detached with main GThread
 	bool		    m_autoRel;
 };
 
 /** 
- * POSIX thread static API used outside
+ * POSIX GThread static API used outside
  */
-class ThreadUtil
+class GThreadUtil
 {
 public:
     /**
-     * create thread
-	 * @param [in] entry : thread entry fucntion pointer
+     * create GThread
+	 * @param [in] entry : GThread entry fucntion pointer
 	 * @param [in] argument : user data
 	 * @param [in] autoRel : whether support automatic release, default is yes
-	 * @return thread ID / -1
+	 * @return GThread ID / -1
      * @note 
      */		
-	static GInt32 createThread(void* entry, void* argument, const bool autoRel = true);
+	static GInt32 createGThread(void* entry, void* argument, const bool autoRel = true);
 };

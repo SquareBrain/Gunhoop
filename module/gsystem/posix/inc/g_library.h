@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_library.h
+* @file		g_GLibrary.h
 * @version     
 * @brief      
 * @author   duye
@@ -21,17 +21,17 @@
 #include <g_type.h>
 
 /** 
- * shared library wrapper
+ * shared GLibrary wrapper
  */
-class Library
+class GLibrary
 {
 public:
-    Library();
-    ~Library();
+    GLibrary();
+    ~GLibrary();
 
     /**
-     * load shared library
-	 * @param [in] libFilePath : library path
+     * load shared GLibrary
+	 * @param [in] libFilePath : GLibrary path
 	 * @param [in] flags : RTLD_LAZY|RTLD_NOW
      * @return handle/NULL
      * @note 
@@ -39,8 +39,8 @@ public:
     static void* openLib(const GInt8* libFilePath, const GInt32 flags = RTLD_LAZY);
 
     /**
-     * close shared library
-	 * @param [in] handle : library handle
+     * close shared GLibrary
+	 * @param [in] handle : GLibrary handle
      * @return true/false
      * @note 
      */		

@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file     g_pipe.h
+* @file     g_GPipe.h
 * @version     
 * @brief      
 * @author   duye
@@ -25,58 +25,58 @@
 #include <g_type.h>
 
 /** 
- * Pipe base class, be inherited by WritePipe and ReadPipe class
+ * GPipe base class, be inherited by WriteGPipe and ReadGPipe class
  */
-class Pipe
+class GPipe
 {
 public:
-	Pipe() {}
-	virtual ~Pipe() {}
+	GPipe() {}
+	virtual ~GPipe() {}
 	
     /**
-     * Open the pipe
-	 * @param [in] pipeName : the pipe name 
+     * Open the GPipe
+	 * @param [in] GPipeName : the GPipe name 
 	 * @return true/false
      * @note 
      */			
-	virtual bool openPipe(const GInt8* pipeName) = 0;
+	virtual bool openGPipe(const GInt8* GPipeName) = 0;
 
 protected:
     /**
-     * Open the pipe
-	 * @param [in] pipeName : the pipe name
+     * Open the GPipe
+	 * @param [in] GPipeName : the GPipe name
 	 * @param [in] mode : open mode
 	 * @return true/false
      * @note 
      */		
-    bool orgOpen(const GInt8* pipeName, const GInt32 mode);
+    bool orgOpen(const GInt8* GPipeName, const GInt32 mode);
     
 protected:
     /** 
-     * pipe descriptor
+     * GPipe descriptor
      */	
-	GInt32		m_pipefd;
+	GInt32		m_GPipefd;
 };
 
 /** 
- * Be used to write pipe
+ * Be used to write GPipe
  */
-class WritePipe : public Pipe
+class WriteGPipe : public GPipe
 {
 public:
-	WritePipe() {}
-	virtual ~WritePipe() {}
+	WriteGPipe() {}
+	virtual ~WriteGPipe() {}
 	
     /**
-     * Open the pipe
-	 * @param [in] pipeName : the pipe name
+     * Open the GPipe
+	 * @param [in] GPipeName : the GPipe name
 	 * @return true/false
      * @note 
      */			
-	virtual bool openPipe(const GInt8* pipeName);	
+	virtual bool openGPipe(const GInt8* GPipeName);	
 	
     /**
-     * Write data to pipe
+     * Write data to GPipe
 	 * @param [in] data : write data
 	 * @param [in] length : data length
 	 * @return size/-1
@@ -89,34 +89,34 @@ private:
      * prevent copying
      * @note
      */	
-	WritePipe(const WritePipe&);
+	WriteGPipe(const WriteGPipe&);
 
     /**
      * prevent copying
      * @note
      */		
-	void operator=(const WritePipe&);
+	void operator=(const WriteGPipe&);
 };
 
 /** 
- * be used to read pipe
+ * be used to read GPipe
  */
-class ReadPipe : public Pipe
+class ReadGPipe : public GPipe
 {
 public:
-    ReadPipe() {}
-    virtual ~ReadPipe() {}
+    ReadGPipe() {}
+    virtual ~ReadGPipe() {}
 
     /**
-     * open pipe
-     * @param [in] pipeName : pipe name
+     * open GPipe
+     * @param [in] GPipeName : GPipe name
 	 * @return true/false
      * @note 
      */    
-    virtual bool openPipe(const GInt8* pipeName);
+    virtual bool openGPipe(const GInt8* GPipeName);
 
     /**
-     * read data from pipe
+     * read data from GPipe
 	 * @param [out] buffer : output buffer
 	 * @param [in] size : output buffer size
 	 * @return size/-1

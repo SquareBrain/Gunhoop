@@ -4,14 +4,14 @@
 *
 *************************************************************************************/
 /**
-* @file		g_file.cpp
+* @GFile		g_GFile.cpp
 * @version     
 * @brief      
 * @author   duye
 * @date     2013-06-20
 * @note 
 *
-*  1. 2013-06-20 duye Created this file
+*  1. 2013-06-20 duye Created this GFile
 * 
 */
 #include <stdarg.h>
@@ -20,12 +20,12 @@
 #include <string.h>
 #include <g_file.h>
 
-// default create file permissions
+// default create GFile permissions
 static const GUint32 G_CREATE_MODE = 0x775;
 
-GResult FileUtil::createFile(const GInt8* filePath)
+GResult GGFileUtil::createGFile(const GInt8* GFilePath)
 {
-    GInt32 fd = creat(filePath, G_CREATE_MODE);
+    GInt32 fd = creat(GFilePath, G_CREATE_MODE);
     if (fd != -1)
     {
         close(fd);
@@ -35,18 +35,18 @@ GResult FileUtil::createFile(const GInt8* filePath)
     return G_NO;
 }
 
-File::File() : m_fd(-1), m_flags(0), m_pathLen(0)
+GFile::GFile() : m_fd(-1), m_flags(0), m_pathLen(0)
 {
     m_error[0] = 0;
     m_path[0] = 0;
 }
 
-File::File(const GInt8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
+GFile::GFile(const GInt8* GFilePath) : m_fd(-1), m_flags(0), m_pathLen(0)
 {
-    GUint32 len = strlen(filePath);
+    GUint32 len = strlen(GFilePath);
     if (len < G_PATH_MAX)
     {
-        memcpy(m_path, filePath, len);
+        memcpy(m_path, GFilePath, len);
         m_path[len] = 0;
         m_pathLen = len;
     }
@@ -54,36 +54,36 @@ File::File(const GInt8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
     m_error[0] = 0;
 }
 
-File::~File() 
+GFile::~GFile() 
 {
-    closeFile();
+    closeGFile();
 }
 
-GResult File::setFilePath(const GInt8* filePath)
+GResult GFile::setGFilePath(const GInt8* GFilePath)
 {
     if (m_pathLen > 0)
     {   
-        setError("file path has exist");
+        setError("GFile path has exist");
         return G_NO;
     }
     
-    GUint32 len = strlen(filePath);
+    GUint32 len = strlen(GFilePath);
     if (len < G_PATH_MAX)
     {
-        memcpy(m_path, filePath, len);
+        memcpy(m_path, GFilePath, len);
         m_path[len] = 0;
         m_pathLen = len;
     }    
     else
     {
-        setError("file path too long");
+        setError("GFile path too long");
         return G_NO;   
     }
 
     return G_YES;
 }
 
-GResult File::openFile(const GUint64 flags)
+GResult GFile::openGFile(const GUint64 flags)
 {
     GInt32 openFlags = 0;
     if (flags | ONLY_READ)
@@ -117,11 +117,11 @@ GResult File::openFile(const GUint64 flags)
     return orgOpen(openFlags, G_CREATE_MODE);          
 }
 
-GResult File::closeFile()
+GResult GFile::closeGFile()
 {
     if (m_fd < 0)
     {
-        setError("file don't open");
+        setError("GFile don't open");
         return G_NO;
     }
 
@@ -134,18 +134,18 @@ GResult File::closeFile()
     return ret;
 }
 
-GInt64 File::getFileSize()
+GInt64 GFile::getGFileSize()
 {
     if (m_fd <= 0)
     {
-        setError("file don't open");
+        setError("GFile don't open");
         return G_NO;
     }    
 
-    return (GInt64)(m_fileStat.st_size);
+    return (GInt64)(m_GFileStat.st_size);
 }
 
-GInt64 File::readFile(GInt8* buffer, const GUint64 size)
+GInt64 GFile::readGFile(GInt8* buffer, const GUint64 size)
 {
     if (buffer == NULL || size <= 0)
     {
@@ -155,14 +155,14 @@ GInt64 File::readFile(GInt8* buffer, const GUint64 size)
 
     if (m_fd <= 0)
     {
-        setError("file don't open");
+        setError("GFile don't open");
         return G_NO;
     }
     
     return read(m_fd, buffer, size);
 }
 
-GInt64 File::writeFile(const GInt8* data, const GUint64 length)
+GInt64 GFile::writeGFile(const GInt8* data, const GUint64 length)
 {
     if (data == NULL || length <= 0)
     {
@@ -172,14 +172,14 @@ GInt64 File::writeFile(const GInt8* data, const GUint64 length)
 
     if (m_fd <= 0)
     {
-        setError("file don't open");
+        setError("GFile don't open");
         return G_NO;
     }
     
     return write(m_fd, data, length);
 }
 
-GResult File::getLastError(GInt8* error, const GUint32 size)
+GResult GFile::getLastError(GInt8* error, const GUint32 size)
 {
     GUint32 len = (size <= strlen(m_error) ? size - 1 : strlen(m_error));
     memcpy(error, m_error, len); 
@@ -187,17 +187,17 @@ GResult File::getLastError(GInt8* error, const GUint32 size)
     return G_YES;
 }
 
-GResult File::orgOpen(const GInt32 flags, const GUint32 mode)
+GResult GFile::orgOpen(const GInt32 flags, const GUint32 mode)
 {    
     if (m_fd > 0)
     {
-        setError("file had opened");
+        setError("GFile had opened");
         return G_NO;
     }
 
     if (m_pathLen == 0)
     {
-        setError("hasn't set file path");
+        setError("hasn't set GFile path");
         return G_NO;   
     }
     
@@ -205,17 +205,17 @@ GResult File::orgOpen(const GInt32 flags, const GUint32 mode)
     if (m_fd > 0)
     {
         m_flags = flags;
-        fstat(m_fd, &m_fileStat);
+        fstat(m_fd, &m_GFileStat);
     }
     else
     {
-        setError("open file failed, check whether exist this file path");
+        setError("open GFile failed, check whether exist this GFile path");
     }
 
     return (m_fd != -1 ? true : false);
 }
 
-void File::setError(const GInt8* args, ...)
+void GFile::setError(const GInt8* args, ...)
 {
     va_list vaList;
 	va_start(vaList, args);    

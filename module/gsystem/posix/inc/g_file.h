@@ -4,14 +4,14 @@
 *
 *************************************************************************************/
 /**
-* @file		g_file.h
+* @GFile		g_GFile.h
 * @version     
 * @brief      
 * @author   duye
 * @date     2014-06-20
 * @note 
 *
-*  1. 2014-06-20 duye Created this file
+*  1. 2014-06-20 duye Created this GFile
 * 
 */
 
@@ -21,7 +21,7 @@
 #include <g_type.h>
 
 /** 
- * file open flags
+ * GFile open flags
  */
 typedef enum
 {
@@ -32,86 +32,86 @@ typedef enum
 } OpenFlags;
 
 /** 
- * file utility
+ * GFile utility
  */
-class FileUtil
+class GGFileUtil
 {
 public:
     /**
-     * create file
-     * @param [in] filePath : file path
+     * create GFile
+     * @param [in] GFilePath : GFile path
      * @return G_YES/G_NO
      * @note 
      */	
-    static GResult createFile(const GInt8* filePath); 
+    static GResult createGFile(const GInt8* GFilePath); 
 };
 
 /** 
- * file operation wrapper
+ * GFile operation wrapper
  */
-class File
+class GFile
 {
 public:
-    File();
+    GFile();
 
     /**
-     * set file path
-     * @param [in] filePath : file path
+     * set GFile path
+     * @param [in] GFilePath : GFile path
      * @note 
      */	    
-    explicit File(const GInt8* filePath);
+    explicit GFile(const GInt8* GFilePath);
     
-    ~File();
+    ~GFile();
 
     /**
-     * set file path
-     * @param [in] filePath : file path
+     * set GFile path
+     * @param [in] GFilePath : GFile path
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult setFilePath(const GInt8* filePath);
+	GResult setGFilePath(const GInt8* GFilePath);
 	
     /**
-     * open file for reading
+     * open GFile for reading
      * @param [in] flags : open mode flags
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult openFile(const GUint64 flags);
+	GResult openGFile(const GUint64 flags);
 
     /**
-     * close file
+     * close GFile
      * @return G_YES/G_NO
      * @note 
      */		
-    GResult closeFile();
+    GResult closeGFile();
     
     /**
-     * get file size
+     * get GFile size
      * @param [out] buffer : output buffer
 	 * @param [in] size : the size of buffer     
      * @return size/G_NO
      * @note 
      */			
-	GInt64 getFileSize();
+	GInt64 getGFileSize();
 	
     /**
-     * read file
+     * read GFile
      * @param [out] buffer : output buffer
 	 * @param [in] size : the size of buffer     
      * @return size/G_NO
      * @note 
      */			
-	GInt64 readFile(GInt8* buffer, const GUint64 size);
+	GInt64 readGFile(GInt8* buffer, const GUint64 size);
 
     /**
-     * write file
+     * write GFile
 	 * @param [in] buffer : input buffer
 	 * @param [in] size : the size of buffer
      * @return size/G_NO
      * @note 
      */		
-	GInt64 writeFile(const GInt8* data, const GUint64 length);
+	GInt64 writeGFile(const GInt8* data, const GUint64 length);
 
     /**
      * get last error string
@@ -124,7 +124,7 @@ public:
 
 private:
     /**
-     * origin API for open file
+     * origin API for open GFile
 	 * @param [in] flags : operation flags
 	 * @param [in] mode : operation mode
      * @return G_YES/G_NO
@@ -141,7 +141,7 @@ private:
 
 private:
     GInt32			m_fd;
-    struct stat     m_fileStat;
+    struct stat     m_GFileStat;
     GInt32			m_flags;
 	GInt8		    m_path[G_PATH_MAX];
 	GUint32         m_pathLen;
