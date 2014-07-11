@@ -1,4 +1,5 @@
 INCLUDES+= \
+	$(GOHOOP_TOP)/gsystem \
 	$(GOHOOP_TOP)/gsystem/inc
 	
 LIBS+= 
