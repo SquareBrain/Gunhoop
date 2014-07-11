@@ -21,8 +21,6 @@
 
 static const GUint64 DEF_ONE_LINE_BUF_SIZE = 1024;
 
-G_NS_GUTILS_BEG
-  
 GResult LoggerUtil::init()
 {
     return Logger::GetInstance()->init();
@@ -90,5 +88,3 @@ void LoggerUtil::printLog(const GInt32 logLevel,
 	Logger::GetInstance()->printLog((const LogLevel)logLevel, module, file, line, function, args, vaList);
 	va_end(vaList);		        
 }
-
-G_NS_END

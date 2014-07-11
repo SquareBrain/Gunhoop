@@ -25,9 +25,6 @@ static const GUint64 DEF_ONE_LINE_BUF_SIZE = 1024;
 // the configuration file name
 static const GInt8* DEF_CONF_FILE_NAME = "glog.conf";
 
-
-G_NS_GUTILS_BEG
-
 Logger::Logger()
 {
     m_error[0] = 0;
@@ -224,5 +221,3 @@ const PrintLevel& ModuleRule::getPrintLevel() const
 {
     return m_printLevel;
 }
-
-G_NS_END

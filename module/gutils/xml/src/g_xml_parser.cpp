@@ -18,8 +18,6 @@
 */ 
 #include <g_xml_parser.h>
 
-G_NS_GUTILS_BEG
-
 XmlParser::XmlParser()
 {
 }
@@ -27,5 +25,3 @@ XmlParser::XmlParser()
 XmlParser::~XmlParser()
 {
 }
-
-G_NS_END

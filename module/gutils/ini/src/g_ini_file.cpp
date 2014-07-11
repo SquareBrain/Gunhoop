@@ -16,11 +16,8 @@
 * 
 */
 #include <stdarg.h>
-#include <g_file.h>
 #include <g_ini_section.h>
 #include <g_ini_file.h>
-
-G_NS_GUTILS_BEG
 
 static const GUint64 INI_TMP_BUF_SIZE = 1024 * 10;
 
@@ -345,5 +342,3 @@ void IniFile::setError(const char *args,...)
 	vsnprintf(m_error, G_ERROR_BUF_SIZE, args, vaList);
     va_end(vaList);	
 }
-
-G_NS_END

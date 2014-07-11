@@ -19,8 +19,6 @@
 
 #include <g_ini_section.h>
 
-G_NS_GUTILS_BEG
-
 IniSection::IniSection()
 {
 }
@@ -98,5 +96,3 @@ const IniSection::KeyValueMap& IniSection::getkeyValueMap() const
 {
     return m_keyValueMap; 
 }
-
-G_NS_END

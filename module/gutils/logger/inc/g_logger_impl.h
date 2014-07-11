@@ -22,8 +22,6 @@
 #include <g_singleton.h>
 #include <g_ini_file.h>
 
-G_NS_GUTILS_BEG
-
 /**
  * system log level
  */	
@@ -149,5 +147,3 @@ private:
     IniFile             m_iniFile;
     GInt8               m_error[G_ERROR_BUF_SIZE];
 };
-
-G_NS_END

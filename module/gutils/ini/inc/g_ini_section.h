@@ -20,10 +20,7 @@
 
 #include <map>
 #include <string>
-#include <g_type.h>
-#include <g_lock.h>
-
-G_NS_GUTILS_BEG
+#include <g_system.h>
 
 /** 
  * ini file section
@@ -96,5 +93,3 @@ private:
     KeyValueMap     m_keyValueMap;
     GCommon::Mutex  m_mapLock;
 };
-
-G_NS_END

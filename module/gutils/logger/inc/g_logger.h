@@ -65,8 +65,6 @@
  */	
 #define G_LOG_TRACE(module, args...) GUtils::LoggerUtil::printTrace(module, __FILE__, __LINE__, __FUNCTION__, ##args)  
 
-G_NS_GUTILS_BEG
-
 /**
  * system log tool
  */	
@@ -161,5 +159,3 @@ private:
         const GInt8* function,
         const GInt8* args, ...);  
 };
-
-G_NS_END
