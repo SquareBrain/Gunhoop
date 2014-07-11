@@ -18,7 +18,7 @@
 #pragma once
 
 #include <dlfcn.h>
-#include <g_system.h>
+#include <g_type.h>
 
 /** 
  * shared library wrapper

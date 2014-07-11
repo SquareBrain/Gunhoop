@@ -23,7 +23,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
-#include <g_system.h>
+#include <g_type.h>
 
 /** 
  * shm error code

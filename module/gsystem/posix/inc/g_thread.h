@@ -20,7 +20,7 @@
 #pragma once
 
 #include <pthread.h> 
-#include <g_system.h>
+#include <g_type.h>
 
 /** 
  * thread state

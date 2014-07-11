@@ -18,7 +18,7 @@
 #pragma once
 
 #include <sys/stat.h>
-#include <g_system.h>
+#include <g_type.h>
 
 /** 
  * file open flags

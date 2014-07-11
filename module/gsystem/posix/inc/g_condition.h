@@ -19,7 +19,7 @@
 
 #include <sys/time.h>
 #include <pthread.h>
-#include <g_system.h>
+#include <g_type.h>
 
 /** 
  * POSIX condition wrapper

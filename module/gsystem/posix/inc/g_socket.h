@@ -24,7 +24,7 @@
 
 #include <string.h>
 #include <string>
-#include <g_system.h>
+#include <g_type.h>
 
 /** 
  * posix socket wrapper class

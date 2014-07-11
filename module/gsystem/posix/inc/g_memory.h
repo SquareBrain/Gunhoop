@@ -17,4 +17,4 @@
 */
 
 #pragma once
-#include <g_system.h>
+#include <g_type.h>

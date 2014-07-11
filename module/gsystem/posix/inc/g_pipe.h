@@ -22,7 +22,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <g_system.h>
+#include <g_type.h>
 
 /** 
  * Pipe base class, be inherited by WritePipe and ReadPipe class

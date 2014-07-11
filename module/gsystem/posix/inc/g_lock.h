@@ -25,7 +25,7 @@
 
 #include <pthread.h>
 #include <unistd.h>
-#include <g_system.h>
+#include <g_type.h>
 
 /** 
  * POSIX mutex wrapper

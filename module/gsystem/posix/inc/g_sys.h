@@ -19,7 +19,7 @@
 #pragma once
 
 #include <unistd.h>
-#include <g_system.h>
+#include <g_type.h>
 
 /** 
  * POSIX system common API wrapper
