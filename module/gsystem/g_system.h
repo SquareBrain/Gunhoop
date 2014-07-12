@@ -19,15 +19,15 @@
 
 #pragma once
 
-#include <posix/inc/g_condition.h>
-#include <posix/inc/g_file.h>
-#include <posix/inc/g_library.h>
-#include <posix/inc/g_lock.h>
-#include <posix/inc/g_memory.h>
-#include <posix/inc/g_pipe.h>
-#include <posix/inc/g_shm.h>
-#include <posix/inc/g_socket.h>
-#include <posix/inc/g_sys.h>
-#include <posix/inc/g_thread.h>
-#include <posix/inc/g_file.h>
-#include <posix/inc/g_time.h>
+#include <inc/g_condition.h>
+#include <inc/g_file.h>
+#include <inc/g_library.h>
+#include <inc/g_lock.h>
+#include <inc/g_memory.h>
+#include <inc/g_pipe.h>
+#include <inc/g_shm.h>
+#include <inc/g_socket.h>
+#include <inc/g_sys.h>
+#include <inc/g_thread.h>
+#include <inc/g_file.h>
+#include <inc/g_time.h>
