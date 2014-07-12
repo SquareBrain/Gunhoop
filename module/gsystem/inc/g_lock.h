@@ -85,7 +85,7 @@ private:
 	void init(const GInt32 kind);
     
 private:
-	pthread_GMutex_t	m_GMutex;	
+	pthread_mutex_t	m_mutex;	
 };
 
 
@@ -145,7 +145,7 @@ private:
 	void operator=(const GOrgLock&);	
 
 private:
-	GMutex*	m_GMutex;
+	GMutex*	m_mutex;
 };
 
 /** 
@@ -193,7 +193,7 @@ private:
 	void operator=(const GTryLock&);	
     
 private:
-	GMutex&	m_GMutex;
+	GMutex&	m_mutex;
 	bool	m_autoUnlock;
 };
 
@@ -225,5 +225,5 @@ private:
 	void operator=(const GAutoLock&);
 
 private:
-	GMutex&      m_GMutex;
+	GMutex&      m_mutex;
 };

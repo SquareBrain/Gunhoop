@@ -14,7 +14,7 @@
 *  1. 2013-11-26 duye Created this file
 * 
 */
-#include <g_GThread.h> 
+#include <g_thread.h> 
 
 GThread::GThread(Runnable* runnable, const bool autoRel) 
 	: m_GThreadId(-1)

@@ -15,7 +15,7 @@
 *  1. 2013-12-01 duye Created this file
 * 
 */
-#include <g_GPipe.h>
+#include <g_pipe.h>
 
 bool GPipe::orgOpen(const GInt8* GPipeName, const GInt32 mode)
 {

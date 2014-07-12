@@ -14,7 +14,7 @@
 *  1. 2014-03-04 duye Created this file
 * 
 */
-#include <g_GSys.h>
+#include <g_sys.h>
 
 void GSys::gsleep(const GUint64 time)
 {

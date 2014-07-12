@@ -15,7 +15,7 @@
 *  1. 2014-02-22 duye Created this file
 * 
 */
-#include <g_GShm.h>
+#include <g_shm.h>
 
 // default GShm size is 10M
 static const GUint64 G_DEF_GShm_SIZE = 1024 * 1024 * 10;

@@ -15,7 +15,7 @@
 *  1. 2014-02-16 duye Created this file
 * 
 */
-#include <g_GSocket.h>
+#include <g_socket.h>
 
 // the max request number, system default value it's 20
 static const GUint32 G_DEF_MAX_REQ = 20;

@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <sys/GSocket.h>
+#include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 

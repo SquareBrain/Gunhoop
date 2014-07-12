@@ -24,7 +24,7 @@
 /** 
  * POSIX GCondition wrapper
  */
-class GGCondition 
+class GCondition 
 {
 public:
 	GCondition();

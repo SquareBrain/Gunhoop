@@ -22,17 +22,17 @@
 
 GMutex::GMutex()
 {
-	init(PTHREAD_GMutex_RECURSIVE);
+	init(PTHREAD_MUTEX_RECURSIVE);
 }
 
 GMutex::GMutex(const GInt32 kind)
 {
-	if (kind != PTHREAD_GMutex_NORMAL && 
-		kind != PTHREAD_GMutex_RECURSIVE &&
-		kind != PTHREAD_GMutex_ERRORCHECK &&
-		kind != PTHREAD_GMutex_DEFAULT)
+	if (kind != PTHREAD_MUTEX_NORMAL && 
+		kind != PTHREAD_MUTEX_RECURSIVE &&
+		kind != PTHREAD_MUTEX_ERRORCHECK &&
+		kind != PTHREAD_MUTEX_DEFAULT)
 	{
-		init(PTHREAD_GMutex_DEFAULT);
+		init(PTHREAD_MUTEX_DEFAULT);
 	}
 	else
 	{
@@ -42,31 +42,31 @@ GMutex::GMutex(const GInt32 kind)
 
 GMutex::~GMutex()
 {
-	pthread_GMutex_destroy(&m_mutex);
+	pthread_mutex_destroy(&m_mutex);
 }
 
 bool GMutex::lock() 
 {
-	return pthread_GMutex_lock(&m_mutex) == 0 ? true : false;
+	return pthread_mutex_lock(&m_mutex) == 0 ? true : false;
 }
 
 bool GMutex::GTryLock()
 {
-	return pthread_GMutex_GTryLock(&m_mutex) == 0 ? true : false;
+	return pthread_mutex_trylock(&m_mutex) == 0 ? true : false;
 }
 
 bool GMutex::unlock()
 {
-	return pthread_GMutex_unlock(&m_mutex) == 0 ? true : false;
+	return pthread_mutex_unlock(&m_mutex) == 0 ? true : false;
 }
 
 void GMutex::init(const GInt32 kind)
 {
-	pthread_GMutexattr_t attr;
-	pthread_GMutexattr_init(&attr);
-	pthread_GMutexattr_settype(&attr, kind);
-	pthread_GMutex_init(&m_mutex, &attr);
-	pthread_GMutexattr_destroy(&attr);
+	pthread_mutexattr_t attr;
+	pthread_mutexattr_init(&attr);
+	pthread_mutexattr_settype(&attr, kind);
+	pthread_mutex_init(&m_mutex, &attr);
+	pthread_mutexattr_destroy(&attr);
 }
 
 GOrgLock::GOrgLock() : m_mutex(NULL)
