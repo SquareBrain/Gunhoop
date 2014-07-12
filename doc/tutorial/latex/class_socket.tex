@@ -1,0 +1,201 @@
+\hypertarget{class_socket}{\section{Socket Class Reference}
+\label{class_socket}\index{Socket@{Socket}}
+}
+
+
+{\ttfamily \#include $<$gcommon/system/inc/g\-\_\-socket.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_socket_abf07ad463fdba77fbf73d1cd79065fe5}{Socket} (const G\-Uint32 ip, const G\-Uint16 port)
+\item 
+\hyperlink{class_socket_ad55073e6cf9e64bd24a4b3f2add476bd}{Socket} (const \hyperlink{class_socket}{Socket} \&socket)
+\item 
+G\-Result \hyperlink{class_socket_a57de7be4c2e2a0b7419bc9491dd07742}{open\-Socket} (const G\-Int32 domain=A\-F\-\_\-\-I\-N\-E\-T, const G\-Int32 type=S\-O\-C\-K\-\_\-\-S\-T\-R\-E\-A\-M)
+\item 
+G\-Int64 \hyperlink{class_socket_a14642fefcea6fda13b94a65c8704714b}{send\-Data} (const G\-Uint8 $\ast$data, const G\-Uint64 length, const G\-Int32 flags=M\-S\-G\-\_\-\-N\-O\-S\-I\-G\-N\-A\-L)
+\item 
+G\-Int64 \hyperlink{class_socket_ac3dc555a442ca644e0e01b581cdff58e}{recv\-Data} (G\-Uint8 $\ast$buffer, const G\-Uint64 size, const G\-Int32 flags=0)
+\item 
+G\-Result \hyperlink{class_socket_a05b7fc327170642cc9175d8b916720ce}{close\-Socket} (const G\-Int32 how=0)
+\item 
+void \hyperlink{class_socket_ac7df4816b66a15e819a973d8f0f42517}{set\-Addr} (const G\-Uint32 ip, const G\-Uint16 port)
+\item 
+G\-Uint32 \hyperlink{class_socket_ac817892502e4501630ad3146b7919e8a}{get\-I\-P} () const 
+\item 
+G\-Uint16 \hyperlink{class_socket_a8d30868500981371e9c65f198988f092}{get\-Port} () const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+posix socket wrapper class 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_socket_abf07ad463fdba77fbf73d1cd79065fe5}{\index{Socket@{Socket}!Socket@{Socket}}
+\index{Socket@{Socket}!Socket@{Socket}}
+\subsubsection[{Socket}]{\setlength{\rightskip}{0pt plus 5cm}Socket\-::\-Socket (
+\begin{DoxyParamCaption}
+\item[{const G\-Uint32}]{ip, }
+\item[{const G\-Uint16}]{port}
+\end{DoxyParamCaption}
+)}}\label{class_socket_abf07ad463fdba77fbf73d1cd79065fe5}
+constructor 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em ip} & \-: ip address \\
+\hline
+\mbox{\tt in}  & {\em port} & \-: port \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_socket_ad55073e6cf9e64bd24a4b3f2add476bd}{\index{Socket@{Socket}!Socket@{Socket}}
+\index{Socket@{Socket}!Socket@{Socket}}
+\subsubsection[{Socket}]{\setlength{\rightskip}{0pt plus 5cm}Socket\-::\-Socket (
+\begin{DoxyParamCaption}
+\item[{const {\bf Socket} \&}]{socket}
+\end{DoxyParamCaption}
+)}}\label{class_socket_ad55073e6cf9e64bd24a4b3f2add476bd}
+copy constructor 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em socket} & \-: socket \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_socket_a05b7fc327170642cc9175d8b916720ce}{\index{Socket@{Socket}!close\-Socket@{close\-Socket}}
+\index{close\-Socket@{close\-Socket}!Socket@{Socket}}
+\subsubsection[{close\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result Socket\-::close\-Socket (
+\begin{DoxyParamCaption}
+\item[{const G\-Int32}]{how = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_socket_a05b7fc327170642cc9175d8b916720ce}
+shutdown connecting 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em how} & \-: way \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_socket_ac817892502e4501630ad3146b7919e8a}{\index{Socket@{Socket}!get\-I\-P@{get\-I\-P}}
+\index{get\-I\-P@{get\-I\-P}!Socket@{Socket}}
+\subsubsection[{get\-I\-P}]{\setlength{\rightskip}{0pt plus 5cm}G\-Uint32 Socket\-::get\-I\-P (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_socket_ac817892502e4501630ad3146b7919e8a}
+get ip address \begin{DoxyReturn}{Returns}
+ip address 
+\end{DoxyReturn}
+\hypertarget{class_socket_a8d30868500981371e9c65f198988f092}{\index{Socket@{Socket}!get\-Port@{get\-Port}}
+\index{get\-Port@{get\-Port}!Socket@{Socket}}
+\subsubsection[{get\-Port}]{\setlength{\rightskip}{0pt plus 5cm}G\-Uint16 Socket\-::get\-Port (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_socket_a8d30868500981371e9c65f198988f092}
+get port \begin{DoxyReturn}{Returns}
+port 
+\end{DoxyReturn}
+\hypertarget{class_socket_a57de7be4c2e2a0b7419bc9491dd07742}{\index{Socket@{Socket}!open\-Socket@{open\-Socket}}
+\index{open\-Socket@{open\-Socket}!Socket@{Socket}}
+\subsubsection[{open\-Socket}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result Socket\-::open\-Socket (
+\begin{DoxyParamCaption}
+\item[{const G\-Int32}]{domain = {\ttfamily AF\-\_\-INET}, }
+\item[{const G\-Int32}]{type = {\ttfamily SOCK\-\_\-STREAM}}
+\end{DoxyParamCaption}
+)}}\label{class_socket_a57de7be4c2e2a0b7419bc9491dd07742}
+init socket 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em domain} & \-: domain \\
+\hline
+\mbox{\tt in}  & {\em type} & \-: socket type \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_socket_ac3dc555a442ca644e0e01b581cdff58e}{\index{Socket@{Socket}!recv\-Data@{recv\-Data}}
+\index{recv\-Data@{recv\-Data}!Socket@{Socket}}
+\subsubsection[{recv\-Data}]{\setlength{\rightskip}{0pt plus 5cm}G\-Int64 Socket\-::recv\-Data (
+\begin{DoxyParamCaption}
+\item[{G\-Uint8 $\ast$}]{buffer, }
+\item[{const G\-Uint64}]{size, }
+\item[{const G\-Int32}]{flags = {\ttfamily 0}}
+\end{DoxyParamCaption}
+)}}\label{class_socket_ac3dc555a442ca644e0e01b581cdff58e}
+receive data 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em buffer} & \-: output buffer \\
+\hline
+\mbox{\tt in}  & {\em buffer\-Size} & \-: buffer size \\
+\hline
+\mbox{\tt in}  & {\em flags} & \-: flags \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size/-\/1 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_socket_a14642fefcea6fda13b94a65c8704714b}{\index{Socket@{Socket}!send\-Data@{send\-Data}}
+\index{send\-Data@{send\-Data}!Socket@{Socket}}
+\subsubsection[{send\-Data}]{\setlength{\rightskip}{0pt plus 5cm}G\-Int64 Socket\-::send\-Data (
+\begin{DoxyParamCaption}
+\item[{const G\-Uint8 $\ast$}]{data, }
+\item[{const G\-Uint64}]{length, }
+\item[{const G\-Int32}]{flags = {\ttfamily MSG\-\_\-NOSIGNAL}}
+\end{DoxyParamCaption}
+)}}\label{class_socket_a14642fefcea6fda13b94a65c8704714b}
+send data 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em data} & \-: send data \\
+\hline
+\mbox{\tt in}  & {\em data\-Len} & \-: data length \\
+\hline
+\mbox{\tt in}  & {\em flags} & \-: flags \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size/-\/1 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_socket_ac7df4816b66a15e819a973d8f0f42517}{\index{Socket@{Socket}!set\-Addr@{set\-Addr}}
+\index{set\-Addr@{set\-Addr}!Socket@{Socket}}
+\subsubsection[{set\-Addr}]{\setlength{\rightskip}{0pt plus 5cm}void Socket\-::set\-Addr (
+\begin{DoxyParamCaption}
+\item[{const G\-Uint32}]{ip, }
+\item[{const G\-Uint16}]{port}
+\end{DoxyParamCaption}
+)}}\label{class_socket_ac7df4816b66a15e819a973d8f0f42517}
+setting address 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em ip} & \-: ip address \\
+\hline
+\mbox{\tt in}  & {\em port} & \-: port \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+gcommon/system/inc/\hyperlink{g__socket_8h}{g\-\_\-socket.\-h}\item 
+gcommon/system/src/\hyperlink{g__socket_8cpp}{g\-\_\-socket.\-cpp}\end{DoxyCompactItemize}

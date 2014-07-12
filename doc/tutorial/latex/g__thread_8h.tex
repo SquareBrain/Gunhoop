@@ -1,0 +1,78 @@
+\hypertarget{g__thread_8h}{\section{gcommon/system/inc/g\-\_\-thread.h File Reference}
+\label{g__thread_8h}\index{gcommon/system/inc/g\-\_\-thread.\-h@{gcommon/system/inc/g\-\_\-thread.\-h}}
+}
+{\ttfamily \#include $<$pthread.\-h$>$}\\*
+{\ttfamily \#include $<$g\-\_\-type.\-h$>$}\\*
+Include dependency graph for g\-\_\-thread.\-h\-:
+This graph shows which files directly or indirectly include this file\-:
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_runnable}{Runnable}
+\item 
+class \hyperlink{class_thread}{Thread}
+\item 
+class \hyperlink{class_thread_task}{Thread\-Task}
+\item 
+class \hyperlink{class_thread_util}{Thread\-Util}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void $\ast$($\ast$ \hyperlink{g__thread_8h_a51a28debdffe7d533aab7031de89e5b2}{Thread\-Fun\-Point\-\_\-t} )(void $\ast$)
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{g__thread_8h_ab3804a8a4369184ad46dadf8e54957b6}{Thread\-State} \{ \hyperlink{g__thread_8h_ab3804a8a4369184ad46dadf8e54957b6aa5403d771f33be706549f26ffd4adeaa}{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-U\-N} = 0, 
+\hyperlink{g__thread_8h_ab3804a8a4369184ad46dadf8e54957b6ae0e2c8b6d9dede0ece8d047395cc331a}{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P}, 
+\hyperlink{g__thread_8h_ab3804a8a4369184ad46dadf8e54957b6a9e9eea263373ec60011a7017ec3747fc}{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-X\-I\-T}
+ \}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVersion}{Version}
+
+\end{DoxyVersion}
+\begin{DoxyAuthor}{Author}
+duye 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2013-\/11-\/26 
+\end{DoxyDate}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+\begin{DoxyEnumerate}
+\item 2014-\/06-\/21 duye move to gohoop project
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item 2014-\/01-\/12 duye Add comments
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item 2013-\/11-\/26 duye Created this file 
+\end{DoxyEnumerate}
+
+\subsection{Typedef Documentation}
+\hypertarget{g__thread_8h_a51a28debdffe7d533aab7031de89e5b2}{\index{g\-\_\-thread.\-h@{g\-\_\-thread.\-h}!Thread\-Fun\-Point\-\_\-t@{Thread\-Fun\-Point\-\_\-t}}
+\index{Thread\-Fun\-Point\-\_\-t@{Thread\-Fun\-Point\-\_\-t}!g_thread.h@{g\-\_\-thread.\-h}}
+\subsubsection[{Thread\-Fun\-Point\-\_\-t}]{\setlength{\rightskip}{0pt plus 5cm}typedef void$\ast$($\ast$ Thread\-Fun\-Point\-\_\-t)(void $\ast$)}}\label{g__thread_8h_a51a28debdffe7d533aab7031de89e5b2}
+the pointer of thread enter 
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{g__thread_8h_ab3804a8a4369184ad46dadf8e54957b6}{\index{g\-\_\-thread.\-h@{g\-\_\-thread.\-h}!Thread\-State@{Thread\-State}}
+\index{Thread\-State@{Thread\-State}!g_thread.h@{g\-\_\-thread.\-h}}
+\subsubsection[{Thread\-State}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Thread\-State}}}\label{g__thread_8h_ab3804a8a4369184ad46dadf8e54957b6}
+thread state \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-U\-N@{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-U\-N}!g\-\_\-thread.\-h@{g\-\_\-thread.\-h}}\index{g\-\_\-thread.\-h@{g\-\_\-thread.\-h}!T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-U\-N@{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-U\-N}}\item[{\em 
+\hypertarget{g__thread_8h_ab3804a8a4369184ad46dadf8e54957b6aa5403d771f33be706549f26ffd4adeaa}{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-R\-U\-N}\label{g__thread_8h_ab3804a8a4369184ad46dadf8e54957b6aa5403d771f33be706549f26ffd4adeaa}
+}]running state \index{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P@{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P}!g\-\_\-thread.\-h@{g\-\_\-thread.\-h}}\index{g\-\_\-thread.\-h@{g\-\_\-thread.\-h}!T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P@{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P}}\item[{\em 
+\hypertarget{g__thread_8h_ab3804a8a4369184ad46dadf8e54957b6ae0e2c8b6d9dede0ece8d047395cc331a}{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-S\-T\-O\-P}\label{g__thread_8h_ab3804a8a4369184ad46dadf8e54957b6ae0e2c8b6d9dede0ece8d047395cc331a}
+}]stoped state \index{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-X\-I\-T@{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-X\-I\-T}!g\-\_\-thread.\-h@{g\-\_\-thread.\-h}}\index{g\-\_\-thread.\-h@{g\-\_\-thread.\-h}!T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-X\-I\-T@{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-X\-I\-T}}\item[{\em 
+\hypertarget{g__thread_8h_ab3804a8a4369184ad46dadf8e54957b6a9e9eea263373ec60011a7017ec3747fc}{T\-H\-R\-\_\-\-S\-T\-A\-T\-E\-\_\-\-E\-X\-I\-T}\label{g__thread_8h_ab3804a8a4369184ad46dadf8e54957b6a9e9eea263373ec60011a7017ec3747fc}
+}]exit state \end{description}
+\end{Desc}

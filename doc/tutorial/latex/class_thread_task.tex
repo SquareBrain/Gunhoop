@@ -1,0 +1,70 @@
+\hypertarget{class_thread_task}{\section{Thread\-Task Class Reference}
+\label{class_thread_task}\index{Thread\-Task@{Thread\-Task}}
+}
+
+
+{\ttfamily \#include $<$gcommon/system/inc/g\-\_\-thread.\-h$>$}
+
+
+
+Inheritance diagram for Thread\-Task\-:
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_thread_task_a6ac7dc2f3a7c59e9abd779a6400db0a3}{Thread\-Task} (const bool auto\-Rel=true)
+\item 
+G\-Result \hyperlink{class_thread_task_af3bda66601ad197f108ab3be7c1d8379}{start} ()
+\item 
+virtual G\-Result \hyperlink{class_thread_task_aeb8c47ea59b131ccf73064feac9b9503}{run} ()=0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+thread base class, be inherited by user 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_thread_task_a6ac7dc2f3a7c59e9abd779a6400db0a3}{\index{Thread\-Task@{Thread\-Task}!Thread\-Task@{Thread\-Task}}
+\index{Thread\-Task@{Thread\-Task}!ThreadTask@{Thread\-Task}}
+\subsubsection[{Thread\-Task}]{\setlength{\rightskip}{0pt plus 5cm}Thread\-Task\-::\-Thread\-Task (
+\begin{DoxyParamCaption}
+\item[{const bool}]{auto\-Rel = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_thread_task_a6ac7dc2f3a7c59e9abd779a6400db0a3}
+constructor  \mbox{[}in\mbox{]} auto\-Rel \-: whether is detached with main thread, default is detached \begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_thread_task_aeb8c47ea59b131ccf73064feac9b9503}{\index{Thread\-Task@{Thread\-Task}!run@{run}}
+\index{run@{run}!ThreadTask@{Thread\-Task}}
+\subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}virtual G\-Result Thread\-Task\-::run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_thread_task_aeb8c47ea59b131ccf73064feac9b9503}
+thread entry function \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_thread_task_af3bda66601ad197f108ab3be7c1d8379}{\index{Thread\-Task@{Thread\-Task}!start@{start}}
+\index{start@{start}!ThreadTask@{Thread\-Task}}
+\subsubsection[{start}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result Thread\-Task\-::start (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_thread_task_af3bda66601ad197f108ab3be7c1d8379}
+startup thread \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+gcommon/system/inc/\hyperlink{g__thread_8h}{g\-\_\-thread.\-h}\item 
+gcommon/system/src/\hyperlink{g__thread_8cpp}{g\-\_\-thread.\-cpp}\end{DoxyCompactItemize}

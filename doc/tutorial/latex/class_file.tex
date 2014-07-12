@@ -1,0 +1,304 @@
+\hypertarget{class_file}{\section{File Class Reference}
+\label{class_file}\index{File@{File}}
+}
+
+
+{\ttfamily \#include $<$gcommon/system/inc/g\-\_\-file.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_file_ab825d28f207991d4d091998f6d0105f6}{File} (const \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$file\-Path)
+\item 
+G\-Result \hyperlink{class_file_ac0582691c9aa54761291dbb88f86ddfc}{set\-File\-Path} (const \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$file\-Path)
+\item 
+G\-Uint32 \hyperlink{class_file_aabc7d55e3140f0e4897750e9d85e14c3}{get\-Mode} () const 
+\item 
+G\-Result \hyperlink{class_file_a128e8b16a7cac924af38293b1a087e90}{open\-R} ()
+\item 
+G\-Result \hyperlink{class_file_ac74b734532d0a2bfa8602f3a45266279}{open\-W} ()
+\item 
+G\-Result \hyperlink{class_file_aa89dd76d8c9368da98604b80eeae8bc4}{open\-W\-A} ()
+\item 
+G\-Result \hyperlink{class_file_a0380f40732ffe816f0501c793adbd80c}{open\-W\-C} ()
+\item 
+G\-Result \hyperlink{class_file_a80184e37768cd4d2c50ab87755e18018}{open\-W\-C\-A} ()
+\item 
+G\-Result \hyperlink{class_file_a87db685266f7e2b63518a974302997ac}{open\-R\-W} ()
+\item 
+G\-Result \hyperlink{class_file_a8da03f40f718e43fcb0c7c6ca14562d3}{open\-R\-W\-A} ()
+\item 
+G\-Result \hyperlink{class_file_a3319dacbf13d0e08000d799294c9d957}{open\-R\-W\-C} ()
+\item 
+G\-Result \hyperlink{class_file_aec3447af5bea1235b09e96701171e0e2}{open\-R\-W\-C\-A} ()
+\item 
+G\-Int64 \hyperlink{class_file_a0cbdaacc6b7edbe8f9b190c0b9ce55c2}{read\-File} (\hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$buffer, const G\-Uint64 size)
+\item 
+G\-Int64 \hyperlink{class_file_aa40eaafd8303f9191510850d6962767a}{read\-Line} (const G\-Uint64 offset, \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$buffer, const G\-Uint64 size)
+\item 
+G\-Int64 \hyperlink{class_file_a7f0dadd31399af5542742ef9cba228e2}{write\-File} (const \hyperlink{g__type_8h_ad1732c0e4cf5d108f232e44a1179e8b0}{G\-Int8} $\ast$buffer, const G\-Uint64 size)
+\item 
+G\-Result \hyperlink{class_file_a3e4be7d0232f3b8ba611360a0e1de626}{close\-File} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+file operation wrapper 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_file_ab825d28f207991d4d091998f6d0105f6}{\index{File@{File}!File@{File}}
+\index{File@{File}!File@{File}}
+\subsubsection[{File}]{\setlength{\rightskip}{0pt plus 5cm}File\-::\-File (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-Int8} $\ast$}]{file\-Path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [explicit]}}}\label{class_file_ab825d28f207991d4d091998f6d0105f6}
+set file path 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em file\-Path} & \-: file path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_file_a3e4be7d0232f3b8ba611360a0e1de626}{\index{File@{File}!close\-File@{close\-File}}
+\index{close\-File@{close\-File}!File@{File}}
+\subsubsection[{close\-File}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result File\-::close\-File (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_file_a3e4be7d0232f3b8ba611360a0e1de626}
+close file 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em buffer} & \-: input buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_aabc7d55e3140f0e4897750e9d85e14c3}{\index{File@{File}!get\-Mode@{get\-Mode}}
+\index{get\-Mode@{get\-Mode}!File@{File}}
+\subsubsection[{get\-Mode}]{\setlength{\rightskip}{0pt plus 5cm}G\-Uint32 File\-::get\-Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_file_aabc7d55e3140f0e4897750e9d85e14c3}
+get file mode \begin{DoxyReturn}{Returns}
+mode 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_a128e8b16a7cac924af38293b1a087e90}{\index{File@{File}!open\-R@{open\-R}}
+\index{open\-R@{open\-R}!File@{File}}
+\subsubsection[{open\-R}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result File\-::open\-R (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_file_a128e8b16a7cac924af38293b1a087e90}
+open file for reading \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_a87db685266f7e2b63518a974302997ac}{\index{File@{File}!open\-R\-W@{open\-R\-W}}
+\index{open\-R\-W@{open\-R\-W}!File@{File}}
+\subsubsection[{open\-R\-W}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result File\-::open\-R\-W (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_file_a87db685266f7e2b63518a974302997ac}
+open file for reading and writing \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_a8da03f40f718e43fcb0c7c6ca14562d3}{\index{File@{File}!open\-R\-W\-A@{open\-R\-W\-A}}
+\index{open\-R\-W\-A@{open\-R\-W\-A}!File@{File}}
+\subsubsection[{open\-R\-W\-A}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result File\-::open\-R\-W\-A (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_file_a8da03f40f718e43fcb0c7c6ca14562d3}
+open file for reading and writeing, and appended content \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_a3319dacbf13d0e08000d799294c9d957}{\index{File@{File}!open\-R\-W\-C@{open\-R\-W\-C}}
+\index{open\-R\-W\-C@{open\-R\-W\-C}!File@{File}}
+\subsubsection[{open\-R\-W\-C}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result File\-::open\-R\-W\-C (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_file_a3319dacbf13d0e08000d799294c9d957}
+open file for randing and writing, and craete it when isn't exist \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_aec3447af5bea1235b09e96701171e0e2}{\index{File@{File}!open\-R\-W\-C\-A@{open\-R\-W\-C\-A}}
+\index{open\-R\-W\-C\-A@{open\-R\-W\-C\-A}!File@{File}}
+\subsubsection[{open\-R\-W\-C\-A}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result File\-::open\-R\-W\-C\-A (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_file_aec3447af5bea1235b09e96701171e0e2}
+open file for rand and write, and craete it when isn't exist, and append content \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_ac74b734532d0a2bfa8602f3a45266279}{\index{File@{File}!open\-W@{open\-W}}
+\index{open\-W@{open\-W}!File@{File}}
+\subsubsection[{open\-W}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result File\-::open\-W (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_file_ac74b734532d0a2bfa8602f3a45266279}
+open file for writing \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_aa89dd76d8c9368da98604b80eeae8bc4}{\index{File@{File}!open\-W\-A@{open\-W\-A}}
+\index{open\-W\-A@{open\-W\-A}!File@{File}}
+\subsubsection[{open\-W\-A}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result File\-::open\-W\-A (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_file_aa89dd76d8c9368da98604b80eeae8bc4}
+open file for writing, and appended content \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_a0380f40732ffe816f0501c793adbd80c}{\index{File@{File}!open\-W\-C@{open\-W\-C}}
+\index{open\-W\-C@{open\-W\-C}!File@{File}}
+\subsubsection[{open\-W\-C}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result File\-::open\-W\-C (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_file_a0380f40732ffe816f0501c793adbd80c}
+open file for writing, and create it when isn't exist \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_a80184e37768cd4d2c50ab87755e18018}{\index{File@{File}!open\-W\-C\-A@{open\-W\-C\-A}}
+\index{open\-W\-C\-A@{open\-W\-C\-A}!File@{File}}
+\subsubsection[{open\-W\-C\-A}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result File\-::open\-W\-C\-A (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_file_a80184e37768cd4d2c50ab87755e18018}
+open file for writing, and create it when isn't exist, and append content \begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_a0cbdaacc6b7edbe8f9b190c0b9ce55c2}{\index{File@{File}!read\-File@{read\-File}}
+\index{read\-File@{read\-File}!File@{File}}
+\subsubsection[{read\-File}]{\setlength{\rightskip}{0pt plus 5cm}G\-Int64 File\-::read\-File (
+\begin{DoxyParamCaption}
+\item[{{\bf G\-Int8} $\ast$}]{buffer, }
+\item[{const G\-Uint64}]{size}
+\end{DoxyParamCaption}
+)}}\label{class_file_a0cbdaacc6b7edbe8f9b190c0b9ce55c2}
+read file 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em buffer} & \-: output buffer \\
+\hline
+\mbox{\tt in}  & {\em size} & \-: the size of buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size/-\/1 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_aa40eaafd8303f9191510850d6962767a}{\index{File@{File}!read\-Line@{read\-Line}}
+\index{read\-Line@{read\-Line}!File@{File}}
+\subsubsection[{read\-Line}]{\setlength{\rightskip}{0pt plus 5cm}G\-Int64 File\-::read\-Line (
+\begin{DoxyParamCaption}
+\item[{const G\-Uint64}]{offset, }
+\item[{{\bf G\-Int8} $\ast$}]{buffer, }
+\item[{const G\-Uint64}]{size}
+\end{DoxyParamCaption}
+)}}\label{class_file_aa40eaafd8303f9191510850d6962767a}
+read a line 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em offset} & \-: the offset from the begin position \\
+\hline
+\mbox{\tt out}  & {\em buffer} & \-: output buffer \\
+\hline
+\mbox{\tt in}  & {\em size} & \-: the size of buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size/-\/1 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_ac0582691c9aa54761291dbb88f86ddfc}{\index{File@{File}!set\-File\-Path@{set\-File\-Path}}
+\index{set\-File\-Path@{set\-File\-Path}!File@{File}}
+\subsubsection[{set\-File\-Path}]{\setlength{\rightskip}{0pt plus 5cm}G\-Result File\-::set\-File\-Path (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-Int8} $\ast$}]{file\-Path}
+\end{DoxyParamCaption}
+)}}\label{class_file_ac0582691c9aa54761291dbb88f86ddfc}
+set file path 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em file\-Path} & \-: file path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+G\-\_\-\-Y\-E\-S/\-G\-\_\-\-N\-O 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+\hypertarget{class_file_a7f0dadd31399af5542742ef9cba228e2}{\index{File@{File}!write\-File@{write\-File}}
+\index{write\-File@{write\-File}!File@{File}}
+\subsubsection[{write\-File}]{\setlength{\rightskip}{0pt plus 5cm}G\-Int64 File\-::write\-File (
+\begin{DoxyParamCaption}
+\item[{const {\bf G\-Int8} $\ast$}]{buffer, }
+\item[{const G\-Uint64}]{size}
+\end{DoxyParamCaption}
+)}}\label{class_file_a7f0dadd31399af5542742ef9cba228e2}
+write file 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em buffer} & \-: input buffer \\
+\hline
+\mbox{\tt in}  & {\em size} & \-: the size of buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+size/-\/1 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+gcommon/system/inc/\hyperlink{g__file_8h}{g\-\_\-file.\-h}\item 
+gcommon/system/src/\hyperlink{g__file_8cpp}{g\-\_\-file.\-cpp}\end{DoxyCompactItemize}
