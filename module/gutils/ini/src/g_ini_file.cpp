@@ -50,7 +50,7 @@ GResult IniFile::loadFile(const std::string& filePath)
     
     m_filePath = filePath;
 
-    GCommon::File file(m_filePath.c_str());
+    GFile file(m_filePath.c_str());
     if (file.openFile(ONLY_READ) != G_YES)
     {
         setError("open file failed");
@@ -117,7 +117,7 @@ GResult IniFile::getParaVal(const std::string& section,
     const std::string& paraName, 
     std::string& value)
 {
-    GCommon::AutoLock autoLock(m_mapLock); 
+    GAutoLock autoLock(m_mapMutex); 
     IniSectionMap::iterator iter = m_iniSectionMap.find(section);
     if (iter == m_iniSectionMap.end())
     {
@@ -132,7 +132,7 @@ GResult IniFile::setParaVal(const std::string& section,
     const std::string& paraName, 
     const std::string& value)
 {
-    GCommon::AutoLock autoLock(m_mapLock); 
+    GAutoLock autoLock(m_mapMutex); 
     IniSectionMap::iterator iter = m_iniSectionMap.find(section);
     if (iter == m_iniSectionMap.end())
     {
@@ -144,7 +144,7 @@ GResult IniFile::setParaVal(const std::string& section,
 
 GResult IniFile::delSection(const std::string& section)
 {
-    GCommon::AutoLock autoLock(m_mapLock); 
+    GAutoLock autoLock(m_mapMutex); 
     IniSectionMap::iterator iter = m_iniSectionMap.find(section);
     if (iter == m_iniSectionMap.end())
     {
@@ -158,7 +158,7 @@ GResult IniFile::delSection(const std::string& section)
 
 GResult IniFile::delPara(const std::string& section, const std::string& paraName)
 {
-    GCommon::AutoLock autoLock(m_mapLock); 
+    GAutoLock autoLock(m_mapMutex); 
     IniSectionMap::iterator iter = m_iniSectionMap.find(section);
     if (iter == m_iniSectionMap.end())
     {
@@ -190,7 +190,7 @@ GResult IniFile::saveFile(const std::string& filePath)
     GInt8 tmpBuf[INI_TMP_BUF_SIZE] = {0};
     GUint64 bufPos = 0;
 
-    GCommon::AutoLock autoLock(m_mapLock); 
+    GAutoLock autoLock(m_mapMutex); 
     
     IniSectionMap::iterator iter = m_iniSectionMap.begin();
     for (; iter != m_iniSectionMap.end(); ++iter)
@@ -217,7 +217,7 @@ GResult IniFile::saveFile(const std::string& filePath)
 
     tmpBuf[bufPos] = 0;
 
-    GCommon::File file(m_filePath.c_str());
+    GFile file(m_filePath.c_str());
     if (file.openFile(ONLY_WRITE) != G_YES)
     {
         return G_NO;
@@ -241,7 +241,7 @@ GInt8* IniFile::getError()
 
 void IniFile::cleanIniSectionMap()
 {
-    GCommon::AutoLock autoLock(m_mapLock); 
+    GAutoLock autoLock(m_mapMutex); 
     
     IniSectionMap::iterator iter = m_iniSectionMap.begin();
     while (iter != m_iniSectionMap.end())

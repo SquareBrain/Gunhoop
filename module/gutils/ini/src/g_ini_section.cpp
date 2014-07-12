@@ -34,7 +34,7 @@ IniSection::~IniSection()
 
 GResult IniSection::getPara(const std::string& para, std::string& value)
 {
-    GCommon::AutoLock autoLock(m_mapLock);
+    GAutoLock autoLock(m_mapMutex);
     
     KeyValueMap::iterator iter = m_keyValueMap.find(para);
     if (iter == m_keyValueMap.end())
@@ -49,7 +49,7 @@ GResult IniSection::getPara(const std::string& para, std::string& value)
 
 GResult IniSection::setPara(const std::string& para, const std::string& value)
 {
-    GCommon::AutoLock autoLock(m_mapLock);
+    GAutoLock autoLock(m_mapMutex);
     
     KeyValueMap::iterator iter = m_keyValueMap.find(para);
     if (iter == m_keyValueMap.end())
@@ -64,7 +64,7 @@ GResult IniSection::setPara(const std::string& para, const std::string& value)
 
 GResult IniSection::addPara(const std::string& para, const std::string& value)
 {
-    GCommon::AutoLock autoLock(m_mapLock);
+    GAutoLock autoLock(m_mapMutex);
     
     KeyValueMap::iterator iter = m_keyValueMap.find(para);
     if (iter != m_keyValueMap.end())
@@ -79,7 +79,7 @@ GResult IniSection::addPara(const std::string& para, const std::string& value)
 
 GResult IniSection::delPara(const std::string& para)
 {
-    GCommon::AutoLock autoLock(m_mapLock);
+    GAutoLock autoLock(m_mapMutex);
     
     KeyValueMap::iterator iter = m_keyValueMap.find(para);
     if (iter == m_keyValueMap.end())

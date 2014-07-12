@@ -91,5 +91,5 @@ public:
 private:
     std::string     m_sectionName;
     KeyValueMap     m_keyValueMap;
-    GCommon::Mutex  m_mapLock;
+    GMutex          m_mapMutex;
 };

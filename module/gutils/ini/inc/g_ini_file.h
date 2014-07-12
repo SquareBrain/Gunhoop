@@ -149,6 +149,6 @@ private:
 private:
     std::string         m_filePath;
     IniSectionMap       m_iniSectionMap;
-    GCommon::Mutex      m_mapLock;
+    GMutex              m_mapMutex;
     GInt8               m_error[G_ERROR_BUF_SIZE];
 };
