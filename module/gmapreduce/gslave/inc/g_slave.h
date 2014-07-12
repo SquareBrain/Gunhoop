@@ -16,6 +16,7 @@
 */
 #pragma once
 
+#include <g_namespace.h>
 #include <g_system.h>
 
 G_NS_GMAPREDUCE_BEG
@@ -29,4 +30,4 @@ public:
 	GResult start();
 };
 
-G_NS_GMAPREDUCE_END
+G_NS_END

@@ -31,4 +31,4 @@ GResult Slave::start()
 	return G_YES;
 }
 
-G_NS_GMAPREDUCE_END
+G_NS_END
