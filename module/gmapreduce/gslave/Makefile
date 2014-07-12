@@ -1,6 +1,5 @@
 PRONAME:=gslave
-VERSION:=1.0.0
-TARGET:=lib$(PRONAME)
+TARGET:=gslave
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
 

@@ -1,6 +1,5 @@
 PRONAME:=gmaster
-VERSION:=1.0.0
-TARGET:=lib$(PRONAME)
+TARGET:=gmaster
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
 

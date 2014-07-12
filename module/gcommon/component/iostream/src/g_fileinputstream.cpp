@@ -65,7 +65,7 @@ GInt64 FileInputStream::skip(GInt64 lNum)
 	return -1;
 }
 
-shared_ptr<GFile> FileInputStream::GetFile()
+std::tr1::shared_ptr<GFile> FileInputStream::GetFile()
 {
 	return m_file;
 }
