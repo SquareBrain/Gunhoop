@@ -22,11 +22,13 @@ using namespace GCommon;
 
 
 
-FileInputStream::FileInputStream(GFile file)
+FileInputStream::FileInputStream(shared_ptr<GFile> file)
+	: m_file(file)
 {
 }
 
-FileInputStream::FileInputStream(string filepath)
+FileInputStream::FileInputStream(const string filepath)
+	: m_file((shared_ptr<GFile>(new GFile(filepath.c_str()))))
 {
 }
 
@@ -61,5 +63,10 @@ GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset,
 GInt64 FileInputStream::skip(GInt64 lNum)
 {
 	return -1;
+}
+
+shared_ptr<GFile> FileInputStream::GetFile()
+{
+	return m_file;
 }
 

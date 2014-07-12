@@ -18,6 +18,8 @@
 #pragma once
 
 #include <string>
+#include <memory>
+
 #include <g_common.h>
 #include <g_inputstream.h>
 
@@ -26,8 +28,8 @@ G_NS_GCOMMON_BEG
 class FileInputStream : public InputStream
 {
 public:
-	FileInputStream(GFile file);
-	FileInputStream(std::string filepath);
+	FileInputStream(std::shared_ptr<GFile> file);
+	FileInputStream(const std::string filepath);
 	virtual ~FileInputStream(); 
 
 	/**
@@ -82,13 +84,13 @@ public:
         */
 	virtual GInt64 skip(GInt64 lNum);
 
-	GFile GetFile();
+	std::shared_ptr<GFile> GetFile();
 
 protected:
 	void finalize();
 
 private:
-	GFile m_file;
+	std::shared_ptr<GFile> m_file;
 };
 
 G_NS_END
