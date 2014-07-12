@@ -4,7 +4,7 @@
 *
 ************************************************************************************/
 /**
-* @file		g_ini_file.cpp
+* @file		g_ini.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -17,7 +17,7 @@
 */
 #include <stdarg.h>
 #include <g_ini_section.h>
-#include <g_ini_file.h>
+#include <g_ini.h>
 
 static const GUint64 INI_TMP_BUF_SIZE = 1024 * 10;
 
