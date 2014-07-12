@@ -18,8 +18,8 @@
 
 #include <map>
 #include <string>
-#include <g_type.h>
-#include <g_ini_file.h>
+#include <g_system.h>
+#include <g_ini.h>
 
 /**
  * system log level

@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <g_type.h>
+#include <g_system.h>
 
 /**
  * init log system
