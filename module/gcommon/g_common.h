@@ -29,8 +29,8 @@
 #include <component/function/inc/g_threadpool.h>
 #include <component/function/inc/g_timeconv.h>
 #include <component/iostream/inc/g_datainput.h>
-#include <component/function/inc/g_datainputstream.h>
-#include <component/function/inc/g_fileinputstream.h>
-#include <component/function/inc/g_filterinputstream.h>
-#include <component/function/inc/g_inputstream.h>
+#include <component/iostream/inc/g_datainputstream.h>
+#include <component/iostream/inc/g_fileinputstream.h>
+#include <component/iostream/inc/g_filterinputstream.h>
+#include <component/iostream/inc/g_inputstream.h>
 #include <component/network/inc/g_network.h>
