@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <pGThread.h> 
+#include <pthread.h> 
 #include <g_type.h>
 
 /** 
@@ -98,11 +98,11 @@ private:
 
 private:
 	// GThread ID
-	pGThread_t	    m_GThreadId;
+	pthread_t	    m_threadId;
 	// indicate whether is detached with main GThread£¬default is detached
 	bool		    m_autoRel;
 	// user GThread object
-	GRunnable*	    m_GRunnable;
+	GRunnable*	    m_runnable;
 };
 
 /** 
@@ -145,7 +145,7 @@ private:
 
 private:
 	// GThread ID
-	pGThread_t	    m_GThreadId;	
+	pthread_t	    m_threadId;	
 	// whether is detached with main GThread, default is ture, 
 	// indicate detached with main GThread
 	bool		    m_autoRel;

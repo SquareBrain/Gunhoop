@@ -57,7 +57,7 @@ public:
 	 * @return G_YES/G_NO
      * @note 
      */		
-	GResult openGSocket(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
+	GResult openSocket(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
 			
     /**
      * send data
@@ -85,7 +85,7 @@ public:
 	 * @return G_YES/G_NO
      * @note 
      */	
-	GResult closeGSocket(const GInt32 how = 0);
+	GResult closeSocket(const GInt32 how = 0);
 		
     /**
      * setting address

@@ -38,12 +38,12 @@ GSocket::GSocket(const GSocket& GSocket)
 
 GSocket::~GSocket()
 {
-	closeGSocket(m_sockfd);
+	closeSocket(m_sockfd);
 }
 
-GResult GSocket::openGSocket(const GInt32 domain, const GInt32 type)
+GResult GSocket::openSocket(const GInt32 domain, const GInt32 type)
 {
-	if ((m_sockfd = GSocket(domain, type, 0)) == -1)
+	if ((m_sockfd = socket(domain, type, 0)) == -1)
 	{
 	    //G_LOG_ERROR(G_LOG_PREFIX, "open GSocket() failed");
 	    return G_NO;
@@ -68,7 +68,7 @@ GInt64 GSocket::recvData(GUint8* buffer, const GUint64 size, const GInt32 flags)
 	return recv(m_sockfd, buffer, size, flags);
 }
 
-GResult GSocket::closeGSocket(const GInt32 how)
+GResult GSocket::closeSocket(const GInt32 how)
 {
 	// how = 0 : stop receive data
 	// how = 1 : stop send data
@@ -117,7 +117,7 @@ GResult GSocket::initOption()
 	GInt32 nosize = 0;
 
 	// set address reuse
-	if (setsockopt(m_sockfd, SOL_GSocket, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
 	{
 	    //G_LOG_WARN(G_LOG_PREFIX, "set address reuse failed");
 		ret = false;	
@@ -136,25 +136,25 @@ GResult GSocket::initOption()
 	//}
 
 	// set send data buffer size
-	if (setsockopt(m_sockfd, SOL_GSocket, SO_SNDBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 
 	// set receive data buffer size
-	if (setsockopt(m_sockfd, SOL_GSocket, SO_RCVBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 	
 	// don't copy data from system buffer to GSocket buffer when send data
-	if (setsockopt(m_sockfd, SOL_GSocket, SO_SNDBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 
 	// don't copy data from system buffer to GSocket buffer when receive data
-	if (setsockopt(m_sockfd, SOL_GSocket, SO_RCVBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
