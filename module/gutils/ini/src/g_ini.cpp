@@ -21,21 +21,21 @@
 
 static const GUint64 INI_TMP_BUF_SIZE = 1024 * 10;
 
-IniFile::IniFile()
+GIniFile::GIniFile()
 {
     m_error[0] = 0;
 }
 
-IniFile::IniFile(const std::string& filePath)
+GIniFile::GIniFile(const std::string& filePath)
 {
     loadFile(m_filePath);
 }
 
-IniFile::~IniFile()
+GIniFile::~GIniFile()
 {
 }
 
-GResult IniFile::loadFile(const std::string& filePath)
+GResult GIniFile::loadFile(const std::string& filePath)
 {
     if (m_filePath == filePath)
     {
@@ -84,12 +84,12 @@ GResult IniFile::loadFile(const std::string& filePath)
     return ret;
 }
 
-GResult IniFile::importData(const std::string& fileData)
+GResult GIniFile::importData(const std::string& fileData)
 {
     return importData(fileData.c_str(), fileData.length());
 }
 
-GResult IniFile::importData(const GInt8* data, const GUint64 length)
+GResult GIniFile::importData(const GInt8* data, const GUint64 length)
 {
     GUint64 offset = 0;
     
@@ -113,12 +113,12 @@ GResult IniFile::importData(const GInt8* data, const GUint64 length)
     return G_YES;
 }
 
-GResult IniFile::getParaVal(const std::string& section, 
+GResult GIniFile::getParaVal(const std::string& section, 
     const std::string& paraName, 
     std::string& value)
 {
     GAutoLock autoLock(m_mapMutex); 
-    IniSectionMap::iterator iter = m_iniSectionMap.find(section);
+    GIniSectionMap::iterator iter = m_iniSectionMap.find(section);
     if (iter == m_iniSectionMap.end())
     {
         setError("section failed");
@@ -128,12 +128,12 @@ GResult IniFile::getParaVal(const std::string& section,
     return iter->second->getPara(paraName, value);
 }
 
-GResult IniFile::setParaVal(const std::string& section, 
+GResult GIniFile::setParaVal(const std::string& section, 
     const std::string& paraName, 
     const std::string& value)
 {
     GAutoLock autoLock(m_mapMutex); 
-    IniSectionMap::iterator iter = m_iniSectionMap.find(section);
+    GIniSectionMap::iterator iter = m_iniSectionMap.find(section);
     if (iter == m_iniSectionMap.end())
     {
         return G_NO;
@@ -142,10 +142,10 @@ GResult IniFile::setParaVal(const std::string& section,
     return iter->second->setPara(paraName, value);    
 }
 
-GResult IniFile::delSection(const std::string& section)
+GResult GIniFile::delSection(const std::string& section)
 {
     GAutoLock autoLock(m_mapMutex); 
-    IniSectionMap::iterator iter = m_iniSectionMap.find(section);
+    GIniSectionMap::iterator iter = m_iniSectionMap.find(section);
     if (iter == m_iniSectionMap.end())
     {
         return G_NO;
@@ -156,10 +156,10 @@ GResult IniFile::delSection(const std::string& section)
     return G_YES;    
 }
 
-GResult IniFile::delPara(const std::string& section, const std::string& paraName)
+GResult GIniFile::delPara(const std::string& section, const std::string& paraName)
 {
     GAutoLock autoLock(m_mapMutex); 
-    IniSectionMap::iterator iter = m_iniSectionMap.find(section);
+    GIniSectionMap::iterator iter = m_iniSectionMap.find(section);
     if (iter == m_iniSectionMap.end())
     {
         return G_NO;
@@ -168,7 +168,7 @@ GResult IniFile::delPara(const std::string& section, const std::string& paraName
     return iter->second->delPara(paraName);     
 }
 
-GResult IniFile::saveFile()
+GResult GIniFile::saveFile()
 {
     if (m_filePath.empty())
     {
@@ -180,7 +180,7 @@ GResult IniFile::saveFile()
     return G_YES;
 }
 
-GResult IniFile::saveFile(const std::string& filePath)
+GResult GIniFile::saveFile(const std::string& filePath)
 {
     if (filePath.empty())
     {
@@ -192,7 +192,7 @@ GResult IniFile::saveFile(const std::string& filePath)
 
     GAutoLock autoLock(m_mapMutex); 
     
-    IniSectionMap::iterator iter = m_iniSectionMap.begin();
+    GIniSectionMap::iterator iter = m_iniSectionMap.begin();
     for (; iter != m_iniSectionMap.end(); ++iter)
     {
         bufPos += sprintf(tmpBuf + bufPos, "[%s]\n", iter->first.c_str());
@@ -202,9 +202,9 @@ GResult IniFile::saveFile(const std::string& filePath)
             return G_NO;
         }       
         
-        IniSection* section = iter->second;
-        const IniSection::KeyValueMap& keyValueMap = section->getkeyValueMap();
-        IniSection::KeyValueMap::const_iterator iter = keyValueMap.begin();
+        GIniSection* section = iter->second;
+        const GIniSection::KeyValueMap& keyValueMap = section->getkeyValueMap();
+        GIniSection::KeyValueMap::const_iterator iter = keyValueMap.begin();
         for (; iter != keyValueMap.end(); ++iter)
         {
             bufPos += sprintf(tmpBuf + bufPos, "%s=%s\n", iter->first.c_str(), iter->second.c_str()); 
@@ -234,16 +234,16 @@ GResult IniFile::saveFile(const std::string& filePath)
     return G_YES;
 }
 
-GInt8* IniFile::getError()
+GInt8* GIniFile::getError()
 {
     return m_error;
 }
 
-void IniFile::cleanIniSectionMap()
+void GIniFile::cleanIniSectionMap()
 {
     GAutoLock autoLock(m_mapMutex); 
     
-    IniSectionMap::iterator iter = m_iniSectionMap.begin();
+    GIniSectionMap::iterator iter = m_iniSectionMap.begin();
     while (iter != m_iniSectionMap.end())
     {
         delete iter->second;
@@ -251,7 +251,7 @@ void IniFile::cleanIniSectionMap()
     }
 }
 
-GResult IniFile::parserSection(const GInt8* data, 
+GResult GIniFile::parserSection(const GInt8* data, 
     const GUint64 length, 
     GUint64& offset)
 {
@@ -290,7 +290,7 @@ GResult IniFile::parserSection(const GInt8* data,
     }
 
     std::string sectionName(data + begPos, endPos - begPos);
-    IniSection* section = new IniSection(sectionName);
+    GIniSection* section = new GIniSection(sectionName);
 
     std::string lineStr;
     while (getOneLine(data + endPos, length - offset, lineStr) == G_YES)
@@ -312,7 +312,7 @@ GResult IniFile::parserSection(const GInt8* data,
     return G_YES;
 }
 
-GResult IniFile::getOneLine(const GInt8* data, 
+GResult GIniFile::getOneLine(const GInt8* data, 
     const GUint64 length, 
     std::string& lineStr)
 {
@@ -335,7 +335,7 @@ GResult IniFile::getOneLine(const GInt8* data,
     return G_YES;
 }
 
-void IniFile::setError(const char *args,...)
+void GIniFile::setError(const char *args,...)
 {
     va_list vaList;
 	va_start(vaList, args);    

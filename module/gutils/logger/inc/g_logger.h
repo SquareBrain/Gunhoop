@@ -23,52 +23,52 @@
 /**
  * init log system
  */	
-#define G_LOG_INIT() GUtils::LoggerUtil::init()
+#define G_LOG_INIT() GLogger::init()
 
 /**
  * uninit log system
  */	    
-#define G_LOG_UNINIT() GUtils::LoggerUtil::uninit()
+#define G_LOG_UNINIT() GLogger::uninit()
 
 /**
  * print error log
  * @param [in] module : module name
  * @param [in] args : parameters
  */	
-#define G_LOG_ERROR(module, args...) GUtils::LoggerUtil::printError(module, __FILE__, __LINE__, __FUNCTION__, ##args)
+#define G_LOG_ERROR(module, args...) GLogger::printError(module, __FILE__, __LINE__, __FUNCTION__, ##args)
 
 /**
  * print warning log
  * @param [in] module : module name
  * @param [in] args : parameters
  */	
-#define G_LOG_WARN(module, args...) GUtils::LoggerUtil::printWarn(module, __FILE__, __LINE__, __FUNCTION__, ##args)
+#define G_LOG_WARN(module, args...) GLogger::printWarn(module, __FILE__, __LINE__, __FUNCTION__, ##args)
 
 /**
  * print info log
  * @param [in] module : module name
  * @param [in] args : parameters
  */	
-#define G_LOG_INFO(module, args...) GUtils::LoggerUtil::printInfo(module, __FILE__, __LINE__, __FUNCTION__, ##args)
+#define G_LOG_INFO(module, args...) GLogger::printInfo(module, __FILE__, __LINE__, __FUNCTION__, ##args)
 
 /**
  * print debug log
  * @param [in] module : module name
  * @param [in] args : parameters
  */	
-#define G_LOG_DEBUG(module, args...) GUtils::LoggerUtil::printDebug(module, __FILE__, __LINE__, __FUNCTION__, ##args)
+#define G_LOG_DEBUG(module, args...) GLogger::printDebug(module, __FILE__, __LINE__, __FUNCTION__, ##args)
 
 /**
  * print trace log
  * @param [in] module : module name
  * @param [in] args : parameters
  */	
-#define G_LOG_TRACE(module, args...) GUtils::LoggerUtil::printTrace(module, __FILE__, __LINE__, __FUNCTION__, ##args)  
+#define G_LOG_TRACE(module, args...) GLogger::printTrace(module, __FILE__, __LINE__, __FUNCTION__, ##args)  
 
 /**
  * system log tool
  */	
-class LoggerUtil
+class GLogger
 {
 public:	
     /**

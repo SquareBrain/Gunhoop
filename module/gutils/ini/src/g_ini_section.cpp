@@ -19,20 +19,20 @@
 
 #include <g_ini_section.h>
 
-IniSection::IniSection()
+GIniSection::GIniSection()
 {
 }
 
-IniSection::IniSection(const std::string& sectionName)
+GIniSection::GIniSection(const std::string& sectionName)
 {
     m_sectionName = sectionName;
 }
 
-IniSection::~IniSection()
+GIniSection::~GIniSection()
 {
 }
 
-GResult IniSection::getPara(const std::string& para, std::string& value)
+GResult GIniSection::getPara(const std::string& para, std::string& value)
 {
     GAutoLock autoLock(m_mapMutex);
     
@@ -47,7 +47,7 @@ GResult IniSection::getPara(const std::string& para, std::string& value)
     return G_YES;    
 }
 
-GResult IniSection::setPara(const std::string& para, const std::string& value)
+GResult GIniSection::setPara(const std::string& para, const std::string& value)
 {
     GAutoLock autoLock(m_mapMutex);
     
@@ -62,7 +62,7 @@ GResult IniSection::setPara(const std::string& para, const std::string& value)
     return G_YES;   
 }
 
-GResult IniSection::addPara(const std::string& para, const std::string& value)
+GResult GIniSection::addPara(const std::string& para, const std::string& value)
 {
     GAutoLock autoLock(m_mapMutex);
     
@@ -77,7 +77,7 @@ GResult IniSection::addPara(const std::string& para, const std::string& value)
     return G_YES;
 }
 
-GResult IniSection::delPara(const std::string& para)
+GResult GIniSection::delPara(const std::string& para)
 {
     GAutoLock autoLock(m_mapMutex);
     
@@ -92,7 +92,7 @@ GResult IniSection::delPara(const std::string& para)
     return G_YES;
 }
 
-const IniSection::KeyValueMap& IniSection::getkeyValueMap() const
+const GIniSection::KeyValueMap& GIniSection::getkeyValueMap() const
 {
     return m_keyValueMap; 
 }

@@ -16,12 +16,12 @@
 *  1. 2013-11-15 duye Created this file
 * 
 */ 
-#include <g_xml_parser.h>
+#include <g_xml.h>
 
-XmlParser::XmlParser()
+GXmlFile::GXmlFile()
 {
 }
 
-XmlParser::~XmlParser()
+GXmlFile::~GXmlFile()
 {
 }

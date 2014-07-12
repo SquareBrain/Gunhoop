@@ -31,7 +31,7 @@ typedef enum
     LOG_INFO,
     LOG_DEBUG,
     LOG_TRACE
-}LogLevel;
+}GLogLevel;
 
 /**
  * system log print output content
@@ -41,7 +41,7 @@ typedef enum
     PRINT_BASIC = 0,
     PRINT_MORE,
     PRINT_FULL,
-}PrintLevel;
+}GPrintLevel;
 
 /**
  * system log global configuration rule
@@ -83,33 +83,33 @@ public:
     void setModuleName(const std::string& moduleName);
     const std::string& getModuleName() const;   
 
-    void setLogLevel(const LogLevel logLevel);
-    const LogLevel& getLogLevel() const;
+    void setLogLevel(const GLogLevel logLevel);
+    const GLogLevel& getLogLevel() const;
 
-    void setPrintLevel(const PrintLevel printLevel);
-    const PrintLevel& getPrintLevel() const;   
+    void setPrintLevel(const GPrintLevel printLevel);
+    const GPrintLevel& getPrintLevel() const;   
 
 private:
     std::string     m_moduleName;
-    LogLevel        m_logLevel;
-    PrintLevel      m_printLevel;
+    GLogLevel       m_logLevel;
+    GPrintLevel     m_printLevel;
 };
 
 /**
  * system log configuration
  */	
-class Logger
+class GLoggerImpl
 {
 public:
     // <module_name, module_rule>
-    typedef std::map<std::string, ModuleRule*> ModuleRuleMap;
-    typedef std::map<LogLevel, const GInt8*> LogLevelMap;
+    typedef std::map<std::string, ModuleRule*> GModuleRuleMap;
+    typedef std::map<GLogLevel, const GInt8*> GLogLevelMap;
     
 public:
-    Logger();
-    ~Logger();
+    GLoggerImpl();
+    ~GLoggerImpl();
 
-    static Logger* GetInstance();
+    static GLoggerImpl* GetInstance();
 
     GResult init();
     GResult uninit();
@@ -123,7 +123,7 @@ public:
      * @param [in] function : function name
      * @param [in] log : log content
      */	 	
-    void printLog(const LogLevel logLevel, 
+    void printLog(const GLogLevel logLevel, 
         const GInt8* module, 
         const GInt8* file, 
         const GUint32 line, 
@@ -142,9 +142,9 @@ private:
     void setError(const GInt8* args, ...);
 
 private:
-    LogLevelMap         m_logLevelMap;
+    GLogLevelMap        m_logLevelMap;
     GlobalRule          m_globalRule;
-    ModuleRuleMap       m_moduleRuleMap;
-    IniFile             m_iniFile;
+    GModuleRuleMap      m_moduleRuleMap;
+    GIniFile            m_iniFile;
     GInt8               m_error[G_ERROR_BUF_SIZE];
 };

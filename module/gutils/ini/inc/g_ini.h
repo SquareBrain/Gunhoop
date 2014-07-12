@@ -21,28 +21,28 @@
 #include <string>
 #include <g_system.h>
 
-class IniSection;
+class GIniSection;
 
 /** 
  * ini file section map
  * <section_name, ini_section>
  */
-typedef std::map<std::string, IniSection*> IniSectionMap;
+typedef std::map<std::string, GIniSection*> GIniSectionMap;
 
 /** 
  * POSIX condition wrapper
  */
-class IniFile
+class GIniFile
 {
 public:
-    IniFile();
+    GIniFile();
     /**
      * constructor
      * @param [in] filePath : file path
      * @note 
      */	    
-    IniFile(const std::string& filePath);
-    ~IniFile();
+    GIniFile(const std::string& filePath);
+    ~GIniFile();
 
     /**
      * load file
@@ -148,7 +148,7 @@ private:
 
 private:
     std::string         m_filePath;
-    IniSectionMap       m_iniSectionMap;
+    GIniSectionMap      m_iniSectionMap;
     GMutex              m_mapMutex;
     GInt8               m_error[G_ERROR_BUF_SIZE];
 };

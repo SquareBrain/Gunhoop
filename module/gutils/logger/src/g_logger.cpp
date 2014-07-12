@@ -21,17 +21,17 @@
 
 static const GUint64 DEF_ONE_LINE_BUF_SIZE = 1024;
 
-GResult LoggerUtil::init()
+GResult GLogger::init()
 {
-    return Logger::GetInstance()->init();
+    return GLoggerImpl::GetInstance()->init();
 }
 
-GResult LoggerUtil::uninit()
+GResult GLogger::uninit()
 {
-    return Logger::GetInstance()->uninit();
+    return GLoggerImpl::GetInstance()->uninit();
 }
 
-void LoggerUtil::printError(const GInt8* module, 
+void GLogger::printError(const GInt8* module, 
     const GInt8* file, 
     const GUint32 line, 
     const GInt8* function,
@@ -40,7 +40,7 @@ void LoggerUtil::printError(const GInt8* module,
     printLog((GInt32)LOG_ERROR, module, file, line, function, args); 
 }
 
-void LoggerUtil::printWarn(const GInt8* module, 
+void GLogger::printWarn(const GInt8* module, 
     const GInt8* file, 
     const GUint32 line, 
     const GInt8* function,
@@ -49,7 +49,7 @@ void LoggerUtil::printWarn(const GInt8* module,
     printLog((GInt32)LOG_WARN, module, file, line, function, args);
 }
 
-void LoggerUtil::printInfo(const GInt8* module, 
+void GLogger::printInfo(const GInt8* module, 
     const GInt8* file, 
     const GUint32 line, 
     const GInt8* function,
@@ -58,7 +58,7 @@ void LoggerUtil::printInfo(const GInt8* module,
     printLog((GInt32)LOG_INFO, module, file, line, function, args);
 }
 
-void LoggerUtil::printDebug(const GInt8* module, 
+void GLogger::printDebug(const GInt8* module, 
     const GInt8* file, 
     const GUint32 line, 
     const GInt8* function,
@@ -67,7 +67,7 @@ void LoggerUtil::printDebug(const GInt8* module,
     printLog((GInt32)LOG_DEBUG, module, file, line, function, args);
 }
 
-void LoggerUtil::printTrace(const GInt8* module, 
+void GLogger::printTrace(const GInt8* module, 
     const GInt8* file, 
     const GUint32 line, 
     const GInt8* function,
@@ -76,7 +76,7 @@ void LoggerUtil::printTrace(const GInt8* module,
     printLog((GInt32)LOG_TRACE, module, file, line, function, args);
 }
 
-void LoggerUtil::printLog(const GInt32 logLevel, 
+void GLogger::printLog(const GInt32 logLevel, 
     const GInt8* module, 
     const GInt8* file, 
     const GUint32 line, 
@@ -85,6 +85,6 @@ void LoggerUtil::printLog(const GInt32 logLevel,
 {
     va_list vaList;
 	va_start(vaList, args);
-	Logger::GetInstance()->printLog((const LogLevel)logLevel, module, file, line, function, args, vaList);
+	GLoggerImpl::GetInstance()->printLog((const GLogLevel)logLevel, module, file, line, function, args, vaList);
 	va_end(vaList);		        
 }

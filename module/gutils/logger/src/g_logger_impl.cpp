@@ -25,22 +25,22 @@ static const GUint64 DEF_ONE_LINE_BUF_SIZE = 1024;
 // the configuration file name
 static const GInt8* DEF_CONF_FILE_NAME = "glog.conf";
 
-Logger::Logger()
+GLoggerImpl::GLoggerImpl()
 {
     m_error[0] = 0;
 }
 
-Logger::~Logger()
+GLoggerImpl::~GLoggerImpl()
 {
 }
 
-Logger* Logger::GetInstance()
+GLoggerImpl* GLoggerImpl::GetInstance()
 {
-    static Logger logger;
-    return &logger;
+    static GLoggerImpl glogger;
+    return &glogger;
 }
 
-GResult Logger::init()
+GResult GLoggerImpl::init()
 {    
     m_logLevelMap.insert(std::make_pair(LOG_ERROR, "ERROR"));
     m_logLevelMap.insert(std::make_pair(LOG_WARN, "WARN"));
@@ -58,12 +58,12 @@ GResult Logger::init()
     return G_YES;
 }
 
-GResult Logger::uninit()
+GResult GLoggerImpl::uninit()
 {
     return G_YES;
 }
 
-void Logger::printLog(const LogLevel logLevel, 
+void GLoggerImpl::printLog(const GLogLevel logLevel, 
     const GInt8* module, 
     const GInt8* file, 
     const GUint32 line, 
@@ -116,14 +116,14 @@ void Logger::printLog(const LogLevel logLevel,
     printf("%s", printBuf);
 }
 
-GInt8* Logger::getError()
+GInt8* GLoggerImpl::getError()
 {
     return m_error;
 }
 
-GResult Logger::findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule)
+GResult GLoggerImpl::findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule)
 {
-    ModuleRuleMap::iterator iter = m_moduleRuleMap.find(moduleName); 
+    GModuleRuleMap::iterator iter = m_moduleRuleMap.find(moduleName); 
     if (iter == m_moduleRuleMap.end())
     {
         return G_NO;
@@ -134,7 +134,7 @@ GResult Logger::findModuleRule(const std::string& moduleName, ModuleRule*& modul
     return G_YES;
 }
 
-void Logger::setError(const GInt8* args, ...)
+void GLoggerImpl::setError(const GInt8* args, ...)
 {
     va_list vaList;
 	va_start(vaList, args);    
@@ -208,22 +208,22 @@ const std::string& ModuleRule::getModuleName() const
     return m_moduleName;
 }
 
-void ModuleRule::setLogLevel(const LogLevel logLevel)
+void ModuleRule::setLogLevel(const GLogLevel logLevel)
 {
     m_logLevel = logLevel;
 }
 
-const LogLevel& ModuleRule::getLogLevel() const
+const GLogLevel& ModuleRule::getLogLevel() const
 {
     return m_logLevel;
 }
 
-void ModuleRule::setPrintLevel(const PrintLevel printLevel)
+void ModuleRule::setPrintLevel(const GPrintLevel printLevel)
 {
     m_printLevel = printLevel;
 }
 
-const PrintLevel& ModuleRule::getPrintLevel() const
+const GPrintLevel& ModuleRule::getPrintLevel() const
 {
     return m_printLevel;
 }

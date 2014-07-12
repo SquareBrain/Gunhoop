@@ -4,7 +4,7 @@
 *
 ************************************************************************************/
 /**
-* @file		g_xml_parser.h
+* @file		g_xml.h
 * @version     
 * @brief      
 * @author   duye
@@ -20,9 +20,9 @@
 
 #include <g_system.h>
 
-class XmlParser
+class GXmlFile
 {
 public:
-    XmlParser();
-    ~XmlParser();
+    GXmlFile();
+    ~GXmlFile();
 };

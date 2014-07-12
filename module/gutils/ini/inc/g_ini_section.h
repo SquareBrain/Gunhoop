@@ -25,7 +25,7 @@
 /** 
  * ini file section
  */
-class IniSection
+class GIniSection
 {
 public:
     /** 
@@ -34,7 +34,7 @@ public:
     typedef std::map<std::string, std::string> KeyValueMap;
 
 public:
-    IniSection();
+    GIniSection();
 
     /**
      * constructor
@@ -42,9 +42,9 @@ public:
      * @return KeyValueMap const reference
      * @note 
      */	    
-    explicit IniSection(const std::string& sectionName);
+    explicit GIniSection(const std::string& sectionName);
     
-    ~IniSection();
+    ~GIniSection();
 
     /**
      * get value
