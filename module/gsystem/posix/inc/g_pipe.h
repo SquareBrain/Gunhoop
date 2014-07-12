@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file     g_pipe.h
+* @file     g_GPipe.h
 * @version     
 * @brief      
 * @author   duye
@@ -39,7 +39,7 @@ public:
 	 * @return true/false
      * @note 
      */			
-	virtual bool openGPipe(const GInt8* GPipeName) = 0;
+	virtual bool openPipe(const GInt8* GPipeName) = 0;
 
 protected:
     /**
@@ -55,7 +55,7 @@ protected:
     /** 
      * GPipe descriptor
      */	
-	GInt32		m_pipefd;
+	GInt32		m_GPipefd;
 };
 
 /** 

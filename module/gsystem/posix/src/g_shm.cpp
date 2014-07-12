@@ -26,7 +26,7 @@ GShm::GShm() : m_shmSize(0), m_shmAddr(NULL), m_initFlags(false)
 }
 
 GShm::GShm(const GInt8* shmPath, const GUint64 shmSize) 
-    : m_shmSize(GShmSize), m_shmAddr(NULL), m_initFlags(false)
+    : m_shmSize(shmSize), m_shmAddr(NULL), m_initFlags(false)
 {
     setShmPath(shmPath);
     init();
@@ -50,7 +50,7 @@ GInt8* GShm::getShmPath()
     return m_shmPath;
 }
 
-void GShm::setGShmSize(const GUint64 shmSize)
+void GShm::setShmSize(const GUint64 shmSize)
 {
     m_shmSize = shmSize;    
 }
@@ -108,7 +108,7 @@ GResult GShm::writeShm(const GUint32 offset, const GInt8* data, const GUint32 le
     return G_YES;        
 }
 
-GResult GShm::readGShm(const GUint32 offset, GInt8* buffer, const GUint32 size)
+GResult GShm::readShm(const GUint32 offset, GInt8* buffer, const GUint32 size)
 {
     if (!m_initFlags)
     {
