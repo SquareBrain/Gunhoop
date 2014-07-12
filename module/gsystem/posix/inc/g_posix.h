@@ -4,17 +4,15 @@
 *
 *************************************************************************************/
 /**
-* @file		g_memory.h
+* @file		g_posix.h
 * @version     
 * @brief      
 * @author   duye
-* @date     2014-02-23
+* @date     2014-07-12
 * @note 
 *
-*  2. 2014-06-20 duye move to gohoop project
-*  1. 2014-02-23 duye Created this file
+*  1. 2014-07-12 duye Created this file
 * 
 */
 
 #pragma once
-#include <g_type.h>

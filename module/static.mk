@@ -8,6 +8,8 @@ LIBS_PATH+=
 
 SLIBS+=
 
+PRE_DEFINED+=
+
 #create dir
 OUTPUT:=$(BUILD_PATH)/output
 $(shell mkdir -p $(OUTPUT)/lib)
