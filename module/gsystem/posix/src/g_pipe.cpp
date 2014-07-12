@@ -79,7 +79,7 @@ GInt64 WriteGPipe::writeData(const GInt8* data, const GUint64 length)
     return bytes;    
 }
 
-bool ReadGPipe::openGPipe(const GInt8* pipeName)
+bool ReadGPipe::openPipe(const GInt8* pipeName)
 {
     return orgOpen(pipeName, O_RDONLY);        
 }
