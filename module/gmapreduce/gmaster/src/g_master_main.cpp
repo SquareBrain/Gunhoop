@@ -15,7 +15,7 @@
 * 
 */
 #include <stdio.h>
-#include <g_type.h>
+#include <g_system.h>
 #include <g_master.h>
 
 int main()

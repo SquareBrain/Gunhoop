@@ -16,7 +16,7 @@
 */
 #pragma once
 
-#include <g_type.h>
+#include <g_system.h>
 
 G_NS_GMAPREDUCE_BEG
 
