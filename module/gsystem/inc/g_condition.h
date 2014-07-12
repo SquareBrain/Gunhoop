@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_GCondition.h
+* @file	    g_condition.h
 * @version     
 * @brief      
 * @author   duye
@@ -77,6 +77,6 @@ private:
 	void operator=(const GCondition&);	
     
 private:
-	pthread_cond_t		m_GCondition;
+	pthread_cond_t		m_condition;
 	pthread_mutex_t		m_mutex;	
 };

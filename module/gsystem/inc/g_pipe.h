@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file     g_GPipe.h
+* @file     g_pipe.h
 * @version     
 * @brief      
 * @author   duye
@@ -55,7 +55,7 @@ protected:
     /** 
      * GPipe descriptor
      */	
-	GInt32		m_GPipefd;
+	GInt32		m_pipefd;
 };
 
 /** 

@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_GShm.cpp
+* @file		g_shm.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -20,15 +20,15 @@
 // default GShm size is 10M
 static const GUint64 G_DEF_GShm_SIZE = 1024 * 1024 * 10;
 
-GShm::GShm() : m_GShmSize(0), m_GShmAddr(NULL), m_initFlags(false)
+GShm::GShm() : m_shmSize(0), m_shmAddr(NULL), m_initFlags(false)
 {
-    m_GShmPath[0] = 0;
+    m_shmPath[0] = 0;
 }
 
-GShm::GShm(const GInt8* GShmPath, const GUint64 GShmSize) 
-    : m_GShmSize(GShmSize), m_GShmAddr(NULL), m_initFlags(false)
+GShm::GShm(const GInt8* shmPath, const GUint64 shmSize) 
+    : m_shmSize(GShmSize), m_shmAddr(NULL), m_initFlags(false)
 {
-    setGShmPath(GShmPath);
+    setShmPath(shmPath);
     init();
 }
 
@@ -37,30 +37,30 @@ GShm::~GShm()
     uninit();    
 }
 
-void GShm::setGShmPath(const GInt8* GShmPath)
+void GShm::setShmPath(const GInt8* shmPath)
 {
-    GUint32 len = strlen(GShmPath);
-    memcpy(m_GShmPath, GShmPath, len);
-    m_GShmPath[len] = 0;  
+    GUint32 len = strlen(shmPath);
+    memcpy(m_shmPath, shmPath, len);
+    m_shmPath[len] = 0;  
     init();
 }
 
-GInt8* GShm::getGShmPath()
+GInt8* GShm::getShmPath()
 {
-    return m_GShmPath;
+    return m_shmPath;
 }
 
-void GShm::setGShmSize(const GUint64 GShmSize)
+void GShm::setGShmSize(const GUint64 shmSize)
 {
-    m_GShmSize = GShmSize;    
+    m_shmSize = shmSize;    
 }
 
-GUint64 GShm::getGShmSize() const
+GUint64 GShm::getShmSize() const
 {
-    return m_GShmSize;
+    return m_shmSize;
 }
      
-GResult GShm::syncGShm()
+GResult GShm::syncShm()
 {
     if (!m_initFlags)
     {
@@ -68,7 +68,7 @@ GResult GShm::syncGShm()
         return G_NO;
     }
     
-    if (msync(m_GShmAddr, m_GShmSize, MS_SYNC) < 0)
+    if (msync(m_shmAddr, m_shmSize, MS_SYNC) < 0)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "call msync() failed");
         return SYNC_GShm_FAILED;
@@ -77,7 +77,7 @@ GResult GShm::syncGShm()
     return G_YES;    
 } 
  
-GResult GShm::writeGShm(const GUint32 offset, const GInt8* data, const GUint32 length)
+GResult GShm::writeShm(const GUint32 offset, const GInt8* data, const GUint32 length)
 {
     if (!m_initFlags)
     {
@@ -97,13 +97,13 @@ GResult GShm::writeGShm(const GUint32 offset, const GInt8* data, const GUint32 l
         return WRITE_GShm_PARA_FAILED;
     }
     
-    if (offset + length > m_GShmSize)
+    if (offset + length > m_shmSize)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "will write data length over GShm size");
         return WRITE_GShm_PARA_FAILED;
     }
 
-    memcpy((GInt8*)m_GShmAddr + offset, data, length);
+    memcpy((GInt8*)m_shmAddr + offset, data, length);
     
     return G_YES;        
 }
@@ -128,13 +128,13 @@ GResult GShm::readGShm(const GUint32 offset, GInt8* buffer, const GUint32 size)
         return WRITE_GShm_PARA_FAILED;
     }
     
-    if (offset + size > m_GShmSize)
+    if (offset + size > m_shmSize)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "will read length over GShm size");
         return WRITE_GShm_PARA_FAILED;
     }
 
-    memcpy((GInt8*)buffer, (GInt8*)m_GShmAddr + offset, size);
+    memcpy((GInt8*)buffer, (GInt8*)m_shmAddr + offset, size);
     
     return G_YES;     
 }
@@ -147,13 +147,13 @@ GResult GShm::init()
         return G_NO;
     }
 
-    if (strlen(m_GShmPath) == 0)
+    if (strlen(m_shmPath) == 0)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "GShm path is empty");
         return GShm_PATH_EMPTY;
     }
     
-    GInt32 fd = open(m_GShmPath, O_RDWR | O_CREAT);
+    GInt32 fd = open(m_shmPath, O_RDWR | O_CREAT);
     if (fd < 0)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "open GShm file failed");
@@ -161,14 +161,14 @@ GResult GShm::init()
     }
 
     // setting file size
-    if (m_GShmSize == 0)
+    if (m_shmSize == 0)
     {
-        m_GShmSize = G_DEF_GShm_SIZE;   
+        m_shmSize = G_DEF_GShm_SIZE;   
     }
     
-    ftruncate(fd, m_GShmSize);
-    m_GShmAddr = mmap(NULL, m_GShmSize, PROT_WRITE | PROT_READ, MAP_SHARED, fd, 0);
-    if (m_GShmAddr == MAP_FAILED)
+    ftruncate(fd, m_shmSize);
+    m_shmAddr = mmap(NULL, m_shmSize, PROT_WRITE | PROT_READ, MAP_SHARED, fd, 0);
+    if (m_shmAddr == MAP_FAILED)
     {
         close(fd);
         //G_LOG_ERROR(G_LOG_PREFIX, "call mmap() failed");
@@ -190,13 +190,13 @@ GResult GShm::uninit()
         return G_NO;
     }
     
-    if (munmap(m_GShmAddr, m_GShmSize) < 0)
+    if (munmap(m_shmAddr, m_shmSize) < 0)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "call munmap failed");
         return MUNMAP_GShm_FAILED;
     }
 
-    m_GShmAddr = NULL;
+    m_shmAddr = NULL;
 
     m_initFlags = false;
 

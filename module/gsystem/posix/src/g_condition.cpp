@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_GCondition.cpp
+* @file	    g_condition.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -18,20 +18,20 @@
 
 GCondition::GCondition()       
 { 
-    pthread_cond_init(&m_GCondition, 0);        
+    pthread_cond_init(&m_condition, 0);        
     pthread_mutex_init(&m_mutex, 0);       
 }       
 
 GCondition::~GCondition()     
 {      
-    pthread_cond_destroy(&m_GCondition);        
+    pthread_cond_destroy(&m_condition);        
     pthread_mutex_destroy(&m_mutex);    
 }
 
 bool GCondition::signal()        
 {        
     pthread_mutex_lock(&m_mutex);
-    GInt32 ret = pthread_cond_signal(&m_GCondition);
+    GInt32 ret = pthread_cond_signal(&m_condition);
     pthread_mutex_unlock(&m_mutex);
     
     return (ret == 0 ? true : false);
@@ -40,7 +40,7 @@ bool GCondition::signal()
 bool GCondition::broadcast() 
 {     
     pthread_mutex_lock(&m_mutex);
-    GInt32 ret = pthread_cond_broadcast(&m_GCondition);
+    GInt32 ret = pthread_cond_broadcast(&m_condition);
     pthread_mutex_unlock(&m_mutex);
 
     return (ret == 0 ? true : false);
@@ -49,7 +49,7 @@ bool GCondition::broadcast()
 bool GCondition::wait()  
 {        
     pthread_mutex_lock(&m_mutex);
-    GInt32 ret = pthread_cond_wait(&m_GCondition, &m_mutex);
+    GInt32 ret = pthread_cond_wait(&m_condition, &m_mutex);
     pthread_mutex_unlock(&m_mutex);
 
     return (ret == 0 ? true : false);
@@ -66,7 +66,7 @@ bool GCondition::wait(const GUint32 timeout)
     tmpTimeout.tv_nsec = now.tv_usec * 1000 + timeout % 1000 * 1000 * 1000;    
 
     pthread_mutex_lock(&m_mutex);
-    GInt32 ret = pthread_cond_timedwait(&m_GCondition, &m_mutex, &tmpTimeout);
+    GInt32 ret = pthread_cond_timedwait(&m_condition, &m_mutex, &tmpTimeout);
     pthread_mutex_unlock(&m_mutex);
 
     return (ret == 0 ? true : false);

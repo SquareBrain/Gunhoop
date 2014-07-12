@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file     g_GShm.h
+* @file     g_shm.h
 * @version     
 * @brief      
 * @author   duye
@@ -73,68 +73,68 @@ public:
     GShm();   
     /**
      * constructor
-	 * @param [in] GShmPath : GShm mapping file path
-	 * @param [in] GShmSize : GShm size
+	 * @param [in] GShmPath : shm mapping file path
+	 * @param [in] GShmSize : shm size
 	 * @return true/false
      * @note 
      */		
-    GShm(const GInt8* GShmPath, const GUint64 GShmSize);
+    GShm(const GInt8* shmPath, const GUint64 shmSize);
     ~GShm();
 
     /**
-     * set GShm mapping file path
-	 * @param [in] GShmPath : GShm mapping file path     
+     * set shm mapping file path
+	 * @param [in] shmPath : shm mapping file path     
      * @note 
      */	
-    void setGShmPath(const GInt8* GShmPath);
+    void setGShmPath(const GInt8* shmPath);
 
     /**
-     * set GShm mapping file path
-	 * @return GShm mapping file path   
+     * set shm mapping file path
+	 * @return shm mapping file path   
      * @note 
      */	
-    GInt8* getGShmPath();
+    GInt8* getShmPath();
 
     /**
-     * set GShm mapping file size
-     * @param [in] GShmSize : GShm size  
+     * set shm mapping file size
+     * @param [in] shmSize : shm size  
      * @note 
      */		
-    void setGShmSize(const GUint64 GShmSize);
+    void setShmSize(const GUint64 shmSize);
 
     /**
-     * get GShm mapping file size
-     * @return GShm mapping file size   
+     * get shm mapping file size
+     * @return shm mapping file size   
      * @note 
      */	    
-    GUint64 getGShmSize() const;    
+    GUint64 getShmSize() const;    
    
     /**
-     * sync the GShm
+     * sync the shm
      * @return G_YES/G_NO  
      * @note 
      */	
-    GResult syncGShm();
+    GResult syncShm();
    
     /**
-     * write data to GShm
+     * write data to shm
 	 * @param [in] offset : offset of GShm
 	 * @param [in] data : input data
 	 * @param [in] size : write size     
      * @return G_YES/G_NO  
      * @note 
      */		
-    GResult writeGShm(const GUint32 offset, const GInt8* data, const GUint32 length);
+    GResult writeShm(const GUint32 offset, const GInt8* data, const GUint32 length);
 
     /**
-     * read data from GShm
+     * read data from shm
 	 * @param [in] offset : offset of GShm
 	 * @param [in] buffer : output buffer
 	 * @param [in] size : read size    
      * @return G_YES/G_NO  
      * @note 
      */	
-    GResult readGShm(const GUint32 offset, GInt8* buffer, const GUint32 size);
+    GResult readShm(const GUint32 offset, GInt8* buffer, const GUint32 size);
 
 private:
     /**
@@ -152,8 +152,8 @@ private:
 	GResult uninit();
 
 private:
-	GInt8		    m_GShmPath[G_PATH_MAX];
-	GUint64			m_GShmSize;	
-	void*			m_GShmAddr;
+	GInt8		    m_shmPath[G_PATH_MAX];
+	GUint64			m_shmSize;	
+	void*			m_shmAddr;
 	bool            m_initFlags;
 };

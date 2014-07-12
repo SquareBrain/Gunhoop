@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file     g_GSocket.h
+* @file     g_socket.h
 * @version     
 * @brief      
 * @author   duye
@@ -27,7 +27,7 @@
 #include <g_type.h>
 
 /** 
- * posix GSocket wrapper class
+ * posix socket wrapper class
  */
 class GSocket
 {
@@ -44,16 +44,16 @@ public:
 
     /**
      * copy constructor
-	 * @param [in] GSocket : GSocket
+	 * @param [in] socket : socket
      * @note 
      */			
-	GSocket(const GSocket& GSocket);
+	GSocket(const GSocket& socket);
 	~GSocket();
 	
     /**
-     * init GSocket
+     * init socket
 	 * @param [in] domain : domain
-	 * @param [in] type : GSocket type
+	 * @param [in] type : socket type
 	 * @return G_YES/G_NO
      * @note 
      */		

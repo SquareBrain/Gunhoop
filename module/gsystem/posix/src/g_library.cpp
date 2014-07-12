@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_GLibrary.cpp
+* @file		g_library.cpp
 * @version     
 * @brief      
 * @author   duye

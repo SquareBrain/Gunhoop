@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @GFile		g_GFile.cpp
+* @GFile		g_file.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -23,9 +23,9 @@
 // default create GFile permissions
 static const GUint32 G_CREATE_MODE = 0x775;
 
-GResult GGFileUtil::createGFile(const GInt8* GFilePath)
+GResult GGFileUtil::createFile(const GInt8* filePath)
 {
-    GInt32 fd = creat(GFilePath, G_CREATE_MODE);
+    GInt32 fd = creat(filePath, G_CREATE_MODE);
     if (fd != -1)
     {
         close(fd);
@@ -41,12 +41,12 @@ GFile::GFile() : m_fd(-1), m_flags(0), m_pathLen(0)
     m_path[0] = 0;
 }
 
-GFile::GFile(const GInt8* GFilePath) : m_fd(-1), m_flags(0), m_pathLen(0)
+GFile::GFile(const GInt8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
 {
-    GUint32 len = strlen(GFilePath);
+    GUint32 len = strlen(filePath);
     if (len < G_PATH_MAX)
     {
-        memcpy(m_path, GFilePath, len);
+        memcpy(m_path, filePath, len);
         m_path[len] = 0;
         m_pathLen = len;
     }
@@ -56,34 +56,34 @@ GFile::GFile(const GInt8* GFilePath) : m_fd(-1), m_flags(0), m_pathLen(0)
 
 GFile::~GFile() 
 {
-    closeGFile();
+    closeFile();
 }
 
-GResult GFile::setGFilePath(const GInt8* GFilePath)
+GResult GFile::setFilePath(const GInt8* filePath)
 {
     if (m_pathLen > 0)
     {   
-        setError("GFile path has exist");
+        setError("file path has exist");
         return G_NO;
     }
     
-    GUint32 len = strlen(GFilePath);
+    GUint32 len = strlen(filePath);
     if (len < G_PATH_MAX)
     {
-        memcpy(m_path, GFilePath, len);
+        memcpy(m_path, filePath, len);
         m_path[len] = 0;
         m_pathLen = len;
     }    
     else
     {
-        setError("GFile path too long");
+        setError("file path too long");
         return G_NO;   
     }
 
     return G_YES;
 }
 
-GResult GFile::openGFile(const GUint64 flags)
+GResult GFile::openFile(const GUint64 flags)
 {
     GInt32 openFlags = 0;
     if (flags | ONLY_READ)
@@ -117,11 +117,11 @@ GResult GFile::openGFile(const GUint64 flags)
     return orgOpen(openFlags, G_CREATE_MODE);          
 }
 
-GResult GFile::closeGFile()
+GResult GFile::closeFile()
 {
     if (m_fd < 0)
     {
-        setError("GFile don't open");
+        setError("file don't open");
         return G_NO;
     }
 
@@ -134,18 +134,18 @@ GResult GFile::closeGFile()
     return ret;
 }
 
-GInt64 GFile::getGFileSize()
+GInt64 GFile::getFileSize()
 {
     if (m_fd <= 0)
     {
-        setError("GFile don't open");
+        setError("file don't open");
         return G_NO;
     }    
 
-    return (GInt64)(m_GFileStat.st_size);
+    return (GInt64)(m_fileStat.st_size);
 }
 
-GInt64 GFile::readGFile(GInt8* buffer, const GUint64 size)
+GInt64 GFile::readFile(GInt8* buffer, const GUint64 size)
 {
     if (buffer == NULL || size <= 0)
     {
@@ -155,14 +155,14 @@ GInt64 GFile::readGFile(GInt8* buffer, const GUint64 size)
 
     if (m_fd <= 0)
     {
-        setError("GFile don't open");
+        setError("file don't open");
         return G_NO;
     }
     
     return read(m_fd, buffer, size);
 }
 
-GInt64 GFile::writeGFile(const GInt8* data, const GUint64 length)
+GInt64 GFile::writeFile(const GInt8* data, const GUint64 length)
 {
     if (data == NULL || length <= 0)
     {
@@ -172,7 +172,7 @@ GInt64 GFile::writeGFile(const GInt8* data, const GUint64 length)
 
     if (m_fd <= 0)
     {
-        setError("GFile don't open");
+        setError("file don't open");
         return G_NO;
     }
     
@@ -191,13 +191,13 @@ GResult GFile::orgOpen(const GInt32 flags, const GUint32 mode)
 {    
     if (m_fd > 0)
     {
-        setError("GFile had opened");
+        setError("file had opened");
         return G_NO;
     }
 
     if (m_pathLen == 0)
     {
-        setError("hasn't set GFile path");
+        setError("hasn't set file path");
         return G_NO;   
     }
     
@@ -205,11 +205,11 @@ GResult GFile::orgOpen(const GInt32 flags, const GUint32 mode)
     if (m_fd > 0)
     {
         m_flags = flags;
-        fstat(m_fd, &m_GFileStat);
+        fstat(m_fd, &m_fileStat);
     }
     else
     {
-        setError("open GFile failed, check whether exist this GFile path");
+        setError("open file failed, check whether exist this file path");
     }
 
     return (m_fd != -1 ? true : false);

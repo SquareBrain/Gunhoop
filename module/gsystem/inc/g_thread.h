@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_GThread.h
+* @file	    g_thread.h
 * @version     
 * @brief      
 * @author   duye
@@ -23,9 +23,9 @@
 #include <g_type.h>
 
 /** 
- * GThread state
+ * thread state
  */
-enum GGThreadState
+enum GThreadState
 {
     /** 
      * running state
@@ -42,7 +42,7 @@ enum GGThreadState
 };
 
 /** 
- * the pointer of GThread enter
+ * the pointer of thread enter
  */
 typedef void* (*GThreadFunPoint_t)(void*);
 
@@ -55,7 +55,7 @@ public:
 	virtual ~GRunnable() {}
 	
     /**
-     * user GThread entry function
+     * user thread entry function
      * @return G_YES/G_NO
      * @note 
      */			
@@ -63,7 +63,7 @@ public:
 };
 
 /** 
- * POSIX GThread wrapper
+ * POSIX thread wrapper
  */
 class GThread
 {
@@ -78,15 +78,15 @@ public:
     ~GThread();
 	
     /**
-     * startup GThread
+     * startup thread
      * @return G_YES/G_NO
      * @note 
      */		
 	GResult start();
 
     /**
-     * get GThread ID
-     * @return GThread ID
+     * get thread ID
+     * @return thread ID
      * @note 
      */		
 	GUint32 getGThreadId() const;
@@ -106,7 +106,7 @@ private:
 };
 
 /** 
- * GThread base class, be inherited by user
+ * thread base class, be inherited by user
  */
 class GThreadTask
 {
@@ -120,14 +120,14 @@ public:
 	virtual ~GThreadTask();
 
     /**
-     * startup GThread
+     * startup thread
      * @return G_YES/G_NO
      * @note 
      */		
 	GResult start();
 
     /**
-     * GThread entry function
+     * thread entry function
      * @return G_YES/G_NO
      * @note 
      */			
@@ -158,7 +158,7 @@ class GThreadUtil
 {
 public:
     /**
-     * create GThread
+     * create thread
 	 * @param [in] entry : GThread entry fucntion pointer
 	 * @param [in] argument : user data
 	 * @param [in] autoRel : whether support automatic release, default is yes

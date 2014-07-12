@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_GPipe.cpp
+* @file		g_pipe.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -17,25 +17,25 @@
 */
 #include <g_pipe.h>
 
-bool GPipe::orgOpen(const GInt8* GPipeName, const GInt32 mode)
+bool GPipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
 {
-    if (GPipeName == NULL)
+    if (pipeName == NULL)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "GPipe name is NULL");
         return false;
     }
     
-    if (access(GPipeName, F_OK) == -1)
+    if (access(pipeName, F_OK) == -1)
     {
-        if (mkfifo(GPipeName, 0777) != 0)
+        if (mkfifo(pipeName, 0777) != 0)
         {
             //G_LOG_ERROR(G_LOG_PREFIX, "call mkfifo() failed");
             return false;
         }
     }    
 
-    m_GPipefd = open(GPipeName, mode);
-    if (m_GPipefd == -1)
+    m_pipefd = open(pipeName, mode);
+    if (m_pipefd == -1)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "open GPipe '%s' failed", GPipeName);
         return false;
@@ -44,14 +44,14 @@ bool GPipe::orgOpen(const GInt8* GPipeName, const GInt32 mode)
     return true;   
 }
 
-bool WriteGPipe::openGPipe(const GInt8* GPipeName)
+bool WriteGPipe::openPipe(const GInt8* pipeName)
 {
-    return orgOpen(GPipeName, O_WRONLY | O_NONBLOCK);          
+    return orgOpen(pipeName, O_WRONLY | O_NONBLOCK);          
 }
 
 GInt64 WriteGPipe::writeData(const GInt8* data, const GUint64 length)
 {
-    if (m_GPipefd == -1)
+    if (m_pipefd == -1)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "GPipe hasn't open");
         return G_NO;
@@ -70,7 +70,7 @@ GInt64 WriteGPipe::writeData(const GInt8* data, const GUint64 length)
     }    
 
     GInt64 bytes = -1;
-    if ((bytes = write(m_GPipefd, data, length)) == -1)
+    if ((bytes = write(m_pipefd, data, length)) == -1)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "write GPipe failed");
         return G_NO;
@@ -79,14 +79,14 @@ GInt64 WriteGPipe::writeData(const GInt8* data, const GUint64 length)
     return bytes;    
 }
 
-bool ReadGPipe::openGPipe(const GInt8* GPipeName)
+bool ReadGPipe::openGPipe(const GInt8* pipeName)
 {
-    return orgOpen(GPipeName, O_RDONLY);        
+    return orgOpen(pipeName, O_RDONLY);        
 }
 
 GInt64 ReadGPipe::readData(GInt8* buffer, const GUint64 size)
 {
-    if (m_GPipefd == -1)
+    if (m_pipefd == -1)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "GPipe hasn't open");
         return G_NO;
@@ -105,7 +105,7 @@ GInt64 ReadGPipe::readData(GInt8* buffer, const GUint64 size)
     }
     
     GInt32 bytes = -1;
-    if ((bytes = read(m_GPipefd, buffer, size)) == -1)
+    if ((bytes = read(m_pipefd, buffer, size)) == -1)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "read GPipe failed");
         return G_NO;

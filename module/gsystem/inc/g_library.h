@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_GLibrary.h
+* @file		g_library.h
 * @version     
 * @brief      
 * @author   duye
@@ -31,7 +31,7 @@ public:
 
     /**
      * load shared GLibrary
-	 * @param [in] libFilePath : GLibrary path
+	 * @param [in] libFilePath : library path
 	 * @param [in] flags : RTLD_LAZY|RTLD_NOW
      * @return handle/NULL
      * @note 
