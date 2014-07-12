@@ -34,6 +34,12 @@ Logger::~Logger()
 {
 }
 
+Logger* Logger::GetInstance()
+{
+    static Logger logger;
+    return &logger;
+}
+
 GResult Logger::init()
 {    
     m_logLevelMap.insert(std::make_pair(LOG_ERROR, "ERROR"));

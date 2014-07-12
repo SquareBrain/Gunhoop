@@ -17,7 +17,8 @@
 
 #pragma once
 
-#include <g_common.h>
+#include <g_system.h>
+#include <g_namespace.h>
 #include <g_inputstream.h>
 
 

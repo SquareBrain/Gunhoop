@@ -20,7 +20,8 @@
 #include <string>
 #include <memory>
 
-#include <g_common.h>
+#include <g_system.h>
+#include <g_namespace.h>
 #include <g_inputstream.h>
 
 G_NS_GCOMMON_BEG

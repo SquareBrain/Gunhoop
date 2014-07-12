@@ -19,3 +19,6 @@
 #pragma once
 
 #include <g_system.h>
+
+#include <inc/g_namespace.h>
+#include <compoent/function/inc/g_singleton.h>

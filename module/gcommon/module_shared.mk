@@ -12,7 +12,6 @@ LIBS:=
 
 MODULE_PATH:=$(GOHOOP_TOP)/gcommon
 SLIBS:= \
-	$(MODULE_PATH)/component/output/lib/libcomponent.a \
-	$(MODULE_PATH)/system/output/lib/libsystem.a
+	$(MODULE_PATH)/component/output/lib/libcomponent.a
 
 include ../shared.mk

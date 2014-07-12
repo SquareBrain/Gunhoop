@@ -19,7 +19,6 @@
 #include <map>
 #include <string>
 #include <g_type.h>
-#include <g_singleton.h>
 #include <g_ini_file.h>
 
 /**
@@ -99,7 +98,7 @@ private:
 /**
  * system log configuration
  */	
-class Logger : public GCommon::Singleton<Logger>
+class Logger
 {
 public:
     // <module_name, module_rule>
@@ -109,6 +108,8 @@ public:
 public:
     Logger();
     ~Logger();
+
+    static Logger* GetInstance();
 
     GResult init();
     GResult uninit();
