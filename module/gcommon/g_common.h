@@ -21,4 +21,16 @@
 #include <g_system.h>
 
 #include <inc/g_namespace.h>
+#include <compoent/conf/inc/g_configuration.h>
+#include <compoent/filesys/inc/g_filesys.h>
+#include <compoent/function/inc/g_numconv.h>
+#include <compoent/function/inc/g_objpool.h>
 #include <compoent/function/inc/g_singleton.h>
+#include <compoent/function/inc/g_threadpool.h>
+#include <compoent/function/inc/g_timeconv.h>
+#include <compoent/iostream/inc/g_datainput.h>
+#include <compoent/function/inc/g_datainputstream.h>
+#include <compoent/function/inc/g_fileinputstream.h>
+#include <compoent/function/inc/g_filterinputstream.h>
+#include <compoent/function/inc/g_inputstream.h>
+#include <compoent/network/inc/g_network.h>

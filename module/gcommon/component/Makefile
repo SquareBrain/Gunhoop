@@ -10,11 +10,7 @@ SUBDIRS:= \
 	iostream \
 	network
 
-INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc) \
-	$(GOHOOP_TOP)/gcommon \
-	$(GOHOOP_TOP)/gcommon/inc \
-	$(GOHOOP_TOP)/gsystem \
-	$(GOHOOP_TOP)/gsystem/inc
+INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc)
 
 SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/src)
 

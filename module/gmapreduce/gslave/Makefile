@@ -6,7 +6,7 @@ BUILD_PATH:=$(shell pwd)
 
 INCLUDES:=$(BUILD_PATH)/inc
 
-SUBDIRS:=$(BUILD_PATH)/src
+SRCDIRS:=$(BUILD_PATH)/src
 
 LIBS_PATH:= 
 
