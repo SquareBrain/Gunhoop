@@ -22,13 +22,13 @@ using namespace GCommon;
 
 
 
-FileInputStream::FileInputStream(shared_ptr<GFile> file)
+FileInputStream::FileInputStream(tr1::shared_ptr<GFile> file)
 	: m_file(file)
 {
 }
 
 FileInputStream::FileInputStream(const string filepath)
-	: m_file((shared_ptr<GFile>(new GFile(filepath.c_str()))))
+	: m_file((tr1::shared_ptr<GFile>(new GFile(filepath.c_str()))))
 {
 }
 
