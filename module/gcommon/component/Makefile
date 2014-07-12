@@ -11,10 +11,9 @@ SUBDIRS:= \
 	network
 
 INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc) \
-	$(GOHOOP_TOP)/gcommon/inc \
-	$(GOHOOP_TOP)/gsystem/inc \
-	$(GOHOOP_TOP)/gsystem/posix/inc
-	
+	$(GOHOOP_TOP)/gcommon \
+	$(GOHOOP_TOP)/gsystem
+
 SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/src)
 
 LIBS_PATH:= 

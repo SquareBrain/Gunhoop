@@ -33,7 +33,6 @@ typedef int                 GResult;
 #include <assert.h>
 #include <stddef.h>
 #include <stdio.h>
-#include <g_type.h>
 
 /** 
  * assert

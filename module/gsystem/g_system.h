@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include <inc/g_type.h>
 #include <inc/g_condition.h>
 #include <inc/g_file.h>
 #include <inc/g_library.h>

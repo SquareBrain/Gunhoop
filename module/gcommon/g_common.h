@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_type.h
+* @file	    g_common.h
 * @version     
 * @brief      
 * @author   duye
@@ -17,6 +17,8 @@
 */
 
 #pragma once
+
+#include <g_system.h>
 
 /** 
  * name space define

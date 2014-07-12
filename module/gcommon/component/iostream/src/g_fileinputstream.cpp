@@ -22,7 +22,7 @@ using namespace GCommon;
 
 
 
-FileInputStream::FileInputStream(File file)
+FileInputStream::FileInputStream(GFile file)
 {
 }
 

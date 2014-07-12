@@ -144,7 +144,7 @@ private:
  *      threadWork.DoWork(threadJob, userData);
  *  }
  */
-class ThreadWorker : public ThreadTask
+class ThreadWorker : public GThreadTask
 {
 public:
     /**
@@ -187,7 +187,7 @@ private:
     // thread worker ID, setting by external
 	GUint32			m_workerId;
 	// waitting condition
-	Condition		m_condition;
+	GCondition		m_condition;
 	// current running job
 	ThreadJob*		m_threadJob;	
 	// current running user data

@@ -19,7 +19,6 @@
 
 #include <string>
 #include <g_common.h>
-#include <g_file.h>
 #include <g_inputstream.h>
 
 G_NS_GCOMMON_BEG
@@ -27,7 +26,7 @@ G_NS_GCOMMON_BEG
 class FileInputStream : public InputStream
 {
 public:
-	FileInputStream(File file);
+	FileInputStream(GFile file);
 	FileInputStream(std::string filepath);
 	virtual ~FileInputStream(); 
 
@@ -83,13 +82,13 @@ public:
         */
 	virtual GInt64 skip(GInt64 lNum);
 
-	File GetFile();
+	GFile GetFile();
 
 protected:
 	void finalize();
 
 private:
-	File m_file;
+	GFile m_file;
 };
 
 G_NS_END
