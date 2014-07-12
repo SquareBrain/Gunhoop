@@ -1,9 +1,9 @@
-PRONAME:=logger
+PRONAME:=glogger
 TARGET:=lib$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
 INCLUDES:=$(BUILD_PATH)/inc \
-	$(GOHOOP_TOP)/gutils/ini/inc
+	$(GOHOOP_TOP)/gutils/gini/inc
 
 SRCDIRS:=$(BUILD_PATH)/src
 

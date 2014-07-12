@@ -12,9 +12,9 @@ LIBS:=
 
 MODULE_PATH:=$(GOHOOP_TOP)/gutils
 MODULE:= \
-	ini \
-	logger \
-	xml
+	gini \
+	glogger \
+	gxml
 
 SLIBS:=$(foreach module, $(MODULE), $(MODULE_PATH)/$(module)/output/lib/lib$(module).a)
 

@@ -1,4 +1,4 @@
-PRONAME:=ini
+PRONAME:=gini
 TARGET:=lib$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
