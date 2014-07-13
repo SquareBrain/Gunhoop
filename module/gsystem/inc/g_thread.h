@@ -165,5 +165,5 @@ public:
 	 * @return GThread ID / -1
      * @note 
      */		
-	static GInt32 createGThread(void* entry, void* argument, const bool autoRel = true);
+	static GInt32 createThread(void* entry, void* argument, const bool autoRel = true);
 };

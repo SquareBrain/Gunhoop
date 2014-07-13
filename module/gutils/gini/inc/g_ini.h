@@ -36,12 +36,14 @@ class GIniFile
 {
 public:
     GIniFile();
+    
     /**
      * constructor
      * @param [in] filePath : file path
      * @note 
      */	    
     GIniFile(const std::string& filePath);
+    
     ~GIniFile();
 
     /**
@@ -92,6 +94,7 @@ public:
     GResult setParaVal(const std::string& section, 
         const std::string& paraName, 
         const std::string& value);    
+        
     /**
      * del section
      * @param [in] section : section name

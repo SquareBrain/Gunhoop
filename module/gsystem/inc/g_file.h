@@ -34,7 +34,7 @@ typedef enum
 /** 
  * file utility
  */
-class GGFileUtil
+class GFileUtil
 {
 public:
     /**

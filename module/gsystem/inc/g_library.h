@@ -27,6 +27,7 @@ class GLibrary
 {
 public:
     GLibrary();
+    
     ~GLibrary();
 
     /**

@@ -90,7 +90,7 @@ void* GThreadTask::enterPoint(void* argument)
 	return NULL;
 }
 
-GInt32 GThreadUtil::createGThread(void* entry, void* argument, const bool autoRel)
+GInt32 GThreadUtil::createThread(void* entry, void* argument, const bool autoRel)
 {
 	pthread_attr_t* attributes = NULL;
 	pthread_t threadId = -1;

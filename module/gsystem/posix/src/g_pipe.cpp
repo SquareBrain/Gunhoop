@@ -44,12 +44,12 @@ bool GPipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
     return true;   
 }
 
-bool WriteGPipe::openPipe(const GInt8* pipeName)
+bool GWritePipe::openPipe(const GInt8* pipeName)
 {
     return orgOpen(pipeName, O_WRONLY | O_NONBLOCK);          
 }
 
-GInt64 WriteGPipe::writeData(const GInt8* data, const GUint64 length)
+GInt64 GWritePipe::writeData(const GInt8* data, const GUint64 length)
 {
     if (m_pipefd == -1)
     {
@@ -79,12 +79,12 @@ GInt64 WriteGPipe::writeData(const GInt8* data, const GUint64 length)
     return bytes;    
 }
 
-bool ReadGPipe::openPipe(const GInt8* pipeName)
+bool GReadPipe::openPipe(const GInt8* pipeName)
 {
     return orgOpen(pipeName, O_RDONLY);        
 }
 
-GInt64 ReadGPipe::readData(GInt8* buffer, const GUint64 size)
+GInt64 GReadPipe::readData(GInt8* buffer, const GUint64 size)
 {
     if (m_pipefd == -1)
     {

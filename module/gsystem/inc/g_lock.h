@@ -46,8 +46,9 @@ public:
 	 * PTHREAD_GMutex_ERRORCHECK¡¢PTHREAD_GMutex_DEFAULT
      */		
 	explicit GMutex(const GInt32 kind);
+	
 	~GMutex();
-
+	
     /**
      * lock GMutex, enter to awaited state
      * @return true/false
@@ -61,7 +62,7 @@ public:
      * @note 
      */		
 	bool GTryLock();
-
+	
     /**
      * release lock
      * @return true/false
@@ -75,8 +76,9 @@ private:
      * @note 
      */			
 	GMutex(const GMutex&); 
+	
 	void operator=(const GMutex&);	
-
+	
     /**
      * initialize GMutex
      * @param [in] kind : GMutex type, reference constructor function
@@ -108,6 +110,7 @@ public:
 	 * PTHREAD_GMutex_ERRORCHECK¡¢PTHREAD_GMutex_DEFAULT
      */		
 	explicit GOrgLock(const GInt32 kind);
+	
 	virtual ~GOrgLock();
 
     /**
@@ -161,6 +164,7 @@ public:
      * @note 
      */		
 	GTryLock(GMutex& GMutex, const bool autoUnlock = true);
+	
 	~GTryLock();
 
     /**
@@ -209,6 +213,7 @@ public:
      * @note 
      */			
 	explicit GAutoLock(GMutex& GMutex);
+	
 	~GAutoLock();
 
 private:

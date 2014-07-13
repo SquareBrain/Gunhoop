@@ -23,7 +23,7 @@
 // default create GFile permissions
 static const GUint32 G_CREATE_MODE = 0x775;
 
-GResult GGFileUtil::createFile(const GInt8* filePath)
+GResult GFileUtil::createFile(const GInt8* filePath)
 {
     GInt32 fd = creat(filePath, G_CREATE_MODE);
     if (fd != -1)

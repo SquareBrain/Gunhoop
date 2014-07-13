@@ -28,6 +28,7 @@ class GCondition
 {
 public:
 	GCondition();
+	
 	~GCondition();
 
     /**

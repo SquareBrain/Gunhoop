@@ -34,22 +34,22 @@ public:
 	virtual ~GPipe() {}
 	
     /**
-     * Open the GPipe
-	 * @param [in] GPipeName : the GPipe name 
+     * Open the pipe
+	 * @param [in] pipeName : the GPipe name 
 	 * @return true/false
      * @note 
      */			
-	virtual bool openGPipe(const GInt8* GPipeName) = 0;
+	virtual bool openGPipe(const GInt8* pipeName) = 0;
 
 protected:
     /**
-     * Open the GPipe
-	 * @param [in] GPipeName : the GPipe name
+     * Open the pipe
+	 * @param [in] pipeName : the GPipe name
 	 * @param [in] mode : open mode
 	 * @return true/false
      * @note 
      */		
-    bool orgOpen(const GInt8* GPipeName, const GInt32 mode);
+    bool orgOpen(const GInt8* pipeName, const GInt32 mode);
     
 protected:
     /** 
@@ -61,22 +61,22 @@ protected:
 /** 
  * Be used to write GPipe
  */
-class WriteGPipe : public GPipe
+class GWritePipe : public GPipe
 {
 public:
-	WriteGPipe() {}
-	virtual ~WriteGPipe() {}
+	GWritePipe() {}
+	virtual ~GWritePipe() {}
 	
     /**
-     * Open the GPipe
+     * Open the pipe
 	 * @param [in] GPipeName : the GPipe name
 	 * @return true/false
      * @note 
      */			
-	virtual bool openPipe(const GInt8* GPipeName);	
+	virtual bool openPipe(const GInt8* pipeName);	
 	
     /**
-     * Write data to GPipe
+     * Write data to pipe
 	 * @param [in] data : write data
 	 * @param [in] length : data length
 	 * @return size/-1
@@ -89,38 +89,51 @@ private:
      * prevent copying
      * @note
      */	
-	WriteGPipe(const WriteGPipe&);
+	GWritePipe(const GWritePipe&);
 
     /**
      * prevent copying
      * @note
      */		
-	void operator=(const WriteGPipe&);
+	void operator=(const GWritePipe&);
 };
 
 /** 
  * be used to read GPipe
  */
-class ReadGPipe : public GPipe
+class GReadPipe : public GPipe
 {
 public:
-    ReadGPipe() {}
-    virtual ~ReadGPipe() {}
+    GReadPipe() {}
+    virtual ~GReadPipe() {}
 
     /**
-     * open GPipe
-     * @param [in] GPipeName : GPipe name
+     * open pipe
+     * @param [in] pipeName : GPipe name
 	 * @return true/false
      * @note 
      */    
-    virtual bool openPipe(const GInt8* GPipeName);
+    virtual bool openPipe(const GInt8* pipeName);
 
     /**
-     * read data from GPipe
+     * read data from pipe
 	 * @param [out] buffer : output buffer
 	 * @param [in] size : output buffer size
 	 * @return size/-1
      * @note 
      */  	
-	GInt64 readData(GInt8* buffer, const GUint64 size);    
+	GInt64 readData(GInt8* buffer, const GUint64 size);  
+
+private:
+    /**
+     * prevent copying
+     * @note
+     */	
+	GReadPipe(const GReadPipe&);
+
+    /**
+     * prevent copying
+     * @note
+     */		
+	void operator=(const GReadPipe&);	
 };
