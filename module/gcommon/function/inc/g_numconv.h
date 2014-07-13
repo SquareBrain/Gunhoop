@@ -23,13 +23,13 @@
 G_NS_GCOMMON_BEG
 
 /** 
- * number convert wrapper
+ * @brief number convert wrapper
  */
 class NumConv
 {
 public:
     /**
-     * convert string to int16
+     * @brief convert string to int16
 	 * @param [in]str : input number with string format
 	 * @param [out]num : output number
 	 * @return G_YES/G_NO
@@ -38,7 +38,7 @@ public:
     static GResult strToInt16(GInt8* str, GInt16& num);  
 
     /**
-     * convert string to int32
+     * @brief convert string to int32
 	 * @param [in]str : input number with string format
 	 * @param [out]num : output number
 	 * @return G_YES/G_NO
@@ -47,7 +47,7 @@ public:
     static GResult strToInt32(GInt8* str, GInt32& num); 
  
     /**
-     * convert string to int64
+     * @brief convert string to int64
 	 * @param [in]str : input number with string format
 	 * @param [out]num : output number
 	 * @return G_YES/G_NO
@@ -56,7 +56,7 @@ public:
     static GResult strToInt64(GInt8* str, GInt64& num); 
   
     /**
-     * convert string to uint16
+     * @brief convert string to uint16
 	 * @param [in]str : input number with string format
 	 * @param [out]num : output number
 	 * @return G_YES/G_NO
@@ -65,7 +65,7 @@ public:
     static GResult strToUint16(GInt8* str, GUint16& num);  
 
     /**
-     * convert string to uint32
+     * @brief convert string to uint32
 	 * @param [in]str : input number with string format
 	 * @param [out]num : output number
 	 * @return G_YES/G_NO
@@ -74,7 +74,7 @@ public:
     static GResult strToUint32(GInt8* str, GUint32& num);     
 
     /**
-     * convert string to uint64
+     * @brief convert string to uint64
 	 * @param [in]str : input number with string format
 	 * @param [out]num : output number
 	 * @return G_YES/G_NO
@@ -83,7 +83,7 @@ public:
     static GResult strToUint64(GInt8* str, GUint64& num); 
 
     /**
-     * convert number to number
+     * @brief convert number to number
 	 * @param [in]num : input number with string format
 	 * @param [out]buffer : output buffer
 	 * @param [in]size : output buffer size
@@ -93,7 +93,7 @@ public:
     static GResult numToStr(GInt64& num, GInt8* buffer, const GUint32 size); 
 
     /**
-     * convert number to unsigned number
+     * @brief convert number to unsigned number
 	 * @param [in]num : input number with string format
 	 * @param [out]buffer : output buffer
 	 * @param [in]size : output buffer size

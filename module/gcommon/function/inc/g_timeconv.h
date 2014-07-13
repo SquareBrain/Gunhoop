@@ -23,13 +23,13 @@
 G_NS_GCOMMON_BEG
 
 /** 
- * time convert wrapper
+ * @brief time convert wrapper
  */
 class TimeConv
 {
 public:
     /**
-     * get system time format:20140309
+     * @brief get system time format:20140309
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
@@ -39,7 +39,7 @@ public:
     static GResult convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
 
     /**
-     * get system time format:2014-03-09
+     * @brief get system time format:2014-03-09
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
@@ -49,7 +49,7 @@ public:
     static GResult convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
  
     /**
-     * get system time format:2014/03/09
+     * @brief get system time format:2014/03/09
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
@@ -59,7 +59,7 @@ public:
     static GResult convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
   
     /**
-     * get system time format:2014.03.09
+     * @brief get system time format:2014.03.09
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
@@ -69,7 +69,7 @@ public:
     static GResult convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
 
     /**
-     * get system time format:2014-03-09:999
+     * @brief get system time format:2014-03-09:999
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size

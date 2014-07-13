@@ -23,7 +23,7 @@
 G_NS_GCOMMON_BEG
 
 /** 
- * singletion template
+ * @brief singletion template
  */
 template<typename T>
 class Singleton

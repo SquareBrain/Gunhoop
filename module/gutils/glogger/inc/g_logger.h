@@ -21,45 +21,45 @@
 #include <g_system.h>
 
 /**
- * init log system
+ * @brief init log system
  */	
 #define G_LOG_INIT() GLogger::init()
 
 /**
- * uninit log system
+ * @brief uninit log system
  */	    
 #define G_LOG_UNINIT() GLogger::uninit()
 
 /**
- * print error log
+ * @brief print error log
  * @param [in] module : module name
  * @param [in] args : parameters
  */	
 #define G_LOG_ERROR(module, args...) GLogger::printError(module, __FILE__, __LINE__, __FUNCTION__, ##args)
 
 /**
- * print warning log
+ * @brief print warning log
  * @param [in] module : module name
  * @param [in] args : parameters
  */	
 #define G_LOG_WARN(module, args...) GLogger::printWarn(module, __FILE__, __LINE__, __FUNCTION__, ##args)
 
 /**
- * print info log
+ * @brief print info log
  * @param [in] module : module name
  * @param [in] args : parameters
  */	
 #define G_LOG_INFO(module, args...) GLogger::printInfo(module, __FILE__, __LINE__, __FUNCTION__, ##args)
 
 /**
- * print debug log
+ * @brief print debug log
  * @param [in] module : module name
  * @param [in] args : parameters
  */	
 #define G_LOG_DEBUG(module, args...) GLogger::printDebug(module, __FILE__, __LINE__, __FUNCTION__, ##args)
 
 /**
- * print trace log
+ * @brief print trace log
  * @param [in] module : module name
  * @param [in] args : parameters
  */	
@@ -72,17 +72,17 @@ class GLogger
 {
 public:	
     /**
-     * init
+     * @brief init
      */	 	
     static GResult init();
 	
     /**
-     * uninit
+     * @brief uninit
      */	 	
     static GResult uninit();
 	
     /**
-     * print log
+     * @brief print log
      * @param [in] module : module name
      * @param [in] file : file path
      * @param [in] line : line number
@@ -96,7 +96,7 @@ public:
         const GInt8* args, ...);
 
     /**
-     * print log
+     * @brief print log
      * @param [in] module : module name
      * @param [in] file : file path
      * @param [in] line : line number
@@ -110,6 +110,7 @@ public:
         const GInt8* args, ...);   
 
     /**
+     * @brief print log
      * @param [in] module : module name
      * @param [in] file : file path
      * @param [in] line : line number
@@ -124,7 +125,7 @@ public:
         const GInt8* args, ...);  
 
     /**
-     * print log
+     * @brief print log
      * @param [in] module : module name
      * @param [in] file : file path
      * @param [in] line : line number
@@ -138,7 +139,7 @@ public:
         const GInt8* args, ...);  
 
     /**
-     * print log
+     * @brief print log
      * @param [in] module : module name
      * @param [in] file : file path
      * @param [in] line : line number

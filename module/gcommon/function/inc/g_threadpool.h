@@ -27,19 +27,7 @@
 G_NS_GCOMMON_BEG
 
 /**
- * thread job, be inherited by user
- * usage:
- *  class UserJob : public ThreaJob
- *  {
- *  public:
- *      UserJob() {}
- *      virtual UserJob() {}
- *      
- *      virtual void Work(void* userData)
- *      {
- *          // do user work
- *      }
- *  }
+ * @brief thread job, be inherited by user
  */
 class ThreadJob
 {
@@ -47,7 +35,7 @@ public:
 	~ThreadJob() {}
 
     /**
-     * do user work
+     * @brief do user work
      * @param [in] userData : user data
      */  	
 	virtual void work(void* userData) = 0;
@@ -56,13 +44,13 @@ public:
 class ThreadWorker;
 
 /** 
- * thread pool implemention
+ * @brief thread pool implemention
  */
 class ThreadPool
 {
 public:
     /**
-     * thread worker queue
+     * @brief thread worker queue
      */      
 	typedef std::list<ThreadWorker*> ThreadWorkerList;
 
@@ -70,14 +58,14 @@ public:
     ThreadPool();
 
     /**
-     * constructor
+     * @brief constructor
      * @param [in] threadCount : thread pool count
      */    
 	explicit ThreadPool(const GUint32 threadCount);
 	~ThreadPool();
 
     /**
-     * start to do user job
+     * @brief start to do user job
      * @param [in] threadJob : user job object
      * @param [in] userData : user data
      * @return G_YES/G_NO
@@ -85,7 +73,7 @@ public:
 	GResult doJob(ThreadJob* threadJob, void* userData);
 
     /**
-     * get thread count
+     * @brief get thread count
      * @param [in] threadJob : user job object
      * @param [in] userData : user data
      * @return the count of thread pool
@@ -94,31 +82,31 @@ public:
 
 private:
     /**
-     * prevent copying
+     * @brief prevent copying
      */     
     ThreadPool(const ThreadPool&);
     void operator=(const ThreadPool&);
 
     /**
-     * initialize thread pool
+     * @brief initialize thread pool
      * @return G_YES/G_NO
      */       
 	GResult initThreadPool();
 
     /**
-     * uninitialize thread pool
+     * @brief uninitialize thread pool
      * @return G_YES/G_NO
      */  	
 	GResult uninitThreadPool();
 
     /**
-     * move idle thread worker from busy queue to idle queue
+     * @brief move idle thread worker from busy queue to idle queue
      * @param [in] workerId : thread worker ID
      */ 	
 	void moveToIdleList(const GUint32 workerId);
 
     /**
-     * move busy thread worker from idle queue to busy queue
+     * @brief move busy thread worker from idle queue to busy queue
      * @param [in]workerId : thread worker ID
      */ 	
 	void moveToBusyList(const GUint32 workerId);
@@ -133,37 +121,27 @@ private:
 };
 
 /** 
- * thread worker, class ThreadPool depend on 
- * @usage:
- *  void MyTestFun()
- *  {
- *      ThreadWorker threadWork;
- *  
- *      class MyJob : public ThreadJob {};
- *      ThreadJob* threadJob = new MyJob;
- *      void* userData;
- *      threadWork.DoWork(threadJob, userData);
- *  }
+ * @brief thread worker, class ThreadPool depend on 
  */
 class ThreadWorker : public GThreadTask
 {
 public:
     /**
-     * constructor
+     * @brief constructor
      * @param [in] workerId : worker ID
      */       
 	explicit ThreadWorker(const GUint32 workerId);
 	virtual ~ThreadWorker();
 
     /**
-     * get thread worker ID
+     * @brief get thread worker ID
      * @param [in] workerId : worker ID
      * @return thread worker ID
      */     
 	GUint32 getWorkerId() const;
 
     /**
-     * to do work
+     * @brief to do work
 	 * @param [in] threadJob : user thread job
 	 * @param [in] userData : user data
 	 * @return G_YES/G_NO
@@ -172,13 +150,13 @@ public:
 
 private:
     /**
-     * prevent copying
+     * @brief prevent copying
      */     
 	ThreadWorker(const ThreadWorker&);
 	void operator=(const ThreadWorker&);
 	
     /**
-     * thread entry function
+     * @brief thread entry function
      * @return G_YES/G_NO
      * @note 
      */	

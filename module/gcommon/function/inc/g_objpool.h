@@ -24,7 +24,7 @@
 G_NS_GCOMMON_BEG
 
 /** 
- *  provide user inheritance
+ *  @brief provide user inheritance
  */
 class ObjPoolIf
 {
@@ -32,20 +32,20 @@ public:
     virtual ~ObjPoolIf() {}
 
     /**
-     * be call by object pool, before used object
+     * @brief be call by object pool, before used object
      * @return G_YES/G_NO
      */    
     virtual GResult init() = 0;
 
     /**
-     * be call by object pool, after using finished
+     * @brief be call by object pool, after using finished
      * @return G_YES/G_NO
      */   
     virtual GResult uninit() = 0;
 };
 
 /** 
- * mamagement object set
+ * @brief mamagement object set
  */
 template <class T>
 class ObjPool
@@ -56,20 +56,20 @@ public:
 public:
     ObjPool();
     /**
-     * constructor
+     * @brief constructor
      * @param count : the size of object pool
      */    
     ObjPool(const GUint32 count);
     ~ObjPool();
     
     /**
-     * set the size of object pool
+     * @brief set the size of object pool
      * @param count : the size of object pool
      */
     void setCount(const GUint32 count);
 
     /**
-     * get the size of object pool
+     * @brief get the size of object pool
      * @return count : the size of object pool
      */
     GUint32 getCount() const;

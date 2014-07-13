@@ -23,13 +23,13 @@
 #include <g_system.h>
 
 /** 
- * ini file section
+ * @brief ini file section
  */
 class GIniSection
 {
 public:
     /** 
-     * key-value map
+     * @brief key-value map
      */
     typedef std::map<std::string, std::string> KeyValueMap;
 
@@ -37,7 +37,7 @@ public:
     GIniSection();
 
     /**
-     * constructor
+     * @brief constructor
      * @param [in] sectionName : section name
      * @return KeyValueMap const reference
      * @note 
@@ -47,7 +47,7 @@ public:
     ~GIniSection();
 
     /**
-     * get value
+     * @brief get value
      * @param [in] para : parameter
      * @param [in] value : value
      * @return G_YES/G_NO
@@ -56,7 +56,7 @@ public:
     GResult getPara(const std::string& para, std::string& value); 
 
     /**
-     * set value
+     * @brief set value
      * @param [in] para : parameter
      * @param [in] value : value
      * @return G_YES/G_NO
@@ -65,7 +65,7 @@ public:
     GResult setPara(const std::string& para, const std::string& value);    
 
     /**
-     * add parameter ane value
+     * @brief add parameter ane value
      * @param [in] para : parameter
      * @param [in] value : value
      * @return G_YES/G_NO
@@ -74,7 +74,7 @@ public:
     GResult addPara(const std::string& para, const std::string& value);
 
     /**
-     * delete parameter
+     * @brief delete parameter
      * @param [in] para : parameter
      * @return G_YES/G_NO
      * @note 
@@ -82,7 +82,7 @@ public:
     GResult delPara(const std::string& para);
 
     /**
-     * get keyValueMap
+     * @brief get keyValueMap
      * @return m_keyValueMap 
      * @note 
      */	

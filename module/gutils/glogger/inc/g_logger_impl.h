@@ -115,7 +115,7 @@ public:
     GResult uninit();
 
     /**
-     * print log
+     * @brief print log
      * @param [in] logLevel : log level
      * @param [in] module : module name
      * @param [in] file : file path
@@ -132,7 +132,7 @@ public:
         va_list vaList); 
         
     /**
-     * get error string
+     * @brief get error string
      * @return error string
      */	
     GInt8* getError();    

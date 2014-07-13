@@ -24,13 +24,13 @@
 class GIniSection;
 
 /** 
- * ini file section map
+ * @brief ini file section map
  * <section_name, ini_section>
  */
 typedef std::map<std::string, GIniSection*> GIniSectionMap;
 
 /** 
- * POSIX condition wrapper
+ * @brief POSIX condition wrapper
  */
 class GIniFile
 {
@@ -38,7 +38,7 @@ public:
     GIniFile();
     
     /**
-     * constructor
+     * @brief constructor
      * @param [in] filePath : file path
      * @note 
      */	    
@@ -47,7 +47,7 @@ public:
     ~GIniFile();
 
     /**
-     * load file
+     * @brief load file
      * @param [in] filePath : file path
      * @return G_YES/G_NO
      * @note 
@@ -55,7 +55,7 @@ public:
     GResult loadFile(const std::string& filePath);
 
     /**
-     * import data from buffer
+     * @brief import data from buffer
      * @param [in] data : file data
      * @return G_YES/G_NO
      * @note 
@@ -63,7 +63,7 @@ public:
     GResult importData(const std::string& data);
 
     /**
-     * import data from buffer
+     * @brief import data from buffer
      * @param [in] data : file data
      * @param [in] length : data length
      * @return G_YES/G_NO
@@ -72,7 +72,7 @@ public:
     GResult importData(const GInt8* data, const GUint64 length);    
 
     /**
-     * get value
+     * @brief get value
      * @param [in] section : section name
      * @param [in] paraName : parameter name
      * @param [out] value : return value
@@ -84,7 +84,7 @@ public:
         std::string& value);
 
     /**
-     * set value
+     * @brief set value
      * @param [in] section : section name
      * @param [in] paraName : parameter name
      * @param [in] value : set value
@@ -96,7 +96,7 @@ public:
         const std::string& value);    
         
     /**
-     * del section
+     * @brief del section
      * @param [in] section : section name
      * @param [in] paraName : parameter name
      * @param [in] value : set value
@@ -106,7 +106,7 @@ public:
     GResult delSection(const std::string& section);
     
     /**
-     * del parameter
+     * @brief del parameter
      * @param [in] section : section name
      * @param [in] paraName : parameter name
      * @param [in] value : set value
@@ -116,21 +116,21 @@ public:
     GResult delPara(const std::string& section, const std::string& paraName); 
     
     /**
-     * save configuration to file
+     * @brief save configuration to file
      * @return G_YES/G_NO
      * @note 
      */	 
     GResult saveFile();  
 
     /**
-     * save configuration to file
+     * @brief save configuration to file
      * @return G_YES/G_NO
      * @note 
      */	 
     GResult saveFile(const std::string& filePath);    
 
     /**
-     * get error string
+     * @brief get error string
      * @return error string
      * @note 
      */	 
