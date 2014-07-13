@@ -15,7 +15,6 @@
 *  1. 2013-11-15 duye Created this file
 * 
 */
-#include <stdarg.h>
 #include <g_ini_section.h>
 #include <g_ini.h>
 
@@ -337,8 +336,5 @@ GResult GIniFile::getOneLine(const GInt8* data,
 
 void GIniFile::setError(const char *args,...)
 {
-    va_list vaList;
-	va_start(vaList, args);    
-	vsnprintf(m_error, G_ERROR_BUF_SIZE, args, vaList);
-    va_end(vaList);	
+   GSys::gvsnprintf(m_error, G_ERROR_BUF_SIZE, args);
 }

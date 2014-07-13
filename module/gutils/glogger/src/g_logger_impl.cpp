@@ -14,7 +14,6 @@
 *  1. 2014-07-01 duye Created this file
 * 
 */
-#include <stdarg.h>
 #include <stdio.h>
 #include <g_file.h>
 #include <g_logger_impl.h>
@@ -68,8 +67,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
     const GInt8* file, 
     const GUint32 line, 
     const GInt8* function,
-    const GInt8* format,
-    va_list vaList)
+    const GInt8* args, ...)
 {   
     ModuleRule* moduleRule = NULL;
     if (findModuleRule(std::string(module), moduleRule) == G_NO)
@@ -105,7 +103,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
     }
 
     // add log content
-    pos += vsnprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, format, vaList);
+    pos += GSys::gvsnprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, args);
 
     // add word wrap
     if (m_globalRule.isWordWrap())
@@ -136,10 +134,7 @@ GResult GLoggerImpl::findModuleRule(const std::string& moduleName, ModuleRule*& 
 
 void GLoggerImpl::setError(const GInt8* args, ...)
 {
-    va_list vaList;
-	va_start(vaList, args);    
-	vsnprintf(m_error, G_ERROR_BUF_SIZE, args, vaList);
-    va_end(vaList);	
+    GSys::gvsnprintf(m_error, G_ERROR_BUF_SIZE, args);
 }
 
 GlobalRule::GlobalRule() : m_fileSize(0), m_fileCount(0), m_isWordWrap(true)

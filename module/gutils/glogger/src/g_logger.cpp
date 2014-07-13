@@ -14,7 +14,6 @@
 *  1. 2014-07-01 duye Created this file
 * 
 */
-#include <stdarg.h>
 #include <stdio.h>
 #include <g_logger_impl.h>
 #include <g_logger.h>
@@ -83,8 +82,5 @@ void GLogger::printLog(const GInt32 logLevel,
     const GInt8* function,
     const GInt8* args, ...)
 {
-    va_list vaList;
-	va_start(vaList, args);
-	GLoggerImpl::GetInstance()->printLog((const GLogLevel)logLevel, module, file, line, function, args, vaList);
-	va_end(vaList);		        
+	GLoggerImpl::GetInstance()->printLog((const GLogLevel)logLevel, module, file, line, function, args);		        
 }

@@ -18,7 +18,6 @@
 
 #pragma once
 
-#include <unistd.h>
 #include <g_type.h>
 
 /** 
@@ -43,4 +42,14 @@ public:
      * @note 
      */		
     static void gusleep(const GUint64 time);
+
+    /**
+     * @brief usleep
+	 * @param [out] buffer : out buffer
+	 * @param [in] size : out buffer size
+	 * @param [in] args : parameters
+	 * @return string size
+     * @note 
+     */		
+    static GUint64 gvsnprintf(GInt8* buffer, const GUint64 size, const GInt8* args, ...);    
 };

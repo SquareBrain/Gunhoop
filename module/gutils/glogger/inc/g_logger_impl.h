@@ -128,8 +128,7 @@ public:
         const GInt8* file, 
         const GUint32 line, 
         const GInt8* function,
-        const GInt8* format,
-        va_list vaList); 
+        const GInt8* args, ...); 
         
     /**
      * @brief get error string
