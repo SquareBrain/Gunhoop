@@ -46,7 +46,7 @@ ifdef VERSION
 endif
 
 $(TARGET):$(OBJS)
-	$(CC) -shared -o $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
+	@$(CC) -shared -o $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
 ifdef VERSION
 	@ln -sf $(TARGET_FILE) $(OUTPUT)/lib/$(TARGET).so
 endif	
