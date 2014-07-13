@@ -22,14 +22,15 @@ using namespace GCommon;
 
 
 
-FileInputStream::FileInputStream(shared_ptr<GFile> file)
+FileInputStream::FileInputStream(tr1::shared_ptr<GFile> file)
 	: m_file(file)
 {
 }
 
 FileInputStream::FileInputStream(const string filepath)
-	: m_file((shared_ptr<GFile>(new GFile(filepath.c_str()))))
+	: m_file((tr1::shared_ptr<GFile>(new GFile(filepath.c_str()))))
 {
+	m_file->openFile(ONLY_READ);
 }
 
 FileInputStream::~FileInputStream()
@@ -38,35 +39,78 @@ FileInputStream::~FileInputStream()
 
 GInt32 FileInputStream::available()
 {
+	// TODO: GFile
 	return 0;
 }
 
 void FileInputStream::close()
 {
+	// m_file->closeFile();
+	// do nothing
 }
 
 GInt32 FileInputStream::read()
 {
-	return  -1;
+	GInt8 pBuffer[1] = {0};
+	return  this->read(pBuffer, 1);
 }
 
 GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen)
 {
-	return read(pBuffer, iBufferLen, 0, iBufferLen);
+	return this->read(pBuffer, iBufferLen, 0, iBufferLen);
 }
 
 GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen)
 {
-	return  -1;
+	if (openCheck() == G_NO)
+	{
+		return -4;
+	}
+
+	if (!pBuffer)
+	{
+		return -2;
+	}
+	else if (iOffset < 0 || iLen < 0 ||iBufferLen < iOffset + iLen)
+	{
+		return -3;
+	}
+	else if (iLen == 0)
+	{
+		return 0;
+	}
+
+	return m_file->readFile(pBuffer, iLen);
 }
 
 GInt64 FileInputStream::skip(GInt64 lNum)
 {
-	return -1;
+	if (openCheck() == G_NO)
+	{
+		return -4;
+	}
+
+	if (lNum == 0)
+	{
+		return 0;
+	}
+	if (lNum  < 0)
+	{
+		return -1;
+	}
+
+	// TODO: GFile
+	return 0;
 }
 
 std::tr1::shared_ptr<GFile> FileInputStream::GetFile()
 {
 	return m_file;
+}
+
+GResult FileInputStream::openCheck()
+{
+	// TODO: GFile
+	return G_NO;
 }
 

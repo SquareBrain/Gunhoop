@@ -87,8 +87,8 @@ public:
 
 	std::tr1::shared_ptr<GFile> GetFile();
 
-protected:
-	void finalize();
+private:
+	GResult openCheck();
 
 private:
 	std::tr1::shared_ptr<GFile> m_file;
