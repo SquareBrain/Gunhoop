@@ -19,6 +19,7 @@
 
 #include <sys/stat.h>
 #include <g_type.h>
+#include <g_sys.h>
 
 /** 
  * file open flags

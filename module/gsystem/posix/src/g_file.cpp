@@ -217,8 +217,5 @@ GResult GFile::orgOpen(const GInt32 flags, const GUint32 mode)
 
 void GFile::setError(const GInt8* args, ...)
 {
-    va_list vaList;
-	va_start(vaList, args);    
-	vsnprintf(m_error, G_ERROR_BUF_SIZE, args, vaList);
-    va_end(vaList);	
+	GSys::gvsnprintf(m_error, G_ERROR_BUF_SIZE, args);
 }
