@@ -3,11 +3,11 @@ INCLUDES+= \
 	$(GOHOOP_TOP)/gsystem/inc \
 	$(GOHOOP_TOP)/gcommon/ \
 	$(GOHOOP_TOP)/gcommon/inc \
-	$(GOHOOP_TOP)/gcommon/component/conf/inc \
-	$(GOHOOP_TOP)/gcommon/component/filesys/inc \
-	$(GOHOOP_TOP)/gcommon/component/function/inc \
-	$(GOHOOP_TOP)/gcommon/component/iostream/inc \
-	$(GOHOOP_TOP)/gcommon/component/network/inc
+	$(GOHOOP_TOP)/gcommon/conf/inc \
+	$(GOHOOP_TOP)/gcommon/filesys/inc \
+	$(GOHOOP_TOP)/gcommon/function/inc \
+	$(GOHOOP_TOP)/gcommon/iostream/inc \
+	$(GOHOOP_TOP)/gcommon/network/inc
 
 SLIBS+= 
 
