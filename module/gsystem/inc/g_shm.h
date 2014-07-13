@@ -26,53 +26,53 @@
 #include <g_type.h>
 
 /** 
- * GShm error code
+ * @brief shm error code
  */
 typedef enum 
 { 
     /** 
-     * open GShm failed
+     * @brief open shm failed
      */        
-    OPEN_GShm_FAILED = -2,
+    OPEN_SHM_FAILED = -2,
     /** 
-     * munmap failed
+     * @brief munmap failed
      */           
-    MUNMAP_GShm_FAILED = -3,
+    MUNMAP_SHM_FAILED = -3,
     /** 
-     * mmap failed
+     * @brief mmap failed
      */           
-    MMAP_GShm_FAILED = -4,
+    MMAP_SHM_FAILED = -4,
     /** 
-     * sync GShm failed
+     * @brief sync shm failed
      */           
-    SYNC_GShm_FAILED = -5,
+    SYNC_SHM_FAILED = -5,
     /** 
-     * write GShm parameter failed
+     * @brief write shm parameter failed
      */           
-    WRITE_GShm_PARA_FAILED = -6,
+    WRITE_SHM_PARA_FAILED = -6,
     /** 
-     * read GShm parameter failed
+     * @brief read shm parameter failed
      */           
-    READ_GShm_PARA_FAILED = -7,
+    READ_SHM_PARA_FAILED = -7,
     /** 
-     * GShm not init
+     * @brief shm not init
      */           
-    GShm_NO_INIT = -8,
+    SHM_NO_INIT = -8,
     /** 
-     * GShm path is empty
+     * @brief shm path is empty
      */           
-    GShm_PATH_EMPTY = -9
+    SHM_PATH_EMPTY = -9
 } GShmErrorCode;
 
 /** 
- * shared memory for ipc
+ * @brief shared memory for ipc
  */
 class GShm
 {
 public:
     GShm();   
     /**
-     * constructor
+     * @brief constructor
 	 * @param [in] GShmPath : shm mapping file path
 	 * @param [in] GShmSize : shm size
 	 * @return true/false
@@ -82,43 +82,43 @@ public:
     ~GShm();
 
     /**
-     * set shm mapping file path
+     * @brief set shm mapping file path
 	 * @param [in] shmPath : shm mapping file path     
      * @note 
      */	
     void setShmPath(const GInt8* shmPath);
 
     /**
-     * set shm mapping file path
+     * @brief set shm mapping file path
 	 * @return shm mapping file path   
      * @note 
      */	
     GInt8* getShmPath();
 
     /**
-     * set shm mapping file size
+     * @brief set shm mapping file size
      * @param [in] shmSize : shm size  
      * @note 
      */		
     void setShmSize(const GUint64 shmSize);
 
     /**
-     * get shm mapping file size
+     * @brief get shm mapping file size
      * @return shm mapping file size   
      * @note 
      */	    
     GUint64 getShmSize() const;    
    
     /**
-     * sync the shm
+     * @brief sync the shm
      * @return G_YES/G_NO  
      * @note 
      */	
     GResult syncShm();
    
     /**
-     * write data to shm
-	 * @param [in] offset : offset of GShm
+     * @brief write data to shm
+	 * @param [in] offset : offset of shm
 	 * @param [in] data : input data
 	 * @param [in] size : write size     
      * @return G_YES/G_NO  
@@ -127,8 +127,8 @@ public:
     GResult writeShm(const GUint32 offset, const GInt8* data, const GUint32 length);
 
     /**
-     * read data from shm
-	 * @param [in] offset : offset of GShm
+     * @brief read data from shm
+	 * @param [in] offset : offset of shm
 	 * @param [in] buffer : output buffer
 	 * @param [in] size : read size    
      * @return G_YES/G_NO  
@@ -138,14 +138,14 @@ public:
 
 private:
     /**
-     * init the GShm
+     * @brief init the shm
      * @return G_YES/G_NO  
      * @note 
      */	    	
     GResult init();
    
     /**
-     * uninit the GShm
+     * @brief uninit the shm
      * @return G_YES/G_NO  
      * @note 
      */	 	

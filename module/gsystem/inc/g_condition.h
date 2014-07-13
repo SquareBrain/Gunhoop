@@ -32,7 +32,7 @@ public:
 	~GCondition();
 
     /**
-     * wake up the waitting thread, only wake up one thread,
+     * @brief wake up the waitting thread, only wake up one thread,
      * according to the thread priority and waitting time.
      * @return true/false
      * @note 
@@ -40,21 +40,21 @@ public:
 	bool signal();
 	 
     /**
-     * wake up all waitting threads
+     * @brief wake up all waitting threads
      * @return true/false
      * @note 
      */		
 	bool broadcast();
 	
     /**
-     * let current thread has reached the awaited state, utill be wake up
+     * @brief let current thread has reached the awaited state, utill be wake up
      * @return true/false
      * @note 
      */		
 	bool wait();
 	
     /**
-     * let current thread has reached the awaited state,
+     * @brief let current thread has reached the awaited state,
      * utill be wake up or timeout return
      * @param [in] timeout : waitting timeout
      * @return true/false
@@ -64,7 +64,7 @@ public:
 
 private: 
     /**
-     * for to prevent copying
+     * @brief for to prevent copying
      * @param
      * @return true/false
      * @note 
@@ -72,7 +72,7 @@ private:
 	GCondition(const GCondition&); 
 	
     /**
-     * prevent copying
+     * @brief prevent copying
      * @note
      */	
 	void operator=(const GCondition&);	

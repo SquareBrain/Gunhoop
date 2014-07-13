@@ -28,19 +28,19 @@
 #include <g_type.h>
 
 /** 
- * POSIX GMutex wrapper
+ * @brief POSIX GMutex wrapper
  */
 class GMutex
 {
 public:
     /**
-     * constructor
+     * @brief constructor
      * @note default GMutex type is PTHREAD_GMutex_RECURSIVE
      */	
 	GMutex();
 	
     /**
-     * constructor
+     * @brief constructor
      * @param [in] kind : GMutex type
      * @note have four GMutex type, are PTHREAD_GMutex_NORMAL、PTHREAD_GMutex_RECURSIVE
 	 * PTHREAD_GMutex_ERRORCHECK、PTHREAD_GMutex_DEFAULT
@@ -50,21 +50,21 @@ public:
 	~GMutex();
 	
     /**
-     * lock GMutex, enter to awaited state
+     * @brief lock GMutex, enter to awaited state
      * @return true/false
      * @note 
      */		
 	bool lock();
 	
     /**
-     * try to lock GMutex, failure return immediately
+     * @brief try to lock GMutex, failure return immediately
      * @return true/false
      * @note 
      */		
 	bool GTryLock();
 	
     /**
-     * release lock
+     * @brief release lock
      * @return true/false
      * @note 
      */		
@@ -72,7 +72,7 @@ public:
 
 private:
     /**
-     * to prevent copying
+     * @brief to prevent copying
      * @note 
      */			
 	GMutex(const GMutex&); 
@@ -80,7 +80,7 @@ private:
 	void operator=(const GMutex&);	
 	
     /**
-     * initialize GMutex
+     * @brief initialize GMutex
      * @param [in] kind : GMutex type, reference constructor function
      * @note 
      */		
@@ -92,19 +92,19 @@ private:
 
 
 /** 
- * original lock wrapper
+ * @brief original lock wrapper
  */
 class GOrgLock
 {
 public:
     /**
-     * constructor
+     * @brief constructor
      * @note default GMutex type is PTHREAD_GMutex_RECURSIVE
      */		
 	GOrgLock();
 	
     /**
-     * constructor
+     * @brief constructor
      * @param [in] kind : GMutex type
      * @note have four GMutex type : PTHREAD_GMutex_NORMAL、PTHREAD_GMutex_RECURSIVE
 	 * PTHREAD_GMutex_ERRORCHECK、PTHREAD_GMutex_DEFAULT
@@ -114,21 +114,21 @@ public:
 	virtual ~GOrgLock();
 
     /**
-     * locked and waitting
+     * @brief locked and waitting
      * @return true/false
      * @note
      */			
 	bool lock();
 	
     /**
-     * try lock, if failed return immediately
+     * @brief try lock, if failed return immediately
      * @return true/false
      * @note
      */		
 	bool GTryLock();
 	
     /**
-     * release lock
+     * @brief release lock
      * @return true/false
      * @note
      */		
@@ -136,13 +136,13 @@ public:
 
 private:
     /**
-     * prevent copying
+     * @brief prevent copying
      * @note
      */		
 	GOrgLock(const GOrgLock&); 
 
     /**
-     * prevent copying
+     * @brief prevent copying
      * @note
      */	
 	void operator=(const GOrgLock&);	
@@ -158,7 +158,7 @@ class GTryLock
 {
 public:
     /**
-     * constructor
+     * @brief constructor
 	 * @param [in] GMutex : GMutex
 	 * @param [in] autoUnlock : whether release lock automatic
      * @note 
@@ -168,7 +168,7 @@ public:
 	~GTryLock();
 
     /**
-     * try lock
+     * @brief try lock
 	 * @param [in] timeout : try lock timeout, default is zero, indicate try once, 
 	 * then return immediately
 	 * @return true/false
@@ -177,7 +177,7 @@ public:
 	bool lock(const GUint32 timeout = 0);
 
     /**
-     * release lock
+     * @brief release lock
 	 * @return true/false
      * @note if construct a release lock, invoke invalid
      */			
@@ -185,13 +185,13 @@ public:
 
 private:
     /**
-     * prevent copying
+     * @brief prevent copying
      * @note
      */	
 	GTryLock(const GTryLock&); 
 	
     /**
-     * prevent copying
+     * @brief prevent copying
      * @note
      */		
 	void operator=(const GTryLock&);	
@@ -202,13 +202,13 @@ private:
 };
 
 /** 
- * auto lock wrapper
+ * @brief auto lock wrapper
  */
 class GAutoLock
 {
 public:
     /**
-     * constructor
+     * @brief constructor
 	 * @param [in]GMutex : GMutex
      * @note 
      */			
@@ -218,13 +218,13 @@ public:
 
 private:
     /**
-     * prevent copying
+     * @brief prevent copying
      * @note
      */		
 	GAutoLock(const GAutoLock&);
 
     /**
-     * prevent copying
+     * @brief prevent copying
      * @note
      */			
 	void operator=(const GAutoLock&);

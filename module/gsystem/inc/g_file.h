@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @GFile		g_file.h
+* @file		g_file.h
 * @version     
 * @brief      
 * @author   duye
@@ -38,7 +38,7 @@ class GFileUtil
 {
 public:
     /**
-     * create file
+     * @brief create file
      * @param [in] filePath : file path
      * @return G_YES/G_NO
      * @note 
@@ -55,7 +55,7 @@ public:
     GFile();
 
     /**
-     * set file path
+     * @brief set file path
      * @param [in] GFilePath : GFile path
      * @note 
      */	    
@@ -64,7 +64,7 @@ public:
     ~GFile();
 
     /**
-     * set file path
+     * @brief set file path
      * @param [in] GFilePath : file path
      * @return G_YES/G_NO
      * @note 
@@ -72,7 +72,7 @@ public:
 	GResult setFilePath(const GInt8* filePath);
 	
     /**
-     * open file for reading
+     * @brief open file for reading
      * @param [in] flags : open mode flags
      * @return G_YES/G_NO
      * @note 
@@ -80,14 +80,14 @@ public:
 	GResult openFile(const GUint64 flags);
 
     /**
-     * close file
+     * @brief close file
      * @return G_YES/G_NO
      * @note 
      */		
     GResult closeFile();
     
     /**
-     * get file size
+     * @brief get file size
      * @param [out] buffer : output buffer
 	 * @param [in] size : the size of buffer     
      * @return size/G_NO
@@ -96,7 +96,7 @@ public:
 	GInt64 getFileSize();
 	
     /**
-     * read file
+     * @brief read file
      * @param [out] buffer : output buffer
 	 * @param [in] size : the size of buffer     
      * @return size/G_NO
@@ -105,7 +105,7 @@ public:
 	GInt64 readFile(GInt8* buffer, const GUint64 size);
 
     /**
-     * write file
+     * @brief write file
 	 * @param [in] buffer : input buffer
 	 * @param [in] size : the size of buffer
      * @return size/G_NO
@@ -114,7 +114,7 @@ public:
 	GInt64 writeFile(const GInt8* data, const GUint64 length);
 
     /**
-     * get last error string
+     * @brief get last error string
 	 * @param [out] error : output buffer
 	 * @param [in] size : output buffer size
      * @return G_YES/G_NO
@@ -124,7 +124,7 @@ public:
 
 private:
     /**
-     * origin API for open file
+     * @brief origin API for open file
 	 * @param [in] flags : operation flags
 	 * @param [in] mode : operation mode
      * @return G_YES/G_NO
@@ -133,7 +133,7 @@ private:
 	GResult orgOpen(const GInt32 flags, const GUint32 mode);
 	
     /**
-     * origin set program running error
+     * @brief origin set program running error
 	 * @param [in] error : error string
      * @note 
      */		

@@ -18,7 +18,7 @@
 #pragma once
 
 /** 
- * base type define
+ * @brief base type define
  */
 typedef char                GInt8;
 typedef short		        GInt16;
@@ -35,31 +35,31 @@ typedef int                 GResult;
 #include <stdio.h>
 
 /** 
- * assert
+ * @brief assert
  */
 #define G_ASSERT(x)			assert(x)
 
 /** 
- * result variable for successed
+ * @brief result variable for successed
  */
 #define G_YES				0
 
 /** 
- * result variable for failed
+ * @brief result variable for failed
  */
 #define G_NO				-1
 
 /** 
- * limits number for path max length
+ * @brief limits number for path max length
  */
 #define G_PATH_MAX			512
 
 /** 
- * limits number for file name max length
+ * @brief limits number for file name max length
  */
 #define G_FILE_NAME_MAX	    256
 
 /** 
- * limits number for error info buffer size
+ * @brief limits number for error info buffer size
  */
 #define G_ERROR_BUF_SIZE	128

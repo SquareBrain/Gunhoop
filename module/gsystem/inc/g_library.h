@@ -31,7 +31,7 @@ public:
     ~GLibrary();
 
     /**
-     * load shared GLibrary
+     * @brief load shared GLibrary
 	 * @param [in] libFilePath : library path
 	 * @param [in] flags : RTLD_LAZY|RTLD_NOW
      * @return handle/NULL
@@ -40,7 +40,7 @@ public:
     static void* openLib(const GInt8* libFilePath, const GInt32 flags = RTLD_LAZY);
 
     /**
-     * close shared GLibrary
+     * @brief close shared GLibrary
 	 * @param [in] handle : GLibrary handle
      * @return true/false
      * @note 

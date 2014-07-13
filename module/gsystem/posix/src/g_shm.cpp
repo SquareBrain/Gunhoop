@@ -71,7 +71,7 @@ GResult GShm::syncShm()
     if (msync(m_shmAddr, m_shmSize, MS_SYNC) < 0)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "call msync() failed");
-        return SYNC_GShm_FAILED;
+        return SYNC_SHM_FAILED;
     }
 
     return G_YES;    
@@ -88,19 +88,19 @@ GResult GShm::writeShm(const GUint32 offset, const GInt8* data, const GUint32 le
     if (data == NULL)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "input data is NULL");
-        return WRITE_GShm_PARA_FAILED;
+        return WRITE_SHM_PARA_FAILED;
     }
     
     if (length == 0)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "input data length is zero");
-        return WRITE_GShm_PARA_FAILED;
+        return WRITE_SHM_PARA_FAILED;
     }
     
     if (offset + length > m_shmSize)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "will write data length over GShm size");
-        return WRITE_GShm_PARA_FAILED;
+        return WRITE_SHM_PARA_FAILED;
     }
 
     memcpy((GInt8*)m_shmAddr + offset, data, length);
@@ -119,19 +119,19 @@ GResult GShm::readShm(const GUint32 offset, GInt8* buffer, const GUint32 size)
     if (buffer == NULL)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "output buffer is NULL");
-        return WRITE_GShm_PARA_FAILED;
+        return WRITE_SHM_PARA_FAILED;
     }
     
     if (size == 0)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "ouput buffer size is zero");
-        return WRITE_GShm_PARA_FAILED;
+        return WRITE_SHM_PARA_FAILED;
     }
     
     if (offset + size > m_shmSize)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "will read length over GShm size");
-        return WRITE_GShm_PARA_FAILED;
+        return WRITE_SHM_PARA_FAILED;
     }
 
     memcpy((GInt8*)buffer, (GInt8*)m_shmAddr + offset, size);
@@ -150,14 +150,14 @@ GResult GShm::init()
     if (strlen(m_shmPath) == 0)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "GShm path is empty");
-        return GShm_PATH_EMPTY;
+        return SHM_PATH_EMPTY;
     }
     
     GInt32 fd = open(m_shmPath, O_RDWR | O_CREAT);
     if (fd < 0)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "open GShm file failed");
-        return OPEN_GShm_FAILED;
+        return OPEN_SHM_FAILED;
     }
 
     // setting file size
@@ -172,7 +172,7 @@ GResult GShm::init()
     {
         close(fd);
         //G_LOG_ERROR(G_LOG_PREFIX, "call mmap() failed");
-        return MMAP_GShm_FAILED;
+        return MMAP_SHM_FAILED;
     }
 
     close(fd);
@@ -193,7 +193,7 @@ GResult GShm::uninit()
     if (munmap(m_shmAddr, m_shmSize) < 0)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "call munmap failed");
-        return MUNMAP_GShm_FAILED;
+        return MUNMAP_SHM_FAILED;
     }
 
     m_shmAddr = NULL;

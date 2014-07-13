@@ -22,7 +22,7 @@
 #include <g_type.h>
 
 /** 
- * POSIX GSystem common API wrapper
+ * @brief POSIX GSystem common API wrapper
  */
 class GSys
 {
@@ -31,14 +31,14 @@ public:
     ~GSys() {}
    
     /**
-     * sleep
+     * @brief sleep
 	 * @param [in] time : second
      * @note 
      */		
     static void gsleep(const GUint64 time);
  
     /**
-     * usleep
+     * @brief usleep
 	 * @param [in] time : millisecond
      * @note 
      */		

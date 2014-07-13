@@ -21,13 +21,13 @@
 #include <g_type.h>
 
 /** 
- * POSIX system time
+ * @brief POSIX system time
  */
 class GTimeUtil
 {
 public:
     /**
-     * get system time format:20140309
+     * @brief get system time format:20140309
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
@@ -37,7 +37,7 @@ public:
     static bool convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
 
     /**
-     * get system time format:2014-03-09
+     * @brief get system time format:2014-03-09
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
@@ -47,7 +47,7 @@ public:
     static bool convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
  
     /**
-     * get system time format:2014/03/09
+     * @brief get system time format:2014/03/09
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
@@ -57,7 +57,7 @@ public:
     static bool convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
   
     /**
-     * get system time format:2014.03.09
+     * @brief get system time format:2014.03.09
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size
@@ -67,7 +67,7 @@ public:
     static bool convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
 
     /**
-     * get system time format:2014-03-09:999
+     * @brief get system time format:2014-03-09:999
 	 * @param [in]sysTime : input system time with nanosecond
 	 * @param [out]sysTimeStr : output system time with nanosecond
 	 * @param [in] bufSize : output buffer size

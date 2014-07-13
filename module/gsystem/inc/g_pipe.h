@@ -25,7 +25,7 @@
 #include <g_type.h>
 
 /** 
- * GPipe base class, be inherited by WriteGPipe and ReadGPipe class
+ * @brief pipe base class, be inherited by WriteGPipe and ReadGPipe class
  */
 class GPipe
 {
@@ -34,7 +34,7 @@ public:
 	virtual ~GPipe() {}
 	
     /**
-     * Open the pipe
+     * @brief Open the pipe
 	 * @param [in] pipeName : the GPipe name 
 	 * @return true/false
      * @note 
@@ -43,7 +43,7 @@ public:
 
 protected:
     /**
-     * Open the pipe
+     * @brief Open the pipe
 	 * @param [in] pipeName : the GPipe name
 	 * @param [in] mode : open mode
 	 * @return true/false
@@ -53,13 +53,13 @@ protected:
     
 protected:
     /** 
-     * GPipe descriptor
+     * @brief pipe descriptor
      */	
 	GInt32		m_pipefd;
 };
 
 /** 
- * Be used to write GPipe
+ * @brief Be used to write GPipe
  */
 class GWritePipe : public GPipe
 {
@@ -68,7 +68,7 @@ public:
 	virtual ~GWritePipe() {}
 	
     /**
-     * Open the pipe
+     * @brief Open the pipe
 	 * @param [in] GPipeName : the GPipe name
 	 * @return true/false
      * @note 
@@ -76,7 +76,7 @@ public:
 	virtual bool openPipe(const GInt8* pipeName);	
 	
     /**
-     * Write data to pipe
+     * @brief Write data to pipe
 	 * @param [in] data : write data
 	 * @param [in] length : data length
 	 * @return size/-1
@@ -86,7 +86,7 @@ public:
 	
 private:
     /**
-     * prevent copying
+     * @brief prevent copying
      * @note
      */	
 	GWritePipe(const GWritePipe&);
@@ -99,7 +99,7 @@ private:
 };
 
 /** 
- * be used to read GPipe
+ * @brief be used to read GPipe
  */
 class GReadPipe : public GPipe
 {
@@ -108,7 +108,7 @@ public:
     virtual ~GReadPipe() {}
 
     /**
-     * open pipe
+     * @brief open pipe
      * @param [in] pipeName : GPipe name
 	 * @return true/false
      * @note 
@@ -116,7 +116,7 @@ public:
     virtual bool openPipe(const GInt8* pipeName);
 
     /**
-     * read data from pipe
+     * @brief read data from pipe
 	 * @param [out] buffer : output buffer
 	 * @param [in] size : output buffer size
 	 * @return size/-1
@@ -126,13 +126,13 @@ public:
 
 private:
     /**
-     * prevent copying
+     * @brief prevent copying
      * @note
      */	
 	GReadPipe(const GReadPipe&);
 
     /**
-     * prevent copying
+     * @brief prevent copying
      * @note
      */		
 	void operator=(const GReadPipe&);	

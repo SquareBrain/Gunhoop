@@ -23,31 +23,31 @@
 #include <g_type.h>
 
 /** 
- * thread state
+ * @brief thread state
  */
 enum GThreadState
 {
     /** 
-     * running state
+     * @brief running state
      */	
 	THR_STATE_RUN = 0,
     /** 
-     * stoped state
+     * @brief stoped state
      */		
 	THR_STATE_STOP,
     /** 
-     * exit state
+     * @brief exit state
      */		
 	THR_STATE_EXIT
 };
 
 /** 
- * the pointer of thread enter
+ * @brief the pointer of thread enter
  */
 typedef void* (*GThreadFunPoint_t)(void*);
 
 /** 
- * be inherited ty user
+ * @brief be inherited ty user
  */
 class GRunnable
 {
@@ -55,7 +55,7 @@ public:
 	virtual ~GRunnable() {}
 	
     /**
-     * user thread entry function
+     * @brief user thread entry function
      * @return G_YES/G_NO
      * @note 
      */			
@@ -63,13 +63,13 @@ public:
 };
 
 /** 
- * POSIX thread wrapper
+ * @brief POSIX thread wrapper
  */
 class GThread
 {
 public:
     /**
-     * constructor
+     * @brief constructor
 	 * @param [in] target : user run target object
 	 * @param [in] autoRel : whether support automatic release, default is yes
      * @note 
@@ -78,14 +78,14 @@ public:
     ~GThread();
 	
     /**
-     * startup thread
+     * @brief startup thread
      * @return G_YES/G_NO
      * @note 
      */		
 	GResult start();
 
     /**
-     * get thread ID
+     * @brief get thread ID
      * @return thread ID
      * @note 
      */		
@@ -106,13 +106,13 @@ private:
 };
 
 /** 
- * thread base class, be inherited by user
+ * @brief thread base class, be inherited by user
  */
 class GThreadTask
 {
 public:
     /**
-     * constructor
+     * @brief constructor
      * @para [in] autoRel : whether is detached with main GThread, default is detached
      * @note 
      */		
@@ -120,14 +120,14 @@ public:
 	virtual ~GThreadTask();
 
     /**
-     * startup thread
+     * @brief startup thread
      * @return G_YES/G_NO
      * @note 
      */		
 	GResult start();
 
     /**
-     * thread entry function
+     * @brief thread entry function
      * @return G_YES/G_NO
      * @note 
      */			
@@ -152,13 +152,13 @@ private:
 };
 
 /** 
- * POSIX GThread static API used outside
+ * @brief POSIX GThread static API used outside
  */
 class GThreadUtil
 {
 public:
     /**
-     * create thread
+     * @brief create thread
 	 * @param [in] entry : GThread entry fucntion pointer
 	 * @param [in] argument : user data
 	 * @param [in] autoRel : whether support automatic release, default is yes

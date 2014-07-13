@@ -27,7 +27,7 @@
 #include <g_type.h>
 
 /** 
- * posix socket wrapper class
+ * @brief posix socket wrapper class
  */
 class GSocket
 {
@@ -35,7 +35,7 @@ public:
 	GSocket();
 	
     /**
-     * constructor
+     * @brief constructor
 	 * @param [in] ip : ip address
 	 * @param [in] port : port
      * @note 
@@ -43,7 +43,7 @@ public:
 	GSocket(const GUint32 ip, const GUint16 port);
 
     /**
-     * copy constructor
+     * @brief copy constructor
 	 * @param [in] socket : socket
      * @note 
      */			
@@ -51,7 +51,7 @@ public:
 	~GSocket();
 	
     /**
-     * init socket
+     * @brief init socket
 	 * @param [in] domain : domain
 	 * @param [in] type : socket type
 	 * @return G_YES/G_NO
@@ -60,7 +60,7 @@ public:
 	GResult openSocket(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
 			
     /**
-     * send data
+     * @brief send data
 	 * @param [in] data : send data
 	 * @param [in] dataLen : data length
 	 * @param [in] flags : flags
@@ -70,7 +70,7 @@ public:
 	GInt64 sendData(const GUint8* data, const GUint64 length, const GInt32 flags = MSG_NOSIGNAL);
 	
     /**
-     * receive data
+     * @brief receive data
 	 * @param [out] buffer : output buffer
 	 * @param [in] bufferSize : buffer size
 	 * @param [in] flags : flags
@@ -80,7 +80,7 @@ public:
 	GInt64 recvData(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 
     /**
-     * shutdown connecting
+     * @brief shutdown connecting
 	 * @param [in] how : way
 	 * @return G_YES/G_NO
      * @note 
@@ -88,7 +88,7 @@ public:
 	GResult closeSocket(const GInt32 how = 0);
 		
     /**
-     * setting address
+     * @brief setting address
 	 * @param [in] ip : ip address
 	 * @param [in] port : port
      * @note 
@@ -96,20 +96,20 @@ public:
 	void setAddr(const GUint32 ip, const GUint16 port);
 
     /**
-     * get ip address
+     * @brief get ip address
      * @return ip address
      */		
 	GUint32 getIP() const;
 
     /**
-     * get port
+     * @brief get port
      * @return port
      */		
 	GUint16 getPort() const;
 
 private:
     /**
-     * setting GSocket options 
+     * @brief setting socket options 
      * @return G_YES/G_NO
      */		
 	GResult initOption();
