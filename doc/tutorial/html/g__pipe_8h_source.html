@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3"/>
-<title>My Project: gcommon/system/inc/g_pipe.h Source File</title>
+<title>My Project: F:/Gohoop/trunk/module/gsystem/inc/g_pipe.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -118,58 +118,59 @@ $(document).ready(function(){initNavTree('g__pipe_8h_source.html','');});
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;unistd.h&gt;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="g__type_8h.html">g_type.h</a>&gt;</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;G_NS_GCOMMON_BEG </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="code" href="class_pipe.html">   32</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_pipe.html">Pipe</a></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="class_pipe.html">Pipe</a>() {}</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_pipe.html">Pipe</a>() {}</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_pipe.html#a6e20309a4e8ecc7317dd5f8e1bd320cb">openPipe</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* pipeName) = 0;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_pipe.html#a3b48beaaa23ac6c9a852d1b9eb2f82b7">orgOpen</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* pipeName, <span class="keyword">const</span> GInt32 mode);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="class_pipe.html#a7776259caf82021e2ac6e1de6a14941b">   60</a></span>&#160;    GInt32      <a class="code" href="class_pipe.html#a7776259caf82021e2ac6e1de6a14941b">m_pipefd</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="code" href="class_write_pipe.html">   66</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_write_pipe.html">WritePipe</a> : <span class="keyword">public</span> <a class="code" href="class_pipe.html">Pipe</a></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="class_write_pipe.html">WritePipe</a>() {}</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_write_pipe.html">WritePipe</a>() {}</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_write_pipe.html#a017e340c73031692d55b299e16da3e0b">openPipe</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* pipeName);   </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    GInt64 <a class="code" href="class_write_pipe.html#a421988218fe8d1a605de3dc53920a51f">writeData</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* data, <span class="keyword">const</span> GUint64 length);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="class_write_pipe.html">WritePipe</a>(<span class="keyword">const</span> <a class="code" href="class_write_pipe.html">WritePipe</a>&amp;);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">void</span> operator=(<span class="keyword">const</span> <a class="code" href="class_write_pipe.html">WritePipe</a>&amp;);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;};</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno"><a class="code" href="class_read_pipe.html">  106</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_read_pipe.html">ReadPipe</a> : <span class="keyword">public</span> <a class="code" href="class_pipe.html">Pipe</a></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;{</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <a class="code" href="class_read_pipe.html">ReadPipe</a>() {}</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_read_pipe.html">ReadPipe</a>() {}</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_read_pipe.html#a61b8f2e60b4feed41baf3b262275b637">openPipe</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* pipeName);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    GInt64 <a class="code" href="class_read_pipe.html#acd4e343d5753b703c1a5d85f0d9b6e52">readData</a>(<a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* buffer, <span class="keyword">const</span> GUint64 size);    </div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;};</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<a class="code" href="g__type_8h.html#ac6908719c79396dcb10af3bee752cc50">G_NS_END</a> </div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="code" href="class_g_pipe.html">   30</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_g_pipe.html" title="pipe base class, be inherited by WriteGPipe and ReadGPipe class">GPipe</a></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="class_g_pipe.html" title="pipe base class, be inherited by WriteGPipe and ReadGPipe class">GPipe</a>() {}</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_g_pipe.html" title="pipe base class, be inherited by WriteGPipe and ReadGPipe class">GPipe</a>() {}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_g_pipe.html#a4a4c713c373bc3439154cff8189ad622" title="Open the pipe.">openGPipe</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* pipeName) = 0;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="class_g_pipe.html#acaf735b3aba6822dfc23ff581e4816b5" title="Open the pipe.">orgOpen</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* pipeName, <span class="keyword">const</span> GInt32 mode);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="code" href="class_g_pipe.html#a0296ab10baacdd05e84b54546d2280d9">   58</a></span>&#160;    GInt32      <a class="code" href="class_g_pipe.html#a0296ab10baacdd05e84b54546d2280d9" title="pipe descriptor">m_pipefd</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;};</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="code" href="class_g_write_pipe.html">   64</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_g_write_pipe.html" title="Be used to write GPipe.">GWritePipe</a> : <span class="keyword">public</span> <a class="code" href="class_g_pipe.html" title="pipe base class, be inherited by WriteGPipe and ReadGPipe class">GPipe</a></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;{</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="class_g_write_pipe.html" title="Be used to write GPipe.">GWritePipe</a>() {}</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_g_write_pipe.html" title="Be used to write GPipe.">GWritePipe</a>() {}</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_g_write_pipe.html#af6d8b91c780cd3ac1541d6500b0d1511" title="Open the pipe.">openPipe</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* pipeName);   </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    GInt64 <a class="code" href="class_g_write_pipe.html#a82610de8d0e9ac460c19b84694f679fe" title="Write data to pipe.">writeData</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* data, <span class="keyword">const</span> GUint64 length);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="class_g_write_pipe.html" title="Be used to write GPipe.">GWritePipe</a>(<span class="keyword">const</span> <a class="code" href="class_g_write_pipe.html" title="Be used to write GPipe.">GWritePipe</a>&amp;);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">void</span> operator=(<span class="keyword">const</span> <a class="code" href="class_g_write_pipe.html" title="Be used to write GPipe.">GWritePipe</a>&amp;);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;};</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="code" href="class_g_read_pipe.html">  104</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_g_read_pipe.html" title="be used to read GPipe">GReadPipe</a> : <span class="keyword">public</span> <a class="code" href="class_g_pipe.html" title="pipe base class, be inherited by WriteGPipe and ReadGPipe class">GPipe</a></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;{</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <a class="code" href="class_g_read_pipe.html" title="be used to read GPipe">GReadPipe</a>() {}</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_g_read_pipe.html" title="be used to read GPipe">GReadPipe</a>() {}</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="class_g_read_pipe.html#a5ca27e051f90e9d0863879404a3ab381" title="open pipe">openPipe</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* pipeName);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    GInt64 <a class="code" href="class_g_read_pipe.html#abae3b127eb03479109c23b3156a84927" title="read data from pipe">readData</a>(<a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* buffer, <span class="keyword">const</span> GUint64 size);  </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <a class="code" href="class_g_read_pipe.html" title="be used to read GPipe">GReadPipe</a>(<span class="keyword">const</span> <a class="code" href="class_g_read_pipe.html" title="be used to read GPipe">GReadPipe</a>&amp;);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordtype">void</span> operator=(<span class="keyword">const</span> <a class="code" href="class_g_read_pipe.html" title="be used to read GPipe">GReadPipe</a>&amp;);   </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_4033108e8d84179bae27b865a42ed5aa.html">gcommon</a></li><li class="navelem"><a class="el" href="dir_268ec364d11f3b483f36a979bc14a2d1.html">system</a></li><li class="navelem"><a class="el" href="dir_e57a267343adea76d9dd8e4dd8f29eaa.html">inc</a></li><li class="navelem"><a class="el" href="g__pipe_8h.html">g_pipe.h</a></li>
-    <li class="footer">Generated on Fri Jun 27 2014 23:36:23 for My Project by
+    <li class="navelem"><a class="el" href="dir_4e3a55e2a9734425e24eb78aa4793941.html">trunk</a></li><li class="navelem"><a class="el" href="dir_b7a159cd6c5fb4c19964ff061851322f.html">module</a></li><li class="navelem"><a class="el" href="dir_a363d261a58a310eaf6fee926e93bf98.html">gsystem</a></li><li class="navelem"><a class="el" href="dir_d77737ea312009529ce95cdb0d46c683.html">inc</a></li><li class="navelem"><a class="el" href="g__pipe_8h.html">g_pipe.h</a></li>
+    <li class="footer">Generated on Sun Jul 13 2014 11:31:20 for My Project by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3 </li>
   </ul>

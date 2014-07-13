@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" href="$class_obj_pool_if.html" title="ObjPoolIf" alt="" coords="7,5,81,32"/>
+<area shape="rect" href="$class_g_pipe.html" title="pipe base class, be inherited by WriteGPipe and ReadGPipe class" alt="" coords="5,31,64,57"/>
+<area shape="rect" href="$class_g_read_pipe.html" title="be used to read GPipe" alt="" coords="112,5,203,32"/>
+<area shape="rect" href="$class_g_write_pipe.html" title="Be used to write GPipe." alt="" coords="113,56,201,83"/>
 </map>

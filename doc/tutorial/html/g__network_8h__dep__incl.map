@@ -1,3 +1,10 @@
-<map id="gcommon/component/network/inc/g_network.h" name="gcommon/component/network/inc/g_network.h">
-<area shape="rect" href="$g__network_8cpp.html" title="gcommon/component/network\l/src/g_network.cpp" alt="" coords="5,96,205,139"/>
+<map id="F:/Gohoop/trunk/module/gcommon/network/inc/g_network.h" name="F:/Gohoop/trunk/module/gcommon/network/inc/g_network.h">
+<area shape="rect" href="$g__common_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/g_common.h" alt="" coords="299,120,464,163"/>
+<area shape="rect" href="$g__network_8cpp.html" title="F:/Gohoop/trunk/module\l/gcommon/network/src/g\l_network.cpp" alt="" coords="488,112,653,171"/>
+<area shape="rect" href="$g__master_8h.html" title="F:/Gohoop/trunk/module\l/gmapreduce/gmaster/inc\l/g_master.h" alt="" coords="200,219,371,277"/>
+<area shape="rect" href="$g__slave_8h.html" title="F:/Gohoop/trunk/module\l/gmapreduce/gslave/inc\l/g_slave.h" alt="" coords="395,219,560,277"/>
+<area shape="rect" href="$g__master_8cpp.html" title="F:/Gohoop/trunk/module\l/gmapreduce/gmaster/src\l/g_master.cpp" alt="" coords="5,325,176,384"/>
+<area shape="rect" href="$g__master__main_8cpp.html" title="F:/Gohoop/trunk/module\l/gmapreduce/gmaster/src\l/g_master_main.cpp" alt="" coords="200,325,371,384"/>
+<area shape="rect" href="$g__slave_8cpp.html" title="F:/Gohoop/trunk/module\l/gmapreduce/gslave/src\l/g_slave.cpp" alt="" coords="395,325,560,384"/>
+<area shape="rect" href="$g__slave__main_8cpp.html" title="F:/Gohoop/trunk/module\l/gmapreduce/gslave/src\l/g_slave_main.cpp" alt="" coords="584,325,749,384"/>
 </map>

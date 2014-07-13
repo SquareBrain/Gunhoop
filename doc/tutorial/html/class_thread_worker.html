@@ -111,20 +111,20 @@ $(document).ready(function(){initNavTree('class_thread_worker.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="g__threadpool_8h_source.html">gcommon/component/function/inc/g_threadpool.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="g__threadpool_8h_source.html">F:/Gohoop/trunk/module/gcommon/function/inc/g_threadpool.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for ThreadWorker:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_thread_worker__inherit__graph.png" border="0" usemap="#_thread_worker_inherit__map" alt="Inheritance graph"/></div>
 <map name="_thread_worker_inherit__map" id="_thread_worker_inherit__map">
-<area shape="rect" href="class_thread_task.html" title="ThreadTask" alt="" coords="13,5,104,32"/></map>
+<area shape="rect" href="class_g_thread_task.html" title="thread base class, be inherited by user" alt="" coords="8,5,109,32"/></map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for ThreadWorker:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_thread_worker__coll__graph.png" border="0" usemap="#_thread_worker_coll__map" alt="Collaboration graph"/></div>
 <map name="_thread_worker_coll__map" id="_thread_worker_coll__map">
-<area shape="rect" href="class_thread_task.html" title="ThreadTask" alt="" coords="13,5,104,32"/></map>
+<area shape="rect" href="class_g_thread_task.html" title="thread base class, be inherited by user" alt="" coords="8,5,109,32"/></map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -135,11 +135,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a70bf08819fe584ec99aa22955895a24a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adba37834fdaa63a62eb10e6c145cfbc5"><td class="memItemLeft" align="right" valign="top">GResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thread_worker.html#adba37834fdaa63a62eb10e6c145cfbc5">doWork</a> (<a class="el" href="class_thread_job.html">ThreadJob</a> *threadJob, void *userData)</td></tr>
 <tr class="separator:adba37834fdaa63a62eb10e6c145cfbc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_class_thread_task"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_thread_task')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_thread_task.html">ThreadTask</a></td></tr>
-<tr class="memitem:a6ac7dc2f3a7c59e9abd779a6400db0a3 inherit pub_methods_class_thread_task"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thread_task.html#a6ac7dc2f3a7c59e9abd779a6400db0a3">ThreadTask</a> (const bool autoRel=true)</td></tr>
-<tr class="separator:a6ac7dc2f3a7c59e9abd779a6400db0a3 inherit pub_methods_class_thread_task"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3bda66601ad197f108ab3be7c1d8379 inherit pub_methods_class_thread_task"><td class="memItemLeft" align="right" valign="top">GResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_thread_task.html#af3bda66601ad197f108ab3be7c1d8379">start</a> ()</td></tr>
-<tr class="separator:af3bda66601ad197f108ab3be7c1d8379 inherit pub_methods_class_thread_task"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_g_thread_task"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_g_thread_task')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_g_thread_task.html">GThreadTask</a></td></tr>
+<tr class="memitem:adbf3305ec27df937f54637550694e344 inherit pub_methods_class_g_thread_task"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_thread_task.html#adbf3305ec27df937f54637550694e344">GThreadTask</a> (const bool autoRel=true)</td></tr>
+<tr class="memdesc:adbf3305ec27df937f54637550694e344 inherit pub_methods_class_g_thread_task"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor  [in] autoRel : whether is detached with main <a class="el" href="class_g_thread.html" title="POSIX thread wrapper.">GThread</a>, default is detached  <a href="#adbf3305ec27df937f54637550694e344"></a><br/></td></tr>
+<tr class="separator:adbf3305ec27df937f54637550694e344 inherit pub_methods_class_g_thread_task"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee9ad7b0e18acc1e9d10c7b77e55553a inherit pub_methods_class_g_thread_task"><td class="memItemLeft" align="right" valign="top">GResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_g_thread_task.html#aee9ad7b0e18acc1e9d10c7b77e55553a">start</a> ()</td></tr>
+<tr class="memdesc:aee9ad7b0e18acc1e9d10c7b77e55553a inherit pub_methods_class_g_thread_task"><td class="mdescLeft">&#160;</td><td class="mdescRight">startup thread  <a href="#aee9ad7b0e18acc1e9d10c7b77e55553a"></a><br/></td></tr>
+<tr class="separator:aee9ad7b0e18acc1e9d10c7b77e55553a inherit pub_methods_class_g_thread_task"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>thread worker, class <a class="el" href="class_thread_pool.html">ThreadPool</a> depend on : void MyTestFun() { <a class="el" href="class_thread_worker.html">ThreadWorker</a> threadWork;</p>
@@ -236,8 +238,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>gcommon/component/function/inc/<a class="el" href="g__threadpool_8h_source.html">g_threadpool.h</a></li>
-<li>gcommon/component/function/src/<a class="el" href="g__threadpool_8cpp.html">g_threadpool.cpp</a></li>
+<li>F:/Gohoop/trunk/module/gcommon/function/inc/<a class="el" href="g__threadpool_8h_source.html">g_threadpool.h</a></li>
+<li>F:/Gohoop/trunk/module/gcommon/function/src/<a class="el" href="g__threadpool_8cpp.html">g_threadpool.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -245,7 +247,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_thread_worker.html">ThreadWorker</a></li>
-    <li class="footer">Generated on Fri Jun 27 2014 23:36:24 for My Project by
+    <li class="footer">Generated on Sun Jul 13 2014 11:31:21 for My Project by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3 </li>
   </ul>

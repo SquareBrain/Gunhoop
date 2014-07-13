@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3"/>
-<title>My Project: gutils/logger/inc/g_logger.h Source File</title>
+<title>My Project: F:/Gohoop/trunk/module/gutils/glogger/inc/g_logger.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -112,58 +112,74 @@ $(document).ready(function(){initNavTree('g__logger_8h_source.html','');});
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">************************************************************************************/</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="g__type_8h.html">g_type.h</a>&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="g__system_8h.html">g_system.h</a>&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#define G_LOG_INIT() \</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">    GUtils::LoggerUtil::Init();</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span>    </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define G_LOG_UNINIT() \</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">    GUtils::LoggerUtil::Uninit();</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define G_LOG_ERROR(prefix, x) \</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">    GUtils::LoggerUtil::PrintError(prefix, x);</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#define G_LOG_WARN(prefix, x) \</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">    GUtils::LoggerUtil::PrintWarn(prefix, x);</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#define G_LOG_INFO(prefix, x) \</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">    GUtils::LoggerUtil::PrintWarn(prefix, x);</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#define G_LOG_DEBUG(prefix, x) \</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">    GUtils::LoggerUtil::PrintWarn(prefix, x);    </span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#define G_LOG_TRACE(prefix, x) \</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">    GUtils::LoggerUtil::PrintWarn(prefix, x);  </span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;G_NS_GUTILS_BEG</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">// brief : posix socket wrapper class</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="code" href="class_logger_util.html">   47</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_logger_util.html">LoggerUtil</a></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">public</span>: </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">static</span> GResult <a class="code" href="class_logger_util.html#a4bcf1ba68ab87b2b9585d1eecce36227">Init</a>();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">static</span> GResult <a class="code" href="class_logger_util.html#afc43b4375e8bec20921a9be35487f0c0">Uninit</a>();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_logger_util.html#a9aa48941b3091ff346dd0fa2586df44c">PrintError</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* prefix, <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* str);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_logger_util.html#a7534dddd1ab49877530bd5aa126e8d7f">PrintWarn</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* prefix, <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* str);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_logger_util.html#a475d15f7fc69e3bc399a42d05c5411e9">PrintInfo</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* prefix, <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* str);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    </div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_logger_util.html#ad1fd8e9e8f6a0516b3abce77ca89aa76">PrintDebug</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* prefix, <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* str);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_logger_util.html#a5616ec451e58891efe064d00dbffa7a8">PrintTrace</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* prefix, <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* str);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;};</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="code" href="g__logger_8h.html#ab10c581d00a6e7729c2892efab590331">   26</a></span>&#160;<span class="preprocessor">#define G_LOG_INIT() GLogger::init()</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="g__logger_8h.html#a44d07250d15a13765eb0482c4f1f1bb5">   31</a></span>&#160;<span class="preprocessor">#define G_LOG_UNINIT() GLogger::uninit()</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="g__logger_8h.html#a81bfaa98a614cc1da1cdb9a5e836bf3f">   38</a></span>&#160;<span class="preprocessor">#define G_LOG_ERROR(module, args...) GLogger::printError(module, __FILE__, __LINE__, __FUNCTION__, ##args)</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="code" href="g__logger_8h.html#ae68cd2f9c24b9a4eaba163f52661dde7">   45</a></span>&#160;<span class="preprocessor">#define G_LOG_WARN(module, args...) GLogger::printWarn(module, __FILE__, __LINE__, __FUNCTION__, ##args)</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="code" href="g__logger_8h.html#a655c97d5b46f2f9a89fb73d2671526ad">   52</a></span>&#160;<span class="preprocessor">#define G_LOG_INFO(module, args...) GLogger::printInfo(module, __FILE__, __LINE__, __FUNCTION__, ##args)</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="code" href="g__logger_8h.html#a58c6cc92c003c44878edfb12f2889e7d">   59</a></span>&#160;<span class="preprocessor">#define G_LOG_DEBUG(module, args...) GLogger::printDebug(module, __FILE__, __LINE__, __FUNCTION__, ##args)</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="code" href="g__logger_8h.html#ae62fad40d042cccaff541400c4a8f85c">   66</a></span>&#160;<span class="preprocessor">#define G_LOG_TRACE(module, args...) GLogger::printTrace(module, __FILE__, __LINE__, __FUNCTION__, ##args)  </span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="code" href="class_g_logger.html">   71</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_g_logger.html">GLogger</a></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">public</span>: </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">static</span> GResult <a class="code" href="class_g_logger.html#adb6c4dc4eca9a136d0f5c66b733c8ca0">init</a>();</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">static</span> GResult <a class="code" href="class_g_logger.html#ab759ac06d3a27d529f2f528d81a67207">uninit</a>();</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_g_logger.html#ae20d187ab77c4602b59bee2bdb086beb">printError</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* module, </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* file, </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keyword">const</span> GUint32 line, </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* <span class="keyword">function</span>,</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* args, ...);</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<a class="code" href="g__type_8h.html#ac6908719c79396dcb10af3bee752cc50">G_NS_END</a></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_g_logger.html#acfd3861bb3dcb11883653cd4a8a899f3">printWarn</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* module, </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* file, </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keyword">const</span> GUint32 line, </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* <span class="keyword">function</span>,</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* args, ...);   </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_g_logger.html#a5406e10534c5d67cf1047253114cbd4f">printInfo</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* module, </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* file, </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keyword">const</span> GUint32 line, </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* <span class="keyword">function</span>,</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* args, ...);  </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_g_logger.html#a707be2098bb3dc9c9790c14f2173c332">printDebug</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* module, </div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* file, </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keyword">const</span> GUint32 line, </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* <span class="keyword">function</span>,</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* args, ...);  </div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="class_g_logger.html#aeefba5b0415e5f539405aa6669c0dafc">printTrace</a>(<span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* module, </div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* file, </div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keyword">const</span> GUint32 line, </div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* <span class="keyword">function</span>,</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* args, ...);    </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> printLog(<span class="keyword">const</span> GInt32 logLevel, </div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* module, </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* file, </div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keyword">const</span> GUint32 line, </div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* <span class="keyword">function</span>,</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keyword">const</span> <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* args, ...);  </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_26ea5a0bb11fac6cdd0378b418c02b99.html">gutils</a></li><li class="navelem"><a class="el" href="dir_dfdf845d953ae8732f70e94092d9c8ce.html">logger</a></li><li class="navelem"><a class="el" href="dir_b3cc4c1bc69cd6eb77cd3f7cdf9ad03f.html">inc</a></li><li class="navelem"><a class="el" href="g__logger_8h.html">g_logger.h</a></li>
-    <li class="footer">Generated on Fri Jun 27 2014 23:36:23 for My Project by
+    <li class="navelem"><a class="el" href="dir_4e3a55e2a9734425e24eb78aa4793941.html">trunk</a></li><li class="navelem"><a class="el" href="dir_b7a159cd6c5fb4c19964ff061851322f.html">module</a></li><li class="navelem"><a class="el" href="dir_2d828a198ae1765a26f83d95db42a445.html">gutils</a></li><li class="navelem"><a class="el" href="dir_a33b1ddb3a0d8b3833dae67e35b93118.html">glogger</a></li><li class="navelem"><a class="el" href="dir_5d95470db0fd2da456b4e25dbae05091.html">inc</a></li><li class="navelem"><a class="el" href="g__logger_8h.html">g_logger.h</a></li>
+    <li class="footer">Generated on Sun Jul 13 2014 11:31:20 for My Project by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3 </li>
   </ul>

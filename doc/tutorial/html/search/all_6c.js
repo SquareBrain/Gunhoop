@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['library',['Library',['../class_library.html',1,'']]],
-  ['loaddata',['loadData',['../class_ini_parser.html#a80554472e3fce746686e5e3f0634a9d1',1,'IniParser']]],
-  ['loadfile',['loadFile',['../class_ini_parser.html#a3e9056cb58c7a57b431fa273810286a1',1,'IniParser']]],
-  ['lock',['lock',['../class_mutex.html#a5153267b9c954e794863dd94900a0e3b',1,'Mutex::lock()'],['../class_org_lock.html#a3dafc3958f75366501acd9e755997968',1,'OrgLock::lock()'],['../class_try_lock.html#a8b1300bf278d1469063981cd6e0a436e',1,'TryLock::lock()']]],
-  ['loggerutil',['LoggerUtil',['../class_logger_util.html',1,'']]]
+  ['loadfile',['loadFile',['../class_g_ini_file.html#ade69011e5bf1caaadd684a8142d8e72f',1,'GIniFile']]],
+  ['lock',['lock',['../class_g_mutex.html#a615c1dc13b03c4882515dc3d6f5f6a14',1,'GMutex::lock()'],['../class_g_org_lock.html#ae2d9a458a46b26a7b6b81c18b0ef1c30',1,'GOrgLock::lock()'],['../class_g_try_lock.html#a284056ac0f1e49aa33822c133b318d92',1,'GTryLock::lock()']]]
 ];

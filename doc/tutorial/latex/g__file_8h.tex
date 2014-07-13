@@ -1,19 +1,25 @@
-\hypertarget{g__file_8h}{\section{gcommon/system/inc/g\-\_\-file.h File Reference}
-\label{g__file_8h}\index{gcommon/system/inc/g\-\_\-file.\-h@{gcommon/system/inc/g\-\_\-file.\-h}}
+\hypertarget{g__file_8h}{\section{F\-:/\-Gohoop/trunk/module/gsystem/inc/g\-\_\-file.h File Reference}
+\label{g__file_8h}\index{F\-:/\-Gohoop/trunk/module/gsystem/inc/g\-\_\-file.\-h@{F\-:/\-Gohoop/trunk/module/gsystem/inc/g\-\_\-file.\-h}}
 }
 {\ttfamily \#include $<$sys/stat.\-h$>$}\\*
-{\ttfamily \#include $<$fcntl.\-h$>$}\\*
-{\ttfamily \#include $<$unistd.\-h$>$}\\*
-{\ttfamily \#include $<$string.\-h$>$}\\*
 {\ttfamily \#include $<$g\-\_\-type.\-h$>$}\\*
 Include dependency graph for g\-\_\-file.\-h\-:
 This graph shows which files directly or indirectly include this file\-:
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \hyperlink{class_file_util}{File\-Util}
+class \hyperlink{class_g_file_util}{G\-File\-Util}
 \item 
-class \hyperlink{class_file}{File}
+class \hyperlink{class_g_file}{G\-File}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{g__file_8h_a7e36207d6b849ecd61d5cd80019bac72}{Open\-Flags} \{ {\bfseries O\-N\-L\-Y\-\_\-\-R\-E\-A\-D} = 1, 
+{\bfseries O\-N\-L\-Y\-\_\-\-W\-R\-I\-T\-E} = 2, 
+{\bfseries R\-E\-A\-D\-\_\-\-W\-R\-I\-T\-E} = 4, 
+{\bfseries O\-P\-E\-N\-\_\-\-A\-P\-P\-E\-N\-D} = 8
+ \}
 \end{DoxyCompactItemize}
 
 
@@ -32,5 +38,11 @@ duye
 \end{DoxyNote}
 
 \begin{DoxyEnumerate}
-\item 2014-\/06-\/20 duye Created this file 
+\item 2014-\/06-\/20 duye Created this \hyperlink{class_g_file}{G\-File} 
 \end{DoxyEnumerate}
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{g__file_8h_a7e36207d6b849ecd61d5cd80019bac72}{\index{g\-\_\-file.\-h@{g\-\_\-file.\-h}!Open\-Flags@{Open\-Flags}}
+\index{Open\-Flags@{Open\-Flags}!g_file.h@{g\-\_\-file.\-h}}
+\subsubsection[{Open\-Flags}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Open\-Flags}}}\label{g__file_8h_a7e36207d6b849ecd61d5cd80019bac72}
+file open flags 

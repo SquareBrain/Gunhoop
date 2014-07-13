@@ -1,5 +1,5 @@
-\hypertarget{g__lock_8h}{\section{gcommon/system/inc/g\-\_\-lock.h File Reference}
-\label{g__lock_8h}\index{gcommon/system/inc/g\-\_\-lock.\-h@{gcommon/system/inc/g\-\_\-lock.\-h}}
+\hypertarget{g__lock_8h}{\section{F\-:/\-Gohoop/trunk/module/gsystem/inc/g\-\_\-lock.h File Reference}
+\label{g__lock_8h}\index{F\-:/\-Gohoop/trunk/module/gsystem/inc/g\-\_\-lock.\-h@{F\-:/\-Gohoop/trunk/module/gsystem/inc/g\-\_\-lock.\-h}}
 }
 {\ttfamily \#include $<$pthread.\-h$>$}\\*
 {\ttfamily \#include $<$unistd.\-h$>$}\\*
@@ -9,14 +9,14 @@ This graph shows which files directly or indirectly include this file\-:
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \hyperlink{class_mutex}{Mutex}
+class \hyperlink{class_g_mutex}{G\-Mutex}
+\begin{DoxyCompactList}\small\item\em P\-O\-S\-I\-X \hyperlink{class_g_mutex}{G\-Mutex} wrapper. \end{DoxyCompactList}\item 
+class \hyperlink{class_g_org_lock}{G\-Org\-Lock}
+\begin{DoxyCompactList}\small\item\em original lock wrapper \end{DoxyCompactList}\item 
+class \hyperlink{class_g_try_lock}{G\-Try\-Lock}
 \item 
-class \hyperlink{class_org_lock}{Org\-Lock}
-\item 
-class \hyperlink{class_try_lock}{Try\-Lock}
-\item 
-class \hyperlink{class_auto_lock}{Auto\-Lock}
-\end{DoxyCompactItemize}
+class \hyperlink{class_g_auto_lock}{G\-Auto\-Lock}
+\begin{DoxyCompactList}\small\item\em auto lock wrapper \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
@@ -40,7 +40,7 @@ duye
 \item 2014-\/01-\/09 duye Add comments
 \end{DoxyEnumerate}
 \begin{DoxyEnumerate}
-\item 2014-\/01-\/04 duye a. Modify \hyperlink{class_mutex}{Mutex} function \hyperlink{class_try_lock}{Try\-Lock} to Trylock() b. Add function Trylock() for class \hyperlink{class_org_lock}{Org\-Lock} c. Modify \hyperlink{class_try_lock}{Try\-Lock} class implimenting
+\item 2014-\/01-\/04 duye a. Modify \hyperlink{class_g_mutex}{G\-Mutex} function \hyperlink{class_g_try_lock}{G\-Try\-Lock} to G\-Try\-Lock() b. Add function G\-Try\-Lock() for class \hyperlink{class_g_org_lock}{G\-Org\-Lock} c. Modify \hyperlink{class_g_try_lock}{G\-Try\-Lock} class implimenting
 \end{DoxyEnumerate}
 
 

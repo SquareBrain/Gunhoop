@@ -1,37 +1,30 @@
-\hypertarget{g__logger_8h}{\section{gutils/logger/inc/g\-\_\-logger.h File Reference}
-\label{g__logger_8h}\index{gutils/logger/inc/g\-\_\-logger.\-h@{gutils/logger/inc/g\-\_\-logger.\-h}}
+\hypertarget{g__logger_8h}{\section{F\-:/\-Gohoop/trunk/module/gutils/glogger/inc/g\-\_\-logger.h File Reference}
+\label{g__logger_8h}\index{F\-:/\-Gohoop/trunk/module/gutils/glogger/inc/g\-\_\-logger.\-h@{F\-:/\-Gohoop/trunk/module/gutils/glogger/inc/g\-\_\-logger.\-h}}
 }
-{\ttfamily \#include $<$g\-\_\-type.\-h$>$}\\*
+{\ttfamily \#include $<$g\-\_\-system.\-h$>$}\\*
 Include dependency graph for g\-\_\-logger.\-h\-:
 This graph shows which files directly or indirectly include this file\-:
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \hyperlink{class_logger_util}{Logger\-Util}
+class \hyperlink{class_g_logger}{G\-Logger}
 \end{DoxyCompactItemize}
 \subsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\hypertarget{g__logger_8h_ab10c581d00a6e7729c2892efab590331}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-I\-T}()~G\-Utils\-::\-Logger\-Util\-::\-Init();}\label{g__logger_8h_ab10c581d00a6e7729c2892efab590331}
-
+\#define \hyperlink{g__logger_8h_ab10c581d00a6e7729c2892efab590331}{G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-I\-T}()~\hyperlink{class_g_logger_adb6c4dc4eca9a136d0f5c66b733c8ca0}{G\-Logger\-::init}()
 \item 
-\hypertarget{g__logger_8h_a44d07250d15a13765eb0482c4f1f1bb5}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-U\-N\-I\-N\-I\-T}()~G\-Utils\-::\-Logger\-Util\-::\-Uninit();}\label{g__logger_8h_a44d07250d15a13765eb0482c4f1f1bb5}
-
+\#define \hyperlink{g__logger_8h_a44d07250d15a13765eb0482c4f1f1bb5}{G\-\_\-\-L\-O\-G\-\_\-\-U\-N\-I\-N\-I\-T}()~\hyperlink{class_g_logger_ab759ac06d3a27d529f2f528d81a67207}{G\-Logger\-::uninit}()
 \item 
-\hypertarget{g__logger_8h_a3e1f1519bea7ab6ead1cdc776b1cf911}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-E\-R\-R\-O\-R}(prefix, x)~G\-Utils\-::\-Logger\-Util\-::\-Print\-Error(prefix, x);}\label{g__logger_8h_a3e1f1519bea7ab6ead1cdc776b1cf911}
-
+\#define \hyperlink{g__logger_8h_a81bfaa98a614cc1da1cdb9a5e836bf3f}{G\-\_\-\-L\-O\-G\-\_\-\-E\-R\-R\-O\-R}(module, args...)~\hyperlink{class_g_logger_ae20d187ab77c4602b59bee2bdb086beb}{G\-Logger\-::print\-Error}(module, \-\_\-\-\_\-\-F\-I\-L\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N\-\_\-\-\_\-, \#\#args)
 \item 
-\hypertarget{g__logger_8h_ac1462449e0983e69faf5cc4c61dfd4c2}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-W\-A\-R\-N}(prefix, x)~G\-Utils\-::\-Logger\-Util\-::\-Print\-Warn(prefix, x);}\label{g__logger_8h_ac1462449e0983e69faf5cc4c61dfd4c2}
-
+\#define \hyperlink{g__logger_8h_ae68cd2f9c24b9a4eaba163f52661dde7}{G\-\_\-\-L\-O\-G\-\_\-\-W\-A\-R\-N}(module, args...)~\hyperlink{class_g_logger_acfd3861bb3dcb11883653cd4a8a899f3}{G\-Logger\-::print\-Warn}(module, \-\_\-\-\_\-\-F\-I\-L\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N\-\_\-\-\_\-, \#\#args)
 \item 
-\hypertarget{g__logger_8h_a462abee532dd170d6459dbdacfdc2d83}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-F\-O}(prefix, x)~G\-Utils\-::\-Logger\-Util\-::\-Print\-Warn(prefix, x);}\label{g__logger_8h_a462abee532dd170d6459dbdacfdc2d83}
-
+\#define \hyperlink{g__logger_8h_a655c97d5b46f2f9a89fb73d2671526ad}{G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-F\-O}(module, args...)~\hyperlink{class_g_logger_a5406e10534c5d67cf1047253114cbd4f}{G\-Logger\-::print\-Info}(module, \-\_\-\-\_\-\-F\-I\-L\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N\-\_\-\-\_\-, \#\#args)
 \item 
-\hypertarget{g__logger_8h_a11bafa99943a0ecce828e5c396219a41}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-D\-E\-B\-U\-G}(prefix, x)~G\-Utils\-::\-Logger\-Util\-::\-Print\-Warn(prefix, x);}\label{g__logger_8h_a11bafa99943a0ecce828e5c396219a41}
-
+\#define \hyperlink{g__logger_8h_a58c6cc92c003c44878edfb12f2889e7d}{G\-\_\-\-L\-O\-G\-\_\-\-D\-E\-B\-U\-G}(module, args...)~\hyperlink{class_g_logger_a707be2098bb3dc9c9790c14f2173c332}{G\-Logger\-::print\-Debug}(module, \-\_\-\-\_\-\-F\-I\-L\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N\-\_\-\-\_\-, \#\#args)
 \item 
-\hypertarget{g__logger_8h_a9501d50d07d16b6e76b9666e45ae8cbc}{\#define {\bfseries G\-\_\-\-L\-O\-G\-\_\-\-T\-R\-A\-C\-E}(prefix, x)~G\-Utils\-::\-Logger\-Util\-::\-Print\-Warn(prefix, x);}\label{g__logger_8h_a9501d50d07d16b6e76b9666e45ae8cbc}
-
+\#define \hyperlink{g__logger_8h_ae62fad40d042cccaff541400c4a8f85c}{G\-\_\-\-L\-O\-G\-\_\-\-T\-R\-A\-C\-E}(module, args...)~\hyperlink{class_g_logger_aeefba5b0415e5f539405aa6669c0dafc}{G\-Logger\-::print\-Trace}(module, \-\_\-\-\_\-\-F\-I\-L\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N\-\_\-\-\_\-, \#\#args)
 \end{DoxyCompactItemize}
 
 
@@ -55,3 +48,94 @@ duye
 \begin{DoxyEnumerate}
 \item 2014-\/02-\/18 duye Created this file 
 \end{DoxyEnumerate}
+
+\subsection{Macro Definition Documentation}
+\hypertarget{g__logger_8h_a58c6cc92c003c44878edfb12f2889e7d}{\index{g\-\_\-logger.\-h@{g\-\_\-logger.\-h}!G\-\_\-\-L\-O\-G\-\_\-\-D\-E\-B\-U\-G@{G\-\_\-\-L\-O\-G\-\_\-\-D\-E\-B\-U\-G}}
+\index{G\-\_\-\-L\-O\-G\-\_\-\-D\-E\-B\-U\-G@{G\-\_\-\-L\-O\-G\-\_\-\-D\-E\-B\-U\-G}!g_logger.h@{g\-\_\-logger.\-h}}
+\subsubsection[{G\-\_\-\-L\-O\-G\-\_\-\-D\-E\-B\-U\-G}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\-\_\-\-L\-O\-G\-\_\-\-D\-E\-B\-U\-G(
+\begin{DoxyParamCaption}
+\item[{}]{module, }
+\item[{}]{args...}
+\end{DoxyParamCaption}
+)~{\bf G\-Logger\-::print\-Debug}(module, \-\_\-\-\_\-\-F\-I\-L\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N\-\_\-\-\_\-, \#\#args)}}\label{g__logger_8h_a58c6cc92c003c44878edfb12f2889e7d}
+print debug log 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em module} & \-: module name \\
+\hline
+\mbox{\tt in}  & {\em args} & \-: parameters \\
+\hline
+\end{DoxyParams}
+\hypertarget{g__logger_8h_a81bfaa98a614cc1da1cdb9a5e836bf3f}{\index{g\-\_\-logger.\-h@{g\-\_\-logger.\-h}!G\-\_\-\-L\-O\-G\-\_\-\-E\-R\-R\-O\-R@{G\-\_\-\-L\-O\-G\-\_\-\-E\-R\-R\-O\-R}}
+\index{G\-\_\-\-L\-O\-G\-\_\-\-E\-R\-R\-O\-R@{G\-\_\-\-L\-O\-G\-\_\-\-E\-R\-R\-O\-R}!g_logger.h@{g\-\_\-logger.\-h}}
+\subsubsection[{G\-\_\-\-L\-O\-G\-\_\-\-E\-R\-R\-O\-R}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\-\_\-\-L\-O\-G\-\_\-\-E\-R\-R\-O\-R(
+\begin{DoxyParamCaption}
+\item[{}]{module, }
+\item[{}]{args...}
+\end{DoxyParamCaption}
+)~{\bf G\-Logger\-::print\-Error}(module, \-\_\-\-\_\-\-F\-I\-L\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N\-\_\-\-\_\-, \#\#args)}}\label{g__logger_8h_a81bfaa98a614cc1da1cdb9a5e836bf3f}
+print error log 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em module} & \-: module name \\
+\hline
+\mbox{\tt in}  & {\em args} & \-: parameters \\
+\hline
+\end{DoxyParams}
+\hypertarget{g__logger_8h_a655c97d5b46f2f9a89fb73d2671526ad}{\index{g\-\_\-logger.\-h@{g\-\_\-logger.\-h}!G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-F\-O@{G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-F\-O}}
+\index{G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-F\-O@{G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-F\-O}!g_logger.h@{g\-\_\-logger.\-h}}
+\subsubsection[{G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-F\-O}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-F\-O(
+\begin{DoxyParamCaption}
+\item[{}]{module, }
+\item[{}]{args...}
+\end{DoxyParamCaption}
+)~{\bf G\-Logger\-::print\-Info}(module, \-\_\-\-\_\-\-F\-I\-L\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N\-\_\-\-\_\-, \#\#args)}}\label{g__logger_8h_a655c97d5b46f2f9a89fb73d2671526ad}
+print info log 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em module} & \-: module name \\
+\hline
+\mbox{\tt in}  & {\em args} & \-: parameters \\
+\hline
+\end{DoxyParams}
+\hypertarget{g__logger_8h_ab10c581d00a6e7729c2892efab590331}{\index{g\-\_\-logger.\-h@{g\-\_\-logger.\-h}!G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-I\-T@{G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-I\-T}}
+\index{G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-I\-T@{G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-I\-T}!g_logger.h@{g\-\_\-logger.\-h}}
+\subsubsection[{G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-I\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\-\_\-\-L\-O\-G\-\_\-\-I\-N\-I\-T(
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)~{\bf G\-Logger\-::init}()}}\label{g__logger_8h_ab10c581d00a6e7729c2892efab590331}
+init log system \hypertarget{g__logger_8h_ae62fad40d042cccaff541400c4a8f85c}{\index{g\-\_\-logger.\-h@{g\-\_\-logger.\-h}!G\-\_\-\-L\-O\-G\-\_\-\-T\-R\-A\-C\-E@{G\-\_\-\-L\-O\-G\-\_\-\-T\-R\-A\-C\-E}}
+\index{G\-\_\-\-L\-O\-G\-\_\-\-T\-R\-A\-C\-E@{G\-\_\-\-L\-O\-G\-\_\-\-T\-R\-A\-C\-E}!g_logger.h@{g\-\_\-logger.\-h}}
+\subsubsection[{G\-\_\-\-L\-O\-G\-\_\-\-T\-R\-A\-C\-E}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\-\_\-\-L\-O\-G\-\_\-\-T\-R\-A\-C\-E(
+\begin{DoxyParamCaption}
+\item[{}]{module, }
+\item[{}]{args...}
+\end{DoxyParamCaption}
+)~{\bf G\-Logger\-::print\-Trace}(module, \-\_\-\-\_\-\-F\-I\-L\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N\-\_\-\-\_\-, \#\#args)}}\label{g__logger_8h_ae62fad40d042cccaff541400c4a8f85c}
+print trace log 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em module} & \-: module name \\
+\hline
+\mbox{\tt in}  & {\em args} & \-: parameters \\
+\hline
+\end{DoxyParams}
+\hypertarget{g__logger_8h_a44d07250d15a13765eb0482c4f1f1bb5}{\index{g\-\_\-logger.\-h@{g\-\_\-logger.\-h}!G\-\_\-\-L\-O\-G\-\_\-\-U\-N\-I\-N\-I\-T@{G\-\_\-\-L\-O\-G\-\_\-\-U\-N\-I\-N\-I\-T}}
+\index{G\-\_\-\-L\-O\-G\-\_\-\-U\-N\-I\-N\-I\-T@{G\-\_\-\-L\-O\-G\-\_\-\-U\-N\-I\-N\-I\-T}!g_logger.h@{g\-\_\-logger.\-h}}
+\subsubsection[{G\-\_\-\-L\-O\-G\-\_\-\-U\-N\-I\-N\-I\-T}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\-\_\-\-L\-O\-G\-\_\-\-U\-N\-I\-N\-I\-T(
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)~{\bf G\-Logger\-::uninit}()}}\label{g__logger_8h_a44d07250d15a13765eb0482c4f1f1bb5}
+uninit log system \hypertarget{g__logger_8h_ae68cd2f9c24b9a4eaba163f52661dde7}{\index{g\-\_\-logger.\-h@{g\-\_\-logger.\-h}!G\-\_\-\-L\-O\-G\-\_\-\-W\-A\-R\-N@{G\-\_\-\-L\-O\-G\-\_\-\-W\-A\-R\-N}}
+\index{G\-\_\-\-L\-O\-G\-\_\-\-W\-A\-R\-N@{G\-\_\-\-L\-O\-G\-\_\-\-W\-A\-R\-N}!g_logger.h@{g\-\_\-logger.\-h}}
+\subsubsection[{G\-\_\-\-L\-O\-G\-\_\-\-W\-A\-R\-N}]{\setlength{\rightskip}{0pt plus 5cm}\#define G\-\_\-\-L\-O\-G\-\_\-\-W\-A\-R\-N(
+\begin{DoxyParamCaption}
+\item[{}]{module, }
+\item[{}]{args...}
+\end{DoxyParamCaption}
+)~{\bf G\-Logger\-::print\-Warn}(module, \-\_\-\-\_\-\-F\-I\-L\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-L\-I\-N\-E\-\_\-\-\_\-, \-\_\-\-\_\-\-F\-U\-N\-C\-T\-I\-O\-N\-\_\-\-\_\-, \#\#args)}}\label{g__logger_8h_ae68cd2f9c24b9a4eaba163f52661dde7}
+print warning log 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em module} & \-: module name \\
+\hline
+\mbox{\tt in}  & {\em args} & \-: parameters \\
+\hline
+\end{DoxyParams}

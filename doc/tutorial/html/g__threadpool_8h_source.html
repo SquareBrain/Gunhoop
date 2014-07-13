@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3"/>
-<title>My Project: gcommon/component/function/inc/g_threadpool.h Source File</title>
+<title>My Project: F:/Gohoop/trunk/module/gcommon/function/inc/g_threadpool.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -113,93 +113,94 @@ $(document).ready(function(){initNavTree('g__threadpool_8h_source.html','');});
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;list&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="g__type_8h.html">g_type.h</a>&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="g__thread_8h.html">g_thread.h</a>&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="g__condition_8h.html">g_condition.h</a>&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;G_NS_GCOMMON_BEG</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="code" href="class_thread_job.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_thread_job.html">ThreadJob</a></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    ~<a class="code" href="class_thread_job.html">ThreadJob</a>() {}</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_thread_job.html#adc4cb216aecc72a7606a18d0dae8fe11">work</a>(<span class="keywordtype">void</span>* userData) = 0;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">class </span><a class="code" href="class_thread_worker.html">ThreadWorker</a>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="code" href="class_thread_pool.html">   60</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_thread_pool.html">ThreadPool</a></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;{</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="code" href="class_thread_pool.html#a8b34f96bdcec943797a3950d264bec5d">   66</a></span>&#160;    <span class="keyword">typedef</span> std::list&lt;ThreadWorker*&gt; <a class="code" href="class_thread_pool.html#a8b34f96bdcec943797a3950d264bec5d">ThreadWorkerList</a>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="class_thread_pool.html">ThreadPool</a>();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_thread_pool.html">ThreadPool</a>(<span class="keyword">const</span> GUint32 threadCount);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    ~<a class="code" href="class_thread_pool.html">ThreadPool</a>();</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    GResult <a class="code" href="class_thread_pool.html#a5d4848719841e5866347e09863fea56c">doJob</a>(<a class="code" href="class_thread_job.html">ThreadJob</a>* threadJob, <span class="keywordtype">void</span>* userData);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    GUint32 <a class="code" href="class_thread_pool.html#a49e032cf5a019c6e7b82fdf842c0ad5b">getThreadCount</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="class_thread_pool.html">ThreadPool</a>(<span class="keyword">const</span> <a class="code" href="class_thread_pool.html">ThreadPool</a>&amp;);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">void</span> operator=(<span class="keyword">const</span> <a class="code" href="class_thread_pool.html">ThreadPool</a>&amp;);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    GResult initThreadPool();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    GResult uninitThreadPool();</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">void</span> moveToIdleList(<span class="keyword">const</span> GUint32 workerId);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordtype">void</span> moveToBusyList(<span class="keyword">const</span> GUint32 workerId);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="comment">// thread pool size</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    GUint32             m_threadCount;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="comment">// the idle queue</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <a class="code" href="class_thread_pool.html#a8b34f96bdcec943797a3950d264bec5d">ThreadWorkerList</a>    m_idleThreadWorkerList;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="comment">// the busy queue</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <a class="code" href="class_thread_pool.html#a8b34f96bdcec943797a3950d264bec5d">ThreadWorkerList</a>    m_busyThreadWorkerList;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;};</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00147"></a><span class="lineno"><a class="code" href="class_thread_worker.html">  147</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_thread_worker.html">ThreadWorker</a> : <span class="keyword">public</span> <a class="code" href="class_thread_task.html">ThreadTask</a></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;{</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_thread_worker.html#aab0b03ce7564a625cc37b091be3eddcd">ThreadWorker</a>(<span class="keyword">const</span> GUint32 workerId);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_thread_worker.html">ThreadWorker</a>();</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    GUint32 <a class="code" href="class_thread_worker.html#a70bf08819fe584ec99aa22955895a24a">getWorkerId</a>() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    GResult <a class="code" href="class_thread_worker.html#adba37834fdaa63a62eb10e6c145cfbc5">doWork</a>(<a class="code" href="class_thread_job.html">ThreadJob</a>* threadJob, <span class="keywordtype">void</span>* userData);       </div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <a class="code" href="class_thread_worker.html#aab0b03ce7564a625cc37b091be3eddcd">ThreadWorker</a>(<span class="keyword">const</span> <a class="code" href="class_thread_worker.html">ThreadWorker</a>&amp;);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordtype">void</span> operator=(<span class="keyword">const</span> <a class="code" href="class_thread_worker.html">ThreadWorker</a>&amp;);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    </div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    GResult run();</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="comment">// thread worker ID, setting by external</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    GUint32         m_workerId;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="comment">// waitting condition</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <a class="code" href="class_condition.html">Condition</a>       m_condition;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="comment">// current running job</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <a class="code" href="class_thread_job.html">ThreadJob</a>*      m_threadJob;    </div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="comment">// current running user data</span></div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keywordtype">void</span>*           m_userData; </div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;};</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<a class="code" href="g__type_8h.html#ac6908719c79396dcb10af3bee752cc50">G_NS_END</a></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="g__system_8h.html">g_system.h</a>&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="g__namespace_8h.html">g_namespace.h</a>&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="g__thread_8h.html">g_thread.h</a>&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="g__condition_8h.html">g_condition.h</a>&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;G_NS_GCOMMON_BEG</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="code" href="class_thread_job.html">   44</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_thread_job.html">ThreadJob</a></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    ~<a class="code" href="class_thread_job.html">ThreadJob</a>() {}</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_thread_job.html#adc4cb216aecc72a7606a18d0dae8fe11">work</a>(<span class="keywordtype">void</span>* userData) = 0;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">class </span><a class="code" href="class_thread_worker.html">ThreadWorker</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="code" href="class_thread_pool.html">   61</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_thread_pool.html">ThreadPool</a></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;{</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="code" href="class_thread_pool.html#a8b34f96bdcec943797a3950d264bec5d">   67</a></span>&#160;    <span class="keyword">typedef</span> std::list&lt;ThreadWorker*&gt; <a class="code" href="class_thread_pool.html#a8b34f96bdcec943797a3950d264bec5d">ThreadWorkerList</a>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="class_thread_pool.html">ThreadPool</a>();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_thread_pool.html">ThreadPool</a>(<span class="keyword">const</span> GUint32 threadCount);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    ~<a class="code" href="class_thread_pool.html">ThreadPool</a>();</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    GResult <a class="code" href="class_thread_pool.html#a5d4848719841e5866347e09863fea56c">doJob</a>(<a class="code" href="class_thread_job.html">ThreadJob</a>* threadJob, <span class="keywordtype">void</span>* userData);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    GUint32 <a class="code" href="class_thread_pool.html#a49e032cf5a019c6e7b82fdf842c0ad5b">getThreadCount</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <a class="code" href="class_thread_pool.html">ThreadPool</a>(<span class="keyword">const</span> <a class="code" href="class_thread_pool.html">ThreadPool</a>&amp;);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">void</span> operator=(<span class="keyword">const</span> <a class="code" href="class_thread_pool.html">ThreadPool</a>&amp;);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    GResult initThreadPool();</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    GResult uninitThreadPool();</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordtype">void</span> moveToIdleList(<span class="keyword">const</span> GUint32 workerId);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">void</span> moveToBusyList(<span class="keyword">const</span> GUint32 workerId);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="comment">// thread pool size</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    GUint32             m_threadCount;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="comment">// the idle queue</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <a class="code" href="class_thread_pool.html#a8b34f96bdcec943797a3950d264bec5d">ThreadWorkerList</a>    m_idleThreadWorkerList;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="comment">// the busy queue</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <a class="code" href="class_thread_pool.html#a8b34f96bdcec943797a3950d264bec5d">ThreadWorkerList</a>    m_busyThreadWorkerList;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;};</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno"><a class="code" href="class_thread_worker.html">  148</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_thread_worker.html">ThreadWorker</a> : <span class="keyword">public</span> <a class="code" href="class_g_thread_task.html" title="thread base class, be inherited by user">GThreadTask</a></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;{</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_thread_worker.html#aab0b03ce7564a625cc37b091be3eddcd">ThreadWorker</a>(<span class="keyword">const</span> GUint32 workerId);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_thread_worker.html">ThreadWorker</a>();</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    GUint32 <a class="code" href="class_thread_worker.html#a70bf08819fe584ec99aa22955895a24a">getWorkerId</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    GResult <a class="code" href="class_thread_worker.html#adba37834fdaa63a62eb10e6c145cfbc5">doWork</a>(<a class="code" href="class_thread_job.html">ThreadJob</a>* threadJob, <span class="keywordtype">void</span>* userData);       </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <a class="code" href="class_thread_worker.html#aab0b03ce7564a625cc37b091be3eddcd">ThreadWorker</a>(<span class="keyword">const</span> <a class="code" href="class_thread_worker.html">ThreadWorker</a>&amp;);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordtype">void</span> operator=(<span class="keyword">const</span> <a class="code" href="class_thread_worker.html">ThreadWorker</a>&amp;);</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    </div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    GResult run();</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="comment">// thread worker ID, setting by external</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    GUint32         m_workerId;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="comment">// waitting condition</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <a class="code" href="class_g_condition.html">GCondition</a>      m_condition;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="comment">// current running job</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <a class="code" href="class_thread_job.html">ThreadJob</a>*      m_threadJob;    </div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="comment">// current running user data</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keywordtype">void</span>*           m_userData; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;};</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<a class="code" href="g__namespace_8h.html#ac6908719c79396dcb10af3bee752cc50">G_NS_END</a></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_4033108e8d84179bae27b865a42ed5aa.html">gcommon</a></li><li class="navelem"><a class="el" href="dir_d58472551c1cca7add98c6b64644d495.html">component</a></li><li class="navelem"><a class="el" href="dir_e72a0bf8e3e523d75d7639355611c310.html">function</a></li><li class="navelem"><a class="el" href="dir_9baf05c950d4fb8347bf4afe0ba3dba4.html">inc</a></li><li class="navelem"><a class="el" href="g__threadpool_8h.html">g_threadpool.h</a></li>
-    <li class="footer">Generated on Fri Jun 27 2014 23:36:23 for My Project by
+    <li class="navelem"><a class="el" href="dir_4e3a55e2a9734425e24eb78aa4793941.html">trunk</a></li><li class="navelem"><a class="el" href="dir_b7a159cd6c5fb4c19964ff061851322f.html">module</a></li><li class="navelem"><a class="el" href="dir_0ddfaefbe812628c946cb3a323bd02f4.html">gcommon</a></li><li class="navelem"><a class="el" href="dir_027155b8384a2042f1ac78cc8866e986.html">function</a></li><li class="navelem"><a class="el" href="dir_a6e16bd52650b9936f5469d81a667e3f.html">inc</a></li><li class="navelem"><a class="el" href="g__threadpool_8h.html">g_threadpool.h</a></li>
+    <li class="footer">Generated on Sun Jul 13 2014 11:31:19 for My Project by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3 </li>
   </ul>

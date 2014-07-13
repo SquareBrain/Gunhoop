@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3"/>
-<title>My Project: gcommon/system/inc/g_time.h Source File</title>
+<title>My Project: F:/Gohoop/trunk/module/gsystem/inc/g_time.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -114,30 +114,26 @@ $(document).ready(function(){initNavTree('g__time_8h_source.html','');});
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="g__type_8h.html">g_type.h</a>&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;G_NS_GCOMMON_BEG</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="code" href="class_time_util.html">   28</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_time_util.html">TimeUtil</a></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="class_time_util.html#a5c8b082c480db68e6ef4144e7c58928d">convTimeA</a>(<span class="keyword">const</span> GUint64 inSysTime, <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* outSysTime, <span class="keyword">const</span> GUint64 bufSize);  </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="class_time_util.html#a9fd91bc845bb83839dba3435605ef681">convTimeB</a>(<span class="keyword">const</span> GUint64 inSysTime, <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* outSysTime, <span class="keyword">const</span> GUint64 bufSize); </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="class_time_util.html#a493a7f9b6d2266e0c97203592da2635b">convTimeC</a>(<span class="keyword">const</span> GUint64 inSysTime, <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* outSysTime, <span class="keyword">const</span> GUint64 bufSize); </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="class_time_util.html#a4d71da0360b7a052b1df2b958e9104b1">convTimeD</a>(<span class="keyword">const</span> GUint64 inSysTime, <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* outSysTime, <span class="keyword">const</span> GUint64 bufSize);  </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="class_time_util.html#a938174486fca48bcd6ee20fd34d05c9d">convTimeE</a>(<span class="keyword">const</span> GUint64 inSysTime, <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0">GInt8</a>* outSysTime, <span class="keyword">const</span> GUint64 bufSize);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;};</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<a class="code" href="g__type_8h.html#ac6908719c79396dcb10af3bee752cc50">G_NS_END</a></div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="code" href="class_g_time_util.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_g_time_util.html" title="POSIX system time.">GTimeUtil</a></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;{</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="class_g_time_util.html#a5174ab0a5044277ce2d9eecd0b285cd7" title="get system time format:20140309">convTimeA</a>(<span class="keyword">const</span> GUint64 inSysTime, <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* outSysTime, <span class="keyword">const</span> GUint64 bufSize);  </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="class_g_time_util.html#a184bda29000d97ea9a06bf00613c985a" title="get system time format:2014-03-09">convTimeB</a>(<span class="keyword">const</span> GUint64 inSysTime, <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* outSysTime, <span class="keyword">const</span> GUint64 bufSize); </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="class_g_time_util.html#af5bba9e48047cfa6f078d5419470ee1f" title="get system time format:2014/03/09">convTimeC</a>(<span class="keyword">const</span> GUint64 inSysTime, <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* outSysTime, <span class="keyword">const</span> GUint64 bufSize); </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="class_g_time_util.html#a993131fe855d10102f472680f7c331a7" title="get system time format:2014.03.09">convTimeD</a>(<span class="keyword">const</span> GUint64 inSysTime, <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* outSysTime, <span class="keyword">const</span> GUint64 bufSize);  </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="class_g_time_util.html#a5c6a7321a64c0eba2ec2b320034f665a" title="get system time format:2014-03-09:999">convTimeE</a>(<span class="keyword">const</span> GUint64 inSysTime, <a class="code" href="g__type_8h.html#ad1732c0e4cf5d108f232e44a1179e8b0" title="base type define">GInt8</a>* outSysTime, <span class="keyword">const</span> GUint64 bufSize);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_4033108e8d84179bae27b865a42ed5aa.html">gcommon</a></li><li class="navelem"><a class="el" href="dir_268ec364d11f3b483f36a979bc14a2d1.html">system</a></li><li class="navelem"><a class="el" href="dir_e57a267343adea76d9dd8e4dd8f29eaa.html">inc</a></li><li class="navelem"><a class="el" href="g__time_8h.html">g_time.h</a></li>
-    <li class="footer">Generated on Fri Jun 27 2014 23:36:23 for My Project by
+    <li class="navelem"><a class="el" href="dir_4e3a55e2a9734425e24eb78aa4793941.html">trunk</a></li><li class="navelem"><a class="el" href="dir_b7a159cd6c5fb4c19964ff061851322f.html">module</a></li><li class="navelem"><a class="el" href="dir_a363d261a58a310eaf6fee926e93bf98.html">gsystem</a></li><li class="navelem"><a class="el" href="dir_d77737ea312009529ce95cdb0d46c683.html">inc</a></li><li class="navelem"><a class="el" href="g__time_8h.html">g_time.h</a></li>
+    <li class="footer">Generated on Sun Jul 13 2014 11:31:20 for My Project by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.3 </li>
   </ul>

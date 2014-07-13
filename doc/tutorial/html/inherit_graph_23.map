@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" href="$class_thread_pool.html" title="ThreadPool" alt="" coords="5,5,96,32"/>
+<area shape="rect" href="$class_data_input.html" title="DataInput" alt="" coords="171,5,248,32"/>
+<area shape="rect" href="$class_data_input_stream.html" title="DataInputStream" alt="" coords="320,56,443,83"/>
+<area shape="rect" href="$class_input_stream.html" title="InputStream" alt="" coords="5,81,99,108"/>
+<area shape="rect" href="$class_file_input_stream.html" title="FileInputStream" alt="" coords="152,56,267,83"/>
+<area shape="rect" href="$class_filter_input_stream.html" title="FilterInputStream" alt="" coords="148,107,271,133"/>
 </map>

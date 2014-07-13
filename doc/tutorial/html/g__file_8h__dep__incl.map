@@ -1,4 +1,42 @@
-<map id="gcommon/system/inc/g_file.h" name="gcommon/system/inc/g_file.h">
-<area shape="rect" href="$g__file_8cpp.html" title="gcommon/system/src\l/g_file.cpp" alt="" coords="5,96,152,139"/>
-<area shape="rect" href="$g__ini__parser_8h_source.html" title="gutils/ini/inc/g_ini\l_parser.h" alt="" coords="176,96,299,139"/>
+<map id="F:/Gohoop/trunk/module/gsystem/inc/g_file.h" name="F:/Gohoop/trunk/module/gsystem/inc/g_file.h">
+<area shape="rect" href="$g__system_8h.html" title="F:/Gohoop/trunk/module\l/gsystem/g_system.h" alt="" coords="2085,96,2251,139"/>
+<area shape="rect" href="$g__logger__impl_8cpp.html" title="F:/Gohoop/trunk/module\l/gutils/glogger/src/g\l_logger_impl.cpp" alt="" coords="3232,400,3397,459"/>
+<area shape="rect" href="$g__configuration_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/conf/inc/g_configuration.h" alt="" coords="2163,195,2400,237"/>
+<area shape="rect" href="$g__common_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/g_common.h" alt="" coords="1231,515,1396,557"/>
+<area shape="rect" href="$g__master_8h.html" title="F:/Gohoop/trunk/module\l/gmapreduce/gmaster/inc\l/g_master.h" alt="" coords="2655,613,2825,672"/>
+<area shape="rect" href="$g__master__main_8cpp.html" title="F:/Gohoop/trunk/module\l/gmapreduce/gmaster/src\l/g_master_main.cpp" alt="" coords="3112,720,3283,779"/>
+<area shape="rect" href="$g__slave_8h.html" title="F:/Gohoop/trunk/module\l/gmapreduce/gslave/inc\l/g_slave.h" alt="" coords="580,613,745,672"/>
+<area shape="rect" href="$g__numconv_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/function/inc\l/g_numconv.h" alt="" coords="220,187,385,245"/>
+<area shape="rect" href="$g__objpool_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/function/inc\l/g_objpool.h" alt="" coords="460,187,625,245"/>
+<area shape="rect" href="$g__singleton_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/function/inc\l/g_singleton.h" alt="" coords="700,187,865,245"/>
+<area shape="rect" href="$g__threadpool_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/function/inc\l/g_threadpool.h" alt="" coords="940,187,1105,245"/>
+<area shape="rect" href="$g__timeconv_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/function/inc\l/g_timeconv.h" alt="" coords="1973,187,2139,245"/>
+<area shape="rect" href="$g__datainput_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/iostream/inc\l/g_datainput.h" alt="" coords="2487,293,2652,352"/>
+<area shape="rect" href="$g__datainputstream_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/iostream/inc\l/g_datainputstream.h" alt="" coords="2431,400,2596,459"/>
+<area shape="rect" href="$g__fileinputstream_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/iostream/inc\l/g_fileinputstream.h" alt="" coords="1060,293,1225,352"/>
+<area shape="rect" href="$g__filterinputstream_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/iostream/inc\l/g_filterinputstream.h" alt="" coords="1729,293,1895,352"/>
+<area shape="rect" href="$g__inputstream_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/iostream/inc\l/g_inputstream.h" alt="" coords="1300,187,1465,245"/>
+<area shape="rect" href="$g__network_8h.html" title="F:/Gohoop/trunk/module\l/gcommon/network/inc/g\l_network.h" alt="" coords="1540,187,1705,245"/>
+<area shape="rect" href="$g__ini_8h.html" title="F:/Gohoop/trunk/module\l/gutils/gini/inc/g_ini.h" alt="" coords="3017,195,3183,237"/>
+<area shape="rect" href="$g__logger__impl_8h_source.html" title="F:/Gohoop/trunk/module\l/gutils/glogger/inc/g\l_logger_impl.h" alt="" coords="3207,293,3372,352"/>
+<area shape="rect" href="$g__ini__section_8h.html" title="F:/Gohoop/trunk/module\l/gutils/gini/inc/g_ini\l_section.h" alt="" coords="2828,187,2993,245"/>
+<area shape="rect" href="$g__logger_8h.html" title="F:/Gohoop/trunk/module\l/gutils/glogger/inc/g\l_logger.h" alt="" coords="2639,187,2804,245"/>
+<area shape="rect" href="$g__xml_8h.html" title="F:/Gohoop/trunk/module\l/gutils/gxml/inc/g_xml.h" alt="" coords="3257,195,3423,237"/>
+<area shape="rect" href="$g__configuration_8cpp.html" title="F:/Gohoop/trunk/module\l/gcommon/conf/src/g_configuration.cpp" alt="" coords="2209,301,2463,344"/>
+<area shape="rect" href="$g__master_8cpp.html" title="F:/Gohoop/trunk/module\l/gmapreduce/gmaster/src\l/g_master.cpp" alt="" coords="2655,720,2825,779"/>
+<area shape="rect" href="$g__slave_8cpp.html" title="F:/Gohoop/trunk/module\l/gmapreduce/gslave/src\l/g_slave.cpp" alt="" coords="485,720,651,779"/>
+<area shape="rect" href="$g__slave__main_8cpp.html" title="F:/Gohoop/trunk/module\l/gmapreduce/gslave/src\l/g_slave_main.cpp" alt="" coords="675,720,840,779"/>
+<area shape="rect" href="$g__numconv_8cpp.html" title="F:/Gohoop/trunk/module\l/gcommon/function/src\l/g_numconv.cpp" alt="" coords="100,293,265,352"/>
+<area shape="rect" href="$g__objpool_8cpp.html" title="F:/Gohoop/trunk/module\l/gcommon/function/src\l/g_objpool.cpp" alt="" coords="340,293,505,352"/>
+<area shape="rect" href="$g__singleton_8cpp.html" title="F:/Gohoop/trunk/module\l/gcommon/function/src\l/g_singleton.cpp" alt="" coords="580,293,745,352"/>
+<area shape="rect" href="$g__threadpool_8cpp.html" title="F:/Gohoop/trunk/module\l/gcommon/function/src\l/g_threadpool.cpp" alt="" coords="820,293,985,352"/>
+<area shape="rect" href="$g__timeconv_8cpp.html" title="F:/Gohoop/trunk/module\l/gcommon/function/src\l/g_timeconv.cpp" alt="" coords="1919,293,2084,352"/>
+<area shape="rect" href="$g__datainputstream_8cpp.html" title="F:/Gohoop/trunk/module\l/gcommon/iostream/src\l/g_datainputstream.cpp" alt="" coords="2431,507,2596,565"/>
+<area shape="rect" href="$g__fileinputstream_8cpp.html" title="F:/Gohoop/trunk/module\l/gcommon/iostream/src\l/g_fileinputstream.cpp" alt="" coords="1111,400,1276,459"/>
+<area shape="rect" href="$g__filterinputstream_8cpp.html" title="F:/Gohoop/trunk/module\l/gcommon/iostream/src\l/g_filterinputstream.cpp" alt="" coords="1729,400,1895,459"/>
+<area shape="rect" href="$g__inputstream_8cpp.html" title="F:/Gohoop/trunk/module\l/gcommon/iostream/src\l/g_inputstream.cpp" alt="" coords="1300,293,1465,352"/>
+<area shape="rect" href="$g__network_8cpp.html" title="F:/Gohoop/trunk/module\l/gcommon/network/src/g\l_network.cpp" alt="" coords="1540,293,1705,352"/>
+<area shape="rect" href="$g__ini_8cpp.html" title="F:/Gohoop/trunk/module\l/gutils/gini/src/g_ini.cpp" alt="" coords="3017,301,3183,344"/>
+<area shape="rect" href="$g__logger_8cpp.html" title="F:/Gohoop/trunk/module\l/gutils/glogger/src/g\l_logger.cpp" alt="" coords="2923,400,3088,459"/>
+<area shape="rect" href="$g__ini__section_8cpp.html" title="F:/Gohoop/trunk/module\l/gutils/gini/src/g_ini\l_section.cpp" alt="" coords="2828,293,2993,352"/>
 </map>
