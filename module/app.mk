@@ -1,17 +1,13 @@
 INCLUDES+= \
-	$(GOHOOP_TOP)/gsystem \
-	$(GOHOOP_TOP)/gsystem/inc \
-	$(GOHOOP_TOP)/gcommon/ \
-	$(GOHOOP_TOP)/gcommon/inc \
-	$(GOHOOP_TOP)/gcommon/conf/inc \
-	$(GOHOOP_TOP)/gcommon/filesys/inc \
-	$(GOHOOP_TOP)/gcommon/function/inc \
-	$(GOHOOP_TOP)/gcommon/iostream/inc \
-	$(GOHOOP_TOP)/gcommon/network/inc \
-	$(GOHOOP_TOP)/gutils \
-	$(GOHOOP_TOP)/gutils/gini/inc \
-	$(GOHOOP_TOP)/gutils/glogger/inc \
-	$(GOHOOP_TOP)/gutils/gxml/inc
+	$(GOHOOP_INC_PATH)/gsystem \
+	$(GOHOOP_INC_PATH)/gcommon/conf \
+	$(GOHOOP_INC_PATH)/gcommon/filesys \
+	$(GOHOOP_INC_PATH)/gcommon/function \
+	$(GOHOOP_INC_PATH)/gcommon/iostream \
+	$(GOHOOP_INC_PATH)/gcommon/network \
+	$(GOHOOP_INC_PATH)/gutils/gini \
+	$(GOHOOP_INC_PATH)/gutils/glogger \
+	$(GOHOOP_INC_PATH)/gutils/gxml
 
 SLIBS+= 
 
@@ -62,7 +58,9 @@ $(OBJDIR)/%.o:%.$(PS)
 
 install:
 	@echo "Start Install $(TARGET_FILE)"
-	@echo "Install $(TARGET_FILE) Complete"
+	@mkdir -p $(GOHOOP_BIN_PATH)/$(MODULE)
+	@cp -ax $(OUTPUT)/bin/$(TARGET) $(GOHOOP_BIN_PATH)/$(MODULE)
+	@echo "Install $(TARGET_FILE) $(GOHOOP_BIN_PATH)/$(TARGET) Complete"
 
 clean:
 	@rm $(OUTPUT)/obj -rf

@@ -1,6 +1,6 @@
-PRONAME:=gdata
+MODULE:=gdata
 VERSION:=1.0.0
-TARGET:=lib$(PRONAME)
+TARGET:=lib$(MODULE)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
 

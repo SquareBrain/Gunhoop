@@ -1,25 +1,23 @@
 INCLUDES+= \
-	$(GOHOOP_TOP)/gsystem \
-	$(GOHOOP_TOP)/gsystem/inc \
-	$(GOHOOP_TOP)/gcommon/ \
-	$(GOHOOP_TOP)/gcommon/inc \
-	$(GOHOOP_TOP)/gcommon/component/conf/inc \
-	$(GOHOOP_TOP)/gcommon/component/filesys/inc \
-	$(GOHOOP_TOP)/gcommon/component/function/inc \
-	$(GOHOOP_TOP)/gcommon/component/iostream/inc \
-	$(GOHOOP_TOP)/gcommon/component/network/inc \
-	$(GOHOOP_TOP)/gutils \
-	$(GOHOOP_TOP)/gutils/gini/inc \
-	$(GOHOOP_TOP)/gutils/glogger/inc \
-	$(GOHOOP_TOP)/gutils/gxml/inc	
+	$(GOHOOP_INC_PATH)/gsystem \
+	$(GOHOOP_INC_PATH)/gcommon/conf \
+	$(GOHOOP_INC_PATH)/gcommon/filesys \
+	$(GOHOOP_INC_PATH)/gcommon/function \
+	$(GOHOOP_INC_PATH)/gcommon/iostream \
+	$(GOHOOP_INC_PATH)/gcommon/network \
+	$(GOHOOP_INC_PATH)/gutils/gini \
+	$(GOHOOP_INC_PATH)/gutils/glogger \
+	$(GOHOOP_INC_PATH)/gutils/gxml
 	
 LIBS+= 
 
-LIBS_PATH+= 
+LIBS_PATH+=
 
 SLIBS+=
 
 PRE_DEFINED+=
+
+OUT_HEADS+=
 
 #create dir
 OUTPUT:=$(BUILD_PATH)/output
@@ -52,7 +50,7 @@ endif
 $(TARGET):$(OBJS) 
 	@ar rcs $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
 ifdef VERSION
-	@ln -sf $(TARGET_FILE) $(OUTPUT)/lib/$(TARGET).a
+	@cd $(OUTPUT)/lib && ln -snf $(TARGET).a.$(VERSION) $(TARGET).a
 endif	
 	@echo "Build $(TARGET_FILE) Success"
 
@@ -65,11 +63,10 @@ $(OBJDIR)/%.o:%.$(PS)
 
 install:
 	@echo "Start Install $(TARGET_FILE)"
-	@cp -f $(TARGET_FILE) /usr/lib
-ifdef VERSION	
-	@ln -sf /usr/lib/$(TARGET).a.$(VERSION) /usr/lib/$(TARGET).a
-endif	
-	@echo "Install $(TARGET_FILE) Complete"
+	@cp -ax $(OUTPUT)/lib/$(TARGET).a* $(GOHOOP_LIB_PATH)
+	@mkdir -p $(GOHOOP_INC_PATH)/$(MODULE)
+	@cp -ax $(OUT_HEADS) $(GOHOOP_INC_PATH)/$(MODULE)
+	@echo "Install $(TARGET_FILE) $(GOHOOP_LIB_PATH) Complete"
 
 clean:
 	@rm $(OUTPUT)/obj -rf

@@ -1,8 +1,8 @@
-PRONAME:=gsystem
+MODULE:=gsystem
 
 VERSION:=1.0.0
 
-TARGET:=lib$(PRONAME)
+TARGET:=lib$(MODULE)
 
 BUILD_PATH:=$(shell pwd)
 
@@ -13,10 +13,13 @@ INCLUDES:=$(BUILD_PATH)/inc \
 
 SRCDIRS:=$(BUILD_PATH)/posix/src
 
-LIBS_PATH:= 
+LIBS_PATH:=
 
 LIBS:= 
 
 SLIBS:=
 
+OUT_HEADS:=$(wildcard $(BUILD_PATH)/*.h) \
+	$(wildcard $(BUILD_PATH)/inc/*.h)
+	
 include ../shared.mk

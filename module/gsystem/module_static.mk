@@ -1,8 +1,8 @@
-PRONAME:=gsystem
+MODULE:=gsystem
 
 VERSION:=1.0.0
 
-TARGET:=lib$(PRONAME)
+TARGET:=lib$(MODULE)
 
 BUILD_PATH:=$(shell pwd)
 
@@ -17,5 +17,7 @@ LIBS_PATH:=
 LIBS:= 
 
 SLIBS:= 
+
+OUT_HEADS:=$(wildcard $(BUILD_PATH)/inc/*.h)
 
 include ../static.mk

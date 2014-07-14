@@ -1,21 +1,23 @@
-PRONAME:=gutils
+MODULE:=gutils
 VERSION:=1.0.0
-TARGET:=lib$(PRONAME)
+TARGET:=lib$(MODULE)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
+
+SUBDIRS:= \
+	gini \
+	glogger \
+	gxml
 
 INCLUDES:=
 
 LIBS_PATH:= 
 
-LIBS:= 
+LIBS:=
 
-MODULE_PATH:=$(GOHOOP_TOP)/gutils
-MODULE:= \
-	gini \
-	glogger \
-	gxml
+SLIBS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/output/lib/lib$(dir).a)
 
-SLIBS:=$(foreach module, $(MODULE), $(MODULE_PATH)/$(module)/output/lib/lib$(module).a)
+OUT_HEADS:=$(wildcard $(BUILD_PATH)/*.h) \
+	$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc/*.h)
 
 include ../shared.mk

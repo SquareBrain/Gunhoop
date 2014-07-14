@@ -1,4 +1,4 @@
-PRONAME:=gslave
+MODULE:=gslave
 TARGET:=gslave
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)

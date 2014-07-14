@@ -1,4 +1,4 @@
-PRONAME:=gmaster
+MODULE:=gmaster
 TARGET:=gmaster
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
