@@ -2,3 +2,15 @@
 
 export GOHOOP_TOP=`pwd`
 echo "GOHOOP_TOP=$GOHOOP_TOP"
+
+export GOHOOP_BIN_PATH=$GOHOOP_TOP/output/bin
+mkdir -p $GOHOOP_BIN_PATH
+echo "GOHOOP_BIN_PATH=$GOHOOP_BIN_PATH"
+
+export GOHOOP_LIB_PATH=$GOHOOP_TOP/output/lib
+mkdir -p $GOHOOP_LIB_PATH
+echo "GOHOOP_LIB_PATH=$GOHOOP_LIB_PATH"
+
+export GOHOOP_INC_PATH=$GOHOOP_TOP/output/include
+mkdir -p $GOHOOP_INC_PATH
+echo "GOHOOP_INC_PATH=$GOHOOP_INC_PATH"
