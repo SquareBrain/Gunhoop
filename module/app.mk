@@ -7,7 +7,11 @@ INCLUDES+= \
 	$(GOHOOP_TOP)/gcommon/filesys/inc \
 	$(GOHOOP_TOP)/gcommon/function/inc \
 	$(GOHOOP_TOP)/gcommon/iostream/inc \
-	$(GOHOOP_TOP)/gcommon/network/inc
+	$(GOHOOP_TOP)/gcommon/network/inc \
+	$(GOHOOP_TOP)/gutils \
+	$(GOHOOP_TOP)/gutils/gini/inc \
+	$(GOHOOP_TOP)/gutils/glogger/inc \
+	$(GOHOOP_TOP)/gutils/gxml/inc
 
 SLIBS+= 
 
