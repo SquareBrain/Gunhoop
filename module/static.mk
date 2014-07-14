@@ -47,7 +47,9 @@ ifdef VERSION
 	TARGET_FILE:=$(OUTPUT)/lib/$(TARGET).a.$(VERSION)
 endif
 
-$(TARGET):$(OBJS) 
+all:$(TARGET) install
+
+$(TARGET):$(OBJS)
 	@ar rcs $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
 ifdef VERSION
 	@cd $(OUTPUT)/lib && ln -snf $(TARGET).a.$(VERSION) $(TARGET).a

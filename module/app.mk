@@ -1,13 +1,7 @@
 INCLUDES+= \
 	$(GOHOOP_INC_PATH)/gsystem \
-	$(GOHOOP_INC_PATH)/gcommon/conf \
-	$(GOHOOP_INC_PATH)/gcommon/filesys \
-	$(GOHOOP_INC_PATH)/gcommon/function \
-	$(GOHOOP_INC_PATH)/gcommon/iostream \
-	$(GOHOOP_INC_PATH)/gcommon/network \
-	$(GOHOOP_INC_PATH)/gutils/gini \
-	$(GOHOOP_INC_PATH)/gutils/glogger \
-	$(GOHOOP_INC_PATH)/gutils/gxml
+	$(GOHOOP_INC_PATH)/gcommon \
+	$(GOHOOP_INC_PATH)/gutils
 
 SLIBS+= 
 
@@ -44,6 +38,8 @@ TARGET_FILE:=$(OUTPUT)/bin/$(TARGET)
 ifdef VERSION
 	TARGET_FILE:=$(OUTPUT)/bin/$(TARGET).$(VERSION)
 endif
+
+all:$(TARGET) install
 
 $(TARGET):$(OBJS)
 	@$(CC) $(CPPFLAGS) $(OBJS) -o $(TARGET_FILE) $(SLIB_FLAGS) $(LIB_FLAGS)

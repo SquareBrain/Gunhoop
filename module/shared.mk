@@ -47,6 +47,8 @@ ifdef VERSION
 	TARGET_FILE:=$(OUTPUT)/lib/$(TARGET).so.$(VERSION)
 endif
 
+all:$(TARGET) install
+
 $(TARGET):$(OBJS)
 	@$(CC) -shared -o $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
 ifdef VERSION
