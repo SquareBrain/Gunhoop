@@ -31,7 +31,7 @@ VPATH:=$(SRCDIRS)
 
 PS:=cpp
 CC:=g++
-CPPFLAGS+=-Wall -g -O0 -march=i686
+CPPFLAGS+=-Wall -g -O0 -march=i686 -std=gnu++0x
 CPPFLAGS+=$(addprefix -I, $(INCLUDES))
 CPPFLAGS+=$(addprefix -D, $(PRE_DEFINED))
 
