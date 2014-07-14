@@ -4,15 +4,14 @@
 *
 ************************************************************************************/
 /**
-* @file		g_ini.h
+* @file		g_utils.h
 * @version     
 * @brief      
 * @author   duye
-* @date     2013-11-15
+* @date     2014-07-14
 * @note 
 *
-*  2. 2014-06-24 duye Migration to Gohoop project
-*  1. 2013-11-15 duye Created this file
+*  1. 2014-07-14 duye Created this file
 * 
 */
 #pragma once

@@ -22,13 +22,13 @@ using namespace GCommon;
 
 
 
-FileInputStream::FileInputStream(tr1::shared_ptr<GFile> file)
+FileInputStream::FileInputStream(shared_ptr<GFile> file)
 	: m_file(file)
 {
 }
 
 FileInputStream::FileInputStream(const string filepath)
-	: m_file((tr1::shared_ptr<GFile>(new GFile(filepath.c_str()))))
+	: m_file((shared_ptr<GFile>(new GFile(filepath.c_str()))))
 {
 	m_file->openFile(ONLY_READ);
 }
@@ -103,7 +103,7 @@ GInt64 FileInputStream::skip(GInt64 lNum)
 	return 0;
 }
 
-std::tr1::shared_ptr<GFile> FileInputStream::GetFile()
+std::shared_ptr<GFile> FileInputStream::GetFile()
 {
 	return m_file;
 }
