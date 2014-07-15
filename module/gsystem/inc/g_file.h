@@ -55,6 +55,15 @@ public:
      * @note 
      */	
     static GResult createFile(const GInt8* filePath); 
+
+    /**
+     * @brief create file
+     * @param [in] filePath : file path
+     * @param [in] initSize : file initialization size
+     * @return G_YES/G_NO
+     * @note 
+     */	
+    static GResult createFile(const GInt8* filePath, const GUint64& initSize);     
 };
 
 /** 

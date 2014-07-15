@@ -35,6 +35,11 @@ GResult GFileUtil::createFile(const GInt8* filePath)
     return G_NO;
 }
 
+GResult GFileUtil::createFile(const GInt8* filePath, const GUint64& initSize)
+{
+    return G_NO;
+}
+
 GFile::GFile() : m_fd(-1), m_flags(0), m_pathLen(0)
 {
     m_error[0] = 0;
