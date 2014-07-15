@@ -26,11 +26,21 @@
  */
 typedef enum
 {
-    ONLY_READ = 1,
-    ONLY_WRITE = 2,
-    READ_WRITE = 4,
-    OPEN_APPEND = 8
+    G_OPEN_READ = 1,
+    G_OPEN_WRITE = 2,
+    G_OPEN_RDWR = 4,
+    G_OPEN_APPEND = 8
 } OpenFlags;
+
+/** 
+ * seek flags
+ */
+typedef enum
+{
+    G_SEEK_BEG = 1,
+    G_SEEK_CUR,
+    G_SEEK_END
+} SeekFlags;
 
 /** 
  * file utility
@@ -95,6 +105,15 @@ public:
      * @note 
      */			
 	GInt64 getFileSize();
+
+    /**
+     * @brief set file seek
+     * @param [in] offset : offset
+	 * @param [in] flags : G_SEEK_BEG,G_SEEK_CUR,G_SEEK_END  
+     * @return offset/G_NO
+     * @note 
+     */			
+	GInt64 setSeek(const GUint64 offset, const SeekFlags& flags);	
 	
     /**
      * @brief read file

@@ -86,19 +86,19 @@ GResult GFile::setFilePath(const GInt8* filePath)
 GResult GFile::openFile(const GUint64 flags)
 {
     GInt32 openFlags = 0;
-    if (flags | ONLY_READ)
+    if (flags | G_OPEN_READ)
     {
         openFlags = O_RDONLY;
     }
-    else if (flags | ONLY_WRITE)
+    else if (flags | G_OPEN_WRITE)
     {
         openFlags = O_WRONLY | O_CREAT;
     }
-    else if (flags | READ_WRITE)
+    else if (flags | G_OPEN_RDWR)
     {
         openFlags = O_RDWR | O_CREAT;        
     }
-    else if (flags | OPEN_APPEND)
+    else if (flags | G_OPEN_APPEND)
     {
         if (openFlags == 0)
         {
@@ -143,6 +143,35 @@ GInt64 GFile::getFileSize()
     }    
 
     return (GInt64)(m_fileStat.st_size);
+}
+
+GInt64 GFile::setSeek(const GUint64 offset, const SeekFlags& flags)
+{
+    if (m_fd <= 0)
+    {
+        setError("file don't open");
+        return G_NO;
+    }  
+
+    GInt32 sysFlags = -1;
+    
+    switch(flags)
+    {
+    case G_SEEK_BEG:
+        sysFlags = SEEK_SET;
+        break;
+    case G_SEEK_CUR:
+        sysFlags = SEEK_CUR;
+        break;
+    case G_SEEK_END:
+        sysFlags = SEEK_END;
+        break;
+    default:
+        return G_NO;
+        break;
+    }
+    
+    return lseek(m_fd, offset, sysFlags);
 }
 
 GInt64 GFile::readFile(GInt8* buffer, const GUint64 size)
