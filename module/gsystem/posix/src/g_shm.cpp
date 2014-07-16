@@ -97,7 +97,7 @@ GResult GShm::write(const GUint32 offset, const GInt8* data, const GUint32 lengt
     return G_YES;        
 }
 
-GResult GShm::readShm(const GUint32 offset, GInt8* buffer, const GUint32 size)
+GResult GShm::read(const GUint32 offset, GInt8* buffer, const GUint32 size)
 {
     if (!m_initFlags)
     {
@@ -142,7 +142,7 @@ GResult GShm::init()
         return SHM_PATH_EMPTY;
     }
     
-    GInt32 fd = open(m_shmPath, O_RDWR | O_CREAT);
+    GInt32 fd = ::open(m_shmPath, O_RDWR | O_CREAT);
     if (fd < 0)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "open GShm file failed");
