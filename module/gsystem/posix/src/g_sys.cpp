@@ -19,17 +19,17 @@
 #include <stdarg.h>
 #include <g_sys.h>
 
-void GSys::gsleep(const GUint64 time)
+void GSys::sleep(const GUint64 time)
 {
-    sleep(time);
+    ::sleep(time);
 }
 
-void GSys::gusleep(const GUint64 time)
+void GSys::usleep(const GUint64 time)
 {
-    usleep(time);
+    ::usleep(time);
 }
 
-GUint64 GSys::gvsnprintf(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
+GUint64 GSys::format(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
 {
     va_list vaList;
 	va_start(vaList, args);
