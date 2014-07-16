@@ -3,14 +3,13 @@ TARGET:=$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
 
-INCLUDES:=$(GOHOOP_TOP)/gutils/logger/inc
+INCLUDES:=
 
 SRCDIRS:=$(BUILD_PATH)
 
-LIBS_PATH:=$(GOHOOP_TOP)/gutils/output/lib \
-	$(GOHOOP_TOP)/gcommon/output/lib
+LIBS_PATH:=
 
-LIBS:=gutils gcommon pthread dl
+LIBS:=gutils
 
 SLIBS:=
 

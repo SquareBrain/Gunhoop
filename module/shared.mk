@@ -13,7 +13,7 @@ SLIBS+=
 
 LIBS+= 
 
-LIBS_PATH+=
+LIBS_PATH+=$(GOHOOP_LIB_PATH)
 
 PRE_DEFINED+=
 
@@ -50,7 +50,7 @@ endif
 all:$(TARGET) install
 
 $(TARGET):$(OBJS)
-	@$(CC) -shared -o $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
+	$(CC) -shared -o $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
 ifdef VERSION
 	@cd $(OUTPUT)/lib && ln -snf $(TARGET).so.$(VERSION) $(TARGET).so
 endif	

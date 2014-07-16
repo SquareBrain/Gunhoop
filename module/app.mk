@@ -5,11 +5,11 @@ INCLUDES+= \
 
 SLIBS+= 
 
-LIBS+= 
+LIBS+=pthread dl 
 
 LIBS_PATH+= 
 
-PRE_DEFINED+=
+PRE_DEFINED+=$(GOHOOP_LIB_PATH)
 
 #create dir
 OUTPUT:=$(BUILD_PATH)/output
@@ -42,7 +42,7 @@ endif
 all:$(TARGET) install
 
 $(TARGET):$(OBJS)
-	@$(CC) $(CPPFLAGS) $(OBJS) -o $(TARGET_FILE) $(SLIB_FLAGS) $(LIB_FLAGS)
+	$(CC) $(CPPFLAGS) $(OBJS) -o $(TARGET_FILE) $(SLIB_FLAGS) $(LIB_FLAGS)
 	@echo "Build $(TARGET_FILE) Success"
 
 $(OBJDIR)/%.o:%.$(PS)
