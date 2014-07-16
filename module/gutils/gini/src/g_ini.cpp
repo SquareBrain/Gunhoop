@@ -50,23 +50,23 @@ GResult GIniFile::loadFile(const std::string& filePath)
     m_filePath = filePath;
 
     GFile file(m_filePath.c_str());
-    if (file.openFile(ONLY_READ) != G_YES)
+    if (file.open(G_OPEN_READ) != G_YES)
     {
         setError("open file failed");
         return G_NO;
     }
 
-    GInt64 fileSize = file.getFileSize();
+    GInt64 fileSize = file.getSize();
     if (fileSize <= 0)
     {   
-        file.closeFile();
+        file.close();
         setError("file is empty");
         return G_NO;
     }
     
     GInt8* buffer = new GInt8[fileSize + 1];
-    GInt64 readSize = file.readFile(buffer, fileSize);
-    file.closeFile();
+    GInt64 readSize = file.read(buffer, fileSize);
+    file.close();
     
     if (readSize != fileSize)
     {
@@ -217,13 +217,13 @@ GResult GIniFile::saveFile(const std::string& filePath)
     tmpBuf[bufPos] = 0;
 
     GFile file(m_filePath.c_str());
-    if (file.openFile(ONLY_WRITE) != G_YES)
+    if (file.open(G_OPEN_WRITE) != G_YES)
     {
         return G_NO;
     }    
 
-    GUint64 writeBytes = file.writeFile(tmpBuf, bufPos);
-    file.closeFile();
+    GUint64 writeBytes = file.write(tmpBuf, bufPos);
+    file.close();
     
     if (writeBytes != bufPos)
     {
@@ -336,5 +336,5 @@ GResult GIniFile::getOneLine(const GInt8* data,
 
 void GIniFile::setError(const char *args,...)
 {
-   GSys::gvsnprintf(m_error, G_ERROR_BUF_SIZE, args);
+   GSys::format(m_error, G_ERROR_BUF_SIZE, args);
 }

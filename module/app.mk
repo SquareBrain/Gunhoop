@@ -53,10 +53,12 @@ $(OBJDIR)/%.o:%.$(PS)
 .IGNORE:clean cleanall
 
 install:
+ifdef VERSION
 	@echo "Start Install $(TARGET_FILE)"
 	@mkdir -p $(GOHOOP_BIN_PATH)/$(MODULE)
 	@cp -ax $(OUTPUT)/bin/$(TARGET) $(GOHOOP_BIN_PATH)/$(MODULE)
 	@echo "Install $(TARGET_FILE) $(GOHOOP_BIN_PATH)/$(TARGET) Complete"
+endif
 
 clean:
 	@rm $(OUTPUT)/obj -rf

@@ -103,7 +103,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
     }
 
     // add log content
-    pos += GSys::gvsnprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, args);
+    pos += GSys::format(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, args);
 
     // add word wrap
     if (m_globalRule.isWordWrap())
@@ -134,7 +134,7 @@ GResult GLoggerImpl::findModuleRule(const std::string& moduleName, ModuleRule*& 
 
 void GLoggerImpl::setError(const GInt8* args, ...)
 {
-    GSys::gvsnprintf(m_error, G_ERROR_BUF_SIZE, args);
+    GSys::format(m_error, G_ERROR_BUF_SIZE, args);
 }
 
 GlobalRule::GlobalRule() : m_fileSize(0), m_fileCount(0), m_isWordWrap(true)

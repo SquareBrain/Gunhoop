@@ -64,11 +64,13 @@ $(OBJDIR)/%.o:%.$(PS)
 .IGNORE:clean cleanall
 
 install:
+ifdef VERSION
 	@echo "Start Install $(TARGET_FILE)"
 	@cp -ax $(OUTPUT)/lib/$(TARGET).a* $(GOHOOP_LIB_PATH)
 	@mkdir -p $(GOHOOP_INC_PATH)/$(MODULE)
 	@cp -ax $(OUT_HEADS) $(GOHOOP_INC_PATH)/$(MODULE)
 	@echo "Install $(TARGET_FILE) $(GOHOOP_LIB_PATH) Complete"
+endif
 
 clean:
 	@rm $(OUTPUT)/obj -rf
