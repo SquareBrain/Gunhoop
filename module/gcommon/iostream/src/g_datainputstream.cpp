@@ -140,10 +140,29 @@ GUint64 DataInputStream::readUnsignedLong()
 
 void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen)
 {
+	readFully(pBuffer, iBufferLen, 0, iBufferLen);
 }
 
 void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, GInt32 iLen)
 {
+	if (!pBuffer ||
+		iBufferLen < 0 ||
+		iOff < 0 ||
+		iLen < 0)
+	{
+		return;
+	}
+
+	while (iLen > 0)
+	{
+		GInt32 iNumRead = read(pBuffer, iBufferLen, iOff, iLen);
+		if (iNumRead < 0)
+		{
+			return;
+		}
+		iLen -= iNumRead;
+		iOff += iNumRead;
+	}
 }
 
 GInt32 DataInputStream::skipBytes(GInt32 iNum)
