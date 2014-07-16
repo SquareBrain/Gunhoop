@@ -22,8 +22,6 @@
 #include <g_filterinputstream.h>
 #include <g_datainput.h>
 
-
-
 G_NS_GCOMMON_BEG
 
 class DataInputStream : public FilterInputStream, public DataInput
@@ -45,8 +43,6 @@ public:
 	virtual void readFully(GInt8* pBuffer, GInt32 iBufferLen);
 	virtual void readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, GInt32 iLen);
 
-	virtual GInt32 skipBytes(GInt32 iNum);
-
 private:
 	GInt32 readToBuff(int count);
 
@@ -59,5 +55,4 @@ private:
 };
 
 G_NS_END
-
 

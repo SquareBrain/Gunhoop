@@ -165,8 +165,3 @@ void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, 
 	}
 }
 
-GInt32 DataInputStream::skipBytes(GInt32 iNum)
-{
-	return 0;
-}
-
