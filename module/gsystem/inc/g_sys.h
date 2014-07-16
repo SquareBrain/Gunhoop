@@ -34,14 +34,14 @@ public:
 	 * @param [in] time : second
      * @note 
      */		
-    static void gsleep(const GUint64 time);
+    static void sleep(const GUint64 time);
  
     /**
      * @brief usleep
 	 * @param [in] time : millisecond
      * @note 
      */		
-    static void gusleep(const GUint64 time);
+    static void usleep(const GUint64 time);
 
     /**
      * @brief usleep
@@ -51,5 +51,5 @@ public:
 	 * @return string size
      * @note 
      */		
-    static GUint64 gvsnprintf(GInt8* buffer, const GUint64 size, const GInt8* args, ...);    
+    static GUint64 format(GInt8* buffer, const GUint64 size, const GInt8* args, ...);    
 };
