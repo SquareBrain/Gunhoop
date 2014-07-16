@@ -50,7 +50,7 @@ bool InputStream::markSupported()
 
 GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen)
 {
-	return read(pBuffer, iBufferLen, 0, iBufferLen);
+	return this->read(pBuffer, iBufferLen, 0, iBufferLen);
 }
 
 GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen)
@@ -68,7 +68,7 @@ GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GIn
 		return 0;
 	}
 
-	GInt32 iChar = read();
+	GInt32 iChar = this->read();
 	if (iChar == -1)
 	{
 		return -1;

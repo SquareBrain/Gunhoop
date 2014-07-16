@@ -55,11 +55,6 @@ GInt32 FileInputStream::read()
 	return  this->read(pBuffer, 1);
 }
 
-GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen)
-{
-	return this->read(pBuffer, iBufferLen, 0, iBufferLen);
-}
-
 GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen)
 {
 	if (openCheck() == G_NO)
@@ -96,10 +91,11 @@ GInt64 FileInputStream::skip(GInt64 lNum)
 	}
 	if (lNum  < 0)
 	{
-		return -1;
+		return -3;
 	}
 
 	// TODO: GFile
+	m_file->seek(lNum, G_SEEK_CUR);
 	return 0;
 }
 
@@ -111,6 +107,6 @@ shared_ptr<GFile> FileInputStream::GetFile()
 GResult FileInputStream::openCheck()
 {
 	// TODO: GFile
-	return G_NO;
+	return G_YES;
 }
 
