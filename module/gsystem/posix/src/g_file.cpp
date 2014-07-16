@@ -21,24 +21,30 @@
 #include <g_file.h>
 
 // default create GFile permissions
-static const GUint32 G_CREATE_MODE = 0x775;
+static const GUint32 G_FILE_MASK = 0x775;
 
 GResult GFileUtil::createFile(const GInt8* filePath)
 {
-    GInt32 fd = creat(filePath, G_CREATE_MODE);
-    if (fd != -1)
-    {
-        ::close(fd);
-        return G_YES;
-    }
-    
-    return G_NO;
+    return createFile(filePath, 0);
 }
 
 GResult GFileUtil::createFile(const GInt8* filePath, const GUint64& initSize)
 {
+    GInt32 fd = ::creat(filePath, G_FILE_MASK);
+    if (fd == -1)
+    {
+        return G_NO;
+    }
+
+    if (ftruncate(fd, initSize) == -1)
+    {
+        ::close(fd);
+        return G_NO;
+    }
     
-    return G_NO;
+    ::close(fd);
+    
+    return G_YES;
 }
 
 GFile::GFile() : m_fd(-1), m_flags(0), m_pathLen(0)
@@ -91,6 +97,11 @@ GResult GFile::setPath(const GInt8* filePath)
 
 GResult GFile::open(const GUint64 flags)
 {
+    return open(flags, G_FILE_MASK);          
+}
+
+GResult GFile::open(const GUint64 flags, const GInt32 mode)
+{
     GInt32 openFlags = 0;
     if (flags | G_OPEN_READ)
     {
@@ -120,7 +131,7 @@ GResult GFile::open(const GUint64 flags)
         return G_NO;
     }
     
-    return orgOpen(openFlags, G_CREATE_MODE);          
+    return orgOpen(openFlags, mode);          
 }
 
 GResult GFile::close()

@@ -100,6 +100,15 @@ public:
 	GResult open(const GUint64 flags);
 
     /**
+     * @brief open file for reading
+     * @param [in] flags : open mode flags
+     * @param [in] mode : permission
+     * @return G_YES/G_NO
+     * @note 
+     */		
+	GResult open(const GUint64 flags, const GInt32 mode);	
+
+    /**
      * @brief close file
      * @return G_YES/G_NO
      * @note 
