@@ -30,7 +30,7 @@ FileInputStream::FileInputStream(shared_ptr<GFile> file)
 FileInputStream::FileInputStream(const string filepath)
 	: m_file((shared_ptr<GFile>(new GFile(filepath.c_str()))))
 {
-	m_file->openFile(ONLY_READ);
+	m_file->open(G_OPEN_READ);
 }
 
 FileInputStream::~FileInputStream()
@@ -45,7 +45,7 @@ GInt32 FileInputStream::available()
 
 void FileInputStream::close()
 {
-	// m_file->closeFile();
+	// m_file->close();
 	// do nothing
 }
 
@@ -80,7 +80,7 @@ GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset,
 		return 0;
 	}
 
-	return m_file->readFile(pBuffer, iLen);
+	return m_file->read(pBuffer + iOffset, iLen);
 }
 
 GInt64 FileInputStream::skip(GInt64 lNum)
@@ -103,7 +103,7 @@ GInt64 FileInputStream::skip(GInt64 lNum)
 	return 0;
 }
 
-std::shared_ptr<GFile> FileInputStream::GetFile()
+shared_ptr<GFile> FileInputStream::GetFile()
 {
 	return m_file;
 }
