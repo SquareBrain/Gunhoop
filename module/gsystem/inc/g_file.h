@@ -89,7 +89,7 @@ public:
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult setFilePath(const GInt8* filePath);
+	GResult setPath(const GInt8* filePath);
 	
     /**
      * @brief open file for reading
@@ -97,14 +97,14 @@ public:
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult openFile(const GUint64 flags);
+	GResult open(const GUint64 flags);
 
     /**
      * @brief close file
      * @return G_YES/G_NO
      * @note 
      */		
-    GResult closeFile();
+    GResult close();
     
     /**
      * @brief get file size
@@ -113,7 +113,7 @@ public:
      * @return size/G_NO
      * @note 
      */			
-	GInt64 getFileSize();
+	GInt64 getSize();
 
     /**
      * @brief set file seek
@@ -122,7 +122,7 @@ public:
      * @return offset/G_NO
      * @note 
      */			
-	GInt64 setSeek(const GUint64 offset, const SeekFlags& flags);	
+	GInt64 seek(const GUint64 offset, const SeekFlags& flags);	
 	
     /**
      * @brief read file
@@ -131,7 +131,7 @@ public:
      * @return size/G_NO
      * @note 
      */			
-	GInt64 readFile(GInt8* buffer, const GUint64 size);
+	GInt64 read(GInt8* buffer, const GUint64 size);
 
     /**
      * @brief write file
@@ -140,7 +140,7 @@ public:
      * @return size/G_NO
      * @note 
      */		
-	GInt64 writeFile(const GInt8* data, const GUint64 length);
+	GInt64 write(const GInt8* data, const GUint64 length);
 
     /**
      * @brief get last error string
@@ -149,7 +149,7 @@ public:
      * @return G_YES/G_NO
      * @note 
      */		
-	GResult getLastError(GInt8* error, const GUint32 size);	
+	GInt8* getError();	
 
 private:
     /**
