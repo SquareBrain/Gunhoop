@@ -28,7 +28,7 @@ GResult GFileUtil::createFile(const GInt8* filePath)
     GInt32 fd = creat(filePath, G_CREATE_MODE);
     if (fd != -1)
     {
-        close(fd);
+        ::close(fd);
         return G_YES;
     }
     
@@ -61,7 +61,7 @@ GFile::GFile(const GInt8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
 
 GFile::~GFile() 
 {
-    closeFile();
+    close();
 }
 
 GResult GFile::setPath(const GInt8* filePath)
@@ -248,5 +248,5 @@ GResult GFile::orgOpen(const GInt32 flags, const GUint32 mode)
 
 void GFile::setError(const GInt8* args, ...)
 {
-	GSys::gvsnprintf(m_error, G_ERROR_BUF_SIZE, args);
+	GSys::format(m_error, G_ERROR_BUF_SIZE, args);
 }

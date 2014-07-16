@@ -34,7 +34,7 @@ bool GPipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
         }
     }    
 
-    m_pipefd = open(pipeName, mode);
+    m_pipefd = ::open(pipeName, mode);
     if (m_pipefd == -1)
     {
         //G_LOG_ERROR(G_LOG_PREFIX, "open GPipe '%s' failed", GPipeName);

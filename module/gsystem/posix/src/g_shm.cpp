@@ -28,7 +28,7 @@ GShm::GShm() : m_shmSize(0), m_shmAddr(NULL), m_initFlags(false)
 GShm::GShm(const GInt8* shmPath, const GUint64 shmSize) 
     : m_shmSize(shmSize), m_shmAddr(NULL), m_initFlags(false)
 {
-    setShmPath(shmPath);
+    setPath(shmPath);
     init();
 }
 

@@ -39,7 +39,7 @@ public:
 	 * @return true/false
      * @note 
      */			
-	virtual bool openGPipe(const GInt8* pipeName) = 0;
+	virtual bool open(const GInt8* pipeName) = 0;
 
 protected:
     /**
@@ -73,7 +73,7 @@ public:
 	 * @return true/false
      * @note 
      */			
-	virtual bool openPipe(const GInt8* pipeName);	
+	virtual bool open(const GInt8* pipeName);	
 	
     /**
      * @brief Write data to pipe
@@ -82,7 +82,7 @@ public:
 	 * @return size/-1
      * @note 
      */		
-	GInt64 writeData(const GInt8* data, const GUint64 length);
+	GInt64 write(const GInt8* data, const GUint64 length);
 	
 private:
     /**
@@ -113,7 +113,7 @@ public:
 	 * @return true/false
      * @note 
      */    
-    virtual bool openPipe(const GInt8* pipeName);
+    virtual bool open(const GInt8* pipeName);
 
     /**
      * @brief read data from pipe
@@ -122,7 +122,7 @@ public:
 	 * @return size/-1
      * @note 
      */  	
-	GInt64 readData(GInt8* buffer, const GUint64 size);  
+	GInt64 read(GInt8* buffer, const GUint64 size);  
 
 private:
     /**

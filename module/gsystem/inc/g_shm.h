@@ -86,35 +86,21 @@ public:
 	 * @param [in] shmPath : shm mapping file path     
      * @note 
      */	
-    void setShmPath(const GInt8* shmPath);
-
-    /**
-     * @brief set shm mapping file path
-	 * @return shm mapping file path   
-     * @note 
-     */	
-    GInt8* getShmPath();
+    void setPath(const GInt8* shmPath);
 
     /**
      * @brief set shm mapping file size
      * @param [in] shmSize : shm size  
      * @note 
      */		
-    void setShmSize(const GUint64 shmSize);
-
-    /**
-     * @brief get shm mapping file size
-     * @return shm mapping file size   
-     * @note 
-     */	    
-    GUint64 getShmSize() const;    
+    void setSize(const GUint64 shmSize);
    
     /**
      * @brief sync the shm
      * @return G_YES/G_NO  
      * @note 
      */	
-    GResult syncShm();
+    GResult sync();
    
     /**
      * @brief write data to shm
@@ -124,7 +110,7 @@ public:
      * @return G_YES/G_NO  
      * @note 
      */		
-    GResult writeShm(const GUint32 offset, const GInt8* data, const GUint32 length);
+    GResult write(const GUint32 offset, const GInt8* data, const GUint32 length);
 
     /**
      * @brief read data from shm
@@ -134,7 +120,7 @@ public:
      * @return G_YES/G_NO  
      * @note 
      */	
-    GResult readShm(const GUint32 offset, GInt8* buffer, const GUint32 size);
+    GResult read(const GUint32 offset, GInt8* buffer, const GUint32 size);
 
 private:
     /**
