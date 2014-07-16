@@ -24,12 +24,12 @@ GLibrary::~GLibrary()
 {
 }
 
-void* GLibrary::openLib(const GInt8* libFilePath, const GInt32 flags)
+void* GLibrary::open(const GInt8* libFilePath, const GInt32 flags)
 {
     return dlopen(libFilePath, flags);
 }
 
-bool GLibrary::closeLib(void* handle)
+bool GLibrary::close(void* handle)
 {
     return dlclose(handle) == 0 ? true : false;    
 }
