@@ -8,9 +8,10 @@ BUILD_PATH:=$(shell pwd)
 
 PRE_DEFINED:=
 
-INCLUDES:=
+INCLUDES:=$(BUILD_PATH)/inc \
+	$(BUILD_PATH)/posix/inc
 
-SRCDIRS:=
+SRCDIRS:=$(BUILD_PATH)/posix/src
 
 LIBS_PATH:= 
 
@@ -18,6 +19,7 @@ LIBS:=
 
 SLIBS:= 
 
-OUT_HEADS:=$(wildcard $(BUILD_PATH)/inc/*.h)
+OUT_HEADS:=$(wildcard $(BUILD_PATH)/*.h) \
+	$(wildcard $(BUILD_PATH)/inc/*.h)
 
 include ../static.mk

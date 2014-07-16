@@ -15,7 +15,7 @@ LIBS_PATH:=
 
 LIBS:= 
 
-SLIBS:=
+SLIBS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/output/lib/lib$(dir).a)
 
 OUT_HEADS:=$(wildcard $(BUILD_PATH)/*.h) \
 	$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc/*.h)

@@ -11,7 +11,7 @@ INCLUDES+= \
 	
 LIBS+= 
 
-LIBS_PATH+=$(GOHOOP_LIB_PATH)
+LIBS_PATH+=
 
 SLIBS+=
 
@@ -50,7 +50,7 @@ endif
 all:$(TARGET) install
 
 $(TARGET):$(OBJS)
-	ar rcs $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
+	@ar rcs $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
 ifdef VERSION
 	@cd $(OUTPUT)/lib && ln -snf $(TARGET).a.$(VERSION) $(TARGET).a
 endif	
