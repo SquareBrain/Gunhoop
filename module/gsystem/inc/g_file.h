@@ -122,7 +122,7 @@ public:
      * @return offset/G_NO
      * @note 
      */			
-	GInt64 seek(const GUint64 offset, const SeekFlags& flags);	
+	GInt64 seek(const GInt64 offset, const SeekFlags& flags);	
 	
     /**
      * @brief read file

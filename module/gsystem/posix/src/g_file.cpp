@@ -37,6 +37,7 @@ GResult GFileUtil::createFile(const GInt8* filePath)
 
 GResult GFileUtil::createFile(const GInt8* filePath, const GUint64& initSize)
 {
+    
     return G_NO;
 }
 
@@ -150,7 +151,7 @@ GInt64 GFile::getSize()
     return (GInt64)(m_fileStat.st_size);
 }
 
-GInt64 GFile::seek(const GUint64 offset, const SeekFlags& flags)
+GInt64 GFile::seek(const GInt64 offset, const SeekFlags& flags)
 {
     if (m_fd <= 0)
     {
