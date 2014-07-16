@@ -17,8 +17,9 @@
 
 #include <g_inputstream.h>
 
+using namespace GCommon;
 
-G_NS_GCOMMON_BEG
+
 
 GInt8 InputStream::ms_szSkipBuffer[SKIP_BUFFER_SIZE] ={0};
 
@@ -111,5 +112,3 @@ GInt64 InputStream::skip(GInt64 lNum)
 
 	return lNum - lRemaining;	
 }
-
-G_NS_END
