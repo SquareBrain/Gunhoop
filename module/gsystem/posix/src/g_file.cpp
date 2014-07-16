@@ -150,7 +150,7 @@ GInt64 GFile::getSize()
     return (GInt64)(m_fileStat.st_size);
 }
 
-GInt64 GFile::setSeek(const GUint64 offset, const SeekFlags& flags)
+GInt64 GFile::seek(const GUint64 offset, const SeekFlags& flags)
 {
     if (m_fd <= 0)
     {
@@ -176,7 +176,7 @@ GInt64 GFile::setSeek(const GUint64 offset, const SeekFlags& flags)
         break;
     }
     
-    return lseek(m_fd, offset, sysFlags);
+    return ::lseek(m_fd, offset, sysFlags);
 }
 
 GInt64 GFile::read(GInt8* buffer, const GUint64 size)
@@ -193,10 +193,10 @@ GInt64 GFile::read(GInt8* buffer, const GUint64 size)
         return G_NO;
     }
     
-    return read(m_fd, buffer, size);
+    return ::read(m_fd, buffer, size);
 }
 
-GInt64 GFile::writeFile(const GInt8* data, const GUint64 length)
+GInt64 GFile::write(const GInt8* data, const GUint64 length)
 {
     if (data == NULL || length <= 0)
     {
@@ -210,15 +210,12 @@ GInt64 GFile::writeFile(const GInt8* data, const GUint64 length)
         return G_NO;
     }
     
-    return write(m_fd, data, length);
+    return ::write(m_fd, data, length);
 }
 
-GResult GFile::getError(GInt8* error, const GUint32 size)
+GInt8* GFile::getError()
 {
-    GUint32 len = (size <= strlen(m_error) ? size - 1 : strlen(m_error));
-    memcpy(error, m_error, len); 
-    error[len] = 0;
-    return G_YES;
+    return m_error;
 }
 
 GResult GFile::orgOpen(const GInt32 flags, const GUint32 mode)
@@ -235,7 +232,7 @@ GResult GFile::orgOpen(const GInt32 flags, const GUint32 mode)
         return G_NO;   
     }
     
-    m_fd = open(m_path, flags, mode);
+    m_fd = ::open(m_path, flags, mode);
     if (m_fd > 0)
     {
         m_flags = flags;
