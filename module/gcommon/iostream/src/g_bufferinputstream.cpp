@@ -15,8 +15,10 @@
 * 
 */
 
+#include <algorithm>
 #include <g_bufferinputstream.h>
 
+using namespace std;
 using namespace GCommon;
 
 
@@ -126,7 +128,7 @@ GInt32 BufferInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffse
 		return 0;
 	}
 	
-	GInt32 iNum = m_iCount - m_iPos > iLen ? iLen : m_iCount - m_iPos;
+	GInt32 iNum = min(m_iCount - m_iPos, iLen);
 	memcpy(pBuffer + iOffset, m_pBuffer + m_iPos, iNum);
 	m_iPos += iNum;
 	return iNum;
@@ -143,7 +145,7 @@ GInt64 BufferInputStream::skip(GInt64 lNum)
 	{
 		lNum = 0L;
 	}
-	GInt64 lRet = m_iCount - m_iPos > lNum ? lNum : m_iCount - m_iPos;
+	GInt64 lRet = min(static_cast<GInt64>(m_iCount - m_iPos), lNum);
 	m_iPos += lRet;
 	return lRet;
 }
