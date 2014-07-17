@@ -40,16 +40,6 @@ typedef int                 GResult;
 #define G_ASSERT(x)			assert(x)
 
 /** 
- * @brief result variable for successed
- */
-#define G_YES				0
-
-/** 
- * @brief result variable for failed
- */
-#define G_NO				-1
-
-/** 
  * @brief limits number for path max length
  */
 #define G_PATH_MAX			512
