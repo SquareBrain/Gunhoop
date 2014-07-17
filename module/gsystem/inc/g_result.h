@@ -31,14 +31,16 @@
 /** 
  * base error code
  */
-#define G_ERROR_BASE       -100
+#define G_ERROR_GENERAL_BASE                -1000
+#define G_ERROR_SYSTEM_BASE                 -2000
+#define G_ERROR_COMMON_BASE                 -3000
 
 /** 
  * general error code
  */
-#define G_ERROR_BASE       -100
+#define G_ERROR_INVALID_PARAMETERS          (G_ERROR_GENERAL_BASE - 1)
 
 /** 
  * gsystem error code
  */
-#define GSYSTEM_ERROR_BASE       (GOHOOP_ERROR_BASE -  
+#define G_ERROR_NO_FILE                     (G_ERROR_SYSTEM_BASE - 1)
