@@ -27,7 +27,7 @@
 #include <unistd.h>
 #include <g_type.h>
 
-#define synchronized(mtx)	for(GInt32 i = 0; i < 1; i ++)for(GAutoLock lock(mtx); i < 1;)
+#define synchronized(mtx)	for(GInt32 i = 0; i < 1; i++)for(GAutoLock lock(mtx); i < 1;)
 
 /** 
  * @brief POSIX GMutex wrapper
@@ -49,7 +49,7 @@ public:
      */		
 	explicit GMutex(const GInt32 kind);
 	
-	~GMutex();
+	virtual ~GMutex();
 	
     /**
      * @brief lock GMutex, enter to awaited state
@@ -63,7 +63,7 @@ public:
      * @return true/false
      * @note 
      */		
-	bool GTryLock();
+	bool tryLock();
 	
     /**
      * @brief release lock
@@ -91,7 +91,6 @@ private:
 private:
 	pthread_mutex_t	m_mutex;	
 };
-
 
 /** 
  * @brief original lock wrapper
