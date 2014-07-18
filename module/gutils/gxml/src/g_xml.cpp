@@ -18,44 +18,31 @@
 */ 
 #include <g_xml.h>
 
+GXmlAttribute::GXmlAttribute(const std::string& name, const std::string& value)
+    : m_name(name), m_value(value)
+{
+}
 
-/*----------------------------------------------------------------------
-|   includes
-+---------------------------------------------------------------------*/
-#include "NptConfig.h"
-#include "NptTypes.h"
-#include "NptXml.h"
-#include "NptUtils.h"
-#include "NptMap.h"
-#include "NptDebug.h"
+GXmlAttribute::~GXmlAttribute()
+{
+}
 
-/*----------------------------------------------------------------------
-|   local compilation flags
-+---------------------------------------------------------------------*/
-//#define NPT_XML_PARSER_DEBUG
-#ifdef NPT_XML_PARSER_DEBUG
-#define NPT_XML_Debug_0(s) NPT_Debug(s)
-#define NPT_XML_Debug_1(s,x0) NPT_Debug(s,x0)
-#define NPT_XML_Debug_2(s,x0,x1) NPT_Debug(s,x0,x1)
-#define NPT_XML_Debug_3(s,x0,x1,x2) NPT_Debug(s,x0,x1,x2)
-#define NPT_XML_Debug_4(s,x0,x1,x2,x3) NPT_Debug(s,x0,x1,x2,x3)
-#else
-#define NPT_XML_Debug_0(s)
-#define NPT_XML_Debug_1(s,x0)
-#define NPT_XML_Debug_2(s,x0,x1)
-#define NPT_XML_Debug_3(s,x0,x1,x2)
-#define NPT_XML_Debug_4(s,x0,x1,x2,x3)
-#endif
+const std::string& GXmlAttribute::getName() const
+{
+    return m_name;
+}   
 
-/*----------------------------------------------------------------------
-|   constants
-+---------------------------------------------------------------------*/
-static const NPT_String 
-NPT_XmlNamespaceUri_Xml("http://www.w3.org/XML/1998/namespace");
+void GXmlAttribute::setValue(const std::string& value)
+{
+    m_value = value;
+}
 
-/*----------------------------------------------------------------------
-|   NPT_XmlAttributeFinder
-+---------------------------------------------------------------------*/
+const std::string& GXmlAttribute::getValue() const
+{
+    return m_value;
+}
+
+
 class NPT_XmlAttributeFinder
 {
 public:

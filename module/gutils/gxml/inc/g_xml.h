@@ -36,14 +36,16 @@ class GXmlAttribute
  public:
     GXmlAttribute(const std::string& name, const std::string& value);
     ~GXmlAttribute();
-    const std::string& getName();
+    const std::string& getName() const;
     void setValue(const std::string& value);
-    const std::string& getValue();
+    const std::string& getValue() const;
     
  private:
     std::string     m_name;
     std::string     m_value;
 };
+
+typedef std::map<std::string name, GXmlAttribute*> GXmlAttributeMap;
 
 class GXmlNode
 {
@@ -162,10 +164,10 @@ class GXmlDoc
     
     GResult Load(const GInt8* xmlDocPath);
     
-    NPT_Result OnStartElement(const char* name);
-    NPT_Result OnElementAttribute(const char* name, const char* value);
-    NPT_Result OnEndElement(const char* name);
-    NPT_Result OnCharacterData(const char* data, unsigned long size);
+    GResult OnStartElement(const char* name);
+    GResult OnElementAttribute(const char* name, const char* value);
+    GResult OnEndElement(const char* name);
+    GResult OnCharacterData(const char* data, unsigned long size);
     void RemoveIgnorableWhitespace();
 
 private:
@@ -178,12 +180,8 @@ private:
 class GXmlSerializer
 {
 public:
-   NPT_XmlSerializer(NPT_OutputStream* output,
-         NPT_Cardinal      indentation = 0,
-         bool              shrink_empty_elements = true,
-         bool              add_xml_decl = false);
-         
-    virtual           ~NPT_XmlSerializer();
+   GXmlSerializer();
+    virtual ~GXmlSerializer();
     virtual NPT_Result StartDocument();
     virtual NPT_Result EndDocument();
     virtual NPT_Result StartElement(const char* prefix, const char* name);
