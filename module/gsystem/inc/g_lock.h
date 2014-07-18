@@ -91,66 +91,6 @@ private:
 };
 
 /** 
- * @brief original lock wrapper
- */
-class GOrgLock
-{
-public:
-    /**
-     * @brief constructor
-     * @note default GMutex type is PTHREAD_GMutex_RECURSIVE
-     */		
-	GOrgLock();
-	
-    /**
-     * @brief constructor
-     * @param [in] kind : GMutex type
-     * @note have four GMutex type : PTHREAD_GMutex_NORMAL��PTHREAD_GMutex_RECURSIVE
-	 * PTHREAD_GMutex_ERRORCHECK��PTHREAD_GMutex_DEFAULT
-     */		
-	explicit GOrgLock(const GInt32 kind);
-	
-	virtual ~GOrgLock();
-
-    /**
-     * @brief locked and waitting
-     * @return true/false
-     * @note
-     */			
-	bool lock();
-	
-    /**
-     * @brief try lock, if failed return immediately
-     * @return true/false
-     * @note
-     */		
-	bool GTryLock();
-	
-    /**
-     * @brief release lock
-     * @return true/false
-     * @note
-     */		
-	bool unlock();
-
-private:
-    /**
-     * @brief prevent copying
-     * @note
-     */		
-	GOrgLock(const GOrgLock&); 
-
-    /**
-     * @brief prevent copying
-     * @note
-     */	
-	void operator=(const GOrgLock&);	
-
-private:
-	GMutex*	m_mutex;
-};
-
-/** 
  * try lock wrapper
  */
 class GTryLock

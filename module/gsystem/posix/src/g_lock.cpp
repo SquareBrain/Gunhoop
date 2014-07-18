@@ -69,36 +69,6 @@ void GMutex::init(const GInt32 kind)
 	pthread_mutexattr_destroy(&attr);
 }
 
-GOrgLock::GOrgLock() : m_mutex(NULL)
-{
-	m_mutex = new GMutex();	
-}
-
-GOrgLock::GOrgLock(const GInt32 kind) : m_mutex(NULL)
-{
-	m_mutex = new GMutex(kind);	
-}
-
-GOrgLock::~GOrgLock() 
-{
-	delete m_mutex;
-}
-
-bool GOrgLock::lock()
-{
-	return m_mutex->lock();
-}
-
-bool GOrgLock::GTryLock()
-{
-	return m_mutex->tryLock();
-}
-
-bool GOrgLock::unlock()
-{
-	return m_mutex->unlock();
-}
-
 GTryLock::GTryLock(GMutex& mutex, const bool autoUnlock) 
 	: m_mutex(mutex)
 	, m_autoUnlock(autoUnlock)
