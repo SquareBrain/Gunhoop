@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <g_result.h>
+
 /** 
  * @brief base type define
  */

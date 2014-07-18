@@ -50,7 +50,7 @@ bool GMutex::lock()
 	return pthread_mutex_lock(&m_mutex) == 0 ? true : false;
 }
 
-bool GMutex::GTryLock()
+bool GMutex::tryLock()
 {
 	return pthread_mutex_trylock(&m_mutex) == 0 ? true : false;
 }
@@ -91,7 +91,7 @@ bool GOrgLock::lock()
 
 bool GOrgLock::GTryLock()
 {
-	return m_mutex->GTryLock();
+	return m_mutex->tryLock();
 }
 
 bool GOrgLock::unlock()
@@ -115,7 +115,7 @@ GTryLock::~GTryLock()
 
 bool GTryLock::lock(const GUint32 timeout)
 {
-	if (m_mutex.GTryLock())
+	if (m_mutex.tryLock())
 	{
 		return true;
 	}
@@ -140,7 +140,7 @@ bool GTryLock::lock(const GUint32 timeout)
 			usleep(1000 * sleepUnit);    
 		}
 
-		if (m_mutex.GTryLock())
+		if (m_mutex.tryLock())
 		{
 			return true;
 		}

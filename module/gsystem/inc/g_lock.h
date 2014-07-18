@@ -27,8 +27,6 @@
 #include <unistd.h>
 #include <g_type.h>
 
-#define synchronized(mtx)	for (GInt32 i = 0; i < 1; i ++) for (GAutoLock lock(mtx); i < 1; i ++)
-
 /** 
  * @brief POSIX GMutex wrapper
  */
