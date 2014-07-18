@@ -32,7 +32,7 @@ public:
     typedef T object_type;
     
 public:
-    static T* GetInstance();
+    static T& GetInstance();
     
 protected:
     Singleton() {}
@@ -46,7 +46,7 @@ private:
 template<typename T> typename Singleton<T>::object_type Singleton<T>::m_instance;
 
 template<typename T>
-T* Singleton<T>::GetInstance()
+T& Singleton<T>::GetInstance()
 {
     return &m_instance;
 }
