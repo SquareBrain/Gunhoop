@@ -18,19 +18,48 @@
 
 #pragma once
 
-#include <g_system.h>
 #include <string>
+#include <list>
+#include <map>
+#include <g_system.h>
 
-const int NPT_ERROR_XML_INVALID_NESTING = NPT_ERROR_BASE_XML - 0;
-const int NPT_ERROR_XML_TAG_MISMATCH    = NPT_ERROR_BASE_XML - 1;
-const int NPT_ERROR_XML_NO_ROOT         = NPT_ERROR_BASE_XML - 2;
-const int NPT_ERROR_XML_MULTIPLE_ROOTS  = NPT_ERROR_BASE_XML - 3;
+class GXmlDoc;
+class GXmlAttribute;
+class GXmlNode;
+class GXmlElementNode;
+class GXmlTextNode;
+class GXmlSerializer;
 
-#define NPT_XML_ANY_NAMESPACE "*"
-#define NPT_XML_NO_NAMESPACE  NULL
+typedef std::map<std::string name, GXmlAttribute*> GXmlAttributeMap;
+typedef std::list<GXmlNode*> GXmlNodeList;
 
-class NPT_XmlProcessor;
+/**
+ * @brief xml document
+ */	 
+class GXmlDoc
+{
+ public:
+    GXmlDoc();
+    explicit GXmlDoc(const GInt8* xmlDocPath);
+    ~GXmlDoc();
+    
+    GResult ImportDoc(const GInt8* xmlDocPath);
+    GResult ImportData(const GInt8* xmlData);
+    GResult OnStartElement(const char* name);
+    GResult OnElementAttribute(const char* name, const char* value);
+    GResult OnEndElement(const char* name);
+    GResult OnCharacterData(const char* data, unsigned long size);
+    void RemoveIgnorableWhitespace();
 
+private:
+    GXmlElementNode*    m_root;
+    GXmlElementNode*    m_curtElement;
+    bool                m_keepWhitespace;
+};
+
+/**
+ * @brief 
+ */	 
 class GXmlAttribute
 {
  public:
@@ -45,21 +74,23 @@ class GXmlAttribute
     std::string     m_value;
 };
 
-typedef std::map<std::string name, GXmlAttribute*> GXmlAttributeMap;
-
+/**
+ * @brief xml node
+ */	 
 class GXmlNode
 {
- public:
+public:
     typedef enum {
         DOCUMENT,
         ELEMENT,
         TEXT
     } GNodeType;
 
+public:    
     explicit GXmlNode(GNodeType type);
     virtual ~GXmlNode();
     
-    GNodeType getType();
+    GNodeType getType() const;
     GXmlNode* getParent();
     void setParent(GXmlNode* parent);
     
@@ -68,8 +99,9 @@ private:
     GXmlNode*       m_parent;
 };
 
-typedef std::list<GXmlNode*> GXmlNodeList;
-
+/**
+ * @brief element node
+ */	 
 class GXmlElementNode : public GXmlNode
 {
 public:
@@ -98,25 +130,21 @@ public:
     // standalone element without any prefixes with undefined namespace uris
     NPT_Result              MakeStandalone();
 
-    // namespace methods   
     const NPT_String* GetNamespace() const;
     NPT_Result        SetNamespaceUri(const char* prefix, const char* uri);
     const NPT_String* GetNamespaceUri(const char* prefix) const;
     const NPT_String* GetNamespacePrefix(const char* uri) const;
 
-    // type casting
     NPT_XmlElementNode*       AsElementNode()       { return this; }
     const NPT_XmlElementNode* AsElementNode() const { return this; }
 
 protected:
-    // methods
     void SetParent(NPT_XmlNode* parent);
     void SetNamespaceParent(NPT_XmlElementNode* parent);
     void RelinkNamespaceMaps();
 
     NPT_Result AddAttribute(const char* name, const char* value);
 
-    // members  
     NPT_String                  m_Prefix;
     NPT_String                  m_Tag;
     NPT_List<NPT_XmlNode*>      m_Children;
@@ -124,7 +152,6 @@ protected:
     NPT_XmlNamespaceMap*        m_NamespaceMap;
     NPT_XmlElementNode*         m_NamespaceParent;
 
-    // friends
     friend class NPT_XmlTagFinder;
     friend class NPT_XmlSerializer;
     friend class NPT_XmlWriter;
@@ -135,6 +162,9 @@ protected:
     friend class NPT_XmlNamespaceCollapser;
 };
 
+/**
+ * @brief uninit log system
+ */	 
 class GXmlTextNode : public NPT_XmlNode
 {
  public:
@@ -155,28 +185,9 @@ class GXmlTextNode : public NPT_XmlNode
     std::string&      m_Text;
 };
 
-class GXmlDoc
-{
- public:
-    GXmlDoc();
-    explicit GXmlDoc(const GInt8* xmlDocPath);
-    ~GXmlDoc();
-    
-    GResult Load(const GInt8* xmlDocPath);
-    
-    GResult OnStartElement(const char* name);
-    GResult OnElementAttribute(const char* name, const char* value);
-    GResult OnEndElement(const char* name);
-    GResult OnCharacterData(const char* data, unsigned long size);
-    void RemoveIgnorableWhitespace();
-
-private:
-    GXmlProcessor*      m_Processor;
-    GXmlElementNode*    m_Root;
-    GXmlElementNode*    m_CurrentElement;
-    bool                m_KeepWhitespace;
-};
-
+/**
+ * @brief uninit log system
+ */	 
 class GXmlSerializer
 {
 public:
@@ -192,13 +203,11 @@ public:
     virtual NPT_Result Comment(const char* comment);
 
 protected:
-    // methods
     void       EscapeChar(unsigned char c, char* text);
     NPT_Result ProcessPending();
     NPT_Result OutputEscapedString(const char* text, bool attribute);
     void       OutputIndentation(bool start);
 
-    // members
     NPT_OutputStream* m_Output;
     bool              m_ElementPending;
     NPT_Cardinal      m_Depth;
@@ -209,33 +218,18 @@ protected:
     bool              m_AddXmlDecl;
 };
 
-/*----------------------------------------------------------------------
-|   NPT_XmlWriter
-+---------------------------------------------------------------------*/
+/**
+ * @brief uninit log system
+ */	 
 class NPT_XmlWriter
 {
 public:
-    // constructor
     explicit NPT_XmlWriter(NPT_Cardinal indentation = 0) : m_Indentation(indentation) {}
 
-    // methods
     NPT_Result Serialize(NPT_XmlNode&      node, 
                          NPT_OutputStream& stream, 
                          bool              add_xml_decl = false);
 
 private:
-    // members
     NPT_Cardinal m_Indentation;
-};
-
-/*----------------------------------------------------------------------
-|   NPT_XmlCanonicalizer
-+---------------------------------------------------------------------*/
-class NPT_XmlCanonicalizer
-{
-public:
-    // methods
-    NPT_Result Serialize(NPT_XmlNode&      node, 
-                         NPT_OutputStream& stream, 
-                         bool              add_xml_decl = false);
 };
