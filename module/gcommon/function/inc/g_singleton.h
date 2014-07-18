@@ -40,7 +40,7 @@ protected:
     Singleton& operator=(const Singleton&);
 
 private:
-    static T* m_instance;
+    static T m_instance;
 };
 
 template<typename T> typename Singleton<T>::object_type* Singleton<T>::m_instance = NULL;
@@ -48,13 +48,7 @@ template<typename T> typename Singleton<T>::object_type* Singleton<T>::m_instanc
 template<typename T>
 T* Singleton<T>::GetInstance()
 {
-    if (m_instance == NULL)
-    {
-        static T instance;
-        m_instance = &instance;
-    }
-
-    return m_instance;
+    return &m_instance;
 }
 
 G_NS_END
