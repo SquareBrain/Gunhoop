@@ -27,6 +27,8 @@
 #include <unistd.h>
 #include <g_type.h>
 
+#define synchronized(mtx)	for(GInt32 i = 0; i < 1; i ++)for(GAutoLock lock(mtx); i < 1;)
+
 /** 
  * @brief POSIX GMutex wrapper
  */
@@ -42,8 +44,8 @@ public:
     /**
      * @brief constructor
      * @param [in] kind : GMutex type
-     * @note have four GMutex type, are PTHREAD_GMutex_NORMAL¡¢PTHREAD_GMutex_RECURSIVE
-	 * PTHREAD_GMutex_ERRORCHECK¡¢PTHREAD_GMutex_DEFAULT
+     * @note have four GMutex type, are PTHREAD_GMutex_NORMALï¿½ï¿½PTHREAD_GMutex_RECURSIVE
+	 * PTHREAD_GMutex_ERRORCHECKï¿½ï¿½PTHREAD_GMutex_DEFAULT
      */		
 	explicit GMutex(const GInt32 kind);
 	
@@ -106,8 +108,8 @@ public:
     /**
      * @brief constructor
      * @param [in] kind : GMutex type
-     * @note have four GMutex type : PTHREAD_GMutex_NORMAL¡¢PTHREAD_GMutex_RECURSIVE
-	 * PTHREAD_GMutex_ERRORCHECK¡¢PTHREAD_GMutex_DEFAULT
+     * @note have four GMutex type : PTHREAD_GMutex_NORMALï¿½ï¿½PTHREAD_GMutex_RECURSIVE
+	 * PTHREAD_GMutex_ERRORCHECKï¿½ï¿½PTHREAD_GMutex_DEFAULT
      */		
 	explicit GOrgLock(const GInt32 kind);
 	
