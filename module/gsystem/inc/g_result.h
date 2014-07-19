@@ -39,6 +39,7 @@
  * general error code
  */
 #define G_ERROR_INVALID_PARAMETERS          (G_ERROR_GENERAL_BASE - 1)
+#define G_ERROR_INVALID_SYNTAX              (G_ERROR_GENERAL_BASE - 2)
 
 /** 
  * gsystem error code
