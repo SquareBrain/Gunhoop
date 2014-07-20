@@ -15,7 +15,7 @@
 * 
 */
 #include <map>
-#include <Gxml.h>
+#include <g_xml.h>
 
 //#define G_XML_PARSER_DEBUG
 #ifdef G_XML_PARSER_DEBUG
@@ -71,7 +71,7 @@ public:
                     } 
                     else 
                     {
-                        const std::string* namespc = m_element.GetNamespaceUri(prefix);
+                        const std::string* namespc = m_element.GetNamespaceUri(prefix.c_str());
                         return namespc && *namespc == m_namespace;
                     }
                 }
@@ -170,7 +170,7 @@ public:
 class GXmlNamespaceCollapser
 {
 public:
-    GXmlNamespaceCollapser(GXmlElementNode* element) : m_Root(element) {}
+    GXmlNamespaceCollapser(GXmlElementNode* element) : m_root(element) {}
 
     void operator()(GXmlNode*& node) const 
     {
@@ -184,12 +184,12 @@ public:
         CollapseNamespace(element, element->GetPrefix());
 
         // collapse the namespaces for the attributes
-        std::list<GXmlAttribute*>::Iterator item = element->GetAttributes().GetFirstItem();
-        while (item) 
+        const GXmlAttributeList& list = element->GetAttributes();
+        GXmlAttributeList::iterator iter = list.begin();
+        for (; iter != list.end(); ++iter)
         {
-            GXmlAttribute* attribute = *item;
+            GXmlAttribute* attribute = *iter;
             CollapseNamespace(element, attribute->GetPrefix());
-            ++item;
         }
 
         // recurse to the children
@@ -201,20 +201,20 @@ private:
     void CollapseNamespace(GXmlElementNode* element, const std::string& prefix) const;
 
     // members
-    GXmlElementNode* m_Root;
+    GXmlElementNode* m_root;
 };
 
 void GXmlNamespaceCollapser::CollapseNamespace(GXmlElementNode* element, 
     const std::string& prefix) const
 {
-    if (m_Root->m_namespaceMap == NULL ||
-        (m_Root->m_namespaceMap->GetNamespaceUri(prefix) == NULL && prefix != "xml")) 
+    if (m_root->m_namespaceMap == NULL ||
+        (m_root->m_namespaceMap->GetNamespaceUri(prefix) == NULL && prefix != "xml")) 
     {
         // the root element does not have that prefix in the map
         const std::string* uri = element->GetNamespaceUri(prefix);
         if (uri) 
         {
-            m_Root->SetNamespaceUri(prefix, uri->GetGInt8*s());
+            m_root->SetNamespaceUri(prefix, uri->GetGInt8*s());
         }
     }
 }
@@ -324,7 +324,7 @@ GXmlElementNode* GXmlElementNode::GetChild(const GInt8* tag, const GInt8* namesp
     }
 
     // find the child
-    std::list<GXmlNode*>::Iterator item;
+    GXmlNodeList::iterator item;
     item = m_children.Find(GXmlTagFinder(tag, namespc), n);
     return item ? (*item)->AsElementNode() : NULL;
 }
@@ -349,7 +349,7 @@ GResult GXmlElementNode::SetAttribute(const GInt8* prefix,
     }
 
     /* see if this attribute is already set */
-    std::list<GXmlAttribute*>::Iterator attribute;
+    GXmlAttributeList::iterator attribute;
     attribute = m_attributes.Find(GXmlAttributeFinderWithPrefix(prefix, name));
     if (attribute) 
     {
@@ -380,7 +380,7 @@ const std::string* GXmlElementNode::GetAttribute(const GInt8* name, const GInt8*
     }
 
     // find the attribute
-    std::list<GXmlAttribute*>::Iterator attribute;
+    GXmlAttributeList::Iterator attribute;
     attribute = m_attributes.Find(GXmlAttributeFinder(*this, name, namespc));
     if (attribute) 
     { 
@@ -399,7 +399,7 @@ GResult GXmlElementNode::AddText(const GInt8* text)
 
 const std::string* GXmlElementNode::GetText(GUint32 n) const
 {
-    std::list<GXmlNode*>::Iterator node;
+    GXmlNodeList::iterator node;
     node = m_children.Find(GXmlTextFinder(), n);
     return node ? &(*node)->AsTextNode()->GetString() : NULL;
 }
@@ -417,7 +417,7 @@ void GXmlElementNode::RelinkNamespaceMaps()
 {
     // update our children so that they can inherit the right
     // namespace map
-    std::list<GXmlNode*>::Iterator item = m_children.GetFirstItem();
+    GXmlNodeList::iterator item = m_children.GetFirstItem();
     while (item) 
     {
         GXmlElementNode* element = (*item)->AsElementNode();
@@ -1645,7 +1645,7 @@ GResult GXmlProcessor::ProcessBuffer(const GInt8* buffer, GUint32 size)
 |   GXmlParser::GXmlParser
 +---------------------------------------------------------------------*/
 GXmlParser::GXmlParser(bool keep_whitespace /* = false */) :
-    m_Root(NULL),
+    m_root(NULL),
     m_CurrentElement(NULL),
     m_KeepWhitespace(keep_whitespace)
 {
@@ -1678,14 +1678,14 @@ GXmlParser::Reset()
     
     m_Processor->Reset();
     
-    m_Root = NULL;
+    m_root = NULL;
 }
 
 /*----------------------------------------------------------------------
 |   GXmlParser::Parse
 +---------------------------------------------------------------------*/
 GResult
-GXmlParser::Parse(GInputStream& stream, 
+GXmlParser::Parse(const std::string& stream, 
                      GUint32&        size,
                      GXmlNode*&    node,
                      bool             incremental /* = false */)
@@ -1693,7 +1693,7 @@ GXmlParser::Parse(GInputStream& stream,
     GResult result;
 
     // start with a known state
-    m_Root = NULL;
+    m_root = NULL;
     node = NULL;
     if (!incremental) {
         Reset();
@@ -1713,31 +1713,31 @@ GXmlParser::Parse(GInputStream& stream,
             bytes_to_read = max_bytes_to_read-size;
         }
         result = stream.Read(buffer, bytes_to_read, &bytes_read);
-        if (GSUCCEEDED(result)) {
+        if (G_YESED(result)) {
             // update the counter
             size += bytes_read;
 
             // parse the buffer
             result = m_Processor->ProcessBuffer(buffer, bytes_read);
-            if (GFAILED(result)) break;
+            if (G_NOED(result)) break;
         } else {
             break;
         }
-    } while(GSUCCEEDED(result) && 
+    } while(G_YESED(result) && 
             (max_bytes_to_read == 0 || size < max_bytes_to_read));
 
     // return a tree if we have one 
-    node = m_Root;
+    node = m_root;
     if (incremental) {
         return result;
     } else {
-        if (GFAILED(result) && result != GERROR_EOS) {
-            delete m_Root;
-            m_Root = NULL;
+        if (G_NOED(result) && result != GERROR_EOS) {
+            delete m_root;
+            m_root = NULL;
             node = NULL;
             return result;
         } else {
-            return m_Root?G_YES:GERROR_XML_NO_ROOT;     
+            return m_root?G_YES:GERROR_XML_NO_ROOT;     
         }
     }
 }
@@ -1745,10 +1745,9 @@ GXmlParser::Parse(GInputStream& stream,
 /*----------------------------------------------------------------------
 |   GXmlParser::Parse
 +---------------------------------------------------------------------*/
-GResult
-GXmlParser::Parse(GInputStream& stream, 
-                     GXmlNode*&    node,
-                     bool             incremental /* = false */)
+GResult GXmlParser::Parse(const std::string& stream, 
+    GXmlNode*& node,
+    bool incremental /* = false */)
 {
     GUint32 max_read = 0; // no limit
     return Parse(stream, max_read, node, incremental);
@@ -1757,10 +1756,9 @@ GXmlParser::Parse(GInputStream& stream,
 /*----------------------------------------------------------------------
 |   GXmlParser::Parse
 +---------------------------------------------------------------------*/
-GResult
-GXmlParser::Parse(const GInt8*   xml, 
-                     GXmlNode*& node, 
-                     bool          incremental /* = false */)
+GResult GXmlParser::Parse(const GInt8*   xml, 
+GXmlNode*& node, 
+bool          incremental /* = false */)
 {       
     GUint32 size = std::stringLength(xml);
 
@@ -1777,7 +1775,7 @@ GXmlParser::Parse(const GInt8*   xml,
                      bool          incremental /* = false */)
 { 
     // start with a known state
-    m_Root = NULL;
+    m_root = NULL;
     node = NULL;
     if (!incremental) {
         Reset();
@@ -1787,17 +1785,17 @@ GXmlParser::Parse(const GInt8*   xml,
     GResult result = m_Processor->ProcessBuffer(xml, size);
     
     // return a tree if we have one 
-    node = m_Root;
+    node = m_root;
     if (incremental) {
         return result;
     } else {
-        if (GFAILED(result)) {
-            delete m_Root;
-            m_Root = NULL;
+        if (G_NOED(result)) {
+            delete m_root;
+            m_root = NULL;
             node = NULL;
             return result;
         } else {
-            return m_Root?G_YES:GERROR_XML_NO_ROOT;     
+            return m_root?G_YES:GERROR_XML_NO_ROOT;     
         }
     }
 }
@@ -1811,7 +1809,7 @@ GXmlParser::OnStartElement(const GInt8* name)
     GXML_DebuG1("\nGXmlParser::OnStartElement: %s\n", name);
 
     // we cannot start an element if we already have a root
-    if (m_Root) {
+    if (m_root) {
         return GERROR_XML_MULTIPLE_ROOTS;
     }
     
@@ -1857,11 +1855,7 @@ GXmlParser::OnElementAttribute(const GInt8* name, const GInt8* value)
     return G_YES;
 }
 
-/*----------------------------------------------------------------------
-|   GXmlParser::OnEndElement
-+---------------------------------------------------------------------*/
-GResult 
-GXmlParser::OnEndElement(const GInt8* name)
+GResult GXmlParser::OnEndElement(const GInt8* name)
 {
     GXML_DebuG1("\nGXmlParser::OnEndElement: %s\n", name ? name : "NULL");
 
@@ -1899,13 +1893,13 @@ GXmlParser::OnEndElement(const GInt8* name)
     if (parent) {
         m_CurrentElement = parent->AsElementNode();
     } else {
-        if (m_Root) {
+        if (m_root) {
             // this should never happen
             delete m_CurrentElement;
             m_CurrentElement = NULL;
             return GERROR_XML_MULTIPLE_ROOTS;
         } else {
-            m_Root = m_CurrentElement;
+            m_root = m_CurrentElement;
             m_CurrentElement = NULL;
         }
     }
@@ -2166,7 +2160,7 @@ GXmlNodeCanonicalWriter::GetNamespaceRenderedForPrefix(const std::string& prefix
          link;
          link = link->m_Parent) {
         std::string* uri;
-        if (GSUCCEEDED(link->m_RenderedNamespaces.Get(prefix, uri))) {
+        if (G_YESED(link->m_RenderedNamespaces.Get(prefix, uri))) {
             return uri;
         }
     }
@@ -2223,7 +2217,7 @@ GXmlNodeCanonicalWriter::operator()(GXmlNode*& node) const
         // process attributes
         SortedAttributeList prefixed_attributes;
         SortedAttributeList naked_attributes;
-        for (std::list<GXmlAttribute*>::Iterator attribute = element->GetAttributes().GetFirstItem();
+        for (GXmlAttributeList::Iterator attribute = element->GetAttributes().GetFirstItem();
              attribute;
              ++attribute) {
              const std::string& a_prefix = (*attribute)->GetPrefix();

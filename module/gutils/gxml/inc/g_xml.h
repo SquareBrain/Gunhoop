@@ -21,15 +21,23 @@
 #include <list>
 #include <g_system.h>
 
-const int GERROR_XML_INVALID_NESTING = GERROR_BASE_XML - 0;
-const int GERROR_XML_TAG_MISMATCH    = GERROR_BASE_XML - 1;
-const int GERROR_XML_NO_ROOT         = GERROR_BASE_XML - 2;
-const int GERROR_XML_MULTIPLE_ROOTS  = GERROR_BASE_XML - 3;
+#define G_ERROR_XML_INVALID_SYNTAX       (G_ERROR_UTILS_BASE - 1)
+#define G_ERROR_XML_INVALID_NESTING      (G_ERROR_UTILS_BASE - 2)
+#define G_ERROR_XML_TAG_MISMATCH         (G_ERROR_UTILS_BASE - 3)
+#define G_ERROR_XML_NO_ROOT              (G_ERROR_UTILS_BASE - 4)
+#define G_ERROR_XML_MULTIPLE_ROOTS       (G_ERROR_UTILS_BASE - 5)
 
 #define GXML_ANY_NAMESPACE "*"
 #define GXML_NO_NAMESPACE  NULL
 
 class GXmlProcessor;
+class GXmlAttribute;
+class GXmlNode;
+class GXmlElementNode;
+class GXmlTextNode;
+
+typedef std::list<GXmlAttribute*> GXmlAttributeList;
+typedef std::list<GXmlNode*> GXmlNodeList;
 
 class GXmlAttribute
 {
@@ -83,15 +91,15 @@ private:
         std::string m_uri;
     };
 
-    std::list<Entry*> m_Entries;
+    typedef std::list<Entry*> EntryList;
+
+    EntryList   m_Entries;
 
     friend class GXmlWriter;
     friend class GXmlNodeWriter;
     friend class GXmlNodeCanonicalWriter;
 };
 
-class GXmlElementNode;
-class GXmlTextNode;
 class GXmlNode
 {
  public:
@@ -130,8 +138,8 @@ public:
     GXmlElementNode(const GInt8* tag);
     GXmlElementNode(const GInt8* prefix, const GInt8* tag);
     virtual ~GXmlElementNode();
-    std::list<GXmlNode*>& GetChildren() { return m_children; }
-    const std::list<GXmlNode*>& GetChildren() const { return m_children; }
+    GXmlNodeList& GetChildren() { return m_children; }
+    const GXmlNodeList& GetChildren() const { return m_children; }
     GXmlElementNode* GetChild(const GInt8* tag, 
              const GInt8* namespc = GXML_NO_NAMESPACE,
              GUint32 n=0) const;
@@ -143,8 +151,8 @@ public:
                  
     GResult SetAttribute(const GInt8* name, const GInt8* value);
     GResult AddText(const GInt8* text); 
-    std::list<GXmlAttribute*>& GetAttributes() { return m_attributes; }
-    const std::list<GXmlAttribute*>& GetAttributes() const { return m_attributes; }
+    GXmlAttributeList& GetAttributes() { return m_attributes; }
+    const GXmlAttributeList& GetAttributes() const { return m_attributes; }
     const std::string* GetAttribute(const GInt8* name, const GInt8* namespc = GXML_NO_NAMESPACE) const;
     const std::string& GetPrefix() const { return m_prefix; }
     const std::string& GetTag() const { return m_tag;    }
@@ -173,8 +181,8 @@ protected:
 
     std::string                 m_prefix;
     std::string                 m_tag;
-    std::list<GXmlNode*>        m_children;
-    std::list<GXmlAttribute*>   m_attributes;
+    GXmlNodeList                m_children;
+    GXmlAttributeList           m_attributes;
     GXmlNamespaceMap*           m_namespaceMap;
     GXmlElementNode*            m_namespaceParent;
 
@@ -223,11 +231,11 @@ public:
         GXmlNode*& tree,
         bool incremental = false);
         
-    virtual GResult Parse(GInputStream& stream, 
+    virtual GResult Parse(const std::string& stream, 
         GXmlNode*& tree,
         bool incremental = false);
         
-    virtual  GResult Parse(GInputStream& stream, 
+    virtual  GResult Parse(const std::string& stream, 
         GUint32& size,
         GXmlNode*& tree,
         bool incremental = false);
@@ -287,7 +295,9 @@ protected:
 class GXmlWriter
 {
 public:
-    explicit GXmlWriter(GUint32 indentation = 0) : m_indentation(indentation) {}
+    explicit GXmlWriter(GUint32 indentation = 0) 
+        : m_indentation(indentation) {}
+        
     GResult Serialize(GXmlNode& node, 
         std::string& stream, 
         bool add_xml_decl = false);
@@ -303,5 +313,3 @@ public:
         std::string& stream, 
         bool add_xml_decl = false);
 };
-
-#endif
