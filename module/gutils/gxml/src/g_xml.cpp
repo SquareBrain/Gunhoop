@@ -185,7 +185,7 @@ public:
 
         // collapse the namespaces for the attributes
         const GXmlAttributeList& list = element->GetAttributes();
-        GXmlAttributeList::iterator iter = list.begin();
+        GXmlAttributeList::const_iterator iter = list.begin();
         for (; iter != list.end(); ++iter)
         {
             GXmlAttribute* attribute = *iter;
