@@ -31,12 +31,12 @@ InputStream::~InputStream()
 {
 }
 
-GInt32 InputStream::available()
+GInt32 InputStream::available() throw(std::ios_base::failure)
 {
 	return 0;
 }
 
-void InputStream::close()
+void InputStream::close() throw(std::ios_base::failure)
 {
 }
 
@@ -49,12 +49,12 @@ bool InputStream::markSupported()
 	return false;
 }
 
-GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen)
+GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure)
 {
 	return this->read(pBuffer, iBufferLen, 0, iBufferLen);
 }
 
-GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen)
+GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure)
 {
 	if (!pBuffer)
 	{
@@ -90,11 +90,11 @@ GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GIn
 	return iIndex;
 }
 
-void InputStream::reset()
+void InputStream::reset() throw(std::ios_base::failure)
 {
 }
 
-GInt64 InputStream::skip(GInt64 lNum)
+GInt64 InputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
 {
 	GInt64 lRemaining = lNum;
 	GInt32 iReadLen; 

@@ -37,13 +37,13 @@ public:
 	  * This method should be overridden by subclasses.
 	  * @return the number of bytes that can be read from this input stream without blocking.
         */
-	virtual GInt32 available();
+	virtual GInt32 available() throw(std::ios_base::failure);
 
 	/**
         * @brief Closes this input stream and releases any system resources associated with the stream.
         * The close method of InputStream does nothing.
         */
-	virtual void close();
+	virtual void close() throw(std::ios_base::failure);
 
 	/**
         * @brief Marks the current position in this input stream. A subsequent call to the reset method repositions this stream at the last marked position so that subsequent reads re-read the same bytes.
@@ -65,7 +65,7 @@ public:
         * A subclass must provide an implementation of this method.
         * @return the next byte of data, or -1 if the end of the stream is reached.
         */
-	virtual GInt32 read();
+	virtual GInt32 read() throw(std::ios_base::failure);
 
 	/**
         * @brief The read(pBuffer, iLen) method for class InputStream has the same effect as:
@@ -75,7 +75,7 @@ public:
         * @return the total number of bytes read into the buffer, or -1 is there is no more data because the end of the stream has been reached.
         * @note 
         */
-	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen);
+	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure);
 
 	/**
         * @brief Returns the number of bytes that can be read (or skipped over) from this input stream without blocking by the next caller of a method for this input stream. The next caller might be the same thread or another thread.
@@ -87,13 +87,13 @@ public:
         * @param [in] iLen the maximum number of bytes to read.
         * @return the total number of bytes read into the buffer, or -1 if there is no more data because the end of the stream has been reached.
         */
-	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen);
+	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure);
 
 	/**
         * @brief Repositions this stream to the position at the time the mark method was last called on this input stream.
   	  * The method reset for class InputStream does nothing
         */
-	virtual void reset();
+	virtual void reset() throw(std::ios_base::failure);
 
 	/**
         * @brief Skips over and discards n bytes of data from this input stream. The skip method may, for a variety of reasons, end up skipping over some smaller number of bytes, possibly 0. This may result from any of a number of conditions; reaching end of file before n bytes have been skipped is only one possibility. The actual number of bytes skipped is returned. If n is negative, no bytes are skipped.
@@ -102,7 +102,7 @@ public:
         * @param [in] iNum the number of bytes to be skipped.
         * @return the actual number of bytes skipped.
         */
-	virtual GInt64 skip(GInt64 lNum);
+	virtual GInt64 skip(GInt64 lNum) throw(std::ios_base::failure);
 
 private:
 	InputStream* pIn;

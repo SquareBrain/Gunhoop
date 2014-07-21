@@ -80,12 +80,12 @@ BufferInputStream::~BufferInputStream()
 {
 }
 
-GInt32 BufferInputStream::available()
+GInt32 BufferInputStream::available() throw(std::ios_base::failure)
 {
 	return m_iCount - m_iPos;
 }
 
-void BufferInputStream::close()
+void BufferInputStream::close() throw(std::ios_base::failure)
 {
 	// do nothing
 }
@@ -100,7 +100,7 @@ bool BufferInputStream::markSupported()
 	return true;
 }
 
-GInt32 BufferInputStream::read()
+GInt32 BufferInputStream::read() throw(std::ios_base::failure)
 {
 	if (m_iPos < m_iCount)
 	{
@@ -109,7 +109,7 @@ GInt32 BufferInputStream::read()
 	return -1;
 }
 
-GInt32 BufferInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen)
+GInt32 BufferInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure)
 {
 	if (m_iPos >= m_iCount)
 	{
@@ -134,12 +134,12 @@ GInt32 BufferInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffse
 	return iNum;
 }
 
-void BufferInputStream::reset()
+void BufferInputStream::reset() throw(std::ios_base::failure)
 {
 	m_iPos = m_iMark;
 }
 
-GInt64 BufferInputStream::skip(GInt64 lNum)
+GInt64 BufferInputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
 {
 	if (lNum < 0)
 	{

@@ -37,25 +37,25 @@ FileInputStream::~FileInputStream()
 {
 }
 
-GInt32 FileInputStream::available()
+GInt32 FileInputStream::available() throw(std::ios_base::failure)
 {
 	// TODO: GFile
 	return 0;
 }
 
-void FileInputStream::close()
+void FileInputStream::close() throw(std::ios_base::failure)
 {
 	// m_file->close();
 	// do nothing
 }
 
-GInt32 FileInputStream::read()
+GInt32 FileInputStream::read() throw(std::ios_base::failure)
 {
 	GInt8 pBuffer[1] = {0};
 	return  this->read(pBuffer, 1);
 }
 
-GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen)
+GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure)
 {
 	if (openCheck() == G_NO)
 	{
@@ -78,7 +78,7 @@ GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset,
 	return m_file->read(pBuffer + iOffset, iLen);
 }
 
-GInt64 FileInputStream::skip(GInt64 lNum)
+GInt64 FileInputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
 {
 	if (openCheck() == G_NO)
 	{
