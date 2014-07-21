@@ -17,6 +17,7 @@
 
 #include <g_inputstream.h>
 
+using namespace std;
 using namespace GCommon;
 
 
@@ -49,20 +50,20 @@ bool InputStream::markSupported()
 	return false;
 }
 
-GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure)
+GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure, std::logic_error)
 {
 	return this->read(pBuffer, iBufferLen, 0, iBufferLen);
 }
 
-GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure)
+GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error)
 {
 	if (!pBuffer)
 	{
-		return -2;
+		throw invalid_argument("");
 	}
 	else if (iOffset < 0 || iLen < 0 ||iBufferLen < iOffset + iLen)
 	{
-		return -3;
+		throw out_of_range("");
 	}
 	else if (iLen == 0)
 	{

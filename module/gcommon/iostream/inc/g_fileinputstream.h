@@ -29,8 +29,8 @@ G_NS_GCOMMON_BEG
 class FileInputStream : public InputStream
 {
 public:
-	FileInputStream(std::shared_ptr<GFile> file);
-	FileInputStream(const std::string filepath);
+	FileInputStream(std::shared_ptr<GFile> file) throw(std::logic_error);
+	FileInputStream(const std::string filepath) throw(std::bad_alloc, std::ios_base::failure);
 	virtual ~FileInputStream(); 
 
 	/**
@@ -52,7 +52,7 @@ public:
         * A subclass must provide an implementation of this method.
         * @return the next byte of data, or -1 if the end of the stream is reached.
         */
-	virtual GInt32 read() throw(std::ios_base::failure);
+	virtual GInt32 read() throw(std::ios_base::failure, std::logic_error);
 
 	/**
         * @brief The read(pBuffer, iLen) method for class InputStream has the same effect as:
@@ -62,7 +62,7 @@ public:
         * @return the total number of bytes read into the buffer, or -1 is there is no more data because the end of the stream has been reached.
         * @note 
         */
-	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure);
+	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure, std::logic_error);
 
 	/**
         * @brief Returns the number of bytes that can be read (or skipped over) from this input stream without blocking by the next caller of a method for this input stream. The next caller might be the same thread or another thread.
@@ -74,7 +74,7 @@ public:
         * @param [in] iLen the maximum number of bytes to read.
         * @return the total number of bytes read into the buffer, or -1 if there is no more data because the end of the stream has been reached.
         */
-	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure);
+	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error);
 
 	/**
         * @brief Skips over and discards n bytes of data from this input stream. The skip method may, for a variety of reasons, end up skipping over some smaller number of bytes, possibly 0. This may result from any of a number of conditions; reaching end of file before n bytes have been skipped is only one possibility. The actual number of bytes skipped is returned. If n is negative, no bytes are skipped.

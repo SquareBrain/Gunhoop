@@ -26,8 +26,8 @@ G_NS_GCOMMON_BEG
 class BufferInputStream : public InputStream
 {
 public:
-	BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen);
-	BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen);
+	BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::logic_error);
+	BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen) throw(std::logic_error);
 	virtual ~BufferInputStream(); 
 
 	/**
@@ -64,7 +64,7 @@ public:
         * A subclass must provide an implementation of this method.
         * @return the next byte of data, or -1 if the end of the stream is reached.
         */
-	virtual GInt32 read() throw(std::ios_base::failure);
+	virtual GInt32 read() throw(std::ios_base::failure, std::logic_error);
 
 	/**
         * @brief Returns the number of bytes that can be read (or skipped over) from this input stream without blocking by the next caller of a method for this input stream. The next caller might be the same thread or another thread.
@@ -76,7 +76,7 @@ public:
         * @param [in] iLen the maximum number of bytes to read.
         * @return the total number of bytes read into the buffer, or -1 if there is no more data because the end of the stream has been reached.
         */
-	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure);
+	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error);
 
 	/**
         * @brief Repositions this stream to the position at the time the mark method was last called on this input stream.

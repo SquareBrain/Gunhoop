@@ -23,11 +23,11 @@ using namespace GCommon;
 
 
 
-BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen)
+BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::logic_error)
 {
 	if (!pBuffer)
 	{
-		// TODO: throw exception 
+		throw invalid_argument("");
 		return;
 	}
 	
@@ -36,7 +36,7 @@ BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 i
 		iLen < 0 || 
 		iOffset > iBufferLen)
 	{
-		// TODO: throw exception 
+		throw out_of_range("");
 		return;
 	}
 
@@ -53,17 +53,17 @@ BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 i
 	m_iMark = m_iPos;
 }
 
-BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen)
+BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen) throw(std::logic_error)
 {
 	if (!pBuffer)
 	{
-		// TODO: throw exception 
+		throw invalid_argument("");
 		return;
 	}
 	
 	if (iBufferLen < 0)
 	{
-		// TODO: throw exception 
+		throw out_of_range("");
 		return;
 	}
 
@@ -100,7 +100,7 @@ bool BufferInputStream::markSupported()
 	return true;
 }
 
-GInt32 BufferInputStream::read() throw(std::ios_base::failure)
+GInt32 BufferInputStream::read() throw(std::ios_base::failure, std::logic_error)
 {
 	if (m_iPos < m_iCount)
 	{
@@ -109,7 +109,7 @@ GInt32 BufferInputStream::read() throw(std::ios_base::failure)
 	return -1;
 }
 
-GInt32 BufferInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure)
+GInt32 BufferInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error)
 {
 	if (m_iPos >= m_iCount)
 	{
@@ -117,11 +117,11 @@ GInt32 BufferInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffse
 	}
 	if (!pBuffer)
 	{
-		return -2;
+		throw invalid_argument("");
 	}
 	if (iBufferLen < 0 || iOffset < 0 || iLen < 0 || iBufferLen < iOffset + iLen)
 	{
-		return -3;
+		throw out_of_range("");
 	}
 	if (iLen == 0)
 	{

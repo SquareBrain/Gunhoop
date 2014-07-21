@@ -50,17 +50,17 @@ bool FilterInputStream::markSupported()
 	return pIn->markSupported();
 }
 
-GInt32 FilterInputStream::read() throw(std::ios_base::failure)
+GInt32 FilterInputStream::read() throw(std::ios_base::failure, std::logic_error)
 {
 	return  pIn->read();
 }
 
-GInt32 FilterInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure)
+GInt32 FilterInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure, std::logic_error)
 {
 	return pIn->read(pBuffer, iBufferLen);
 }
 
-GInt32 FilterInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure)
+GInt32 FilterInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error)
 {
 	return  pIn->read(pBuffer, iBufferLen, iOffset, iBufferLen);
 }
