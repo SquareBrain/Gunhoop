@@ -17,6 +17,8 @@
 
 #include <unistd.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
 #include <g_sys.h>
 
 void GSys::sleep(const GUint64 time)
@@ -36,4 +38,36 @@ GUint64 GSys::format(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
     GUint64 strLen = vsnprintf(buffer, size, args, vaList);
 	va_end(vaList);	
     return strLen;
+}
+
+GResult GSys::shell(const GInt8* cmd, const GShellMode mode, GInt8* buffer, const GUint32 size)
+{
+    G_ASSERT(cmd != NULL && buffer != NULL && size > 0);
+
+    GInt8* pipeMode = NULL;
+    switch (mode)
+    {
+    case G_SHELL_R:
+        pipeMode = (GInt8*)"r";
+        break;
+    case G_SHELL_W:
+        pipeMode = (GInt8*)"w";
+        break;
+    default:
+        return G_NO;
+        break;
+    }
+
+    
+    FILE* retStream = popen(cmd, pipeMode);
+    if (retStream == NULL)
+    {
+        return G_NO;
+    }
+    
+    memset(buffer, 0, size);
+    fread(buffer, sizeof(GInt8), size, retStream);
+    pclose(retStream);
+    
+    return G_YES;      
 }

@@ -20,6 +20,12 @@
 
 #include <g_type.h>
 
+typedef enum
+{
+    G_SHELL_R = 1,
+    G_SHELL_W
+} GShellMode;
+
 /** 
  * @brief POSIX GSystem common API wrapper
  */
@@ -51,5 +57,16 @@ public:
 	 * @return string size
      * @note 
      */		
-    static GUint64 format(GInt8* buffer, const GUint64 size, const GInt8* args, ...);    
+    static GUint64 format(GInt8* buffer, const GUint64 size, const GInt8* args, ...);   
+
+    /**
+     * @brief execute shell commond
+	 * @param [in] cmd : commond line
+	 * @param [in] mode : read/write for pipe
+	 * @param [out] buffer : output buffer
+	 * @param [in] size : output buffer size
+	 * @return G_YES/G_NO
+     * @note 
+     */		
+    static GResult shell(const GInt8* cmd, const GShellMode mode, GInt8* buffer, const GUint32 size);      
 };
