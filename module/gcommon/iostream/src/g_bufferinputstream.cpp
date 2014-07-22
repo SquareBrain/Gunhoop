@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <g_bufferinputstream.h>
+#include <g_private_define.h>
 
 using namespace std;
 using namespace GCommon;
