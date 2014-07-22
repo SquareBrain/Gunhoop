@@ -16,6 +16,7 @@
 */
 
 #include <g_filterinputstream.h>
+#include <g_private_define.h>
 
 using namespace GCommon;
 
