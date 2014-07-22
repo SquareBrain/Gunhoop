@@ -16,27 +16,28 @@
 */
 
 #include <g_fileinputstream.h>
+#include <g_private_define.h>
 
 using namespace std;
 using namespace GCommon;
 
 
 
-FileInputStream::FileInputStream(shared_ptr<GFile> file) throw(std::logic_error)
+FileInputStream::FileInputStream(shared_ptr<GFile> file)
 	: m_file(file)
 {
 	if (m_file == NULL)
 	{
-		throw invalid_argument("");
+		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
 	}
 }
 
-FileInputStream::FileInputStream(const string filepath) throw(std::bad_alloc, std::ios_base::failure)
+FileInputStream::FileInputStream(const string filepath)
 	: m_file((shared_ptr<GFile>(new GFile(filepath.c_str()))))
 {
 	if (m_file->open(G_OPEN_READ) == G_NO)
 	{
-		throw ios_base::failure("");
+		throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
 	}
 }
 
@@ -71,11 +72,11 @@ GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset,
 
 	if (!pBuffer)
 	{
-		throw invalid_argument("");
+		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
 	}
 	else if (iOffset < 0 || iLen < 0 ||iBufferLen < iOffset + iLen)
 	{
-		throw out_of_range("");
+		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
 	}
 	else if (iLen == 0)
 	{
@@ -104,7 +105,7 @@ GInt64 FileInputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
 	// TODO: GFile
 	if (m_file->seek(lNum, G_SEEK_CUR))
 	{
-		throw ios_base::failure("");
+		throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
 	}
 	return 0;
 }
