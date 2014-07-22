@@ -30,6 +30,27 @@
 #define GXML_ANY_NAMESPACE "*"
 #define GXML_NO_NAMESPACE  NULL
 
+// delete list
+template <class T>
+class GDeleteList
+{
+public:
+    GDeleteList(T& list) : m_list(list) {}
+    void operator()(const T& list) const 
+    {
+        T::iterator iter = m_list.begin();
+        for (; iter != m_list.end(); ++iter)
+        {
+            delete *iter;
+        }
+
+        m_list.clear();
+    }
+    
+private:
+    T& m_list;
+};
+
 class GXmlProcessor;
 class GXmlAttribute;
 class GXmlNode;
@@ -93,7 +114,7 @@ private:
 
     typedef std::list<Entry*> EntryList;
 
-    EntryList   m_Entries;
+    EntryList   m_entries;
 
     friend class GXmlWriter;
     friend class GXmlNodeWriter;
