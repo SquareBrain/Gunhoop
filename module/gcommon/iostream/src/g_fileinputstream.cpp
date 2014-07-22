@@ -78,7 +78,17 @@ GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset,
 		return 0;
 	}
 
-	return m_file->read(pBuffer + iOffset, iLen);
+	GInt32 ret = m_file->read(pBuffer + iOffset, iLen);
+	if (ret < 0)
+	{
+		throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
+	}
+	if (ret == 0)
+	{
+		ret = -1;
+	}
+	
+	return ret;
 }
 
 GInt64 FileInputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
