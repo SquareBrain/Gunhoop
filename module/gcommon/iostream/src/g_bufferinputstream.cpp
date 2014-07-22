@@ -16,14 +16,14 @@
 */
 
 #include <algorithm>
+#include <g_sync.h>
 #include <g_bufferinputstream.h>
 
 using namespace std;
 using namespace GCommon;
 
-
-
 BufferInputStream::BufferInputStream(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len)
+	: m_mtx(PTHREAD_MUTEX_NORMAL)
 {
 	if (!buffer)
 	{
@@ -54,6 +54,7 @@ BufferInputStream::BufferInputStream(GInt8* buffer, GInt32 bufferLen, GInt32 off
 }
 
 BufferInputStream::BufferInputStream(GInt8* buffer, GInt32 bufferLen)
+	: m_mtx(PTHREAD_MUTEX_NORMAL)
 {
 	if (!buffer)
 	{
@@ -82,7 +83,11 @@ BufferInputStream::~BufferInputStream()
 
 GInt32 BufferInputStream::available() throw(std::ios_base::failure)
 {
-	return m_count - m_pos;
+	synchronized(m_mtx)
+	{
+		return m_count - m_pos;
+	}
+	return 0;
 }
 
 void BufferInputStream::close() throw(std::ios_base::failure)
@@ -92,7 +97,10 @@ void BufferInputStream::close() throw(std::ios_base::failure)
 
 void BufferInputStream::mark(GInt32 readlimit)
 {
-	m_mark = m_pos;
+	synchronized(m_mtx)
+	{
+		m_mark = m_pos;
+	}
 }
 
 bool BufferInputStream::markSupported()
@@ -102,51 +110,65 @@ bool BufferInputStream::markSupported()
 
 GInt32 BufferInputStream::read() throw(std::ios_base::failure, std::logic_error)
 {
-	if (m_pos < m_count)
+	synchronized(m_mtx)
 	{
-		return static_cast<GInt32>(m_buffer[m_pos ++] & 0xFF);
+		if (m_pos < m_count)
+		{
+			return static_cast<GInt32>(m_buffer[m_pos ++] & 0xFF);
+		}
 	}
 	return -1;
 }
 
 GInt32 BufferInputStream::read(GInt8 * buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error)
 {
-	if (m_pos >= m_count)
+	GInt32 num = 0;
+	synchronized(m_mtx)
 	{
-		return -1;
+		if (m_pos >= m_count)
+		{
+			return -1;
+		}
+		if (!buffer)
+		{
+			throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
+		}
+		if (bufferLen < 0 || offset < 0 || len < 0 || bufferLen < offset + len)
+		{
+			throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
+		}
+		if (len == 0)
+		{
+			return 0;
+		}
+		
+		num = min(m_count - m_pos, len);
+		memcpy(buffer + offset, m_buffer + m_pos, num);
+		m_pos += num;
 	}
-	if (!buffer)
-	{
-		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
-	}
-	if (bufferLen < 0 || offset < 0 || len < 0 || bufferLen < offset + len)
-	{
-		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
-	}
-	if (len == 0)
-	{
-		return 0;
-	}
-	
-	GInt32 num = min(m_count - m_pos, len);
-	memcpy(buffer + offset, m_buffer + m_pos, num);
-	m_pos += num;
 	return num;
 }
 
 void BufferInputStream::reset() throw(std::ios_base::failure)
 {
-	m_pos = m_mark;
+	synchronized(m_mtx)
+	{
+		m_pos = m_mark;
+	}
 }
 
 GInt64 BufferInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 {
-	if (num < 0)
+	GInt64 ret = 0;
+	synchronized(m_mtx)
 	{
-		num = 0L;
+		if (num < 0)
+		{
+			num = 0L;
+		}
+		ret = min(static_cast<GInt64>(m_count - m_pos), num);
+		m_pos += ret;
 	}
-	GInt64 lRet = min(static_cast<GInt64>(m_count - m_pos), num);
-	m_pos += lRet;
-	return lRet;
+	return ret;
 }
 

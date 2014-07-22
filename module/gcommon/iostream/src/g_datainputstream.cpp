@@ -29,115 +29,85 @@ DataInputStream::~DataInputStream()
 {
 }
 
-int DataInputStream::readToBuff(int count)
-{
-	if (count > MAX_BUFFER_SIZE)
-	{
-		return -2;
-	}
-
-	int offset = 0;
-	while(offset < count)
-	{
-		int bytesRead = read(m_buffer, MAX_BUFFER_SIZE, offset, count - offset);
-		if(bytesRead == -1) 
-			return bytesRead;
-		offset += bytesRead;
-	}
-	return offset;
-}
-
 bool DataInputStream::readBool() throw(std::ios_base::failure, GCommon::EOFException)
 {
-	GInt32 iTmp = read();
-	if (iTmp < 0)
+	register GInt32 c = read();
+	if (c < 0)
 	{
 		throw EOFException();
 	}
-	return (iTmp != 0);
+	return (c != 0);
 }
 
 GInt8 DataInputStream::readChar() throw(std::ios_base::failure, GCommon::EOFException)
 {
-	return read();
+	register GInt32 c = read();
+	if (c < 0)
+	{
+		throw EOFException();
+	}
+	return static_cast<GInt8>(c);
 }
 
 GInt16 DataInputStream::readShort() throw(std::ios_base::failure, GCommon::EOFException)
 {
-	if (readToBuff(2) < 0)
-	{
-		return -1;
-	}
-
-	return static_cast<GInt16>(((m_buffer[0] & 0xff) << 8) | (m_buffer[1] & 0xff));
+	register GInt8 buffer[2] = {0};
+	readFully(buffer, 2);
+	return static_cast<GInt16>(((buffer[0] & 0xff) << 8) | (buffer[1] & 0xff));
 }
 
 GInt32 DataInputStream::readInt() throw(std::ios_base::failure, GCommon::EOFException)
 {
-	if (readToBuff(4) < 0)
-	{
-		return -1;
-	}
-
-	return static_cast<GInt32>(((m_buffer[0] & 0xff) << 24) | ((m_buffer[1] & 0xff) << 16) |
-            ((m_buffer[2] & 0xff) << 8) | (m_buffer[3] & 0xff));
+	register GInt8 buffer[4] = {0};
+	readFully(buffer, 4);
+	return static_cast<GInt32>(((buffer[0] & 0xff) << 24) | ((buffer[1] & 0xff) << 16) |
+            ((buffer[2] & 0xff) << 8) | (buffer[3] & 0xff));
 }
 
 GInt64 DataInputStream::readLong() throw(std::ios_base::failure, GCommon::EOFException)
 {
-	if (readToBuff(8) < 0)
-	{
-		return -1;
-	}
-
-	GInt64 i1 = static_cast<GInt64>(((m_buffer[0] & 0xff) << 24) | ((m_buffer[1] & 0xff) << 16) |
-		((m_buffer[2] & 0xff) << 8) | (m_buffer[3] & 0xff));
-
-	GInt64 i2 = static_cast<GInt64>(((m_buffer[4] & 0xff) << 24) | ((m_buffer[5] & 0xff) << 16) |
-		((m_buffer[6] & 0xff) << 8) | (m_buffer[7] & 0xff));
-
+	register GInt8 buffer[8] = {0};
+	readFully(buffer, 8);
+	GInt64 i1 = static_cast<GInt64>(((buffer[0] & 0xff) << 24) | ((buffer[1] & 0xff) << 16) |
+		((buffer[2] & 0xff) << 8) | (buffer[3] & 0xff));
+	GInt64 i2 = static_cast<GInt64>(((buffer[4] & 0xff) << 24) | ((buffer[5] & 0xff) << 16) |
+		((buffer[6] & 0xff) << 8) | (buffer[7] & 0xff));
 	return static_cast<GInt64>(((i1 & 0xffffffffL) << 32) |(i2 & 0xffffffffL));
 }
 
 GUint8 DataInputStream::readUnsignedChar() throw(std::ios_base::failure, GCommon::EOFException)
-{
-	return static_cast<GUint8>(read());
+{	
+	register GInt32 c = read();
+	if (c < 0)
+	{
+		throw EOFException();
+	}
+	return static_cast<GUint8>(c);
 }
 
 GUint16 DataInputStream::readUnsignedShort() throw(std::ios_base::failure, GCommon::EOFException)
 {
-	if (readToBuff(2) < 0)
-	{
-		return -1;
-	}
-
-	return static_cast<GUint16>(((m_buffer[0] & 0xff) << 8) | (m_buffer[1] & 0xff));
+	register GInt8 buffer[2] = {0};
+	readFully(buffer, 2);
+	return static_cast<GUint16>(((buffer[0] & 0xff) << 8) | (buffer[1] & 0xff));
 }
 
 GUint32 DataInputStream::readUnsignedInt() throw(std::ios_base::failure, GCommon::EOFException)
 {
-	if (readToBuff(4) < 0)
-	{
-		return -1;
-	}
-
-	return static_cast<GUint32>(((m_buffer[0] & 0xff) << 24) | ((m_buffer[1] & 0xff) << 16) |
-			((m_buffer[2] & 0xff) << 8) | (m_buffer[3] & 0xff));
+	register GInt8 buffer[4] = {0};
+	readFully(buffer, 4);
+	return static_cast<GUint32>(((buffer[0] & 0xff) << 24) | ((buffer[1] & 0xff) << 16) |
+			((buffer[2] & 0xff) << 8) | (buffer[3] & 0xff));
 }
 
 GUint64 DataInputStream::readUnsignedLong() throw(std::ios_base::failure, GCommon::EOFException)
 {
-	if (readToBuff(8) < 0)
-	{
-		return -1;
-	}
-	
-	GUint64 i1 = static_cast<GUint64>(((m_buffer[0] & 0xff) << 24) | ((m_buffer[1] & 0xff) << 16) |
-		((m_buffer[2] & 0xff) << 8) | (m_buffer[3] & 0xff));
-
-	GUint64 i2 = static_cast<GUint64>(((m_buffer[4] & 0xff) << 24) | ((m_buffer[5] & 0xff) << 16) |
-		((m_buffer[6] & 0xff) << 8) | (m_buffer[7] & 0xff));
-
+	register GInt8 buffer[8] = {0};
+	readFully(buffer, 8);
+	GUint64 i1 = static_cast<GUint64>(((buffer[0] & 0xff) << 24) | ((buffer[1] & 0xff) << 16) |
+		((buffer[2] & 0xff) << 8) | (buffer[3] & 0xff));
+	GUint64 i2 = static_cast<GUint64>(((buffer[4] & 0xff) << 24) | ((buffer[5] & 0xff) << 16) |
+		((buffer[6] & 0xff) << 8) | (buffer[7] & 0xff));
 	return static_cast<GUint64>(((i1 & 0xffffffffUL) << 32) |(i2 & 0xffffffffUL));
 }
 
@@ -146,33 +116,34 @@ std::string DataInputStream::readLine() throw(std::ios_base::failure, GCommon::E
 	return string("");
 }
 
-void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure, std::logic_error)
+void DataInputStream::readFully(GInt8* buffer, GInt32 bufferLen) throw(std::ios_base::failure, std::logic_error, GCommon::EOFException)
 {
-	readFully(pBuffer, iBufferLen, 0, iBufferLen);
+	readFully(buffer, bufferLen, 0, bufferLen);
 }
 
-void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, GInt32 iLen) throw(std::ios_base::failure, std::logic_error)
+void DataInputStream::readFully(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error, GCommon::EOFException)
 {
-	if (!pBuffer)
+	if (!buffer)
 	{
 		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
 	}
 	
-	if (iBufferLen < 0 ||
-		iOff < 0 ||
-		iLen < 0)
+	if (bufferLen < 0 ||
+		offset < 0 ||
+		len < 0)
 	{
 		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
 	}
 
-	while (iLen > 0)
+	while (len > 0)
 	{
-		GInt32 iNumRead = read(pBuffer, iBufferLen, iOff, iLen);
-		if (iNumRead < 0)
+		GInt32 num = read(buffer, bufferLen, offset, len);
+		if (num < 0)
 		{
-			return;
+			throw EOFException();
 		}
-		iLen -= iNumRead;
-		iOff += iNumRead;
+		len -= num;
+		offset += num;
 	}
 }
+

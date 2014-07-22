@@ -100,6 +100,8 @@ private:
 
 	GInt8* m_buffer;
 	GInt32 m_bufferLen;
+
+	GMutex m_mtx;
 };
 
 G_NS_END

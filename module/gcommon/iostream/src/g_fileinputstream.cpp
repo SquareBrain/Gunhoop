@@ -15,15 +15,15 @@
 * 
 */
 
+#include <g_sync.h>
 #include <g_fileinputstream.h>
 
 using namespace std;
 using namespace GCommon;
 
-
-
-FileInputStream::FileInputStream(shared_ptr<GFile> file)
+FileInputStream::FileInputStream(std::shared_ptr<GFile> file)
 	: m_file(file)
+	, m_mtx(PTHREAD_MUTEX_NORMAL)
 {
 	if (m_file == NULL)
 	{
@@ -31,8 +31,8 @@ FileInputStream::FileInputStream(shared_ptr<GFile> file)
 	}
 }
 
-FileInputStream::FileInputStream(const string& filepath)
-	: m_file((shared_ptr<GFile>(new GFile(filepath.c_str()))))
+FileInputStream::FileInputStream(const std::string& filePath)
+	: m_file((shared_ptr<GFile>(new GFile(filePath.c_str()))))
 {
 	if (m_file->open(G_OPEN_READ) == G_NO)
 	{
@@ -46,7 +46,7 @@ FileInputStream::~FileInputStream()
 
 GInt32 FileInputStream::available() throw(std::ios_base::failure)
 {
-	// TODO: GFile
+	// TODO: .........
 	return 0;
 }
 
@@ -62,54 +62,61 @@ GInt32 FileInputStream::read() throw(std::ios_base::failure, std::logic_error)
 	return  this->read(pBuffer, 1);
 }
 
-GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error)
+GInt32 FileInputStream::read(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error)
 {
-	if (!pBuffer)
+	GInt32 ret = -1;
+	synchronized(m_mtx)
 	{
-		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
-	}
-	else if (iOffset < 0 || iLen < 0 ||iBufferLen < iOffset + iLen)
-	{
-		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
-	}
-	else if (iLen == 0)
-	{
-		return 0;
-	}
+		if (!buffer)
+		{
+			throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
+		}
+		else if (offset < 0 || len < 0 ||bufferLen < offset + len)
+		{
+			throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
+		}
+		else if (len == 0)
+		{
+			return 0;
+		}
 
-	GInt32 ret = m_file->read(pBuffer + iOffset, iLen);
-	if (ret < 0)
-	{
-		throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
-	}
-	if (ret == 0)
-	{
-		ret = -1;
-	}
-	
+		ret = m_file->read(buffer + offset, len);
+		if (ret < 0)
+		{
+			throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
+		}
+		if (ret == 0)
+		{
+			ret = -1;
+		}
+	}	
 	return ret;
 }
 
-GInt64 FileInputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
+GInt64 FileInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 {
-	if (lNum == 0)
+	synchronized(m_mtx)
 	{
-		return 0;
-	}
-	if (lNum  < 0)
-	{
-		throw out_of_range("");
-	}
+		if (num == 0)
+		{
+			return 0;
+		}
+		if (num  < 0)
+		{
+			throw out_of_range("");
+		}
 
-	// TODO: not complete
-	if (m_file->seek(lNum, G_SEEK_CUR))
-	{
-		throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
+		// TODO: not complete
+		if (m_file->seek(num, G_SEEK_CUR))
+		{
+			throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
+		}	
 	}
 	return 0;
 }
 
-shared_ptr<GFile> FileInputStream::GetFile()
+std::shared_ptr<GFile> FileInputStream::GetFile()
 {
 	return m_file;
 }
+

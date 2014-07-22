@@ -43,10 +43,8 @@ public:
 	virtual GUint64 readUnsignedLong() throw(std::ios_base::failure, GCommon::EOFException) = 0;
 	virtual std::string readLine() throw(std::ios_base::failure, GCommon::EOFException) = 0;
 
-	virtual void readFully(GInt8* pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure, std::logic_error) = 0;
-	virtual void readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, GInt32 iLen) throw(std::ios_base::failure, std::logic_error) = 0;
-
-	virtual GInt32 skipBytes(GInt32 iNum) = 0;
+	virtual void readFully(GInt8* buffer, GInt32 bufferLen) throw(std::ios_base::failure, std::logic_error, GCommon::EOFException) = 0;
+	virtual void readFully(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error, GCommon::EOFException) = 0;
 };
 
 G_NS_END

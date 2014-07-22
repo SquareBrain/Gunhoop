@@ -43,9 +43,9 @@ void FilterInputStream::close() throw(std::ios_base::failure)
 	m_in->close();
 }
 
-void FilterInputStream::mark(GInt32 iReadlimit)
+void FilterInputStream::mark(GInt32 readLimit)
 {
-	m_in->mark(iReadlimit);
+	m_in->mark(readLimit);
 }
 
 bool FilterInputStream::markSupported()
@@ -58,14 +58,14 @@ GInt32 FilterInputStream::read() throw(std::ios_base::failure, std::logic_error)
 	return  m_in->read();
 }
 
-GInt32 FilterInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure, std::logic_error)
+GInt32 FilterInputStream::read(GInt8* buffer, GInt32 bufferLen) throw(std::ios_base::failure, std::logic_error)
 {
-	return m_in->read(pBuffer, iBufferLen);
+	return m_in->read(buffer, bufferLen);
 }
 
-GInt32 FilterInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error)
+GInt32 FilterInputStream::read(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error)
 {
-	return  m_in->read(pBuffer, iBufferLen, iOffset, iBufferLen);
+	return  m_in->read(buffer, bufferLen, offset, len);
 }
 
 void FilterInputStream::reset() throw(std::ios_base::failure)
@@ -73,8 +73,8 @@ void FilterInputStream::reset() throw(std::ios_base::failure)
 	m_in->reset();
 }
 
-GInt64 FilterInputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
+GInt64 FilterInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 {
-	return m_in->skip(lNum);	
+	return m_in->skip(num);	
 }
 
