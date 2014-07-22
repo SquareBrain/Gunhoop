@@ -22,8 +22,7 @@
 #include <iostream>
 #include <g_system.h>
 #include <g_namespace.h>
-
-
+#include <g_io_exception.h>
 
 G_NS_GCOMMON_BEG
 
@@ -54,7 +53,7 @@ public:
         * The mark method of InputStream does nothing.
         * @param [in] iReadlimit the maximum limit of bytes that can be read before the mark position becomes invalid.
         */
-	virtual void mark(GInt32 iReadlimit);
+	virtual void mark(GInt32 readLimit);
 
 	/**
         * @brief Tests if this input stream supports the mark and reset methods. Whether or not mark and reset are supported is an invariant property of a particular input stream instance. The markSupported method of InputStream returns false.
@@ -77,7 +76,7 @@ public:
         * @return the total number of bytes read into the buffer, or -1 is there is no more data because the end of the stream has been reached.
         * @note 
         */
-	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure, std::logic_error);
+	virtual GInt32 read(GInt8* buffer, GInt32 bufferLen) throw(std::ios_base::failure, std::logic_error);
 
 	/**
         * @brief Returns the number of bytes that can be read (or skipped over) from this input stream without blocking by the next caller of a method for this input stream. The next caller might be the same thread or another thread.
@@ -89,7 +88,7 @@ public:
         * @param [in] iLen the maximum number of bytes to read.
         * @return the total number of bytes read into the buffer, or -1 if there is no more data because the end of the stream has been reached.
         */
-	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error);
+	virtual GInt32 read(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error);
 
 	/**
         * @brief Repositions this stream to the position at the time the mark method was last called on this input stream.
@@ -104,14 +103,14 @@ public:
         * @param [in] iNum the number of bytes to be skipped.
         * @return the actual number of bytes skipped.
         */
-	virtual GInt64 skip(GInt64 lNum) throw(std::ios_base::failure);
+	virtual GInt64 skip(GInt64 num) throw(std::ios_base::failure);
 
 private:
 	enum 
 	{
 		SKIP_BUFFER_SIZE = 2048
 	};
-	static GInt8 ms_szSkipBuffer[SKIP_BUFFER_SIZE];
+	static GInt8 ms_skipbuffer[SKIP_BUFFER_SIZE];
 };
 
 G_NS_END

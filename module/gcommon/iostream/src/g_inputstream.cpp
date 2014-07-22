@@ -16,14 +16,13 @@
 */
 
 #include <g_inputstream.h>
-#include <g_private_define.h>
 
 using namespace std;
 using namespace GCommon;
 
 
 
-GInt8 InputStream::ms_szSkipBuffer[SKIP_BUFFER_SIZE] ={0};
+GInt8 InputStream::ms_skipbuffer[SKIP_BUFFER_SIZE] ={0};
 
 InputStream::InputStream()
 {
@@ -42,7 +41,7 @@ void InputStream::close() throw(std::ios_base::failure)
 {
 }
 
-void InputStream::mark(GInt32 iReadlimit)
+void InputStream::mark(GInt32 readLimit)
 {
 }
 
@@ -51,42 +50,42 @@ bool InputStream::markSupported()
 	return false;
 }
 
-GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure, std::logic_error)
+GInt32 InputStream::read(GInt8* buffer, GInt32 bufferLen) throw(std::ios_base::failure, std::logic_error)
 {
-	return this->read(pBuffer, iBufferLen, 0, iBufferLen);
+	return this->read(buffer, bufferLen, 0, bufferLen);
 }
 
-GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error)
+GInt32 InputStream::read(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error)
 {
-	if (!pBuffer)
+	if (!buffer)
 	{
 		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
 	}
-	else if (iOffset < 0 || iLen < 0 ||iBufferLen < iOffset + iLen)
+	else if (offset < 0 || len < 0 ||bufferLen < offset + len)
 	{
 		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
 	}
-	else if (iLen == 0)
+	else if (len == 0)
 	{
 		return 0;
 	}
 
-	GInt32 iChar = this->read();
-	if (iChar == -1)
+	GInt32 c = this->read();
+	if (c == -1)
 	{
 		return -1;
 	}
-	pBuffer[iOffset] = static_cast<GInt8>(iChar);
+	buffer[offset] = static_cast<GInt8>(c);
 
 	GInt32 iIndex = 1;
-	for (; iIndex < iLen; iIndex ++)
+	for (; iIndex < len; iIndex ++)
 	{
-		iChar = read();
-		if (iChar == -1)
+		c = read();
+		if (c == -1)
 		{
 			break;
 		}
-		pBuffer[iOffset + iIndex] = static_cast<GInt8>(iChar);
+		buffer[offset + iIndex] = static_cast<GInt8>(c);
 	}
 
 	return iIndex;
@@ -96,21 +95,21 @@ void InputStream::reset() throw(std::ios_base::failure)
 {
 }
 
-GInt64 InputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
+GInt64 InputStream::skip(GInt64 num) throw(std::ios_base::failure)
 {
-	GInt64 lRemaining = lNum;
-	GInt32 iReadLen; 
+	GInt64 remaining = num;
+	GInt32 readlen; 
 
-	while (lRemaining > 0)
+	while (remaining > 0)
 	{
-		iReadLen = read(ms_szSkipBuffer, SKIP_BUFFER_SIZE, 0,
-			static_cast<GInt32>(lRemaining > SKIP_BUFFER_SIZE ? SKIP_BUFFER_SIZE : lRemaining));
-		if (iReadLen < 0)
+		readlen = read(ms_skipbuffer, SKIP_BUFFER_SIZE, 0,
+			static_cast<GInt32>(remaining > SKIP_BUFFER_SIZE ? SKIP_BUFFER_SIZE : remaining));
+		if (readlen < 0)
 		{
 			break;
 		}
-		lRemaining -= static_cast<GInt64>(iReadLen);
+		remaining -= static_cast<GInt64>(readlen);
 	}
 
-	return lNum - lRemaining;	
+	return num - remaining;	
 }

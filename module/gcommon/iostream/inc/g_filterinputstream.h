@@ -17,11 +17,11 @@
 
 #pragma once
 
+#include <memory>
+
 #include <g_system.h>
 #include <g_namespace.h>
 #include <g_inputstream.h>
-
-
 
 G_NS_GCOMMON_BEG
 

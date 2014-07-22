@@ -29,8 +29,8 @@ G_NS_GCOMMON_BEG
 class FileInputStream : public InputStream
 {
 public:
-	FileInputStream(std::shared_ptr<GFile> file)
-	FileInputStream(const std::string filepath)
+	FileInputStream(std::shared_ptr<GFile> file);
+	FileInputStream(const std::string& filepath);
 	virtual ~FileInputStream(); 
 
 	/**

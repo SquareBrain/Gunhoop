@@ -26,8 +26,8 @@ G_NS_GCOMMON_BEG
 class BufferInputStream : public InputStream
 {
 public:
-	BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen);
-	BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen);
+	BufferInputStream(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len);
+	BufferInputStream(GInt8* buffer, GInt32 bufferLen);
 	virtual ~BufferInputStream(); 
 
 	/**
@@ -51,7 +51,7 @@ public:
         * The mark method of InputStream does nothing.
         * @param [in] iReadlimit the maximum limit of bytes that can be read before the mark position becomes invalid.
         */
-	virtual void mark(GInt32 iReadlimit);
+	virtual void mark(GInt32 readLimit);
 
 	/**
         * @brief Tests if this input stream supports the mark and reset methods. Whether or not mark and reset are supported is an invariant property of a particular input stream instance. The markSupported method of InputStream returns false.
@@ -76,7 +76,7 @@ public:
         * @param [in] iLen the maximum number of bytes to read.
         * @return the total number of bytes read into the buffer, or -1 if there is no more data because the end of the stream has been reached.
         */
-	virtual GInt32 read(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error);
+	virtual GInt32 read(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error);
 
 	/**
         * @brief Repositions this stream to the position at the time the mark method was last called on this input stream.
@@ -91,15 +91,15 @@ public:
         * @param [in] iNum the number of bytes to be skipped.
         * @return the actual number of bytes skipped.
         */
-	virtual GInt64 skip(GInt64 lNum) throw(std::ios_base::failure);
+	virtual GInt64 skip(GInt64 num) throw(std::ios_base::failure);
 
 private:
-	GInt32 m_iPos;
-	GInt32 m_iMark;
-	GInt32 m_iCount;
+	GInt32 m_pos;
+	GInt32 m_mark;
+	GInt32 m_count;
 
-	GInt8* m_pBuffer;
-	GInt32 m_iBufferLen;
+	GInt8* m_buffer;
+	GInt32 m_bufferLen;
 };
 
 G_NS_END

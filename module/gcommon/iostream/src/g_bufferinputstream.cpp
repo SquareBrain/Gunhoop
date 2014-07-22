@@ -17,64 +17,63 @@
 
 #include <algorithm>
 #include <g_bufferinputstream.h>
-#include <g_private_define.h>
 
 using namespace std;
 using namespace GCommon;
 
 
 
-BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen)
+BufferInputStream::BufferInputStream(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len)
 {
-	if (!pBuffer)
+	if (!buffer)
 	{
 		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
 		return;
 	}
 	
-	if (iBufferLen < 0 ||
-		iOffset < 0 || 
-		iLen < 0 || 
-		iOffset > iBufferLen)
+	if (bufferLen < 0 ||
+		offset < 0 || 
+		len < 0 || 
+		offset > bufferLen)
 	{
 		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
 		return;
 	}
 
-	m_pBuffer = pBuffer;
-	m_iBufferLen = iBufferLen;
+	m_buffer = buffer;
+	m_bufferLen = bufferLen;
 
-	m_iCount = iOffset + iLen;
-	if (m_iCount > iBufferLen)
+	m_count = offset + len;
+	if (m_count > bufferLen)
 	{
-		m_iCount = iBufferLen;
+		m_count = bufferLen;
 	}
 
-	m_iPos = iOffset;
-	m_iMark = m_iPos;
+	m_pos = offset;
+	m_mark = m_pos;
 }
 
-BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen)
+BufferInputStream::BufferInputStream(GInt8* buffer, GInt32 bufferLen)
 {
-	if (!pBuffer)
+	if (!buffer)
 	{
 		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
 		return;
 	}
 	
-	if (iBufferLen < 0)
+	if (bufferLen < 0)
 	{
 		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
 		return;
 	}
+	
+	m_buffer = buffer;
+	m_bufferLen = bufferLen;
 
-	m_pBuffer = pBuffer;
-	m_iBufferLen = iBufferLen;
+	m_count = bufferLen;
 
-	m_iCount = iBufferLen;
-
-	m_iPos = 0;
-	m_iMark = m_iPos;
+	m_pos = 0;
+	m_mark = m_pos;
 }
 
 BufferInputStream::~BufferInputStream()
@@ -83,7 +82,7 @@ BufferInputStream::~BufferInputStream()
 
 GInt32 BufferInputStream::available() throw(std::ios_base::failure)
 {
-	return m_iCount - m_iPos;
+	return m_count - m_pos;
 }
 
 void BufferInputStream::close() throw(std::ios_base::failure)
@@ -91,9 +90,9 @@ void BufferInputStream::close() throw(std::ios_base::failure)
 	// do nothing
 }
 
-void BufferInputStream::mark(GInt32 iReadlimit)
+void BufferInputStream::mark(GInt32 readlimit)
 {
-	m_iMark = m_iPos;
+	m_mark = m_pos;
 }
 
 bool BufferInputStream::markSupported()
@@ -103,51 +102,51 @@ bool BufferInputStream::markSupported()
 
 GInt32 BufferInputStream::read() throw(std::ios_base::failure, std::logic_error)
 {
-	if (m_iPos < m_iCount)
+	if (m_pos < m_count)
 	{
-		return static_cast<GInt32>(m_pBuffer[m_iPos ++] & 0xFF);
+		return static_cast<GInt32>(m_buffer[m_pos ++] & 0xFF);
 	}
 	return -1;
 }
 
-GInt32 BufferInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error)
+GInt32 BufferInputStream::read(GInt8 * buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error)
 {
-	if (m_iPos >= m_iCount)
+	if (m_pos >= m_count)
 	{
 		return -1;
 	}
-	if (!pBuffer)
+	if (!buffer)
 	{
 		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
 	}
-	if (iBufferLen < 0 || iOffset < 0 || iLen < 0 || iBufferLen < iOffset + iLen)
+	if (bufferLen < 0 || offset < 0 || len < 0 || bufferLen < offset + len)
 	{
 		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
 	}
-	if (iLen == 0)
+	if (len == 0)
 	{
 		return 0;
 	}
 	
-	GInt32 iNum = min(m_iCount - m_iPos, iLen);
-	memcpy(pBuffer + iOffset, m_pBuffer + m_iPos, iNum);
-	m_iPos += iNum;
-	return iNum;
+	GInt32 num = min(m_count - m_pos, len);
+	memcpy(buffer + offset, m_buffer + m_pos, num);
+	m_pos += num;
+	return num;
 }
 
 void BufferInputStream::reset() throw(std::ios_base::failure)
 {
-	m_iPos = m_iMark;
+	m_pos = m_mark;
 }
 
-GInt64 BufferInputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
+GInt64 BufferInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 {
-	if (lNum < 0)
+	if (num < 0)
 	{
-		lNum = 0L;
+		num = 0L;
 	}
-	GInt64 lRet = min(static_cast<GInt64>(m_iCount - m_iPos), lNum);
-	m_iPos += lRet;
+	GInt64 lRet = min(static_cast<GInt64>(m_count - m_pos), num);
+	m_pos += lRet;
 	return lRet;
 }
 

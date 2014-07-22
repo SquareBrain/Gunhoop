@@ -16,7 +16,6 @@
 */
 
 #include <g_fileinputstream.h>
-#include <g_private_define.h>
 
 using namespace std;
 using namespace GCommon;
@@ -32,7 +31,7 @@ FileInputStream::FileInputStream(shared_ptr<GFile> file)
 	}
 }
 
-FileInputStream::FileInputStream(const string filepath)
+FileInputStream::FileInputStream(const string& filepath)
 	: m_file((shared_ptr<GFile>(new GFile(filepath.c_str()))))
 {
 	if (m_file->open(G_OPEN_READ) == G_NO)

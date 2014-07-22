@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file g_private_define.h
+* @file g_io_exception.h
 * @version
 * @brief
 * @author ylh
@@ -18,6 +18,7 @@
 #pragma once
 
 #include <string>
+#include <stdexcept>
 
 inline std::string EXCEPTION_DESCRIPTION(const std::string& desc)
 {
@@ -25,3 +26,12 @@ inline std::string EXCEPTION_DESCRIPTION(const std::string& desc)
 	std::string(", Line:") + std::to_string(__LINE__) +\
 	std::string(", exception:") + std::string(desc));
 }
+
+G_NS_GCOMMON_BEG
+
+class EOFException : public std::exception
+{
+};
+
+G_NS_END
+
