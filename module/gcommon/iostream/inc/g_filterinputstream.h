@@ -28,7 +28,7 @@ G_NS_GCOMMON_BEG
 class FilterInputStream : public InputStream
 {
 public:
-	FilterInputStream(InputStream& in); 
+	FilterInputStream(std::shared_ptr<InputStream> in); 
 	virtual ~FilterInputStream();
 
 	/**
@@ -105,8 +105,7 @@ public:
 	virtual GInt64 skip(GInt64 lNum) throw(std::ios_base::failure);
 
 private:
-	InputStream* pIn;
+	std::shared_ptr<InputStream> m_in;
 };
 
 G_NS_END
-
