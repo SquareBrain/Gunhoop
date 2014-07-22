@@ -65,11 +65,6 @@ GInt32 FileInputStream::read() throw(std::ios_base::failure, std::logic_error)
 
 GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error)
 {
-	if (openCheck() == G_NO)
-	{
-		return -4;
-	}
-
 	if (!pBuffer)
 	{
 		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
@@ -88,11 +83,6 @@ GInt32 FileInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset,
 
 GInt64 FileInputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
 {
-	if (openCheck() == G_NO)
-	{
-		return -4;
-	}
-
 	if (lNum == 0)
 	{
 		return 0;
@@ -113,10 +103,4 @@ GInt64 FileInputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
 shared_ptr<GFile> FileInputStream::GetFile()
 {
 	return m_file;
-}
-
-GResult FileInputStream::openCheck()
-{
-	// TODO: GFile
-	return G_YES;
 }
