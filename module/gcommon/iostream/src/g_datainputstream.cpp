@@ -16,12 +16,12 @@
 */
 
 #include <g_datainputstream.h>
+#include <g_private_define.h>
 
+using namespace std;
 using namespace GCommon;
 
-
-
-DataInputStream::DataInputStream(InputStream& in)
+DataInputStream::DataInputStream(std::shared_ptr<InputStream> in)
 	: FilterInputStream(in)
 {
 }
@@ -164,4 +164,3 @@ void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, 
 		iOff += iNumRead;
 	}
 }
-
