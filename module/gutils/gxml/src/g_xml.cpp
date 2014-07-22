@@ -193,8 +193,22 @@ public:
         }
 
         // recurse to the children
-        element->GetChildren().Apply(*this);
+        apply(element);
     }
+
+    GResult apply(GXmlElementNode* element) const
+    {       
+        element->GetChildren();
+        Item* item = m_Head;
+        while (item) 
+        {
+            GXmlNamespaceCollapser Collapser()
+            function(item->m_Data);
+            item = item->m_Next;
+        }
+
+        return NPT_SUCCESS;
+    }    
 
 private:
     // methods
@@ -214,7 +228,7 @@ void GXmlNamespaceCollapser::CollapseNamespace(GXmlElementNode* element,
         const std::string* uri = element->GetNamespaceUri(prefix);
         if (uri) 
         {
-            m_root->SetNamespaceUri(prefix, uri->GetGInt8*s());
+            m_root->SetNamespaceUri(prefix, uri->c_str());
         }
     }
 }
