@@ -48,18 +48,18 @@ int DataInputStream::readToBuff(int count)
 	return offset;
 }
 
-bool DataInputStream::readBool()
+bool DataInputStream::readBool() throw(std::ios_base::failure)
 {
 	GInt32 iTmp = read();
 	return (iTmp != 0);
 }
 
-GInt8 DataInputStream::readChar()
+GInt8 DataInputStream::readChar() throw(std::ios_base::failure)
 {
 	return read();
 }
 
-GInt16 DataInputStream::readShort()
+GInt16 DataInputStream::readShort() throw(std::ios_base::failure)
 {
 	if (readToBuff(2) < 0)
 	{
@@ -69,7 +69,7 @@ GInt16 DataInputStream::readShort()
 	return static_cast<GInt16>(((m_buffer[0] & 0xff) << 8) | (m_buffer[1] & 0xff));
 }
 
-GInt32 DataInputStream::readInt()
+GInt32 DataInputStream::readInt() throw(std::ios_base::failure)
 {
 	if (readToBuff(4) < 0)
 	{
@@ -80,7 +80,7 @@ GInt32 DataInputStream::readInt()
             ((m_buffer[2] & 0xff) << 8) | (m_buffer[3] & 0xff));
 }
 
-GInt64 DataInputStream::readLong()
+GInt64 DataInputStream::readLong() throw(std::ios_base::failure)
 {
 	if (readToBuff(8) < 0)
 	{
@@ -96,12 +96,12 @@ GInt64 DataInputStream::readLong()
 	return static_cast<GInt64>(((i1 & 0xffffffffL) << 32) |(i2 & 0xffffffffL));
 }
 
-GUint8 DataInputStream::readUnsignedChar()
+GUint8 DataInputStream::readUnsignedChar() throw(std::ios_base::failure)
 {
 	return static_cast<GUint8>(read());
 }
 
-GUint16 DataInputStream::readUnsignedShort()
+GUint16 DataInputStream::readUnsignedShort() throw(std::ios_base::failure)
 {
 	if (readToBuff(2) < 0)
 	{
@@ -111,7 +111,7 @@ GUint16 DataInputStream::readUnsignedShort()
 	return static_cast<GUint16>(((m_buffer[0] & 0xff) << 8) | (m_buffer[1] & 0xff));
 }
 
-GUint32 DataInputStream::readUnsignedInt()
+GUint32 DataInputStream::readUnsignedInt() throw(std::ios_base::failure)
 {
 	if (readToBuff(4) < 0)
 	{
@@ -122,7 +122,7 @@ GUint32 DataInputStream::readUnsignedInt()
 			((m_buffer[2] & 0xff) << 8) | (m_buffer[3] & 0xff));
 }
 
-GUint64 DataInputStream::readUnsignedLong()
+GUint64 DataInputStream::readUnsignedLong() throw(std::ios_base::failure)
 {
 	if (readToBuff(8) < 0)
 	{
@@ -138,12 +138,17 @@ GUint64 DataInputStream::readUnsignedLong()
 	return static_cast<GUint64>(((i1 & 0xffffffffUL) << 32) |(i2 & 0xffffffffUL));
 }
 
-void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen)
+std::string DataInputStream::readLine() throw(std::ios_base::failure)
+{
+	
+}
+
+void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure)
 {
 	readFully(pBuffer, iBufferLen, 0, iBufferLen);
 }
 
-void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, GInt32 iLen)
+void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, GInt32 iLen) throw(std::ios_base::failure)
 {
 	if (!pBuffer ||
 		iBufferLen < 0 ||
