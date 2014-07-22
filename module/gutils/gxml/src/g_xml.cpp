@@ -200,11 +200,9 @@ public:
     {       
         element->GetChildren();
         Item* item = m_Head;
-        while (item) 
+        for (; item != ) 
         {
-            GXmlNamespaceCollapser Collapser()
-            function(item->m_Data);
-            item = item->m_Next;
+            GXmlNamespaceCollapser Collapser(item->m_data);
         }
 
         return NPT_SUCCESS;
@@ -524,7 +522,8 @@ const std::string* GXmlElementNode::GetNamespacePrefix(const GInt8* uri) const
         namespace_map = m_namespaceMap;  
     }
     else if (m_namespaceParent != NULL)
-    {  
+    {
+  
         namespace_map = m_namespaceParent->m_namespaceMap   
     }
 
