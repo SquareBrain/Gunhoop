@@ -102,7 +102,7 @@ GInt64 FileInputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
 		throw out_of_range("");
 	}
 
-	// TODO: GFile
+	// TODO: not complete
 	if (m_file->seek(lNum, G_SEEK_CUR))
 	{
 		throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
