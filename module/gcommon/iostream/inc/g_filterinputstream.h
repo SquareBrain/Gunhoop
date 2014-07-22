@@ -104,7 +104,7 @@ public:
         */
 	virtual GInt64 skip(GInt64 lNum) throw(std::ios_base::failure);
 
-private:
+protected:
 	std::shared_ptr<InputStream> m_in;
 };
 
