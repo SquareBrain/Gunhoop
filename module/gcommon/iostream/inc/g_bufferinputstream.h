@@ -26,8 +26,8 @@ G_NS_GCOMMON_BEG
 class BufferInputStream : public InputStream
 {
 public:
-	BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::logic_error);
-	BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen) throw(std::logic_error);
+	BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen);
+	BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen);
 	virtual ~BufferInputStream(); 
 
 	/**
