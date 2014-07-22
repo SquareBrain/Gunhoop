@@ -152,7 +152,7 @@ void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen) throw(std::io
 	readFully(pBuffer, iBufferLen, 0, iBufferLen);
 }
 
-void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, GInt32 iLen) throw(std::ios_base::failure)
+void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, GInt32 iLen) throw(std::ios_base::failure, std::logic_error)
 {
 	if (!pBuffer)
 	{
