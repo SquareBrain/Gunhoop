@@ -22,9 +22,13 @@ using namespace GCommon;
 
 
 
-FilterInputStream::FilterInputStream(InputStream& in)
-	: pIn(&in)
+FilterInputStream::FilterInputStream(std::shared_ptr<InputStream> in)
+	: m_in(in)
 {
+	if (!m_in)
+	{
+		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
+	}
 }
 
 FilterInputStream::~FilterInputStream()
@@ -33,46 +37,46 @@ FilterInputStream::~FilterInputStream()
 
 GInt32 FilterInputStream::available() throw(std::ios_base::failure)
 {
-	return pIn->available();
+	return m_in->available();
 }
 
 void FilterInputStream::close() throw(std::ios_base::failure)
 {
-	pIn->close();
+	m_in->close();
 }
 
 void FilterInputStream::mark(GInt32 iReadlimit)
 {
-	pIn->mark(iReadlimit);
+	m_in->mark(iReadlimit);
 }
 
 bool FilterInputStream::markSupported()
 {	
-	return pIn->markSupported();
+	return m_in->markSupported();
 }
 
 GInt32 FilterInputStream::read() throw(std::ios_base::failure, std::logic_error)
 {
-	return  pIn->read();
+	return  m_in->read();
 }
 
 GInt32 FilterInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure, std::logic_error)
 {
-	return pIn->read(pBuffer, iBufferLen);
+	return m_in->read(pBuffer, iBufferLen);
 }
 
 GInt32 FilterInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::ios_base::failure, std::logic_error)
 {
-	return  pIn->read(pBuffer, iBufferLen, iOffset, iBufferLen);
+	return  m_in->read(pBuffer, iBufferLen, iOffset, iBufferLen);
 }
 
 void FilterInputStream::reset() throw(std::ios_base::failure)
 {
-	pIn->reset();
+	m_in->reset();
 }
 
 GInt64 FilterInputStream::skip(GInt64 lNum) throw(std::ios_base::failure)
 {
-	return pIn->skip(lNum);	
+	return m_in->skip(lNum);	
 }
 
