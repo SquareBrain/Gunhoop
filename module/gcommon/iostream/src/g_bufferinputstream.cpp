@@ -23,11 +23,11 @@ using namespace GCommon;
 
 
 
-BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen) throw(std::logic_error)
+BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOffset, GInt32 iLen)
 {
 	if (!pBuffer)
 	{
-		throw invalid_argument("");
+		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
 		return;
 	}
 	
@@ -36,7 +36,7 @@ BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 i
 		iLen < 0 || 
 		iOffset > iBufferLen)
 	{
-		throw out_of_range("");
+		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
 		return;
 	}
 
@@ -53,17 +53,17 @@ BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen, GInt32 i
 	m_iMark = m_iPos;
 }
 
-BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen) throw(std::logic_error)
+BufferInputStream::BufferInputStream(GInt8* pBuffer, GInt32 iBufferLen)
 {
 	if (!pBuffer)
 	{
-		throw invalid_argument("");
+		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
 		return;
 	}
 	
 	if (iBufferLen < 0)
 	{
-		throw out_of_range("");
+		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
 		return;
 	}
 
@@ -117,11 +117,11 @@ GInt32 BufferInputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffse
 	}
 	if (!pBuffer)
 	{
-		throw invalid_argument("");
+		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
 	}
 	if (iBufferLen < 0 || iOffset < 0 || iLen < 0 || iBufferLen < iOffset + iLen)
 	{
-		throw out_of_range("");
+		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
 	}
 	if (iLen == 0)
 	{
