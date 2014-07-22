@@ -25,7 +25,7 @@ using namespace GCommon;
 FilterInputStream::FilterInputStream(std::shared_ptr<InputStream> in)
 	: m_in(in)
 {
-	if (!m_in)
+	if (m_in == NULL)
 	{
 		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
 	}
