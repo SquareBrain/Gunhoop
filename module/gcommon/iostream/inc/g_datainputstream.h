@@ -39,6 +39,7 @@ public:
 	virtual GUint16 readUnsignedShort() throw(std::ios_base::failure);
 	virtual GUint32 readUnsignedInt() throw(std::ios_base::failure);
 	virtual GUint64 readUnsignedLong() throw(std::ios_base::failure);
+	virtual std::string readLine() throw(std::ios_base::failure);
 
 	virtual void readFully(GInt8* pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure);
 	virtual void readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, GInt32 iLen) throw(std::ios_base::failure);
