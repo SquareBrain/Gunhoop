@@ -147,19 +147,23 @@ std::string DataInputStream::readLine() throw(std::ios_base::failure)
 	
 }
 
-void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure)
+void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure, std::logic_error)
 {
 	readFully(pBuffer, iBufferLen, 0, iBufferLen);
 }
 
 void DataInputStream::readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, GInt32 iLen) throw(std::ios_base::failure)
 {
-	if (!pBuffer ||
-		iBufferLen < 0 ||
+	if (!pBuffer)
+	{
+		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
+	}
+	
+	if (iBufferLen < 0 ||
 		iOff < 0 ||
 		iLen < 0)
 	{
-		return;
+		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
 	}
 
 	while (iLen > 0)
