@@ -17,6 +17,9 @@
 
 #pragma once
 
+#include <exception>
+#include <stdexcept>
+#include <iostream>
 #include <g_system.h>
 #include <g_namespace.h>
 
@@ -28,18 +31,18 @@ public:
 	DataInput() {}
 	virtual ~DataInput() {}
 
-	virtual bool readBool() = 0;
-	virtual GInt8 readChar() = 0;
-	virtual GInt16 readShort() = 0;
-	virtual GInt32 readInt() = 0;
-	virtual GInt64 readLong() = 0;
-	virtual GUint8 readUnsignedChar() = 0;
-	virtual GUint16 readUnsignedShort() = 0;
-	virtual GUint32 readUnsignedInt() = 0;
-	virtual GUint64 readUnsignedLong() = 0;
+	virtual bool readBool() throw(std::ios_base::failure) = 0;
+	virtual GInt8 readChar() throw(std::ios_base::failure) = 0;
+	virtual GInt16 readShort() throw(std::ios_base::failure) = 0;
+	virtual GInt32 readInt() throw(std::ios_base::failure) = 0;
+	virtual GInt64 readLong() throw(std::ios_base::failure) = 0;
+	virtual GUint8 readUnsignedChar() throw(std::ios_base::failure) = 0;
+	virtual GUint16 readUnsignedShort() throw(std::ios_base::failure) = 0;
+	virtual GUint32 readUnsignedInt() throw(std::ios_base::failure) = 0;
+	virtual GUint64 readUnsignedLong() throw(std::ios_base::failure) = 0;
 
-	virtual void readFully(GInt8* pBuffer, GInt32 iBufferLen) = 0;
-	virtual void readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, GInt32 iLen) = 0;
+	virtual void readFully(GInt8* pBuffer, GInt32 iBufferLen) throw(std::ios_base::failure) = 0;
+	virtual void readFully(GInt8* pBuffer, GInt32 iBufferLen, GInt32 iOff, GInt32 iLen) throw(std::ios_base::failure) = 0;
 
 	virtual GInt32 skipBytes(GInt32 iNum) = 0;
 };
