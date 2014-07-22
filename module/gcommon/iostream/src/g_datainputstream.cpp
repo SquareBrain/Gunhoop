@@ -53,7 +53,7 @@ bool DataInputStream::readBool() throw(std::ios_base::failure)
 	GInt32 iTmp = read();
 	if (iTmp < 0)
 	{
-		throw ios_base::failure();
+		throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
 	}
 	return (iTmp != 0);
 }
