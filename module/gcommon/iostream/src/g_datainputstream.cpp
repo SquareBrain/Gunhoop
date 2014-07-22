@@ -51,6 +51,10 @@ int DataInputStream::readToBuff(int count)
 bool DataInputStream::readBool() throw(std::ios_base::failure)
 {
 	GInt32 iTmp = read();
+	if (iTmp < 0)
+	{
+		throw ios_base::failure();
+	}
 	return (iTmp != 0);
 }
 
