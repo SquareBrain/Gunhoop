@@ -4,14 +4,14 @@
 *
 *************************************************************************************/
 /**
-* @file g_inputstream.h
+* @file g_private_define.h
 * @version
 * @brief
 * @author ylh
-* @date 2014-07-02
+* @date 2014-07-22
 * @note
 *
-* 1. 2014-07-02 ylh Created this file
+* 1. 2014-07-22 ylh Created this file
 *
 */
 
@@ -19,7 +19,7 @@
 
 #include <string>
 
-inline const std::string& EXCEPTION_DESCRIPTION(const std::string& desc)
+inline std::string EXCEPTION_DESCRIPTION(const std::string& desc)
 {
 	return (std::string("File:") + std::string(__FILE__) + \
 	std::string(", Line:") + std::to_string(__LINE__) +\
