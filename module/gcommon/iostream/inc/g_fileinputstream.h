@@ -29,8 +29,8 @@ G_NS_GCOMMON_BEG
 class FileInputStream : public InputStream
 {
 public:
-	FileInputStream(std::shared_ptr<GFile> file) throw(std::logic_error);
-	FileInputStream(const std::string filepath) throw(std::bad_alloc, std::ios_base::failure);
+	FileInputStream(std::shared_ptr<GFile> file)
+	FileInputStream(const std::string filepath)
 	virtual ~FileInputStream(); 
 
 	/**
