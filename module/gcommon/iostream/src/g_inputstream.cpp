@@ -16,6 +16,7 @@
 */
 
 #include <g_inputstream.h>
+#include <g_private_define.h>
 
 using namespace std;
 using namespace GCommon;
@@ -59,11 +60,11 @@ GInt32 InputStream::read(GInt8 * pBuffer, GInt32 iBufferLen, GInt32 iOffset, GIn
 {
 	if (!pBuffer)
 	{
-		throw invalid_argument("");
+		throw invalid_argument(EXCEPTION_DESCRIPTION("invalid_argument"));
 	}
 	else if (iOffset < 0 || iLen < 0 ||iBufferLen < iOffset + iLen)
 	{
-		throw out_of_range("");
+		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
 	}
 	else if (iLen == 0)
 	{
