@@ -27,7 +27,7 @@ G_NS_GCOMMON_BEG
 class DataInputStream : public FilterInputStream, public DataInput
 {
 public:
-	DataInputStream(InputStream& in); 
+	DataInputStream(std::shared_ptr<InputStream> in); 
 	virtual ~DataInputStream();
 
 	virtual bool readBool() throw(std::ios_base::failure);
