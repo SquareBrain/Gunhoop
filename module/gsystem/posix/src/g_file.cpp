@@ -191,6 +191,11 @@ GInt64 GFile::seek(const GInt64 offset, const SeekFlags& flags)
     return ::lseek(m_fd, offset, sysFlags);
 }
 
+GInt64 GFile::tell()
+{
+	return seek(0, G_SEEK_CUR);
+}
+
 GInt64 GFile::read(GInt8* buffer, const GUint64 size)
 {
     if (buffer == NULL || size <= 0)
