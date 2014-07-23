@@ -132,6 +132,13 @@ public:
      * @note 
      */			
 	GInt64 seek(const GInt64 offset, const SeekFlags& flags);	
+
+    /**
+     * @brief get file pointer offset from header
+     * @return offset from file header
+     * @note 
+     */			
+	GUint64 tell();
 	
     /**
      * @brief read file
