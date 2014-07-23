@@ -138,7 +138,7 @@ public:
      * @return offset from file header
      * @note 
      */			
-	GUint64 tell();
+	GInt64 tell();
 	
     /**
      * @brief read file
