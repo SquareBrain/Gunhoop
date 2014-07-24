@@ -31,14 +31,15 @@
 #define GXML_NO_NAMESPACE  NULL
 
 // delete list
+/*
 template <class T>
 class GDeleteList
 {
 public:
-    GDeleteList(T& list) : m_list(list) {}
-    void operator()(const T& list) const 
+    GDeleteList(std::list<T>& list) : m_list(list) {}
+    void operator()(const std::list<T>& list) const 
     {
-        T::iterator iter = m_list.begin();
+        std::list<T>::iterator iter = m_list.begin();
         for (; iter != m_list.end(); ++iter)
         {
             delete *iter;
@@ -48,8 +49,9 @@ public:
     }
     
 private:
-    T& m_list;
+    std::list<T>& m_list;
 };
+*/
 
 class GXmlProcessor;
 class GXmlAttribute;

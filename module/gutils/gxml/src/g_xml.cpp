@@ -198,14 +198,14 @@ public:
 
     GResult apply(GXmlElementNode* element) const
     {       
-        element->GetChildren();
-        Item* item = m_Head;
-        for (; item != ) 
+        GXmlNodeList& list = element->GetChildren();
+        GXmlNodeList::iterator iter = list.begin();
+        for (; iter !- list.end(); ++iter) 
         {
-            GXmlNamespaceCollapser Collapser(item->m_data);
+            GXmlNamespaceCollapser Collapser(iter->m_data);
         }
 
-        return NPT_SUCCESS;
+        return G_YES;
     }    
 
 private:
