@@ -47,7 +47,13 @@ FileInputStream::~FileInputStream()
 GInt32 FileInputStream::available() throw(std::ios_base::failure)
 {
 	// TODO: .........
-	return 0;
+	GInt64 current = m_file->tell();
+	GInt64 end = m_file->seek(0, );
+	GInt64 available = end - current;
+	
+	m_file->seek(current, );
+	
+	return available;
 }
 
 void FileInputStream::close() throw(std::ios_base::failure)
@@ -58,8 +64,8 @@ void FileInputStream::close() throw(std::ios_base::failure)
 
 GInt32 FileInputStream::read() throw(std::ios_base::failure, std::logic_error)
 {
-	GInt8 pBuffer[1] = {0};
-	return  this->read(pBuffer, 1);
+	GInt8 buffer[1] = {0};
+	return  this->read(buffer, 1);
 }
 
 GInt32 FileInputStream::read(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error)
