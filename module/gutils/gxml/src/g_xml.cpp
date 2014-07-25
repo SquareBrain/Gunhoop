@@ -319,7 +319,9 @@ GResult GXmlElementNode::AddChild(GXmlNode* child)
     }
     
     child->SetParent(this);
-    return m_children.Add(child);
+    m_children.push_back(child);
+
+    return G_YES;
 }
 
 GXmlElementNode* GXmlElementNode::GetChild(const GInt8* tag, const GInt8* namespc, GUint32 n) const
@@ -336,9 +338,9 @@ GXmlElementNode* GXmlElementNode::GetChild(const GInt8* tag, const GInt8* namesp
     }
 
     // find the child
-    GXmlNodeList::iterator item;
-    item = m_children.Find(GXmlTagFinder(tag, namespc), n);
-    return item ? (*item)->AsElementNode() : NULL;
+    GXmlNodeList::iterator iter = m_children.find(GXmlTagFinder(tag, namespc), n);
+    
+    return iter ? (*iter)->AsElementNode() : NULL;
 }
 
 GResult GXmlElementNode::AddAttribute(const GInt8* name, const GInt8* value)
@@ -429,10 +431,10 @@ void GXmlElementNode::RelinkNamespaceMaps()
 {
     // update our children so that they can inherit the right
     // namespace map
-    GXmlNodeList::iterator item = m_children.GetFirstItem();
-    while (item) 
+    GXmlNodeList::iterator iter = m_children.GetFirstItem();
+    while (iter) 
     {
-        GXmlElementNode* element = (*item)->AsElementNode();
+        GXmlElementNode* element = (*iter)->AsElementNode();
         if (element) 
         {
             if (m_namespaceMap) 
@@ -447,7 +449,7 @@ void GXmlElementNode::RelinkNamespaceMaps()
                 element->SetNamespaceParent(m_namespaceParent);
             }
         }
-        ++item;
+        ++iter;
     }
 }
 
@@ -669,16 +671,16 @@ GXmlNamespaceMap::~GXmlNamespaceMap()
 
 GResult GXmlNamespaceMap::SetNamespaceUri(const GInt8* prefix, const GInt8* uri)
 {
-    std::list<Entry*>::Iterator item = m_Entries.GetFirstItem();
-    while (item) 
+    std::list<Entry*>::Iterator iter = m_Entries.GetFirstItem();
+    while (iter) 
     {
-        if ((*item)->m_prefix == prefix) 
+        if ((*iter)->m_prefix == prefix) 
         {
             // the prefix is already in the map, update the value
-            (*item)->m_Uri = uri;
+            (*iter)->m_Uri = uri;
             return G_YES;
         }
-        ++item;
+        ++iter;
     }
 
     // the prefix is not in the map, add it
@@ -687,15 +689,15 @@ GResult GXmlNamespaceMap::SetNamespaceUri(const GInt8* prefix, const GInt8* uri)
 
 const std::string* GXmlNamespaceMap::GetNamespaceUri(const GInt8* prefix)
 {
-    std::list<Entry*>::Iterator item = m_Entries.GetFirstItem();
-    while (item) 
+    std::list<Entry*>::Iterator iter = m_Entries.GetFirstItem();
+    while (iter) 
     {
-        if ((*item)->m_prefix == prefix) 
+        if ((*iter)->m_prefix == prefix) 
         {
             // match
-            return &(*item)->m_Uri;
+            return &(*iter)->m_Uri;
         }
-        ++item;
+        ++iter;
     }
 
     // the prefix is not in the map
@@ -704,15 +706,15 @@ const std::string* GXmlNamespaceMap::GetNamespaceUri(const GInt8* prefix)
 
 const std::string* GXmlNamespaceMap::GetNamespacePrefix(const GInt8* uri)
 {
-    std::list<Entry*>::Iterator item = m_Entries.GetFirstItem();
-    while (item) 
+    std::list<Entry*>::Iterator iter = m_Entries.GetFirstItem();
+    while (iter) 
     {
-        if ((*item)->m_Uri == uri) 
+        if ((*iter)->m_Uri == uri) 
         {
             // match
-            return &(*item)->m_prefix;
+            return &(*iter)->m_prefix;
         }
-        ++item;
+        ++iter;
     }
 
     // the uri is not in the map
@@ -1654,54 +1656,40 @@ GResult GXmlProcessor::ProcessBuffer(const GInt8* buffer, GUint32 size)
     return G_YES;
 }       
 
-/*----------------------------------------------------------------------
-|   GXmlParser::GXmlParser
-+---------------------------------------------------------------------*/
-GXmlParser::GXmlParser(bool keep_whitespace /* = false */) :
-    m_root(NULL),
-    m_CurrentElement(NULL),
-    m_KeepWhitespace(keep_whitespace)
+GXmlParser::GXmlParser(bool keep_whitespace /* = false */) 
+    : m_root(NULL)
+    , m_currentElement(NULL)
+    , m_keepWhitespace(keep_whitespace)
 {
     m_Processor = new GXmlProcessor(this);
 }
 
-/*----------------------------------------------------------------------
-|   GXmlParser::~GXmlParser
-+---------------------------------------------------------------------*/
 GXmlParser::~GXmlParser()
 {
     Reset();
-    delete m_CurrentElement;
+    delete m_currentElement;
     delete m_Processor;
 }
 
-/*----------------------------------------------------------------------
-|   GXmlParser::Reset
-+---------------------------------------------------------------------*/
-void
-GXmlParser::Reset()
+void GXmlParser::Reset()
 {
     // delete anything that has been created 
-    GXmlNode* walker = m_CurrentElement; 
+    GXmlNode* walker = m_currentElement; 
     while (walker && walker->GetParent()) { 
         walker = walker->GetParent(); 
     } 
     delete walker; 
-    m_CurrentElement = NULL; 
+    m_currentElement = NULL; 
     
     m_Processor->Reset();
     
     m_root = NULL;
 }
 
-/*----------------------------------------------------------------------
-|   GXmlParser::Parse
-+---------------------------------------------------------------------*/
-GResult
-GXmlParser::Parse(const std::string& stream, 
-                     GUint32&        size,
-                     GXmlNode*&    node,
-                     bool             incremental /* = false */)
+GResult GXmlParser::Parse(const std::string& stream, 
+    GUint32& size,
+    GXmlNode*& node,
+    bool incremental /* = false */)
 {       
     GResult result;
 
@@ -1755,9 +1743,6 @@ GXmlParser::Parse(const std::string& stream,
     }
 }
 
-/*----------------------------------------------------------------------
-|   GXmlParser::Parse
-+---------------------------------------------------------------------*/
 GResult GXmlParser::Parse(const std::string& stream, 
     GXmlNode*& node,
     bool incremental /* = false */)
@@ -1766,26 +1751,18 @@ GResult GXmlParser::Parse(const std::string& stream,
     return Parse(stream, max_read, node, incremental);
 }
 
-/*----------------------------------------------------------------------
-|   GXmlParser::Parse
-+---------------------------------------------------------------------*/
-GResult GXmlParser::Parse(const GInt8*   xml, 
-GXmlNode*& node, 
-bool          incremental /* = false */)
+GResult GXmlParser::Parse(const GInt8* xml, 
+    GXmlNode*& node, 
+    bool incremental /* = false */)
 {       
     GUint32 size = std::stringLength(xml);
-
     return Parse(xml, size, node, incremental);
 }
 
-/*----------------------------------------------------------------------
-|   GXmlParser::Parse
-+---------------------------------------------------------------------*/
-GResult
-GXmlParser::Parse(const GInt8*   xml, 
-                     GUint32      size, 
-                     GXmlNode*& node,
-                     bool          incremental /* = false */)
+GResult GXmlParser::Parse(const GInt8* xml, 
+    GUint32 size, 
+    GXmlNode*& node,
+    bool incremental /* = false */)
 { 
     // start with a known state
     m_root = NULL;
@@ -1813,11 +1790,7 @@ GXmlParser::Parse(const GInt8*   xml,
     }
 }
 
-/*----------------------------------------------------------------------
-|   GXmlParser::OnStartElement
-+---------------------------------------------------------------------*/
-GResult 
-GXmlParser::OnStartElement(const GInt8* name)
+GResult GXmlParser::OnStartElement(const GInt8* name)
 {
     GXML_DebuG1("\nGXmlParser::OnStartElement: %s\n", name);
 
@@ -1830,25 +1803,21 @@ GXmlParser::OnStartElement(const GInt8* name)
     GXmlElementNode* node = new GXmlElementNode(name);
 
     // add node to tree
-    if (m_CurrentElement) {
+    if (m_currentElement) {
         // add the new node
-        m_CurrentElement->AddChild(node);
+        m_currentElement->AddChild(node);
     }
-    m_CurrentElement = node;
+    m_currentElement = node;
 
     return G_YES;
 }
 
-/*----------------------------------------------------------------------
-|   GXmlParser::OnElementAttribute
-+---------------------------------------------------------------------*/
-GResult 
-GXmlParser::OnElementAttribute(const GInt8* name, const GInt8* value)
+GResult GXmlParser::OnElementAttribute(const GInt8* name, const GInt8* value)
 {
     GXML_DebuG2("\nGXmlParser::OnElementAttribute: name=%s, value='%s'\n", 
                     name, value);
 
-    if (m_CurrentElement == NULL) {
+    if (m_currentElement == NULL) {
         return G_ERROR_INVALID_SYNTAX;
     }
                               
@@ -1860,9 +1829,9 @@ GXmlParser::OnElementAttribute(const GInt8* name, const GInt8* value)
         name[4] == 's' &&
         (name[5] == '\0' || name[5] == ':')) {
         // namespace definition
-        m_CurrentElement->SetNamespaceUri((name[5] == ':')?name+6:"", value);
+        m_currentElement->SetNamespaceUri((name[5] == ':')?name+6:"", value);
     } else {
-        m_CurrentElement->AddAttribute(name, value);
+        m_currentElement->AddAttribute(name, value);
     }
 
     return G_YES;
@@ -1872,7 +1841,7 @@ GResult GXmlParser::OnEndElement(const GInt8* name)
 {
     GXML_DebuG1("\nGXmlParser::OnEndElement: %s\n", name ? name : "NULL");
 
-    if (m_CurrentElement == NULL) return GERROR_XML_TAGMISMATCH;
+    if (m_currentElement == NULL) return GERROR_XML_TAGMISMATCH;
 
     // check that the name matches (if there is a name)
     if (name) {
@@ -1887,13 +1856,13 @@ GResult GXmlParser::OnEndElement(const GInt8* name)
             }
         }
         // check that the name and prefix length match
-        if (m_CurrentElement->GetTag() != tag ||
-            m_CurrentElement->GetPrefix().GetLength() != prefix_length) {
+        if (m_currentElement->GetTag() != tag ||
+            m_currentElement->GetPrefix().GetLength() != prefix_length) {
             return GERROR_XML_TAGMISMATCH;
         }
 
         // check the prefix
-        const GInt8* current_prefix = m_CurrentElement->GetPrefix().GetGInt8*s();
+        const GInt8* current_prefix = m_currentElement->GetPrefix().GetGInt8*s();
         for (unsigned int i=0; i<prefix_length; i++) {
             if (current_prefix[i] != prefix[i]) {
                 return GERROR_XML_TAGMISMATCH;
@@ -1902,37 +1871,33 @@ GResult GXmlParser::OnEndElement(const GInt8* name)
     }
 
     // pop up the stack
-    GXmlNode* parent = m_CurrentElement->GetParent();
+    GXmlNode* parent = m_currentElement->GetParent();
     if (parent) {
-        m_CurrentElement = parent->AsElementNode();
+        m_currentElement = parent->AsElementNode();
     } else {
         if (m_root) {
             // this should never happen
-            delete m_CurrentElement;
-            m_CurrentElement = NULL;
+            delete m_currentElement;
+            m_currentElement = NULL;
             return GERROR_XML_MULTIPLE_ROOTS;
         } else {
-            m_root = m_CurrentElement;
-            m_CurrentElement = NULL;
+            m_root = m_currentElement;
+            m_currentElement = NULL;
         }
     }
 
     return G_YES;
 }
 
-/*----------------------------------------------------------------------
-|   GXmlParser::OnGInt8*acterData
-+---------------------------------------------------------------------*/
-GResult
-GXmlParser::OnGInt8*acterData(const GInt8* data, unsigned long size)
+GResult GXmlParser::OnCharacterData(const GInt8* data, unsigned long size)
 { 
     GXML_DebuG1("\nGXmlParser::OnGInt8*acterData: %s\n", data);
     
     // check that we have a current element
-    if (m_CurrentElement == NULL) {
+    if (m_currentElement == NULL) {
         // we do not allow non-whitespace outside an element content
         if (!GXmlStringIsWhitespace(data, size)) {
-            return GERROR_XML_INVALID_NESTING;
+            return G_ERROR_XML_INVALID_NESTING;
         }
 
         // ignore whitespace
@@ -1940,17 +1905,14 @@ GXmlParser::OnGInt8*acterData(const GInt8* data, unsigned long size)
     }
 
     // ignore whitespace if applicable
-    if (m_KeepWhitespace || !GXmlStringIsWhitespace(data, size)) {
+    if (m_keepWhitespace || !GXmlStringIsWhitespace(data, size)) {
         // add the text to the current element
-        m_CurrentElement->AddText(data);
+        m_currentElement->AddText(data);
     }
 
     return G_YES;
 }
 
-/*----------------------------------------------------------------------
-|   GXmlAttributeWriter
-+---------------------------------------------------------------------*/
 class GXmlAttributeWriter
 {
 public:
@@ -1966,9 +1928,6 @@ private:
     GXmlSerializer& m_Serializer;
 };
 
-/*----------------------------------------------------------------------
-|   GXmlNodeWriter
-+---------------------------------------------------------------------*/
 class GXmlNodeWriter
 {
 public:
@@ -1985,17 +1944,17 @@ public:
 
             // emit namespace attributes
             if (element->m_namespaceMap) {
-                std::list<GXmlNamespaceMap::Entry*>::Iterator item = 
+                std::list<GXmlNamespaceMap::Entry*>::Iterator iter = 
                     element->m_namespaceMap->m_Entries.GetFirstItem();
-                while (item) {
-                    if ((*item)->m_prefix.empty()) {
+                while (iter) {
+                    if ((*iter)->m_prefix.empty()) {
                         // default namespace
-                        m_Serializer.Attribute(NULL, "xmlns", (*item)->m_Uri);
+                        m_Serializer.Attribute(NULL, "xmlns", (*iter)->m_Uri);
                     } else {
                         // namespace with prefix
-                        m_Serializer.Attribute("xmlns", (*item)->m_prefix, (*item)->m_Uri);
+                        m_Serializer.Attribute("xmlns", (*iter)->m_prefix, (*iter)->m_Uri);
                     }
-                    ++item;
+                    ++iter;
                 }
             }
 
@@ -2012,9 +1971,6 @@ private:
     GXmlAttributeWriter m_AttributeWriter;
 };
 
-/*----------------------------------------------------------------------
-|   GXmlNodeCanonicalWriter
-+---------------------------------------------------------------------*/
 class GXmlNodeCanonicalWriter
 {
 public:
@@ -2075,11 +2031,7 @@ private:
     GXmlSerializer& m_Serializer;
 };
 
-/*----------------------------------------------------------------------
-|   GXmlNodeCanonicalWriter::SortedAttributeList::Add
-+---------------------------------------------------------------------*/
-void
-GXmlNodeCanonicalWriter::SortedAttributeList::Add(
+void GXmlNodeCanonicalWriter::SortedAttributeList::Add(
     const std::string*       namespace_uri,
     const GXmlAttribute* attribute)
 {
@@ -2109,11 +2061,7 @@ GXmlNodeCanonicalWriter::SortedAttributeList::Add(
     m_Entries.Insert(entry, new_entry);
 }
 
-/*----------------------------------------------------------------------
-|   GXmlNodeCanonicalWriter::SortedAttributeList::Emit
-+---------------------------------------------------------------------*/
-void
-GXmlNodeCanonicalWriter::SortedAttributeList::Emit(GXmlSerializer& serializer)
+void GXmlNodeCanonicalWriter::SortedAttributeList::Emit(GXmlSerializer& serializer)
 {
     for (std::list<Entry>::Iterator i = m_Entries.GetFirstItem(); i; ++i) {
         serializer.Attribute(i->m_Attribute->GetPrefix(),
@@ -2122,11 +2070,7 @@ GXmlNodeCanonicalWriter::SortedAttributeList::Emit(GXmlSerializer& serializer)
     }
 }
 
-/*----------------------------------------------------------------------
-|   GXmlNodeCanonicalWriter::SortedNamespaceList::Add
-+---------------------------------------------------------------------*/
-void
-GXmlNodeCanonicalWriter::SortedNamespaceList::Add(const std::string* prefix,
+void GXmlNodeCanonicalWriter::SortedNamespaceList::Add(const std::string* prefix,
                                                      const std::string* uri)
 {
     // find the namespace insertion position
@@ -2146,11 +2090,7 @@ GXmlNodeCanonicalWriter::SortedNamespaceList::Add(const std::string* prefix,
     m_Entries.Insert(entry, new_entry);
 }
 
-/*----------------------------------------------------------------------
-|   GXmlNodeCanonicalWriter::SortedNamespaceList::Emit
-+---------------------------------------------------------------------*/
-void
-GXmlNodeCanonicalWriter::SortedNamespaceList::Emit(GXmlSerializer& serializer)
+void GXmlNodeCanonicalWriter::SortedNamespaceList::Emit(GXmlSerializer& serializer)
 {
     for (std::list<Entry>::Iterator i = m_Entries.GetFirstItem(); i; ++i) {
         const std::string* key   = i->m_namespacePrefix;
@@ -2163,17 +2103,15 @@ GXmlNodeCanonicalWriter::SortedNamespaceList::Emit(GXmlSerializer& serializer)
     }
 }
 
-/*----------------------------------------------------------------------
-|   GXmlNodeCanonicalWriter::GetNamespaceRenderedForPrefix
-+---------------------------------------------------------------------*/
-const std::string*
-GXmlNodeCanonicalWriter::GetNamespaceRenderedForPrefix(const std::string& prefix) const
+const std::string* GXmlNodeCanonicalWriter::GetNamespaceRenderedForPrefix(const std::string& prefix) const
 {
     for (MapGInt8*inLink* link = m_MapGInt8*in;
          link;
-         link = link->m_Parent) {
+         link = link->m_Parent) 
+     {
         std::string* uri;
-        if (G_YESED(link->m_RenderedNamespaces.Get(prefix, uri))) {
+        if (G_YESED(link->m_RenderedNamespaces.Get(prefix, uri))) 
+        {
             return uri;
         }
     }
@@ -2181,11 +2119,7 @@ GXmlNodeCanonicalWriter::GetNamespaceRenderedForPrefix(const std::string& prefix
     return NULL;
 }
 
-/*----------------------------------------------------------------------
-|   GXmlNodeCanonicalWriter::operator()
-+---------------------------------------------------------------------*/
-void
-GXmlNodeCanonicalWriter::operator()(GXmlNode*& node) const
+void GXmlNodeCanonicalWriter::operator()(GXmlNode*& node) const
 {
     MapGInt8*inLink map_link(m_MapGInt8*in);
 
