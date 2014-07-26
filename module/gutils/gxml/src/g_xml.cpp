@@ -200,9 +200,9 @@ public:
     {       
         GXmlNodeList& list = element->GetChildren();
         GXmlNodeList::iterator iter = list.begin();
-        for (; iter !- list.end(); ++iter) 
+        for (; iter != list.end(); ++iter) 
         {
-            GXmlNamespaceCollapser Collapser(iter->m_data);
+            GXmlNamespaceCollapser Collapser(dynamic_cast<GXmlElementNode*>(*iter));
         }
 
         return G_YES;
@@ -220,13 +220,13 @@ void GXmlNamespaceCollapser::CollapseNamespace(GXmlElementNode* element,
     const std::string& prefix) const
 {
     if (m_root->m_namespaceMap == NULL ||
-        (m_root->m_namespaceMap->GetNamespaceUri(prefix) == NULL && prefix != "xml")) 
+        (m_root->m_namespaceMap->GetNamespaceUri(prefix.c_str()) == NULL && prefix != "xml")) 
     {
         // the root element does not have that prefix in the map
-        const std::string* uri = element->GetNamespaceUri(prefix);
+        const std::string* uri = element->GetNamespaceUri(prefix.c_str());
         if (uri) 
         {
-            m_root->SetNamespaceUri(prefix, uri->c_str());
+            m_root->SetNamespaceUri(prefix.c_str(), uri->c_str());
         }
     }
 }
@@ -234,12 +234,12 @@ void GXmlNamespaceCollapser::CollapseNamespace(GXmlElementNode* element,
 GXmlAttribute::GXmlAttribute(const GInt8* name, const GInt8* value) : m_value(value)
 {
     const GInt8* cursor = name;
-    while (GInt8* c = *cursor++) 
+    while (GInt8 c = *cursor++) 
     {
         if (c == ':') 
         {
             unsigned int prefix_length = (unsigned int)(cursor - name) - 1;
-            m_prefix.Assign(name, prefix_length);
+            m_prefix.assign(name, prefix_length);
             name = cursor;
             break;
         }
@@ -262,12 +262,12 @@ GXmlElementNode::GXmlElementNode(const GInt8* tag)
     , m_namespaceParent(NULL)
 {
     const GInt8* cursor = tag;
-    while (GInt8* c = *cursor++) 
+    while (GInt8 c = *cursor++) 
     {
         if (c == ':') 
         {
             unsigned int prefix_length = (unsigned int)(cursor - tag) - 1;
-            m_prefix.Assign(tag, prefix_length);
+            m_prefix.assign(tag, prefix_length);
             tag = cursor;
             break;
         }
@@ -278,26 +278,45 @@ GXmlElementNode::GXmlElementNode(const GInt8* tag)
 
 GXmlElementNode::~GXmlElementNode()
 {
-    m_children.Apply(GObjectDeleter<GXmlNode>());
-    m_attributes.Apply(GObjectDeleter<GXmlAttribute>());
+    GXmlNodeList::iterator niter = m_children.begin();
+    for (; niter != m_children.end(); ++niter)
+    {
+        delete *niter;
+    }
+
+    m_children.clean();
+
+    GXmlAttributeList::iterator aiter = m_attributes.begin();
+    for (; aiter != m_attributes.end(); ++aiter)
+    {
+        delete *aiter;
+    }
+
+    m_attributes.clean();
+    
     delete m_namespaceMap;
+    m_namespaceMap = NULL;
 }
 
 void GXmlElementNode::SetParent(GXmlNode* parent)
 {
     // update our parent
-    m_Parent = parent;
+    m_parent = parent;
 
     // update out namespace linkage
-    GXmlElementNode* parent_element =
-        parent?parent->AsElementNode():NULL;
-    GXmlElementNode* namespace_parent;
+    GXmlElementNode* parent_element = parent?parent->AsElementNode():NULL;
+        
+    GXmlElementNode* namespace_parent = NULL;
     if (parent_element) 
     {
-        namespace_parent = 
-            parent_element->m_namespaceMap ? 
-            parent_element:
-            parent_element->m_namespaceParent;
+        if (parent_element->m_namespaceMap != NULL)
+        {
+            namespace_parent = parent_element;
+        }
+        else
+        {
+            namespace_parent = parent_element->m_namespaceParent;
+        }
     } 
     else 
     {
@@ -1976,8 +1995,8 @@ class GXmlNodeCanonicalWriter
 public:
     // types
     struct MapGInt8*inLink {
-        MapGInt8*inLink(MapGInt8*inLink* parent) : m_Parent(parent) {}
-        MapGInt8*inLink*                   m_Parent;
+        MapGInt8*inLink(MapGInt8*inLink* parent) : m_parent(parent) {}
+        MapGInt8*inLink*                   m_parent;
         GMap<std::string, std::string> m_RenderedNamespaces;
     };
 
@@ -2107,7 +2126,7 @@ const std::string* GXmlNodeCanonicalWriter::GetNamespaceRenderedForPrefix(const 
 {
     for (MapGInt8*inLink* link = m_MapGInt8*in;
          link;
-         link = link->m_Parent) 
+         link = link->m_parent) 
      {
         std::string* uri;
         if (G_YESED(link->m_RenderedNamespaces.Get(prefix, uri))) 
