@@ -284,7 +284,7 @@ GXmlElementNode::~GXmlElementNode()
         delete *niter;
     }
 
-    m_children.clean();
+    m_children.clear();
 
     GXmlAttributeList::iterator aiter = m_attributes.begin();
     for (; aiter != m_attributes.end(); ++aiter)
@@ -292,7 +292,7 @@ GXmlElementNode::~GXmlElementNode()
         delete *aiter;
     }
 
-    m_attributes.clean();
+    m_attributes.clear();
     
     delete m_namespaceMap;
     m_namespaceMap = NULL;
@@ -357,7 +357,7 @@ GXmlElementNode* GXmlElementNode::GetChild(const GInt8* tag, const GInt8* namesp
     }
 
     // find the child
-    GXmlNodeList::iterator iter = m_children.find(GXmlTagFinder(tag, namespc), n);
+    GXmlNodeList::const_iterator iter = std::find(m_children.begin(), m_children.end(), GXmlTagFinder(tag, namespc));
     
     return iter ? (*iter)->AsElementNode() : NULL;
 }

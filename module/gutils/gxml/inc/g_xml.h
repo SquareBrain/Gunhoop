@@ -27,32 +27,6 @@
 #define G_ERROR_XML_NO_ROOT              (G_ERROR_UTILS_BASE - 4)
 #define G_ERROR_XML_MULTIPLE_ROOTS       (G_ERROR_UTILS_BASE - 5)
 
-#define GXML_ANY_NAMESPACE "*"
-#define GXML_NO_NAMESPACE  NULL
-
-// delete list
-/*
-template <class T>
-class GDeleteList
-{
-public:
-    GDeleteList(std::list<T>& list) : m_list(list) {}
-    void operator()(const std::list<T>& list) const 
-    {
-        std::list<T>::iterator iter = m_list.begin();
-        for (; iter != m_list.end(); ++iter)
-        {
-            delete *iter;
-        }
-
-        m_list.clear();
-    }
-    
-private:
-    std::list<T>& m_list;
-};
-*/
-
 class GXmlProcessor;
 class GXmlAttribute;
 class GXmlNode;
@@ -164,7 +138,7 @@ public:
     GXmlNodeList& GetChildren() { return m_children; }
     const GXmlNodeList& GetChildren() const { return m_children; }
     GXmlElementNode* GetChild(const GInt8* tag, 
-             const GInt8* namespc = GXML_NO_NAMESPACE,
+             const GInt8* namespc = NULL,
              GUint32 n=0) const;
              
     GResult AddChild(GXmlNode* child);
@@ -176,7 +150,7 @@ public:
     GResult AddText(const GInt8* text); 
     GXmlAttributeList& GetAttributes() { return m_attributes; }
     const GXmlAttributeList& GetAttributes() const { return m_attributes; }
-    const std::string* GetAttribute(const GInt8* name, const GInt8* namespc = GXML_NO_NAMESPACE) const;
+    const std::string* GetAttribute(const GInt8* name, const GInt8* namespc = NULL) const;
     const std::string& GetPrefix() const { return m_prefix; }
     const std::string& GetTag() const { return m_tag;    }
     const std::string* GetText(GUint32 n=0) const;
