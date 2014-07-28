@@ -53,9 +53,9 @@ GInt32 FileInputStream::available() throw(std::ios_base::failure)
 		GInt64 available = end - current;
 		
 		m_file->seek(current, G_SEEK_BEG);
+		return available;
 	}
-	
-	return available;
+	return 0;
 }
 
 void FileInputStream::close() throw(std::ios_base::failure)
