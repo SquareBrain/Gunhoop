@@ -115,12 +115,15 @@ GInt64 FileInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 	synchronized(m_mtx)
 	{
 		// TODO: not complete
-		if (m_file->seek(num, G_SEEK_CUR))
+		GInt32 avail = available();
+		GInt32 offset = min(num, avail);
+		if (m_file->seek(offset, G_SEEK_CUR))
 		{
 			throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
-		}	
+		}
+		return offset;
 	}
-	return 0;
+	return 0;	// can not reach here
 }
 
 std::shared_ptr<GFile> FileInputStream::GetFile()
