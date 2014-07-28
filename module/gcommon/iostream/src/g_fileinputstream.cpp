@@ -55,7 +55,7 @@ GInt32 FileInputStream::available() throw(std::ios_base::failure)
 		m_file->seek(current, G_SEEK_BEG);
 		return available;
 	}
-	return 0;
+	return 0;	// can not reach here
 }
 
 void FileInputStream::close() throw(std::ios_base::failure)
