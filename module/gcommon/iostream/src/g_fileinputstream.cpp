@@ -103,17 +103,17 @@ GInt32 FileInputStream::read(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GIn
 
 GInt64 FileInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 {
+	if (num == 0)
+	{
+		return 0;
+	}
+	if (num  < 0)
+	{
+		throw out_of_range("");
+	}
+	
 	synchronized(m_mtx)
 	{
-		if (num == 0)
-		{
-			return 0;
-		}
-		if (num  < 0)
-		{
-			throw out_of_range("");
-		}
-
 		// TODO: not complete
 		if (m_file->seek(num, G_SEEK_CUR))
 		{
