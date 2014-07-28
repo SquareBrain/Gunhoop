@@ -46,12 +46,14 @@ FileInputStream::~FileInputStream()
 
 GInt32 FileInputStream::available() throw(std::ios_base::failure)
 {
-	// TODO: .........
-	GInt64 current = m_file->tell();
-	GInt64 end = m_file->seek(0, G_SEEK_END);
-	GInt64 available = end - current;
-	
-	m_file->seek(current, G_SEEK_BEG);
+	synchronized(m_mtx)
+	{
+		GInt64 current = m_file->tell();
+		GInt64 end = m_file->seek(0, G_SEEK_END);
+		GInt64 available = end - current;
+		
+		m_file->seek(current, G_SEEK_BEG);
+	}
 	
 	return available;
 }
