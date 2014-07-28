@@ -15,6 +15,7 @@
 * 
 */
 
+#include <algorithm>
 #include <g_sync.h>
 #include <g_fileinputstream.h>
 
