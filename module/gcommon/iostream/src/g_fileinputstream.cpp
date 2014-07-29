@@ -116,7 +116,7 @@ GInt64 FileInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 	synchronized(m_mtx)
 	{
 		// TODO: not complete
-		GInt32 avail = available();
+		GInt64 avail = static_cast<GInt64>(available());
 		GInt32 offset = min(num, avail);
 		if (m_file->seek(offset, G_SEEK_CUR))
 		{
