@@ -117,7 +117,7 @@ GInt64 FileInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 	{
 		// TODO: not complete
 		GInt64 avail = static_cast<GInt64>(available());
-		GInt32 offset = min(num, avail);
+		GInt64 offset = min(num, avail);
 		if (m_file->seek(offset, G_SEEK_CUR))
 		{
 			throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
