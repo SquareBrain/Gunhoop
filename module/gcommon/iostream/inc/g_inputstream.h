@@ -71,8 +71,8 @@ public:
 	/**
         * @brief The read(pBuffer, iLen) method for class InputStream has the same effect as:
         * read(pBuffer, 0, iLen) 
-        * @param [out] pBuffer the buffer into which the data is read.
-        * @param [in] iBufferLen the length of the buffer.
+        * @param [out] buffer the buffer into which the data is read.
+        * @param [in] bufferLen the length of the buffer.
         * @return the total number of bytes read into the buffer, or -1 is there is no more data because the end of the stream has been reached.
         * @note 
         */

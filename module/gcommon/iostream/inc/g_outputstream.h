@@ -42,8 +42,28 @@ public:
      	  */
 	void write(GInt32 c) throw(std::ios_base::failure, std::logic_error) = 0;
 
+	/**
+        * @brief This method all the writes bytes from the passed array to the
+        * output stream.  This method is equivalent to write(b, buf.length, 0, buf.length)
+        * which is exactly how it is implemented in this class.
+     	  * @param [in] buffer the buffer into which the data is read.
+        * @param [in] bufferLen the length of the buffer.
+     	  * @exception IOException If an error occurs
+     	  */
 	void write(GInt8* buffer, GInt32 bufferLen) throw(std::ios_base::failure, std::logic_error);
 
+	/**
+        * @brief This method writes len bytes from the specified buffer starting at 
+        * index offset into the buffer.
+        * This method in this class calls the single byte write() method in a loop 
+        * until all bytes have been written.  Subclasses should override this method
+        * if possible in order to provide a more efficent implementation.
+     	  * @param [in] buffer the buffer into which the data is read.
+        * @param [in] bufferLen the length of the buffer.
+        * @param [in] offset the start offset in array b at which the data is written.
+        * @param [in] len the maximum number of bytes to read.
+     	  * @exception IOException If an error occurs
+     	  */
 	void write(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error);
 
 	void flush() throw(std::ios_base::failure);
