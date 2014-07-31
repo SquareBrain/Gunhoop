@@ -20,8 +20,6 @@
 using namespace std;
 using namespace GCommon;
 
-
-
 GInt8 InputStream::ms_skipbuffer[SKIP_BUFFER_SIZE] ={0};
 
 InputStream::InputStream()
@@ -65,30 +63,25 @@ GInt32 InputStream::read(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 
 	{
 		throw out_of_range(EXCEPTION_DESCRIPTION("out_of_range"));
 	}
-	else if (len == 0)
+	
+	GInt32 i, c;
+	for (i = 0; i < len; i ++)
 	{
-		return 0;
-	}
-
-	GInt32 c = this->read();
-	if (c == -1)
-	{
-		return -1;
-	}
-	buffer[offset] = static_cast<GInt8>(c);
-
-	GInt32 iIndex = 1;
-	for (; iIndex < len; iIndex ++)
-	{
-		c = read();
-		if (c == -1)
+		try
 		{
-			break;
+			if ((c = read()) < 0)
+				return i == 0 ? -1 : i;
+			buffer[offset + i] = c;
 		}
-		buffer[offset + iIndex] = static_cast<GInt8>(c);
+		catch (const exception& e)
+		{
+			if (i == 0)
+				throw e;
+			return i;
+		}
 	}
 
-	return iIndex;
+	return i;
 }
 
 void InputStream::reset() throw(std::ios_base::failure)
