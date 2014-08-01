@@ -32,8 +32,7 @@
 #define G_XML_DEBUG_4(s,x0,x1,x2,x3)
 #endif
 
-static const std::string 
-GXmlNamespaceUri_Xml("http://www.w3.org/XML/1998/namespace");
+static const std::string GXmlNamespaceUri_Xml("http://www.w3.org/XML/1998/namespace");
 
 class GXmlAttributeFinder
 {
