@@ -97,15 +97,15 @@ GResult GIniFile::importData(const GInt8* data, const GUint64 length)
 		switch (data[offset])
 		{
 		case '[':
-		    if (parserSection(data, length, offset) != G_YES)
-		    {
-		        setError("file section failed");
-		        return G_NO;
-		    }
-		    break;
+			if (parserSection(data, length, offset) != G_YES)
+			{
+				setError("file section failed");
+				return G_NO;
+			}
+			break;
 		default:
-		    offset++;
-		    break;
+			offset++;
+			break;
 		}
 	}
 
@@ -198,7 +198,7 @@ GResult GIniFile::saveFile(const std::string& filePath)
 
 		if (bufPos >= INI_TMP_BUF_SIZE)
 		{
-		    return G_NO;
+			return G_NO;
 		}       
 
 		GIniSection* section = iter->second;
@@ -206,11 +206,11 @@ GResult GIniFile::saveFile(const std::string& filePath)
 		GIniSection::KeyValueMap::const_iterator iter = keyValueMap.begin();
 		for (; iter != keyValueMap.end(); ++iter)
 		{
-		    bufPos += sprintf(tmpBuf + bufPos, "%s=%s\n", iter->first.c_str(), iter->second.c_str()); 
-		    if (bufPos >= INI_TMP_BUF_SIZE)
-		    {
-		        return G_NO;
-		    }
+			bufPos += sprintf(tmpBuf + bufPos, "%s=%s\n", iter->first.c_str(), iter->second.c_str()); 
+			if (bufPos >= INI_TMP_BUF_SIZE)
+			{
+				return G_NO;
+			}
 		}
 	}
 
@@ -267,11 +267,11 @@ GResult GIniFile::parserSection(const GInt8* data,
 		case ';':
 		case '=':
 		case ':':
-		    offset = endPos;
-		    return G_NO;
+			offset = endPos;
+			return G_NO;
 		case ']':
-		    findSectionEnd = true;
-		    break;
+			findSectionEnd = true;
+			break;
 		default:
 		    break;
 		}  
@@ -298,7 +298,7 @@ GResult GIniFile::parserSection(const GInt8* data,
 		GInt32 midPos = 0;
 		if ((midPos = lineStr.find('=')) == std::string::npos)
 		{
-		    continue;       
+			continue;       
 		}
 
 		section->addPara(lineStr.substr(0, midPos), lineStr.substr(midPos + 1));
