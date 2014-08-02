@@ -37,9 +37,9 @@ typedef enum
  */
 typedef enum
 {
-    G_SEEK_BEG = 1,
-    G_SEEK_CUR,
-    G_SEEK_END
+	G_SEEK_BEG = 1,
+	G_SEEK_CUR,
+	G_SEEK_END
 } SeekFlags;
 
 /** 
