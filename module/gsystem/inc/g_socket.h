@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file     g_socket.h
+* @file     	g_socket.h
 * @version     
 * @brief      
-* @author   duye
-* @date     2014-02-16
+* @author  	duye
+* @date     	2014-02-16
 * @note 
 *
 *  2. 2014-06-20 duye move to gohoop project 
@@ -34,84 +34,84 @@ class GSocket
 public:
 	GSocket();
 	
-    /**
-     * @brief constructor
+	/**
+	 * @brief constructor
 	 * @param [in] ip : ip address
 	 * @param [in] port : port
-     * @note 
-     */			
+	 * @note 
+	 */			
 	GSocket(const GUint32 ip, const GUint16 port);
 
-    /**
-     * @brief copy constructor
+	/**
+	 * @brief copy constructor
 	 * @param [in] socket : socket
-     * @note 
-     */			
+	 * @note 
+	 */			
 	GSocket(const GSocket& socket);
 	~GSocket();
 	
-    /**
-     * @brief init socket
+	/**
+	 * @brief init socket
 	 * @param [in] domain : domain
 	 * @param [in] type : socket type
 	 * @return G_YES/G_NO
-     * @note 
-     */		
+	 * @note 
+	 */		
 	GResult openSocket(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
 			
-    /**
-     * @brief send data
+	/**
+	 * @brief send data
 	 * @param [in] data : send data
 	 * @param [in] dataLen : data length
 	 * @param [in] flags : flags
 	 * @return size/-1
-     * @note 
-     */		
+	 * @note 
+	 */		
 	GInt64 sendData(const GUint8* data, const GUint64 length, const GInt32 flags = MSG_NOSIGNAL);
 	
-    /**
-     * @brief receive data
+	/**
+	 * @brief receive data
 	 * @param [out] buffer : output buffer
 	 * @param [in] bufferSize : buffer size
 	 * @param [in] flags : flags
 	 * @return size/-1
-     * @note 
-     */	
+	 * @note 
+	 */	
 	GInt64 recvData(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 
-    /**
-     * @brief shutdown connecting
+	/**
+	 * @brief shutdown connecting
 	 * @param [in] how : way
 	 * @return G_YES/G_NO
-     * @note 
-     */	
+	 * @note 
+	 */	
 	GResult closeSocket(const GInt32 how = 0);
 		
-    /**
-     * @brief setting address
+	/**
+	 * @brief setting address
 	 * @param [in] ip : ip address
 	 * @param [in] port : port
-     * @note 
-     */		
+	 * @note 
+	 */		
 	void setAddr(const GUint32 ip, const GUint16 port);
 
-    /**
-     * @brief get ip address
-     * @return ip address
-     */		
+	/**
+	 * @brief get ip address
+	 * @return ip address
+	 */		
 	GUint32 getIP() const;
 
-    /**
-     * @brief get port
-     * @return port
-     */		
+	/**
+	 * @brief get port
+	 * @return port
+	 */		
 	GUint16 getPort() const;
 
 private:
-    /**
-     * @brief setting socket options 
-     * @return G_YES/G_NO
-     */		
+	/**
+	 * @brief setting socket options 
+	 * @return G_YES/G_NO
+	 */		
 	GResult initOption();
 
 private:

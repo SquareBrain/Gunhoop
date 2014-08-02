@@ -7,8 +7,8 @@
 * @file		g_sync.h
 * @version     
 * @brief      
-* @author   duye
-* @date     2014-07-18
+* @author   	duye
+* @date     	2014-07-18
 * @note 
 *
 *  1. 2014-07-18 duye Created this file

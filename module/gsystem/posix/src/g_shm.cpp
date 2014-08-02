@@ -7,8 +7,8 @@
 * @file		g_shm.cpp
 * @version     
 * @brief      
-* @author   duye
-* @date     2014-02-22
+* @author   	duye
+* @date     	2014-02-22
 * @note 
 *
 *  2. 2014-06-21 duye move to gohoop 

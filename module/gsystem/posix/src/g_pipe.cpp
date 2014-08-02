@@ -7,8 +7,8 @@
 * @file		g_pipe.cpp
 * @version     
 * @brief      
-* @author   duye
-* @date     2013-12-1
+* @author   	duye
+* @date     	2013-12-1
 * @note 
 *
 *  2. 2014-06-21 duye move to gohoop 

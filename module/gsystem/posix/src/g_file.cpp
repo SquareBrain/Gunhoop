@@ -7,8 +7,8 @@
 * @GFile		g_file.cpp
 * @version     
 * @brief      
-* @author   duye
-* @date     2013-06-20
+* @author   	duye
+* @date     	2013-06-20
 * @note 
 *
 *  1. 2013-06-20 duye Created this GFile

@@ -7,8 +7,8 @@
 * @file		g_logger_impl.cpp
 * @version     
 * @brief      
-* @author   duye
-* @date     2014-07-01
+* @author   	duye
+* @date     	2014-07-01
 * @note 
 *
 *  1. 2014-07-01 duye Created this file
@@ -114,15 +114,15 @@ public:
     GResult init();
     GResult uninit();
 
-    /**
-     * @brief print log
-     * @param [in] logLevel : log level
-     * @param [in] module : module name
-     * @param [in] file : file path
-     * @param [in] line : line number
-     * @param [in] function : function name
-     * @param [in] log : log content
-     */	 	
+	/**
+	 * @brief print log
+	 * @param [in] logLevel : log level
+	 * @param [in] module : module name
+	 * @param [in] file : file path
+	 * @param [in] line : line number
+	 * @param [in] function : function name
+	 * @param [in] log : log content
+	 */	 	
     void printLog(const GLogLevel logLevel, 
         const GInt8* module, 
         const GInt8* file, 
@@ -130,10 +130,10 @@ public:
         const GInt8* function,
         const GInt8* args, ...); 
         
-    /**
-     * @brief get error string
-     * @return error string
-     */	
+	/**
+	 * @brief get error string
+	 * @return error string
+	 */	
     GInt8* getError();    
 
 private:

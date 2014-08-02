@@ -7,8 +7,8 @@
 * @file		g_objpool.h
 * @version     
 * @brief      
-* @author   duye
-* @date     2014-06-18
+* @author   	duye
+* @date     	2014-06-18
 * @note 
 *
 *  1. 2014-06-18 duye Created this file
@@ -31,16 +31,16 @@ class ObjPoolIf
 public:
     virtual ~ObjPoolIf() {}
 
-    /**
-     * @brief be call by object pool, before used object
-     * @return G_YES/G_NO
-     */    
+	/**
+	 * @brief be call by object pool, before used object
+	 * @return G_YES/G_NO
+	 */    
     virtual GResult init() = 0;
 
-    /**
-     * @brief be call by object pool, after using finished
-     * @return G_YES/G_NO
-     */   
+	/**
+	 * @brief be call by object pool, after using finished
+	 * @return G_YES/G_NO
+	 */   
     virtual GResult uninit() = 0;
 };
 
@@ -55,23 +55,23 @@ public:
 
 public:
     ObjPool();
-    /**
-     * @brief constructor
-     * @param count : the size of object pool
-     */    
+	/**
+	 * @brief constructor
+	 * @param count : the size of object pool
+	 */    
     ObjPool(const GUint32 count);
     ~ObjPool();
     
-    /**
-     * @brief set the size of object pool
-     * @param count : the size of object pool
-     */
+	/**
+	 * @brief set the size of object pool
+	 * @param count : the size of object pool
+	 */
     void setCount(const GUint32 count);
 
-    /**
-     * @brief get the size of object pool
-     * @return count : the size of object pool
-     */
+	/**
+	 * @brief get the size of object pool
+	 * @return count : the size of object pool
+	 */
     GUint32 getCount() const;
 
 private:

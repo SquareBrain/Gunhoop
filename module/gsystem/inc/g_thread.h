@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_thread.h
+* @file	    	g_thread.h
 * @version     
 * @brief      
-* @author   duye
-* @date     2013-11-26
+* @author   	duye
+* @date     	2013-11-26
 * @note 
 *
 * 3. 2014-06-21 duye move to gohoop project 
@@ -27,17 +27,17 @@
  */
 enum GThreadState
 {
-    /** 
-     * @brief running state
-     */	
+	/** 
+	 * @brief running state
+	 */	
 	THR_STATE_RUN = 0,
-    /** 
-     * @brief stoped state
-     */		
+	/** 
+	 * @brief stoped state
+	 */		
 	THR_STATE_STOP,
-    /** 
-     * @brief exit state
-     */		
+	/** 
+	 * @brief exit state
+	 */		
 	THR_STATE_EXIT
 };
 
@@ -54,11 +54,11 @@ class GRunnable
 public:
 	virtual ~GRunnable() {}
 	
-    /**
-     * @brief user thread entry function
-     * @return G_YES/G_NO
-     * @note 
-     */			
+	/**
+	 * @brief user thread entry function
+	 * @return G_YES/G_NO
+	 * @note 
+	 */			
 	virtual GResult run() = 0;
 };
 
@@ -68,27 +68,27 @@ public:
 class GThread
 {
 public:
-    /**
-     * @brief constructor
+	/**
+	 * @brief constructor
 	 * @param [in] target : user run target object
 	 * @param [in] autoRel : whether support automatic release, default is yes
-     * @note 
-     */		
+	 * @note 
+	 */		
     explicit GThread(GRunnable* target, const bool autoRel = true);
     ~GThread();
 	
-    /**
-     * @brief startup thread
-     * @return G_YES/G_NO
-     * @note 
-     */		
+	/**
+	 * @brief startup thread
+	 * @return G_YES/G_NO
+	 * @note 
+	 */		
 	GResult start();
 
-    /**
-     * @brief get thread ID
-     * @return thread ID
-     * @note 
-     */		
+	/**
+	 * @brief get thread ID
+	 * @return thread ID
+	 * @note 
+	 */		
 	GUint32 getGThreadId() const;
 
 private:
@@ -111,26 +111,26 @@ private:
 class GThreadTask
 {
 public:
-    /**
-     * @brief constructor
-     * @para [in] autoRel : whether is detached with main GThread, default is detached
-     * @note 
-     */		
+	/**
+	 * @brief constructor
+	 * @para [in] autoRel : whether is detached with main GThread, default is detached
+	 * @note 
+	 */		
 	explicit GThreadTask(const bool autoRel = true);
 	virtual ~GThreadTask();
 
-    /**
-     * @brief startup thread
-     * @return G_YES/G_NO
-     * @note 
-     */		
+	/**
+	 * @brief startup thread
+	 * @return G_YES/G_NO
+	 * @note 
+	 */		
 	GResult start();
 
-    /**
-     * @brief thread entry function
-     * @return G_YES/G_NO
-     * @note 
-     */			
+	/**
+	 * @brief thread entry function
+	 * @return G_YES/G_NO
+	 * @note 
+	 */			
 	virtual GResult run() = 0;
 
 private:
@@ -157,13 +157,13 @@ private:
 class GThreadUtil
 {
 public:
-    /**
-     * @brief create thread
+	/**
+	 * @brief create thread
 	 * @param [in] entry : GThread entry fucntion pointer
 	 * @param [in] argument : user data
 	 * @param [in] autoRel : whether support automatic release, default is yes
 	 * @return GThread ID / -1
-     * @note 
-     */		
+	 * @note 
+	 */		
 	static GInt32 createThread(void* entry, void* argument, const bool autoRel = true);
 };

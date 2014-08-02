@@ -7,8 +7,8 @@
 * @file		g_sys.h
 * @version     
 * @brief      
-* @author   duye
-* @date     2014-03-04
+* @author   	duye
+* @date     	2014-03-04
 * @note 
 *
 *  2. 2014-06-20 duye move to gohoop project 
@@ -35,38 +35,38 @@ public:
     GSys() {}
     ~GSys() {}
    
-    /**
-     * @brief sleep
+	/**
+	 * @brief sleep
 	 * @param [in] time : second
-     * @note 
-     */		
+	 * @note 
+	 */		
     static void sleep(const GUint64 time);
  
-    /**
-     * @brief usleep
+	/**
+	 * @brief usleep
 	 * @param [in] time : millisecond
-     * @note 
-     */		
+	 * @note 
+	 */		
     static void usleep(const GUint64 time);
 
-    /**
-     * @brief usleep
+	/**
+	 * @brief usleep
 	 * @param [out] buffer : out buffer
 	 * @param [in] size : out buffer size
 	 * @param [in] args : parameters
 	 * @return string size
-     * @note 
-     */		
+	 * @note 
+	 */		
     static GUint64 format(GInt8* buffer, const GUint64 size, const GInt8* args, ...);   
 
-    /**
-     * @brief execute shell commond
+	/**
+	 * @brief execute shell commond
 	 * @param [in] cmd : commond line
 	 * @param [in] mode : read/write for pipe
 	 * @param [out] buffer : output buffer
 	 * @param [in] size : output buffer size
 	 * @return G_YES/G_NO
-     * @note 
-     */		
+	 * @note 
+	 */		
     static GResult shell(const GInt8* cmd, const GShellMode mode, GInt8* buffer, const GUint32 size);      
 };

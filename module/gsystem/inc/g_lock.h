@@ -4,11 +4,11 @@
 *
 ************************************************************************************/
 /**
-* @file	    g_lock.h
+* @file	    	g_lock.h
 * @version     
 * @brief      
-* @author   duye
-* @date     2013-11-26
+* @author   	duye
+* @date     	2013-11-26
 * @note 
 *
 * 4. 2014-06-20 duye move to gohoop project
@@ -33,57 +33,57 @@
 class GMutex
 {
 public:
-    /**
-     * @brief constructor
-     * @note default GMutex type is PTHREAD_GMutex_RECURSIVE
-     */	
+	/**
+	 * @brief constructor
+	 * @note default GMutex type is PTHREAD_GMutex_RECURSIVE
+	 */	
 	GMutex();
 	
-    /**
-     * @brief constructor
-     * @param [in] kind : GMutex type
-     * @note have four GMutex type, are PTHREAD_GMutex_NORMAL��PTHREAD_GMutex_RECURSIVE
+	/**
+	 * @brief constructor
+	 * @param [in] kind : GMutex type
+	 * @note have four GMutex type, are PTHREAD_GMutex_NORMAL��PTHREAD_GMutex_RECURSIVE
 	 * PTHREAD_GMutex_ERRORCHECK��PTHREAD_GMutex_DEFAULT
-     */		
+	 */		
 	explicit GMutex(const GInt32 kind);
 	
 	virtual ~GMutex();
 	
-    /**
-     * @brief lock GMutex, enter to awaited state
-     * @return true/false
-     * @note 
-     */		
+	/**
+	 * @brief lock GMutex, enter to awaited state
+	 * @return true/false
+	 * @note 
+	 */		
 	bool lock();
 	
-    /**
-     * @brief try to lock GMutex, failure return immediately
-     * @return true/false
-     * @note 
-     */		
+	/**
+	 * @brief try to lock GMutex, failure return immediately
+	 * @return true/false
+	 * @note 
+	 */		
 	bool tryLock();
 	
-    /**
-     * @brief release lock
-     * @return true/false
-     * @note 
-     */		
+	/**
+	 * @brief release lock
+	 * @return true/false
+	 * @note 
+	 */		
 	bool unlock();
 
 private:
-    /**
-     * @brief to prevent copying
-     * @note 
-     */			
+	/**
+	 * @brief to prevent copying
+	 * @note 
+	 */			
 	GMutex(const GMutex&); 
 	
 	void operator=(const GMutex&);	
 	
-    /**
-     * @brief initialize GMutex
-     * @param [in] kind : GMutex type, reference constructor function
-     * @note 
-     */		
+	/**
+	 * @brief initialize GMutex
+	 * @param [in] kind : GMutex type, reference constructor function
+	 * @note 
+	 */		
 	void init(const GInt32 kind);
     
 private:
@@ -96,43 +96,43 @@ private:
 class GTryLock
 {
 public:
-    /**
-     * @brief constructor
+	/**
+	 * @brief constructor
 	 * @param [in] GMutex : GMutex
 	 * @param [in] autoUnlock : whether release lock automatic
-     * @note 
-     */		
+	 * @note 
+	 */		
 	GTryLock(GMutex& GMutex, const bool autoUnlock = true);
 	
 	~GTryLock();
 
-    /**
-     * @brief try lock
+	/**
+	 * @brief try lock
 	 * @param [in] timeout : try lock timeout, default is zero, indicate try once, 
 	 * then return immediately
 	 * @return true/false
-     * @note 
-     */		
+	 * @note 
+	 */		
 	bool lock(const GUint32 timeout = 0);
 
-    /**
-     * @brief release lock
+	/**
+	 * @brief release lock
 	 * @return true/false
-     * @note if construct a release lock, invoke invalid
-     */			
+	 * @note if construct a release lock, invoke invalid
+	 */			
 	bool unlock();
 
 private:
-    /**
-     * @brief prevent copying
-     * @note
-     */	
+	/**
+	 * @brief prevent copying
+	 * @note
+	 */	
 	GTryLock(const GTryLock&); 
-	
-    /**
-     * @brief prevent copying
-     * @note
-     */		
+
+	/**
+	 * @brief prevent copying
+	 * @note
+	 */		
 	void operator=(const GTryLock&);	
     
 private:
@@ -146,26 +146,26 @@ private:
 class GAutoLock
 {
 public:
-    /**
-     * @brief constructor
+	/**
+	 * @brief constructor
 	 * @param [in]GMutex : GMutex
-     * @note 
-     */			
+	 * @note 
+	 */			
 	explicit GAutoLock(GMutex& GMutex);
 	
 	~GAutoLock();
 
 private:
-    /**
-     * @brief prevent copying
-     * @note
-     */		
+	/**
+	 * @brief prevent copying
+	 * @note
+	 */		
 	GAutoLock(const GAutoLock&);
 
-    /**
-     * @brief prevent copying
-     * @note
-     */			
+	/**
+	 * @brief prevent copying
+	 * @note
+	 */			
 	void operator=(const GAutoLock&);
 
 private:

@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_condition.cpp
+* @file	    	g_condition.cpp
 * @version     
 * @brief      
-* @author   duye
-* @date     2013-06-20
+* @author   	duye
+* @date     	2013-06-20
 * @note 
 *
 *  1. 2013-06-20 duye Created this file

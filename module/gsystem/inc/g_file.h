@@ -7,8 +7,8 @@
 * @file		g_file.h
 * @version     
 * @brief      
-* @author   duye
-* @date     2014-06-20
+* @author   	duye
+* @date     	2014-06-20
 * @note 
 *
 *  1. 2014-06-20 duye Created this GFile
@@ -48,21 +48,21 @@ typedef enum
 class GFileUtil
 {
 public:
-    /**
-     * @brief create file
-     * @param [in] filePath : file path
-     * @return G_YES/G_NO
-     * @note 
-     */	
+	/**
+	 * @brief create file
+	 * @param [in] filePath : file path
+	 * @return G_YES/G_NO
+	 * @note 
+	 */	
     static GResult createFile(const GInt8* filePath); 
 
-    /**
-     * @brief create file
-     * @param [in] filePath : file path
-     * @param [in] initSize : file initialization size
-     * @return G_YES/G_NO
-     * @note 
-     */	
+	/**
+	 * @brief create file
+	 * @param [in] filePath : file path
+	 * @param [in] initSize : file initialization size
+	 * @return G_YES/G_NO
+	 * @note 
+	 */	
     static GResult createFile(const GInt8* filePath, const GUint64& initSize);     
 };
 
@@ -74,114 +74,114 @@ class GFile
 public:
     GFile();
 
-    /**
-     * @brief set file path
-     * @param [in] GFilePath : GFile path
-     * @note 
-     */	    
+	/**
+	 * @brief set file path
+	 * @param [in] GFilePath : GFile path
+	 * @note 
+	 */	    
     explicit GFile(const GInt8* filePath);
     
     ~GFile();
 
-    /**
-     * @brief set file path
-     * @param [in] GFilePath : file path
-     * @return G_YES/G_NO
-     * @note 
-     */		
+	/**
+	 * @brief set file path
+	 * @param [in] GFilePath : file path
+	 * @return G_YES/G_NO
+	 * @note 
+	 */		
 	GResult setPath(const GInt8* filePath);
 	
-    /**
-     * @brief open file for reading
-     * @param [in] flags : open mode flags
-     * @return G_YES/G_NO
-     * @note 
-     */		
+	/**
+	 * @brief open file for reading
+	 * @param [in] flags : open mode flags
+	 * @return G_YES/G_NO
+	 * @note 
+	 */		
 	GResult open(const GUint64 flags);
 
-    /**
-     * @brief open file for reading
-     * @param [in] flags : open mode flags
-     * @param [in] mode : permission
-     * @return G_YES/G_NO
-     * @note 
-     */		
+	/**
+	 * @brief open file for reading
+	 * @param [in] flags : open mode flags
+	 * @param [in] mode : permission
+	 * @return G_YES/G_NO
+	 * @note 
+	 */		
 	GResult open(const GUint64 flags, const GInt32 mode);	
 
-    /**
-     * @brief close file
-     * @return G_YES/G_NO
-     * @note 
-     */		
+	/**
+	 * @brief close file
+	 * @return G_YES/G_NO
+	 * @note 
+	 */		
     GResult close();
     
-    /**
-     * @brief get file size
-     * @param [out] buffer : output buffer
+	/**
+	 * @brief get file size
+	 * @param [out] buffer : output buffer
 	 * @param [in] size : the size of buffer     
-     * @return size/G_NO
-     * @note 
-     */			
+	 * @return size/G_NO
+	 * @note 
+	 */			
 	GInt64 getSize();
 
-    /**
-     * @brief set file seek
-     * @param [in] offset : offset
+	/**
+	 * @brief set file seek
+	 * @param [in] offset : offset
 	 * @param [in] flags : G_SEEK_BEG,G_SEEK_CUR,G_SEEK_END  
-     * @return offset/G_NO
-     * @note 
-     */			
+	 * @return offset/G_NO
+	 * @note 
+	 */			
 	GInt64 seek(const GInt64 offset, const SeekFlags& flags);	
 
-    /**
-     * @brief get file pointer offset from header
-     * @return offset from file header
-     * @note 
-     */			
+	/**
+	 * @brief get file pointer offset from header
+	 * @return offset from file header
+	 * @note 
+	 */			
 	GInt64 tell();
 	
-    /**
-     * @brief read file
-     * @param [out] buffer : output buffer
+	/**
+	 * @brief read file
+	 * @param [out] buffer : output buffer
 	 * @param [in] size : the size of buffer     
-     * @return size/G_NO
-     * @note 
-     */			
+	 * @return size/G_NO
+	 * @note 
+	 */			
 	GInt64 read(GInt8* buffer, const GUint64 size);
 
-    /**
-     * @brief write file
+	/**
+	 * @brief write file
 	 * @param [in] buffer : input buffer
 	 * @param [in] size : the size of buffer
-     * @return size/G_NO
-     * @note 
-     */		
+	 * @return size/G_NO
+	 * @note 
+	 */		
 	GInt64 write(const GInt8* data, const GUint64 length);
 
-    /**
-     * @brief get last error string
+	/**
+	 * @brief get last error string
 	 * @param [out] error : output buffer
 	 * @param [in] size : output buffer size
-     * @return G_YES/G_NO
-     * @note 
-     */		
+	 * @return G_YES/G_NO
+	 * @note 
+	 */		
 	GInt8* getError();	
 
 private:
-    /**
-     * @brief origin API for open file
+	/**
+	 * @brief origin API for open file
 	 * @param [in] flags : operation flags
 	 * @param [in] mode : operation mode
-     * @return G_YES/G_NO
-     * @note 
-     */			
+	 * @return G_YES/G_NO
+	 * @note 
+	 */			
 	GResult orgOpen(const GInt32 flags, const GUint32 mode);
 	
-    /**
-     * @brief origin set program running error
+	/**
+	 * @brief origin set program running error
 	 * @param [in] error : error string
-     * @note 
-     */		
+	 * @note 
+	 */		
 	void setError(const GInt8* args, ...);
 
 private:

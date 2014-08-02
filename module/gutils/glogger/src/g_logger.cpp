@@ -7,8 +7,8 @@
 * @file		g_logger.cpp
 * @version     
 * @brief      
-* @author   duye
-* @date     2014-07-01
+* @author   	duye
+* @date     	2014-07-01
 * @note 
 *
 *  1. 2014-07-01 duye Created this file
