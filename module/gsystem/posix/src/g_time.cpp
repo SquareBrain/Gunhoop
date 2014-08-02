@@ -7,8 +7,8 @@
 * @file		g_time.cpp
 * @version     
 * @brief      
-* @author   	duye
-* @date     	2014-03-09
+* @author	duye
+* @date		2014-03-09
 * @note 
 *
 *  1. 2014-03-09 duye Created this file

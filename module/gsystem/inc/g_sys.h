@@ -7,8 +7,8 @@
 * @file		g_sys.h
 * @version     
 * @brief      
-* @author   	duye
-* @date     	2014-03-04
+* @author	duye
+* @date		2014-03-04
 * @note 
 *
 *  2. 2014-06-20 duye move to gohoop project 

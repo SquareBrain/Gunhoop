@@ -7,8 +7,8 @@
 * @file		g_time.h
 * @version     
 * @brief      
-* @author  	duye
-* @date     	2014-03-09
+* @author	duye
+* @date		2014-03-09
 * @note 
 *
 *  2. 2014-06-21 duye move to gohoop project 

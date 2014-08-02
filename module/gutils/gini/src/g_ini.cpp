@@ -7,8 +7,8 @@
 * @file		g_ini.cpp
 * @version     
 * @brief      
-* @author   	duye
-* @date     	2013-11-15
+* @author	duye
+* @date		2013-11-15
 * @note 
 *
 *  2. 2014-06-26 duye removal to gohoop project

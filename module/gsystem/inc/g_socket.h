@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file     	g_socket.h
+* @file		g_socket.h
 * @version     
 * @brief      
-* @author  	duye
-* @date     	2014-02-16
+* @author	duye
+* @date		2014-02-16
 * @note 
 *
 *  2. 2014-06-20 duye move to gohoop project 

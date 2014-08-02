@@ -7,8 +7,8 @@
 * @file		g_sys.cpp
 * @version     
 * @brief      
-* @author   	duye
-* @date    	2014-03-04
+* @author	duye
+* @date		2014-03-04
 * @note 
 *
 *  1. 2014-03-04 duye Created this file

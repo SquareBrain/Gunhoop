@@ -7,8 +7,8 @@
 * @file		g_numconv.h
 * @version     
 * @brief      
-* @author   	duye
-* @date    	2014-07-02
+* @author	duye
+* @date		2014-07-02
 * @note 
 *
 *  1. 2014-07-02 duye Created this file

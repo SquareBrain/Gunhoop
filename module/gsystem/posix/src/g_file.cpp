@@ -7,7 +7,7 @@
 * @GFile	g_file.cpp
 * @version     
 * @brief      
-* @author 	duye
+* @author	duye
 * @date		2013-06-20
 * @note
 *

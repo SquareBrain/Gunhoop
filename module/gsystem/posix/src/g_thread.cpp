@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file	    	g_thread.cpp
+* @file		g_thread.cpp
 * @version     
 * @brief      
-* @author   	duye
-* @date     	2013-11-26
+* @author	duye
+* @date		2013-11-26
 * @note 
 *
 *  1. 2013-11-26 duye Created this file

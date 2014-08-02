@@ -7,8 +7,8 @@
 * @file		g_logger.h
 * @version     
 * @brief      
-* @author   	duye
-* @date     	2014-2-18
+* @author	duye
+* @date		2014-2-18
 * @note 
 *
 *  2. 2014-06-21 duye move to gohoop 
