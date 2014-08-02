@@ -33,8 +33,7 @@ GResult GFileUtil::createFile(const GInt8* filePath, const GUint64& initSize)
 	GInt32 fd = ::creat(filePath, G_FILE_MASK);
 	if (fd == -1)
 	{
-	    return G_NO;
-        
+		return G_NO;
 	}
 
 	if (ftruncate(fd, initSize) == -1)
