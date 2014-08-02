@@ -71,30 +71,6 @@ GFile::~GFile()
 	close();
 }
 
-GResult GFile::setPath(const GInt8* filePath)
-{
-	if (m_pathLen > 0)
-	{   
-		setError("file path has exist");
-		return G_NO;
-	}
-
-	GUint32 len = strlen(filePath);
-	if (len < G_PATH_MAX)
-	{
-		memcpy(m_path, filePath, len);
-		m_path[len] = 0;
-		m_pathLen = len;
-	}    
-	else
-	{
-		setError("file path too long");
-		return G_NO;   
-	}
-
-	return G_YES;
-}
-
 GResult GFile::open(const GUint64 flags)
 {
 	return open(flags, G_FILE_MASK);          
@@ -157,9 +133,12 @@ GInt64 GFile::getSize()
 	{
 		setError("file don't open");
 		return G_NO;
-	}    
+	} 
 
-	return (GInt64)(m_fileStat.st_size);
+    struct stat	fileStat;
+	fstat(m_fd, &fileStat); 
+
+	return (GInt64)(fileStat.st_size);
 }
 
 GInt64 GFile::seek(const GInt64 offset, const SeekFlags& flags)
@@ -253,7 +232,6 @@ GResult GFile::orgOpen(const GInt32 flags, const GUint32 mode)
 	if (m_fd > 0)
 	{
 		m_flags = flags;
-		fstat(m_fd, &m_fileStat);
 	}
 	else
 	{

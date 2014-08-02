@@ -84,16 +84,8 @@ public:
 	~GFile();
 
 	/**
-	 * @brief set file path
-	 * @param [in] GFilePath : file path
-	 * @return G_YES/G_NO
-	 * @note 
-	 */		
-	GResult setPath(const GInt8* filePath);
-
-	/**
 	 * @brief open file for reading
-	 * @param [in] flags : open mode flags
+	 * @param [in] flags : open mode flags, from type OpenFlags
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
@@ -101,7 +93,7 @@ public:
 
 	/**
 	 * @brief open file for reading
-	 * @param [in] flags : open mode flags
+	 * @param [in] flags : open mode flags, from type OpenFlags
 	 * @param [in] mode : permission
 	 * @return G_YES/G_NO
 	 * @note 
@@ -186,7 +178,6 @@ public:
 
 private:
 	GInt32		m_fd;
-	struct stat	m_fileStat;
 	GInt32		m_flags;
 	GInt8		m_path[G_PATH_MAX];
 	GUint32		m_pathLen;
