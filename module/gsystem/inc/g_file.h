@@ -185,10 +185,10 @@ public:
 	void setError(const GInt8* args, ...);
 
 private:
-	GInt32			m_fd;
-	struct stat     m_fileStat;
-	GInt32			m_flags;
-	GInt8		    m_path[G_PATH_MAX];
-	GUint32         m_pathLen;
-	GInt8           m_error[G_ERROR_BUF_SIZE];
+	GInt32		m_fd;
+	struct stat	m_fileStat;
+	GInt32		m_flags;
+	GInt8		m_path[G_PATH_MAX];
+	GUint32		m_pathLen;
+	GInt8		m_error[G_ERROR_BUF_SIZE];
 };
