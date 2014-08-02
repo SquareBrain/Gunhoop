@@ -139,13 +139,13 @@ public:
 		const GInt8* args, ...);  
 
 	/**
-	* @brief print log
-	* @param [in] module : module name
-	* @param [in] file : file path
-	* @param [in] line : line number
-	* @param [in] function : function name
-	* @param [in] args : log content
-	*/
+	 * @brief print log
+	 * @param [in] module : module name
+	 * @param [in] file : file path
+	 * @param [in] line : line number
+	 * @param [in] function : function name
+	 * @param [in] args : log content
+	 */
 	static void printTrace(const GInt8* module, 
 		const GInt8* file, 
 		const GUint32 line, 

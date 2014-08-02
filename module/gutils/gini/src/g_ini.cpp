@@ -325,7 +325,7 @@ GResult GIniFile::getOneLine(const GInt8* data,
 	{
 		if (data[endPos++] == '\n')
 		{
-		    break;
+			break;
 		}
 	}
 
