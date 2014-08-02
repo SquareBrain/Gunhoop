@@ -58,6 +58,7 @@ GFile::GFile(const GInt8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
 	GUint32 len = strlen(filePath);
 	if (len < G_PATH_MAX)
 	{
+		rrrr
 		memcpy(m_path, filePath, len);
 		m_path[len] = 0;
 		m_pathLen = len;
