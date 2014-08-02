@@ -141,5 +141,5 @@ private:
 	GInt8	m_shmPath[G_PATH_MAX];
 	GUint64	m_shmSize;	
 	void*	m_shmAddr;
-	bool            m_initFlags;
+	bool	m_initFlags;
 };

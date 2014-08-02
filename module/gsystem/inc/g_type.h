@@ -22,15 +22,15 @@
 /** 
  * @brief base type define
  */
-typedef char   				GInt8;
-typedef short		   		GInt16;
-typedef int                	GInt32;
+typedef char				GInt8;
+typedef short				GInt16;
+typedef int					GInt32;
 typedef long long			GInt64;
-typedef unsigned char      	GUint8;
+typedef unsigned char		GUint8;
 typedef unsigned short		GUint16;
-typedef unsigned int       	GUint32;
-typedef unsigned long long 	GUint64;
-typedef int                	GResult;
+typedef unsigned int		GUint32;
+typedef unsigned long long	GUint64;
+typedef int					GResult;
 
 #include <assert.h>
 #include <stddef.h>
@@ -49,7 +49,7 @@ typedef int                	GResult;
 /** 
  * @brief limits number for file name max length
  */
-#define G_FILE_NAME_MAX	    256
+#define G_FILE_NAME_MAX		256
 
 /** 
  * @brief limits number for error info buffer size

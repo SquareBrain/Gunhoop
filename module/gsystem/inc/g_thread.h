@@ -98,11 +98,11 @@ private:
 
 private:
 	// GThread ID
-	pthread_t	    m_threadId;
+	pthread_t	m_threadId;
 	// indicate whether is detached with main GThread£¬default is detached
-	bool		    m_autoRel;
+	bool		m_autoRel;
 	// user GThread object
-	GRunnable*	    m_runnable;
+	GRunnable*	m_runnable;
 };
 
 /** 
@@ -145,10 +145,10 @@ private:
 
 private:
 	// GThread ID
-	pthread_t	    m_threadId;	
+	pthread_t	m_threadId;	
 	// whether is detached with main GThread, default is ture, 
 	// indicate detached with main GThread
-	bool		    m_autoRel;
+	bool		m_autoRel;
 };
 
 /** 
