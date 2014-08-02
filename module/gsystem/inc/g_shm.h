@@ -33,35 +33,35 @@ typedef enum
 	/** 
 	 * @brief open shm failed
 	 */        
-    OPEN_SHM_FAILED = -2,
+	OPEN_SHM_FAILED = -2,
 	/** 
 	 * @brief munmap failed
 	 */           
-    MUNMAP_SHM_FAILED = -3,
+	MUNMAP_SHM_FAILED = -3,
 	/** 
 	 * @brief mmap failed
 	 */           
-    MMAP_SHM_FAILED = -4,
+	MMAP_SHM_FAILED = -4,
 	/** 
 	 * @brief sync shm failed
 	 */           
-    SYNC_SHM_FAILED = -5,
+	SYNC_SHM_FAILED = -5,
 	/** 
 	 * @brief write shm parameter failed
 	 */           
-    WRITE_SHM_PARA_FAILED = -6,
+	WRITE_SHM_PARA_FAILED = -6,
 	/** 
 	 * @brief read shm parameter failed
 	 */           
-    READ_SHM_PARA_FAILED = -7,
+	READ_SHM_PARA_FAILED = -7,
 	/** 
 	 * @brief shm not init
 	 */           
-    SHM_NO_INIT = -8,
+	SHM_NO_INIT = -8,
 	/** 
 	 * @brief shm path is empty
 	 */           
-    SHM_PATH_EMPTY = -9
+	SHM_PATH_EMPTY = -9
 } GShmErrorCode;
 
 /** 
@@ -138,8 +138,8 @@ private:
 	GResult uninit();
 
 private:
-	GInt8		    m_shmPath[G_PATH_MAX];
-	GUint64			m_shmSize;	
-	void*			m_shmAddr;
+	GInt8	m_shmPath[G_PATH_MAX];
+	GUint64	m_shmSize;	
+	void*	m_shmAddr;
 	bool            m_initFlags;
 };

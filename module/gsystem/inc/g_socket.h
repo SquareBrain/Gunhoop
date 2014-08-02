@@ -116,9 +116,9 @@ private:
 
 private:
 	// GSocket file descrition
-	GInt32          m_sockfd;
+	GInt32		m_sockfd;
 	// address
-	sockaddr_in		m_addr;
+	sockaddr_in	m_addr;
 	// address length
-	socklen_t		m_addrLen;			
+	socklen_t	m_addrLen;			
 };

@@ -45,17 +45,17 @@ protected:
 	/**
 	 * @brief Open the pipe
 	 * @param [in] pipeName : the GPipe name
-		 * @param [in] mode : open mode
-		 * @return true/false
-		 * @note 
-		 */		
+	 * @param [in] mode : open mode
+	 * @return true/false
+	 * @note 
+	 */		
 	bool orgOpen(const GInt8* pipeName, const GInt32 mode);
     
 protected:
 	/** 
 	 * @brief pipe descriptor
 	 */	
-	GInt32		m_pipefd;
+	GInt32	m_pipefd;
 };
 
 /** 
