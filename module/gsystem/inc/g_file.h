@@ -54,7 +54,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-    static GResult createFile(const GInt8* filePath); 
+	static GResult createFile(const GInt8* filePath); 
 
 	/**
 	 * @brief create file
