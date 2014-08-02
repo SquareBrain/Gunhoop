@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @GFile	g_file.cpp
+* @GFile		g_file.cpp
 * @version     
 * @brief      
 * @author 	duye
-* @date		2013-06-20
+* @date			2013-06-20
 * @note
 *
 *  1. 2013-06-20 duye Created this GFile
@@ -55,7 +55,7 @@ GFile::GFile() : m_fd(-1), m_flags(0), m_pathLen(0)
 
 GFile::GFile(const GInt8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
 {
-    GUint32 len = strlen(filePath);
+	GUint32 len = strlen(filePath);
 	if (len < G_PATH_MAX)
 	{
 	    memcpy(m_path, filePath, len);
