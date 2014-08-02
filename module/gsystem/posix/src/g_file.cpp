@@ -34,6 +34,7 @@ GResult GFileUtil::createFile(const GInt8* filePath, const GUint64& initSize)
 	if (fd == -1)
 	{
 	    return G_NO;
+        
 	}
 
 	if (ftruncate(fd, initSize) == -1)
