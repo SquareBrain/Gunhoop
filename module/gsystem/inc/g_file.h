@@ -7,8 +7,8 @@
 * @file		g_file.h
 * @version     
 * @brief      
-* @author   	duye
-* @date     	2014-06-20
+* @author	duye
+* @date		2014-06-20
 * @note 
 *
 *  1. 2014-06-20 duye Created this GFile
