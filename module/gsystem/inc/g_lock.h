@@ -4,11 +4,11 @@
 *
 ************************************************************************************/
 /**
-* @file	    	g_lock.h
+* @file		g_lock.h
 * @version     
 * @brief      
-* @author   	duye
-* @date     	2013-11-26
+* @author	duye
+* @date		2013-11-26
 * @note 
 *
 * 4. 2014-06-20 duye move to gohoop project

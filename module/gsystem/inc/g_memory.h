@@ -7,8 +7,8 @@
 * @file		g_memory.h
 * @version     
 * @brief      
-* @author   	duye
-* @date     	2014-02-23
+* @author	duye
+* @date		2014-02-23
 * @note 
 *
 *  2. 2014-06-20 duye move to gohoop project

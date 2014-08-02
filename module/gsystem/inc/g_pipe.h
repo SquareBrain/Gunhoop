@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file     	g_pipe.h
+* @file		g_pipe.h
 * @version     
 * @brief      
-* @author   	duye
-* @date     	2013-11-15
+* @author	duye
+* @date		2013-11-15
 * @note 
 *
 *  2. 2014-06-20 duye move to gohoop project
