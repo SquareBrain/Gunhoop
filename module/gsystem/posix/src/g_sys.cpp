@@ -48,21 +48,21 @@ GResult GSys::shell(const GInt8* cmd, const GShellMode mode, GInt8* buffer, cons
 	switch (mode)
 	{
 	case G_SHELL_R:
-	    pipeMode = (GInt8*)"r";
-	    break;
+		pipeMode = (GInt8*)"r";
+		break;
 	case G_SHELL_W:
-	    pipeMode = (GInt8*)"w";
-	    break;
+		pipeMode = (GInt8*)"w";
+		break;
 	default:
-	    return G_NO;
-	    break;
+		return G_NO;
+		break;
 	}
 
 
 	FILE* retStream = popen(cmd, pipeMode);
 	if (retStream == NULL)
 	{
-	    return G_NO;
+		return G_NO;
 	}
 
 	memset(buffer, 0, size);

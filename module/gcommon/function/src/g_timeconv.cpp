@@ -36,7 +36,7 @@ GResult TimeConv::convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GU
 {
 	if (outSysTime == NULL)
 	{
-	    return G_NO;
+	return G_NO;
 	}
 
 	const GInt8* curSysTime = "2014-03-09";

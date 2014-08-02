@@ -39,7 +39,7 @@ GResult GIniSection::getPara(const std::string& para, std::string& value)
 	KeyValueMap::iterator iter = m_keyValueMap.find(para);
 	if (iter == m_keyValueMap.end())
 	{
-	    return G_NO;
+		return G_NO;
 	}
 
 	value.assign(iter->second);
@@ -54,7 +54,7 @@ GResult GIniSection::setPara(const std::string& para, const std::string& value)
 	KeyValueMap::iterator iter = m_keyValueMap.find(para);
 	if (iter == m_keyValueMap.end())
 	{
-	    return G_NO;
+		return G_NO;
 	}
 
 	iter->second = value;
@@ -69,7 +69,7 @@ GResult GIniSection::addPara(const std::string& para, const std::string& value)
 	KeyValueMap::iterator iter = m_keyValueMap.find(para);
 	if (iter != m_keyValueMap.end())
 	{
-	    return G_NO;
+		return G_NO;
 	}
 
 	m_keyValueMap.insert(std::make_pair(para, value)); 
@@ -84,7 +84,7 @@ GResult GIniSection::delPara(const std::string& para)
 	KeyValueMap::iterator iter = m_keyValueMap.find(para);
 	if (iter == m_keyValueMap.end())
 	{
-	    return G_NO;
+		return G_NO;
 	}
 
 	m_keyValueMap.erase(iter);

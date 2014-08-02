@@ -41,7 +41,7 @@ public:
 	* @param [in] sectionName : section name
 	* @return KeyValueMap const reference
 	* @note 
-	*/	    
+	*/    
 	explicit GIniSection(const std::string& sectionName);
 
 	~GIniSection();
@@ -52,7 +52,7 @@ public:
 	 * @param [in] value : value
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	
+	 */
 	GResult getPara(const std::string& para, std::string& value); 
 
 	/**
@@ -61,7 +61,7 @@ public:
 	 * @param [in] value : value
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	
+	 */
 	GResult setPara(const std::string& para, const std::string& value);    
 
 	/**
@@ -70,7 +70,7 @@ public:
 	 * @param [in] value : value
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	
+	 */
 	GResult addPara(const std::string& para, const std::string& value);
 
 	/**
@@ -78,14 +78,14 @@ public:
 	 * @param [in] para : parameter
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	
+	 */
 	GResult delPara(const std::string& para);
 
 	/**
 	 * @brief get keyValueMap
 	 * @return m_keyValueMap 
 	 * @note 
-	 */	
+	 */
 	const KeyValueMap& getkeyValueMap() const;   
     
 private:

@@ -31,18 +31,18 @@ public:
 	~GCondition();
 
 	/**
-	 * @brief wake up the waitting thread, only wake up one thread,
-	 * according to the thread priority and waitting time.
-	 * @return true/false
-	 * @note 
-	 */ 
+	* @brief wake up the waitting thread, only wake up one thread,
+	* according to the thread priority and waitting time.
+	* @return true/false
+	* @note 
+	*/ 
 	bool signal();
 	 
 	/**
-	 * @brief wake up all waitting threads
-	 * @return true/false
-	 * @note 
-	 */		
+	* @brief wake up all waitting threads
+	* @return true/false
+	* @note 
+	*/		
 	bool broadcast();
 
 	/**

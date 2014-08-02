@@ -53,14 +53,14 @@ GInt64 GWritePipe::write(const GInt8* data, const GUint64 length)
 {
 	if (m_pipefd == -1)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "GPipe hasn't open");
-	    return G_NO;
+		//G_LOG_ERROR(G_LOG_PREFIX, "GPipe hasn't open");
+		return G_NO;
 	}
 
 	if (data == NULL)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "input data is NULL");
-	    return G_NO;
+		//G_LOG_ERROR(G_LOG_PREFIX, "input data is NULL");
+		return G_NO;
 	}
 
 	if (length == 0)

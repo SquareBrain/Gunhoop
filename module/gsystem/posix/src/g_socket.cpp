@@ -53,7 +53,7 @@ GResult GSocket::openSocket(const GInt32 domain, const GInt32 type)
 	if (!initOption())
 	{
 	    //G_LOG_ERROR(G_LOG_PREFIX, "init GSocket option failed");
-	}	
+	}
 
 	return G_YES;
 }

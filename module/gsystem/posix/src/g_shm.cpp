@@ -76,20 +76,20 @@ GResult GShm::write(const GUint32 offset, const GInt8* data, const GUint32 lengt
 
 	if (data == NULL)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "input data is NULL");
-	    return WRITE_SHM_PARA_FAILED;
+		//G_LOG_ERROR(G_LOG_PREFIX, "input data is NULL");
+		return WRITE_SHM_PARA_FAILED;
 	}
 
 	if (length == 0)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "input data length is zero");
-	    return WRITE_SHM_PARA_FAILED;
+		//G_LOG_ERROR(G_LOG_PREFIX, "input data length is zero");
+		return WRITE_SHM_PARA_FAILED;
 	}
 
 	if (offset + length > m_shmSize)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "will write data length over GShm size");
-	    return WRITE_SHM_PARA_FAILED;
+		//G_LOG_ERROR(G_LOG_PREFIX, "will write data length over GShm size");
+		return WRITE_SHM_PARA_FAILED;
 	}
 
 	memcpy((GInt8*)m_shmAddr + offset, data, length);
@@ -101,26 +101,26 @@ GResult GShm::read(const GUint32 offset, GInt8* buffer, const GUint32 size)
 {
 	if (!m_initFlags)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "GShm hasn't init");
-	    return G_NO;
+		//G_LOG_ERROR(G_LOG_PREFIX, "GShm hasn't init");
+		return G_NO;
 	} 
 
 	if (buffer == NULL)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "output buffer is NULL");
-	    return WRITE_SHM_PARA_FAILED;
+		//G_LOG_ERROR(G_LOG_PREFIX, "output buffer is NULL");
+		return WRITE_SHM_PARA_FAILED;
 	}
 
 	if (size == 0)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "ouput buffer size is zero");
-	    return WRITE_SHM_PARA_FAILED;
+		//G_LOG_ERROR(G_LOG_PREFIX, "ouput buffer size is zero");
+		return WRITE_SHM_PARA_FAILED;
 	}
 
 	if (offset + size > m_shmSize)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "will read length over GShm size");
-	    return WRITE_SHM_PARA_FAILED;
+		//G_LOG_ERROR(G_LOG_PREFIX, "will read length over GShm size");
+		return WRITE_SHM_PARA_FAILED;
 	}
 
 	memcpy((GInt8*)buffer, (GInt8*)m_shmAddr + offset, size);
@@ -132,21 +132,21 @@ GResult GShm::init()
 {
 	if (m_initFlags)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "GShm had init");
-	    return G_NO;
+		//G_LOG_ERROR(G_LOG_PREFIX, "GShm had init");
+		return G_NO;
 	}
 
 	if (strlen(m_shmPath) == 0)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "GShm path is empty");
-	    return SHM_PATH_EMPTY;
+		//G_LOG_ERROR(G_LOG_PREFIX, "GShm path is empty");
+		return SHM_PATH_EMPTY;
 	}
 
 	GInt32 fd = ::open(m_shmPath, O_RDWR | O_CREAT);
 	if (fd < 0)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "open GShm file failed");
-	    return OPEN_SHM_FAILED;
+		//G_LOG_ERROR(G_LOG_PREFIX, "open GShm file failed");
+		return OPEN_SHM_FAILED;
 	}
 
 	// setting file size
@@ -175,14 +175,14 @@ GResult GShm::uninit()
 {
 	if (!m_initFlags)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "GShm hasn't init");
-	    return G_NO;
+		//G_LOG_ERROR(G_LOG_PREFIX, "GShm hasn't init");
+		return G_NO;
 	}
 
 	if (munmap(m_shmAddr, m_shmSize) < 0)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "call munmap failed");
-	    return MUNMAP_SHM_FAILED;
+		//G_LOG_ERROR(G_LOG_PREFIX, "call munmap failed");
+		return MUNMAP_SHM_FAILED;
 	}
 
 	m_shmAddr = NULL;

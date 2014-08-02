@@ -38,13 +38,13 @@ GResult GIniFile::loadFile(const std::string& filePath)
 {
 	if (m_filePath == filePath)
 	{
-	    setError("file has load");
-	    return G_NO;
+		setError("file has load");
+		return G_NO;
 	}
 
 	if (!m_filePath.empty())
 	{
-	    cleanIniSectionMap();    
+		cleanIniSectionMap();    
 	}
 
 	m_filePath = filePath;
@@ -52,16 +52,16 @@ GResult GIniFile::loadFile(const std::string& filePath)
 	GFile file(m_filePath.c_str());
 	if (file.open(G_OPEN_READ) != G_YES)
 	{
-	    setError("open file failed");
-	    return G_NO;
+		setError("open file failed");
+		return G_NO;
 	}
 
 	GInt64 fileSize = file.getSize();
 	if (fileSize <= 0)
 	{   
-	    file.close();
-	    setError("file is empty");
-	    return G_NO;
+		file.close();
+		setError("file is empty");
+		return G_NO;
 	}
 
 	GInt8* buffer = new GInt8[fileSize + 1];
@@ -70,8 +70,8 @@ GResult GIniFile::loadFile(const std::string& filePath)
 
 	if (readSize != fileSize)
 	{
-	    setError("read file failed");
-	    return G_NO;    
+		setError("read file failed");
+		return G_NO;    
 	}
 
 	buffer[readSize] = 0;
@@ -94,19 +94,19 @@ GResult GIniFile::importData(const GInt8* data, const GUint64 length)
 
 	while (offset < length)
 	{
-	    switch (data[offset])
-	    {
-	    case '[':
-	        if (parserSection(data, length, offset) != G_YES)
-	        {
-	            setError("file section failed");
-	            return G_NO;
-	        }
-	        break;
-	    default:
-	        offset++;
-	        break;
-	    }
+		switch (data[offset])
+		{
+		case '[':
+		    if (parserSection(data, length, offset) != G_YES)
+		    {
+		        setError("file section failed");
+		        return G_NO;
+		    }
+		    break;
+		default:
+		    offset++;
+		    break;
+		}
 	}
 
 	return G_YES;
@@ -120,8 +120,8 @@ GResult GIniFile::getParaVal(const std::string& section,
 	GIniSectionMap::iterator iter = m_iniSectionMap.find(section);
 	if (iter == m_iniSectionMap.end())
 	{
-	    setError("section failed");
-	    return G_NO;
+		setError("section failed");
+		return G_NO;
 	}
 
 	return iter->second->getPara(paraName, value);
@@ -135,7 +135,7 @@ GResult GIniFile::setParaVal(const std::string& section,
 	GIniSectionMap::iterator iter = m_iniSectionMap.find(section);
 	if (iter == m_iniSectionMap.end())
 	{
-	    return G_NO;
+		return G_NO;
 	}
 
 	return iter->second->setPara(paraName, value);    
@@ -147,7 +147,7 @@ GResult GIniFile::delSection(const std::string& section)
 	GIniSectionMap::iterator iter = m_iniSectionMap.find(section);
 	if (iter == m_iniSectionMap.end())
 	{
-	    return G_NO;
+		return G_NO;
 	}
 
 	m_iniSectionMap.erase(iter);
@@ -161,7 +161,7 @@ GResult GIniFile::delPara(const std::string& section, const std::string& paraNam
 	GIniSectionMap::iterator iter = m_iniSectionMap.find(section);
 	if (iter == m_iniSectionMap.end())
 	{
-	    return G_NO;
+		return G_NO;
 	}
 
 	return iter->second->delPara(paraName);     
@@ -171,7 +171,7 @@ GResult GIniFile::saveFile()
 {
 	if (m_filePath.empty())
 	{
-	    return G_NO;
+		return G_NO;
 	}
 
 	saveFile(m_filePath);
@@ -183,7 +183,7 @@ GResult GIniFile::saveFile(const std::string& filePath)
 {
 	if (filePath.empty())
 	{
-	    return G_NO;
+		return G_NO;
 	}
 
 	GInt8 tmpBuf[INI_TMP_BUF_SIZE] = {0};
@@ -194,24 +194,24 @@ GResult GIniFile::saveFile(const std::string& filePath)
 	GIniSectionMap::iterator iter = m_iniSectionMap.begin();
 	for (; iter != m_iniSectionMap.end(); ++iter)
 	{
-	    bufPos += sprintf(tmpBuf + bufPos, "[%s]\n", iter->first.c_str());
+		bufPos += sprintf(tmpBuf + bufPos, "[%s]\n", iter->first.c_str());
 
-	    if (bufPos >= INI_TMP_BUF_SIZE)
-	    {
-	        return G_NO;
-	    }       
-	    
-	    GIniSection* section = iter->second;
-	    const GIniSection::KeyValueMap& keyValueMap = section->getkeyValueMap();
-	    GIniSection::KeyValueMap::const_iterator iter = keyValueMap.begin();
-	    for (; iter != keyValueMap.end(); ++iter)
-	    {
-	        bufPos += sprintf(tmpBuf + bufPos, "%s=%s\n", iter->first.c_str(), iter->second.c_str()); 
-	        if (bufPos >= INI_TMP_BUF_SIZE)
-	        {
-	            return G_NO;
-	        }
-	    }
+		if (bufPos >= INI_TMP_BUF_SIZE)
+		{
+		    return G_NO;
+		}       
+
+		GIniSection* section = iter->second;
+		const GIniSection::KeyValueMap& keyValueMap = section->getkeyValueMap();
+		GIniSection::KeyValueMap::const_iterator iter = keyValueMap.begin();
+		for (; iter != keyValueMap.end(); ++iter)
+		{
+		    bufPos += sprintf(tmpBuf + bufPos, "%s=%s\n", iter->first.c_str(), iter->second.c_str()); 
+		    if (bufPos >= INI_TMP_BUF_SIZE)
+		    {
+		        return G_NO;
+		    }
+		}
 	}
 
 	tmpBuf[bufPos] = 0;
@@ -219,7 +219,7 @@ GResult GIniFile::saveFile(const std::string& filePath)
 	GFile file(m_filePath.c_str());
 	if (file.open(G_OPEN_WRITE) != G_YES)
 	{
-	    return G_NO;
+		return G_NO;
 	}    
 
 	GUint64 writeBytes = file.write(tmpBuf, bufPos);
@@ -227,7 +227,7 @@ GResult GIniFile::saveFile(const std::string& filePath)
 
 	if (writeBytes != bufPos)
 	{
-	    return G_NO;   
+		return G_NO;   
 	}
 
 	return G_YES;
@@ -245,8 +245,8 @@ void GIniFile::cleanIniSectionMap()
 	GIniSectionMap::iterator iter = m_iniSectionMap.begin();
 	while (iter != m_iniSectionMap.end())
 	{
-	    delete iter->second;
-	    m_iniSectionMap.erase(iter++);   
+		delete iter->second;
+		m_iniSectionMap.erase(iter++);   
 	}
 }
 
@@ -260,32 +260,32 @@ GResult GIniFile::parserSection(const GInt8* data,
 
 	while (data[endPos] != 0)
 	{
-	    switch (data[endPos++])
-	    {
-	    case '\r':
-	    case '\n':
-	    case ';':
-	    case '=':
-	    case ':':
-	        offset = endPos;
-	        return G_NO;
-	    case ']':
-	        findSectionEnd = true;
-	        break;
-	    default:
-	        break;
-	    }  
+		switch (data[endPos++])
+		{
+		case '\r':
+		case '\n':
+		case ';':
+		case '=':
+		case ':':
+		    offset = endPos;
+		    return G_NO;
+		case ']':
+		    findSectionEnd = true;
+		    break;
+		default:
+		    break;
+		}  
 
-	    if (findSectionEnd)
-	    {
-	        break;
-	    }
+		if (findSectionEnd)
+		{
+		    break;
+		}
 	}
 
 	if (endPos - begPos <= 1)
 	{
-	    offset = endPos;
-	    return G_NO;    
+		offset = endPos;
+		return G_NO;    
 	}
 
 	std::string sectionName(data + begPos, endPos - begPos);
@@ -294,14 +294,14 @@ GResult GIniFile::parserSection(const GInt8* data,
 	std::string lineStr;
 	while (getOneLine(data + endPos, length - offset, lineStr) == G_YES)
 	{
-	    offset += lineStr.length();
-	    GInt32 midPos = 0;
-	    if ((midPos = lineStr.find('=')) == std::string::npos)
-	    {
-	        continue;       
-	    }
-	    
-	    section->addPara(lineStr.substr(0, midPos), lineStr.substr(midPos + 1));
+		offset += lineStr.length();
+		GInt32 midPos = 0;
+		if ((midPos = lineStr.find('=')) == std::string::npos)
+		{
+		    continue;       
+		}
+
+		section->addPara(lineStr.substr(0, midPos), lineStr.substr(midPos + 1));
 	}
 
 	m_iniSectionMap.insert(std::make_pair(sectionName, section));
@@ -317,16 +317,16 @@ GResult GIniFile::getOneLine(const GInt8* data,
 {
 	if (length == 0)
 	{
-	    return G_NO;
+		return G_NO;
 	}
 
 	GUint64 endPos = 0;
 	while (endPos < length)
 	{
-	    if (data[endPos++] == '\n')
-	    {
-	        break;
-	    }
+		if (data[endPos++] == '\n')
+		{
+		    break;
+		}
 	}
 
 	lineStr.assign(data, endPos);
@@ -336,5 +336,5 @@ GResult GIniFile::getOneLine(const GInt8* data,
 
 void GIniFile::setError(const char *args,...)
 {
-	GSys::format(m_error, G_ERROR_BUF_SIZE, args);
+	GSys::format(m_error, G_ERROR_BUF_SIZE, args);
 }

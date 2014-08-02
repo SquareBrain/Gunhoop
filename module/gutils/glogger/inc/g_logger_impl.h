@@ -73,7 +73,7 @@ private:
 
 /**
  * system log module configuration rule
- */	
+ */
 class ModuleRule
 {
 public:
@@ -101,18 +101,18 @@ private:
 class GLoggerImpl
 {
 public:
-    // <module_name, module_rule>
-    typedef std::map<std::string, ModuleRule*> GModuleRuleMap;
-    typedef std::map<GLogLevel, const GInt8*> GLogLevelMap;
+	// <module_name, module_rule>
+	typedef std::map<std::string, ModuleRule*> GModuleRuleMap;
+	typedef std::map<GLogLevel, const GInt8*> GLogLevelMap;
     
 public:
-    GLoggerImpl();
-    ~GLoggerImpl();
+	GLoggerImpl();
+	~GLoggerImpl();
 
-    static GLoggerImpl* GetInstance();
+	static GLoggerImpl* GetInstance();
 
-    GResult init();
-    GResult uninit();
+	GResult init();
+	GResult uninit();
 
 	/**
 	 * @brief print log
@@ -123,27 +123,27 @@ public:
 	 * @param [in] function : function name
 	 * @param [in] log : log content
 	 */	 	
-    void printLog(const GLogLevel logLevel, 
-        const GInt8* module, 
-        const GInt8* file, 
-        const GUint32 line, 
-        const GInt8* function,
-        const GInt8* args, ...); 
+	void printLog(const GLogLevel logLevel, 
+		const GInt8* module, 
+		const GInt8* file, 
+		const GUint32 line, 
+		const GInt8* function,
+		const GInt8* args, ...); 
         
 	/**
 	 * @brief get error string
 	 * @return error string
 	 */	
-    GInt8* getError();    
+	GInt8* getError();    
 
 private:
-    GResult findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule);
-    void setError(const GInt8* args, ...);
+	GResult findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule);
+	void setError(const GInt8* args, ...);
 
 private:
-    GLogLevelMap        m_logLevelMap;
-    GlobalRule          m_globalRule;
-    GModuleRuleMap      m_moduleRuleMap;
-    GIniFile            m_iniFile;
-    GInt8               m_error[G_ERROR_BUF_SIZE];
+	GLogLevelMap        m_logLevelMap;
+	GlobalRule          m_globalRule;
+	GModuleRuleMap      m_moduleRuleMap;
+	GIniFile            m_iniFile;
+	GInt8               m_error[G_ERROR_BUF_SIZE];
 };

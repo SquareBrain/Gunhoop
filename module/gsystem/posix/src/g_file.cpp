@@ -58,7 +58,6 @@ GFile::GFile(const GInt8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
 	GUint32 len = strlen(filePath);
 	if (len < G_PATH_MAX)
 	{
-		rrrr
 		memcpy(m_path, filePath, len);
 		m_path[len] = 0;
 		m_pathLen = len;
@@ -76,21 +75,21 @@ GResult GFile::setPath(const GInt8* filePath)
 {
 	if (m_pathLen > 0)
 	{   
-	    setError("file path has exist");
-	    return G_NO;
+		setError("file path has exist");
+		return G_NO;
 	}
 
 	GUint32 len = strlen(filePath);
 	if (len < G_PATH_MAX)
 	{
-	    memcpy(m_path, filePath, len);
-	    m_path[len] = 0;
-	    m_pathLen = len;
+		memcpy(m_path, filePath, len);
+		m_path[len] = 0;
+		m_pathLen = len;
 	}    
 	else
 	{
-	    setError("file path too long");
-	    return G_NO;   
+		setError("file path too long");
+		return G_NO;   
 	}
 
 	return G_YES;

@@ -72,12 +72,12 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	ModuleRule* moduleRule = NULL;
 	if (findModuleRule(std::string(module), moduleRule) == G_NO)
 	{
-	    return;
+		return;
 	}
 
 	if (logLevel > moduleRule->getLogLevel())
 	{
-	    return;
+		return;
 	}
 
 	GInt8 printBuf[DEF_ONE_LINE_BUF_SIZE] = {0};
@@ -89,17 +89,17 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	switch (moduleRule->getPrintLevel())
 	{
 	case PRINT_BASIC:
-	    break;
+		break;
 	case PRINT_MORE:
-	    // add file and function
-	    pos += sprintf(printBuf + pos, "(%s:%s)", file, function);
-	    break;
+		// add file and function
+		pos += sprintf(printBuf + pos, "(%s:%s)", file, function);
+		break;
 	case PRINT_FULL:
-	    // add file, line number and function
-	    pos += sprintf(printBuf + pos, "(%s:%s:%d)", file, function, line);    
-	    break;
+		// add file, line number and function
+		pos += sprintf(printBuf + pos, "(%s:%s:%d)", file, function, line);    
+		break;
 	default:
-	    return;
+		return;
 	}
 
 	// add log content
@@ -108,7 +108,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	// add word wrap
 	if (m_globalRule.isWordWrap())
 	{
-	    pos += sprintf(printBuf + pos, "\n");    
+		pos += sprintf(printBuf + pos, "\n");    
 	}
 
 	printf("%s", printBuf);
@@ -124,7 +124,7 @@ GResult GLoggerImpl::findModuleRule(const std::string& moduleName, ModuleRule*& 
 	GModuleRuleMap::iterator iter = m_moduleRuleMap.find(moduleName); 
 	if (iter == m_moduleRuleMap.end())
 	{
-	    return G_NO;
+		return G_NO;
 	}
 
 	moduleRule = iter->second;

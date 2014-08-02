@@ -20,7 +20,7 @@ bool GTimeUtil::convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUin
 {
 	if (outSysTime == NULL)
 	{
-	    return false;
+		return false;
 	}
 
 	const GInt8* curSysTime = "20140309";
@@ -34,7 +34,7 @@ bool GTimeUtil::convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUin
 {
 	if (outSysTime == NULL)
 	{
-	    return false;
+		return false;
 	}
 
 	const GInt8* curSysTime = "2014-03-09";
@@ -48,7 +48,7 @@ bool GTimeUtil::convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUin
 {
 	if (outSysTime == NULL)
 	{
-	    return false;
+		return false;
 	}
 
 	const GInt8* curSysTime = "2014/03/09";
@@ -62,7 +62,7 @@ bool GTimeUtil::convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUin
 {
 	if (outSysTime == NULL)
 	{
-	    return false;
+		return false;
 	}
 
 	const GInt8* curSysTime = "2014.03.09";
@@ -76,7 +76,7 @@ bool GTimeUtil::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUin
 {
 	if (outSysTime == NULL)
 	{
-	    return false;
+		return false;
 	}
 
 	const GInt8* curSysTime = "2014-03-09:999";

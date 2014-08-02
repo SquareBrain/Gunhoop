@@ -41,7 +41,7 @@ public:
 	 * @brief constructor
 	 * @param [in] filePath : file path
 	 * @note 
-	 */	    
+	 */ 
 	GIniFile(const std::string& filePath);
 
 	~GIniFile();
@@ -51,7 +51,7 @@ public:
 	 * @param [in] filePath : file path
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	 
+	 */
 	GResult loadFile(const std::string& filePath);
 
 	/**
@@ -59,7 +59,7 @@ public:
 	 * @param [in] data : file data
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	     
+	 */     
 	GResult importData(const std::string& data);
 
 	/**
@@ -68,7 +68,7 @@ public:
 	 * @param [in] length : data length
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	     
+	 */     
 	GResult importData(const GInt8* data, const GUint64 length);    
 
 	/**
@@ -78,10 +78,10 @@ public:
 	 * @param [out] value : return value
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	 
+	 */ 
 	GResult getParaVal(const std::string& section, 
-	    const std::string& paraName, 
-	    std::string& value);
+		const std::string& paraName, 
+		std::string& value);
 
 	/**
 	 * @brief set value
@@ -90,10 +90,10 @@ public:
 	 * @param [in] value : set value
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	 
+	 */ 
 	GResult setParaVal(const std::string& section, 
-	    const std::string& paraName, 
-	    const std::string& value);    
+		const std::string& paraName, 
+		const std::string& value);    
 	    
 	/**
 	 * @brief del section
@@ -102,7 +102,7 @@ public:
 	 * @param [in] value : set value
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	 
+	 */ 
 	GResult delSection(const std::string& section);
 
 	/**
@@ -112,40 +112,40 @@ public:
 	 * @param [in] value : set value
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	 
+	 */
 	GResult delPara(const std::string& section, const std::string& paraName); 
 
 	/**
 	 * @brief save configuration to file
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	 
+	 */
 	GResult saveFile();  
 
 	/**
 	 * @brief save configuration to file
 	 * @return G_YES/G_NO
 	 * @note 
-	 */	 
+	 */ 
 	GResult saveFile(const std::string& filePath);    
 
 	/**
 	 * @brief get error string
 	 * @return error string
 	 * @note 
-	 */	 
+	 */
 	GInt8* getError();     
 
 private:
 	void cleanIniSectionMap();
 
 	GResult parserSection(const GInt8* data, 
-	    const GUint64 length, 
-	    GUint64& offset);
+		const GUint64 length, 
+		GUint64& offset);
 
 	GResult getOneLine(const GInt8* data, 
-	    const GUint64 length, 
-	    std::string& lineStr);  
+		const GUint64 length, 
+		std::string& lineStr);  
 
 	void setError(const GInt8* args, ...);
 
