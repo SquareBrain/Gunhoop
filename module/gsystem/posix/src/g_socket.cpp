@@ -27,13 +27,13 @@ GSocket::GSocket() : m_sockfd(-1), m_addrLen(0)
 GSocket::GSocket(const GUint32 ip, const GUint16 port) 
     : m_sockfd(-1), m_addrLen(0)
 {
-    setAddr(ip, port);        
+	setAddr(ip, port);        
 }
 
 GSocket::GSocket(const GSocket& GSocket)
 {
-    m_sockfd = GSocket.m_sockfd;
-    m_addr = GSocket.m_addr;
+	m_sockfd = GSocket.m_sockfd;
+	m_addr = GSocket.m_addr;
 }
 
 GSocket::~GSocket()
@@ -45,8 +45,8 @@ GResult GSocket::openSocket(const GInt32 domain, const GInt32 type)
 {
 	if ((m_sockfd = socket(domain, type, 0)) == -1)
 	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "open GSocket() failed");
-	    return G_NO;
+		//G_LOG_ERROR(G_LOG_PREFIX, "open GSocket() failed");
+		return G_NO;
 	}
 
 	// init GSocket option
@@ -78,7 +78,7 @@ GResult GSocket::closeSocket(const GInt32 how)
 	    //G_LOG_ERROR(G_LOG_PREFIX, "GSocket hasn't open");
 	    return G_YES;
 	}
-	
+
 	return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
 }
 
@@ -122,7 +122,7 @@ GResult GSocket::initOption()
 	    //G_LOG_WARN(G_LOG_PREFIX, "set address reuse failed");
 		ret = false;	
 	}
-	
+
 	// set send data time limit
 	//if (setsockopt(m_sockfd, SOL_GSocket, SO_SNDTIMEO, (const char*)&stime, sizeof(int)) == -1)
 	//{
@@ -146,7 +146,7 @@ GResult GSocket::initOption()
 	{
 		ret = false;
 	}
-	
+
 	// don't copy data from system buffer to GSocket buffer when send data
 	if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
 	{

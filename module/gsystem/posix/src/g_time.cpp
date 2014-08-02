@@ -18,70 +18,70 @@
 
 bool GTimeUtil::convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
-    if (outSysTime == NULL)
-    {
-        return false;
-    }
-    
-    const GInt8* curSysTime = "20140309";
-    
-    sprintf(outSysTime, "%s", curSysTime);
+	if (outSysTime == NULL)
+	{
+	    return false;
+	}
 
-    return true;
+	const GInt8* curSysTime = "20140309";
+
+	sprintf(outSysTime, "%s", curSysTime);
+
+	return true;
 }
 
 bool GTimeUtil::convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
-    if (outSysTime == NULL)
-    {
-        return false;
-    }
-    
-    const GInt8* curSysTime = "2014-03-09";
-    
-    sprintf(outSysTime, "%s", curSysTime);
+	if (outSysTime == NULL)
+	{
+	    return false;
+	}
 
-    return true;
+	const GInt8* curSysTime = "2014-03-09";
+
+	sprintf(outSysTime, "%s", curSysTime);
+
+	return true;
 }
 
 bool GTimeUtil::convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
-    if (outSysTime == NULL)
-    {
-        return false;
-    }
-    
-    const GInt8* curSysTime = "2014/03/09";
-    
-    sprintf(outSysTime, "%s", curSysTime);
+	if (outSysTime == NULL)
+	{
+	    return false;
+	}
 
-    return true;
+	const GInt8* curSysTime = "2014/03/09";
+
+	sprintf(outSysTime, "%s", curSysTime);
+
+	return true;
 }
 
 bool GTimeUtil::convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
-    if (outSysTime == NULL)
-    {
-        return false;
-    }
-    
-    const GInt8* curSysTime = "2014.03.09";
-    
-    sprintf(outSysTime, "%s", curSysTime);
+	if (outSysTime == NULL)
+	{
+	    return false;
+	}
 
-    return true;
+	const GInt8* curSysTime = "2014.03.09";
+
+	sprintf(outSysTime, "%s", curSysTime);
+
+	return true;
 }
 
 bool GTimeUtil::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
-    if (outSysTime == NULL)
-    {
-        return false;
-    }
-    
-    const GInt8* curSysTime = "2014-03-09:999";
-    
-    sprintf(outSysTime, "%s", curSysTime);
+	if (outSysTime == NULL)
+	{
+	    return false;
+	}
 
-    return true;
+	const GInt8* curSysTime = "2014-03-09:999";
+
+	sprintf(outSysTime, "%s", curSysTime);
+
+	return true;
 }

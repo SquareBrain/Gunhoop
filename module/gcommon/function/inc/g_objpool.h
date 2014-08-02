@@ -29,19 +29,19 @@ G_NS_GCOMMON_BEG
 class ObjPoolIf
 {
 public:
-    virtual ~ObjPoolIf() {}
+	virtual ~ObjPoolIf() {}
 
 	/**
 	 * @brief be call by object pool, before used object
 	 * @return G_YES/G_NO
 	 */    
-    virtual GResult init() = 0;
+	virtual GResult init() = 0;
 
 	/**
 	 * @brief be call by object pool, after using finished
 	 * @return G_YES/G_NO
 	 */   
-    virtual GResult uninit() = 0;
+	virtual GResult uninit() = 0;
 };
 
 /** 
@@ -51,40 +51,40 @@ template <class T>
 class ObjPool
 {
 public:
-    typedef std::list<T*> ObjList;
+	typedef std::list<T*> ObjList;
 
 public:
-    ObjPool();
+	ObjPool();
 	/**
 	 * @brief constructor
 	 * @param count : the size of object pool
 	 */    
-    ObjPool(const GUint32 count);
-    ~ObjPool();
-    
+	ObjPool(const GUint32 count);
+	~ObjPool();
+
 	/**
 	 * @brief set the size of object pool
 	 * @param count : the size of object pool
 	 */
-    void setCount(const GUint32 count);
+	void setCount(const GUint32 count);
 
 	/**
 	 * @brief get the size of object pool
 	 * @return count : the size of object pool
 	 */
-    GUint32 getCount() const;
+	GUint32 getCount() const;
 
 private:
-    ObjPool(const ObjPool<T>&);
-    ObjPool<T>& operator=(const ObjPool<T>&); 
+	ObjPool(const ObjPool<T>&);
+	ObjPool<T>& operator=(const ObjPool<T>&); 
 
-    void initObjPool();
-    void releaseObjPool();
+	void initObjPool();
+	void releaseObjPool();
     
 private:    
-    GUint32     m_count;
-    ObjList     m_used;
-    ObjList     m_idle;
+	GUint32     m_count;
+	ObjList     m_used;
+	ObjList     m_idle;
 };
 
 template <class T>
@@ -95,54 +95,54 @@ ObjPool<T>::ObjPool() : m_count(0)
 template <class T>
 ObjPool<T>::ObjPool(const GUint32 count) : m_count(count)
 {
-    initObjPool();
+	initObjPool();
 }
 
 template <class T>
 ObjPool<T>::~ObjPool()
 {
-    releaseObjPool();   
+	releaseObjPool();   
 }
 
 template <class T>
 void ObjPool<T>::setCount(const GUint32 count)
 {
-    releaseObjPool();
-    m_count = count;
-    initObjPool();
+	releaseObjPool();
+	m_count = count;
+	initObjPool();
 }
 
 template <class T>
 GUint32 ObjPool<T>::getCount() const
 {
-    return m_count;
+	return m_count;
 }
 
 template <class T>
 void ObjPool<T>::initObjPool()
 {
-    if (m_count == 0)
-    {
-        return;
-    }
-    
-    for (GUint32 i = 0; i < m_count; i++)
-    {
-        T* t = new T;
-        if (t->Init())
-        {
-            m_idle.push_back(new T); 
-        }
-    }
+	if (m_count == 0)
+	{
+		return;
+	}
+
+	for (GUint32 i = 0; i < m_count; i++)
+	{
+		T* t = new T;
+		if (t->Init())
+		{
+			m_idle.push_back(new T); 
+		}
+	}
 }
 
 template <class T>
 void ObjPool<T>::releaseObjPool()
 {
-    if (m_count == 0)
-    {
-        return;
-    }
+	if (m_count == 0)
+	{
+		return;
+	}
 }
 
 G_NS_END

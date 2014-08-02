@@ -55,7 +55,7 @@ public:
 	typedef std::list<ThreadWorker*> ThreadWorkerList;
 
 public:
-    ThreadPool();
+	ThreadPool();
 
 	/**
 	 * @brief constructor
@@ -84,8 +84,8 @@ private:
 	/**
 	 * @brief prevent copying
 	 */     
-    ThreadPool(const ThreadPool&);
-    void operator=(const ThreadPool&);
+	ThreadPool(const ThreadPool&);
+	void operator=(const ThreadPool&);
 
 	/**
 	 * @brief initialize thread pool
@@ -112,7 +112,7 @@ private:
 	void moveToBusyList(const GUint32 workerId);
 
 private:
-    // thread pool size
+	// thread pool size
 	GUint32				m_threadCount;
 	// the idle queue
 	ThreadWorkerList	m_idleThreadWorkerList;
@@ -154,7 +154,7 @@ private:
 	 */     
 	ThreadWorker(const ThreadWorker&);
 	void operator=(const ThreadWorker&);
-	
+
 	/**
 	 * @brief thread entry function
 	 * @return G_YES/G_NO
@@ -163,7 +163,7 @@ private:
 	GResult run();
 
 private:
-    // thread worker ID, setting by external
+	// thread worker ID, setting by external
 	GUint32			m_workerId;
 	// waitting condition
 	GCondition		m_condition;

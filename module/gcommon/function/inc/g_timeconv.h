@@ -36,7 +36,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-    static GResult convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
+	static GResult convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
 
 	/**
 	 * @brief get system time format:2014-03-09
@@ -46,8 +46,8 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-    static GResult convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
- 
+	static GResult convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
+
 	/**
 	 * @brief get system time format:2014/03/09
 	 * @param [in]sysTime : input system time with nanosecond
@@ -56,8 +56,8 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-    static GResult convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
-  
+	static GResult convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
+
 	/**
 	 * @brief get system time format:2014.03.09
 	 * @param [in]sysTime : input system time with nanosecond
@@ -66,7 +66,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-    static GResult convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
+	static GResult convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
 
 	/**
 	 * @brief get system time format:2014-03-09:999
@@ -76,7 +76,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-    static GResult convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);
+	static GResult convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);
 };
 
 G_NS_END

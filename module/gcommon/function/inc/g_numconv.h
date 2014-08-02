@@ -35,7 +35,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-    static GResult strToInt16(GInt8* str, GInt16& num);  
+	static GResult strToInt16(GInt8* str, GInt16& num);  
 
 	/**
 	 * @brief convert string to int32
@@ -44,8 +44,8 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-    static GResult strToInt32(GInt8* str, GInt32& num); 
- 
+	static GResult strToInt32(GInt8* str, GInt32& num); 
+
 	/**
 	 * @brief convert string to int64
 	 * @param [in]str : input number with string format
@@ -53,8 +53,8 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-    static GResult strToInt64(GInt8* str, GInt64& num); 
-  
+	static GResult strToInt64(GInt8* str, GInt64& num); 
+
 	/**
 	 * @brief convert string to uint16
 	 * @param [in]str : input number with string format
@@ -62,7 +62,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-    static GResult strToUint16(GInt8* str, GUint16& num);  
+	static GResult strToUint16(GInt8* str, GUint16& num);  
 
 	/**
 	 * @brief convert string to uint32
@@ -71,7 +71,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-    static GResult strToUint32(GInt8* str, GUint32& num);     
+	static GResult strToUint32(GInt8* str, GUint32& num);     
 
 	/**
 	 * @brief convert string to uint64
@@ -80,7 +80,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-    static GResult strToUint64(GInt8* str, GUint64& num); 
+	static GResult strToUint64(GInt8* str, GUint64& num); 
 
 	/**
 	 * @brief convert number to number
@@ -90,7 +90,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-    static GResult numToStr(GInt64& num, GInt8* buffer, const GUint32 size); 
+	static GResult numToStr(GInt64& num, GInt8* buffer, const GUint32 size); 
 
 	/**
 	 * @brief convert number to unsigned number
@@ -100,7 +100,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-    static GResult numToStr(GUint64& num, GInt8* buffer, const GUint32 size);    
+	static GResult numToStr(GUint64& num, GInt8* buffer, const GUint32 size);    
 };
 
 G_NS_END

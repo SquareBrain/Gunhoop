@@ -33,8 +33,8 @@ template <class T>
 class SecrityObj : public T, public GMutex
 {
 public:
-    SecrityObj() {}
-    ~SecrityObj() {}
+	SecrityObj() {}
+	~SecrityObj() {}
 };
 
 G_NS_END

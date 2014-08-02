@@ -29,18 +29,18 @@ template<typename T>
 class Singleton
 {
 public:
-    typedef T object_type;
+	typedef T object_type;
     
 public:
-    static T& GetInstance();
+	static T& GetInstance();
     
 protected:
-    Singleton() {}
-    Singleton(const Singleton&);
-    Singleton& operator=(const Singleton&);
+	Singleton() {}
+	Singleton(const Singleton&);
+	Singleton& operator=(const Singleton&);
 
 private:
-    static T m_instance;
+	static T m_instance;
 };
 
 template<typename T> typename Singleton<T>::object_type Singleton<T>::m_instance;
@@ -48,7 +48,7 @@ template<typename T> typename Singleton<T>::object_type Singleton<T>::m_instance
 template<typename T>
 T& Singleton<T>::GetInstance()
 {
-    return &m_instance;
+	return &m_instance;
 }
 
 G_NS_END

@@ -22,39 +22,39 @@ static const GUint64 DEF_ONE_LINE_BUF_SIZE = 1024;
 
 GResult GLogger::init()
 {
-    return GLoggerImpl::GetInstance()->init();
+	return GLoggerImpl::GetInstance()->init();
 }
 
 GResult GLogger::uninit()
 {
-    return GLoggerImpl::GetInstance()->uninit();
+	return GLoggerImpl::GetInstance()->uninit();
 }
 
 void GLogger::printError(const GInt8* module, 
-    const GInt8* file, 
-    const GUint32 line, 
-    const GInt8* function,
-    const GInt8* args, ...)
+	const GInt8* file, 
+	const GUint32 line, 
+	const GInt8* function,
+	const GInt8* args, ...)
 {
-    printLog((GInt32)LOG_ERROR, module, file, line, function, args); 
+	printLog((GInt32)LOG_ERROR, module, file, line, function, args); 
 }
 
 void GLogger::printWarn(const GInt8* module, 
-    const GInt8* file, 
-    const GUint32 line, 
-    const GInt8* function,
-    const GInt8* args, ...)
+	const GInt8* file, 
+	const GUint32 line, 
+	const GInt8* function,
+	const GInt8* args, ...)
 {
-    printLog((GInt32)LOG_WARN, module, file, line, function, args);
+	printLog((GInt32)LOG_WARN, module, file, line, function, args);
 }
 
 void GLogger::printInfo(const GInt8* module, 
-    const GInt8* file, 
-    const GUint32 line, 
-    const GInt8* function,
-    const GInt8* args, ...)
+	const GInt8* file, 
+	const GUint32 line, 
+	const GInt8* function,
+	const GInt8* args, ...)
 {
-    printLog((GInt32)LOG_INFO, module, file, line, function, args);
+	printLog((GInt32)LOG_INFO, module, file, line, function, args);
 }
 
 void GLogger::printDebug(const GInt8* module, 
@@ -63,24 +63,24 @@ void GLogger::printDebug(const GInt8* module,
     const GInt8* function,
     const GInt8* args, ...)
 {
-    printLog((GInt32)LOG_DEBUG, module, file, line, function, args);
+	printLog((GInt32)LOG_DEBUG, module, file, line, function, args);
 }
 
 void GLogger::printTrace(const GInt8* module, 
-    const GInt8* file, 
-    const GUint32 line, 
-    const GInt8* function,
-    const GInt8* args, ...)
+	const GInt8* file, 
+	const GUint32 line, 
+	const GInt8* function,
+	const GInt8* args, ...)
 {
-    printLog((GInt32)LOG_TRACE, module, file, line, function, args);
+	printLog((GInt32)LOG_TRACE, module, file, line, function, args);
 }
 
 void GLogger::printLog(const GInt32 logLevel, 
-    const GInt8* module, 
-    const GInt8* file, 
-    const GUint32 line, 
-    const GInt8* function,
-    const GInt8* args, ...)
+	const GInt8* module, 
+	const GInt8* file, 
+	const GUint32 line, 
+	const GInt8* function,
+	const GInt8* args, ...)
 {
 	GLoggerImpl::GetInstance()->printLog((const GLogLevel)logLevel, module, file, line, function, args);		        
 }

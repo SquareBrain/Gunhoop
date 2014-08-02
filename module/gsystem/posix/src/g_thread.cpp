@@ -53,7 +53,7 @@ GUint32 GThread::getGThreadId() const
 void* GThread::enterPoint(void* argument)
 {
 	GRunnable* runnable = static_cast<GRunnable*>(argument);
-    runnable->run();
+	runnable->run();
 	return NULL;
 }
 
@@ -86,7 +86,7 @@ GResult GThreadTask::start()
 void* GThreadTask::enterPoint(void* argument)
 {
 	GThreadTask* threadTask = static_cast<GThreadTask*>(argument);
-    threadTask->run();
+	threadTask->run();
 	return NULL;
 }
 

@@ -27,17 +27,17 @@ G_NS_GCOMMON_BEG
 
 ThreadPool::ThreadPool() : m_threadCount(G_DEF_THREAD_COUNT)
 {
-    initThreadPool();    
+	initThreadPool();    
 }
 
 ThreadPool::ThreadPool(const GUint32 threadCount) : m_threadCount(threadCount)
 {
-    initThreadPool();    
+	initThreadPool();    
 }
 
 ThreadPool::~ThreadPool()
 {
-    uninitThreadPool();   
+	uninitThreadPool();   
 }
 
 GResult ThreadPool::doJob(ThreadJob* threadJob, void* userData)

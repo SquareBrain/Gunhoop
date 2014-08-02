@@ -26,10 +26,10 @@ GLibrary::~GLibrary()
 
 void* GLibrary::open(const GInt8* libFilePath, const GInt32 flags)
 {
-    return dlopen(libFilePath, flags);
+	return dlopen(libFilePath, flags);
 }
 
 bool GLibrary::close(void* handle)
 {
-    return dlclose(handle) == 0 ? true : false;    
+	return dlclose(handle) == 0 ? true : false;    
 }
