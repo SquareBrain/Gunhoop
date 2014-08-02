@@ -61,7 +61,6 @@ GFile::GFile(const GInt8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
 	    memcpy(m_path, filePath, len);
 	    m_path[len] = 0;
 	    m_pathLen = len;
-        
 	}
 
 	m_error[0] = 0;
