@@ -26,10 +26,10 @@
  */
 typedef enum
 {
-    G_OPEN_READ = 1,
-    G_OPEN_WRITE = 2,
-    G_OPEN_RDWR = 4,
-    G_OPEN_APPEND = 8
+	G_OPEN_READ = 1,
+	G_OPEN_WRITE = 2,
+	G_OPEN_RDWR = 4,
+	G_OPEN_APPEND = 8
 } OpenFlags;
 
 /** 
