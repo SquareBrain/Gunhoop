@@ -35,16 +35,16 @@ typedef std::map<std::string, GIniSection*> GIniSectionMap;
 class GIniFile
 {
 public:
-    GIniFile();
+	GIniFile();
 
 	/**
 	 * @brief constructor
 	 * @param [in] filePath : file path
 	 * @note 
 	 */	    
-    GIniFile(const std::string& filePath);
-    
-    ~GIniFile();
+	GIniFile(const std::string& filePath);
+
+	~GIniFile();
 
 	/**
 	 * @brief load file
@@ -52,7 +52,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	 
-    GResult loadFile(const std::string& filePath);
+	GResult loadFile(const std::string& filePath);
 
 	/**
 	 * @brief import data from buffer
@@ -60,7 +60,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	     
-    GResult importData(const std::string& data);
+	GResult importData(const std::string& data);
 
 	/**
 	 * @brief import data from buffer
@@ -69,7 +69,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	     
-    GResult importData(const GInt8* data, const GUint64 length);    
+	GResult importData(const GInt8* data, const GUint64 length);    
 
 	/**
 	 * @brief get value
@@ -79,9 +79,9 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	 
-    GResult getParaVal(const std::string& section, 
-        const std::string& paraName, 
-        std::string& value);
+	GResult getParaVal(const std::string& section, 
+	    const std::string& paraName, 
+	    std::string& value);
 
 	/**
 	 * @brief set value
@@ -91,10 +91,10 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	 
-    GResult setParaVal(const std::string& section, 
-        const std::string& paraName, 
-        const std::string& value);    
-        
+	GResult setParaVal(const std::string& section, 
+	    const std::string& paraName, 
+	    const std::string& value);    
+	    
 	/**
 	 * @brief del section
 	 * @param [in] section : section name
@@ -103,8 +103,8 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	 
-    GResult delSection(const std::string& section);
-    
+	GResult delSection(const std::string& section);
+
 	/**
 	 * @brief del parameter
 	 * @param [in] section : section name
@@ -113,45 +113,45 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	 
-    GResult delPara(const std::string& section, const std::string& paraName); 
-    
-	/**
-	 * @brief save configuration to file
-	 * @return G_YES/G_NO
-	 * @note 
-	 */	 
-    GResult saveFile();  
+	GResult delPara(const std::string& section, const std::string& paraName); 
 
 	/**
 	 * @brief save configuration to file
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	 
-    GResult saveFile(const std::string& filePath);    
+	GResult saveFile();  
+
+	/**
+	 * @brief save configuration to file
+	 * @return G_YES/G_NO
+	 * @note 
+	 */	 
+	GResult saveFile(const std::string& filePath);    
 
 	/**
 	 * @brief get error string
 	 * @return error string
 	 * @note 
 	 */	 
-    GInt8* getError();     
+	GInt8* getError();     
 
 private:
-    void cleanIniSectionMap();
-    
-    GResult parserSection(const GInt8* data, 
-        const GUint64 length, 
-        GUint64& offset);
+	void cleanIniSectionMap();
 
-    GResult getOneLine(const GInt8* data, 
-        const GUint64 length, 
-        std::string& lineStr);  
+	GResult parserSection(const GInt8* data, 
+	    const GUint64 length, 
+	    GUint64& offset);
 
-    void setError(const GInt8* args, ...);
+	GResult getOneLine(const GInt8* data, 
+	    const GUint64 length, 
+	    std::string& lineStr);  
+
+	void setError(const GInt8* args, ...);
 
 private:
-    std::string         m_filePath;
-    GIniSectionMap      m_iniSectionMap;
-    GMutex              m_mapMutex;
-    GInt8               m_error[G_ERROR_BUF_SIZE];
+	std::string         m_filePath;
+	GIniSectionMap      m_iniSectionMap;
+	GMutex              m_mapMutex;
+	GInt8               m_error[G_ERROR_BUF_SIZE];
 };

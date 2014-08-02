@@ -63,7 +63,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-    static GResult createFile(const GInt8* filePath, const GUint64& initSize);     
+	static GResult createFile(const GInt8* filePath, const GUint64& initSize);     
 };
 
 /** 
@@ -72,16 +72,16 @@ public:
 class GFile
 {
 public:
-    GFile();
+	GFile();
 
 	/**
 	 * @brief set file path
 	 * @param [in] GFilePath : GFile path
 	 * @note 
 	 */	    
-    explicit GFile(const GInt8* filePath);
-    
-    ~GFile();
+	explicit GFile(const GInt8* filePath);
+
+	~GFile();
 
 	/**
 	 * @brief set file path
@@ -90,7 +90,7 @@ public:
 	 * @note 
 	 */		
 	GResult setPath(const GInt8* filePath);
-	
+
 	/**
 	 * @brief open file for reading
 	 * @param [in] flags : open mode flags
@@ -113,8 +113,8 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-    GResult close();
-    
+	GResult close();
+
 	/**
 	 * @brief get file size
 	 * @param [out] buffer : output buffer
@@ -139,7 +139,7 @@ public:
 	 * @note 
 	 */			
 	GInt64 tell();
-	
+
 	/**
 	 * @brief read file
 	 * @param [out] buffer : output buffer
@@ -167,7 +167,7 @@ public:
 	 */		
 	GInt8* getError();	
 
-private:
+	private:
 	/**
 	 * @brief origin API for open file
 	 * @param [in] flags : operation flags
@@ -176,7 +176,7 @@ private:
 	 * @note 
 	 */			
 	GResult orgOpen(const GInt32 flags, const GUint32 mode);
-	
+
 	/**
 	 * @brief origin set program running error
 	 * @param [in] error : error string
@@ -185,9 +185,9 @@ private:
 	void setError(const GInt8* args, ...);
 
 private:
-    GInt32			m_fd;
-    struct stat     m_fileStat;
-    GInt32			m_flags;
+	GInt32			m_fd;
+	struct stat     m_fileStat;
+	GInt32			m_flags;
 	GInt8		    m_path[G_PATH_MAX];
 	GUint32         m_pathLen;
 	GInt8           m_error[G_ERROR_BUF_SIZE];

@@ -26,11 +26,11 @@
  */	
 typedef enum 
 {
-    LOG_ERROR = 0,
-    LOG_WARN,
-    LOG_INFO,
-    LOG_DEBUG,
-    LOG_TRACE
+	LOG_ERROR = 0,
+	LOG_WARN,
+	LOG_INFO,
+	LOG_DEBUG,
+	LOG_TRACE
 }GLogLevel;
 
 /**
@@ -38,9 +38,9 @@ typedef enum
  */	
 typedef enum 
 {
-    PRINT_BASIC = 0,
-    PRINT_MORE,
-    PRINT_FULL,
+	PRINT_BASIC = 0,
+	PRINT_MORE,
+	PRINT_FULL,
 }GPrintLevel;
 
 /**
@@ -49,26 +49,26 @@ typedef enum
 class GlobalRule
 {
 public:
-    GlobalRule();
-    ~GlobalRule();
+	GlobalRule();
+	~GlobalRule();
 
-    void setFileName(const std::string& fileName);
-    const std::string getFileName() const;
-    
-    void setFileSize(const GUint64 fileSize);
-    GUint64 getFileSize() const;
+	void setFileName(const std::string& fileName);
+	const std::string getFileName() const;
 
-    void setFileCount(const GUint32 fileCount);
-    GUint32 getFileCount() const;
+	void setFileSize(const GUint64 fileSize);
+	GUint64 getFileSize() const;
 
-    void setWordWrap(const bool isWordWrap);
-    bool isWordWrap() const;    
+	void setFileCount(const GUint32 fileCount);
+	GUint32 getFileCount() const;
+
+	void setWordWrap(const bool isWordWrap);
+	bool isWordWrap() const;    
 
 private:
-    std::string     m_fileName;
-    GUint64         m_fileSize;
-    GUint32         m_fileCount;
-    bool            m_isWordWrap;
+	std::string     m_fileName;
+	GUint64         m_fileSize;
+	GUint32         m_fileCount;
+	bool            m_isWordWrap;
 };
 
 /**
@@ -77,22 +77,22 @@ private:
 class ModuleRule
 {
 public:
-    ModuleRule();
-    ~ModuleRule();
+	ModuleRule();
+	~ModuleRule();
 
-    void setModuleName(const std::string& moduleName);
-    const std::string& getModuleName() const;   
+	void setModuleName(const std::string& moduleName);
+	const std::string& getModuleName() const;   
 
-    void setLogLevel(const GLogLevel logLevel);
-    const GLogLevel& getLogLevel() const;
+	void setLogLevel(const GLogLevel logLevel);
+	const GLogLevel& getLogLevel() const;
 
-    void setPrintLevel(const GPrintLevel printLevel);
-    const GPrintLevel& getPrintLevel() const;   
+	void setPrintLevel(const GPrintLevel printLevel);
+	const GPrintLevel& getPrintLevel() const;   
 
 private:
-    std::string     m_moduleName;
-    GLogLevel       m_logLevel;
-    GPrintLevel     m_printLevel;
+	std::string     m_moduleName;
+	GLogLevel       m_logLevel;
+	GPrintLevel     m_printLevel;
 };
 
 /**

@@ -22,17 +22,17 @@
 
 #define G_CHECK_RESULT(_x)        \
 do {                              \
-    GResult _result = (_x);       \
-    if (_result != G_YES) {       \
-        return _result;           \
-    }                             \
+	GResult _result = (_x);       \
+	if (_result != G_YES) {       \
+		return _result;           \
+	}                             \
 } while(0)
 
 #define G_CHECK_POINTER(_p)                 \
 do {                                        \
-    if ((_p) == NULL) {                     \
-        return G_ERROR_INVALID_PARAMETERS;  \
-    }                                       \
+	if ((_p) == NULL) {                     \
+		return G_ERROR_INVALID_PARAMETERS;  \
+	}                                       \
 } while(0)
 
 #define G_YESED(result) ((result) == G_YES)

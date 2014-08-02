@@ -152,7 +152,7 @@ public:
 	 * @note 
 	 */			
 	explicit GAutoLock(GMutex& GMutex);
-	
+
 	~GAutoLock();
 
 private:

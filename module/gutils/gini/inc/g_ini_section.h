@@ -31,10 +31,10 @@ public:
 	/** 
 	 * @brief key-value map
 	 */
-    typedef std::map<std::string, std::string> KeyValueMap;
+	typedef std::map<std::string, std::string> KeyValueMap;
 
 public:
-    GIniSection();
+	GIniSection();
 
 	/**
 	* @brief constructor
@@ -42,9 +42,9 @@ public:
 	* @return KeyValueMap const reference
 	* @note 
 	*/	    
-    explicit GIniSection(const std::string& sectionName);
-    
-    ~GIniSection();
+	explicit GIniSection(const std::string& sectionName);
+
+	~GIniSection();
 
 	/**
 	 * @brief get value
@@ -62,7 +62,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-    GResult setPara(const std::string& para, const std::string& value);    
+	GResult setPara(const std::string& para, const std::string& value);    
 
 	/**
 	 * @brief add parameter ane value
@@ -71,7 +71,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-    GResult addPara(const std::string& para, const std::string& value);
+	GResult addPara(const std::string& para, const std::string& value);
 
 	/**
 	 * @brief delete parameter
@@ -79,17 +79,17 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-    GResult delPara(const std::string& para);
+	GResult delPara(const std::string& para);
 
 	/**
 	 * @brief get keyValueMap
 	 * @return m_keyValueMap 
 	 * @note 
 	 */	
-    const KeyValueMap& getkeyValueMap() const;   
+	const KeyValueMap& getkeyValueMap() const;   
     
 private:
-    std::string     m_sectionName;
-    KeyValueMap     m_keyValueMap;
-    GMutex          m_mapMutex;
+	std::string     m_sectionName;
+	KeyValueMap     m_keyValueMap;
+	GMutex          m_mapMutex;
 };

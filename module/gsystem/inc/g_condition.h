@@ -44,14 +44,14 @@ public:
 	 * @note 
 	 */		
 	bool broadcast();
-	
+
 	/**
 	 * @brief let current thread has reached the awaited state, utill be wake up
 	 * @return true/false
 	 * @note 
 	 */		
 	bool wait();
-	
+
 	/**
 	 * @brief let current thread has reached the awaited state,
 	 * utill be wake up or timeout return
@@ -69,11 +69,11 @@ private:
 	 * @note 
 	 */		
 	GCondition(const GCondition&); 
-	
-    /**
-     * @brief prevent copying
-     * @note
-     */	
+
+	/**
+	 * @brief prevent copying
+	 * @note
+	 */	
 	void operator=(const GCondition&);	
     
 private:

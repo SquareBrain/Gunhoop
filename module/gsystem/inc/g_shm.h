@@ -70,7 +70,7 @@ typedef enum
 class GShm
 {
 public:
-    GShm();   
+	GShm();   
 	/**
 	 * @brief constructor
 	 * @param [in] GShmPath : shm mapping file path
@@ -78,30 +78,30 @@ public:
 	 * @return true/false
 	 * @note 
 	 */		
-    GShm(const GInt8* shmPath, const GUint64 shmSize);
-    ~GShm();
+	GShm(const GInt8* shmPath, const GUint64 shmSize);
+	~GShm();
 
 	/**
 	 * @brief set shm mapping file path
 	 * @param [in] shmPath : shm mapping file path     
 	 * @note 
 	 */	
-    void setPath(const GInt8* shmPath);
+	void setPath(const GInt8* shmPath);
 
 	/**
 	 * @brief set shm mapping file size
 	 * @param [in] shmSize : shm size  
 	 * @note 
 	 */		
-    void setSize(const GUint64 shmSize);
-   
+	void setSize(const GUint64 shmSize);
+
 	/**
 	 * @brief sync the shm
 	 * @return G_YES/G_NO  
 	 * @note 
 	 */	
-    GResult sync();
-   
+	GResult sync();
+
 	/**
 	 * @brief write data to shm
 	 * @param [in] offset : offset of shm
@@ -110,7 +110,7 @@ public:
 	 * @return G_YES/G_NO  
 	 * @note 
 	 */		
-    GResult write(const GUint32 offset, const GInt8* data, const GUint32 length);
+	GResult write(const GUint32 offset, const GInt8* data, const GUint32 length);
 
 	/**
 	 * @brief read data from shm
@@ -120,7 +120,7 @@ public:
 	 * @return G_YES/G_NO  
 	 * @note 
 	 */	
-    GResult read(const GUint32 offset, GInt8* buffer, const GUint32 size);
+	GResult read(const GUint32 offset, GInt8* buffer, const GUint32 size);
 
 private:
 	/**
@@ -128,8 +128,8 @@ private:
 	 * @return G_YES/G_NO  
 	 * @note 
 	 */	    	
-    GResult init();
-   
+	GResult init();
+
 	/**
 	 * @brief uninit the shm
 	 * @return G_YES/G_NO  

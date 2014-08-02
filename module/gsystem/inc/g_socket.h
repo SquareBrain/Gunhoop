@@ -33,7 +33,7 @@ class GSocket
 {
 public:
 	GSocket();
-	
+
 	/**
 	 * @brief constructor
 	 * @param [in] ip : ip address
@@ -49,7 +49,7 @@ public:
 	 */			
 	GSocket(const GSocket& socket);
 	~GSocket();
-	
+
 	/**
 	 * @brief init socket
 	 * @param [in] domain : domain
@@ -68,7 +68,7 @@ public:
 	 * @note 
 	 */		
 	GInt64 sendData(const GUint8* data, const GUint64 length, const GInt32 flags = MSG_NOSIGNAL);
-	
+
 	/**
 	 * @brief receive data
 	 * @param [out] buffer : output buffer
@@ -115,7 +115,7 @@ private:
 	GResult initOption();
 
 private:
-    // GSocket file descrition
+	// GSocket file descrition
 	GInt32          m_sockfd;
 	// address
 	sockaddr_in		m_addr;

@@ -26,9 +26,9 @@
 class GLibrary
 {
 public:
-    GLibrary();
-    
-    ~GLibrary();
+	GLibrary();
+
+	~GLibrary();
 
 	/**
 	 * @brief load shared GLibrary
@@ -37,7 +37,7 @@ public:
 	 * @return handle/NULL
 	 * @note 
 	 */		
-    static void* open(const GInt8* libFilePath, const GInt32 flags = RTLD_LAZY);
+	static void* open(const GInt8* libFilePath, const GInt32 flags = RTLD_LAZY);
 
 	/**
 	 * @brief close shared GLibrary
@@ -45,5 +45,5 @@ public:
 	 * @return true/false
 	 * @note 
 	 */		
-    static bool close(void* handle);
+	static bool close(void* handle);
 };

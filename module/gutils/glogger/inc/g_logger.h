@@ -74,26 +74,12 @@ public:
 	/**
 	 * @brief init
 	 */	 	
-    static GResult init();
-	
+	static GResult init();
+
 	/**
 	 * @brief uninit
 	 */	 	
-    static GResult uninit();
-	
-	/**
-	 * @brief print log
-	 * @param [in] module : module name
-	 * @param [in] file : file path
-	 * @param [in] line : line number
-	 * @param [in] function : function name
-	 * @param [in] args : log content
-	 */	 	
-    static void printError(const GInt8* module, 
-        const GInt8* file, 
-        const GUint32 line, 
-        const GInt8* function,
-        const GInt8* args, ...);
+	static GResult uninit();
 
 	/**
 	 * @brief print log
@@ -103,11 +89,25 @@ public:
 	 * @param [in] function : function name
 	 * @param [in] args : log content
 	 */	 	
-    static void printWarn(const GInt8* module, 
-        const GInt8* file, 
-        const GUint32 line, 
-        const GInt8* function,
-        const GInt8* args, ...);   
+	static void printError(const GInt8* module, 
+	    const GInt8* file, 
+	    const GUint32 line, 
+	    const GInt8* function,
+	    const GInt8* args, ...);
+
+	/**
+	 * @brief print log
+	 * @param [in] module : module name
+	 * @param [in] file : file path
+	 * @param [in] line : line number
+	 * @param [in] function : function name
+	 * @param [in] args : log content
+	 */	 	
+	static void printWarn(const GInt8* module, 
+	    const GInt8* file, 
+	    const GUint32 line, 
+	    const GInt8* function,
+	    const GInt8* args, ...);   
 
 	/**
 	 * @brief print log
@@ -118,11 +118,11 @@ public:
 	 * @param [in] args : log content
 	 * @note 
 	 */	 	
-    static void printInfo(const GInt8* module, 
-        const GInt8* file, 
-        const GUint32 line, 
-        const GInt8* function,
-        const GInt8* args, ...);  
+	static void printInfo(const GInt8* module, 
+	    const GInt8* file, 
+	    const GUint32 line, 
+	    const GInt8* function,
+	    const GInt8* args, ...);  
 
 	/**
 	 * @brief print log
@@ -132,11 +132,11 @@ public:
 	 * @param [in] function : function name
 	 * @param [in] args : log content
 	 */	 	
-    static void printDebug(const GInt8* module, 
-        const GInt8* file, 
-        const GUint32 line, 
-        const GInt8* function,
-        const GInt8* args, ...);  
+	static void printDebug(const GInt8* module, 
+	    const GInt8* file, 
+	    const GUint32 line, 
+	    const GInt8* function,
+	    const GInt8* args, ...);  
 
 	/**
 	 * @brief print log
@@ -146,17 +146,17 @@ public:
 	 * @param [in] function : function name
 	 * @param [in] args : log content
 	 */	 	
-    static void printTrace(const GInt8* module, 
-        const GInt8* file, 
-        const GUint32 line, 
-        const GInt8* function,
-        const GInt8* args, ...);    
+	static void printTrace(const GInt8* module, 
+	    const GInt8* file, 
+	    const GUint32 line, 
+	    const GInt8* function,
+	    const GInt8* args, ...);    
 
 private:
-    static void printLog(const GInt32 logLevel, 
-        const GInt8* module, 
-        const GInt8* file, 
-        const GUint32 line, 
-        const GInt8* function,
-        const GInt8* args, ...);  
+	static void printLog(const GInt32 logLevel, 
+	    const GInt8* module, 
+	    const GInt8* file, 
+	    const GUint32 line, 
+	    const GInt8* function,
+	    const GInt8* args, ...);  
 };

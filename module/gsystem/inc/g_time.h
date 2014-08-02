@@ -34,7 +34,7 @@ public:
 	 * @return true/false
 	 * @note 
 	 */			
-    static bool convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
+	static bool convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
 
 	/**
 	 * @brief get system time format:2014-03-09
@@ -44,8 +44,8 @@ public:
 	 * @return true/false
 	 * @note 
 	 */		
-    static bool convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
- 
+	static bool convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
+
 	/**
 	 * @brief get system time format:2014/03/09
 	 * @param [in]sysTime : input system time with nanosecond
@@ -54,8 +54,8 @@ public:
 	 * @return true/false
 	 * @note 
 	 */		
-    static bool convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
-  
+	static bool convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
+
 	/**
 	 * @brief get system time format:2014.03.09
 	 * @param [in]sysTime : input system time with nanosecond
@@ -64,7 +64,7 @@ public:
 	 * @return true/false
 	 * @note 
 	 */		
-    static bool convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
+	static bool convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
 
 	/**
 	 * @brief get system time format:2014-03-09:999
@@ -74,5 +74,5 @@ public:
 	 * @return true/false
 	 * @note 
 	 */		
-    static bool convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);
+	static bool convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);
 };

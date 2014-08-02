@@ -53,7 +53,7 @@ class GRunnable
 {
 public:
 	virtual ~GRunnable() {}
-	
+
 	/**
 	 * @brief user thread entry function
 	 * @return G_YES/G_NO
@@ -74,9 +74,9 @@ public:
 	 * @param [in] autoRel : whether support automatic release, default is yes
 	 * @note 
 	 */		
-    explicit GThread(GRunnable* target, const bool autoRel = true);
-    ~GThread();
-	
+	explicit GThread(GRunnable* target, const bool autoRel = true);
+	~GThread();
+
 	/**
 	 * @brief startup thread
 	 * @return G_YES/G_NO
@@ -137,7 +137,7 @@ private:
 	// brief : prevate copying
 	GThreadTask(const GThreadTask&);
 	void operator=(const GThreadTask&);
-	
+
 	// brief : inner used for starting GThread
 	// @para [in]argument : GThread argument
 	// return : GThread return description

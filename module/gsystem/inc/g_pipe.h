@@ -32,7 +32,7 @@ class GPipe
 public:
 	GPipe() {}
 	virtual ~GPipe() {}
-	
+
 	/**
 	 * @brief Open the pipe
 	 * @param [in] pipeName : the GPipe name 
@@ -45,11 +45,11 @@ protected:
 	/**
 	 * @brief Open the pipe
 	 * @param [in] pipeName : the GPipe name
- 	 * @param [in] mode : open mode
- 	 * @return true/false
- 	 * @note 
- 	 */		
-    bool orgOpen(const GInt8* pipeName, const GInt32 mode);
+		 * @param [in] mode : open mode
+		 * @return true/false
+		 * @note 
+		 */		
+	bool orgOpen(const GInt8* pipeName, const GInt32 mode);
     
 protected:
 	/** 
@@ -66,7 +66,7 @@ class GWritePipe : public GPipe
 public:
 	GWritePipe() {}
 	virtual ~GWritePipe() {}
-	
+
 	/**
 	 * @brief Open the pipe
 	 * @param [in] GPipeName : the GPipe name
@@ -74,7 +74,7 @@ public:
 	 * @note 
 	 */			
 	virtual bool open(const GInt8* pipeName);	
-	
+
 	/**
 	 * @brief Write data to pipe
 	 * @param [in] data : write data
@@ -104,8 +104,8 @@ private:
 class GReadPipe : public GPipe
 {
 public:
-    GReadPipe() {}
-    virtual ~GReadPipe() {}
+	GReadPipe() {}
+	virtual ~GReadPipe() {}
 
 	/**
 	 * @brief open pipe
@@ -113,7 +113,7 @@ public:
 	 * @return true/false
 	 * @note 
 	 */    
-    virtual bool open(const GInt8* pipeName);
+	virtual bool open(const GInt8* pipeName);
 
 	/**
 	 * @brief read data from pipe
