@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_system.h
+* @file		g_system.h
 * @version     
 * @brief      
-* @author   duye
-* @date     2013-11-15
+* @author	duye
+* @date		2013-11-15
 * @note 
 *
 *  3. 2014-07-10 duye move to gsystem module

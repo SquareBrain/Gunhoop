@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_common.h
+* @file		g_common.h
 * @version     
 * @brief      
-* @author   duye
-* @date     2013-11-15
+* @author	duye
+* @date		2013-11-15
 * @note 
 *
 *  2. 2014-06-21 duye move to gohoop project 
@@ -19,7 +19,6 @@
 #pragma once
 
 #include <g_system.h>
-
 #include <g_namespace.h>
 #include <g_configuration.h>
 #include <g_filesys.h>
