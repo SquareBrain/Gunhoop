@@ -27,3 +27,5 @@
 #define G_NS_GDATA_BEG		namespace GData {
 #define G_NS_GDFS_BEG		namespace GDfs {
 #define G_NS_GMAPREDUCE_BEG	namespace GMapreduce {
+#define G_NS_GMASTER_BEG	namespace GMaster {
+#define G_NS_GSLAVE_BEG		namespace GSlave {

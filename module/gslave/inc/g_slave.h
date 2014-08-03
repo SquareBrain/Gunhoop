@@ -19,7 +19,7 @@
 #include <g_common.h>
 #include <g_system.h>
 
-G_NS_GMAPREDUCE_BEG
+G_NS_GSLAVE_BEG
 
 class Slave 
 {
