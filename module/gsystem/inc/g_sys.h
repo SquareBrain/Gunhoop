@@ -68,5 +68,12 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-	static GResult shell(const GInt8* cmd, const GShellMode mode, GInt8* buffer, const GUint32 size);      
+	static GResult shell(const GInt8* cmd, const GShellMode mode, GInt8* buffer, const GUint32 size);   
+	
+	/**
+	 * @brief get system time
+	 * @return time(microsecond)
+	 * @note 
+	 */		
+	static GUint64 getSysTime();   
 };
