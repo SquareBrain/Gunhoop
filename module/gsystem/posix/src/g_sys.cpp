@@ -67,7 +67,20 @@ GResult GSys::shell(const GInt8* cmd, const GShellMode mode, GInt8* buffer, cons
 
 	memset(buffer, 0, size);
 	fread(buffer, sizeof(GInt8), size, retStream);
-	pclose(retStream);
+	
+	pclose(retStream);
 
 	return G_YES;      
+}
+
+GUint64 GSys::getSysTime()
+{
+	struct timeval now;
+	struct timezone tz;
+	if (gettimeofday(&now, tz) < 0)
+	{
+		return 0;
+	}
+	
+	return (GUint64)(now.tv_sec) * 1000 + now.tv_usec / 1000;
 }
