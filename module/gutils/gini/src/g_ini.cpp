@@ -295,7 +295,7 @@ GResult GIniFile::parserSection(const GInt8* data,
 	while (getOneLine(data + endPos, length - offset, lineStr) == G_YES)
 	{
 		offset += lineStr.length();
-		GInt32 midPos = 0;
+		GUint32 midPos = 0;
 		if ((midPos = lineStr.find('=')) == std::string::npos)
 		{
 			continue;       
