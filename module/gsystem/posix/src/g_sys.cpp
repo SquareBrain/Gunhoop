@@ -17,6 +17,7 @@
 
 #include <unistd.h>
 #include <stdarg.h>
+#include <sys/time.h>
 #include <stdio.h>
 #include <string.h>
 #include <g_sys.h>
@@ -77,7 +78,7 @@ GUint64 GSys::getSysTime()
 {
 	struct timeval now;
 	struct timezone tz;
-	if (gettimeofday(&now, tz) < 0)
+	if (gettimeofday(&now, &tz) < 0)
 	{
 		return 0;
 	}
