@@ -16,7 +16,7 @@
 */
 #include <ctype.h>
 #include <stddef.h>
-#include <tinyxml.h>
+#include <g_xml.h>
 
 // Note tha "PutString" hardcodes the same list. This
 // is less flexible than it appears. Changing the entries
@@ -615,8 +615,6 @@ const char* GXmlBase::ReadText(	const char* p,
 	return ( p && *p ) ? p : 0;
 }
 
-#ifdef GXML_USE_STL
-
 void GXmlDocument::StreamIn( std::istream * in, std::string * tag )
 {
 	// The basic issue with a document is that we don't know what we're
@@ -677,8 +675,6 @@ void GXmlDocument::StreamIn( std::istream * in, std::string * tag )
 	// We should have returned sooner.
 	SetError( GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN );
 }
-
-#endif
 
 const char* GXmlDocument::Parse( const char* p, GXmlParsingData* prevData, GXmlEncoding encoding )
 {
@@ -877,8 +873,6 @@ GXmlNode* GXmlNode::Identify( const char* p, GXmlEncoding encoding )
 	return returnNode;
 }
 
-#ifdef GXML_USE_STL
-
 void GXmlElement::StreamIn (std::istream * in, std::string * tag)
 {
 	// We're called with some amount of pre-parsing. That is, some of "this"
@@ -1017,7 +1011,6 @@ void GXmlElement::StreamIn (std::istream * in, std::string * tag)
 		}
 	}
 }
-#endif
 
 const char* GXmlElement::Parse( const char* p, GXmlParsingData* data, GXmlEncoding encoding )
 {
@@ -1136,11 +1129,7 @@ const char* GXmlElement::Parse( const char* p, GXmlParsingData* data, GXmlEncodi
 			}
 
 			// Handle the strange case of double attributes:
-			#ifdef GXML_USE_STL
 			GXmlAttribute* node = attributeSet.Find( attrib->NameTStr() );
-			#else
-			GXmlAttribute* node = attributeSet.Find( attrib->Name() );
-			#endif
 			if ( node )
 			{
 				if ( document ) document->SetError( GXML_ERROR_PARSING_ELEMENT, pErr, data, encoding );
@@ -1226,7 +1215,6 @@ const char* GXmlElement::ReadValue( const char* p, GXmlParsingData* data, GXmlEn
 }
 
 
-#ifdef GXML_USE_STL
 void GXmlUnknown::StreamIn( std::istream * in, std::string * tag )
 {
 	while ( in->good() )
@@ -1248,7 +1236,6 @@ void GXmlUnknown::StreamIn( std::istream * in, std::string * tag )
 		}
 	}
 }
-#endif
 
 
 const char* GXmlUnknown::Parse( const char* p, GXmlParsingData* data, GXmlEncoding encoding )
@@ -1285,7 +1272,6 @@ const char* GXmlUnknown::Parse( const char* p, GXmlParsingData* data, GXmlEncodi
 	return p;
 }
 
-#ifdef GXML_USE_STL
 void GXmlComment::StreamIn( std::istream * in, std::string * tag )
 {
 	while ( in->good() )
@@ -1310,8 +1296,6 @@ void GXmlComment::StreamIn( std::istream * in, std::string * tag )
 		}
 	}
 }
-#endif
-
 
 const char* GXmlComment::Parse( const char* p, GXmlParsingData* data, GXmlEncoding encoding )
 {
@@ -1441,7 +1425,6 @@ const char* GXmlAttribute::Parse( const char* p, GXmlParsingData* data, GXmlEnco
 	return p;
 }
 
-#ifdef GXML_USE_STL
 void GXmlText::StreamIn( std::istream * in, std::string * tag )
 {
 	while ( in->good() )
@@ -1471,7 +1454,6 @@ void GXmlText::StreamIn( std::istream * in, std::string * tag )
 		}    
 	}
 }
-#endif
 
 const char* GXmlText::Parse( const char* p, GXmlParsingData* data, GXmlEncoding encoding )
 {
@@ -1524,7 +1506,6 @@ const char* GXmlText::Parse( const char* p, GXmlParsingData* data, GXmlEncoding 
 	}
 }
 
-#ifdef GXML_USE_STL
 void GXmlDeclaration::StreamIn( std::istream * in, std::string * tag )
 {
 	while ( in->good() )
@@ -1546,7 +1527,6 @@ void GXmlDeclaration::StreamIn( std::istream * in, std::string * tag )
 		}
 	}
 }
-#endif
 
 const char* GXmlDeclaration::Parse( const char* p, GXmlParsingData* data, GXmlEncoding _encoding )
 {

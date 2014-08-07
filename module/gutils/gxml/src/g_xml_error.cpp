@@ -14,8 +14,7 @@
 *  1. 2014-8-7 duye Created this file
 * 
 */
-
-#include <tinyxml.h>
+#include <g_xml.h>
 
 // The goal of the seperate error file is to make the first
 // step towards localization. tinyxml (currently) only supports

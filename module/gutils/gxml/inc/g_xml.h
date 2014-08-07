@@ -50,7 +50,6 @@ struct GXmlCursor
 	int col;	// 0 based.
 };
 
-
 /**
 	Implements the interface to the "Visitor pattern" (see the Accept() method.)
 	If you call the Accept() method, it requires being passed a GXmlVisitor
@@ -76,28 +75,29 @@ public:
 	virtual ~GXmlVisitor() {}
 
 	/// Visit a document.
-	virtual bool VisitEnter( const GXmlDocument& /*doc*/ )			{ return true; }
+	virtual bool VisitEnter(const GXmlDocument& /*doc*/) { return true; }
 	/// Visit a document.
-	virtual bool VisitExit( const GXmlDocument& /*doc*/ )			{ return true; }
+	virtual bool VisitExit(const GXmlDocument& /*doc*/)	{ return true; }
 
 	/// Visit an element.
-	virtual bool VisitEnter( const GXmlElement& /*element*/, const GXmlAttribute* /*firstAttribute*/ )	{ return true; }
+	virtual bool VisitEnter(const GXmlElement& /*element*/, 
+		const GXmlAttribute* /*firstAttribute*/) { return true; }
 	/// Visit an element.
-	virtual bool VisitExit( const GXmlElement& /*element*/ )		{ return true; }
+	virtual bool VisitExit(const GXmlElement& /*element*/) { return true; }
 
 	/// Visit a declaration
-	virtual bool Visit( const GXmlDeclaration& /*declaration*/ )	{ return true; }
+	virtual bool Visit(const GXmlDeclaration& /*declaration*/) { return true; }
 	/// Visit a text node
-	virtual bool Visit( const GXmlText& /*text*/ )					{ return true; }
+	virtual bool Visit(const GXmlText& /*text*/) { return true; }
 	/// Visit a comment node
-	virtual bool Visit( const GXmlComment& /*comment*/ )			{ return true; }
+	virtual bool Visit(const GXmlComment& /*comment*/) { return true; }
 	/// Visit an unknown node
-	virtual bool Visit( const GXmlUnknown& /*unknown*/ )			{ return true; }
+	virtual bool Visit(const GXmlUnknown& /*unknown*/) { return true; }
 };
 
 // Only used by Attribute::Query functions
 enum 
-{ 
+{
 	GXML_SUCCESS,
 	GXML_NO_ATTRIBUTE,
 	GXML_WRONG_TYPE
@@ -143,8 +143,8 @@ class GXmlBase
 	friend class GXmlDocument;
 
 public:
-	GXmlBase()	:	userData(0)		{}
-	virtual ~GXmlBase()			{}
+	GXmlBase() : m_userData(0) {}
+	virtual ~GXmlBase()	{}
 
 	/**	All GnyXml classes can print themselves to a filestream
 		or the string class (GXmlString in non-STL mode, std::string
@@ -155,7 +155,7 @@ public:
 		
 		(For an unformatted stream, use the << operator.)
 	*/
-	virtual void Print( FILE* cfile, int depth ) const = 0;
+	virtual void Print(FILE* cfile, int depth) const = 0;
 
 	/**	The world does not agree on whether white space should be kept or
 		not. In order to make everyone happy, these global, static functions
@@ -163,10 +163,10 @@ public:
 		into a single space or not. The default is to condense. Note changing this
 		value is not thread safe.
 	*/
-	static void SetCondenseWhiteSpace( bool condense )		{ condenseWhiteSpace = condense; }
+	static void SetCondenseWhiteSpace(bool condense) { condenseWhiteSpace = condense; }
 
 	/// Return the current white space setting.
-	static bool IsWhiteSpaceCondensed()						{ return condenseWhiteSpace; }
+	static bool IsWhiteSpaceCondensed() { return condenseWhiteSpace; }
 
 	/** Return the position, in the original source file, of this node or attribute.
 		The row and column are 1-based. (That is the first row and first column is
@@ -186,25 +186,25 @@ public:
 
 		@sa GXmlDocument::SetTabSize()
 	*/
-	int Row() const			{ return location.row + 1; }
-	int Column() const		{ return location.col + 1; }	///< See Row()
+	int Row() const	{ return location.row + 1; }
+	int Column() const { return location.col + 1; }    ///< See Row()
 
-	void  SetUserData( void* user )			{ userData = user; }	///< Set a pointer to arbitrary user data.
-	void* GetUserData()						{ return userData; }	///< Get a pointer to arbitrary user data.
-	const void* GetUserData() const 		{ return userData; }	///< Get a pointer to arbitrary user data.
+	void SetUserData(void* user) { m_userData = user; }	///< Set a pointer to arbitrary user data.
+	void* GetUserData() { return m_userData; }	///< Get a pointer to arbitrary user data.
+	const void* GetUserData() const { return m_userData; }	///< Get a pointer to arbitrary user data.
 
 	// Table that returs, for a given lead byte, the total number of bytes
 	// in the UTF-8 sequence.
 	static const int utf8ByteTable[256];
 
-	virtual const char* Parse(	const char* p, 
-								GXmlParsingData* data, 
-								GXmlEncoding encoding /*= GXML_ENCODING_UNKNOWN */ ) = 0;
+	virtual const char* Parse(const char* p, 
+		GXmlParsingData* data, 
+		GXmlEncoding encoding /*= GXML_ENCODING_UNKNOWN */) = 0;
 
 	/** Expands entities in a string. Note this should not contian the tag's '<', '>', etc, 
 		or they will be transformed into entities!
 	*/
-	static void EncodeString( const std::string& str, std::string* out );
+	static void EncodeString(const std::string& str, std::string* out);
 
 	enum
 	{
@@ -228,17 +228,20 @@ public:
 	};
 
 protected:
-	static const char* SkipWhiteSpace( const char*, GXmlEncoding encoding );
+	static const char* SkipWhiteSpace(const char*, GXmlEncoding encoding);
 
-	inline static bool IsWhiteSpace( char c )		
+	inline static bool IsWhiteSpace(char c)		
 	{ 
-		return ( isspace( (unsigned char) c ) || c == '\n' || c == '\r' ); 
+		return (isspace((unsigned char)c) || c == '\n' || c == '\r'); 
 	}
     
-	inline static bool IsWhiteSpace( int c )
+	inline static bool IsWhiteSpace(int c)
 	{
-		if ( c < 256 )
-			return IsWhiteSpace( (char) c );
+		if (c < 256)
+        {
+			return IsWhiteSpace((char)c);
+        }
+        
 		return false;	// Again, only truly correct for English/Latin...but usually works.
 	}
 
@@ -266,7 +269,7 @@ protected:
 
 	// Get a character, while interpreting entities.
 	// The length can be from 0 to 4 bytes.
-	inline static const char* GetChar( const char* p, char* _value, int* length, GXmlEncoding encoding)
+	inline static const char* GetChar(const char* p, char* _value, int* length, GXmlEncoding encoding)
 	{
 		assert(p);
 		if (encoding == GXML_ENCODING_UTF8)
@@ -282,17 +285,22 @@ protected:
 		if (*length == 1)
 		{
 			if (*p == '&')
-				return GetEntity( p, _value, length, encoding );
+            {
+				return GetEntity(p, _value, length, encoding);
+            }
+            
 			*_value = *p;
-			return p+1;
+			return p + 1;
 		}
-		else if ( *length )
+		else if (*length)
 		{
 			//strncpy( _value, p, *length );	// lots of compilers don't like this function (unsafe),
 												// and the null terminator isn't needed
-			for( int i=0; p[i] && i<*length; ++i ) {
+			for (int i = 0; p[i] && i < *length; i++) 
+            {
 				_value[i] = p[i];
 			}
+            
 			return p + (*length);
 		}
 		else
@@ -305,39 +313,39 @@ protected:
 	// Return true if the next characters in the stream are any of the endTag sequences.
 	// Ignore case only works for english, and should only be relied on when comparing
 	// to English words: StringEqual( p, "version", true ) is fine.
-	static bool StringEqual(	const char* p,
-								const char* endTag,
-								bool ignoreCase,
-								GXmlEncoding encoding );
+	static bool StringEqual(const char* p,
+		const char* endTag,
+		bool ignoreCase,
+		GXmlEncoding encoding);
 
-	static const char* errorString[ GXML_ERROR_STRING_COUNT ];
+	static const char* errorString[GXML_ERROR_STRING_COUNT];
 
 	GXmlCursor location;
 
     /// Field containing a generic user pointer
-	void*			userData;
+	void* m_userData;
 	
 	// None of these methods are reliable for any language except English.
 	// Good for approximation, not great for accuracy.
-	static int IsAlpha( unsigned char anyByte, GXmlEncoding encoding );
-	static int IsAlphaNum( unsigned char anyByte, GXmlEncoding encoding );
-	inline static int ToLower( int v, GXmlEncoding encoding )
+	static int IsAlpha(unsigned char anyByte, GXmlEncoding encoding);
+	static int IsAlphaNum(unsigned char anyByte, GXmlEncoding encoding);
+	inline static int ToLower(int v, GXmlEncoding encoding)
 	{
-		if ( encoding == GXML_ENCODING_UTF8 )
+		if (encoding == GXML_ENCODING_UTF8)
 		{
-			if ( v < 128 ) return tolower( v );
+			if (v < 128) return tolower(v);
 			return v;
 		}
 		else
 		{
-			return tolower( v );
+			return tolower(v);
 		}
 	}
-	static void ConvertUTF32ToUTF8( unsigned long input, char* output, int* length );
+	static void ConvertUTF32ToUTF8(unsigned long input, char* output, int* length);
 
 private:
-	GXmlBase( const GXmlBase& );				// not implemented.
-	void operator=( const GXmlBase& base );	// not allowed.
+	GXmlBase(const GXmlBase&);				// not implemented.
+	void operator=(const GXmlBase& base);	// not allowed.
 
 	struct Entity
 	{
@@ -345,13 +353,15 @@ private:
 		unsigned int	strLength;
 		char		    chr;
 	};
+    
 	enum
 	{
 		NUM_ENTITY = 5,
 		NUM_ENTITY_LENGTH = 6
 
 	};
-	static Entity entity[ NUM_ENTITY ];
+    
+	static Entity entity[NUM_ENTITY];
 	static bool condenseWhiteSpace;
 };
 
@@ -368,35 +378,31 @@ class GXmlNode : public GXmlBase
 	friend class GXmlElement;
 
 public:
-	#ifdef GXML_USE_STL	
+    /** An input stream operator, for every class. Tolerant of newlines and
+	    formatting, but doesn't expect them.
+    */
+    friend std::istream& operator >> (std::istream& in, GXmlNode& base);
 
-	    /** An input stream operator, for every class. Tolerant of newlines and
-		    formatting, but doesn't expect them.
-	    */
-	    friend std::istream& operator >> (std::istream& in, GXmlNode& base);
+    /** An output stream operator, for every class. Note that this outputs
+	    without any newlines or formatting, as opposed to Print(), which
+	    includes tabs and new lines.
 
-	    /** An output stream operator, for every class. Note that this outputs
-		    without any newlines or formatting, as opposed to Print(), which
-		    includes tabs and new lines.
+	    The operator<< and operator>> are not completely symmetric. Writing
+	    a node to a stream is very well defined. You'll get a nice stream
+	    of output, without any extra whitespace or newlines.
+	    
+	    But reading is not as well defined. (As it always is.) If you create
+	    a GXmlElement (for example) and read that from an input stream,
+	    the text needs to define an element or junk will result. This is
+	    true of all input streams, but it's worth keeping in mind.
 
-		    The operator<< and operator>> are not completely symmetric. Writing
-		    a node to a stream is very well defined. You'll get a nice stream
-		    of output, without any extra whitespace or newlines.
-		    
-		    But reading is not as well defined. (As it always is.) If you create
-		    a GXmlElement (for example) and read that from an input stream,
-		    the text needs to define an element or junk will result. This is
-		    true of all input streams, but it's worth keeping in mind.
+	    A GXmlDocument will read nodes until it reads a root element, and
+		all the children of that root element.
+    */	
+    friend std::ostream& operator<< (std::ostream& out, const GXmlNode& base);
 
-		    A GXmlDocument will read nodes until it reads a root element, and
-			all the children of that root element.
-	    */	
-	    friend std::ostream& operator<< (std::ostream& out, const GXmlNode& base);
-
-		/// Appends the XML node or attribute to a std::string.
-		friend std::string& operator<< (std::string& out, const GXmlNode& base );
-
-	#endif
+	/// Appends the XML node or attribute to a std::string.
+	friend std::string& operator<< (std::string& out, const GXmlNode& base );
 
 	/** The types of XML nodes supported by GnyXml. (All the
 			unsupported types are picked up by UNKNOWN.)
@@ -428,13 +434,11 @@ public:
 	*/
 	const char *Value() const { return value.c_str (); }
 
-    #ifdef GXML_USE_STL
 	/** Return Value() as a std::string. If you only use STL,
 	    this is more efficient than calling Value().
 		Only available in STL mode.
 	*/
 	const std::string& ValueStr() const { return value; }
-	#endif
 
 	const std::string& ValueTStr() const { return value; }
 
@@ -449,41 +453,55 @@ public:
 	*/
 	void SetValue(const char * _value) { value = _value;}
 
-    #ifdef GXML_USE_STL
 	/// STL std::string form.
-	void SetValue( const std::string& _value )	{ value = _value; }
-	#endif
+	void SetValue(const std::string& _value) { value = _value; }
 
 	/// Delete all the children of this node. Does not affect 'this'.
 	void clear();
 
 	/// One step up the DOM.
-	GXmlNode* Parent()							{ return parent; }
-	const GXmlNode* Parent() const				{ return parent; }
+	GXmlNode* Parent() { return parent; }
+	const GXmlNode* Parent() const{ return parent; }
 
-	const GXmlNode* FirstChild()	const		{ return firstChild; }	///< The first child of this node. Will be null if there are no children.
-	GXmlNode* FirstChild()						{ return firstChild; }
-	const GXmlNode* FirstChild( const char * value ) const;			///< The first child of this node with the matching 'value'. Will be null if none found.
+	const GXmlNode* FirstChild() const { return firstChild; }	///< The first child of this node. Will be null if there are no children.
+	GXmlNode* FirstChild() { return firstChild; }
+	const GXmlNode* FirstChild(const char* value) const;			///< The first child of this node with the matching 'value'. Will be null if none found.
 	/// The first child of this node with the matching 'value'. Will be null if none found.
-	GXmlNode* FirstChild( const char * _value ) {
+	GXmlNode* FirstChild(const char * _value) 
+	{
 		// Call through to the const version - safe since nothing is changed. Exiting syntax: cast this to a const (always safe)
 		// call the method, cast the return back to non-const.
-		return const_cast< GXmlNode* > ((const_cast< const GXmlNode* >(this))->FirstChild( _value ));
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->FirstChild(_value));
 	}
-	const GXmlNode* LastChild() const	{ return lastChild; }		/// The last child of this node. Will be null if there are no children.
-	GXmlNode* LastChild()	{ return lastChild; }
+    
+	const GXmlNode* LastChild() const { return lastChild; }		/// The last child of this node. Will be null if there are no children.
+	GXmlNode* LastChild() { return lastChild; }
 	
-	const GXmlNode* LastChild( const char * value ) const;			/// The last child of this node matching 'value'. Will be null if there are no children.
-	GXmlNode* LastChild( const char * _value ) {
-		return const_cast< GXmlNode* > ((const_cast< const GXmlNode* >(this))->LastChild( _value ));
+	const GXmlNode* LastChild(const char * value) const;			/// The last child of this node matching 'value'. Will be null if there are no children.
+	GXmlNode* LastChild(const char * _value) 
+    {
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->LastChild(_value));
 	}
 
-    #ifdef GXML_USE_STL
-	const GXmlNode* FirstChild( const std::string& _value ) const	{	return FirstChild (_value.c_str ());	}	///< STL std::string form.
-	GXmlNode* FirstChild( const std::string& _value )				{	return FirstChild (_value.c_str ());	}	///< STL std::string form.
-	const GXmlNode* LastChild( const std::string& _value ) const	{	return LastChild (_value.c_str ());	}	///< STL std::string form.
-	GXmlNode* LastChild( const std::string& _value )				{	return LastChild (_value.c_str ());	}	///< STL std::string form.
-	#endif
+	const GXmlNode* FirstChild(const std::string& _value) const	
+    { 
+    	return FirstChild (_value.c_str ()); 
+    }    ///< STL std::string form.
+    
+	GXmlNode* FirstChild(const std::string& _value)	
+    {   
+    	return FirstChild(_value.c_str()); 
+    }  ///< STL std::string form.
+    
+	const GXmlNode* LastChild(const std::string& _value) const
+    { 
+    	return LastChild(_value.c_str ()); 
+    } ///< STL std::string form.
+    
+	GXmlNode* LastChild(const std::string& _value)
+    {   
+    	return LastChild(_value.c_str()); 
+    }   ///< STL std::string form.
 
 	/** An alternate way to walk the children of a node.
 		One way to iterate over nodes is:
@@ -501,26 +519,33 @@ public:
 		the next one. If the previous child is null, it returns the
 		first. IterateChildren will return null when done.
 	*/
-	const GXmlNode* IterateChildren( const GXmlNode* previous ) const;
-	GXmlNode* IterateChildren( const GXmlNode* previous ) {
-		return const_cast< GXmlNode* >( (const_cast< const GXmlNode* >(this))->IterateChildren( previous ) );
+	const GXmlNode* IterateChildren(const GXmlNode* previous) const;
+	GXmlNode* IterateChildren(const GXmlNode* previous) 
+    {
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->IterateChildren(previous));
 	}
 
 	/// This flavor of IterateChildren searches for children with a particular 'value'
 	const GXmlNode* IterateChildren( const char * value, const GXmlNode* previous ) const;
-	GXmlNode* IterateChildren( const char * _value, const GXmlNode* previous ) {
-		return const_cast< GXmlNode* >( (const_cast< const GXmlNode* >(this))->IterateChildren( _value, previous ) );
+	GXmlNode* IterateChildren( const char * _value, const GXmlNode* previous ) 
+    {
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->IterateChildren(_value, previous));
 	}
 
-    #ifdef GXML_USE_STL
-	const GXmlNode* IterateChildren( const std::string& _value, const GXmlNode* previous ) const	{	return IterateChildren (_value.c_str (), previous);	}	///< STL std::string form.
-	GXmlNode* IterateChildren( const std::string& _value, const GXmlNode* previous ) {	return IterateChildren (_value.c_str (), previous);	}	///< STL std::string form.
-	#endif
+	const GXmlNode* IterateChildren(const std::string& _value, const GXmlNode* previous) const	
+    {   
+    	return IterateChildren (_value.c_str (), previous); 
+    }   ///< STL std::string form.
+    
+	GXmlNode* IterateChildren(const std::string& _value, const GXmlNode* previous) 
+    {   
+    	return IterateChildren(_value.c_str(), previous); 
+    }   ///< STL std::string form.
 
 	/** Add a new node related to this. Adds a child past the LastChild.
 		Returns a pointer to the new object or NULL if an error occured.
 	*/
-	GXmlNode* InsertEndChild( const GXmlNode& addThis );
+	GXmlNode* InsertEndChild(const GXmlNode& addThis);
 
 
 	/** Add a new node related to this. Adds a child past the LastChild.
@@ -532,51 +557,66 @@ public:
 
 		@sa InsertEndChild
 	*/
-	GXmlNode* LinkEndChild( GXmlNode* addThis );
+	GXmlNode* LinkEndChild(GXmlNode* addThis);
 
 	/** Add a new node related to this. Adds a child before the specified child.
 		Returns a pointer to the new object or NULL if an error occured.
 	*/
-	GXmlNode* InsertBeforeChild( GXmlNode* beforeThis, const GXmlNode& addThis );
+	GXmlNode* InsertBeforeChild(GXmlNode* beforeThis, const GXmlNode& addThis);
 
 	/** Add a new node related to this. Adds a child after the specified child.
 		Returns a pointer to the new object or NULL if an error occured.
 	*/
-	GXmlNode* InsertAfterChild(  GXmlNode* afterThis, const GXmlNode& addThis );
+	GXmlNode* InsertAfterChild(GXmlNode* afterThis, const GXmlNode& addThis);
 
 	/** Replace a child of this node.
 		Returns a pointer to the new object or NULL if an error occured.
 	*/
-	GXmlNode* ReplaceChild( GXmlNode* replaceThis, const GXmlNode& withThis );
+	GXmlNode* ReplaceChild(GXmlNode* replaceThis, const GXmlNode& withThis);
 
 	/// Delete a child of this node.
-	bool RemoveChild( GXmlNode* removeThis );
+	bool RemoveChild(GXmlNode* removeThis);
 
 	/// Navigate to a sibling node.
-	const GXmlNode* PreviousSibling() const			{ return prev; }
-	GXmlNode* PreviousSibling()						{ return prev; }
+	const GXmlNode* PreviousSibling() const	{ return prev; }
+	GXmlNode* PreviousSibling()	{ return prev; }
 
 	/// Navigate to a sibling node.
-	const GXmlNode* PreviousSibling( const char * ) const;
-	GXmlNode* PreviousSibling( const char *_prev ) {
-		return const_cast< GXmlNode* >( (const_cast< const GXmlNode* >(this))->PreviousSibling( _prev ) );
+	const GXmlNode* PreviousSibling(const char *) const;
+	GXmlNode* PreviousSibling(const char *_prev) 
+    {
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->PreviousSibling(_prev));
 	}
 
-    #ifdef GXML_USE_STL
-	const GXmlNode* PreviousSibling( const std::string& _value ) const	{	return PreviousSibling (_value.c_str ());	}	///< STL std::string form.
-	GXmlNode* PreviousSibling( const std::string& _value ) 			{	return PreviousSibling (_value.c_str ());	}	///< STL std::string form.
-	const GXmlNode* NextSibling( const std::string& _value) const		{	return NextSibling (_value.c_str ());	}	///< STL std::string form.
-	GXmlNode* NextSibling( const std::string& _value) 					{	return NextSibling (_value.c_str ());	}	///< STL std::string form.
-	#endif
+	const GXmlNode* PreviousSibling(const std::string& _value ) const	
+    {   
+    	return PreviousSibling(_value.c_str());   
+    }   ///< STL std::string form.
+    
+	GXmlNode* PreviousSibling(const std::string& _value) 
+    {   
+    	return PreviousSibling (_value.c_str ()); 
+    }   ///< STL std::string form.
+    
+	const GXmlNode* NextSibling(const std::string& _value) const		
+    {   
+    	return NextSibling (_value.c_str ());   
+    }   ///< STL std::string form.
+    
+	GXmlNode* NextSibling(const std::string& _value) 
+    {   
+    	return NextSibling(_value.c_str());   
+    }   ///< STL std::string form.
 
 	/// Navigate to a sibling node.
-	const GXmlNode* NextSibling() const				{ return next; }
-	GXmlNode* NextSibling()							{ return next; }
+	const GXmlNode* NextSibling() const	{ return next; }
+	GXmlNode* NextSibling()	{ return next; }
 
 	/// Navigate to a sibling node with the given 'value'.
-	const GXmlNode* NextSibling( const char * ) const;
-	GXmlNode* NextSibling( const char* _next ) {
-		return const_cast< GXmlNode* >( (const_cast< const GXmlNode* >(this))->NextSibling( _next ) );
+	const GXmlNode* NextSibling(const char*) const;
+	GXmlNode* NextSibling(const char* _next) 
+    {
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->NextSibling(_next));
 	}
 
 	/** Convenience function to get through elements.
@@ -584,71 +624,86 @@ public:
 		nodes. Returns 0 if there is not another element.
 	*/
 	const GXmlElement* NextSiblingElement() const;
-	GXmlElement* NextSiblingElement() {
-		return const_cast< GXmlElement* >( (const_cast< const GXmlNode* >(this))->NextSiblingElement() );
+	GXmlElement* NextSiblingElement() 
+    {
+		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->NextSiblingElement());
 	}
 
 	/** Convenience function to get through elements.
 		Calls NextSibling and ToElement. Will skip all non-Element
 		nodes. Returns 0 if there is not another element.
 	*/
-	const GXmlElement* NextSiblingElement( const char * ) const;
-	GXmlElement* NextSiblingElement( const char *_next ) {
-		return const_cast< GXmlElement* >( (const_cast< const GXmlNode* >(this))->NextSiblingElement( _next ) );
+	const GXmlElement* NextSiblingElement(const char*) const;
+	GXmlElement* NextSiblingElement(const char *_next) 
+    {
+		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->NextSiblingElement(_next) );
 	}
 
-    #ifdef GXML_USE_STL
-	const GXmlElement* NextSiblingElement( const std::string& _value) const	{	return NextSiblingElement (_value.c_str ());	}	///< STL std::string form.
-	GXmlElement* NextSiblingElement( const std::string& _value)				{	return NextSiblingElement (_value.c_str ());	}	///< STL std::string form.
-	#endif
+	const GXmlElement* NextSiblingElement( const std::string& _value) const	
+	{	
+		return NextSiblingElement(_value.c_str());	
+    }	///< STL std::string form.
+    
+	GXmlElement* NextSiblingElement(const std::string& _value)	
+    {   
+    	return NextSiblingElement(_value.c_str());    
+    }   ///< STL std::string form.
 
 	/// Convenience function to get through elements.
 	const GXmlElement* FirstChildElement()	const;
-	GXmlElement* FirstChildElement() {
-		return const_cast< GXmlElement* >( (const_cast< const GXmlNode* >(this))->FirstChildElement() );
+	GXmlElement* FirstChildElement() 
+    {
+		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->FirstChildElement());
 	}
 
 	/// Convenience function to get through elements.
-	const GXmlElement* FirstChildElement( const char * _value ) const;
-	GXmlElement* FirstChildElement( const char * _value ) {
-		return const_cast< GXmlElement* >( (const_cast< const GXmlNode* >(this))->FirstChildElement( _value ) );
+	const GXmlElement* FirstChildElement(const char * _value) const;
+	GXmlElement* FirstChildElement(const char * _value) 
+    {
+		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->FirstChildElement(_value));
 	}
 
-    #ifdef GXML_USE_STL
-	const GXmlElement* FirstChildElement( const std::string& _value ) const	{	return FirstChildElement (_value.c_str ());	}	///< STL std::string form.
-	GXmlElement* FirstChildElement( const std::string& _value )				{	return FirstChildElement (_value.c_str ());	}	///< STL std::string form.
-	#endif
+	const GXmlElement* FirstChildElement(const std::string& _value) const	
+    {   
+    	return FirstChildElement(_value.c_str()); 
+    }   ///< STL std::string form.
+    
+	GXmlElement* FirstChildElement(const std::string& _value)
+    {   
+    	return FirstChildElement(_value.c_str()); 
+    }   ///< STL std::string form.
 
 	/** Query the type (as an enumerated value, above) of this node.
 		The possible types are: GNYXML_DOCUMENT, GNYXML_ELEMENT, GNYXML_COMMENT,
 								GNYXML_UNKNOWN, GNYXML_TEXT, and GNYXML_DECLARAGON.
 	*/
-	int Type() const	{ return type; }
+	int Type() const { return type; }
 
 	/** Return a pointer to the Document this node lives in.
 		Returns null if not in a document.
 	*/
 	const GXmlDocument* GetDocument() const;
-	GXmlDocument* GetDocument() {
-		return const_cast< GXmlDocument* >( (const_cast< const GXmlNode* >(this))->GetDocument() );
+	GXmlDocument* GetDocument() 
+    {
+		return const_cast<GXmlDocument*>((const_cast<const GXmlNode*>(this))->GetDocument());
 	}
 
 	/// Returns true if this node has no children.
-	bool NoChildren() const						{ return !firstChild; }
+	bool NoChildren() const	{ return !firstChild; }
 
-	virtual const GXmlDocument*    ToDocument()    const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual const GXmlElement*     ToElement()     const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual const GXmlComment*     ToComment()     const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual const GXmlUnknown*     ToUnknown()     const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual const GXmlText*        ToText()        const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual const GXmlDocument* ToDocument() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual const GXmlElement* ToElement() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual const GXmlComment* ToComment() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual const GXmlUnknown* ToUnknown() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual const GXmlText* ToText() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
 	virtual const GXmlDeclaration* ToDeclaration() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
 
-	virtual GXmlDocument*          ToDocument()    { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual GXmlElement*           ToElement()	    { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual GXmlComment*           ToComment()     { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual GXmlUnknown*           ToUnknown()	    { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual GXmlText*	            ToText()        { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual GXmlDeclaration*       ToDeclaration() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual GXmlDocument* ToDocument() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual GXmlElement* ToElement() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual GXmlComment* ToComment() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual GXmlUnknown* ToUnknown() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual GXmlText* ToText() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual GXmlDeclaration* ToDeclaration() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
 
 	/** Create an exact duplicate of this node and return it. The memory must be deleted
 		by the caller. 
@@ -677,37 +732,35 @@ public:
 		const char* xmlcstr = printer.CStr();
 		@endverbatim
 	*/
-	virtual bool Accept( GXmlVisitor* visitor ) const = 0;
+	virtual bool Accept(GXmlVisitor* visitor) const = 0;
 
 protected:
-	GXmlNode( NodeType _type );
+	GXmlNode(NodeType _type);
 
 	// Copy to the allocated object. Shared functionality between Clone, Copy constructor,
 	// and the assignment operator.
-	void CopyTo( GXmlNode* target ) const;
+	void CopyTo(GXmlNode* target) const;
 
-	#ifdef GXML_USE_STL
-	    // The real work of the input operator.
-	virtual void StreamIn( std::istream* in, std::string* tag ) = 0;
-	#endif
+    // The real work of the input operator.
+	virtual void StreamIn(std::istream* in, std::string* tag) = 0;
 
 	// Figure out what is at *p, and parse it. Returns null if it is not an xml node.
-	GXmlNode* Identify( const char* start, GXmlEncoding encoding );
+	GXmlNode* Identify(const char* start, GXmlEncoding encoding);
 
-	GXmlNode*		parent;
-	NodeType		type;
+	GXmlNode* 	parent;
+	NodeType 	type;
 
-	GXmlNode*		firstChild;
-	GXmlNode*		lastChild;
+	GXmlNode*	firstChild;
+	GXmlNode*	lastChild;
 
 	std::string	value;
 
-	GXmlNode*		prev;
-	GXmlNode*		next;
+	GXmlNode*	prev;
+	GXmlNode*	next;
 
 private:
-	GXmlNode( const GXmlNode& );				// not implemented.
-	void operator=( const GXmlNode& base );	// not allowed.
+	GXmlNode(const GXmlNode&);				// not implemented.
+	void operator=(const GXmlNode& base);	// not allowed.
 };
 
 
@@ -730,19 +783,17 @@ public:
 		prev = next = 0;
 	}
 
-	#ifdef GXML_USE_STL
 	/// std::string constructor.
-	GXmlAttribute( const std::string& _name, const std::string& _value )
+	GXmlAttribute(const std::string& _name, const std::string& _value)
 	{
 		name = _name;
 		value = _value;
 		document = 0;
 		prev = next = 0;
 	}
-	#endif
 
 	/// Construct an attribute with a name and value.
-	GXmlAttribute( const char * _name, const char * _value )
+	GXmlAttribute(const char * _name, const char * _value)
 	{
 		name = _name;
 		value = _value;
@@ -750,13 +801,11 @@ public:
 		prev = next = 0;
 	}
 
-	const char*		Name()  const		{ return name.c_str(); }		///< Return the name of this attribute.
-	const char*		Value() const		{ return value.c_str(); }		///< Return the value of this attribute.
-	#ifdef GXML_USE_STL
+	const char*	Name() const { return name.c_str(); }		///< Return the name of this attribute.
+	const char*	Value() const { return value.c_str(); }		///< Return the value of this attribute.
 	const std::string& ValueStr() const	{ return value; }				///< Return the value of this attribute.
-	#endif
-	int				IntValue() const;									///< Return the value of this attribute, converted to an integer.
-	double			DoubleValue() const;								///< Return the value of this attribute, converted to a double.
+	int	IntValue() const;									///< Return the value of this attribute, converted to an integer.
+	double DoubleValue() const;								///< Return the value of this attribute, converted to a double.
 
 	// Get the tinyxml string representation
 	const std::string& NameTStr() const { return name; }
@@ -770,61 +819,63 @@ public:
 		A specialized but useful call. Note that for success it returns 0,
 		which is the opposite of almost all other GnyXml calls.
 	*/
-	int QueryIntValue( int* _value ) const;
+	int QueryIntValue(int* _value) const;
 	/// QueryDoubleValue examines the value string. See QueryIntValue().
-	int QueryDoubleValue( double* _value ) const;
+	int QueryDoubleValue(double* _value) const;
 
-	void SetName( const char* _name )	{ name = _name; }				///< Set the name of this attribute.
-	void SetValue( const char* _value )	{ value = _value; }				///< Set the value.
+	void SetName(const char* _name)	{ name = _name; }				///< Set the name of this attribute.
+	void SetValue(const char* _value) { value = _value; }				///< Set the value.
 
-	void SetIntValue( int _value );										///< Set the value from an integer.
-	void SetDoubleValue( double _value );								///< Set the value from a double.
+	void SetIntValue(int _value);										///< Set the value from an integer.
+	void SetDoubleValue(double _value);								///< Set the value from a double.
 
-    #ifdef GXML_USE_STL
 	/// STL std::string form.
-	void SetName( const std::string& _name )	{ name = _name; }	
+	void SetName(const std::string& _name) { name = _name; }	
 	/// STL std::string form.	
-	void SetValue( const std::string& _value )	{ value = _value; }
-	#endif
+	void SetValue(const std::string& _value) { value = _value; }
 
 	/// Get the next sibling attribute in the DOM. Returns null at end.
 	const GXmlAttribute* Next() const;
-	GXmlAttribute* Next() {
-		return const_cast< GXmlAttribute* >( (const_cast< const GXmlAttribute* >(this))->Next() ); 
+	GXmlAttribute* Next() 
+    {
+		return const_cast<GXmlAttribute*>((const_cast<const GXmlAttribute*>(this))->Next()); 
 	}
 
 	/// Get the previous sibling attribute in the DOM. Returns null at beginning.
 	const GXmlAttribute* Previous() const;
-	GXmlAttribute* Previous() {
-		return const_cast< GXmlAttribute* >( (const_cast< const GXmlAttribute* >(this))->Previous() ); 
+	GXmlAttribute* Previous() 
+    {
+		return const_cast<GXmlAttribute*>((const_cast<const GXmlAttribute*>(this))->Previous()); 
 	}
 
-	bool operator==( const GXmlAttribute& rhs ) const { return rhs.name == name; }
-	bool operator<( const GXmlAttribute& rhs )	 const { return name < rhs.name; }
-	bool operator>( const GXmlAttribute& rhs )  const { return name > rhs.name; }
+	bool operator==(const GXmlAttribute& rhs) const { return rhs.name == name; }
+	bool operator<(const GXmlAttribute& rhs) const { return name < rhs.name; }
+	bool operator>(const GXmlAttribute& rhs) const { return name > rhs.name; }
 
 	/*	Attribute parsing starts: first letter of the name
 						 returns: the next char after the value end quote
 	*/
-	virtual const char* Parse( const char* p, GXmlParsingData* data, GXmlEncoding encoding );
+	virtual const char* Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
 
 	// Prints this Attribute to a FILE stream.
-	virtual void Print( FILE* cfile, int depth ) const {
-		Print( cfile, depth, 0 );
+	virtual void Print(FILE* cfile, int depth) const 
+	{
+		Print(cfile, depth, 0);
 	}
-	void Print( FILE* cfile, int depth, std::string* str ) const;
+    
+	void Print(FILE* cfile, int depth, std::string* str) const;
 
 	// [internal use]
 	// Set the document pointer so the attribute can report errors.
-	void SetDocument( GXmlDocument* doc )	{ document = doc; }
+	void SetDocument(GXmlDocument* doc)	{ document = doc; }
 
 private:
-	GXmlAttribute( const GXmlAttribute& );				// not implemented.
-	void operator=( const GXmlAttribute& base );	// not allowed.
+	GXmlAttribute(const GXmlAttribute&);				// not implemented.
+	void operator=(const GXmlAttribute& base);	// not allowed.
 
 	GXmlDocument*	document;	// A pointer back to a document, for error reporting.
-	std::string name;
-	std::string value;
+	std::string 	name;
+	std::string 	value;
 	GXmlAttribute*	prev;
 	GXmlAttribute*	next;
 };
@@ -848,28 +899,40 @@ public:
 	GXmlAttributeSet();
 	~GXmlAttributeSet();
 
-	void Add( GXmlAttribute* attribute );
-	void Remove( GXmlAttribute* attribute );
+	void Add(GXmlAttribute* attribute);
+	void Remove(GXmlAttribute* attribute);
 
-	const GXmlAttribute* First()	const	{ return ( sentinel.next == &sentinel ) ? 0 : sentinel.next; }
-	GXmlAttribute* First()					{ return ( sentinel.next == &sentinel ) ? 0 : sentinel.next; }
-	const GXmlAttribute* Last() const		{ return ( sentinel.prev == &sentinel ) ? 0 : sentinel.prev; }
-	GXmlAttribute* Last()					{ return ( sentinel.prev == &sentinel ) ? 0 : sentinel.prev; }
+	const GXmlAttribute* First( )const
+    { 
+    	return (sentinel.next == &sentinel) ? 0 : sentinel.next; 
+    }
+    
+	GXmlAttribute* First()
+    { 
+    	return (sentinel.next == &sentinel) ? 0 : sentinel.next; 
+    }
+    
+	const GXmlAttribute* Last() const
+    { 
+    	return (sentinel.prev == &sentinel) ? 0 : sentinel.prev; 
+    }
+    
+	GXmlAttribute* Last()
+    { 
+    	return (sentinel.prev == &sentinel) ? 0 : sentinel.prev; 
+    }
 
-	GXmlAttribute*	Find( const char* _name ) const;
-	GXmlAttribute* FindOrCreate( const char* _name );
+	GXmlAttribute* Find(const char* _name) const;
+	GXmlAttribute* FindOrCreate(const char* _name);
 
-#	ifdef GXML_USE_STL
-	GXmlAttribute*	Find( const std::string& _name ) const;
-	GXmlAttribute* FindOrCreate( const std::string& _name );
-#	endif
-
+	GXmlAttribute* Find(const std::string& _name) const;
+	GXmlAttribute* FindOrCreate(const std::string& _name);
 
 private:
 	//*ME:	Because of hidden/disabled copy-construktor in GXmlAttribute (sentinel-element),
 	//*ME:	this class must be also use a hidden/disabled copy-constructor !!!
-	GXmlAttributeSet( const GXmlAttributeSet& );	// not allowed
-	void operator=( const GXmlAttributeSet& );	// not allowed (as GXmlAttribute)
+	GXmlAttributeSet(const GXmlAttributeSet&);	// not allowed
+	void operator=(const GXmlAttributeSet&);	// not allowed (as GXmlAttribute)
 
 	GXmlAttribute sentinel;
 };
@@ -883,23 +946,21 @@ class GXmlElement : public GXmlNode
 {
 public:
 	/// Construct an element.
-	GXmlElement (const char * in_value);
+	GXmlElement(const char* in_value);
 
-	#ifdef GXML_USE_STL
 	/// std::string constructor.
-	GXmlElement( const std::string& _value );
-	#endif
+	GXmlElement(const std::string& _value);
 
-	GXmlElement( const GXmlElement& );
+	GXmlElement(const GXmlElement&);
 
-	GXmlElement& operator=( const GXmlElement& base );
+	GXmlElement& operator=(const GXmlElement& base);
 
 	virtual ~GXmlElement();
 
 	/** Given an attribute name, Attribute() returns the value
 		for the attribute of that name, or null if none exists.
 	*/
-	const char* Attribute( const char* name ) const;
+	const char* Attribute(const char* name) const;
 
 	/** Given an attribute name, Attribute() returns the value
 		for the attribute of that name, or null if none exists.
@@ -907,7 +968,7 @@ public:
 		the integer value will be put in the return 'i', if 'i'
 		is non-null.
 	*/
-	const char* Attribute( const char* name, int* i ) const;
+	const char* Attribute(const char* name, int* i) const;
 
 	/** Given an attribute name, Attribute() returns the value
 		for the attribute of that name, or null if none exists.
@@ -915,7 +976,7 @@ public:
 		the double value will be put in the return 'd', if 'd'
 		is non-null.
 	*/
-	const char* Attribute( const char* name, double* d ) const;
+	const char* Attribute(const char* name, double* d) const;
 
 	/** QueryIntAttribute examines the attribute - it is an alternative to the
 		Attribute() method with richer error checking.
@@ -924,34 +985,39 @@ public:
 		an integer, it returns GXML_WRONG_TYPE. If the attribute
 		does not exist, then GXML_NO_ATTRIBUTE is returned.
 	*/	
-	int QueryIntAttribute( const char* name, int* _value ) const;
+	int QueryIntAttribute(const char* name, int* _value) const;
 	/// QueryUnsignedAttribute examines the attribute - see QueryIntAttribute().
-	int QueryUnsignedAttribute( const char* name, unsigned* _value ) const;
+	int QueryUnsignedAttribute(const char* name, unsigned* _value) const;
 	/** QueryBoolAttribute examines the attribute - see QueryIntAttribute(). 
 		Note that '1', 'true', or 'yes' are considered true, while '0', 'false'
 		and 'no' are considered false.
 	*/
-	int QueryBoolAttribute( const char* name, bool* _value ) const;
+	int QueryBoolAttribute(const char* name, bool* _value) const;
 	/// QueryDoubleAttribute examines the attribute - see QueryIntAttribute().
-	int QueryDoubleAttribute( const char* name, double* _value ) const;
+	int QueryDoubleAttribute(const char* name, double* _value) const;
 	/// QueryFloatAttribute examines the attribute - see QueryIntAttribute().
-	int QueryFloatAttribute( const char* name, float* _value ) const {
+	int QueryFloatAttribute(const char* name, float* _value) const 
+	{
 		double d;
-		int result = QueryDoubleAttribute( name, &d );
-		if ( result == GXML_SUCCESS ) {
+		int result = QueryDoubleAttribute(name, &d);
+		if (result == GXML_SUCCESS) 
+        {
 			*_value = (float)d;
 		}
+        
 		return result;
 	}
 
-    #ifdef GXML_USE_STL
 	/// QueryStringAttribute examines the attribute - see QueryIntAttribute().
-	int QueryStringAttribute( const char* name, std::string* _value ) const {
-		const char* cstr = Attribute( name );
-		if ( cstr ) {
-			*_value = std::string( cstr );
+	int QueryStringAttribute(const char* name, std::string* _value) const 
+	{
+		const char* cstr = Attribute(name);
+		if (cstr) 
+        {
+			*_value = std::string(cstr);
 			return GXML_SUCCESS;
 		}
+        
 		return GXML_NO_ATTRIBUTE;
 	}
 
@@ -963,70 +1029,91 @@ public:
 
 		@return GXML_SUCCESS, GXML_WRONG_TYPE, or GXML_NO_ATTRIBUTE
 	*/
-	template< typename T > int QueryValueAttribute( const std::string& name, T* outValue ) const
+	template<typename T> int QueryValueAttribute(const std::string& name, T* outValue) const
 	{
 		const GXmlAttribute* node = attributeSet.Find( name );
-		if ( !node )
+		if (!node)
+        {
 			return GXML_NO_ATTRIBUTE;
+        }
 
-		std::stringstream sstream( node->ValueStr() );
+		std::stringstream sstream(node->ValueStr());
 		sstream >> *outValue;
-		if ( !sstream.fail() )
+		if (!sstream.fail())
+        {
 			return GXML_SUCCESS;
+        }
+        
 		return GXML_WRONG_TYPE;
 	}
 
-	int QueryValueAttribute( const std::string& name, std::string* outValue ) const
+	int QueryValueAttribute(const std::string& name, std::string* outValue) const
 	{
-		const GXmlAttribute* node = attributeSet.Find( name );
-		if ( !node )
+		const GXmlAttribute* node = attributeSet.Find(name);
+		if (node == nullptr)
+        {
 			return GXML_NO_ATTRIBUTE;
+        }
+        
 		*outValue = node->ValueStr();
 		return GXML_SUCCESS;
 	}
-	#endif
 
 	/** Sets an attribute of name to a given value. The attribute
 		will be created if it does not exist, or changed if it does.
 	*/
-	void SetAttribute( const char* name, const char * _value );
+	void SetAttribute(const char* name, const char * _value);
 
-    #ifdef GXML_USE_STL
-	const std::string* Attribute( const std::string& name ) const;
-	const std::string* Attribute( const std::string& name, int* i ) const;
-	const std::string* Attribute( const std::string& name, double* d ) const;
-	int QueryIntAttribute( const std::string& name, int* _value ) const;
-	int QueryDoubleAttribute( const std::string& name, double* _value ) const;
+	const std::string* Attribute(const std::string& name) const;
+	const std::string* Attribute(const std::string& name, int* i) const;
+	const std::string* Attribute(const std::string& name, double* d) const;
+	int QueryIntAttribute(const std::string& name, int* _value) const;
+	int QueryDoubleAttribute(const std::string& name, double* _value) const;
 
 	/// STL std::string form.
-	void SetAttribute( const std::string& name, const std::string& _value );
+	void SetAttribute(const std::string& name, const std::string& _value);
 	///< STL std::string form.
-	void SetAttribute( const std::string& name, int _value );
+	void SetAttribute(const std::string& name, int _value);
 	///< STL std::string form.
-	void SetDoubleAttribute( const std::string& name, double value );
-	#endif
+	void SetDoubleAttribute(const std::string& name, double value);
 
 	/** Sets an attribute of name to a given value. The attribute
 		will be created if it does not exist, or changed if it does.
 	*/
-	void SetAttribute( const char * name, int value );
+	void SetAttribute(const char * name, int value);
 
 	/** Sets an attribute of name to a given value. The attribute
 		will be created if it does not exist, or changed if it does.
 	*/
-	void SetDoubleAttribute( const char * name, double value );
+	void SetDoubleAttribute(const char * name, double value);
 
 	/** Deletes an attribute with the given name.
 	*/
-	void RemoveAttribute( const char * name );
-    #ifdef GXML_USE_STL
-	void RemoveAttribute( const std::string& name )	{	RemoveAttribute (name.c_str ());	}	///< STL std::string form.
-	#endif
+	void RemoveAttribute(const char * name);
+	void RemoveAttribute(const std::string& name) 
+    {   
+    	RemoveAttribute(name.c_str());    
+    }   ///< STL std::string form.
 
-	const GXmlAttribute* FirstAttribute() const	{ return attributeSet.First(); }		///< Access the first attribute in this element.
-	GXmlAttribute* FirstAttribute() 				{ return attributeSet.First(); }
-	const GXmlAttribute* LastAttribute()	const 	{ return attributeSet.Last(); }		///< Access the last attribute in this element.
-	GXmlAttribute* LastAttribute()					{ return attributeSet.Last(); }
+	const GXmlAttribute* FirstAttribute() const	
+    { 
+    	return attributeSet.First(); 
+    }        ///< Access the first attribute in this element.
+    
+	GXmlAttribute* FirstAttribute() 
+    { 
+    	return attributeSet.First(); 
+    }
+    
+	const GXmlAttribute* LastAttribute()	const 	
+    { 
+    	return attributeSet.Last(); 
+    }     ///< Access the last attribute in this element.
+    
+	GXmlAttribute* LastAttribute()					
+    { 
+    	return attributeSet.Last(); 
+    }
 
 	/** Convenience function for easy access to the text inside an element. Although easy
 		and concise, GetText() is limited compared to getting the GXmlText child
@@ -1065,34 +1152,31 @@ public:
 	/// Creates a new Element and returns it - the returned element is a copy.
 	virtual GXmlNode* Clone() const;
 	// Print the Element to a FILE stream.
-	virtual void Print( FILE* cfile, int depth ) const;
+	virtual void Print(FILE* cfile, int depth) const;
 
 	/*	Attribtue parsing starts: next char past '<'
 						 returns: next char past '>'
 	*/
-	virtual const char* Parse( const char* p, GXmlParsingData* data, GXmlEncoding encoding );
+	virtual const char* Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
 
-	virtual const GXmlElement*     ToElement()     const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
-	virtual GXmlElement*           ToElement()	          { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual const GXmlElement* ToElement() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual GXmlElement* ToElement() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
 
 	/** Walk the XML tree visiting this node and all of its children. 
 	*/
-	virtual bool Accept( GXmlVisitor* visitor ) const;
+	virtual bool Accept(GXmlVisitor* visitor) const;
 
 protected:
-
-	void CopyTo( GXmlElement* target ) const;
+	void CopyTo(GXmlElement* target) const;
 	void ClearThis();	// like clear, but initializes 'this' object as well
 
 	// Used to be public [internal use]
-	#ifdef GXML_USE_STL
-	virtual void StreamIn( std::istream * in, std::string * tag );
-	#endif
+	virtual void StreamIn(std::istream* in, std::string* tag);
 	/*	[internal use]
 		Reads the "value" of the element -- another element, or text.
 		This should terminate with the current end tag.
 	*/
-	const char* ReadValue( const char* in, GXmlParsingData* prevData, GXmlEncoding encoding );
+	const char* ReadValue(const char* in, GXmlParsingData* prevData, GXmlEncoding encoding);
 
 private:
 	GXmlAttributeSet attributeSet;
@@ -1105,44 +1189,41 @@ class GXmlComment : public GXmlNode
 {
 public:
 	/// Constructs an empty comment.
-	GXmlComment() : GXmlNode( GXmlNode::GNYXML_COMMENT ) {}
+	GXmlComment() : GXmlNode(GXmlNode::GNYXML_COMMENT) {}
+    
 	/// Construct a comment from text.
-	GXmlComment( const char* _value ) : GXmlNode( GXmlNode::GNYXML_COMMENT ) {
-		SetValue( _value );
+	GXmlComment(const char* _value ) : GXmlNode( GXmlNode::GNYXML_COMMENT) 
+	{
+		SetValue(_value);
 	}
-	GXmlComment( const GXmlComment& );
-	GXmlComment& operator=( const GXmlComment& base );
+    
+	GXmlComment(const GXmlComment&);
+	GXmlComment& operator=(const GXmlComment& base);
 
-	virtual ~GXmlComment()	{}
+	virtual ~GXmlComment() {}
 
 	/// Returns a copy of this Comment.
 	virtual GXmlNode* Clone() const;
 	// Write this Comment to a FILE stream.
-	virtual void Print( FILE* cfile, int depth ) const;
+	virtual void Print(FILE* cfile, int depth) const;
 
 	/*	Attribtue parsing starts: at the ! of the !--
 						 returns: next char past '>'
 	*/
-	virtual const char* Parse( const char* p, GXmlParsingData* data, GXmlEncoding encoding );
+	virtual const char* Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
 
-	virtual const GXmlComment*  ToComment() const	{ return this; } ///< Cast to a more defined type. Will return null not of the requested type.
-	virtual		  GXmlComment*  ToComment()		{ return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual const GXmlComment* ToComment() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual GXmlComment* ToComment() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
 
 	/** Walk the XML tree visiting this node and all of its children. 
 	*/
-	virtual bool Accept( GXmlVisitor* visitor ) const;
+	virtual bool Accept(GXmlVisitor* visitor) const;
 
 protected:
-	void CopyTo( GXmlComment* target ) const;
+	void CopyTo(GXmlComment* target) const;
 
 	// used to be public
-	#ifdef GXML_USE_STL
-	virtual void StreamIn( std::istream * in, std::string * tag );
-	#endif
-//	virtual void StreamOut( GXML_OSTREAM * out ) const;
-
-private:
-
+	virtual void StreamIn(std::istream * in, std::string * tag);
 };
 
 
@@ -1154,57 +1235,63 @@ private:
 class GXmlText : public GXmlNode
 {
 	friend class GXmlElement;
+    
 public:
 	/** Constructor for text element. By default, it is treated as 
 		normal, encoded text. If you want it be output as a CDATA text
 		element, set the parameter _cdata to 'true'
 	*/
-	GXmlText (const char * initValue ) : GXmlNode (GXmlNode::GNYXML_TEXT)
+	GXmlText(const char * initValue) : GXmlNode(GXmlNode::GNYXML_TEXT)
 	{
-		SetValue( initValue );
+		SetValue(initValue);
 		cdata = false;
 	}
+    
 	virtual ~GXmlText() {}
 
-	#ifdef GXML_USE_STL
 	/// Constructor.
-	GXmlText( const std::string& initValue ) : GXmlNode (GXmlNode::GNYXML_TEXT)
+	GXmlText(const std::string& initValue) : GXmlNode (GXmlNode::GNYXML_TEXT)
 	{
-		SetValue( initValue );
+		SetValue(initValue);
 		cdata = false;
 	}
-	#endif
 
-	GXmlText( const GXmlText& copy ) : GXmlNode( GXmlNode::GNYXML_TEXT )	{ copy.CopyTo( this ); }
-	GXmlText& operator=( const GXmlText& base )							 	{ base.CopyTo( this ); return *this; }
+	GXmlText(const GXmlText& copy) : GXmlNode(GXmlNode::GNYXML_TEXT)	
+    { 
+    	copy.CopyTo( this ); 
+    }
+    
+	GXmlText& operator=(const GXmlText& base)	
+    { 
+    	base.CopyTo(this); 
+        return *this; 
+    }
 
 	// Write this text object to a FILE stream.
-	virtual void Print( FILE* cfile, int depth ) const;
+	virtual void Print(FILE* cfile, int depth) const;
 
 	/// Queries whether this represents text using a CDATA section.
-	bool CDATA() const				{ return cdata; }
+	bool CDATA() const { return cdata; }
 	/// Turns on or off a CDATA representation of text.
-	void SetCDATA( bool _cdata )	{ cdata = _cdata; }
+	void SetCDATA(bool _cdata) { cdata = _cdata; }
 
-	virtual const char* Parse( const char* p, GXmlParsingData* data, GXmlEncoding encoding );
+	virtual const char* Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
 
 	virtual const GXmlText* ToText() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
-	virtual GXmlText*       ToText()       { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual GXmlText* ToText() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
 
 	/** Walk the XML tree visiting this node and all of its children. 
 	*/
-	virtual bool Accept( GXmlVisitor* content ) const;
+	virtual bool Accept(GXmlVisitor* content) const;
 
 protected :
 	///  [internal use] Creates a new Element and returns it.
 	virtual GXmlNode* Clone() const;
-	void CopyTo( GXmlText* target ) const;
+	void CopyTo(GXmlText* target) const;
 
 	bool Blank() const;	// returns true if all white space and new lines
 	// [internal use]
-	#ifdef GXML_USE_STL
-	virtual void StreamIn( std::istream * in, std::string * tag );
-	#endif
+	virtual void StreamIn(std::istream* in, std::string* tag);
 
 private:
 	bool cdata;			// true if this should be input and output as a CDATA style text element
@@ -1228,58 +1315,54 @@ class GXmlDeclaration : public GXmlNode
 {
 public:
 	/// Construct an empty declaration.
-	GXmlDeclaration()   : GXmlNode( GXmlNode::GNYXML_DECLARAGON ) {}
+	GXmlDeclaration() : GXmlNode(GXmlNode::GNYXML_DECLARAGON) {}
 
-#ifdef GXML_USE_STL
 	/// Constructor.
-	GXmlDeclaration(	const std::string& _version,
-						const std::string& _encoding,
-						const std::string& _standalone );
-#endif
+	GXmlDeclaration(const std::string& _version,
+		const std::string& _encoding,
+		const std::string& _standalone);
 
 	/// Construct.
-	GXmlDeclaration(	const char* _version,
-						const char* _encoding,
-						const char* _standalone );
+	GXmlDeclaration(const char* _version,
+		const char* _encoding,
+		const char* _standalone);
 
-	GXmlDeclaration( const GXmlDeclaration& copy );
-	GXmlDeclaration& operator=( const GXmlDeclaration& copy );
+	GXmlDeclaration(const GXmlDeclaration& copy);
+	GXmlDeclaration& operator=(const GXmlDeclaration& copy);
 
-	virtual ~GXmlDeclaration()	{}
+	virtual ~GXmlDeclaration() {}
 
 	/// Version. Will return an empty string if none was found.
-	const char *Version() const			{ return version.c_str (); }
+	const char *Version() const { return version.c_str(); }
 	/// Encoding. Will return an empty string if none was found.
-	const char *Encoding() const		{ return encoding.c_str (); }
+	const char *Encoding() const { return encoding.c_str(); }
 	/// Is this a standalone document?
-	const char *Standalone() const		{ return standalone.c_str (); }
+	const char *Standalone() const { return standalone.c_str(); }
 
 	/// Creates a copy of this Declaration and returns it.
 	virtual GXmlNode* Clone() const;
 	// Print this declaration to a FILE stream.
-	virtual void Print( FILE* cfile, int depth, std::string* str ) const;
-	virtual void Print( FILE* cfile, int depth ) const {
-		Print( cfile, depth, 0 );
+	virtual void Print(FILE* cfile, int depth, std::string* str) const;
+	virtual void Print(FILE* cfile, int depth) const 
+    {
+		Print(cfile, depth, 0);
 	}
 
-	virtual const char* Parse( const char* p, GXmlParsingData* data, GXmlEncoding encoding );
+	virtual const char* Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
 
 	virtual const GXmlDeclaration* ToDeclaration() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
-	virtual GXmlDeclaration*       ToDeclaration()       { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual GXmlDeclaration* ToDeclaration() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
 
 	/** Walk the XML tree visiting this node and all of its children. 
 	*/
-	virtual bool Accept( GXmlVisitor* visitor ) const;
+	virtual bool Accept(GXmlVisitor* visitor) const;
 
 protected:
-	void CopyTo( GXmlDeclaration* target ) const;
+	void CopyTo(GXmlDeclaration* target) const;
 	// used to be public
-	#ifdef GXML_USE_STL
-	virtual void StreamIn( std::istream * in, std::string * tag );
-	#endif
+	virtual void StreamIn(std::istream* in, std::string* tag);
 
 private:
-
 	std::string version;
 	std::string encoding;
 	std::string standalone;
@@ -1296,35 +1379,37 @@ private:
 class GXmlUnknown : public GXmlNode
 {
 public:
-	GXmlUnknown() : GXmlNode( GXmlNode::GNYXML_UNKNOWN )	{}
+	GXmlUnknown() : GXmlNode(GXmlNode::GNYXML_UNKNOWN)	{}
 	virtual ~GXmlUnknown() {}
 
-	GXmlUnknown( const GXmlUnknown& copy ) : GXmlNode( GXmlNode::GNYXML_UNKNOWN )		{ copy.CopyTo( this ); }
-	GXmlUnknown& operator=( const GXmlUnknown& copy )										{ copy.CopyTo( this ); return *this; }
+	GXmlUnknown(const GXmlUnknown& copy) : GXmlNode(GXmlNode::GNYXML_UNKNOWN)		
+    { 
+    	copy.CopyTo(this); 
+    }
+    
+	GXmlUnknown& operator=(const GXmlUnknown& copy)										
+    { 
+    	copy.CopyTo(this); 
+        return *this; 
+    }
 
 	/// Creates a copy of this Unknown and returns it.
 	virtual GXmlNode* Clone() const;
 	// Print this Unknown to a FILE stream.
-	virtual void Print( FILE* cfile, int depth ) const;
+	virtual void Print(FILE* cfile, int depth) const;
 
-	virtual const char* Parse( const char* p, GXmlParsingData* data, GXmlEncoding encoding );
+	virtual const char* Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
 
-	virtual const GXmlUnknown*     ToUnknown()     const	{ return this; } ///< Cast to a more defined type. Will return null not of the requested type.
-	virtual GXmlUnknown*           ToUnknown()				{ return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual const GXmlUnknown* ToUnknown() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual GXmlUnknown* ToUnknown() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
 
 	/** Walk the XML tree visiting this node and all of its children. 
 	*/
-	virtual bool Accept( GXmlVisitor* content ) const;
+	virtual bool Accept(GXmlVisitor* content) const;
 
 protected:
-	void CopyTo( GXmlUnknown* target ) const;
-
-	#ifdef GXML_USE_STL
-	virtual void StreamIn( std::istream * in, std::string * tag );
-	#endif
-
-private:
-
+	void CopyTo(GXmlUnknown* target) const;
+	virtual void StreamIn(std::istream* in, std::string* tag);
 };
 
 
@@ -1338,15 +1423,13 @@ public:
 	/// Create an empty document, that has no name.
 	GXmlDocument();
 	/// Create a document with a name. The name of the document is also the filename of the xml.
-	GXmlDocument( const char * documentName );
+	GXmlDocument(const char * documentName);
 
-	#ifdef GXML_USE_STL
 	/// Constructor.
-	GXmlDocument( const std::string& documentName );
-	#endif
+	GXmlDocument(const std::string& documentName);
 
-	GXmlDocument( const GXmlDocument& copy );
-	GXmlDocument& operator=( const GXmlDocument& copy );
+	GXmlDocument(const GXmlDocument& copy);
+	GXmlDocument& operator=(const GXmlDocument& copy);
 
 	virtual ~GXmlDocument() {}
 
@@ -1354,60 +1437,61 @@ public:
 		Returns true if successful. Will delete any existing
 		document data before loading.
 	*/
-	bool LoadFile( GXmlEncoding encoding = GXML_DEFAULT_ENCODING );
+	bool LoadFile(GXmlEncoding encoding = GXML_DEFAULT_ENCODING);
 	/// Save a file using the current document value. Returns true if successful.
 	bool SaveFile() const;
 	/// Load a file using the given filename. Returns true if successful.
-	bool LoadFile( const char * filename, GXmlEncoding encoding = GXML_DEFAULT_ENCODING );
+	bool LoadFile(const char * filename, GXmlEncoding encoding = GXML_DEFAULT_ENCODING);
 	/// Save a file using the given filename. Returns true if successful.
-	bool SaveFile( const char * filename ) const;
+	bool SaveFile(const char * filename) const;
 	/** Load a file using the given FILE*. Returns true if successful. Note that this method
 		doesn't stream - the entire object pointed at by the FILE*
 		will be interpreted as an XML file. GnyXML doesn't stream in XML from the current
 		file location. Streaming may be added in the future.
 	*/
-	bool LoadFile( FILE*, GXmlEncoding encoding = GXML_DEFAULT_ENCODING );
+	bool LoadFile(FILE*, GXmlEncoding encoding = GXML_DEFAULT_ENCODING);
 	/// Save a file using the given FILE*. Returns true if successful.
-	bool SaveFile( FILE* ) const;
+	bool SaveFile(FILE*) const;
 
-	#ifdef GXML_USE_STL
-	bool LoadFile( const std::string& filename, GXmlEncoding encoding = GXML_DEFAULT_ENCODING )			///< STL std::string version.
+	bool LoadFile(const std::string& filename, GXmlEncoding encoding = GXML_DEFAULT_ENCODING)			///< STL std::string version.
 	{
-		return LoadFile( filename.c_str(), encoding );
+		return LoadFile(filename.c_str(), encoding);
 	}
-	bool SaveFile( const std::string& filename ) const		///< STL std::string version.
+    
+	bool SaveFile(const std::string& filename) const		///< STL std::string version.
 	{
-		return SaveFile( filename.c_str() );
+		return SaveFile(filename.c_str());
 	}
-	#endif
 
 	/** Parse the given null terminated block of xml data. Passing in an encoding to this
 		method (either GXML_ENCODING_LEGACY or GXML_ENCODING_UTF8 will force GnyXml
 		to use that encoding, regardless of what GnyXml might otherwise try to detect.
 	*/
-	virtual const char* Parse( const char* p, GXmlParsingData* data = 0, GXmlEncoding encoding = GXML_DEFAULT_ENCODING );
+	virtual const char* Parse(const char* p, 
+		GXmlParsingData* data = 0, 
+		GXmlEncoding encoding = GXML_DEFAULT_ENCODING );
 
 	/** Get the root element -- the only top level element -- of the document.
 		In well formed XML, there should only be one. GnyXml is tolerant of
 		multiple elements at the document level.
 	*/
-	const GXmlElement* RootElement() const		{ return FirstChildElement(); }
-	GXmlElement* RootElement()					{ return FirstChildElement(); }
+	const GXmlElement* RootElement() const { return FirstChildElement(); }
+	GXmlElement* RootElement() { return FirstChildElement(); }
 
 	/** If an error occurs, Error will be set to true. Also,
 		- The ErrorId() will contain the integer identifier of the error (not generally useful)
 		- The ErrorDesc() method will return the name of the error. (very useful)
 		- The ErrorRow() and ErrorCol() will return the location of the error (if known)
 	*/	
-	bool Error() const						{ return error; }
+	bool Error() const { return error; }
 
 	/// Contains a textual (english) description of the error if one occurs.
-	const char * ErrorDesc() const	{ return errorDesc.c_str (); }
+	const char * ErrorDesc() const { return errorDesc.c_str(); }
 
 	/** Generally, you probably want the error string ( ErrorDesc() ). But if you
 		prefer the ErrorId, this function will fetch it.
 	*/
-	int ErrorId()	const				{ return errorId; }
+	int ErrorId() const { return errorId; }
 
 	/** Returns the location (if known) of the error. The first column is column 1, 
 		and the first row is row 1. A value of 0 means the row and column wasn't applicable
@@ -1416,8 +1500,8 @@ public:
 
 		@sa SetTabSize, Row, Column
 	*/
-	int ErrorRow() const	{ return errorLocation.row+1; }
-	int ErrorCol() const	{ return errorLocation.col+1; }	///< The column where the error occured. See ErrorRow()
+	int ErrorRow() const { return errorLocation.row + 1; }
+	int ErrorCol() const { return errorLocation.col + 1; }	///< The column where the error occured. See ErrorRow()
 
 	/** SetTabSize() allows the error reporting functions (ErrorRow() and ErrorCol())
 		to report the correct values for row and column. It does not change the output
@@ -1443,22 +1527,23 @@ public:
 
 		@sa Row, Column
 	*/
-	void SetTabSize( int _tabsize )		{ tabsize = _tabsize; }
+	void SetTabSize(int _tabsize) { tabsize = _tabsize; }
 
 	int TabSize() const	{ return tabsize; }
 
 	/** If you have handled the error, it can be reset with this call. The error
 		state is automatically cleared if you Parse a new XML block.
 	*/
-	void ClearError()						{	error = false; 
-												errorId = 0; 
-												errorDesc = ""; 
-												errorLocation.row = errorLocation.col = 0; 
-												//errorLocation.last = 0; 
-											}
+	void ClearError()						
+	{	
+		error = false; 
+		errorId = 0; 
+		errorDesc = ""; 
+		errorLocation.row = errorLocation.col = 0; 
+	}
 
 	/** Write the document to standard out using formatted printing ("pretty print"). */
-	void Print() const						{ Print( stdout, 0 ); }
+	void Print() const { Print(stdout, 0); }
 
 	/* Write the document to a string using formatted printing ("pretty print"). This
 		will allocate a character array (new char[]) and return it as a pointer. The
@@ -1467,33 +1552,34 @@ public:
 	//char* PrintToMemory() const; 
 
 	/// Print this Document to a FILE stream.
-	virtual void Print( FILE* cfile, int depth = 0 ) const;
+	virtual void Print(FILE* cfile, int depth = 0) const;
 	// [internal use]
-	void SetError( int err, const char* errorLocation, GXmlParsingData* prevData, GXmlEncoding encoding );
+	void SetError(int err, 
+		const char* errorLocation, 
+		GXmlParsingData* prevData, 
+		GXmlEncoding encoding);
 
-	virtual const GXmlDocument*    ToDocument()    const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
-	virtual GXmlDocument*          ToDocument()          { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual const GXmlDocument* ToDocument() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual GXmlDocument* ToDocument() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
 
 	/** Walk the XML tree visiting this node and all of its children. 
 	*/
-	virtual bool Accept( GXmlVisitor* content ) const;
+	virtual bool Accept(GXmlVisitor* content) const;
 
 protected :
 	// [internal use]
 	virtual GXmlNode* Clone() const;
-	#ifdef GXML_USE_STL
-	virtual void StreamIn( std::istream * in, std::string * tag );
-	#endif
+	virtual void StreamIn(std::istream * in, std::string * tag);
 
 private:
-	void CopyTo( GXmlDocument* target ) const;
+	void CopyTo(GXmlDocument* target) const;
 
-	bool error;
-	int  errorId;
+	bool 		error;
+	int  		errorId;
 	std::string errorDesc;
-	int tabsize;
-	GXmlCursor errorLocation;
-	bool useMicrosoftBOM;		// the UTF-8 BOM were found when read. Note this, and try to write.
+	int 		tabsize;
+	GXmlCursor 	errorLocation;
+	bool 		useMicrosoftBOM;		// the UTF-8 BOM were found when read. Note this, and try to write.
 };
 
 
@@ -1581,76 +1667,107 @@ class GXmlHandle
 {
 public:
 	/// Create a handle from any node (at any depth of the tree.) This can be a null pointer.
-	GXmlHandle( GXmlNode* _node )					{ this->node = _node; }
+	GXmlHandle(GXmlNode* _node)	{ this->node = _node; }
 	/// Copy constructor
-	GXmlHandle( const GXmlHandle& ref )			{ this->node = ref.node; }
-	GXmlHandle operator=( const GXmlHandle& ref ) { if ( &ref != this ) this->node = ref.node; return *this; }
+	GXmlHandle(const GXmlHandle& ref) { this->node = ref.node; }
+	GXmlHandle operator=(const GXmlHandle& ref) 
+    { 
+    	if (&ref != this) 
+        {
+        	this->node = ref.node;
+            return *this; 
+        }
+    }
 
 	/// Return a handle to the first child node.
 	GXmlHandle FirstChild() const;
 	/// Return a handle to the first child node with the given name.
-	GXmlHandle FirstChild( const char * value ) const;
+	GXmlHandle FirstChild(const char* value) const;
 	/// Return a handle to the first child element.
 	GXmlHandle FirstChildElement() const;
 	/// Return a handle to the first child element with the given name.
-	GXmlHandle FirstChildElement( const char * value ) const;
+	GXmlHandle FirstChildElement(const char * value) const;
 
 	/** Return a handle to the "index" child with the given name. 
 		The first child is 0, the second 1, etc.
 	*/
-	GXmlHandle Child( const char* value, int index ) const;
+	GXmlHandle Child(const char* value, int index) const;
 	/** Return a handle to the "index" child. 
 		The first child is 0, the second 1, etc.
 	*/
-	GXmlHandle Child( int index ) const;
+	GXmlHandle Child(int index) const;
 	/** Return a handle to the "index" child element with the given name. 
 		The first child element is 0, the second 1, etc. Note that only GXmlElements
 		are indexed: other types are not counted.
 	*/
-	GXmlHandle ChildElement( const char* value, int index ) const;
+	GXmlHandle ChildElement(const char* value, int index) const;
 	/** Return a handle to the "index" child element. 
 		The first child element is 0, the second 1, etc. Note that only GXmlElements
 		are indexed: other types are not counted.
 	*/
-	GXmlHandle ChildElement( int index ) const;
+	GXmlHandle ChildElement(int index) const;
 
-	#ifdef GXML_USE_STL
-	GXmlHandle FirstChild( const std::string& _value ) const				{ return FirstChild( _value.c_str() ); }
-	GXmlHandle FirstChildElement( const std::string& _value ) const		{ return FirstChildElement( _value.c_str() ); }
+	GXmlHandle FirstChild(const std::string& _value) const 
+    { 
+    	return FirstChild(_value.c_str()); 
+    }
+    
+	GXmlHandle FirstChildElement(const std::string& _value) const 
+    { 
+    	return FirstChildElement(_value.c_str()); 
+    }
 
-	GXmlHandle Child( const std::string& _value, int index ) const			{ return Child( _value.c_str(), index ); }
-	GXmlHandle ChildElement( const std::string& _value, int index ) const	{ return ChildElement( _value.c_str(), index ); }
-	#endif
+	GXmlHandle Child(const std::string& _value, int index) const			
+    { 
+    	return Child(_value.c_str(), index ); 
+    }
+    
+	GXmlHandle ChildElement(const std::string& _value, int index) const	
+    { 
+    	return ChildElement(_value.c_str(), index); 
+    }
 
 	/** Return the handle as a GXmlNode. This may return null.
 	*/
-	GXmlNode* ToNode() const			{ return node; } 
+	GXmlNode* ToNode() const { return node; } 
 	/** Return the handle as a GXmlElement. This may return null.
 	*/
-	GXmlElement* ToElement() const		{ return ( ( node && node->ToElement() ) ? node->ToElement() : 0 ); }
+	
+	GXmlElement* ToElement() const 
+	{ 
+		return ((node && node->ToElement()) ? node->ToElement() : 0); 
+    }
+    
 	/**	Return the handle as a GXmlText. This may return null.
 	*/
-	GXmlText* ToText() const			{ return ( ( node && node->ToText() ) ? node->ToText() : 0 ); }
+	GXmlText* ToText() const			
+	{ 
+		return ((node && node->ToText()) ? node->ToText() : 0); 
+    }
+    
 	/** Return the handle as a GXmlUnknown. This may return null.
 	*/
-	GXmlUnknown* ToUnknown() const		{ return ( ( node && node->ToUnknown() ) ? node->ToUnknown() : 0 ); }
+	GXmlUnknown* ToUnknown() const	
+	{ 
+		return ((node && node->ToUnknown() ) ? node->ToUnknown() : 0); 
+    }
 
 	/** @deprecated use ToNode. 
 		Return the handle as a GXmlNode. This may return null.
 	*/
-	GXmlNode* Node() const			{ return ToNode(); } 
+	GXmlNode* Node() const { return ToNode(); } 
 	/** @deprecated use ToElement. 
 		Return the handle as a GXmlElement. This may return null.
 	*/
-	GXmlElement* Element() const	{ return ToElement(); }
+	GXmlElement* Element() const { return ToElement(); }
 	/**	@deprecated use ToText()
 		Return the handle as a GXmlText. This may return null.
 	*/
-	GXmlText* Text() const			{ return ToText(); }
+	GXmlText* Text() const { return ToText(); }
 	/** @deprecated use ToUnknown()
 		Return the handle as a GXmlUnknown. This may return null.
 	*/
-	GXmlUnknown* Unknown() const	{ return ToUnknown(); }
+	GXmlUnknown* Unknown() const { return ToUnknown(); }
 
 private:
 	GXmlNode* node;
@@ -1679,61 +1796,71 @@ private:
 class GXmlPrinter : public GXmlVisitor
 {
 public:
-	GXmlPrinter() : depth( 0 ), simpleTextPrint( false ),
-					 buffer(), indent( "    " ), lineBreak( "\n" ) {}
+	GXmlPrinter() 
+        : depth(0)
+        , simpleTextPrint(false)
+        , buffer()
+        , indent("")
+        , lineBreak("\n") {}
 
-	virtual bool VisitEnter( const GXmlDocument& doc );
-	virtual bool VisitExit( const GXmlDocument& doc );
+	virtual bool VisitEnter(const GXmlDocument& doc);
+	virtual bool VisitExit(const GXmlDocument& doc);
 
-	virtual bool VisitEnter( const GXmlElement& element, const GXmlAttribute* firstAttribute );
-	virtual bool VisitExit( const GXmlElement& element );
+	virtual bool VisitEnter(const GXmlElement& element, const GXmlAttribute* firstAttribute);
+	virtual bool VisitExit(const GXmlElement& element);
 
-	virtual bool Visit( const GXmlDeclaration& declaration );
-	virtual bool Visit( const GXmlText& text );
-	virtual bool Visit( const GXmlComment& comment );
-	virtual bool Visit( const GXmlUnknown& unknown );
+	virtual bool Visit(const GXmlDeclaration& declaration);
+	virtual bool Visit(const GXmlText& text);
+	virtual bool Visit(const GXmlComment& comment);
+	virtual bool Visit(const GXmlUnknown& unknown);
 
 	/** Set the indent characters for printing. By default 4 spaces
 		but tab (\t) is also useful, or null/empty string for no indentation.
 	*/
-	void SetIndent( const char* _indent )			{ indent = _indent ? _indent : "" ; }
+	void SetIndent(const char* _indent)	{ indent = _indent ? _indent : ""; }
 	/// Query the indention string.
-	const char* Indent()							{ return indent.c_str(); }
+	const char* Indent() { return indent.c_str(); }
 	/** Set the line breaking string. By default set to newline (\n). 
 		Some operating systems prefer other characters, or can be
 		set to the null/empty string for no indenation.
 	*/
-	void SetLineBreak( const char* _lineBreak )		{ lineBreak = _lineBreak ? _lineBreak : ""; }
+	void SetLineBreak(const char* _lineBreak) { lineBreak = _lineBreak ? _lineBreak : ""; }
 	/// Query the current line breaking string.
-	const char* LineBreak()							{ return lineBreak.c_str(); }
+	const char* LineBreak()	{ return lineBreak.c_str(); }
 
 	/** Switch over to "stream printing" which is the most dense formatting without 
 		linebreaks. Common when the XML is needed for network transmission.
 	*/
-	void SetStreamPrinting()						{ indent = "";
-													  lineBreak = "";
-													}	
+	void SetStreamPrinting()						
+	{ 
+		indent = "";
+		lineBreak = "";
+	}	
+    
 	/// Return the result.
-	const char* CStr()								{ return buffer.c_str(); }
+	const char* CStr() { return buffer.c_str(); }
 	/// Return the length of the result string.
-	size_t Size()									{ return buffer.size(); }
+	size_t Size() { return buffer.size(); }
 
-	#ifdef GXML_USE_STL
 	/// Return the result.
-	const std::string& Str()						{ return buffer; }
-	#endif
+	const std::string& Str() { return buffer; }
 
 private:
-	void DoIndent()	{
-		for( int i=0; i<depth; ++i )
+	void DoIndent()	
+    {
+		for(int i = 0; i < depth; i++)
+        {
 			buffer += indent;
+        }
 	}
-	void DoLineBreak() {
+    
+	void DoLineBreak() 
+    {
 		buffer += lineBreak;
 	}
 
-	int depth;
-	bool simpleTextPrint;
+	int 		depth;
+	bool 		simpleTextPrint;
 	std::string buffer;
 	std::string indent;
 	std::string lineBreak;

@@ -17,30 +17,28 @@
 #include <ctype.h>
 #include <sstream>
 #include <iostream>
-#include <tinyxml.h>
+#include <g_xml.h>
 
-FILE* GXmlFOpen( const char* filename, const char* mode );
-
-bool GXmlBase::condenseWhiteSpace = true;
+// bool GXmlBase::condenseWhiteSpace = true;
 
 // Microsoft compiler security
-FILE* GXmlFOpen( const char* filename, const char* mode )
+FILE* GXmlFOpen(const char* filename, const char* mode)
 {
-	return fopen( filename, mode );
+	return fopen(filename, mode);
 }
 
-void GXmlBase::EncodeString( const std::string& str, std::string* outString )
+void GXmlBase::EncodeString(const std::string& str, std::string* outString)
 {
 	int i=0;
 
-	while( i<(int)str.length() )
+	while(i < (int)str.length())
 	{
-		unsigned char c = (unsigned char) str[i];
+		unsigned char c = (unsigned char)str[i];
 
-		if (    c == '&' 
-		     && i < ( (int)str.length() - 2 )
-			 && str[i+1] == '#'
-			 && str[i+2] == 'x' )
+		if (c == '&' 
+			&& i < ((int)str.length() - 2)
+			&& str[i+1] == '#'
+			&& str[i+2] == 'x')
 		{
 			// Hexadecimal character reference.
 			// Pass through unchanged.
@@ -52,54 +50,49 @@ void GXmlBase::EncodeString( const std::string& str, std::string* outString )
 			// while fails (error case) and break (semicolon found).
 			// However, there is no mechanism (currently) for
 			// this function to return an error.
-			while ( i<(int)str.length()-1 )
+			while (i < (int)str.length() - 1)
 			{
-				outString->append( str.c_str() + i, 1 );
+				outString->append(str.c_str() + i, 1);
 				++i;
-				if ( str[i] == ';' )
+				if (str[i] == ';')
 					break;
 			}
 		}
-		else if ( c == '&' )
+		else if (c == '&')
 		{
-			outString->append( entity[0].str, entity[0].strLength );
+			outString->append(entity[0].str, entity[0].strLength);
 			++i;
 		}
-		else if ( c == '<' )
+		else if (c == '<')
 		{
-			outString->append( entity[1].str, entity[1].strLength );
+			outString->append(entity[1].str, entity[1].strLength);
 			++i;
 		}
-		else if ( c == '>' )
+		else if (c == '>')
 		{
-			outString->append( entity[2].str, entity[2].strLength );
+			outString->append(entity[2].str, entity[2].strLength);
 			++i;
 		}
-		else if ( c == '\"' )
+		else if (c == '\"')
 		{
-			outString->append( entity[3].str, entity[3].strLength );
+			outString->append(entity[3].str, entity[3].strLength);
 			++i;
 		}
-		else if ( c == '\'' )
+		else if (c == '\'')
 		{
-			outString->append( entity[4].str, entity[4].strLength );
+			outString->append(entity[4].str, entity[4].strLength);
 			++i;
 		}
-		else if ( c < 32 )
+		else if (c < 32)
 		{
 			// Easy pass at non-alpha/numeric/symbol
 			// Below 32 is symbolic.
-			char buf[ 32 ];
-			
-			#if defined(GXML_SNPRINTF)		
-				GXML_SNPRINTF( buf, sizeof(buf), "&#x%02X;", (unsigned) ( c & 0xff ) );
-			#else
-				sprintf( buf, "&#x%02X;", (unsigned) ( c & 0xff ) );
-			#endif		
+			char buf[32] = {0};
+			snprintf(buf, sizeof(buf), "&#x%02X;", (unsigned)(c & 0xff));	
 
 			//*ME:	warning C4267: convert 'size_t' to 'int'
 			//*ME:	Int-Cast to make compiler happy ...
-			outString->append( buf, (int)strlen( buf ) );
+			outString->append(buf, (int)strlen(buf));
 			++i;
 		}
 		else
@@ -141,7 +134,7 @@ GXmlNode::~GXmlNode()
 void GXmlNode::CopyTo( GXmlNode* target ) const
 {
 	target->SetValue (value.c_str() );
-	target->userData = userData; 
+	target->m_userData = m_userData; 
 	target->location = location;
 }
 
@@ -389,7 +382,6 @@ const GXmlNode* GXmlNode::IterateChildren( const char * val, const GXmlNode* pre
 	}
 }
 
-
 const GXmlNode* GXmlNode::NextSibling( const char * _value ) const 
 {
 	const GXmlNode* node;
@@ -416,12 +408,8 @@ const GXmlNode* GXmlNode::PreviousSibling( const char * _value ) const
 
 void GXmlElement::RemoveAttribute( const char * name )
 {
-    #ifdef GXML_USE_STL
 	std::string str( name );
 	GXmlAttribute* node = attributeSet.Find( str );
-	#else
-	GXmlAttribute* node = attributeSet.Find( name );
-	#endif
 	if ( node )
 	{
 		attributeSet.Remove( node );
@@ -510,15 +498,12 @@ GXmlElement::GXmlElement (const char * _value)
 }
 
 
-#ifdef GXML_USE_STL
 GXmlElement::GXmlElement( const std::string& _value ) 
 	: GXmlNode( GXmlNode::GNYXML_ELEMENT )
 {
 	firstChild = lastChild = 0;
 	value = _value;
 }
-#endif
-
 
 GXmlElement::GXmlElement( const GXmlElement& copy)
 	: GXmlNode( GXmlNode::GNYXML_ELEMENT )
@@ -563,7 +548,6 @@ const char* GXmlElement::Attribute( const char* name ) const
 }
 
 
-#ifdef GXML_USE_STL
 const std::string* GXmlElement::Attribute( const std::string& name ) const
 {
 	const GXmlAttribute* attrib = attributeSet.Find( name );
@@ -571,8 +555,6 @@ const std::string* GXmlElement::Attribute( const std::string& name ) const
 		return &attrib->ValueStr();
 	return 0;
 }
-#endif
-
 
 const char* GXmlElement::Attribute( const char* name, int* i ) const
 {
@@ -589,7 +571,6 @@ const char* GXmlElement::Attribute( const char* name, int* i ) const
 }
 
 
-#ifdef GXML_USE_STL
 const std::string* GXmlElement::Attribute( const std::string& name, int* i ) const
 {
 	const GXmlAttribute* attrib = attributeSet.Find( name );
@@ -603,8 +584,6 @@ const std::string* GXmlElement::Attribute( const std::string& name, int* i ) con
 	}
 	return result;
 }
-#endif
-
 
 const char* GXmlElement::Attribute( const char* name, double* d ) const
 {
@@ -621,7 +600,6 @@ const char* GXmlElement::Attribute( const char* name, double* d ) const
 }
 
 
-#ifdef GXML_USE_STL
 const std::string* GXmlElement::Attribute( const std::string& name, double* d ) const
 {
 	const GXmlAttribute* attrib = attributeSet.Find( name );
@@ -635,8 +613,6 @@ const std::string* GXmlElement::Attribute( const std::string& name, double* d ) 
 	}
 	return result;
 }
-#endif
-
 
 int GXmlElement::QueryIntAttribute( const char* name, int* ival ) const
 {
@@ -686,7 +662,6 @@ int GXmlElement::QueryBoolAttribute( const char* name, bool* bval ) const
 
 
 
-#ifdef GXML_USE_STL
 int GXmlElement::QueryIntAttribute( const std::string& name, int* ival ) const
 {
 	const GXmlAttribute* attrib = attributeSet.Find( name );
@@ -694,7 +669,6 @@ int GXmlElement::QueryIntAttribute( const std::string& name, int* ival ) const
 		return GXML_NO_ATTRIBUTE;
 	return attrib->QueryIntValue( ival );
 }
-#endif
 
 
 int GXmlElement::QueryDoubleAttribute( const char* name, double* dval ) const
@@ -706,7 +680,6 @@ int GXmlElement::QueryDoubleAttribute( const char* name, double* dval ) const
 }
 
 
-#ifdef GXML_USE_STL
 int GXmlElement::QueryDoubleAttribute( const std::string& name, double* dval ) const
 {
 	const GXmlAttribute* attrib = attributeSet.Find( name );
@@ -714,7 +687,6 @@ int GXmlElement::QueryDoubleAttribute( const std::string& name, double* dval ) c
 		return GXML_NO_ATTRIBUTE;
 	return attrib->QueryDoubleValue( dval );
 }
-#endif
 
 
 void GXmlElement::SetAttribute( const char * name, int val )
@@ -726,7 +698,6 @@ void GXmlElement::SetAttribute( const char * name, int val )
 }
 
 
-#ifdef GXML_USE_STL
 void GXmlElement::SetAttribute( const std::string& name, int val )
 {	
 	GXmlAttribute* attrib = attributeSet.FindOrCreate( name );
@@ -734,7 +705,6 @@ void GXmlElement::SetAttribute( const std::string& name, int val )
 		attrib->SetIntValue( val );
 	}
 }
-#endif
 
 
 void GXmlElement::SetDoubleAttribute( const char * name, double val )
@@ -746,7 +716,6 @@ void GXmlElement::SetDoubleAttribute( const char * name, double val )
 }
 
 
-#ifdef GXML_USE_STL
 void GXmlElement::SetDoubleAttribute( const std::string& name, double val )
 {	
 	GXmlAttribute* attrib = attributeSet.FindOrCreate( name );
@@ -754,8 +723,6 @@ void GXmlElement::SetDoubleAttribute( const std::string& name, double val )
 		attrib->SetDoubleValue( val );
 	}
 }
-#endif 
-
 
 void GXmlElement::SetAttribute( const char * cname, const char * cvalue )
 {
@@ -766,7 +733,6 @@ void GXmlElement::SetAttribute( const char * cname, const char * cvalue )
 }
 
 
-#ifdef GXML_USE_STL
 void GXmlElement::SetAttribute( const std::string& _name, const std::string& _value )
 {
 	GXmlAttribute* attrib = attributeSet.FindOrCreate( _name );
@@ -774,7 +740,6 @@ void GXmlElement::SetAttribute( const std::string& _name, const std::string& _va
 		attrib->SetValue( _value );
 	}
 }
-#endif
 
 
 void GXmlElement::Print( FILE* cfile, int depth ) const
@@ -906,7 +871,6 @@ GXmlDocument::GXmlDocument( const char * documentName ) : GXmlNode( GXmlNode::GN
 }
 
 
-#ifdef GXML_USE_STL
 GXmlDocument::GXmlDocument( const std::string& documentName ) : GXmlNode( GXmlNode::GNYXML_DOCUMENT )
 {
 	tabsize = 4;
@@ -914,7 +878,6 @@ GXmlDocument::GXmlDocument( const std::string& documentName ) : GXmlNode( GXmlNo
     value = documentName;
 	ClearError();
 }
-#endif
 
 
 GXmlDocument::GXmlDocument( const GXmlDocument& copy ) : GXmlNode( GXmlNode::GNYXML_DOCUMENT )
@@ -1230,8 +1193,8 @@ int GXmlAttribute::QueryDoubleValue( double* dval ) const
 void GXmlAttribute::SetIntValue( int _value )
 {
 	char buf [64];
-	#if defined(GXML_SNPRINTF)		
-		GXML_SNPRINTF(buf, sizeof(buf), "%d", _value);
+	#if defined(snprintf)		
+		snprintf(buf, sizeof(buf), "%d", _value);
 	#else
 		sprintf (buf, "%d", _value);
 	#endif
@@ -1241,8 +1204,8 @@ void GXmlAttribute::SetIntValue( int _value )
 void GXmlAttribute::SetDoubleValue( double _value )
 {
 	char buf [256];
-	#if defined(GXML_SNPRINTF)		
-		GXML_SNPRINTF( buf, sizeof(buf), "%g", _value);
+	#if defined(snprintf)		
+		snprintf( buf, sizeof(buf), "%g", _value);
 	#else
 		sprintf (buf, "%g", _value);
 	#endif
@@ -1367,7 +1330,6 @@ GXmlDeclaration::GXmlDeclaration( const char * _version,
 }
 
 
-#ifdef GXML_USE_STL
 GXmlDeclaration::GXmlDeclaration(	const std::string& _version,
 									const std::string& _encoding,
 									const std::string& _standalone )
@@ -1377,7 +1339,6 @@ GXmlDeclaration::GXmlDeclaration(	const std::string& _version,
 	encoding = _encoding;
 	standalone = _standalone;
 }
-#endif
 
 
 GXmlDeclaration::GXmlDeclaration( const GXmlDeclaration& copy )
@@ -1493,11 +1454,7 @@ GXmlAttributeSet::~GXmlAttributeSet()
 
 void GXmlAttributeSet::Add( GXmlAttribute* addMe )
 {
-    #ifdef GXML_USE_STL
 	assert( !Find( std::string( addMe->Name() ) ) );	// Shouldn't be multiply adding to the set.
-	#else
-	assert( !Find( addMe->Name() ) );	// Shouldn't be multiply adding to the set.
-	#endif
 
 	addMe->next = &sentinel;
 	addMe->prev = sentinel.prev;
@@ -1525,7 +1482,6 @@ void GXmlAttributeSet::Remove( GXmlAttribute* removeMe )
 }
 
 
-#ifdef GXML_USE_STL
 GXmlAttribute* GXmlAttributeSet::Find( const std::string& name ) const
 {
 	for( GXmlAttribute* node = sentinel.next; node != &sentinel; node = node->next )
@@ -1546,8 +1502,6 @@ GXmlAttribute* GXmlAttributeSet::FindOrCreate( const std::string& _name )
 	}
 	return attrib;
 }
-#endif
-
 
 GXmlAttribute* GXmlAttributeSet::Find( const char* name ) const
 {
@@ -1572,7 +1526,6 @@ GXmlAttribute* GXmlAttributeSet::FindOrCreate( const char* _name )
 }
 
 
-#ifdef GXML_USE_STL	
 std::istream& operator>> (std::istream & in, GXmlNode & base)
 {
 	std::string tag;
@@ -1582,10 +1535,7 @@ std::istream& operator>> (std::istream & in, GXmlNode & base)
 	base.Parse( tag.c_str(), 0, GXML_DEFAULT_ENCODING );
 	return in;
 }
-#endif
 
-
-#ifdef GXML_USE_STL	
 std::ostream& operator<< (std::ostream & out, const GXmlNode & base)
 {
 	GXmlPrinter printer;
@@ -1606,8 +1556,6 @@ std::string& operator<< (std::string& out, const GXmlNode& base )
 
 	return out;
 }
-#endif
-
 
 GXmlHandle GXmlHandle::FirstChild() const
 {
