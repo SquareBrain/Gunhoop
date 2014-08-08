@@ -833,14 +833,12 @@ void GXmlElement::CopyTo(GXmlElement* target) const
 
 	// Element class: 
 	// Clone the attributes, then clone the children.
-	const GXmlAttribute* attribute = attributeSet.First();
-	for (; attribute != nullptr; attribute = attribute->Next())
+	for (const GXmlAttribute* attribute = attributeSet.First(); attribute != nullptr; attribute = attribute->Next())
 	{
 		target->SetAttribute(attribute->Name(), attribute->Value());
 	}
 
-	GXmlNode* node = firstChild;
-	for (; node != nullptr; node = node->NextSibling())
+	for (GXmlNode* node = firstChild; node != nullptr; node = node->NextSibling())
 	{
 		target->LinkEndChild(node->Clone());
 	}
@@ -853,7 +851,9 @@ bool GXmlElement::Accept(GXmlVisitor* visitor) const
 		for (const GXmlNode* node = FirstChild(); node != nullptr; node = node->NextSibling())
 		{
 			if (!node->Accept(visitor))
+            {
 				break;
+            }
 		}
 	}
     
@@ -864,9 +864,12 @@ GXmlNode* GXmlElement::Clone() const
 {
 	GXmlElement* clone = new GXmlElement(Value());
 	if (clone == nullptr)
+    {
 		return 0;
+    }
 
 	CopyTo(clone);
+    
 	return clone;
 }
 
@@ -927,7 +930,7 @@ bool GXmlDocument::LoadFile(GXmlEncoding encoding)
 
 bool GXmlDocument::SaveFile() const
 {
-	return SaveFile( Value() );
+	return SaveFile(Value());
 }
 
 bool GXmlDocument::LoadFile(const char* _filename, GXmlEncoding encoding)
@@ -1097,8 +1100,7 @@ void GXmlDocument::CopyTo(GXmlDocument* target) const
 	target->errorLocation = errorLocation;
 	target->useMicrosoftBOM = useMicrosoftBOM;
 
-	GXmlNode* node = firstChild;
-	for (; node != nullptr; node = node->NextSibling())
+	for (GXmlNode* node = firstChild; node != nullptr; node = node->NextSibling())
 	{
 		target->LinkEndChild(node->Clone());
 	}	
@@ -1108,9 +1110,12 @@ GXmlNode* GXmlDocument::Clone() const
 {
 	GXmlDocument* clone = new GXmlDocument();
 	if (clone == nullptr)
+    {
 		return 0;
+    }
 
 	CopyTo(clone);
+    
 	return clone;
 }
 
@@ -1131,7 +1136,9 @@ bool GXmlDocument::Accept(GXmlVisitor* visitor) const
 		for (const GXmlNode* node = FirstChild(); node != nullptr; node = node->NextSibling())
 		{
 			if (!node->Accept(visitor))
+            {
 				break;
+            }
 		}
 	}
     
@@ -1148,41 +1155,22 @@ const GXmlAttribute* GXmlAttribute::Next() const
 	return next;
 }
 
-/*
-GXmlAttribute* GXmlAttribute::Next()
-{
-	// We are using knowledge of the sentinel. The sentinel
-	// have a value or name.
-	if ( next->value.empty() && next->name.empty() )
-		return 0;
-	return next;
-}
-*/
-
 const GXmlAttribute* GXmlAttribute::Previous() const
 {
 	// We are using knowledge of the sentinel. The sentinel
 	// have a value or name.
 	if (prev->value.empty() && prev->name.empty())
+    {
 		return 0;
+    }
     
 	return prev;
 }
 
-/*
-GXmlAttribute* GXmlAttribute::Previous()
-{
-	// We are using knowledge of the sentinel. The sentinel
-	// have a value or name.
-	if ( prev->value.empty() && prev->name.empty() )
-		return 0;
-	return prev;
-}
-*/
-
 void GXmlAttribute::Print(FILE* cfile, int /*depth*/, std::string* str) const
 {
-	std::string n, v;
+	std::string n;
+    std::string v;
 
 	EncodeString(name, &n);
 	EncodeString(value, &v);
@@ -1219,7 +1207,9 @@ void GXmlAttribute::Print(FILE* cfile, int /*depth*/, std::string* str) const
 int GXmlAttribute::QueryIntValue(int* ival) const
 {
 	if (sscanf(value.c_str(), "%d", ival) == 1)
+    {
 		return GXML_SUCCESS;
+    }
     
 	return GXML_WRONG_TYPE;
 }
@@ -1227,7 +1217,9 @@ int GXmlAttribute::QueryIntValue(int* ival) const
 int GXmlAttribute::QueryDoubleValue(double* dval) const
 {
 	if (sscanf(value.c_str(), "%lf", dval) == 1)
+    {
 		return GXML_SUCCESS;
+    }
     
 	return GXML_WRONG_TYPE;
 }
@@ -1239,7 +1231,7 @@ void GXmlAttribute::SetIntValue(int _value)
 	SetValue(buf);
 }
 
-void GXmlAttribute::SetDoubleValue( double _value )
+void GXmlAttribute::SetDoubleValue(double _value)
 {
 	char buf [256] = {0};
 	snprintf(buf, sizeof(buf), "%g", _value);
@@ -1251,7 +1243,7 @@ int GXmlAttribute::IntValue() const
 	return atoi(value.c_str());
 }
 
-double  GXmlAttribute::DoubleValue() const
+double GXmlAttribute::DoubleValue() const
 {
 	return atof(value.c_str());
 }
@@ -1260,7 +1252,6 @@ GXmlComment::GXmlComment(const GXmlComment& copy) : GXmlNode(GXmlNode::GNYXML_CO
 {
 	copy.CopyTo(this);
 }
-
 
 GXmlComment& GXmlComment::operator=(const GXmlComment& base)
 {
@@ -1296,9 +1287,12 @@ GXmlNode* GXmlComment::Clone() const
 	GXmlComment* clone = new GXmlComment();
 
 	if (clone == nullptr)
+    {
 		return 0;
+    }
 
 	CopyTo(clone);
+    
 	return clone;
 }
 
@@ -1341,9 +1335,12 @@ GXmlNode* GXmlText::Clone() const
 	clone = new GXmlText("");
 
 	if (clone == nullptr)
+    {
 		return 0;
+    }
 
 	CopyTo(clone);
+    
 	return clone;
 }
 
@@ -1359,7 +1356,7 @@ GXmlDeclaration::GXmlDeclaration(const char* _version,
 
 GXmlDeclaration::GXmlDeclaration(const std::string& _version,
 	const std::string& _encoding,
-	const std::string& _standalone )
+	const std::string& _standalone)
 	: GXmlNode(GXmlNode::GNYXML_DECLARAGON)
 {
 	version = _version;
@@ -1383,15 +1380,21 @@ GXmlDeclaration& GXmlDeclaration::operator=(const GXmlDeclaration& copy)
 void GXmlDeclaration::Print(FILE* cfile, int /*depth*/, std::string* str) const
 {
 	if (cfile != nullptr) 
+    {
         fprintf(cfile, "<?xml ");
+    }
     
 	if (str != nullptr)	
+    {
         (*str) += "<?xml ";
+    }
 
 	if (!version.empty()) 
     {
 		if (cfile != nullptr) 
+        {
             fprintf(cfile, "version=\"%s\" ", version.c_str());
+        }
         
 		if (str != nullptr) 
         { 
@@ -1403,8 +1406,10 @@ void GXmlDeclaration::Print(FILE* cfile, int /*depth*/, std::string* str) const
     
 	if (!encoding.empty()) 
     {
-		if (cfile != nullptr) 
+		if (cfile != nullptr)
+        {
             fprintf(cfile, "encoding=\"%s\" ", encoding.c_str());
+        }
         
 		if (str != nullptr) 
         { 
@@ -1417,7 +1422,9 @@ void GXmlDeclaration::Print(FILE* cfile, int /*depth*/, std::string* str) const
 	if (!standalone.empty()) 
     {
 		if (cfile != nullptr) 
+        {
         	fprintf(cfile, "standalone=\"%s\" ", standalone.c_str());
+        }
         
 		if (str != nullptr) 
         { 
@@ -1428,16 +1435,19 @@ void GXmlDeclaration::Print(FILE* cfile, int /*depth*/, std::string* str) const
 	}
     
 	if (cfile != nullptr) 
+    {
         fprintf(cfile, "?>");
+    }
     
 	if (str != nullptr)	
+    {
         (*str) += "?>";
+    }
 }
 
 void GXmlDeclaration::CopyTo(GXmlDeclaration* target) const
 {
 	GXmlNode::CopyTo(target);
-
 	target->version = version;
 	target->encoding = encoding;
 	target->standalone = standalone;
@@ -1453,16 +1463,21 @@ GXmlNode* GXmlDeclaration::Clone() const
 	GXmlDeclaration* clone = new GXmlDeclaration();
 
 	if (clone == nullptr)
+    {
 		return 0;
+    }
 
 	CopyTo(clone);
+    
 	return clone;
 }
 
 void GXmlUnknown::Print(FILE* cfile, int depth) const
 {
 	for (int i = 0; i < depth; i++)
+    {
 		fprintf(cfile, " ");
+    }
     
 	fprintf(cfile, "<%s>", value.c_str());
 }
@@ -1482,9 +1497,12 @@ GXmlNode* GXmlUnknown::Clone() const
 	GXmlUnknown* clone = new GXmlUnknown();
 
 	if (clone == nullptr)
+    {
 		return 0;
+    }
 
 	CopyTo(clone);
+    
 	return clone;
 }
 
@@ -1502,11 +1520,9 @@ GXmlAttributeSet::~GXmlAttributeSet()
 
 void GXmlAttributeSet::Add(GXmlAttribute* addMe)
 {
-	assert(!Find(std::string( addMe->Name())));	// Shouldn't be multiply adding to the set.
-
+	assert(!Find(std::string(addMe->Name())));	// Shouldn't be multiply adding to the set.
 	addMe->next = &sentinel;
 	addMe->prev = sentinel.prev;
-
 	sentinel.prev->next = addMe;
 	sentinel.prev = addMe;
 }
@@ -1515,7 +1531,7 @@ void GXmlAttributeSet::Remove(GXmlAttribute* removeMe)
 {
 	for (GXmlAttribute* node = sentinel.next; node != &sentinel; node = node->next)
 	{
-		if ( node == removeMe )
+		if (node == removeMe)
 		{
 			node->prev->next = node->next;
 			node->next->prev = node->prev;
@@ -1533,7 +1549,9 @@ GXmlAttribute* GXmlAttributeSet::Find(const std::string& name) const
 	for (GXmlAttribute* node = sentinel.next; node != &sentinel; node = node->next)
 	{
 		if (node->name == name)
+        {
 			return node;
+        }
 	}
     
 	return 0;
@@ -1557,7 +1575,9 @@ GXmlAttribute* GXmlAttributeSet::Find(const char* name) const
 	for (GXmlAttribute* node = sentinel.next; node != &sentinel; node = node->next)
 	{
 		if (strcmp(node->name.c_str(), name) == 0)
+        {
 			return node;
+        }
 	}
     
 	return 0;
@@ -1576,184 +1596,189 @@ GXmlAttribute* GXmlAttributeSet::FindOrCreate(const char* _name)
 	return attrib;
 }
 
-std::istream& operator>> (std::istream & in, GXmlNode & base)
+std::istream& operator >>(std::istream& in, GXmlNode& base)
 {
 	std::string tag;
-	tag.reserve( 8 * 1000 );
-	base.StreamIn( &in, &tag );
-
-	base.Parse( tag.c_str(), 0, GXML_DEFAULT_ENCODING );
+	tag.reserve(8 * 1000);
+	base.StreamIn(&in, &tag);
+	base.Parse(tag.c_str(), 0, GXML_DEFAULT_ENCODING);
 	return in;
 }
 
-std::ostream& operator<< (std::ostream & out, const GXmlNode & base)
+std::ostream& operator <<(std::ostream& out, const GXmlNode& base)
 {
 	GXmlPrinter printer;
 	printer.SetStreamPrinting();
-	base.Accept( &printer );
+	base.Accept(&printer);
 	out << printer.Str();
-
 	return out;
 }
 
 
-std::string& operator<< (std::string& out, const GXmlNode& base )
+std::string& operator <<(std::string& out, const GXmlNode& base)
 {
 	GXmlPrinter printer;
 	printer.SetStreamPrinting();
-	base.Accept( &printer );
-	out.append( printer.Str() );
-
+	base.Accept(&printer);
+	out.append(printer.Str());
 	return out;
 }
 
 GXmlHandle GXmlHandle::FirstChild() const
 {
-	if ( node )
+	if (node != nullptr)
 	{
 		GXmlNode* child = node->FirstChild();
-		if ( child )
-			return GXmlHandle( child );
+		if (child != nullptr)
+        {
+			return GXmlHandle(child);
+        }
 	}
-	return GXmlHandle( 0 );
+    
+	return GXmlHandle(0);
 }
 
-
-GXmlHandle GXmlHandle::FirstChild( const char * value ) const
+GXmlHandle GXmlHandle::FirstChild(const char* value) const
 {
-	if ( node )
+	if (node != nullptr)
 	{
-		GXmlNode* child = node->FirstChild( value );
-		if ( child )
-			return GXmlHandle( child );
+		GXmlNode* child = node->FirstChild(value);
+		if (child != nullptr)
+        {
+			return GXmlHandle(child);
+        }
 	}
-	return GXmlHandle( 0 );
+    
+	return GXmlHandle(0);
 }
-
 
 GXmlHandle GXmlHandle::FirstChildElement() const
 {
-	if ( node )
+	if (node != nullptr)
 	{
 		GXmlElement* child = node->FirstChildElement();
-		if ( child )
-			return GXmlHandle( child );
+		if (child != nullptr)
+        {
+			return GXmlHandle(child);
+        }
 	}
-	return GXmlHandle( 0 );
+    
+	return GXmlHandle(0);
 }
 
-
-GXmlHandle GXmlHandle::FirstChildElement( const char * value ) const
+GXmlHandle GXmlHandle::FirstChildElement(const char* value) const
 {
-	if ( node )
+	if (node != nullptr)
 	{
-		GXmlElement* child = node->FirstChildElement( value );
-		if ( child )
-			return GXmlHandle( child );
+		GXmlElement* child = node->FirstChildElement(value);
+		if (child != nullptr)
+        {
+			return GXmlHandle(child);
+        }
 	}
-	return GXmlHandle( 0 );
+    
+	return GXmlHandle(0);
 }
 
-
-GXmlHandle GXmlHandle::Child( int count ) const
+GXmlHandle GXmlHandle::Child(int count) const
 {
-	if ( node )
+	if (node != nullptr)
 	{
-		int i;
 		GXmlNode* child = node->FirstChild();
-		for (	i=0;
-				child && i<count;
-				child = child->NextSibling(), ++i )
+		for (int i = 0; child != nullptr && i < count; child = child->NextSibling(), i++)
 		{
 			// nothing
 		}
-		if ( child )
-			return GXmlHandle( child );
+        
+		if (child != nullptr)
+        {
+			return GXmlHandle(child);
+        }
 	}
-	return GXmlHandle( 0 );
+    
+	return GXmlHandle(0);
 }
 
-
-GXmlHandle GXmlHandle::Child( const char* value, int count ) const
+GXmlHandle GXmlHandle::Child(const char* value, int count) const
 {
-	if ( node )
+	if (node != nullptr)
 	{
-		int i;
-		GXmlNode* child = node->FirstChild( value );
-		for (	i=0;
-				child && i<count;
-				child = child->NextSibling( value ), ++i )
+		GXmlNode* child = node->FirstChild(value);
+		for (int i = 0; child && i<count; child = child->NextSibling(value), i++)
 		{
 			// nothing
 		}
-		if ( child )
-			return GXmlHandle( child );
+        
+		if (child != nullptr)
+        {
+			return GXmlHandle(child);
+        }
 	}
-	return GXmlHandle( 0 );
+    
+	return GXmlHandle(0);
 }
 
-
-GXmlHandle GXmlHandle::ChildElement( int count ) const
+GXmlHandle GXmlHandle::ChildElement(int count) const
 {
-	if ( node )
+	if (node)
 	{
-		int i;
 		GXmlElement* child = node->FirstChildElement();
-		for (	i=0;
-				child && i<count;
-				child = child->NextSiblingElement(), ++i )
+		for (int i = 0; child != nullptr && i < count; child = child->NextSiblingElement(), i++)
 		{
 			// nothing
 		}
-		if ( child )
-			return GXmlHandle( child );
+        
+		if (child != nullptr)
+        {
+			return GXmlHandle(child);
+        }
 	}
-	return GXmlHandle( 0 );
+    
+	return GXmlHandle(0);
 }
 
-
-GXmlHandle GXmlHandle::ChildElement( const char* value, int count ) const
+GXmlHandle GXmlHandle::ChildElement(const char* value, int count) const
 {
-	if ( node )
+	if (node)
 	{
-		int i;
-		GXmlElement* child = node->FirstChildElement( value );
-		for (	i=0;
-				child && i<count;
-				child = child->NextSiblingElement( value ), ++i )
+		GXmlElement* child = node->FirstChildElement(value);
+		for (int i = 0; child != nullptr && i < count; child = child->NextSiblingElement(value), i++)
 		{
 			// nothing
 		}
-		if ( child )
-			return GXmlHandle( child );
+        
+		if (child != nullptr)
+        {
+			return GXmlHandle(child);
+        }
 	}
-	return GXmlHandle( 0 );
+    
+	return GXmlHandle(0);
 }
 
-
-bool GXmlPrinter::VisitEnter( const GXmlDocument& )
+bool GXmlPrinter::VisitEnter(const GXmlDocument&)
 {
 	return true;
 }
 
-bool GXmlPrinter::VisitExit( const GXmlDocument& )
+bool GXmlPrinter::VisitExit(const GXmlDocument&)
 {
 	return true;
 }
 
-bool GXmlPrinter::VisitEnter( const GXmlElement& element, const GXmlAttribute* firstAttribute )
+bool GXmlPrinter::VisitEnter(const GXmlElement& element, const GXmlAttribute* firstAttribute)
 {
 	DoIndent();
 	buffer += "<";
 	buffer += element.Value();
 
-	for( const GXmlAttribute* attrib = firstAttribute; attrib; attrib = attrib->Next() )
+	for (const GXmlAttribute* attrib = firstAttribute; attrib != nullptr; attrib = attrib->Next())
 	{
 		buffer += " ";
-		attrib->Print( 0, 0, &buffer );
+		attrib->Print(0, 0, &buffer);
 	}
 
-	if ( !element.FirstChild() ) 
+	if (element.FirstChild() == nullptr) 
 	{
 		buffer += " />";
 		DoLineBreak();
@@ -1761,33 +1786,33 @@ bool GXmlPrinter::VisitEnter( const GXmlElement& element, const GXmlAttribute* f
 	else 
 	{
 		buffer += ">";
-		if (    element.FirstChild()->ToText()
-			  && element.LastChild() == element.FirstChild()
-			  && element.FirstChild()->ToText()->CDATA() == false )
+		if (element.FirstChild()->ToText()
+			&& element.LastChild() == element.FirstChild()
+			&& element.FirstChild()->ToText()->CDATA() == false)
 		{
 			simpleTextPrint = true;
-			// no DoLineBreak()!
 		}
 		else
 		{
 			DoLineBreak();
 		}
 	}
-	++depth;	
+    
+	++depth;
+    
 	return true;
 }
 
-
-bool GXmlPrinter::VisitExit( const GXmlElement& element )
+bool GXmlPrinter::VisitExit(const GXmlElement& element)
 {
 	--depth;
-	if ( !element.FirstChild() ) 
+	if (element.FirstChild() == nullptr) 
 	{
 		// nothing.
 	}
 	else 
 	{
-		if ( simpleTextPrint )
+		if (simpleTextPrint)
 		{
 			simpleTextPrint = false;
 		}
@@ -1795,18 +1820,19 @@ bool GXmlPrinter::VisitExit( const GXmlElement& element )
 		{
 			DoIndent();
 		}
+        
 		buffer += "</";
 		buffer += element.Value();
 		buffer += ">";
 		DoLineBreak();
 	}
+    
 	return true;
 }
 
-
-bool GXmlPrinter::Visit( const GXmlText& text )
+bool GXmlPrinter::Visit(const GXmlText& text)
 {
-	if ( text.CDATA() )
+	if (text.CDATA())
 	{
 		DoIndent();
 		buffer += "<![CDATA[";
@@ -1814,34 +1840,33 @@ bool GXmlPrinter::Visit( const GXmlText& text )
 		buffer += "]]>";
 		DoLineBreak();
 	}
-	else if ( simpleTextPrint )
+	else if (simpleTextPrint)
 	{
 		std::string str;
-		GXmlBase::EncodeString( text.ValueTStr(), &str );
+		GXmlBase::EncodeString(text.ValueTStr(), &str);
 		buffer += str;
 	}
 	else
 	{
 		DoIndent();
 		std::string str;
-		GXmlBase::EncodeString( text.ValueTStr(), &str );
+		GXmlBase::EncodeString(text.ValueTStr(), &str);
 		buffer += str;
 		DoLineBreak();
 	}
+    
 	return true;
 }
 
-
-bool GXmlPrinter::Visit( const GXmlDeclaration& declaration )
+bool GXmlPrinter::Visit(const GXmlDeclaration& declaration)
 {
 	DoIndent();
-	declaration.Print( 0, 0, &buffer );
+	declaration.Print(0, 0, &buffer);
 	DoLineBreak();
 	return true;
 }
 
-
-bool GXmlPrinter::Visit( const GXmlComment& comment )
+bool GXmlPrinter::Visit(const GXmlComment& comment)
 {
 	DoIndent();
 	buffer += "<!--";
@@ -1851,8 +1876,7 @@ bool GXmlPrinter::Visit( const GXmlComment& comment )
 	return true;
 }
 
-
-bool GXmlPrinter::Visit( const GXmlUnknown& unknown )
+bool GXmlPrinter::Visit(const GXmlUnknown& unknown)
 {
 	DoIndent();
 	buffer += "<";
@@ -1861,4 +1885,3 @@ bool GXmlPrinter::Visit( const GXmlUnknown& unknown )
 	DoLineBreak();
 	return true;
 }
-
