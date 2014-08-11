@@ -23,8 +23,7 @@
 // It also cleans up the code a bit.
 //
 
-const char* GXmlBase::errorString[ GXmlBase::GXML_ERROR_STRING_COUNT ] =
-{
+const char* GXmlBase::errorString[GXmlBase::GXML_ERROR_STRING_COUNT]{
 	"No error",
 	"Error",
 	"Failed to open file",
