@@ -1377,34 +1377,31 @@ public:
 
 	GXmlUnknown(const GXmlUnknown& copy) : GXmlNode(GXmlNode::GNYXML_UNKNOWN)		
     { 
-    	copy.CopyTo(this); 
+    	copy.copyTo(this); 
     }
     
-	GXmlUnknown& operator=(const GXmlUnknown& copy)										
+	GXmlUnknown& operator = (const GXmlUnknown& copy)										
     { 
-    	copy.CopyTo(this); 
+    	copy.copyTo(this); 
         return *this; 
     }
 
 	/// Creates a copy of this Unknown and returns it.
-	virtual GXmlNode* Clone() const;
+	virtual GXmlNode* clone() const;
 	// Print this Unknown to a FILE stream.
-	virtual void Print(FILE* cfile, int depth) const;
-
-	virtual const char* Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
-
-	virtual const GXmlUnknown* ToUnknown() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
-	virtual GXmlUnknown* ToUnknown() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual void print(FILE* cfile, int depth) const;
+	virtual const char* parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
+	virtual const GXmlUnknown* toUnknown() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual GXmlUnknown* toUnknown() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
 
 	/** Walk the XML tree visiting this node and all of its children. 
 	*/
-	virtual bool Accept(GXmlVisitor* content) const;
+	virtual bool accept(GXmlVisitor* content) const;
 
 protected:
-	void CopyTo(GXmlUnknown* target) const;
-	virtual void StreamIn(std::istream* in, std::string* tag);
+	void copyTo(GXmlUnknown* target) const;
+	virtual void streamIn(std::istream* in, std::string* tag);
 };
-
 
 /** Always the top level node. A document binds together all the
 	XML pieces. It can be saved, loaded, and printed to the screen.
@@ -1416,13 +1413,12 @@ public:
 	/// Create an empty document, that has no name.
 	GXmlDocument();
 	/// Create a document with a name. The name of the document is also the filename of the xml.
-	GXmlDocument(const char * documentName);
+	GXmlDocument(const char* documentName);
 
 	/// Constructor.
 	GXmlDocument(const std::string& documentName);
-
 	GXmlDocument(const GXmlDocument& copy);
-	GXmlDocument& operator=(const GXmlDocument& copy);
+	GXmlDocument& operator = (const GXmlDocument& copy);
 
 	virtual ~GXmlDocument() {}
 
@@ -1430,61 +1426,59 @@ public:
 		Returns true if successful. Will delete any existing
 		document data before loading.
 	*/
-	bool LoadFile(GXmlEncoding encoding = GXML_DEFAULT_ENCODING);
+	bool loadFile(GXmlEncoding encoding = GXML_DEFAULT_ENCODING);
 	/// Save a file using the current document value. Returns true if successful.
-	bool SaveFile() const;
+	bool saveFile() const;
 	/// Load a file using the given filename. Returns true if successful.
-	bool LoadFile(const char * filename, GXmlEncoding encoding = GXML_DEFAULT_ENCODING);
+	bool loadFile(const char* filename, GXmlEncoding encoding = GXML_DEFAULT_ENCODING);
 	/// Save a file using the given filename. Returns true if successful.
-	bool SaveFile(const char * filename) const;
+	bool saveFile(const char* filename) const;
 	/** Load a file using the given FILE*. Returns true if successful. Note that this method
 		doesn't stream - the entire object pointed at by the FILE*
 		will be interpreted as an XML file. GnyXML doesn't stream in XML from the current
 		file location. Streaming may be added in the future.
 	*/
-	bool LoadFile(FILE*, GXmlEncoding encoding = GXML_DEFAULT_ENCODING);
+	bool loadFile(FILE* file, GXmlEncoding encoding = GXML_DEFAULT_ENCODING);
 	/// Save a file using the given FILE*. Returns true if successful.
-	bool SaveFile(FILE*) const;
+	bool saveFile(FILE* file) const;
 
-	bool LoadFile(const std::string& filename, GXmlEncoding encoding = GXML_DEFAULT_ENCODING)			///< STL std::string version.
+	bool loadFile(const std::string& filename, GXmlEncoding encoding = GXML_DEFAULT_ENCODING)			///< STL std::string version.
 	{
-		return LoadFile(filename.c_str(), encoding);
+		return loadFile(filename.c_str(), encoding);
 	}
     
-	bool SaveFile(const std::string& filename) const		///< STL std::string version.
+	bool saveFile(const std::string& filename) const		///< STL std::string version.
 	{
-		return SaveFile(filename.c_str());
+		return saveFile(m_filename.c_str());
 	}
 
 	/** Parse the given null terminated block of xml data. Passing in an encoding to this
 		method (either GXML_ENCODING_LEGACY or GXML_ENCODING_UTF8 will force GnyXml
 		to use that encoding, regardless of what GnyXml might otherwise try to detect.
 	*/
-	virtual const char* Parse(const char* p, 
-		GXmlParsingData* data = 0, 
-		GXmlEncoding encoding = GXML_DEFAULT_ENCODING );
+	virtual const char* parse(const char* p, GXmlParsingData* data = 0, GXmlEncoding encoding = GXML_DEFAULT_ENCODING);
 
 	/** Get the root element -- the only top level element -- of the document.
 		In well formed XML, there should only be one. GnyXml is tolerant of
 		multiple elements at the document level.
 	*/
-	const GXmlElement* RootElement() const { return FirstChildElement(); }
-	GXmlElement* RootElement() { return FirstChildElement(); }
+	const GXmlElement* rootElement() const { return firstChildElement(); }
+	GXmlElement* rootElement() { return firstChildElement(); }
 
 	/** If an error occurs, Error will be set to true. Also,
 		- The ErrorId() will contain the integer identifier of the error (not generally useful)
 		- The ErrorDesc() method will return the name of the error. (very useful)
 		- The ErrorRow() and ErrorCol() will return the location of the error (if known)
 	*/	
-	bool Error() const { return error; }
+	bool error() const { return m_error; }
 
 	/// Contains a textual (english) description of the error if one occurs.
-	const char * ErrorDesc() const { return errorDesc.c_str(); }
+	const char* errorDesc() const { return m_errorDesc.c_str(); }
 
 	/** Generally, you probably want the error string ( ErrorDesc() ). But if you
 		prefer the ErrorId, this function will fetch it.
 	*/
-	int ErrorId() const { return errorId; }
+	int errorId() const { return m_errorId; }
 
 	/** Returns the location (if known) of the error. The first column is column 1, 
 		and the first row is row 1. A value of 0 means the row and column wasn't applicable
@@ -1493,8 +1487,8 @@ public:
 
 		@sa SetTabSize, Row, Column
 	*/
-	int ErrorRow() const { return errorLocation.row + 1; }
-	int ErrorCol() const { return errorLocation.col + 1; }	///< The column where the error occured. See ErrorRow()
+	int errorRow() const { return m_errorLocation.row + 1; }
+	int errorCol() const { return m_errorLocation.col + 1; }	///< The column where the error occured. See ErrorRow()
 
 	/** SetTabSize() allows the error reporting functions (ErrorRow() and ErrorCol())
 		to report the correct values for row and column. It does not change the output
@@ -1520,23 +1514,23 @@ public:
 
 		@sa Row, Column
 	*/
-	void SetTabSize(int _tabsize) { tabsize = _tabsize; }
+	void setTabSize(int tabsize) { m_tabsize = tabsize; }
 
-	int TabSize() const	{ return tabsize; }
+	int tabSize() const	{ return m_tabsize; }
 
 	/** If you have handled the error, it can be reset with this call. The error
 		state is automatically cleared if you Parse a new XML block.
 	*/
-	void ClearError()						
+	void clearError()						
 	{	
-		error = false; 
-		errorId = 0; 
-		errorDesc = ""; 
-		errorLocation.row = errorLocation.col = 0; 
+		m_error = false; 
+		m_errorId = 0; 
+		m_errorDesc = ""; 
+		m_errorLocation.row = m_errorLocation.col = 0; 
 	}
 
 	/** Write the document to standard out using formatted printing ("pretty print"). */
-	void Print() const { Print(stdout, 0); }
+	void print() const { print(stdout, 0); }
 
 	/* Write the document to a string using formatted printing ("pretty print"). This
 		will allocate a character array (new char[]) and return it as a pointer. The
@@ -1545,36 +1539,35 @@ public:
 	//char* PrintToMemory() const; 
 
 	/// Print this Document to a FILE stream.
-	virtual void Print(FILE* cfile, int depth = 0) const;
+	virtual void print(FILE* cfile, int depth = 0) const;
 	// [internal use]
 	void SetError(int err, 
 		const char* errorLocation, 
 		GXmlParsingData* prevData, 
 		GXmlEncoding encoding);
 
-	virtual const GXmlDocument* ToDocument() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
-	virtual GXmlDocument* ToDocument() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual const GXmlDocument* toDocument() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual GXmlDocument* toDocument() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
 
 	/** Walk the XML tree visiting this node and all of its children. 
 	*/
-	virtual bool Accept(GXmlVisitor* content) const;
+	virtual bool accept(GXmlVisitor* content) const;
 
 protected :
 	// [internal use]
-	virtual GXmlNode* Clone() const;
-	virtual void StreamIn(std::istream * in, std::string * tag);
+	virtual GXmlNode* clone() const;
+	virtual void streamIn(std::istream* in, std::string* tag);
 
 private:
-	void CopyTo(GXmlDocument* target) const;
+	void copyTo(GXmlDocument* target) const;
 
-	bool 		error;
-	int  		errorId;
-	std::string errorDesc;
-	int 		tabsize;
-	GXmlCursor 	errorLocation;
-	bool 		useMicrosoftBOM;		// the UTF-8 BOM were found when read. Note this, and try to write.
+	bool 		m_error;
+	int  		m_errorId;
+	std::string m_errorDesc;
+	int 		m_tabsize;
+	GXmlCursor 	m_errorLocation;
+	bool 		m_useMicrosoftBOM;		// the UTF-8 BOM were found when read. Note this, and try to write.
 };
-
 
 /**
 	A GXmlHandle is a class that wraps a node pointer with null checks; this is
@@ -1660,112 +1653,111 @@ class GXmlHandle
 {
 public:
 	/// Create a handle from any node (at any depth of the tree.) This can be a null pointer.
-	GXmlHandle(GXmlNode* _node)	{ this->node = _node; }
+	GXmlHandle(GXmlNode* node)	{ m_node = node; }
 	/// Copy constructor
-	GXmlHandle(const GXmlHandle& ref) { this->node = ref.node; }
+	GXmlHandle(const GXmlHandle& ref) { m_node = ref.m_node; }
 	GXmlHandle operator=(const GXmlHandle& ref) 
     { 
     	if (&ref != this) 
         {
-        	this->node = ref.node;
+        	m_node = ref.m_node;
             return *this; 
         }
     }
 
 	/// Return a handle to the first child node.
-	GXmlHandle FirstChild() const;
+	GXmlHandle firstChild() const;
 	/// Return a handle to the first child node with the given name.
-	GXmlHandle FirstChild(const char* value) const;
+	GXmlHandle firstChild(const char* value) const;
 	/// Return a handle to the first child element.
-	GXmlHandle FirstChildElement() const;
+	GXmlHandle firstChildElement() const;
 	/// Return a handle to the first child element with the given name.
-	GXmlHandle FirstChildElement(const char * value) const;
+	GXmlHandle firstChildElement(const char* value) const;
 
 	/** Return a handle to the "index" child with the given name. 
 		The first child is 0, the second 1, etc.
 	*/
-	GXmlHandle Child(const char* value, int index) const;
+	GXmlHandle child(const char* value, int index) const;
 	/** Return a handle to the "index" child. 
 		The first child is 0, the second 1, etc.
 	*/
-	GXmlHandle Child(int index) const;
+	GXmlHandle child(int index) const;
 	/** Return a handle to the "index" child element with the given name. 
 		The first child element is 0, the second 1, etc. Note that only GXmlElements
 		are indexed: other types are not counted.
 	*/
-	GXmlHandle ChildElement(const char* value, int index) const;
+	GXmlHandle childElement(const char* value, int index) const;
 	/** Return a handle to the "index" child element. 
 		The first child element is 0, the second 1, etc. Note that only GXmlElements
 		are indexed: other types are not counted.
 	*/
-	GXmlHandle ChildElement(int index) const;
+	GXmlHandle childElement(int index) const;
 
-	GXmlHandle FirstChild(const std::string& _value) const 
+	GXmlHandle firstChild(const std::string& value) const 
     { 
-    	return FirstChild(_value.c_str()); 
+    	return firstChild(value.c_str()); 
     }
     
-	GXmlHandle FirstChildElement(const std::string& _value) const 
+	GXmlHandle firstChildElement(const std::string& value) const 
     { 
-    	return FirstChildElement(_value.c_str()); 
+    	return firstChildElement(value.c_str()); 
     }
 
-	GXmlHandle Child(const std::string& _value, int index) const			
+	GXmlHandle child(const std::string& value, int index) const			
     { 
-    	return Child(_value.c_str(), index ); 
+    	return child(value.c_str(), index); 
     }
     
-	GXmlHandle ChildElement(const std::string& _value, int index) const	
+	GXmlHandle childElement(const std::string& value, int index) const	
     { 
-    	return ChildElement(_value.c_str(), index); 
+    	return childElement(value.c_str(), index); 
     }
 
 	/** Return the handle as a GXmlNode. This may return null.
 	*/
-	GXmlNode* ToNode() const { return node; } 
+	GXmlNode* toNode() const { return m_node; } 
 	/** Return the handle as a GXmlElement. This may return null.
 	*/
 	
-	GXmlElement* ToElement() const 
+	GXmlElement* toElement() const 
 	{ 
-		return ((node && node->ToElement()) ? node->ToElement() : 0); 
+		return ((m_node && m_node->toElement()) ? m_node->toElement() : 0); 
     }
     
 	/**	Return the handle as a GXmlText. This may return null.
 	*/
-	GXmlText* ToText() const			
+	GXmlText* toText() const			
 	{ 
-		return ((node && node->ToText()) ? node->ToText() : 0); 
+		return ((m_node && m_node->toText()) ? node->toText() : 0); 
     }
     
 	/** Return the handle as a GXmlUnknown. This may return null.
 	*/
-	GXmlUnknown* ToUnknown() const	
+	GXmlUnknown* toUnknown() const	
 	{ 
-		return ((node && node->ToUnknown() ) ? node->ToUnknown() : 0); 
+		return ((m_node && m_node->toUnknown() ) ? m_node->toUnknown() : 0); 
     }
 
 	/** @deprecated use ToNode. 
 		Return the handle as a GXmlNode. This may return null.
 	*/
-	GXmlNode* Node() const { return ToNode(); } 
+	GXmlNode* node() const { return toNode(); } 
 	/** @deprecated use ToElement. 
 		Return the handle as a GXmlElement. This may return null.
 	*/
-	GXmlElement* Element() const { return ToElement(); }
+	GXmlElement* element() const { return toElement(); }
 	/**	@deprecated use ToText()
 		Return the handle as a GXmlText. This may return null.
 	*/
-	GXmlText* Text() const { return ToText(); }
+	GXmlText* text() const { return toText(); }
 	/** @deprecated use ToUnknown()
 		Return the handle as a GXmlUnknown. This may return null.
 	*/
-	GXmlUnknown* Unknown() const { return ToUnknown(); }
+	GXmlUnknown* unknown() const { return toUnknown(); }
 
 private:
-	GXmlNode* node;
+	GXmlNode* m_node;
 };
-
 
 /** Print to memory functionality. The GXmlPrinter is useful when you need to:
 
@@ -1790,71 +1782,71 @@ class GXmlPrinter : public GXmlVisitor
 {
 public:
 	GXmlPrinter() 
-        : depth(0)
-        , simpleTextPrint(false)
-        , buffer()
-        , indent("")
-        , lineBreak("\n") {}
+        : m_depth(0)
+        , m_simpleTextPrint(false)
+        , m_buffer()
+        , m_indent("")
+        , m_lineBreak("\n") {}
 
-	virtual bool VisitEnter(const GXmlDocument& doc);
-	virtual bool VisitExit(const GXmlDocument& doc);
+	virtual bool visitEnter(const GXmlDocument& doc);
+	virtual bool visitExit(const GXmlDocument& doc);
+	
+	virtual bool visitEnter(const GXmlElement& element, const GXmlAttribute* firstAttribute);
+	virtual bool visitExit(const GXmlElement& element);
 
-	virtual bool VisitEnter(const GXmlElement& element, const GXmlAttribute* firstAttribute);
-	virtual bool VisitExit(const GXmlElement& element);
-
-	virtual bool Visit(const GXmlDeclaration& declaration);
-	virtual bool Visit(const GXmlText& text);
-	virtual bool Visit(const GXmlComment& comment);
-	virtual bool Visit(const GXmlUnknown& unknown);
+	virtual bool visit(const GXmlDeclaration& declaration);
+	virtual bool visit(const GXmlText& text);
+	virtual bool visit(const GXmlComment& comment);
+	virtual bool visit(const GXmlUnknown& unknown);
 
 	/** Set the indent characters for printing. By default 4 spaces
 		but tab (\t) is also useful, or null/empty string for no indentation.
 	*/
-	void SetIndent(const char* _indent)	{ indent = _indent ? _indent : ""; }
+	void setIndent(const char* indent)	{ m_indent = indent ? indent : ""; }
 	/// Query the indention string.
-	const char* Indent() { return indent.c_str(); }
+	const char* indent() { return m_indent.c_str(); }
 	/** Set the line breaking string. By default set to newline (\n). 
 		Some operating systems prefer other characters, or can be
 		set to the null/empty string for no indenation.
 	*/
-	void SetLineBreak(const char* _lineBreak) { lineBreak = _lineBreak ? _lineBreak : ""; }
+	void setLineBreak(const char* lineBreak) { m_lineBreak = lineBreak ? lineBreak : ""; }
 	/// Query the current line breaking string.
-	const char* LineBreak()	{ return lineBreak.c_str(); }
+	const char* lineBreak()	{ return m_lineBreak.c_str(); }
 
 	/** Switch over to "stream printing" which is the most dense formatting without 
 		linebreaks. Common when the XML is needed for network transmission.
 	*/
-	void SetStreamPrinting()						
+	void setStreamPrinting()						
 	{ 
-		indent = "";
-		lineBreak = "";
+		m_indent = "";
+		m_lineBreak = "";
 	}	
     
 	/// Return the result.
-	const char* CStr() { return buffer.c_str(); }
+	const char* cStr() { return m_buffer.c_str(); }
 	/// Return the length of the result string.
-	size_t Size() { return buffer.size(); }
+	size_t size() { return m_buffer.size(); }
 
 	/// Return the result.
-	const std::string& Str() { return buffer; }
+	const std::string& str() { return m_buffer; }
 
 private:
-	void DoIndent()	
+	void doIndent()	
     {
-		for(int i = 0; i < depth; i++)
+		for (int i = 0; i < depth; i++)
         {
-			buffer += indent;
+			m_buffer += m_indent;
         }
 	}
     
-	void DoLineBreak() 
+	void doLineBreak() 
     {
-		buffer += lineBreak;
+		m_buffer += m_lineBreak;
 	}
 
-	int 		depth;
-	bool 		simpleTextPrint;
-	std::string buffer;
-	std::string indent;
-	std::string lineBreak;
+	int 		m_depth;
+	bool 		m_simpleTextPrint;
+	std::string m_buffer;
+	std::string m_indent;
+	std::string m_lineBreak;
 };
