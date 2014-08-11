@@ -468,44 +468,44 @@ public:
 	GXmlNode* parent() { return m_parent; }
 	const GXmlNode* parent() const{ return m_parent; }
 
-	const GXmlNode* FirstChild() const { return firstChild; }	///< The first child of this node. Will be null if there are no children.
-	GXmlNode* FirstChild() { return firstChild; }
-	const GXmlNode* FirstChild(const char* value) const;			///< The first child of this node with the matching 'value'. Will be null if none found.
+	const GXmlNode* firstChild() const { return m_firstChild; }	///< The first child of this node. Will be null if there are no children.
+	GXmlNode* firstChild() { return m_firstChild; }
+	const GXmlNode* firstChild(const char* value) const;			///< The first child of this node with the matching 'value'. Will be null if none found.
 	/// The first child of this node with the matching 'value'. Will be null if none found.
-	GXmlNode* FirstChild(const char * _value) 
+	GXmlNode* firstChild(const char* value) 
 	{
 		// Call through to the const version - safe since nothing is changed. Exiting syntax: cast this to a const (always safe)
 		// call the method, cast the return back to non-const.
-		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->FirstChild(_value));
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->firstChild(value));
 	}
     
-	const GXmlNode* LastChild() const { return lastChild; }		/// The last child of this node. Will be null if there are no children.
-	GXmlNode* LastChild() { return lastChild; }
+	const GXmlNode* lastChild() const { return m_lastChild; }		/// The last child of this node. Will be null if there are no children.
+	GXmlNode* lastChild() { return m_lastChild; }
 	
-	const GXmlNode* LastChild(const char * value) const;			/// The last child of this node matching 'value'. Will be null if there are no children.
-	GXmlNode* LastChild(const char * _value) 
+	const GXmlNode* lastChild(const char* value) const;			/// The last child of this node matching 'value'. Will be null if there are no children.
+	GXmlNode* lastChild(const char* value) 
     {
-		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->LastChild(_value));
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->lastChild(value));
 	}
 
-	const GXmlNode* FirstChild(const std::string& _value) const	
+	const GXmlNode* FirstChild(const std::string& value) const	
     { 
-    	return FirstChild (_value.c_str ()); 
+    	return firstChild(value.c_str ()); 
     }    ///< STL std::string form.
     
-	GXmlNode* FirstChild(const std::string& _value)	
+	GXmlNode* firstChild(const std::string& value)	
     {   
-    	return FirstChild(_value.c_str()); 
+    	return firstChild(value.c_str()); 
     }  ///< STL std::string form.
     
-	const GXmlNode* LastChild(const std::string& _value) const
+	const GXmlNode* LastChild(const std::string& value) const
     { 
-    	return LastChild(_value.c_str ()); 
+    	return lastChild(value.c_str ()); 
     } ///< STL std::string form.
     
-	GXmlNode* LastChild(const std::string& _value)
+	GXmlNode* lastChild(const std::string& value)
     {   
-    	return LastChild(_value.c_str()); 
+    	return lastChild(value.c_str()); 
     }   ///< STL std::string form.
 
 	/** An alternate way to walk the children of a node.
@@ -524,33 +524,33 @@ public:
 		the next one. If the previous child is null, it returns the
 		first. IterateChildren will return null when done.
 	*/
-	const GXmlNode* IterateChildren(const GXmlNode* previous) const;
-	GXmlNode* IterateChildren(const GXmlNode* previous) 
+	const GXmlNode* iterateChildren(const GXmlNode* previous) const;
+	GXmlNode* iterateChildren(const GXmlNode* previous) 
     {
-		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->IterateChildren(previous));
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->iterateChildren(m_previous));
 	}
 
 	/// This flavor of IterateChildren searches for children with a particular 'value'
-	const GXmlNode* IterateChildren( const char * value, const GXmlNode* previous ) const;
-	GXmlNode* IterateChildren( const char * _value, const GXmlNode* previous ) 
+	const GXmlNode* iterateChildren(const char* value, const GXmlNode* previous) const;
+	GXmlNode* iterateChildren(const char* value, const GXmlNode* previous) 
     {
-		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->IterateChildren(_value, previous));
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->iterateChildren(value, previous));
 	}
 
-	const GXmlNode* IterateChildren(const std::string& _value, const GXmlNode* previous) const	
+	const GXmlNode* iterateChildren(const std::string& value, const GXmlNode* previous) const	
     {   
-    	return IterateChildren (_value.c_str (), previous); 
+    	return iterateChildren (value.c_str (), previous); 
     }   ///< STL std::string form.
     
-	GXmlNode* IterateChildren(const std::string& _value, const GXmlNode* previous) 
+	GXmlNode* iterateChildren(const std::string& value, const GXmlNode* previous) 
     {   
-    	return IterateChildren(_value.c_str(), previous); 
+    	return iterateChildren(value.c_str(), previous); 
     }   ///< STL std::string form.
 
 	/** Add a new node related to this. Adds a child past the LastChild.
 		Returns a pointer to the new object or NULL if an error occured.
 	*/
-	GXmlNode* InsertEndChild(const GXmlNode& addThis);
+	GXmlNode* insertEndChild(const GXmlNode& addThis);
 
 
 	/** Add a new node related to this. Adds a child past the LastChild.
@@ -562,28 +562,28 @@ public:
 
 		@sa InsertEndChild
 	*/
-	GXmlNode* LinkEndChild(GXmlNode* addThis);
+	GXmlNode* linkEndChild(GXmlNode* addThis);
 
 	/** Add a new node related to this. Adds a child before the specified child.
 		Returns a pointer to the new object or NULL if an error occured.
 	*/
-	GXmlNode* InsertBeforeChild(GXmlNode* beforeThis, const GXmlNode& addThis);
+	GXmlNode* insertBeforeChild(GXmlNode* beforeThis, const GXmlNode& addThis);
 
 	/** Add a new node related to this. Adds a child after the specified child.
 		Returns a pointer to the new object or NULL if an error occured.
 	*/
-	GXmlNode* InsertAfterChild(GXmlNode* afterThis, const GXmlNode& addThis);
+	GXmlNode* insertAfterChild(GXmlNode* afterThis, const GXmlNode& addThis);
 
 	/** Replace a child of this node.
 		Returns a pointer to the new object or NULL if an error occured.
 	*/
-	GXmlNode* ReplaceChild(GXmlNode* replaceThis, const GXmlNode& withThis);
+	GXmlNode* replaceChild(GXmlNode* replaceThis, const GXmlNode& withThis);
 
 	/// Delete a child of this node.
-	bool RemoveChild(GXmlNode* removeThis);
+	bool removeChild(GXmlNode* removeThis);
 
 	/// Navigate to a sibling node.
-	const GXmlNode* PreviousSibling() const	{ return prev; }
+	const GXmlNode* previousSibling() const	{ return prev; }
 	GXmlNode* PreviousSibling()	{ return prev; }
 
 	/// Navigate to a sibling node.
