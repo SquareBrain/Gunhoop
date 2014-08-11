@@ -27,10 +27,10 @@ FILE* GXmlFOpen(const char* filename, const char* mode)
 	return fopen(filename, mode);
 }
 
-void GXmlBase::EncodeString(const std::string& str, std::string* outString)
+void GXmlBase::encodeString(const std::string& str, std::string* outString)
 {
 	int i = 0;
-	while(i < (int)str.length())
+	while (i < (int)str.length())
 	{
 		unsigned char c = (unsigned char)str[i];
 		if (c == '&' 
@@ -105,20 +105,20 @@ void GXmlBase::EncodeString(const std::string& str, std::string* outString)
 	}
 }
 
-GXmlNode::GXmlNode(NodeType _type) : GXmlBase()
+GXmlNode::GXmlNode(NodeType type) : GXmlBase()
 {
-	parent = 0;
-	type = _type;
-	firstChild = 0;
-	lastChild = 0;
-	prev = 0;
-	next = 0;
+	m_parent = 0;
+	m_type = type;
+	m_firstChild = 0;
+	m_lastChild = 0;
+	m_prev = 0;
+	m_next = 0;
 }
 
 GXmlNode::~GXmlNode()
 {
-	GXmlNode* node = firstChild;
-	GXmlNode* temp = 0;
+	GXmlNode* node = m_firstChild;
+	GXmlNode* temp = nullptr;
 
 	while (node != nullptr)
 	{
@@ -128,17 +128,17 @@ GXmlNode::~GXmlNode()
 	}	
 }
 
-void GXmlNode::CopyTo(GXmlNode* target) const
+void GXmlNode::copyTo(GXmlNode* target) const
 {
-	target->SetValue(value.c_str());
+	target->setValue(m_value.c_str());
 	target->m_userData = m_userData; 
-	target->location = location;
+	target->m_location = m_location;
 }
 
 void GXmlNode::clear()
 {
-	GXmlNode* node = firstChild;
-	GXmlNode* temp = 0;
+	GXmlNode* node = m_firstChild;
+	GXmlNode* temp = nullptr;
 
 	while (node != nullptr)
 	{
@@ -147,95 +147,94 @@ void GXmlNode::clear()
 		delete temp;
 	}	
 
-	firstChild = 0;
-	lastChild = 0;
+	m_firstChild = nullptr;
+	m_lastChild = nullptr;
 }
 
-GXmlNode* GXmlNode::LinkEndChild(GXmlNode* node)
+GXmlNode* GXmlNode::linkEndChild(GXmlNode* node)
 {
-	assert(node->parent == 0 || node->parent == this);
-	assert(node->GetDocument() == 0 || node->GetDocument() == this->GetDocument());
+	assert(node->m_parent == 0 || node->m_parent == this);
+	assert(node->getDocument() == 0 || node->getDocument() == this->getDocument());
 
-	if (node->Type() == GXmlNode::GNYXML_DOCUMENT)
+	if (node->type() == GXmlNode::GNYXML_DOCUMENT)
 	{
 		delete node;
-        
-		if (GetDocument()) 
+		if (getDocument()) 
         {
-			GetDocument()->SetError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
+			getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
         }
         
 		return 0;
 	}
 
 	node->parent = this;
-	node->prev = lastChild;
-	node->next = 0;
+	node->prev = m_lastChild;
+	node->next = nullptr;
     
-	if (lastChild != nullptr)
+	if (m_lastChild != nullptr)
     {
-		lastChild->next = node;
+		m_lastChild->next = node;
     }
 	else
     {
-		firstChild = node;			// it was an empty list.
+		m_firstChild = node;			// it was an empty list.
 	}
 
-	lastChild = node;
+	m_lastChild = node;
     
 	return node;
 }
 
-GXmlNode* GXmlNode::InsertEndChild(const GXmlNode& addThis)
+GXmlNode* GXmlNode::insertEndChild(const GXmlNode& addThis)
 {
-	if (addThis.Type() == GXmlNode::GNYXML_DOCUMENT)
+	if (addThis.type() == GXmlNode::GNYXML_DOCUMENT)
 	{
-		if (GetDocument()) 
+		if (getDocument()) 
         {
-			GetDocument()->SetError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
+			getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
         }
         
 		return 0;
 	}
     
-	GXmlNode* node = addThis.Clone();
+	GXmlNode* node = addThis.clone();
 	if (node == nullptr)
     {
-		return 0;
+		return nullptr;
     }
 
-	return LinkEndChild(node);
+	return linkEndChild(node);
 }
 
-GXmlNode* GXmlNode::InsertBeforeChild(GXmlNode* beforeThis, const GXmlNode& addThis)
+GXmlNode* GXmlNode::insertBeforeChild(GXmlNode* beforeThis, const GXmlNode& addThis)
 {	
-	if (beforeThis == nullptr || beforeThis->parent != this) 
+	if (beforeThis == nullptr || beforeThis->m_parent != this) 
     {
 		return 0;
 	}
     
-	if (addThis.Type() == GXmlNode::GNYXML_DOCUMENT)
+	if (addThis.type() == GXmlNode::GNYXML_DOCUMENT)
 	{
-		if (GetDocument() != nullptr) 
+		if (getDocument() != nullptr) 
         {
-			GetDocument()->SetError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
+			getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
         }
         
 		return 0;
 	}
 
-	GXmlNode* node = addThis.Clone();
+	GXmlNode* node = addThis.clone();
 	if (node == nullptr)
     {
 		return 0;
     }
     
-	node->parent = this;
-	node->next = beforeThis;
-	node->prev = beforeThis->prev;
-	if (beforeThis->prev)
+	node->m_parent = this;
+	node->m_next = beforeThis;
+	node->m_prev = beforeThis->prev;
+	if (beforeThis->m_prev)
 	{
-		beforeThis->prev->next = node;
+		beforeThis->m_prev->m_next = node;
 	}
 	else
 	{
