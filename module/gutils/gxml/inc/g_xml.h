@@ -527,7 +527,7 @@ public:
 	const GXmlNode* iterateChildren(const GXmlNode* previous) const;
 	GXmlNode* iterateChildren(const GXmlNode* previous) 
     {
-		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->iterateChildren(m_previous));
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->iterateChildren(previous));
 	}
 
 	/// This flavor of IterateChildren searches for children with a particular 'value'
@@ -551,7 +551,6 @@ public:
 		Returns a pointer to the new object or NULL if an error occured.
 	*/
 	GXmlNode* insertEndChild(const GXmlNode& addThis);
-
 
 	/** Add a new node related to this. Adds a child past the LastChild.
 
@@ -583,137 +582,137 @@ public:
 	bool removeChild(GXmlNode* removeThis);
 
 	/// Navigate to a sibling node.
-	const GXmlNode* previousSibling() const	{ return prev; }
-	GXmlNode* PreviousSibling()	{ return prev; }
+	const GXmlNode* previousSibling() const	{ return m_prev; }
+	GXmlNode* previousSibling()	{ return m_prev; }
 
 	/// Navigate to a sibling node.
-	const GXmlNode* PreviousSibling(const char *) const;
-	GXmlNode* PreviousSibling(const char *_prev) 
+	const GXmlNode* previousSibling(const char* prev) const;
+	GXmlNode* previousSibling(const char* prev) 
     {
-		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->PreviousSibling(_prev));
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->PreviousSibling(prev));
 	}
 
-	const GXmlNode* PreviousSibling(const std::string& _value ) const	
+	const GXmlNode* previousSibling(const std::string& value) const	
     {   
-    	return PreviousSibling(_value.c_str());   
+    	return PreviousSibling(value.c_str());   
     }   ///< STL std::string form.
     
-	GXmlNode* PreviousSibling(const std::string& _value) 
+	GXmlNode* previousSibling(const std::string& value) 
     {   
-    	return PreviousSibling (_value.c_str ()); 
+    	return previousSibling(value.c_str()); 
     }   ///< STL std::string form.
     
-	const GXmlNode* NextSibling(const std::string& _value) const		
+	const GXmlNode* nextSibling(const std::string& value) const		
     {   
-    	return NextSibling (_value.c_str ());   
+    	return nextSibling(value.c_str());   
     }   ///< STL std::string form.
     
-	GXmlNode* NextSibling(const std::string& _value) 
+	GXmlNode* nextSibling(const std::string& value) 
     {   
-    	return NextSibling(_value.c_str());   
+    	return nextSibling(value.c_str());   
     }   ///< STL std::string form.
 
 	/// Navigate to a sibling node.
-	const GXmlNode* NextSibling() const	{ return next; }
-	GXmlNode* NextSibling()	{ return next; }
+	const GXmlNode* nextSibling() const	{ return m_next; }
+	GXmlNode* nextSibling()	{ return m_next; }
 
 	/// Navigate to a sibling node with the given 'value'.
-	const GXmlNode* NextSibling(const char*) const;
-	GXmlNode* NextSibling(const char* _next) 
+	const GXmlNode* nextSibling(const char* next) const;
+	GXmlNode* nextSibling(const char* next) 
     {
-		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->NextSibling(_next));
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->nextSibling(next));
 	}
 
 	/** Convenience function to get through elements.
 		Calls NextSibling and ToElement. Will skip all non-Element
 		nodes. Returns 0 if there is not another element.
 	*/
-	const GXmlElement* NextSiblingElement() const;
-	GXmlElement* NextSiblingElement() 
+	const GXmlElement* nextSiblingElement() const;
+	GXmlElement* nextSiblingElement() 
     {
-		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->NextSiblingElement());
+		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->nextSiblingElement());
 	}
 
 	/** Convenience function to get through elements.
 		Calls NextSibling and ToElement. Will skip all non-Element
 		nodes. Returns 0 if there is not another element.
 	*/
-	const GXmlElement* NextSiblingElement(const char*) const;
-	GXmlElement* NextSiblingElement(const char *_next) 
+	const GXmlElement* nextSiblingElement(const char* next) const;
+	GXmlElement* nextSiblingElement(const char* next) 
     {
-		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->NextSiblingElement(_next) );
+		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->nextSiblingElement(next) );
 	}
 
-	const GXmlElement* NextSiblingElement( const std::string& _value) const	
+	const GXmlElement* nextSiblingElement( const std::string& value) const	
 	{	
-		return NextSiblingElement(_value.c_str());	
+		return nextSiblingElement(value.c_str());	
     }	///< STL std::string form.
     
-	GXmlElement* NextSiblingElement(const std::string& _value)	
+	GXmlElement* nextSiblingElement(const std::string& value)	
     {   
-    	return NextSiblingElement(_value.c_str());    
+    	return nextSiblingElement(value.c_str());    
     }   ///< STL std::string form.
 
 	/// Convenience function to get through elements.
-	const GXmlElement* FirstChildElement()	const;
-	GXmlElement* FirstChildElement() 
+	const GXmlElement* firstChildElement()	const;
+	GXmlElement* firstChildElement() 
     {
-		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->FirstChildElement());
+		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->firstChildElement());
 	}
 
 	/// Convenience function to get through elements.
-	const GXmlElement* FirstChildElement(const char * _value) const;
-	GXmlElement* FirstChildElement(const char * _value) 
+	const GXmlElement* firstChildElement(const char* value) const;
+	GXmlElement* firstChildElement(const char* value) 
     {
-		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->FirstChildElement(_value));
+		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->firstChildElement(vvalue));
 	}
 
-	const GXmlElement* FirstChildElement(const std::string& _value) const	
+	const GXmlElement* firstChildElement(const std::string& value) const	
     {   
-    	return FirstChildElement(_value.c_str()); 
+    	return firstChildElement(value.c_str()); 
     }   ///< STL std::string form.
     
-	GXmlElement* FirstChildElement(const std::string& _value)
+	GXmlElement* firstChildElement(const std::string& value)
     {   
-    	return FirstChildElement(_value.c_str()); 
+    	return firstChildElement(value.c_str()); 
     }   ///< STL std::string form.
 
 	/** Query the type (as an enumerated value, above) of this node.
 		The possible types are: GNYXML_DOCUMENT, GNYXML_ELEMENT, GNYXML_COMMENT,
 								GNYXML_UNKNOWN, GNYXML_TEXT, and GNYXML_DECLARAGON.
 	*/
-	int Type() const { return type; }
+	int type() const { return m_type; }
 
 	/** Return a pointer to the Document this node lives in.
 		Returns null if not in a document.
 	*/
-	const GXmlDocument* GetDocument() const;
-	GXmlDocument* GetDocument() 
+	const GXmlDocument* getDocument() const;
+	GXmlDocument* getDocument() 
     {
-		return const_cast<GXmlDocument*>((const_cast<const GXmlNode*>(this))->GetDocument());
+		return const_cast<GXmlDocument*>((const_cast<const GXmlNode*>(this))->getDocument());
 	}
 
 	/// Returns true if this node has no children.
-	bool NoChildren() const	{ return !firstChild; }
+	bool noChildren() const	{ return !m_firstChild; }
 
-	virtual const GXmlDocument* ToDocument() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual const GXmlElement* ToElement() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual const GXmlComment* ToComment() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual const GXmlUnknown* ToUnknown() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual const GXmlText* ToText() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual const GXmlDeclaration* ToDeclaration() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual const GXmlDocument* toDocument() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual const GXmlElement* toElement() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual const GXmlComment* toComment() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual const GXmlUnknown* toUnknown() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual const GXmlText* toText() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual const GXmlDeclaration* toDeclaration() const { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
 
-	virtual GXmlDocument* ToDocument() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual GXmlElement* ToElement() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual GXmlComment* ToComment() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual GXmlUnknown* ToUnknown() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual GXmlText* ToText() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
-	virtual GXmlDeclaration* ToDeclaration() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual GXmlDocument* toDocument() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual GXmlElement* toElement() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual GXmlComment* toComment() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual GXmlUnknown* toUnknown() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual GXmlText* toText() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
+	virtual GXmlDeclaration* toDeclaration() { return 0; } ///< Cast to a more defined type. Will return null if not of the requested type.
 
 	/** Create an exact duplicate of this node and return it. The memory must be deleted
 		by the caller. 
 	*/
-	virtual GXmlNode* Clone() const = 0;
+	virtual GXmlNode* clone() const = 0;
 
 	/** Accept a hierchical visit the nodes in the GnyXML DOM. Every node in the 
 		XML tree will be conditionally visited and the host will be called back
@@ -737,37 +736,34 @@ public:
 		const char* xmlcstr = printer.CStr();
 		@endverbatim
 	*/
-	virtual bool Accept(GXmlVisitor* visitor) const = 0;
+	virtual bool accept(GXmlVisitor* visitor) const = 0;
 
 protected:
-	GXmlNode(NodeType _type);
+	GXmlNode(NodeType type);
 
 	// Copy to the allocated object. Shared functionality between Clone, Copy constructor,
 	// and the assignment operator.
-	void CopyTo(GXmlNode* target) const;
+	void copyTo(GXmlNode* target) const;
 
     // The real work of the input operator.
-	virtual void StreamIn(std::istream* in, std::string* tag) = 0;
+	virtual void streamIn(std::istream* in, std::string* tag) = 0;
 
 	// Figure out what is at *p, and parse it. Returns null if it is not an xml node.
-	GXmlNode* Identify(const char* start, GXmlEncoding encoding);
+	GXmlNode* identify(const char* start, GXmlEncoding encoding);
 
-	GXmlNode* 	parent;
-	NodeType 	type;
+	GXmlNode* 	m_parent;
+	NodeType 	m_type;
+	GXmlNode*	m_firstChild;
+	GXmlNode*	m_lastChild;
+	std::string	m_value;
 
-	GXmlNode*	firstChild;
-	GXmlNode*	lastChild;
-
-	std::string	value;
-
-	GXmlNode*	prev;
-	GXmlNode*	next;
+	GXmlNode*	m_prev;
+	GXmlNode*	m_next;
 
 private:
 	GXmlNode(const GXmlNode&);				// not implemented.
-	void operator=(const GXmlNode& base);	// not allowed.
+	void operator = (const GXmlNode& base);	// not allowed.
 };
-
 
 /** An attribute is a name-value pair. Elements have an arbitrary
 	number of attributes, each with a unique name.
