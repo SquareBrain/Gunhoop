@@ -780,36 +780,36 @@ public:
 	/// Construct an empty attribute.
 	GXmlAttribute() : GXmlBase()
 	{
-		document = 0;
-		prev = next = 0;
+		m_document = nullptr;
+		m_prev = next = nullptr;
 	}
 
 	/// std::string constructor.
-	GXmlAttribute(const std::string& _name, const std::string& _value)
+	GXmlAttribute(const std::string& name, const std::string& value)
 	{
-		name = _name;
-		value = _value;
-		document = 0;
-		prev = next = 0;
+		m_name = name;
+		m_value = value;
+		m_document = nullptr;
+		m_prev = m_next = nullptr;
 	}
 
 	/// Construct an attribute with a name and value.
-	GXmlAttribute(const char * _name, const char * _value)
+	GXmlAttribute(const char* name, const char* value)
 	{
-		name = _name;
-		value = _value;
-		document = 0;
-		prev = next = 0;
+		m_name = name;
+		m_value = value;
+		m_document = nullptr;
+		m_prev = next = nullptr;
 	}
 
-	const char*	Name() const { return name.c_str(); }		///< Return the name of this attribute.
-	const char*	Value() const { return value.c_str(); }		///< Return the value of this attribute.
-	const std::string& ValueStr() const	{ return value; }				///< Return the value of this attribute.
-	int	IntValue() const;									///< Return the value of this attribute, converted to an integer.
-	double DoubleValue() const;								///< Return the value of this attribute, converted to a double.
+	const char*	name() const { return m_name.c_str(); }		///< Return the name of this attribute.
+	const char*	value() const { return m_value.c_str(); }		///< Return the value of this attribute.
+	const std::string& valueStr() const	{ return m_value; }				///< Return the value of this attribute.
+	int	intValue() const;									///< Return the value of this attribute, converted to an integer.
+	double doubleValue() const;								///< Return the value of this attribute, converted to a double.
 
 	// Get the tinyxml string representation
-	const std::string& NameTStr() const { return name; }
+	const std::string& nameTStr() const { return m_name; }
 
 	/** QueryIntValue examines the value string. It is an alternative to the
 		IntValue() method with richer error checking.
@@ -820,67 +820,66 @@ public:
 		A specialized but useful call. Note that for success it returns 0,
 		which is the opposite of almost all other GnyXml calls.
 	*/
-	int QueryIntValue(int* _value) const;
+	int queryIntValue(int* value) const;
 	/// QueryDoubleValue examines the value string. See QueryIntValue().
-	int QueryDoubleValue(double* _value) const;
+	int queryDoubleValue(double* value) const;
 
-	void SetName(const char* _name)	{ name = _name; }				///< Set the name of this attribute.
-	void SetValue(const char* _value) { value = _value; }				///< Set the value.
+	void setName(const char* name)	{ m_name = name; }				///< Set the name of this attribute.
+	void setValue(const char* value) { m_value = value; }				///< Set the value.
 
-	void SetIntValue(int _value);										///< Set the value from an integer.
-	void SetDoubleValue(double _value);								///< Set the value from a double.
+	void setIntValue(int value);										///< Set the value from an integer.
+	void setDoubleValue(double value);								///< Set the value from a double.
 
 	/// STL std::string form.
-	void SetName(const std::string& _name) { name = _name; }	
+	void setName(const std::string& name) { m_name = name; }	
 	/// STL std::string form.	
-	void SetValue(const std::string& _value) { value = _value; }
+	void setValue(const std::string& value) { m_value = value; }
 
 	/// Get the next sibling attribute in the DOM. Returns null at end.
-	const GXmlAttribute* Next() const;
-	GXmlAttribute* Next() 
+	const GXmlAttribute* next() const;
+	GXmlAttribute* next() 
     {
-		return const_cast<GXmlAttribute*>((const_cast<const GXmlAttribute*>(this))->Next()); 
+		return const_cast<GXmlAttribute*>((const_cast<const GXmlAttribute*>(this))->next()); 
 	}
 
 	/// Get the previous sibling attribute in the DOM. Returns null at beginning.
-	const GXmlAttribute* Previous() const;
-	GXmlAttribute* Previous() 
+	const GXmlAttribute* previous() const;
+	GXmlAttribute* previous() 
     {
-		return const_cast<GXmlAttribute*>((const_cast<const GXmlAttribute*>(this))->Previous()); 
+		return const_cast<GXmlAttribute*>((const_cast<const GXmlAttribute*>(this))->previous()); 
 	}
 
-	bool operator==(const GXmlAttribute& rhs) const { return rhs.name == name; }
-	bool operator<(const GXmlAttribute& rhs) const { return name < rhs.name; }
-	bool operator>(const GXmlAttribute& rhs) const { return name > rhs.name; }
+	bool operator == (const GXmlAttribute& rhs) const { return rhs.m_name == m_name; }
+	bool operator < (const GXmlAttribute& rhs) const { return m_name < rhs.m_name; }
+	bool operator > (const GXmlAttribute& rhs) const { return m_name > rhs.name; }
 
 	/*	Attribute parsing starts: first letter of the name
 						 returns: the next char after the value end quote
 	*/
-	virtual const char* Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
+	virtual const char* parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
 
 	// Prints this Attribute to a FILE stream.
-	virtual void Print(FILE* cfile, int depth) const 
+	virtual void print(FILE* cfile, int depth) const 
 	{
-		Print(cfile, depth, 0);
+		print(cfile, depth, 0);
 	}
     
-	void Print(FILE* cfile, int depth, std::string* str) const;
+	void print(FILE* cfile, int depth, std::string* str) const;
 
 	// [internal use]
 	// Set the document pointer so the attribute can report errors.
-	void SetDocument(GXmlDocument* doc)	{ document = doc; }
+	void setDocument(GXmlDocument* doc)	{ m_document = doc; }
 
 private:
 	GXmlAttribute(const GXmlAttribute&);				// not implemented.
-	void operator=(const GXmlAttribute& base);	// not allowed.
+	void operator = (const GXmlAttribute& base);	// not allowed.
 
-	GXmlDocument*	document;	// A pointer back to a document, for error reporting.
-	std::string 	name;
-	std::string 	value;
-	GXmlAttribute*	prev;
-	GXmlAttribute*	next;
+	GXmlDocument*	m_document;	// A pointer back to a document, for error reporting.
+	std::string 	m_name;
+	std::string 	m_value;
+	GXmlAttribute*	m_prev;
+	GXmlAttribute*	m_next;
 };
-
 
 /*	A class used to manage a group of attributes.
 	It is only used internally, both by the ELEMENT and the DECLARAGON.
