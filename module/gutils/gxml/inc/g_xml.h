@@ -41,13 +41,20 @@ const int GXML_PATCH_VERSION = 2;
 /*	Internal structure for tracking location of items 
 	in the XML file.
 */
-struct GXmlCursor
+class GXmlCursor
 {
-	GXmlCursor() { clear(); }
-	void clear() { row = col = -1; }
+	GXmlCursor() 
+	{ 
+		clear(); 
+	}
+	
+	void clear() 
+	{ 
+		m_row = m_col = -1; 
+	}
 
-	int row;	// 0 based.
-	int col;	// 0 based.
+	int m_row;	// 0 based.
+	int m_col;	// 0 based.
 };
 
 /**
@@ -75,24 +82,23 @@ public:
 	virtual ~GXmlVisitor() {}
 
 	/// Visit a document.
-	virtual bool VisitEnter(const GXmlDocument& /*doc*/) { return true; }
+	virtual bool visitEnter(const GXmlDocument& /*doc*/) { return true; }
 	/// Visit a document.
-	virtual bool VisitExit(const GXmlDocument& /*doc*/)	{ return true; }
+	virtual bool visitExit(const GXmlDocument& /*doc*/)	{ return true; }
 
 	/// Visit an element.
-	virtual bool VisitEnter(const GXmlElement& /*element*/, 
-		const GXmlAttribute* /*firstAttribute*/) { return true; }
+	virtual bool visitEnter(const GXmlElement& /*element*/, const GXmlAttribute* /*firstAttribute*/) { return true; }
 	/// Visit an element.
-	virtual bool VisitExit(const GXmlElement& /*element*/) { return true; }
+	virtual bool visitExit(const GXmlElement& /*element*/) { return true; }
 
 	/// Visit a declaration
-	virtual bool Visit(const GXmlDeclaration& /*declaration*/) { return true; }
+	virtual bool visit(const GXmlDeclaration& /*declaration*/) { return true; }
 	/// Visit a text node
-	virtual bool Visit(const GXmlText& /*text*/) { return true; }
+	virtual bool visit(const GXmlText& /*text*/) { return true; }
 	/// Visit a comment node
-	virtual bool Visit(const GXmlComment& /*comment*/) { return true; }
+	virtual bool visit(const GXmlComment& /*comment*/) { return true; }
 	/// Visit an unknown node
-	virtual bool Visit(const GXmlUnknown& /*unknown*/) { return true; }
+	virtual bool visit(const GXmlUnknown& /*unknown*/) { return true; }
 };
 
 // Only used by Attribute::Query functions
@@ -155,7 +161,7 @@ public:
 		
 		(For an unformatted stream, use the << operator.)
 	*/
-	virtual void Print(FILE* cfile, int depth) const = 0;
+	virtual void print(FILE* cfile, int depth) const = 0;
 
 	/**	The world does not agree on whether white space should be kept or
 		not. In order to make everyone happy, these global, static functions
@@ -163,10 +169,10 @@ public:
 		into a single space or not. The default is to condense. Note changing this
 		value is not thread safe.
 	*/
-	static void SetCondenseWhiteSpace(bool condense) { condenseWhiteSpace = condense; }
+	static void setCondenseWhiteSpace(bool condense) { m_condenseWhiteSpace = condense; }
 
 	/// Return the current white space setting.
-	static bool IsWhiteSpaceCondensed() { return condenseWhiteSpace; }
+	static bool isWhiteSpaceCondensed() { return m_condenseWhiteSpace; }
 
 	/** Return the position, in the original source file, of this node or attribute.
 		The row and column are 1-based. (That is the first row and first column is
@@ -186,18 +192,18 @@ public:
 
 		@sa GXmlDocument::SetTabSize()
 	*/
-	int Row() const	{ return location.row + 1; }
-	int Column() const { return location.col + 1; }    ///< See Row()
+	int row() const	{ return location.m_row + 1; }
+	int column() const { return location.m_col + 1; }    ///< See Row()
 
-	void SetUserData(void* user) { m_userData = user; }	///< Set a pointer to arbitrary user data.
-	void* GetUserData() { return m_userData; }	///< Get a pointer to arbitrary user data.
-	const void* GetUserData() const { return m_userData; }	///< Get a pointer to arbitrary user data.
+	void setUserData(void* user) { m_userData = user; }	///< Set a pointer to arbitrary user data.
+	void* getUserData() { return m_userData; }	///< Get a pointer to arbitrary user data.
+	const void* getUserData() const { return m_userData; }	///< Get a pointer to arbitrary user data.
 
 	// Table that returs, for a given lead byte, the total number of bytes
 	// in the UTF-8 sequence.
-	static const int utf8ByteTable[256];
+	static const int m_utf8ByteTable[256]{0};
 
-	virtual const char* Parse(const char* p, 
+	virtual const char* parse(const char* p, 
 		GXmlParsingData* data, 
 		GXmlEncoding encoding /*= GXML_ENCODING_UNKNOWN */) = 0;
 
@@ -228,36 +234,36 @@ public:
 	};
 
 protected:
-	static const char* SkipWhiteSpace(const char*, GXmlEncoding encoding);
+	static const char* skipWhiteSpace(const char*, GXmlEncoding encoding);
 
-	inline static bool IsWhiteSpace(char c)		
+	inline static bool isWhiteSpace(char c)		
 	{ 
 		return (isspace((unsigned char)c) || c == '\n' || c == '\r'); 
 	}
     
-	inline static bool IsWhiteSpace(int c)
+	inline static bool isWhiteSpace(int c)
 	{
 		if (c < 256)
         {
-			return IsWhiteSpace((char)c);
+			return isWhiteSpace((char)c);
         }
         
 		return false;	// Again, only truly correct for English/Latin...but usually works.
 	}
 
-	static bool	StreamWhiteSpace(std::istream* in, std::string* tag);
-	static bool StreamTo(std::istream* in, int character, std::string* tag);
+	static bool	streamWhiteSpace(std::istream* in, std::string* tag);
+	static bool streamTo(std::istream* in, int character, std::string* tag);
 
 	/*	Reads an XML name into the string provided. Returns
 		a pointer just past the last character of the name,
 		or 0 if the function has an error.
 	*/
-	static const char* ReadName(const char* p, std::string* name, GXmlEncoding encoding);
+	static const char* readName(const char* p, std::string* name, GXmlEncoding encoding);
 
 	/*	Reads text. Returns a pointer past the given end tag.
 		Wickedly complex options, but it keeps the (sensitive) code in one place.
 	*/
-	static const char* ReadText(const char* in,				// where to start
+	static const char* readText(const char* in,				// where to start
 		std::string* text,			// the string read
 		bool ignoreWhiteSpace,		// whether to keep the white space
 		const char* endTag,			// what ends this text
@@ -265,16 +271,16 @@ protected:
 		GXmlEncoding encoding);	// the current encoding
 
 	// If an entity has been found, transform it into a character.
-	static const char* GetEntity(const char* in, char* value, int* length, GXmlEncoding encoding);
+	static const char* getEntity(const char* in, char* value, int* length, GXmlEncoding encoding);
 
 	// Get a character, while interpreting entities.
 	// The length can be from 0 to 4 bytes.
-	inline static const char* GetChar(const char* p, char* _value, int* length, GXmlEncoding encoding)
+	inline static const char* getChar(const char* p, char* value, int* length, GXmlEncoding encoding)
 	{
 		assert(p);
 		if (encoding == GXML_ENCODING_UTF8)
 		{
-			*length = utf8ByteTable[*((const unsigned char*)p)];
+			*length = m_utf8ByteTable[*((const unsigned char*)p)];
 			assert(*length >= 0 && *length < 5);
 		}
 		else
@@ -286,10 +292,10 @@ protected:
 		{
 			if (*p == '&')
             {
-				return GetEntity(p, _value, length, encoding);
+				return GetEntity(p, value, length, encoding);
             }
             
-			*_value = *p;
+			*value = *p;
 			return p + 1;
 		}
 		else if (*length)
@@ -298,7 +304,7 @@ protected:
 												// and the null terminator isn't needed
 			for (int i = 0; p[i] && i < *length; i++) 
             {
-				_value[i] = p[i];
+				value[i] = p[i];
 			}
             
 			return p + (*length);
@@ -313,23 +319,23 @@ protected:
 	// Return true if the next characters in the stream are any of the endTag sequences.
 	// Ignore case only works for english, and should only be relied on when comparing
 	// to English words: StringEqual( p, "version", true ) is fine.
-	static bool StringEqual(const char* p,
+	static bool stringEqual(const char* p,
 		const char* endTag,
 		bool ignoreCase,
 		GXmlEncoding encoding);
 
-	static const char* errorString[GXML_ERROR_STRING_COUNT];
+	static const char* m_errorString[GXML_ERROR_STRING_COUNT];
 
-	GXmlCursor location;
+	GXmlCursor m_location;
 
     /// Field containing a generic user pointer
 	void* m_userData;
 	
 	// None of these methods are reliable for any language except English.
 	// Good for approximation, not great for accuracy.
-	static int IsAlpha(unsigned char anyByte, GXmlEncoding encoding);
-	static int IsAlphaNum(unsigned char anyByte, GXmlEncoding encoding);
-	inline static int ToLower(int v, GXmlEncoding encoding)
+	static int isAlpha(unsigned char anyByte, GXmlEncoding encoding);
+	static int isAlphaNum(unsigned char anyByte, GXmlEncoding encoding);
+	inline static int toLower(int v, GXmlEncoding encoding)
 	{
 		if (encoding == GXML_ENCODING_UTF8)
 		{
@@ -341,28 +347,27 @@ protected:
 			return tolower(v);
 		}
 	}
-	static void ConvertUTF32ToUTF8(unsigned long input, char* output, int* length);
+	static void convertUTF32ToUTF8(unsigned long input, char* output, int* length);
 
 private:
 	GXmlBase(const GXmlBase&);				// not implemented.
-	void operator=(const GXmlBase& base);	// not allowed.
+	void operator = (const GXmlBase& base);	// not allowed.
 
 	struct Entity
 	{
-		const char*     str;
-		unsigned int	strLength;
-		char		    chr;
+		const char*     m_str;
+		unsigned int	m_strLength;
+		char		    m_chr;
 	};
     
 	enum
 	{
 		NUM_ENTITY = 5,
 		NUM_ENTITY_LENGTH = 6
-
 	};
     
-	static Entity entity[NUM_ENTITY];
-	static bool condenseWhiteSpace;
+	static Entity m_entity[NUM_ENTITY];
+	static bool m_condenseWhiteSpace;
 };
 
 
@@ -399,10 +404,10 @@ public:
 	    A GXmlDocument will read nodes until it reads a root element, and
 		all the children of that root element.
     */	
-    friend std::ostream& operator<< (std::ostream& out, const GXmlNode& base);
+    friend std::ostream& operator << (std::ostream& out, const GXmlNode& base);
 
 	/// Appends the XML node or attribute to a std::string.
-	friend std::string& operator<< (std::string& out, const GXmlNode& base );
+	friend std::string& operator << (std::string& out, const GXmlNode& base);
 
 	/** The types of XML nodes supported by GnyXml. (All the
 			unsupported types are picked up by UNKNOWN.)
@@ -432,15 +437,15 @@ public:
 
 		The subclasses will wrap this function.
 	*/
-	const char *Value() const { return value.c_str (); }
+	const char* value() const { return m_value.c_str(); }
 
 	/** Return Value() as a std::string. If you only use STL,
 	    this is more efficient than calling Value().
 		Only available in STL mode.
 	*/
-	const std::string& ValueStr() const { return value; }
+	const std::string& valueStr() const { return m_value; }
 
-	const std::string& ValueTStr() const { return value; }
+	const std::string& valueTStr() const { return m_value; }
 
 	/** Changes the value of the node. Defined as:
 		@verbatim
@@ -451,17 +456,17 @@ public:
 		Text:		the text string
 		@endverbatim
 	*/
-	void SetValue(const char * _value) { value = _value;}
+	void setValue(const char* value) { m_value = value;}
 
 	/// STL std::string form.
-	void SetValue(const std::string& _value) { value = _value; }
+	void setValue(const std::string& value) { m_value = value; }
 
 	/// Delete all the children of this node. Does not affect 'this'.
 	void clear();
 
 	/// One step up the DOM.
-	GXmlNode* Parent() { return parent; }
-	const GXmlNode* Parent() const{ return parent; }
+	GXmlNode* parent() { return m_parent; }
+	const GXmlNode* parent() const{ return m_parent; }
 
 	const GXmlNode* FirstChild() const { return firstChild; }	///< The first child of this node. Will be null if there are no children.
 	GXmlNode* FirstChild() { return firstChild; }
