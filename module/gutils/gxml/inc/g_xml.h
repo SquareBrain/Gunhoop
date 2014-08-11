@@ -946,21 +946,21 @@ class GXmlElement : public GXmlNode
 {
 public:
 	/// Construct an element.
-	GXmlElement(const char* in_value);
+	GXmlElement(const char* value);
 
 	/// std::string constructor.
-	GXmlElement(const std::string& _value);
+	GXmlElement(const std::string& value);
 
-	GXmlElement(const GXmlElement&);
+	GXmlElement(const GXmlElement& element);
 
-	GXmlElement& operator=(const GXmlElement& base);
+	GXmlElement& operator = (const GXmlElement& base);
 
 	virtual ~GXmlElement();
 
 	/** Given an attribute name, Attribute() returns the value
 		for the attribute of that name, or null if none exists.
 	*/
-	const char* Attribute(const char* name) const;
+	const char* attribute(const char* name) const;
 
 	/** Given an attribute name, Attribute() returns the value
 		for the attribute of that name, or null if none exists.
@@ -968,7 +968,7 @@ public:
 		the integer value will be put in the return 'i', if 'i'
 		is non-null.
 	*/
-	const char* Attribute(const char* name, int* i) const;
+	const char* attribute(const char* name, int* i) const;
 
 	/** Given an attribute name, Attribute() returns the value
 		for the attribute of that name, or null if none exists.
@@ -976,7 +976,7 @@ public:
 		the double value will be put in the return 'd', if 'd'
 		is non-null.
 	*/
-	const char* Attribute(const char* name, double* d) const;
+	const char* attribute(const char* name, double* d) const;
 
 	/** QueryIntAttribute examines the attribute - it is an alternative to the
 		Attribute() method with richer error checking.
@@ -985,36 +985,36 @@ public:
 		an integer, it returns GXML_WRONG_TYPE. If the attribute
 		does not exist, then GXML_NO_ATTRIBUTE is returned.
 	*/	
-	int QueryIntAttribute(const char* name, int* _value) const;
+	int queryIntAttribute(const char* name, int* value) const;
 	/// QueryUnsignedAttribute examines the attribute - see QueryIntAttribute().
-	int QueryUnsignedAttribute(const char* name, unsigned* _value) const;
+	int queryUnsignedAttribute(const char* name, unsigned* value) const;
 	/** QueryBoolAttribute examines the attribute - see QueryIntAttribute(). 
 		Note that '1', 'true', or 'yes' are considered true, while '0', 'false'
 		and 'no' are considered false.
 	*/
-	int QueryBoolAttribute(const char* name, bool* _value) const;
+	int queryBoolAttribute(const char* name, bool* value) const;
 	/// QueryDoubleAttribute examines the attribute - see QueryIntAttribute().
-	int QueryDoubleAttribute(const char* name, double* _value) const;
+	int queryDoubleAttribute(const char* name, double* value) const;
 	/// QueryFloatAttribute examines the attribute - see QueryIntAttribute().
-	int QueryFloatAttribute(const char* name, float* _value) const 
+	int queryFloatAttribute(const char* name, float* value) const 
 	{
-		double d;
-		int result = QueryDoubleAttribute(name, &d);
+		double d = 0.0;
+		int result = queryDoubleAttribute(name, &d);
 		if (result == GXML_SUCCESS) 
-        {
-			*_value = (float)d;
+        	{
+			*value = (float)d;
 		}
         
 		return result;
 	}
 
 	/// QueryStringAttribute examines the attribute - see QueryIntAttribute().
-	int QueryStringAttribute(const char* name, std::string* _value) const 
+	int queryStringAttribute(const char* name, std::string* value) const 
 	{
-		const char* cstr = Attribute(name);
-		if (cstr) 
+		const char* cstr = attribute(name);
+		if (cstr != nullptr) 
         {
-			*_value = std::string(cstr);
+			*value = std::string(cstr);
 			return GXML_SUCCESS;
 		}
         
@@ -1029,15 +1029,15 @@ public:
 
 		@return GXML_SUCCESS, GXML_WRONG_TYPE, or GXML_NO_ATTRIBUTE
 	*/
-	template<typename T> int QueryValueAttribute(const std::string& name, T* outValue) const
+	template<typename T> int queryValueAttribute(const std::string& name, T* outValue) const
 	{
-		const GXmlAttribute* node = attributeSet.Find( name );
-		if (!node)
+		const GXmlAttribute* node = m_attributeSet.find(name);
+		if (node == nullptr)
         {
 			return GXML_NO_ATTRIBUTE;
         }
 
-		std::stringstream sstream(node->ValueStr());
+		std::stringstream sstream(node->valueStr());
 		sstream >> *outValue;
 		if (!sstream.fail())
         {
@@ -1047,72 +1047,71 @@ public:
 		return GXML_WRONG_TYPE;
 	}
 
-	int QueryValueAttribute(const std::string& name, std::string* outValue) const
+	int queryValueAttribute(const std::string& name, std::string* outValue) const
 	{
-		const GXmlAttribute* node = attributeSet.Find(name);
+		const GXmlAttribute* node = attributeSet.find(name);
 		if (node == nullptr)
         {
 			return GXML_NO_ATTRIBUTE;
         }
         
-		*outValue = node->ValueStr();
+		*outValue = node->valueStr();
 		return GXML_SUCCESS;
 	}
 
 	/** Sets an attribute of name to a given value. The attribute
 		will be created if it does not exist, or changed if it does.
 	*/
-	void SetAttribute(const char* name, const char * _value);
-
-	const std::string* Attribute(const std::string& name) const;
-	const std::string* Attribute(const std::string& name, int* i) const;
-	const std::string* Attribute(const std::string& name, double* d) const;
-	int QueryIntAttribute(const std::string& name, int* _value) const;
-	int QueryDoubleAttribute(const std::string& name, double* _value) const;
+	void setAttribute(const char* name, const char* value);
+	const std::string* attribute(const std::string& name) const;
+	const std::string* attribute(const std::string& name, int* i) const;
+	const std::string* attribute(const std::string& name, double* d) const;
+	int queryIntAttribute(const std::string& name, int* value) const;
+	int queryDoubleAttribute(const std::string& name, double* value) const;
 
 	/// STL std::string form.
-	void SetAttribute(const std::string& name, const std::string& _value);
+	void setAttribute(const std::string& name, const std::string& value);
 	///< STL std::string form.
-	void SetAttribute(const std::string& name, int _value);
+	void setAttribute(const std::string& name, int value);
 	///< STL std::string form.
-	void SetDoubleAttribute(const std::string& name, double value);
+	void setDoubleAttribute(const std::string& name, double value);
 
 	/** Sets an attribute of name to a given value. The attribute
 		will be created if it does not exist, or changed if it does.
 	*/
-	void SetAttribute(const char * name, int value);
+	void setAttribute(const char* name, int value);
 
 	/** Sets an attribute of name to a given value. The attribute
 		will be created if it does not exist, or changed if it does.
 	*/
-	void SetDoubleAttribute(const char * name, double value);
+	void setDoubleAttribute(const char* name, double value);
 
 	/** Deletes an attribute with the given name.
 	*/
-	void RemoveAttribute(const char * name);
-	void RemoveAttribute(const std::string& name) 
+	void removeAttribute(const char* name);
+	void removeAttribute(const std::string& name) 
     {   
-    	RemoveAttribute(name.c_str());    
+    	removeAttribute(name.c_str());    
     }   ///< STL std::string form.
 
-	const GXmlAttribute* FirstAttribute() const	
+	const GXmlAttribute* firstAttribute() const	
     { 
-    	return attributeSet.First(); 
+    	return attributeSet.first(); 
     }        ///< Access the first attribute in this element.
     
-	GXmlAttribute* FirstAttribute() 
+	GXmlAttribute* firstAttribute() 
     { 
-    	return attributeSet.First(); 
+    	return attributeSet.first(); 
     }
     
-	const GXmlAttribute* LastAttribute()	const 	
+	const GXmlAttribute* lastAttribute()	const 	
     { 
-    	return attributeSet.Last(); 
+    	return attributeSet.last(); 
     }     ///< Access the last attribute in this element.
     
-	GXmlAttribute* LastAttribute()					
+	GXmlAttribute* lastAttribute()					
     { 
-    	return attributeSet.Last(); 
+    	return attributeSet.last(); 
     }
 
 	/** Convenience function for easy access to the text inside an element. Although easy
@@ -1147,41 +1146,39 @@ public:
 				 similarly named GXmlHandle::Text() and GXmlNode::ToText() which are 
 				 safe type casts on the referenced node.
 	*/
-	const char* GetText() const;
+	const char* getText() const;
 
 	/// Creates a new Element and returns it - the returned element is a copy.
-	virtual GXmlNode* Clone() const;
+	virtual GXmlNode* clone() const;
 	// Print the Element to a FILE stream.
-	virtual void Print(FILE* cfile, int depth) const;
+	virtual void print(FILE* cfile, int depth) const;
 
 	/*	Attribtue parsing starts: next char past '<'
 						 returns: next char past '>'
 	*/
-	virtual const char* Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
-
-	virtual const GXmlElement* ToElement() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
-	virtual GXmlElement* ToElement() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual const char* parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
+	virtual const GXmlElement* toElement() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual GXmlElement* toElement() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
 
 	/** Walk the XML tree visiting this node and all of its children. 
 	*/
-	virtual bool Accept(GXmlVisitor* visitor) const;
+	virtual bool accept(GXmlVisitor* visitor) const;
 
 protected:
-	void CopyTo(GXmlElement* target) const;
-	void ClearThis();	// like clear, but initializes 'this' object as well
+	void copyTo(GXmlElement* target) const;
+	void clearThis();	// like clear, but initializes 'this' object as well
 
 	// Used to be public [internal use]
-	virtual void StreamIn(std::istream* in, std::string* tag);
+	virtual void streamIn(std::istream* in, std::string* tag);
 	/*	[internal use]
 		Reads the "value" of the element -- another element, or text.
 		This should terminate with the current end tag.
 	*/
-	const char* ReadValue(const char* in, GXmlParsingData* prevData, GXmlEncoding encoding);
+	const char* readValue(const char* in, GXmlParsingData* prevData, GXmlEncoding encoding);
 
 private:
-	GXmlAttributeSet attributeSet;
+	GXmlAttributeSet m_attributeSet;
 };
-
 
 /**	An XML comment.
 */
@@ -1192,9 +1189,9 @@ public:
 	GXmlComment() : GXmlNode(GXmlNode::GNYXML_COMMENT) {}
     
 	/// Construct a comment from text.
-	GXmlComment(const char* _value ) : GXmlNode( GXmlNode::GNYXML_COMMENT) 
+	GXmlComment(const char* value) : GXmlNode(GXmlNode::GNYXML_COMMENT) 
 	{
-		SetValue(_value);
+		setValue(value);
 	}
     
 	GXmlComment(const GXmlComment&);
@@ -1203,29 +1200,28 @@ public:
 	virtual ~GXmlComment() {}
 
 	/// Returns a copy of this Comment.
-	virtual GXmlNode* Clone() const;
+	virtual GXmlNode* clone() const;
 	// Write this Comment to a FILE stream.
-	virtual void Print(FILE* cfile, int depth) const;
+	virtual void print(FILE* cfile, int depth) const;
 
 	/*	Attribtue parsing starts: at the ! of the !--
 						 returns: next char past '>'
 	*/
-	virtual const char* Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
+	virtual const char* parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
 
-	virtual const GXmlComment* ToComment() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
-	virtual GXmlComment* ToComment() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual const GXmlComment* toComment() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual GXmlComment* toComment() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
 
 	/** Walk the XML tree visiting this node and all of its children. 
 	*/
-	virtual bool Accept(GXmlVisitor* visitor) const;
+	virtual bool accept(GXmlVisitor* visitor) const;
 
 protected:
-	void CopyTo(GXmlComment* target) const;
+	void copyTo(GXmlComment* target) const;
 
 	// used to be public
-	virtual void StreamIn(std::istream * in, std::string * tag);
+	virtual void streamIn(std::istream* in, std::string* tag);
 };
-
 
 /** XML text. A text node can have 2 ways to output the next. "normal" output 
 	and CDATA. It will default to the mode it was parsed from the XML file and
@@ -1241,62 +1237,61 @@ public:
 		normal, encoded text. If you want it be output as a CDATA text
 		element, set the parameter _cdata to 'true'
 	*/
-	GXmlText(const char * initValue) : GXmlNode(GXmlNode::GNYXML_TEXT)
+	GXmlText(const char* initValue) : GXmlNode(GXmlNode::GNYXML_TEXT)
 	{
-		SetValue(initValue);
-		cdata = false;
+		setValue(initValue);
+		m_cdata = false;
 	}
     
 	virtual ~GXmlText() {}
 
 	/// Constructor.
-	GXmlText(const std::string& initValue) : GXmlNode (GXmlNode::GNYXML_TEXT)
+	GXmlText(const std::string& initValue) : GXmlNode(GXmlNode::GNYXML_TEXT)
 	{
-		SetValue(initValue);
-		cdata = false;
+		setValue(initValue);
+		m_cdata = false;
 	}
 
 	GXmlText(const GXmlText& copy) : GXmlNode(GXmlNode::GNYXML_TEXT)	
     { 
-    	copy.CopyTo( this ); 
+    	copy.copyTo(this); 
     }
     
-	GXmlText& operator=(const GXmlText& base)	
+	GXmlText& operator = (const GXmlText& base)	
     { 
-    	base.CopyTo(this); 
+    	base.copyTo(this); 
         return *this; 
     }
 
 	// Write this text object to a FILE stream.
-	virtual void Print(FILE* cfile, int depth) const;
+	virtual void print(FILE* cfile, int depth) const;
 
 	/// Queries whether this represents text using a CDATA section.
-	bool CDATA() const { return cdata; }
+	bool cdata() const { return m_cdata; }
 	/// Turns on or off a CDATA representation of text.
-	void SetCDATA(bool _cdata) { cdata = _cdata; }
+	void setCdata(bool cdata) { m_cdata = cdata; }
 
-	virtual const char* Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
+	virtual const char* parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
 
-	virtual const GXmlText* ToText() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
-	virtual GXmlText* ToText() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual const GXmlText* toText() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual GXmlText* toText() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
 
 	/** Walk the XML tree visiting this node and all of its children. 
 	*/
-	virtual bool Accept(GXmlVisitor* content) const;
+	virtual bool accept(GXmlVisitor* content) const;
 
 protected :
 	///  [internal use] Creates a new Element and returns it.
-	virtual GXmlNode* Clone() const;
-	void CopyTo(GXmlText* target) const;
+	virtual GXmlNode* clone() const;
+	void copyTo(GXmlText* target) const;
 
-	bool Blank() const;	// returns true if all white space and new lines
+	bool blank() const;	// returns true if all white space and new lines
 	// [internal use]
-	virtual void StreamIn(std::istream* in, std::string* tag);
+	virtual void streamIn(std::istream* in, std::string* tag);
 
 private:
-	bool cdata;			// true if this should be input and output as a CDATA style text element
+	bool m_cdata;			// true if this should be input and output as a CDATA style text element
 };
-
 
 /** In correct XML the declaration is the first entry in the file.
 	@verbatim
@@ -1318,56 +1313,54 @@ public:
 	GXmlDeclaration() : GXmlNode(GXmlNode::GNYXML_DECLARAGON) {}
 
 	/// Constructor.
-	GXmlDeclaration(const std::string& _version,
-		const std::string& _encoding,
-		const std::string& _standalone);
+	GXmlDeclaration(const std::string& version,
+		const std::string& encoding,
+		const std::string& standalone);
 
 	/// Construct.
-	GXmlDeclaration(const char* _version,
-		const char* _encoding,
-		const char* _standalone);
+	GXmlDeclaration(const char* version,
+		const char* encoding,
+		const char* standalone);
 
 	GXmlDeclaration(const GXmlDeclaration& copy);
-	GXmlDeclaration& operator=(const GXmlDeclaration& copy);
+	GXmlDeclaration& operator = (const GXmlDeclaration& copy);
 
 	virtual ~GXmlDeclaration() {}
 
 	/// Version. Will return an empty string if none was found.
-	const char *Version() const { return version.c_str(); }
+	const char* version() const { return m_version.c_str(); }
 	/// Encoding. Will return an empty string if none was found.
-	const char *Encoding() const { return encoding.c_str(); }
+	const char* encoding() const { return m_encoding.c_str(); }
 	/// Is this a standalone document?
-	const char *Standalone() const { return standalone.c_str(); }
+	const char* standalone() const { return m_standalone.c_str(); }
 
 	/// Creates a copy of this Declaration and returns it.
-	virtual GXmlNode* Clone() const;
+	virtual GXmlNode* clone() const;
 	// Print this declaration to a FILE stream.
-	virtual void Print(FILE* cfile, int depth, std::string* str) const;
-	virtual void Print(FILE* cfile, int depth) const 
+	virtual void print(FILE* cfile, int depth, std::string* str) const;
+	virtual void print(FILE* cfile, int depth) const 
     {
-		Print(cfile, depth, 0);
+		print(cfile, depth, 0);
 	}
 
-	virtual const char* Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
-
-	virtual const GXmlDeclaration* ToDeclaration() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
-	virtual GXmlDeclaration* ToDeclaration() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual const char* parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding);
+	virtual const GXmlDeclaration* toDeclaration() const { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
+	virtual GXmlDeclaration* toDeclaration() { return this; } ///< Cast to a more defined type. Will return null not of the requested type.
 
 	/** Walk the XML tree visiting this node and all of its children. 
 	*/
-	virtual bool Accept(GXmlVisitor* visitor) const;
+	virtual bool accept(GXmlVisitor* visitor) const;
 
 protected:
-	void CopyTo(GXmlDeclaration* target) const;
+	void copyTo(GXmlDeclaration* target) const;
 	// used to be public
-	virtual void StreamIn(std::istream* in, std::string* tag);
+	virtual void streamIn(std::istream* in, std::string* tag);
 
 private:
-	std::string version;
-	std::string encoding;
-	std::string standalone;
+	std::string m_version;
+	std::string m_encoding;
+	std::string m_standalone;
 };
-
 
 /** Any tag that tinyXml doesn't recognize is saved as an
 	unknown. It is a tag of text, but should not be modified.
