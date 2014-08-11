@@ -21,13 +21,13 @@
 // Note tha "PutString" hardcodes the same list. This
 // is less flexible than it appears. Changing the entries
 // or order will break putstring.
-GXmlBase::Entity GXmlBase::entity[ GXmlBase::NUM_ENTITY ] = 
+GXmlBase::Entity GXmlBase::entity[GXmlBase::NUM_ENTITY] = 
 {
-	{ "&amp;",  5, '&' },
-	{ "&lt;",   4, '<' },
-	{ "&gt;",   4, '>' },
-	{ "&quot;", 6, '\"' },
-	{ "&apos;", 6, '\'' }
+	{"&amp;",  5, '&'},
+	{"&lt;",   4, '<'},
+	{"&gt;",   4, '>'},
+	{"&quot;", 6, '\"'},
+	{"&apos;", 6, '\''}
 };
 
 // Bunch of unicode info at:
@@ -43,8 +43,7 @@ GXmlBase::Entity GXmlBase::entity[ GXmlBase::NUM_ENTITY ] =
 const unsigned char GXML_UTF_LEAD_0 = 0xefU;
 const unsigned char GXML_UTF_LEAD_1 = 0xbbU;
 const unsigned char GXML_UTF_LEAD_2 = 0xbfU;
-
-const int GXmlBase::utf8ByteTable[256] = 
+const int GXmlBase::m_utf8ByteTable[256] = 
 {
 	//	0	1	2	3	4	5	6	7	8	9	a	b	c	d	e	f
 		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x00
@@ -65,49 +64,58 @@ const int GXmlBase::utf8ByteTable[256] =
 		4,	4,	4,	4,	4,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1	// 0xf0 0xf0 to 0xf4 4 byte, 0xf5 and higher invalid
 };
 
-
-void GXmlBase::ConvertUTF32ToUTF8( unsigned long input, char* output, int* length )
+void GXmlBase::convertUTF32ToUTF8(unsigned long input, char* output, int* length)
 {
 	const unsigned long BYTE_MASK = 0xBF;
 	const unsigned long BYTE_MARK = 0x80;
-	const unsigned long FIRST_BYTE_MARK[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
+	const unsigned long FIRST_BYTE_MARK[7] = {0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC};
 
-	if (input < 0x80) 
+	if (input < 0x80)
+	{
 		*length = 1;
-	else if ( input < 0x800 )
+	}
+	else if (input < 0x800)
+	{
 		*length = 2;
-	else if ( input < 0x10000 )
+	}
+	else if (input < 0x10000)
+	{
 		*length = 3;
-	else if ( input < 0x200000 )
+	}
+	else if (input < 0x200000)
+	{
 		*length = 4;
+	}
 	else
-		{ *length = 0; return; }	// This code won't covert this correctly anyway.
+	{ 
+		*length = 0; 
+		return;
+	}	// This code won't covert this correctly anyway.
 
 	output += *length;
 
 	// Scary scary fall throughs.
 	switch (*length) 
 	{
-		case 4:
-			--output; 
-			*output = (char)((input | BYTE_MARK) & BYTE_MASK); 
-			input >>= 6;
-		case 3:
-			--output; 
-			*output = (char)((input | BYTE_MARK) & BYTE_MASK); 
-			input >>= 6;
-		case 2:
-			--output; 
-			*output = (char)((input | BYTE_MARK) & BYTE_MASK); 
-			input >>= 6;
-		case 1:
-			--output; 
-			*output = (char)(input | FIRST_BYTE_MARK[*length]);
+	case 4:
+		--output; 
+		*output = (char)((input | BYTE_MARK) & BYTE_MASK); 
+		input >>= 6;
+	case 3:
+		--output; 
+		*output = (char)((input | BYTE_MARK) & BYTE_MASK); 
+		input >>= 6;
+	case 2:
+		--output; 
+		*output = (char)((input | BYTE_MARK) & BYTE_MASK); 
+		input >>= 6;
+	case 1:
+		--output; 
+		*output = (char)(input | FIRST_BYTE_MARK[*length]);
 	}
 }
 
-
-/*static*/ int GXmlBase::IsAlpha( unsigned char anyByte, GXmlEncoding /*encoding*/ )
+/*static*/ int GXmlBase::isAlpha( unsigned char anyByte, GXmlEncoding /*encoding*/ )
 {
 	// This will only work for low-ascii, everything else is assumed to be a valid
 	// letter. I'm not sure this is the best approach, but it is quite tricky trying
@@ -117,9 +125,13 @@ void GXmlBase::ConvertUTF32ToUTF8( unsigned long input, char* output, int* lengt
 //	if ( encoding == GXML_ENCODING_UTF8 )
 //	{
 		if ( anyByte < 127 )
-			return isalpha( anyByte );
+		{
+			return isalpha(anyByte);
+		}
 		else
+		{
 			return 1;	// What else to do? The unicode set is huge...get the english ones right.
+		}
 //	}
 //	else
 //	{
@@ -128,7 +140,7 @@ void GXmlBase::ConvertUTF32ToUTF8( unsigned long input, char* output, int* lengt
 }
 
 
-/*static*/ int GXmlBase::IsAlphaNum( unsigned char anyByte, GXmlEncoding /*encoding*/ )
+/*static*/ int GXmlBase::isAlphaNum( unsigned char anyByte, GXmlEncoding /*encoding*/ )
 {
 	// This will only work for low-ascii, everything else is assumed to be a valid
 	// letter. I'm not sure this is the best approach, but it is quite tricky trying
@@ -137,10 +149,14 @@ void GXmlBase::ConvertUTF32ToUTF8( unsigned long input, char* output, int* lengt
 
 //	if ( encoding == GXML_ENCODING_UTF8 )
 //	{
-		if ( anyByte < 127 )
-			return isalnum( anyByte );
+		if (anyByte < 127)
+		{
+			return isalnum(anyByte);
+		}
 		else
+		{
 			return 1;	// What else to do? The unicode set is huge...get the english ones right.
+		}
 //	}
 //	else
 //	{
@@ -148,242 +164,270 @@ void GXmlBase::ConvertUTF32ToUTF8( unsigned long input, char* output, int* lengt
 //	}
 }
 
-
 class GXmlParsingData
 {
 	friend class GXmlDocument;
-  public:
-	void Stamp( const char* now, GXmlEncoding encoding );
-
-	const GXmlCursor& Cursor() const	{ return cursor; }
+	
+public:
+	void Stamp(const char* now, GXmlEncoding encoding);
+	const GXmlCursor& cursor() const	
+	{ 
+		return m_cursor; 
+	}
 
   private:
 	// Only used by the document!
-	GXmlParsingData( const char* start, int _tabsize, int row, int col )
+	GXmlParsingData(const char* start, int tabsize, int row, int col)
 	{
-		assert( start );
-		stamp = start;
-		tabsize = _tabsize;
-		cursor.row = row;
-		cursor.col = col;
+		assert(start);
+		m_stamp = start;
+		m_tabsize = tabsize;
+		m_cursor.m_row = row;
+		m_cursor.m_col = col;
 	}
 
-	GXmlCursor		cursor;
-	const char*		stamp;
-	int				tabsize;
+	GXmlCursor		m_cursor;
+	const char*		m_stamp;
+	int				m_tabsize;
 };
 
-
-void GXmlParsingData::Stamp( const char* now, GXmlEncoding encoding )
+void GXmlParsingData::stamp(const char* now, GXmlEncoding encoding)
 {
-	assert( now );
+	assert(now);
 
 	// Do nothing if the tabsize is 0.
-	if ( tabsize < 1 )
+	if (m_tabsize < 1)
 	{
 		return;
 	}
 
 	// Get the current row, column.
-	int row = cursor.row;
-	int col = cursor.col;
-	const char* p = stamp;
-	assert( p );
+	int row = m_cursor.m_row;
+	int col = m_cursor.m_col;
+	const char* p = m_stamp;
+	assert(p);
 
-	while ( p < now )
+	while (p < now)
 	{
 		// Treat p as unsigned, so we have a happy compiler.
 		const unsigned char* pU = (const unsigned char*)p;
 
 		// Code contributed by Fletcher Dunn: (modified by lee)
-		switch (*pU) {
-			case 0:
-				// We *should* never get here, but in case we do, don't
-				// advance past the terminating null character, ever
-				return;
+		switch (*pU) 
+		{
+		case 0:
+			// We *should* never get here, but in case we do, don't
+			// advance past the terminating null character, ever
+			return;
+		case '\r':
+			// bump down to the next line
+			++row;
+			col = 0;				
+			// Eat the character
+			++p;
 
-			case '\r':
-				// bump down to the next line
-				++row;
-				col = 0;				
-				// Eat the character
+			// Check for \r\n sequence, and treat this as a single character
+			if (*p == '\n') 
+			{
 				++p;
+			}
+			break;
+		case '\n':
+			// bump down to the next line
+			++row;
+			col = 0;
+	
+			// Eat the character
+			++p;
 
-				// Check for \r\n sequence, and treat this as a single character
-				if (*p == '\n') {
-					++p;
-				}
-				break;
-
-			case '\n':
-				// bump down to the next line
-				++row;
-				col = 0;
-
-				// Eat the character
+			// Check for \n\r sequence, and treat this as a single
+			// character.  (Yes, this bizarre thing does occur still
+			// on some arcane platforms...)
+			if (*p == '\r') 
+			{
 				++p;
+			}
+			break;
+		case '\t':
+			// Eat the character
+			++p;
 
-				// Check for \n\r sequence, and treat this as a single
-				// character.  (Yes, this bizarre thing does occur still
-				// on some arcane platforms...)
-				if (*p == '\r') {
-					++p;
-				}
-				break;
-
-			case '\t':
-				// Eat the character
-				++p;
-
-				// Skip to next tab stop
-				col = (col / tabsize + 1) * tabsize;
-				break;
-
-			case GXML_UTF_LEAD_0:
-				if ( encoding == GXML_ENCODING_UTF8 )
+			// Skip to next tab stop
+			col = (col / tabsize + 1) * tabsize;
+			break;
+		case GXML_UTF_LEAD_0:
+			if (encoding == GXML_ENCODING_UTF8)
+			{
+				if (*(p + 1) && *(p + 2))
 				{
-					if ( *(p+1) && *(p+2) )
+					// In these cases, don't advance the column. These are
+					// 0-width spaces.
+					if (*(pU+1)==GXML_UTF_LEAD_1 && *(pU+2)==GXML_UTF_LEAD_2)
 					{
-						// In these cases, don't advance the column. These are
-						// 0-width spaces.
-						if ( *(pU+1)==GXML_UTF_LEAD_1 && *(pU+2)==GXML_UTF_LEAD_2 )
-							p += 3;	
-						else if ( *(pU+1)==0xbfU && *(pU+2)==0xbeU )
-							p += 3;	
-						else if ( *(pU+1)==0xbfU && *(pU+2)==0xbfU )
-							p += 3;	
-						else
-							{ p +=3; ++col; }	// A normal character.
+						p += 3;	
 					}
+					else if (*(pU+1)==0xbfU && *(pU+2)==0xbeU)
+					{
+						p += 3;
+					}
+					else if (*(pU+1)==0xbfU && *(pU+2)==0xbfU)
+					{
+						p += 3;	
+					}
+					else
+					{ 
+						p += 3; 
+						++col;
+					}	// A normal character.
 				}
-				else
+			}
+			else
+			{
+				++p;
+				++col;
+			}
+			break;
+		default:
+			if (encoding == GXML_ENCODING_UTF8)
+			{
+				// Eat the 1 to 4 byte utf8 character.
+				int step = GXmlBase::utf8ByteTable[*((const unsigned char*)p)];
+				if ( step == 0 )
 				{
-					++p;
-					++col;
+					step = 1;		// Error case from bad encoding, but handle gracefully.
 				}
-				break;
+				p += step;
 
-			default:
-				if ( encoding == GXML_ENCODING_UTF8 )
-				{
-					// Eat the 1 to 4 byte utf8 character.
-					int step = GXmlBase::utf8ByteTable[*((const unsigned char*)p)];
-					if ( step == 0 )
-						step = 1;		// Error case from bad encoding, but handle gracefully.
-					p += step;
-
-					// Just advance one column, of course.
-					++col;
-				}
-				else
-				{
-					++p;
-					++col;
-				}
-				break;
+				// Just advance one column, of course.
+				++col;
+			}
+			else
+			{
+				++p;
+				++col;
+			}
+			break;
 		}
 	}
-	cursor.row = row;
-	cursor.col = col;
-	assert( cursor.row >= -1 );
-	assert( cursor.col >= -1 );
-	stamp = p;
-	assert( stamp );
+	
+	m_cursor.m_row = row;
+	m_cursor.m_col = col;
+	assert(m_cursor.m_row >= -1);
+	assert(m_cursor.m_col >= -1);
+	m_stamp = p;
+	assert(m_stamp);
 }
 
-
-const char* GXmlBase::SkipWhiteSpace( const char* p, GXmlEncoding encoding )
+const char* GXmlBase::skipWhiteSpace(const char* p, GXmlEncoding encoding)
 {
-	if ( !p || !*p )
+	if (p == nullptr || !*p )
 	{
 		return 0;
 	}
-	if ( encoding == GXML_ENCODING_UTF8 )
+	
+	if (encoding == GXML_ENCODING_UTF8)
 	{
-		while ( *p )
+		while (*p)
 		{
 			const unsigned char* pU = (const unsigned char*)p;
 			
 			// Skip the stupid Microsoft UTF-8 Byte order marks
-			if (	*(pU+0)==GXML_UTF_LEAD_0
-				 && *(pU+1)==GXML_UTF_LEAD_1 
-				 && *(pU+2)==GXML_UTF_LEAD_2 )
+			if (*(pU + 0) == GXML_UTF_LEAD_0
+				 && *(pU + 1) == GXML_UTF_LEAD_1 
+				 && *(pU + 2) == GXML_UTF_LEAD_2)
 			{
 				p += 3;
 				continue;
 			}
-			else if(*(pU+0)==GXML_UTF_LEAD_0
-				 && *(pU+1)==0xbfU
-				 && *(pU+2)==0xbeU )
+			else if(*(pU + 0) == GXML_UTF_LEAD_0
+				 && *(pU + 1) == 0xbfU
+				 && *(pU + 2) == 0xbeU)
 			{
 				p += 3;
 				continue;
 			}
-			else if(*(pU+0)==GXML_UTF_LEAD_0
-				 && *(pU+1)==0xbfU
-				 && *(pU+2)==0xbfU )
+			else if(*(pU + 0) == GXML_UTF_LEAD_0
+				 && *(pU + 1) == 0xbfU
+				 && *(pU + 2) == 0xbfU)
 			{
 				p += 3;
 				continue;
 			}
 
-			if ( IsWhiteSpace( *p ) )		// Still using old rules for white space.
+			if (isWhiteSpace(*p))		// Still using old rules for white space.
+			{
 				++p;
+			}
 			else
+			{
 				break;
+			}
 		}
 	}
 	else
 	{
-		while ( *p && IsWhiteSpace( *p ) )
+		while (*p && isWhiteSpace(*p))
+		{
 			++p;
+		}
 	}
 
 	return p;
 }
 
-bool GXmlBase::StreamWhiteSpace( std::istream * in, std::string * tag )
+bool GXmlBase::streamWhiteSpace(std::istream* in, std::string* tag)
 {
-	for( ;; )
+	for (;;)
 	{
-		if ( !in->good() ) return false;
+		if (!in->good()) 
+		{
+			return false;
+		}
 
 		int c = in->peek();
 		// At this scope, we can't get to a document. So fail silently.
-		if ( !IsWhiteSpace( c ) || c <= 0 )
+		if (!IsWhiteSpace(c) || c <= 0)
+		{
 			return true;
+		}
 
-		*tag += (char) in->get();
+		*tag += (char)in->get();
 	}
 }
 
-bool GXmlBase::StreamTo( std::istream * in, int character, std::string * tag )
+bool GXmlBase::streamTo(std::istream* in, int character, std::string* tag)
 {
 	//assert( character > 0 && character < 128 );	// else it won't work in utf-8
-	while ( in->good() )
+	while (in->good())
 	{
 		int c = in->peek();
-		if ( c == character )
+		if (c == character)
+		{
 			return true;
-		if ( c <= 0 )		// Silent failure: can't get document at this scope
+		}
+		
+		if (c <= 0)		// Silent failure: can't get document at this scope
+		{
 			return false;
+		}
 
 		in->get();
-		*tag += (char) c;
+		*tag += (char)c;
 	}
+	
 	return false;
 }
 
 // One of GnyXML's more performance demanding functions. Try to keep the memory overhead down. The
 // "assign" optimization removes over 10% of the execution time.
 //
-const char* GXmlBase::ReadName( const char* p, std::string * name, GXmlEncoding encoding )
+const char* GXmlBase::readName(const char* p, std::string* name, GXmlEncoding encoding)
 {
 	// Oddly, not supported on some comilers,
 	//name->clear();
 	// So use this:
 	*name = "";
-	assert( p );
+	assert(p);
 
 	// Names start with letters or underscores.
 	// Of course, in unicode, tinyxml has no idea what a letter *is*. The
@@ -392,64 +436,83 @@ const char* GXmlBase::ReadName( const char* p, std::string * name, GXmlEncoding 
 	// After that, they can be letters, underscores, numbers,
 	// hyphens, or colons. (Colons are valid ony for namespaces,
 	// but tinyxml can't tell namespaces from names.)
-	if (    p && *p 
-		 && ( IsAlpha( (unsigned char) *p, encoding ) || *p == '_' ) )
+	if (p && *p 
+		&& (isAlpha((unsigned char)*p, encoding) || *p == '_'))
 	{
 		const char* start = p;
-		while(		p && *p
-				&&	(		IsAlphaNum( (unsigned char ) *p, encoding ) 
-						 || *p == '_'
-						 || *p == '-'
-						 || *p == '.'
-						 || *p == ':' ) )
+		while (p && *p
+			&& (isAlphaNum((unsigned char)*p, encoding) 
+			|| *p == '_'
+			|| *p == '-'
+			|| *p == '.'
+			|| *p == ':'))
 		{
 			//(*name) += *p; // expensive
 			++p;
 		}
-		if ( p-start > 0 ) {
-			name->assign( start, p-start );
+		
+		if (p-start > 0) 
+		{
+			name->assign(start, p-start);
 		}
+		
 		return p;
 	}
+	
 	return 0;
 }
 
-const char* GXmlBase::GetEntity( const char* p, char* value, int* length, GXmlEncoding encoding )
+const char* GXmlBase::getEntity(const char* p, char* value, int* length, GXmlEncoding encoding)
 {
 	// Presume an entity, and pull it out.
     std::string ent;
-	int i;
+	int i = 0;
 	*length = 0;
 
-	if ( *(p+1) && *(p+1) == '#' && *(p+2) )
+	if (*(p + 1) && *(p + 1) == '#' && *(p + 2))
 	{
 		unsigned long ucs = 0;
 		ptrdiff_t delta = 0;
 		unsigned mult = 1;
 
-		if ( *(p+2) == 'x' )
+		if (*(p + 2) == 'x')
 		{
 			// Hexadecimal.
-			if ( !*(p+3) ) return 0;
+			if (!*(p + 3))
+			{
+				return 0;
+			}
 
-			const char* q = p+3;
-			q = strchr( q, ';' );
+			const char* q = p + 3;
+			q = strchr(q, ';');
 
-			if ( !q || !*q ) return 0;
+			if (!q || !*q) 
+			{
+				return 0;
+			}
 
-			delta = q-p;
+			delta = q - p;
 			--q;
 
-			while ( *q != 'x' )
+			while (*q != 'x')
 			{
-				if ( *q >= '0' && *q <= '9' )
+				if (*q >= '0' && *q <= '9')
+				{
 					ucs += mult * (*q - '0');
-				else if ( *q >= 'a' && *q <= 'f' )
+				}
+				else if (*q >= 'a' && *q <= 'f')
+				{
 					ucs += mult * (*q - 'a' + 10);
-				else if ( *q >= 'A' && *q <= 'F' )
-					ucs += mult * (*q - 'A' + 10 );
+				}
+				else if (*q >= 'A' && *q <= 'F')
+				{
+					ucs += mult * (*q - 'A' + 10);
+				}
 				else 
+				{
 					return 0;
+				}
+				
 				mult *= 16;
 				--q;
 			}
@@ -457,48 +520,61 @@ const char* GXmlBase::GetEntity( const char* p, char* value, int* length, GXmlEn
 		else
 		{
 			// Decimal.
-			if ( !*(p+2) ) return 0;
+			if (!*(p + 2)) 
+			{
+				return 0;
+			}
 
-			const char* q = p+2;
-			q = strchr( q, ';' );
+			const char* q = p + 2;
+			q = strchr(q, ';');
 
-			if ( !q || !*q ) return 0;
+			if (!q || !*q)
+			{	
+				return 0;
+			}
 
-			delta = q-p;
+			delta = q - p;
 			--q;
 
-			while ( *q != '#' )
+			while (*q != '#')
 			{
-				if ( *q >= '0' && *q <= '9' )
+				if (*q >= '0' && *q <= '9')
+				{
 					ucs += mult * (*q - '0');
+				}
 				else 
+				{
 					return 0;
+				}
+				
 				mult *= 10;
 				--q;
 			}
 		}
-		if ( encoding == GXML_ENCODING_UTF8 )
+		
+		if (encoding == GXML_ENCODING_UTF8)
 		{
 			// convert the UCS to UTF-8
-			ConvertUTF32ToUTF8( ucs, value, length );
+			convertUTF32ToUTF8(ucs, value, length);
 		}
 		else
 		{
 			*value = (char)ucs;
 			*length = 1;
 		}
+		
 		return p + delta + 1;
 	}
 
 	// Now try to match it.
-	for( i=0; i<NUM_ENTITY; ++i )
+	for (int i = 0; i < NUM_ENTITY; i++)
 	{
-		if ( strncmp( entity[i].str, p, entity[i].strLength ) == 0 )
+		if (strncmp(entity[i].str, p, entity[i].strLength) == 0)
 		{
-			assert( strlen( entity[i].str ) == entity[i].strLength );
+			assert(strlen( entity[i].str ) == entity[i].strLength);
 			*value = entity[i].chr;
 			*length = 1;
-			return ( p + entity[i].strLength );
+			return (p + entity[i].strLength);
 		}
 	}
 
@@ -506,9 +582,8 @@ const char* GXmlBase::GetEntity( const char* p, char* value, int* length, GXmlEn
 	*value = *p;	// Don't put back the last one, since we return it!
 	//*length = 1;	// Leave unrecognized entities - this doesn't really work.
 					// Just writes strange XML.
-	return p+1;
+	return p + 1;
 }
-
 
 bool GXmlBase::StringEqual( const char* p,
 							 const char* tag,
