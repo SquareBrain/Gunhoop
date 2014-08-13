@@ -23,9 +23,9 @@
 // or order will break putstring.
 GXmlBase::Entity GXmlBase::entity[GXmlBase::NUM_ENTITY] = 
 {
-	{"&amp;",  5, '&'},
-	{"&lt;",   4, '<'},
-	{"&gt;",   4, '>'},
+	{"&amp;", 5, '&'},
+	{"&lt;", 4, '<'},
+	{"&gt;", 4, '>'},
 	{"&quot;", 6, '\"'},
 	{"&apos;", 6, '\''}
 };
@@ -46,22 +46,22 @@ const unsigned char GXML_UTF_LEAD_2 = 0xbfU;
 const int GXmlBase::m_utf8ByteTable[256] = 
 {
 	//	0	1	2	3	4	5	6	7	8	9	a	b	c	d	e	f
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x00
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x10
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x20
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x30
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x40
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x50
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x60
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x70	End of ASCII range
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x80 0x80 to 0xc1 invalid
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x90 
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0xa0 
-		1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0xb0 
-		1,	1,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	// 0xc0 0xc2 to 0xdf 2 byte
-		2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	// 0xd0
-		3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	// 0xe0 0xe0 to 0xef 3 byte
-		4,	4,	4,	4,	4,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1	// 0xf0 0xf0 to 0xf4 4 byte, 0xf5 and higher invalid
+	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x00
+	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x10
+	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x20
+	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x30
+	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x40
+	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x50
+	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x60
+	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x70	End of ASCII range
+	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x80 0x80 to 0xc1 invalid
+	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x90 
+	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0xa0 
+	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0xb0 
+	1,	1,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	// 0xc0 0xc2 to 0xdf 2 byte
+	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	// 0xd0
+	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	// 0xe0 0xe0 to 0xef 3 byte
+	4,	4,	4,	4,	4,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1	// 0xf0 0xf0 to 0xf4 4 byte, 0xf5 and higher invalid
 };
 
 void GXmlBase::convertUTF32ToUTF8(unsigned long input, char* output, int* length)
@@ -112,21 +112,23 @@ void GXmlBase::convertUTF32ToUTF8(unsigned long input, char* output, int* length
 	case 1:
 		--output; 
 		*output = (char)(input | FIRST_BYTE_MARK[*length]);
+	default:
+		break;
 	}
 }
 
-/*static*/ int GXmlBase::isAlpha( unsigned char anyByte, GXmlEncoding /*encoding*/ )
+int GXmlBase::isAlpha(unsigned char any_byte, GXmlEncoding /*encoding*/)
 {
 	// This will only work for low-ascii, everything else is assumed to be a valid
 	// letter. I'm not sure this is the best approach, but it is quite tricky trying
 	// to figure out alhabetical vs. not across encoding. So take a very 
 	// conservative approach.
 
-//	if ( encoding == GXML_ENCODING_UTF8 )
+//	if (encoding == GXML_ENCODING_UTF8)
 //	{
-		if ( anyByte < 127 )
+		if (any_byte < 127)
 		{
-			return isalpha(anyByte);
+			return isalpha(any_byte);
 		}
 		else
 		{
@@ -135,23 +137,23 @@ void GXmlBase::convertUTF32ToUTF8(unsigned long input, char* output, int* length
 //	}
 //	else
 //	{
-//		return isalpha( anyByte );
+//		return isalpha(any_byte);
 //	}
 }
 
 
-/*static*/ int GXmlBase::isAlphaNum( unsigned char anyByte, GXmlEncoding /*encoding*/ )
+int GXmlBase::isAlphaNum(unsigned char any_byte, GXmlEncoding /*encoding*/)
 {
 	// This will only work for low-ascii, everything else is assumed to be a valid
 	// letter. I'm not sure this is the best approach, but it is quite tricky trying
 	// to figure out alhabetical vs. not across encoding. So take a very 
 	// conservative approach.
 
-//	if ( encoding == GXML_ENCODING_UTF8 )
+//	if (encoding == GXML_ENCODING_UTF8)
 //	{
-		if (anyByte < 127)
+		if (any_byte < 127)
 		{
-			return isalnum(anyByte);
+			return isalnum(any_byte);
 		}
 		else
 		{
@@ -160,7 +162,7 @@ void GXmlBase::convertUTF32ToUTF8(unsigned long input, char* output, int* length
 //	}
 //	else
 //	{
-//		return isalnum( anyByte );
+//		return isalnum(any_byte);
 //	}
 }
 
@@ -262,15 +264,15 @@ void GXmlParsingData::stamp(const char* now, GXmlEncoding encoding)
 				{
 					// In these cases, don't advance the column. These are
 					// 0-width spaces.
-					if (*(pU+1)==GXML_UTF_LEAD_1 && *(pU+2)==GXML_UTF_LEAD_2)
+					if (*(pU + 1) == GXML_UTF_LEAD_1 && *(pU + 2) == GXML_UTF_LEAD_2)
 					{
 						p += 3;	
 					}
-					else if (*(pU+1)==0xbfU && *(pU+2)==0xbeU)
+					else if (*(pU + 1) == 0xbfU && *(pU + 2) == 0xbeU)
 					{
 						p += 3;
 					}
-					else if (*(pU+1)==0xbfU && *(pU+2)==0xbfU)
+					else if (*(pU + 1) == 0xbfU && *(pU + 2) == 0xbfU)
 					{
 						p += 3;	
 					}
@@ -292,7 +294,7 @@ void GXmlParsingData::stamp(const char* now, GXmlEncoding encoding)
 			{
 				// Eat the 1 to 4 byte utf8 character.
 				int step = GXmlBase::utf8ByteTable[*((const unsigned char*)p)];
-				if ( step == 0 )
+				if (step == 0)
 				{
 					step = 1;		// Error case from bad encoding, but handle gracefully.
 				}
@@ -320,7 +322,7 @@ void GXmlParsingData::stamp(const char* now, GXmlEncoding encoding)
 
 const char* GXmlBase::skipWhiteSpace(const char* p, GXmlEncoding encoding)
 {
-	if (p == nullptr || !*p )
+	if (p == nullptr || !*p)
 	{
 		return 0;
 	}
@@ -437,23 +439,24 @@ const char* GXmlBase::readName(const char* p, std::string* name, GXmlEncoding en
 	// hyphens, or colons. (Colons are valid ony for namespaces,
 	// but tinyxml can't tell namespaces from names.)
 	if (p && *p 
-		&& (isAlpha((unsigned char)*p, encoding) || *p == '_'))
+		&& (isAlpha((unsigned char)*p, encoding) 
+			|| *p == '_'))
 	{
 		const char* start = p;
 		while (p && *p
 			&& (isAlphaNum((unsigned char)*p, encoding) 
-			|| *p == '_'
-			|| *p == '-'
-			|| *p == '.'
-			|| *p == ':'))
+				|| *p == '_'
+				|| *p == '-'
+				|| *p == '.'
+				|| *p == ':'))
 		{
 			//(*name) += *p; // expensive
 			++p;
 		}
 		
-		if (p-start > 0) 
+		if (p - start > 0) 
 		{
-			name->assign(start, p-start);
+			name->assign(start, p - start);
 		}
 		
 		return p;
@@ -571,7 +574,7 @@ const char* GXmlBase::getEntity(const char* p, char* value, int* length, GXmlEnc
 	{
 		if (strncmp(entity[i].str, p, entity[i].strLength) == 0)
 		{
-			assert(strlen( entity[i].str ) == entity[i].strLength);
+			assert(strlen(entity[i].str ) == entity[i].strLength);
 			*value = entity[i].chr;
 			*length = 1;
 			return (p + entity[i].strLength);
@@ -585,66 +588,71 @@ const char* GXmlBase::getEntity(const char* p, char* value, int* length, GXmlEnc
 	return p + 1;
 }
 
-bool GXmlBase::StringEqual( const char* p,
-							 const char* tag,
-							 bool ignoreCase,
-							 GXmlEncoding encoding )
+bool GXmlBase::StringEqual(const char* p,
+	const char* tag,
+	bool ignoreCase,
+	GXmlEncoding encoding)
 {
-	assert( p );
-	assert( tag );
-	if ( !p || !*p )
+	assert(p);
+	assert(tag);
+	
+	if (!p || !*p)
 	{
-		assert( 0 );
+		assert(0);
 		return false;
 	}
 
 	const char* q = p;
 
-	if ( ignoreCase )
+	if (ignoreCase)
 	{
-		while ( *q && *tag && ToLower( *q, encoding ) == ToLower( *tag, encoding ) )
+		while (*q && *tag && ToLower(*q, encoding) == ToLower(*tag, encoding))
 		{
 			++q;
 			++tag;
 		}
 
-		if ( *tag == 0 )
+		if (*tag == 0)
+		{
 			return true;
+		}
 	}
 	else
 	{
-		while ( *q && *tag && *q == *tag )
+		while (*q && *tag && *q == *tag)
 		{
 			++q;
 			++tag;
 		}
 
-		if ( *tag == 0 )		// Have we found the end of the tag, and everything equal?
+		if (*tag == 0)		// Have we found the end of the tag, and everything equal?
+		{
 			return true;
+		}
 	}
+	
 	return false;
 }
 
-const char* GXmlBase::ReadText(	const char* p, 
-									std::string * text, 
-									bool trimWhiteSpace, 
-									const char* endTag, 
-									bool caseInsensitive,
-									GXmlEncoding encoding )
+const char* GXmlBase::ReadText(const char* p, 
+	std::string * text, 
+	bool trimWhiteSpace, 
+	const char* endTag, 
+	bool caseInsensitive,
+	GXmlEncoding encoding)
 {
     *text = "";
-	if (    !trimWhiteSpace			// certain tags always keep whitespace
-		 || !condenseWhiteSpace )	// if true, whitespace is always kept
+	if (!trimWhiteSpace			// certain tags always keep whitespace
+		|| !condenseWhiteSpace)	// if true, whitespace is always kept
 	{
 		// Keep all the white space.
-		while (	   p && *p
-				&& !StringEqual( p, endTag, caseInsensitive, encoding )
-			  )
+		while (p && *p
+			&& !StringEqual(p, endTag, caseInsensitive, encoding))
 		{
 			int len;
-			char cArr[4] = { 0, 0, 0, 0 };
-			p = GetChar( p, cArr, &len, encoding );
-			text->append( cArr, len );
+			char cArr[4] = {0, 0, 0, 0};
+			p = GetChar(p, cArr, &len, encoding);
+			text->append(cArr, len);
 		}
 	}
 	else
@@ -652,16 +660,16 @@ const char* GXmlBase::ReadText(	const char* p,
 		bool whitespace = false;
 
 		// Remove leading white space:
-		p = SkipWhiteSpace( p, encoding );
-		while (	   p && *p
-				&& !StringEqual( p, endTag, caseInsensitive, encoding ) )
+		p = SkipWhiteSpace(p, encoding);
+		while (p && *p
+			&& !StringEqual(p, endTag, caseInsensitive, encoding))
 		{
-			if ( *p == '\r' || *p == '\n' )
+			if (*p == '\r' || *p == '\n')
 			{
 				whitespace = true;
 				++p;
 			}
-			else if ( IsWhiteSpace( *p ) )
+			else if (IsWhiteSpace(*p))
 			{
 				whitespace = true;
 				++p;
@@ -670,27 +678,35 @@ const char* GXmlBase::ReadText(	const char* p,
 			{
 				// If we've found whitespace, add it before the
 				// new character. Any whitespace just becomes a space.
-				if ( whitespace )
+				if (whitespace)
 				{
 					(*text) += ' ';
 					whitespace = false;
 				}
 				int len;
-				char cArr[4] = { 0, 0, 0, 0 };
-				p = GetChar( p, cArr, &len, encoding );
-				if ( len == 1 )
+				char cArr[4] = {0, 0, 0, 0};
+				p = GetChar(p, cArr, &len, encoding);
+				if (len == 1)
+				{
 					(*text) += cArr[0];	// more efficient
+				}
 				else
-					text->append( cArr, len );
+				{
+					text->append(cArr, len);
+				}
 			}
 		}
 	}
-	if ( p && *p )
+	
+	if (p && *p)
+	{
 		p += strlen( endTag );
-	return ( p && *p ) ? p : 0;
+	}
+	
+	return (p && *p) ? p : 0;
 }
 
-void GXmlDocument::StreamIn( std::istream * in, std::string * tag )
+void GXmlDocument::StreamIn(std::istream* in, std::string* tag)
 {
 	// The basic issue with a document is that we don't know what we're
 	// streaming. Read something presumed to be a tag (and hope), then
@@ -699,56 +715,56 @@ void GXmlDocument::StreamIn( std::istream * in, std::string * tag )
 	// This "pre-streaming" will never read the closing ">" so the
 	// sub-tag can orient itself.
 
-	if ( !StreamTo( in, '<', tag ) ) 
+	if (!StreamTo(in, '<', tag )) 
 	{
-		SetError( GXML_ERROR_PARSING_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN );
+		SetError(GXML_ERROR_PARSING_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
 		return;
 	}
 
-	while ( in->good() )
+	while (in->good())
 	{
-		int tagIndex = (int) tag->length();
-		while ( in->good() && in->peek() != '>' )
+		int tagIndex = (int)tag->length();
+		while (in->good() && in->peek() != '>')
 		{
 			int c = in->get();
-			if ( c <= 0 )
+			if (c <= 0)
 			{
-				SetError( GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN );
+				SetError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
 				break;
 			}
 			(*tag) += (char) c;
 		}
 
-		if ( in->good() )
+		if (in->good())
 		{
 			// We now have something we presume to be a node of 
 			// some sort. Identify it, and call the node to
 			// continue streaming.
-			GXmlNode* node = Identify( tag->c_str() + tagIndex, GXML_DEFAULT_ENCODING );
+			GXmlNode* node = Identify(tag->c_str() + tagIndex, GXML_DEFAULT_ENCODING);
 
-			if ( node )
+			if (node)
 			{
-				node->StreamIn( in, tag );
+				node->StreamIn(in, tag);
 				bool isElement = node->ToElement() != 0;
 				delete node;
 				node = 0;
 
 				// If this is the root element, we're done. Parsing will be
 				// done by the >> operator.
-				if ( isElement )
+				if (isElement)
 				{
 					return;
 				}
 			}
 			else
 			{
-				SetError( GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN );
+				SetError(GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN);
 				return;
 			}
 		}
 	}
 	// We should have returned sooner.
-	SetError( GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN );
+	SetError(GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN);
 }
 
 const char* GXmlDocument::Parse( const char* p, GXmlParsingData* prevData, GXmlEncoding encoding )
