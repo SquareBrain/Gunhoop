@@ -293,7 +293,7 @@ void GXmlParsingData::stamp(const char* now, GXmlEncoding encoding)
 			if (encoding == GXML_ENCODING_UTF8)
 			{
 				// Eat the 1 to 4 byte utf8 character.
-				int step = GXmlBase::utf8ByteTable[*((const unsigned char*)p)];
+				int step = GXmlBase::m_utf8ByteTable[*((const unsigned char*)p)];
 				if (step == 0)
 				{
 					step = 1;		// Error case from bad encoding, but handle gracefully.
@@ -388,7 +388,7 @@ bool GXmlBase::streamWhiteSpace(std::istream* in, std::string* tag)
 
 		int c = in->peek();
 		// At this scope, we can't get to a document. So fail silently.
-		if (!IsWhiteSpace(c) || c <= 0)
+		if (!isWhiteSpace(c) || c <= 0)
 		{
 			return true;
 		}
@@ -440,7 +440,7 @@ const char* GXmlBase::readName(const char* p, std::string* name, GXmlEncoding en
 	// but tinyxml can't tell namespaces from names.)
 	if (p && *p 
 		&& (isAlpha((unsigned char)*p, encoding) 
-			|| *p == '_'))
+		|| *p == '_'))
 	{
 		const char* start = p;
 		while (p && *p
@@ -606,7 +606,7 @@ bool GXmlBase::StringEqual(const char* p,
 
 	if (ignoreCase)
 	{
-		while (*q && *tag && ToLower(*q, encoding) == ToLower(*tag, encoding))
+		while (*q && *tag && toLower(*q, encoding) == ToLower(*tag, encoding))
 		{
 			++q;
 			++tag;
@@ -634,7 +634,7 @@ bool GXmlBase::StringEqual(const char* p,
 	return false;
 }
 
-const char* GXmlBase::ReadText(const char* p, 
+const char* GXmlBase::readText(const char* p, 
 	std::string * text, 
 	bool trimWhiteSpace, 
 	const char* endTag, 
@@ -647,11 +647,11 @@ const char* GXmlBase::ReadText(const char* p,
 	{
 		// Keep all the white space.
 		while (p && *p
-			&& !StringEqual(p, endTag, caseInsensitive, encoding))
+			&& !stringEqual(p, endTag, caseInsensitive, encoding))
 		{
 			int len;
 			char cArr[4] = {0, 0, 0, 0};
-			p = GetChar(p, cArr, &len, encoding);
+			p = getChar(p, cArr, &len, encoding);
 			text->append(cArr, len);
 		}
 	}
@@ -660,16 +660,16 @@ const char* GXmlBase::ReadText(const char* p,
 		bool whitespace = false;
 
 		// Remove leading white space:
-		p = SkipWhiteSpace(p, encoding);
+		p = skipWhiteSpace(p, encoding);
 		while (p && *p
-			&& !StringEqual(p, endTag, caseInsensitive, encoding))
+			&& !stringEqual(p, endTag, caseInsensitive, encoding))
 		{
 			if (*p == '\r' || *p == '\n')
 			{
 				whitespace = true;
 				++p;
 			}
-			else if (IsWhiteSpace(*p))
+			else if (isWhiteSpace(*p))
 			{
 				whitespace = true;
 				++p;
@@ -685,7 +685,7 @@ const char* GXmlBase::ReadText(const char* p,
 				}
 				int len;
 				char cArr[4] = {0, 0, 0, 0};
-				p = GetChar(p, cArr, &len, encoding);
+				p = getChar(p, cArr, &len, encoding);
 				if (len == 1)
 				{
 					(*text) += cArr[0];	// more efficient
@@ -700,13 +700,13 @@ const char* GXmlBase::ReadText(const char* p,
 	
 	if (p && *p)
 	{
-		p += strlen( endTag );
+		p += strlen(endTag);
 	}
 	
 	return (p && *p) ? p : 0;
 }
 
-void GXmlDocument::StreamIn(std::istream* in, std::string* tag)
+void GXmlDocument::streamIn(std::istream* in, std::string* tag)
 {
 	// The basic issue with a document is that we don't know what we're
 	// streaming. Read something presumed to be a tag (and hope), then
@@ -715,9 +715,9 @@ void GXmlDocument::StreamIn(std::istream* in, std::string* tag)
 	// This "pre-streaming" will never read the closing ">" so the
 	// sub-tag can orient itself.
 
-	if (!StreamTo(in, '<', tag )) 
+	if (!streamTo(in, '<', tag )) 
 	{
-		SetError(GXML_ERROR_PARSING_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
+		setError(GXML_ERROR_PARSING_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
 		return;
 	}
 
@@ -729,7 +729,7 @@ void GXmlDocument::StreamIn(std::istream* in, std::string* tag)
 			int c = in->get();
 			if (c <= 0)
 			{
-				SetError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
+				setError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
 				break;
 			}
 			(*tag) += (char) c;
@@ -740,12 +740,12 @@ void GXmlDocument::StreamIn(std::istream* in, std::string* tag)
 			// We now have something we presume to be a node of 
 			// some sort. Identify it, and call the node to
 			// continue streaming.
-			GXmlNode* node = Identify(tag->c_str() + tagIndex, GXML_DEFAULT_ENCODING);
+			GXmlNode* node = identify(tag->c_str() + tagIndex, GXML_DEFAULT_ENCODING);
 
 			if (node)
 			{
-				node->StreamIn(in, tag);
-				bool isElement = node->ToElement() != 0;
+				node->streamIn(in, tag);
+				bool isElement = node->toElement() != 0;
 				delete node;
 				node = 0;
 
@@ -758,25 +758,26 @@ void GXmlDocument::StreamIn(std::istream* in, std::string* tag)
 			}
 			else
 			{
-				SetError(GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN);
+				setError(GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN);
 				return;
 			}
 		}
 	}
+	
 	// We should have returned sooner.
-	SetError(GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN);
+	setError(GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN);
 }
 
-const char* GXmlDocument::Parse(const char* p, GXmlParsingData* prevData, GXmlEncoding encoding)
+const char* GXmlDocument::parse(const char* p, GXmlParsingData* prevData, GXmlEncoding encoding)
 {
-	ClearError();
+	clearError();
 
 	// Parse away, at the document level. Since a document
 	// contains nothing but other tags, most of what happens
 	// here is skipping white space.
 	if (!p || !*p)
 	{
-		SetError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
+		setError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
 		return 0;
 	}
 
@@ -796,7 +797,7 @@ const char* GXmlDocument::Parse(const char* p, GXmlParsingData* prevData, GXmlEn
 	}
 	
 	GXmlParsingData data(p, TabSize(), location.row, location.col);
-	location = data.Cursor();
+	location = data.cursor();
 
 	if (encoding == GXML_ENCODING_UNKNOWN)
 	{
@@ -807,24 +808,24 @@ const char* GXmlDocument::Parse(const char* p, GXmlParsingData* prevData, GXmlEn
 			 && *(pU + 2) && *(pU + 2) == GXML_UTF_LEAD_2)
 		{
 			encoding = GXML_ENCODING_UTF8;
-			useMicrosoftBOM = true;
+			m_useMicrosoftBOM = true;
 		}
 	}
 
-    p = SkipWhiteSpace(p, encoding);
+    p = skipWhiteSpace(p, encoding);
 	if (!p)
 	{
-		SetError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
+		setError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
 		return 0;
 	}
 
 	while (p && *p)
 	{
-		GXmlNode* node = Identify(p, encoding);
+		GXmlNode* node = identify(p, encoding);
 		if (node)
 		{
-			p = node->Parse(p, &data, encoding);
-			LinkEndChild(node);
+			p = node->parse(p, &data, encoding);
+			linkEndChild(node);
 		}
 		else
 		{
@@ -832,22 +833,22 @@ const char* GXmlDocument::Parse(const char* p, GXmlParsingData* prevData, GXmlEn
 		}
 
 		// Did we get encoding info?
-		if ( encoding == GXML_ENCODING_UNKNOWN
-			 && node->ToDeclaration())
+		if (encoding == GXML_ENCODING_UNKNOWN
+			&& node->toDeclaration())
 		{
-			GXmlDeclaration* dec = node->ToDeclaration();
-			const char* enc = dec->Encoding();
+			GXmlDeclaration* dec = node->toDeclaration();
+			const char* enc = dec->encoding();
 			assert(enc);
 
 			if (*enc == 0)
 			{
 				encoding = GXML_ENCODING_UTF8;
 			}
-			else if (StringEqual( enc, "UTF-8", true, GXML_ENCODING_UNKNOWN))
+			else if (stringEqual( enc, "UTF-8", true, GXML_ENCODING_UNKNOWN))
 			{
 				encoding = GXML_ENCODING_UTF8;
 			}
-			else if (StringEqual(enc, "UTF8", true, GXML_ENCODING_UNKNOWN))
+			else if (stringEqual(enc, "UTF8", true, GXML_ENCODING_UNKNOWN))
 			{
 				encoding = GXML_ENCODING_UTF8;	// incorrect, but be nice
 			}
@@ -857,13 +858,13 @@ const char* GXmlDocument::Parse(const char* p, GXmlParsingData* prevData, GXmlEn
 			}
 		}
 
-		p = SkipWhiteSpace(p, encoding);
+		p = skipWhiteSpace(p, encoding);
 	}
 
 	// Was this empty?
 	if (!firstChild) 
 	{
-		SetError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, encoding);
+		setError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, encoding);
 		return 0;
 	}
 
@@ -871,38 +872,38 @@ const char* GXmlDocument::Parse(const char* p, GXmlParsingData* prevData, GXmlEn
 	return p;
 }
 
-void GXmlDocument::SetError(int err, const char* pError, GXmlParsingData* data, GXmlEncoding encoding)
+void GXmlDocument::setError(int err, const char* pError, GXmlParsingData* data, GXmlEncoding encoding)
 {	
 	// The first error in a chain is more accurate - don't set again!
-	if (error)
+	if (m_error)
 	{
 		return;
 	}
 
 	assert(err > 0 && err < GXML_ERROR_STRING_COUNT);
-	error   = true;
-	errorId = err;
-	errorDesc = errorString[errorId];
+	m_error = true;
+	m_errorId = err;
+	m_errorDesc = m_errorString[m_errorId];
 
-	errorLocation.clear();
+	m_errorLocation.clear();
 	if (pError && data)
 	{
-		data->Stamp(pError, encoding);
-		errorLocation = data->Cursor();
+		data->stamp(pError, encoding);
+		m_errorLocation = data->cursor();
 	}
 }
 
-GXmlNode* GXmlNode::Identify(const char* p, GXmlEncoding encoding)
+GXmlNode* GXmlNode::identify(const char* p, GXmlEncoding encoding)
 {
 	GXmlNode* returnNode = 0;
 
-	p = SkipWhiteSpace(p, encoding);
+	p = skipWhiteSpace(p, encoding);
 	if (!p || !*p || *p != '<')
 	{
 		return 0;
 	}
 
-	p = SkipWhiteSpace(p, encoding);
+	p = skipWhiteSpace(p, encoding);
 
 	if (!p || !*p)
 	{
@@ -921,38 +922,38 @@ GXmlNode* GXmlNode::Identify(const char* p, GXmlEncoding encoding)
 	const char* dtdHeader = {"<!"};
 	const char* cdataHeader = {"<![CDATA["};
 
-	if (StringEqual(p, xmlHeader, true, encoding))
+	if (stringEqual(p, xmlHeader, true, encoding))
 	{
 		#ifdef DEBUG_PARSER
 			GXML_LOG("XML parsing Declaration\n");
 		#endif
 		returnNode = new GXmlDeclaration();
 	}
-	else if (StringEqual(p, commentHeader, false, encoding))
+	else if (stringEqual(p, commentHeader, false, encoding))
 	{
 		#ifdef DEBUG_PARSER
 			GXML_LOG("XML parsing Comment\n");
 		#endif
 		returnNode = new GXmlComment();
 	}
-	else if (StringEqual(p, cdataHeader, false, encoding))
+	else if (stringEqual(p, cdataHeader, false, encoding))
 	{
 		#ifdef DEBUG_PARSER
 			GXML_LOG("XML parsing CDATA\n");
 		#endif
 		GXmlText* text = new GXmlText("");
-		text->SetCDATA(true);
+		text->setCdata(true);
 		returnNode = text;
 	}
-	else if (StringEqual(p, dtdHeader, false, encoding))
+	else if (stringEqual(p, dtdHeader, false, encoding))
 	{
 		#ifdef DEBUG_PARSER
 			GXML_LOG("XML parsing Unknown(1)\n");
 		#endif
 		returnNode = new GXmlUnknown();
 	}
-	else if (IsAlpha(*(p+1), encoding)
-			 || *(p+1) == '_')
+	else if (isAlpha(*(p + 1), encoding)
+		|| *(p + 1) == '_')
 	{
 		#ifdef DEBUG_PARSER
 			GXML_LOG("XML parsing Element\n");
@@ -976,7 +977,7 @@ GXmlNode* GXmlNode::Identify(const char* p, GXmlEncoding encoding)
 	return returnNode;
 }
 
-void GXmlElement::StreamIn(std::istream* in, std::string* tag)
+void GXmlElement::streamIn(std::istream* in, std::string* tag)
 {
 	// We're called with some amount of pre-parsing. That is, some of "this"
 	// element is in "tag". Go ahead and stream to the closing ">"
@@ -985,10 +986,10 @@ void GXmlElement::StreamIn(std::istream* in, std::string* tag)
 		int c = in->get();
 		if (c <= 0)
 		{
-			GXmlDocument* document = GetDocument();
+			GXmlDocument* document = getDocument();
 			if (document)
 			{
-				document->SetError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
+				document->setError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
 			}
 			
 			return;
@@ -1025,14 +1026,14 @@ void GXmlElement::StreamIn(std::istream* in, std::string* tag)
 		//		another node.
 		for (;;)
 		{
-			StreamWhiteSpace(in, tag);
+			streamWhiteSpace(in, tag);
 
 			// Do we have text?
 			if (in->good() && in->peek() != '<') 
 			{
 				// Yep, text.
 				GXmlText text("");
-				text.StreamIn(in, tag);
+				text.streamIn(in, tag);
 
 				// What follows text is a closing tag or another node.
 				// Go around again and figure it out.
@@ -1062,10 +1063,10 @@ void GXmlElement::StreamIn(std::istream* in, std::string* tag)
 				int c = in->peek();
 				if (c <= 0)
 				{
-					GXmlDocument* document = GetDocument();
+					GXmlDocument* document = getDocument();
 					if (document)
 					{
-						document->SetError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
+						document->setError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
 					}
 					
 					return;
@@ -1091,7 +1092,7 @@ void GXmlElement::StreamIn(std::istream* in, std::string* tag)
 					}
 				}
 
-				if (!firstCharFound && c != '<' && !IsWhiteSpace(c))
+				if (!firstCharFound && c != '<' && !isWhiteSpace(c))
 				{
 					firstCharFound = true;
 					if (c == '/')
@@ -1112,10 +1113,10 @@ void GXmlElement::StreamIn(std::istream* in, std::string* tag)
 				int c = in->get();
 				if (c <= 0)
 				{
-					GXmlDocument* document = GetDocument();
+					GXmlDocument* document = getDocument();
 					if (document)
 					{
-						document->SetError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
+						document->setError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
 					}
 					
 					return;
@@ -1147,7 +1148,7 @@ void GXmlElement::StreamIn(std::istream* in, std::string* tag)
 	}
 }
 
-const char* GXmlElement::Parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding)
+const char* GXmlElement::parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding)
 {
 	p = skipWhiteSpace(p, encoding);
 	GXmlDocument* document = getDocument();
@@ -1551,7 +1552,7 @@ const char* GXmlComment::parse(const char* p, GXmlParsingData* data, GXmlEncodin
 
     value = "";
 	// Keep all the white space.
-	while (p && *p && !StringEqual(p, endTag, false, encoding))
+	while (p && *p && !stringEqual(p, endTag, false, encoding))
 	{
 		value.append(p, 1);
 		++p;
