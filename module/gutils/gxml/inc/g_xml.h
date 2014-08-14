@@ -43,6 +43,7 @@ const int GXML_PATCH_VERSION = 2;
 */
 class GXmlCursor
 {
+public:
 	GXmlCursor() 
 	{ 
 		clear(); 
@@ -192,8 +193,8 @@ public:
 
 		@sa GXmlDocument::SetTabSize()
 	*/
-	int row() const	{ return location.m_row + 1; }
-	int column() const { return location.m_col + 1; }    ///< See Row()
+	int row() const	{ return m_location.m_row + 1; }
+	int column() const { return m_location.m_col + 1; }    ///< See Row()
 
 	void setUserData(void* user) { m_userData = user; }	///< Set a pointer to arbitrary user data.
 	void* getUserData() { return m_userData; }	///< Get a pointer to arbitrary user data.
@@ -201,7 +202,7 @@ public:
 
 	// Table that returs, for a given lead byte, the total number of bytes
 	// in the UTF-8 sequence.
-	static const int m_utf8ByteTable[256]{0};
+	static const int m_utf8ByteTable[256];
 
 	virtual const char* parse(const char* p, 
 		GXmlParsingData* data, 
@@ -210,7 +211,7 @@ public:
 	/** Expands entities in a string. Note this should not contian the tag's '<', '>', etc, 
 		or they will be transformed into entities!
 	*/
-	static void EncodeString(const std::string& str, std::string* out);
+	static void encodeString(const std::string& str, std::string* out);
 
 	enum
 	{
@@ -292,7 +293,7 @@ protected:
 		{
 			if (*p == '&')
             {
-				return GetEntity(p, value, length, encoding);
+				return getEntity(p, value, length, encoding);
             }
             
 			*value = *p;
@@ -589,12 +590,12 @@ public:
 	const GXmlNode* previousSibling(const char* prev) const;
 	GXmlNode* previousSibling(const char* prev) 
     {
-		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->PreviousSibling(prev));
+		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->previousSibling(prev));
 	}
 
 	const GXmlNode* previousSibling(const std::string& value) const	
     {   
-    	return PreviousSibling(value.c_str());   
+    	return previousSibling(value.c_str());   
     }   ///< STL std::string form.
     
 	GXmlNode* previousSibling(const std::string& value) 
@@ -664,7 +665,7 @@ public:
 	const GXmlElement* firstChildElement(const char* value) const;
 	GXmlElement* firstChildElement(const char* value) 
     {
-		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->firstChildElement(vvalue));
+		return const_cast<GXmlElement*>((const_cast<const GXmlNode*>(this))->firstChildElement(value));
 	}
 
 	const GXmlElement* firstChildElement(const std::string& value) const	
@@ -781,7 +782,8 @@ public:
 	GXmlAttribute() : GXmlBase()
 	{
 		m_document = nullptr;
-		m_prev = next = nullptr;
+		m_prev = nullptr;
+        m_next = nullptr;
 	}
 
 	/// std::string constructor.
@@ -799,7 +801,8 @@ public:
 		m_name = name;
 		m_value = value;
 		m_document = nullptr;
-		m_prev = next = nullptr;
+		m_prev = nullptr;
+        m_next = nullptr;
 	}
 
 	const char*	name() const { return m_name.c_str(); }		///< Return the name of this attribute.
@@ -851,7 +854,7 @@ public:
 
 	bool operator == (const GXmlAttribute& rhs) const { return rhs.m_name == m_name; }
 	bool operator < (const GXmlAttribute& rhs) const { return m_name < rhs.m_name; }
-	bool operator > (const GXmlAttribute& rhs) const { return m_name > rhs.name; }
+	bool operator > (const GXmlAttribute& rhs) const { return m_name > rhs.m_name; }
 
 	/*	Attribute parsing starts: first letter of the name
 						 returns: the next char after the value end quote
@@ -899,44 +902,43 @@ public:
 	GXmlAttributeSet();
 	~GXmlAttributeSet();
 
-	void Add(GXmlAttribute* attribute);
-	void Remove(GXmlAttribute* attribute);
+	void add(GXmlAttribute* attribute);
+	void remove(GXmlAttribute* attribute);
 
-	const GXmlAttribute* First( )const
+	const GXmlAttribute* first( )const
     { 
-    	return (sentinel.next == &sentinel) ? 0 : sentinel.next; 
+    	return (m_sentinel.m_next == &m_sentinel) ? 0 : m_sentinel.m_next; 
     }
     
-	GXmlAttribute* First()
+	GXmlAttribute* first()
     { 
-    	return (sentinel.next == &sentinel) ? 0 : sentinel.next; 
+    	return (m_sentinel.m_next == &m_sentinel) ? 0 : m_sentinel.m_next; 
     }
     
-	const GXmlAttribute* Last() const
+	const GXmlAttribute* last() const
     { 
-    	return (sentinel.prev == &sentinel) ? 0 : sentinel.prev; 
+    	return (m_sentinel.m_prev == &m_sentinel) ? 0 : m_sentinel.m_prev; 
     }
     
-	GXmlAttribute* Last()
+	GXmlAttribute* last()
     { 
-    	return (sentinel.prev == &sentinel) ? 0 : sentinel.prev; 
+    	return (m_sentinel.m_prev == &m_sentinel) ? 0 : m_sentinel.m_prev; 
     }
 
-	GXmlAttribute* Find(const char* _name) const;
-	GXmlAttribute* FindOrCreate(const char* _name);
+	GXmlAttribute* find(const char* name) const;
+	GXmlAttribute* findOrCreate(const char* name);
 
-	GXmlAttribute* Find(const std::string& _name) const;
-	GXmlAttribute* FindOrCreate(const std::string& _name);
+	GXmlAttribute* find(const std::string& name) const;
+	GXmlAttribute* findOrCreate(const std::string& name);
 
 private:
 	//*ME:	Because of hidden/disabled copy-construktor in GXmlAttribute (sentinel-element),
 	//*ME:	this class must be also use a hidden/disabled copy-constructor !!!
 	GXmlAttributeSet(const GXmlAttributeSet&);	// not allowed
-	void operator=(const GXmlAttributeSet&);	// not allowed (as GXmlAttribute)
+	void operator = (const GXmlAttributeSet&);	// not allowed (as GXmlAttribute)
 
-	GXmlAttribute sentinel;
+	GXmlAttribute m_sentinel;
 };
-
 
 /** The element is a container class. It has a value, the element name,
 	and can contain other elements, text, comments, and unknowns.
@@ -1049,7 +1051,7 @@ public:
 
 	int queryValueAttribute(const std::string& name, std::string* outValue) const
 	{
-		const GXmlAttribute* node = attributeSet.find(name);
+		const GXmlAttribute* node = m_attributeSet.find(name);
 		if (node == nullptr)
         {
 			return GXML_NO_ATTRIBUTE;
@@ -1096,22 +1098,22 @@ public:
 
 	const GXmlAttribute* firstAttribute() const	
     { 
-    	return attributeSet.first(); 
+    	return m_attributeSet.first(); 
     }        ///< Access the first attribute in this element.
     
 	GXmlAttribute* firstAttribute() 
     { 
-    	return attributeSet.first(); 
+    	return m_attributeSet.first(); 
     }
     
 	const GXmlAttribute* lastAttribute()	const 	
     { 
-    	return attributeSet.last(); 
+    	return m_attributeSet.last(); 
     }     ///< Access the last attribute in this element.
     
 	GXmlAttribute* lastAttribute()					
     { 
-    	return attributeSet.last(); 
+    	return m_attributeSet.last(); 
     }
 
 	/** Convenience function for easy access to the text inside an element. Although easy
@@ -1449,7 +1451,7 @@ public:
     
 	bool saveFile(const std::string& filename) const		///< STL std::string version.
 	{
-		return saveFile(m_filename.c_str());
+		return saveFile(filename.c_str());
 	}
 
 	/** Parse the given null terminated block of xml data. Passing in an encoding to this
@@ -1487,8 +1489,8 @@ public:
 
 		@sa SetTabSize, Row, Column
 	*/
-	int errorRow() const { return m_errorLocation.row + 1; }
-	int errorCol() const { return m_errorLocation.col + 1; }	///< The column where the error occured. See ErrorRow()
+	int errorRow() const { return m_errorLocation.m_row + 1; }
+	int errorCol() const { return m_errorLocation.m_col + 1; }	///< The column where the error occured. See ErrorRow()
 
 	/** SetTabSize() allows the error reporting functions (ErrorRow() and ErrorCol())
 		to report the correct values for row and column. It does not change the output
@@ -1526,7 +1528,8 @@ public:
 		m_error = false; 
 		m_errorId = 0; 
 		m_errorDesc = ""; 
-		m_errorLocation.row = m_errorLocation.col = 0; 
+		m_errorLocation.m_row = 0;
+        m_errorLocation.m_col = 0; 
 	}
 
 	/** Write the document to standard out using formatted printing ("pretty print"). */
@@ -1541,7 +1544,7 @@ public:
 	/// Print this Document to a FILE stream.
 	virtual void print(FILE* cfile, int depth = 0) const;
 	// [internal use]
-	void SetError(int err, 
+	void setError(int err, 
 		const char* errorLocation, 
 		GXmlParsingData* prevData, 
 		GXmlEncoding encoding);
@@ -1728,7 +1731,7 @@ public:
 	*/
 	GXmlText* toText() const			
 	{ 
-		return ((m_node && m_node->toText()) ? node->toText() : 0); 
+		return ((m_node && m_node->toText()) ? m_node->toText() : 0); 
     }
     
 	/** Return the handle as a GXmlUnknown. This may return null.
@@ -1833,7 +1836,7 @@ public:
 private:
 	void doIndent()	
     {
-		for (int i = 0; i < depth; i++)
+		for (int i = 0; i < m_depth; i++)
         {
 			m_buffer += m_indent;
         }
