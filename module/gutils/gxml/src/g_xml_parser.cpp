@@ -21,7 +21,7 @@
 // Note tha "PutString" hardcodes the same list. This
 // is less flexible than it appears. Changing the entries
 // or order will break putstring.
-GXmlBase::Entity GXmlBase::entity[GXmlBase::NUM_ENTITY] = 
+GXmlBase::Entity GXmlBase::m_entity[GXmlBase::NUM_ENTITY] = 
 {
 	{"&amp;", 5, '&'},
 	{"&lt;", 4, '<'},
@@ -171,7 +171,7 @@ class GXmlParsingData
 	friend class GXmlDocument;
 	
 public:
-	void Stamp(const char* now, GXmlEncoding encoding);
+	void stamp(const char* now, GXmlEncoding encoding);
 	const GXmlCursor& cursor() const	
 	{ 
 		return m_cursor; 
@@ -255,7 +255,7 @@ void GXmlParsingData::stamp(const char* now, GXmlEncoding encoding)
 			++p;
 
 			// Skip to next tab stop
-			col = (col / tabsize + 1) * tabsize;
+			col = (col / m_tabsize + 1) * m_tabsize;
 			break;
 		case GXML_UTF_LEAD_0:
 			if (encoding == GXML_ENCODING_UTF8)
@@ -469,7 +469,6 @@ const char* GXmlBase::getEntity(const char* p, char* value, int* length, GXmlEnc
 {
 	// Presume an entity, and pull it out.
     std::string ent;
-	int i = 0;
 	*length = 0;
 
 	if (*(p + 1) && *(p + 1) == '#' && *(p + 2))
@@ -572,12 +571,12 @@ const char* GXmlBase::getEntity(const char* p, char* value, int* length, GXmlEnc
 	// Now try to match it.
 	for (int i = 0; i < NUM_ENTITY; i++)
 	{
-		if (strncmp(entity[i].str, p, entity[i].strLength) == 0)
+		if (strncmp(m_entity[i].m_str, p, m_entity[i].m_strLength) == 0)
 		{
-			assert(strlen(entity[i].str ) == entity[i].strLength);
-			*value = entity[i].chr;
+			assert(strlen(m_entity[i].m_str ) == m_entity[i].m_strLength);
+			*value = m_entity[i].m_chr;
 			*length = 1;
-			return (p + entity[i].strLength);
+			return (p + m_entity[i].m_strLength);
 		}
 	}
 
@@ -588,7 +587,7 @@ const char* GXmlBase::getEntity(const char* p, char* value, int* length, GXmlEnc
 	return p + 1;
 }
 
-bool GXmlBase::StringEqual(const char* p,
+bool GXmlBase::stringEqual(const char* p,
 	const char* tag,
 	bool ignoreCase,
 	GXmlEncoding encoding)
@@ -606,7 +605,7 @@ bool GXmlBase::StringEqual(const char* p,
 
 	if (ignoreCase)
 	{
-		while (*q && *tag && toLower(*q, encoding) == ToLower(*tag, encoding))
+		while (*q && *tag && toLower(*q, encoding) == toLower(*tag, encoding))
 		{
 			++q;
 			++tag;
@@ -643,7 +642,7 @@ const char* GXmlBase::readText(const char* p,
 {
     *text = "";
 	if (!trimWhiteSpace			// certain tags always keep whitespace
-		|| !condenseWhiteSpace)	// if true, whitespace is always kept
+		|| !m_condenseWhiteSpace)	// if true, whitespace is always kept
 	{
 		// Keep all the white space.
 		while (p && *p
@@ -784,20 +783,20 @@ const char* GXmlDocument::parse(const char* p, GXmlParsingData* prevData, GXmlEn
 	// Note that, for a document, this needs to come
 	// before the while space skip, so that parsing
 	// starts from the pointer we are given.
-	location.clear();
+	m_location.clear();
 	if (prevData)
 	{
-		location.row = prevData->cursor.row;
-		location.col = prevData->cursor.col;
+		m_location.m_row = prevData->m_cursor.m_row;
+		m_location.m_col = prevData->m_cursor.m_col;
 	}
 	else
 	{
-		location.row = 0;
-		location.col = 0;
+		m_location.m_row = 0;
+		m_location.m_col = 0;
 	}
 	
-	GXmlParsingData data(p, TabSize(), location.row, location.col);
-	location = data.cursor();
+	GXmlParsingData data(p, tabSize(), m_location.m_row, m_location.m_col);
+	m_location = data.cursor();
 
 	if (encoding == GXML_ENCODING_UNKNOWN)
 	{
@@ -862,7 +861,7 @@ const char* GXmlDocument::parse(const char* p, GXmlParsingData* prevData, GXmlEn
 	}
 
 	// Was this empty?
-	if (!firstChild) 
+	if (!m_firstChild) 
 	{
 		setError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, encoding);
 		return 0;
@@ -971,7 +970,7 @@ GXmlNode* GXmlNode::identify(const char* p, GXmlEncoding encoding)
 	if (returnNode)
 	{
 		// Set the parent, so it can report errors
-		returnNode->parent = this;
+		returnNode->m_parent = this;
 	}
 	
 	return returnNode;
@@ -1166,7 +1165,7 @@ const char* GXmlElement::parse(const char* p, GXmlParsingData* data, GXmlEncodin
 	if (data)
 	{
 		data->stamp(p, encoding);
-		location = data->cursor();
+		m_location = data->cursor();
 	}
 
 	if (*p != '<')
@@ -1184,7 +1183,7 @@ const char* GXmlElement::parse(const char* p, GXmlParsingData* data, GXmlEncodin
 	// Read the name.
 	const char* pErr = p;
 
-    p = readName(p, &value, encoding);
+    p = readName(p, &m_value, encoding);
 	if (!p || !*p)
 	{
 		if (document)	
@@ -1195,7 +1194,7 @@ const char* GXmlElement::parse(const char* p, GXmlParsingData* data, GXmlEncodin
 	}
 
     std::string endTag ("</");
-	endTag += value;
+	endTag += m_value;
 
 	// Check for and read attributes. Also look for an empty
 	// tag or an end tag.
@@ -1291,7 +1290,7 @@ const char* GXmlElement::parse(const char* p, GXmlParsingData* data, GXmlEncodin
 
 			attrib->setDocument(document);
 			pErr = p;
-			p = attrib->Parse(p, data, encoding);
+			p = attrib->parse(p, data, encoding);
 
 			if (!p || !*p)
 			{
@@ -1306,7 +1305,7 @@ const char* GXmlElement::parse(const char* p, GXmlParsingData* data, GXmlEncodin
 			}
 
 			// Handle the strange case of double attributes:
-			GXmlAttribute* node = attributeSet.find(attrib->NameTStr());
+			GXmlAttribute* node = m_attributeSet.find(attrib->nameTStr());
 			if (node)
 			{
 				if (document)
@@ -1318,14 +1317,14 @@ const char* GXmlElement::parse(const char* p, GXmlParsingData* data, GXmlEncodin
 				return 0;
 			}
 
-			attributeSet.add(attrib);
+			m_attributeSet.add(attrib);
 		}
 	}
 	
 	return p;
 }
 
-const char* GXmlElement::ReadValue(const char* p, GXmlParsingData* data, GXmlEncoding encoding)
+const char* GXmlElement::readValue(const char* p, GXmlParsingData* data, GXmlEncoding encoding)
 {
 	GXmlDocument* document = getDocument();
 
@@ -1397,7 +1396,7 @@ const char* GXmlElement::ReadValue(const char* p, GXmlParsingData* data, GXmlEnc
 	{
 		if (document) 
 		{
-			document->SetError(GXML_ERROR_READING_ELEMENT_VALUE, 0, 0, encoding);
+			document->setError(GXML_ERROR_READING_ELEMENT_VALUE, 0, 0, encoding);
 		}
 	}	
 	
@@ -1437,8 +1436,8 @@ const char* GXmlUnknown::parse(const char* p, GXmlParsingData* data, GXmlEncodin
 
 	if (data)
 	{
-		data->Stamp(p, encoding);
-		location = data->Cursor();
+		data->stamp(p, encoding);
+		m_location = data->cursor();
 	}
 	
 	if (!p || !*p || *p != '<')
@@ -1452,11 +1451,11 @@ const char* GXmlUnknown::parse(const char* p, GXmlParsingData* data, GXmlEncodin
 	}
 	
 	++p;
-    value = "";
+    m_value = "";
 
 	while (p && *p && *p != '>')
 	{
-		value += *p;
+		m_value += *p;
 		++p;
 	}
 
@@ -1483,7 +1482,7 @@ void GXmlComment::streamIn(std::istream* in, std::string* tag)
 		int c = in->get();	
 		if (c <= 0)
 		{
-			GXmlDocument* document = GetDocument();
+			GXmlDocument* document = getDocument();
 			if (document)
 			{
 				document->setError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
@@ -1506,21 +1505,21 @@ void GXmlComment::streamIn(std::istream* in, std::string* tag)
 
 const char* GXmlComment::parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding)
 {
-	GXmlDocument* document = GetDocument();
-	value = "";
+	GXmlDocument* document = getDocument();
+	m_value = "";
 
 	p = skipWhiteSpace(p, encoding);
 
 	if (data)
 	{
 		data->stamp(p, encoding);
-		location = data->cursor();
+		m_location = data->cursor();
 	}
 	
 	const char* startTag = "<!--";
 	const char* endTag = "-->";
 
-	if (!StringEqual(p, startTag, false, encoding))
+	if (!stringEqual(p, startTag, false, encoding))
 	{
 		if (document)
 		{
@@ -1550,11 +1549,11 @@ const char* GXmlComment::parse(const char* p, GXmlParsingData* data, GXmlEncodin
 				  <!-- declarations for <head> & <body> -->
 	*/
 
-    value = "";
+    m_value = "";
 	// Keep all the white space.
 	while (p && *p && !stringEqual(p, endTag, false, encoding))
 	{
-		value.append(p, 1);
+		m_value.append(p, 1);
 		++p;
 	}
 	
@@ -1577,17 +1576,17 @@ const char* GXmlAttribute::parse(const char* p, GXmlParsingData* data, GXmlEncod
 	if (data)
 	{
 		data->stamp(p, encoding);
-		location = data->cursor();
+		m_location = data->cursor();
 	}
 	
 	// Read the name, the '=' and the value.
 	const char* pErr = p;
-	p = readName(p, &name, encoding);
+	p = readName(p, &m_name, encoding);
 	if (!p || !*p)
 	{
-		if (document) 
+		if (m_document) 
 		{
-			document->setError(GXML_ERROR_READING_ATTRIBUTES, pErr, data, encoding);
+			m_document->setError(GXML_ERROR_READING_ATTRIBUTES, pErr, data, encoding);
 		}
 		
 		return 0;
@@ -1596,9 +1595,9 @@ const char* GXmlAttribute::parse(const char* p, GXmlParsingData* data, GXmlEncod
 	p = skipWhiteSpace(p, encoding);
 	if (!p || !*p || *p != '=')
 	{
-		if (document) 
+		if (m_document) 
 		{
-			document->setError(GXML_ERROR_READING_ATTRIBUTES, p, data, encoding);
+			m_document->setError(GXML_ERROR_READING_ATTRIBUTES, p, data, encoding);
 		}
 		
 		return 0;
@@ -1608,9 +1607,9 @@ const char* GXmlAttribute::parse(const char* p, GXmlParsingData* data, GXmlEncod
 	p = skipWhiteSpace(p, encoding);
 	if (!p || !*p)
 	{
-		if (document) 
+		if (m_document) 
 		{
-			document->setError(GXML_ERROR_READING_ATTRIBUTES, p, data, encoding);
+			m_document->setError(GXML_ERROR_READING_ATTRIBUTES, p, data, encoding);
 		}
 		
 		return 0;
@@ -1624,22 +1623,22 @@ const char* GXmlAttribute::parse(const char* p, GXmlParsingData* data, GXmlEncod
 	{
 		++p;
 		end = "\'";		// single quote in string
-		p = readText(p, &value, false, end, false, encoding);
+		p = readText(p, &m_value, false, end, false, encoding);
 	}
 	else if (*p == DOUBLE_QUOTE)
 	{
 		++p;
 		end = "\"";		// double quote in string
-		p = readText(p, &value, false, end, false, encoding);
+		p = readText(p, &m_value, false, end, false, encoding);
 	}
 	else
 	{
 		// All attribute values should be in single or double quotes.
 		// But this is such a common error that the parser will try
 		// its best, even without them.
-		value = "";
+		m_value = "";
 		while (p && *p											// existence
-			&& !IsWhiteSpace(*p)								// whitespace
+			&& !isWhiteSpace(*p)								// whitespace
 			&& *p != '/' && *p != '>')							// tag end
 		{
 			if (*p == SINGLE_QUOTE || *p == DOUBLE_QUOTE) 
@@ -1647,15 +1646,15 @@ const char* GXmlAttribute::parse(const char* p, GXmlParsingData* data, GXmlEncod
 				// [ 1451649 ] Attribute values with trailing quotes not handled correctly
 				// We did not have an opening quote but seem to have a 
 				// closing one. Give up and throw an error.
-				if (document) 
+				if (m_document) 
 				{
-					document->setError(GXML_ERROR_READING_ATTRIBUTES, p, data, encoding);
+					m_document->setError(GXML_ERROR_READING_ATTRIBUTES, p, data, encoding);
 				}
 				
 				return 0;
 			}
 			
-			value += *p;
+			m_value += *p;
 			++p;
 		}
 	}
@@ -1701,13 +1700,13 @@ void GXmlText::streamIn(std::istream* in, std::string* tag)
 
 const char* GXmlText::parse(const char* p, GXmlParsingData* data, GXmlEncoding encoding)
 {
-	value = "";
+	m_value = "";
 	GXmlDocument* document = getDocument();
 
 	if (data)
 	{
-		data->Stamp(p, encoding);
-		location = data->cursor();
+		data->stamp(p, encoding);
+		m_location = data->cursor();
 	}
 
 	const char* const startTag = "<![CDATA[";
@@ -1717,7 +1716,7 @@ const char* GXmlText::parse(const char* p, GXmlParsingData* data, GXmlEncoding e
 	{
 		m_cdata = true;
 
-		if (!StringEqual(p, startTag, false, encoding))
+		if (!stringEqual(p, startTag, false, encoding))
 		{
 			if (document)
 			{
@@ -1733,7 +1732,7 @@ const char* GXmlText::parse(const char* p, GXmlParsingData* data, GXmlEncoding e
 		while (p && *p
 			&& !stringEqual(p, endTag, false, encoding))
 		{
-			value += *p;
+			m_value += *p;
 			++p;
 		}
 
@@ -1746,7 +1745,7 @@ const char* GXmlText::parse(const char* p, GXmlParsingData* data, GXmlEncoding e
 	{
 		bool ignoreWhite = true;
 		const char* end = "<";
-		p = readText(p, &value, ignoreWhite, end, false, encoding);
+		p = readText(p, &m_value, ignoreWhite, end, false, encoding);
 		if (p && *p)
 		{
 			return p-1;	// don't truncate the '<'
@@ -1766,7 +1765,7 @@ void GXmlDeclaration::streamIn(std::istream* in, std::string* tag)
 			GXmlDocument* document = getDocument();
 			if (document)
 			{
-				docsment->setError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
+				document->setError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
 			}
 			
 			return;
@@ -1801,14 +1800,14 @@ const char* GXmlDeclaration::parse(const char* p, GXmlParsingData* data, GXmlEnc
 	if (data)
 	{
 		data->stamp(p, encoding);
-		location = data->cursor();
+		m_location = data->cursor();
 	}
 	
 	p += 5;
 
-	version = "";
-	encoding = "";
-	standalone = "";
+	m_version = "";
+	m_encoding = "";
+	m_standalone = "";
 
 	while (p && *p)
 	{
@@ -1823,19 +1822,19 @@ const char* GXmlDeclaration::parse(const char* p, GXmlParsingData* data, GXmlEnc
 		{
 			GXmlAttribute attrib;
 			p = attrib.parse(p, data, encoding);		
-			version = attrib.value();
+			m_version = attrib.value();
 		}
 		else if (stringEqual(p, "encoding", true, encoding))
 		{
 			GXmlAttribute attrib;
 			p = attrib.parse(p, data, encoding);		
-			encoding = attrib.value();
+			m_encoding = attrib.value();
 		}
 		else if (stringEqual(p, "standalone", true, encoding))
 		{
 			GXmlAttribute attrib;
 			p = attrib.parse(p, data, encoding);		
-			standalone = attrib.value();
+			m_standalone = attrib.value();
 		}
 		else
 		{
