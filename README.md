@@ -1,3 +1,3 @@
-Gohoop
+Distributed Storage And Compute Platforms
 ======
-Distributed Platforms
+Purpose
