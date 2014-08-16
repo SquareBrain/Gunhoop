@@ -28,7 +28,7 @@
 /**
  * @brief uninit log system
  */
-#define G_LOG_UNINIT() GLogger::uninit()
+//#define G_LOG_UNINIT() GLogger::uninit()
 
 /**
  * @brief print error log

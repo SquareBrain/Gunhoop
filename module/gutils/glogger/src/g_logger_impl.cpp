@@ -22,7 +22,7 @@
 static const GUint64 DEF_ONE_LINE_BUF_SIZE = 1024;
 
 // the configuration file name
-static const GInt8* DEF_CONF_FILE_NAME = "glog.conf";
+static const GInt8* DEF_CONF_FILE_NAME = "glog.xml";
 
 GLoggerImpl::GLoggerImpl()
 {

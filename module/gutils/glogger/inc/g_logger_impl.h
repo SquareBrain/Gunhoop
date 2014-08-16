@@ -144,6 +144,6 @@ private:
 	GLogLevelMap        m_logLevelMap;
 	GlobalRule          m_globalRule;
 	GModuleRuleMap      m_moduleRuleMap;
-	GIniFile            m_iniFile;
+	GFile            	m_iniFile;
 	GInt8               m_error[G_ERROR_BUF_SIZE];
 };

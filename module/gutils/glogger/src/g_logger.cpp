@@ -18,8 +18,6 @@
 #include <g_logger_impl.h>
 #include <g_logger.h>
 
-static const GUint64 DEF_ONE_LINE_BUF_SIZE = 1024;
-
 GResult GLogger::init()
 {
 	return GLoggerImpl::GetInstance()->init();
