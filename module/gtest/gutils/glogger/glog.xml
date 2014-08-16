@@ -1,0 +1,22 @@
+<!--
+usage:
+	<level> 	--print level, value can setting to : trace debug info warn error null
+	<filenum> 	--the max number of log files
+	<filesize>	--the size of one log file, unit is MB
+	<module>	--each module can addition one module tag
+		--name 		: module name
+		--level 	: printt level
+		--out		: where log output to, 
+					  1. 'stdout' to current screen.
+					  2. 'file' to file. 
+					  file_prefix : file name prefix, e.g : xxx_1.glog
+					  file_path : file save path. '.' is current directory
+-->
+
+<glogconf name="software school">  
+	<level>debug</level>
+	<filenum>10<filenum>
+	<filesize>10</filesize> 
+	<module name="module_name" level="debug" out="stdout">
+	<module name="module_name" level="debug" out="file" file_prefix="mylog" file_path=".">
+</glogconf>  
