@@ -25,15 +25,18 @@ xxxxxxxx
 
 Usage
 ====
-GStoreServer
+GCommon
 ----
 
-GTaskServer
+GStore
+----
+
+GTask
 ----
 
 GSql
 ----
 
-GMapreduce
+GUtils
 ----
 
