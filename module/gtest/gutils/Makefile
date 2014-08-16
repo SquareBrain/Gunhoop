@@ -1,4 +1,4 @@
-SUBDIRS:= logger
+SUBDIRS:=gxml
 
 all:
 	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR; done

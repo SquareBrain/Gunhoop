@@ -4,7 +4,7 @@
 *
 ************************************************************************************/
 /**
-* @file		g_xml.h
+* @file		gxml_main.h
 * @version     
 * @brief      
 * @author	duye
@@ -18,105 +18,119 @@
 #include <iostream>
 #include <g_xml.h>
 
+using namespace std;
+
 class GXmlTest
 {
 public:
-    GXmlTest();
-    ~GXmlTest();
+    GXmlTest() {}
+    ~GXmlTest() {}
 
     void printSchoolXml();
     void readSchoolXml();
     void writeSchoolXml();
 };
 
-void printSchoolXml();
-void readSchoolXml();
-void writeSchoolXml();
-
-int main(int argc, char** argv) 
+void GXmlTest::printSchoolXml() 
 {
-	printSchoolXml();
-	readSchoolXml();
-	writeSchoolXml();
-	return 0;
-}
+    cout << "TEST 1. print file school.xml" << endl;
 
-void printSchoolXml() 
-{
-	using namespace std;
-	TiXmlDocument doc;  
-	const char * xmlFile = "conf/school.xml";	
-	if (doc.LoadFile(xmlFile)) {  	
-		doc.Print();  
-	} else {
-		cout << "can not parse xml conf/school.xml" << endl;
+	GXmlDocument doc;  
+	const char* xml_file = "school.xml";	
+	if (doc.loadFile(xml_file)) 
+    {   
+		doc.print();  
+	} 
+    else 
+    {
+		cout << "can not parse xml school.xml" << endl;
 	}
 }
 
-void readSchoolXml() {
-	using namespace std;
-	const char * xmlFile = "conf/school.xml";	
-	TiXmlDocument doc;  
-	if (doc.LoadFile(xmlFile)) {  	
-		doc.Print();  
-	} else {
+void GXmlTest::readSchoolXml() 
+{
+	cout << "TEST 2. read file school.xml" << endl;
+    
+	const char * xmlFile = "school.xml";	
+	GXmlDocument doc;  
+	if (doc.loadFile(xmlFile)) 
+    {   
+		doc.print();  
+	} 
+    else 
+    {
 		cout << "can not parse xml conf/school.xml" << endl;
 		return;
 	}
-	TiXmlElement* rootElement = doc.RootElement();  //School元素  
-	TiXmlElement* classElement = rootElement->FirstChildElement();  // Class元素
-	TiXmlElement* studentElement = classElement->FirstChildElement();  //Students  
-	for (; studentElement != NULL; studentElement = studentElement->NextSiblingElement() ) {  
-		TiXmlAttribute* attributeOfStudent = studentElement->FirstAttribute();  //获得student的name属性  
-		for (;attributeOfStudent != NULL; attributeOfStudent = attributeOfStudent->Next() ) {  
-			cout << attributeOfStudent->Name() << " : " << attributeOfStudent->Value() << std::endl;  
+    
+	GXmlElement* rootElement = doc.rootElement();  //School元素  
+	GXmlElement* classElement = rootElement->firstChildElement();  // Class元素
+	GXmlElement* studentElement = classElement->firstChildElement();  //Students  
+	for (; studentElement != NULL; studentElement = studentElement->nextSiblingElement()) 
+    {  
+		GXmlAttribute* attributeOfStudent = studentElement->firstAttribute();  //获得student的name属性  
+		for (; attributeOfStudent != NULL; attributeOfStudent = attributeOfStudent->next()) 
+        {  
+			cout << attributeOfStudent->name() << " : " << attributeOfStudent->value() << std::endl;  
 		}
 
-		TiXmlElement* studentContactElement = studentElement->FirstChildElement();//获得student的第一个联系方式 
-		for (; studentContactElement != NULL; studentContactElement = studentContactElement->NextSiblingElement() ) {
-			string contactType = studentContactElement->Value();
-			string contactValue = studentContactElement->GetText();
+		GXmlElement* studentContactElement = studentElement->firstChildElement();//获得student的第一个联系方式 
+		for (; studentContactElement != NULL; studentContactElement = studentContactElement->nextSiblingElement()) 
+        {
+			string contactType = studentContactElement->value();
+			string contactValue = studentContactElement->getText();
 			cout << contactType  << " : " << contactValue << std::endl;  
 		}
 
 	}  
 }
 
+void GXmlTest::writeSchoolXml() 
+{
+	cout << "TEST 3. write file school.xml" << endl;
+    
+	const char * xmlFile = "school-write.xml";	
+	GXmlDocument doc;  
+	GXmlDeclaration * decl = new GXmlDeclaration("1.0", "", "");  
+	GXmlElement * schoolElement = new GXmlElement( "School" );  
+	GXmlElement * classElement = new GXmlElement( "Class" );  
+	classElement->setAttribute("name", "C++");
 
-void writeSchoolXml() {
-	using namespace std;
-	const char * xmlFile = "conf/school-write.xml";	
-	TiXmlDocument doc;  
-	TiXmlDeclaration * decl = new TiXmlDeclaration("1.0", "", "");  
-	TiXmlElement * schoolElement = new TiXmlElement( "School" );  
-	TiXmlElement * classElement = new TiXmlElement( "Class" );  
-	classElement->SetAttribute("name", "C++");
+	GXmlElement * stu1Element = new GXmlElement("Student");
+	stu1Element->setAttribute("name", "tinyxml");
+	stu1Element->setAttribute("number", "123");
+	GXmlElement * stu1EmailElement = new GXmlElement("email");
+	stu1EmailElement->linkEndChild(new GXmlText("tinyxml@163.com") );
+	GXmlElement * stu1AddressElement = new GXmlElement("address");
+	stu1AddressElement->linkEndChild(new GXmlText("dazhou"));
+	stu1Element->linkEndChild(stu1EmailElement);
+	stu1Element->linkEndChild(stu1AddressElement);
 
-	TiXmlElement * stu1Element = new TiXmlElement("Student");
-	stu1Element->SetAttribute("name", "tinyxml");
-	stu1Element->SetAttribute("number", "123");
-	TiXmlElement * stu1EmailElement = new TiXmlElement("email");
-	stu1EmailElement->LinkEndChild(new TiXmlText("tinyxml@163.com") );
-	TiXmlElement * stu1AddressElement = new TiXmlElement("address");
-	stu1AddressElement->LinkEndChild(new TiXmlText("中国"));
-	stu1Element->LinkEndChild(stu1EmailElement);
-	stu1Element->LinkEndChild(stu1AddressElement);
+	GXmlElement * stu2Element = new GXmlElement("Student");
+	stu2Element->setAttribute("name", "jsoncpp");
+	stu2Element->setAttribute("number", "456");
+	GXmlElement * stu2EmailElement = new GXmlElement("email");
+	stu2EmailElement->linkEndChild(new GXmlText("jsoncpp@163.com"));
+	GXmlElement * stu2AddressElement = new GXmlElement("address");
+	stu2AddressElement->linkEndChild(new GXmlText("chengdu"));
+	stu2Element->linkEndChild(stu2EmailElement);
+	stu2Element->linkEndChild(stu2AddressElement);
 
-	TiXmlElement * stu2Element = new TiXmlElement("Student");
-	stu2Element->SetAttribute("name", "jsoncpp");
-	stu2Element->SetAttribute("number", "456");
-	TiXmlElement * stu2EmailElement = new TiXmlElement("email");
-	stu2EmailElement->LinkEndChild(new TiXmlText("jsoncpp@163.com"));
-	TiXmlElement * stu2AddressElement = new TiXmlElement("address");
-	stu2AddressElement->LinkEndChild(new TiXmlText("美国"));
-	stu2Element->LinkEndChild(stu2EmailElement);
-	stu2Element->LinkEndChild(stu2AddressElement);
-
-	classElement->LinkEndChild(stu1Element);  
-	classElement->LinkEndChild(stu2Element);  
-	schoolElement->LinkEndChild(classElement);  
+	classElement->linkEndChild(stu1Element);  
+	classElement->linkEndChild(stu2Element);  
+	schoolElement->linkEndChild(classElement);  
 	
-	doc.LinkEndChild(decl);  
-	doc.LinkEndChild(schoolElement); 
-	doc.SaveFile(xmlFile);  
+	doc.linkEndChild(decl);  
+	doc.linkEndChild(schoolElement); 
+	doc.saveFile(xmlFile);  
+}
+
+int main(int argc, char** argv) 
+{
+	GXmlTest test;
+	test.printSchoolXml();
+	test.readSchoolXml();
+	test.writeSchoolXml();
+    
+	return 0;
 }

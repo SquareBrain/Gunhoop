@@ -1,7 +1,7 @@
 <School name="software school">  
 	<Class name = "C++">  
-		<Student name="tinyxml" number="123">  
-			<email>tinyxml@163.com</email>  
+		<Student name="gxml" number="123">  
+			<email>gxml@163.com</email>  
 			<address>China</address>  
 		</Student>  
 		<Student name="jsoncpp" number="456">  

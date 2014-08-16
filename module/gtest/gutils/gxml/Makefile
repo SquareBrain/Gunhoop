@@ -9,7 +9,7 @@ SRCDIRS:=$(BUILD_PATH)
 
 LIBS_PATH:=
 
-LIBS:=gutils
+LIBS:=gutils gsystem
 
 SLIBS:=
 
