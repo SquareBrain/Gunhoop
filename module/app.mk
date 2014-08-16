@@ -7,9 +7,9 @@ SLIBS+=
 
 LIBS+=pthread dl 
 
-LIBS_PATH+= 
+LIBS_PATH+=$(GOHOOP_LIB_PATH) 
 
-PRE_DEFINED+=$(GOHOOP_LIB_PATH)
+PRE_DEFINED+=
 
 #create dir
 OUTPUT:=$(BUILD_PATH)/output

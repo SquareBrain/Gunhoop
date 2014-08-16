@@ -30,6 +30,8 @@ GXmlBase::Entity GXmlBase::m_entity[GXmlBase::NUM_ENTITY] =
 	{"&apos;", 6, '\''}
 };
 
+bool GXmlBase::m_condenseWhiteSpace = false;
+
 // Bunch of unicode info at:
 //		http://www.unicode.org/faq/utf_bom.html
 // Including the basic of this table, which determines the #bytes in the

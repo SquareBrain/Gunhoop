@@ -9,9 +9,9 @@ INCLUDES+= \
 	$(GOHOOP_INC_PATH)/gutils/glogger \
 	$(GOHOOP_INC_PATH)/gutils/gxml
 	
-LIBS+= 
+#LIBS+= 
 
-LIBS_PATH+=
+#LIBS_PATH+=
 
 SLIBS+=
 
