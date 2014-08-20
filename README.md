@@ -31,7 +31,7 @@ Gohoop分布式存储与计算平台(Gohoop Distributed Storage And Compute Plat
 
 下载
 ====
-xxxxxxxxx
+https://github.com/Gohoop/Gohoop/tag/xxx.rar.gz
 
 部署
 ====
