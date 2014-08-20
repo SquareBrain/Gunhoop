@@ -159,6 +159,7 @@ public:
 	GInt8* getError();    
 
 private:
+	GResult parserLogConf();
 	GResult findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule);
 	void setError(const GInt8* args, ...);
 
