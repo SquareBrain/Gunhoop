@@ -14,8 +14,9 @@ usage:
 
 <glogconf>  
 	<toplevel>debug</toplevel>
-	<filenum>10<filenum>
-	<filesize>10</filesize> 
+	<maxfilenum>10<maxfilenum>
+	<maxfilesize>10</maxfilesize> 
+	<autowordwrap>true</autowordwrap>
 	<module name="module.a" level="null" format="basic" outo="stdout">
 	<module name="module.b" level="error" format="more" outo="file" prefix="mylog" path=".">
 	<module name="module.c" level="warn" format="full" outo="stderr">
