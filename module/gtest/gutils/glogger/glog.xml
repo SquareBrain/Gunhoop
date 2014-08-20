@@ -1,22 +1,25 @@
 <!--
 usage:
-	<level> 	--print level, value can setting to : trace debug info warn error null
-	<filenum> 	--the max number of log files
-	<filesize>	--the size of one log file, unit is MB
-	<module>	--each module can addition one module tag
-		--name 		: module name
-		--level 	: printt level
-		--out		: where log output to, 
-					  1. 'stdout' to current screen.
-					  2. 'file' to file. 
-					  file_prefix : file name prefix, e.g : xxx_1.glog
-					  file_path : file save path. '.' is current directory
+<level> 	--print level, value can setting to : trace debug info warn error null
+<filenum> 	--the max number of log files
+<filesize>	--the size of one log file, unit is MB
+<module>	--each module can addition one module tag
+	--name 		: module name
+	--level 	: print level
+	--format	: print format(basic, more, full)
+	--outo		: print log output to 'outo', maybe value : stdout, stderr, file
+	--prefix 	: file name prefix. e.g : xxx_1.glog
+	--path 		: file save path. '.' is current directory
 -->
 
-<glogconf name="software school">  
-	<level>debug</level>
+<glogconf>  
+	<toplevel>debug</toplevel>
 	<filenum>10<filenum>
 	<filesize>10</filesize> 
-	<module name="module_name" level="debug" out="stdout">
-	<module name="module_name" level="debug" out="file" file_prefix="mylog" file_path=".">
+	<module name="module.a" level="null" format="basic" outo="stdout">
+	<module name="module.b" level="error" format="more" outo="file" prefix="mylog" path=".">
+	<module name="module.c" level="warn" format="full" outo="stderr">
+	<module name="module.d" level="info" format="full" outo="stdout">
+	<module name="module.e" level="debug" format="full" outo="stdout">
+	<module name="module.f" level="trace" format="full" outo="stdout">
 </glogconf>  
