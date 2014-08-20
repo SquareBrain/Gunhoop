@@ -1,13 +1,7 @@
 INCLUDES+= \
 	$(GOHOOP_INC_PATH)/gsystem \
-	$(GOHOOP_INC_PATH)/gcommon/conf \
-	$(GOHOOP_INC_PATH)/gcommon/filesys \
-	$(GOHOOP_INC_PATH)/gcommon/function \
-	$(GOHOOP_INC_PATH)/gcommon/iostream \
-	$(GOHOOP_INC_PATH)/gcommon/network \
-	$(GOHOOP_INC_PATH)/gutils/gini \
-	$(GOHOOP_INC_PATH)/gutils/glogger \
-	$(GOHOOP_INC_PATH)/gutils/gxml
+	$(GOHOOP_INC_PATH)/gcommon \
+	$(GOHOOP_INC_PATH)/gutils
 
 SLIBS+=
 
