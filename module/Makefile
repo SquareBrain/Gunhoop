@@ -1,7 +1,8 @@
 SUBDIRS:= \
 	gsystem \
-	gcommon \
-	gutils
+	gutils \
+	glogger \
+	gcommon
 	
 all:
 	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR; done
