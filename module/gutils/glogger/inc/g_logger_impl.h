@@ -160,6 +160,7 @@ public:
 
 private:
 	GResult parserLogConf();
+	GResult findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel);
 	GResult findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule);
 	void setError(const GInt8* args, ...);
 
