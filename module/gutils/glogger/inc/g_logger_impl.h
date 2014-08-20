@@ -39,7 +39,7 @@ typedef enum
  */	
 typedef enum 
 {
-	PRINT_BASIC = 0,
+	PRINT_BASIC,
 	PRINT_MORE,
 	PRINT_FULL,
 }GPrintLevel;
