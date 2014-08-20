@@ -8,26 +8,27 @@ Gohoop分布式存储与计算平台(Gohoop Distributed Storage And Compute Plat
 2. 实现任务分布式运算。
 3. 对外以RPC方式提供。
 
-
 发布
 ====
+###2015.06.30 Gohoop.1.0.4 
+> 实现非结构化数据存取服务、结构化数据存取服务，包括：
+> GStoreMaster 进程
+> GStoreServer 进程
+> GSQLMaster 进程
+> GSQLServer 进程
 
-###2015.06.30 Gohoop.1.0.4 实现非结构化数据存取服务、结构化数据存取服务，包括：
-    > GStoreMaster 进程
-    > GStoreServer 进程
-    > GSQLMaster 进程
-    > GSQLServer 进程
+###2015.02.28 Gohoop.1.0.2 
+> 文件系统实现、Mapreduce框架实现、丰富基础库，包括：
+> GDFSMaster 进程
+> GDFSServer 进程
+> GTaskMaster 进程
+> GTaskServer 进程
+> addition and fixed bug 基础库
 
-###2015.02.28 Gohoop.1.0.2 文件系统实现、Mapreduce框架实现、丰富基础库，包括：
-    > GDFSMaster 进程
-    > GDFSServer 进程
-    > GTaskMaster 进程
-    > GTaskServer 进程
-    > addition and fixed bug 基础库
-
-###2014.10.31 Gohoop.1.0.0 基础库实现，包括：
-    > libgutils.so(gini.a gxml.a glogger.a gzip.a)
-    > libgsystem.so
+###2014.10.31 Gohoop.1.0.0 
+> 基础库实现，包括：
+> libgutils.so(gini.a gxml.a glogger.a gzip.a)
+> libgsystem.so
 
 下载
 ====
