@@ -489,7 +489,7 @@ public:
 		return const_cast<GXmlNode*>((const_cast<const GXmlNode*>(this))->lastChild(value));
 	}
 
-	const GXmlNode* FirstChild(const std::string& value) const	
+	const GXmlNode* firstChild(const std::string& value) const	
     { 
     	return firstChild(value.c_str ()); 
     }    ///< STL std::string form.
@@ -499,7 +499,7 @@ public:
     	return firstChild(value.c_str()); 
     }  ///< STL std::string form.
     
-	const GXmlNode* LastChild(const std::string& value) const
+	const GXmlNode* lastChild(const std::string& value) const
     { 
     	return lastChild(value.c_str ()); 
     } ///< STL std::string form.
@@ -905,7 +905,7 @@ public:
 	void add(GXmlAttribute* attribute);
 	void remove(GXmlAttribute* attribute);
 
-	const GXmlAttribute* first( )const
+	const GXmlAttribute* first()const
     { 
     	return (m_sentinel.m_next == &m_sentinel) ? 0 : m_sentinel.m_next; 
     }

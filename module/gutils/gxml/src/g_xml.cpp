@@ -1052,16 +1052,17 @@ bool GXmlDocument::loadFile(FILE* file, GXmlEncoding encoding)
 	const char LF = 0x0a;
 
 	buf[length] = 0;
-	while( *p ) 
+	while (*p) 
     {
-		assert(p < (buf+length));
-		assert(q <= (buf+length));
+		assert(p < (buf + length));
+		assert(q <= (buf + length));
 		assert(q <= p);
 
 		if (*p == CR) 
         {
 			*q++ = LF;
 			p++;
+            
 			if (*p == LF) 
             {       // check for CR+LF (and skip LF)
 				p++;

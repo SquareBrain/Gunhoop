@@ -48,7 +48,7 @@ typedef enum
  */
 typedef enum
 {
-	SAVE_STDOUT
+	SAVE_STDOUT,
 	SAVE_STDERR,
 	SAVE_FILE
 } GSaveWay;

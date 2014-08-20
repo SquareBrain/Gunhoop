@@ -14,8 +14,8 @@
 *  1. 2014-07-01 duye Created this file
 * 
 */
-#include <stdio.h>
 #include <g_file.h>
+#include <g_xml.h>
 #include <g_logger_impl.h>
 
 // the max buffer size of in one line
@@ -49,7 +49,7 @@ GResult GLoggerImpl::init()
 	m_logLevelMap.insert(std::make_pair(LOG_TRACE, "TRACE"));
 
 	// parser file
-	if (parserLogConf(logDoc) != G_YES)
+	if (parserLogConf() != G_YES)
 	{
 		setError("parser log conf file '%s' failed", DEF_CONF_FILE_NAME);
 		return G_NO;
@@ -85,7 +85,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	GUint64 pos = 0;
 
 	// add log level and module name
-	pos += sprintf(printBuf + pos, "<%s>[%s]", m_logLevelMap[logLevel], module);
+	pos += sprintf(printBuf + pos, "<%s>[%s]", m_logLevelMap[logLevel].c_str(), module);
 
 	switch (moduleRule->getPrintLevel())
 	{
@@ -107,7 +107,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	pos += GSys::format(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, args);
 
 	// add word wrap
-	if (m_globalRule.isWordWrap())
+	if (m_globalRule.isAutoWordWrap())
 	{
 		pos += sprintf(printBuf + pos, "\n");    
 	}
@@ -132,11 +132,11 @@ GResult GLoggerImpl::parserLogConf()
 	
 	logDoc.print();
 	
-	GXmlElement* rootElement = doc.rootElement();
+	GXmlElement* rootElement = logDoc.rootElement();
 	GXmlElement* childElement = rootElement->firstChildElement();
 	for (; childElement != nullptr; childElement = childElement->nextSiblingElement())
 	{
-		if (childElement->tagName() == "toplevel")
+		if (childElement->valueStr() == "toplevel")
 		{
 			const GInt8* text = childElement->getText();
 			if (text != nullptr)
@@ -151,27 +151,28 @@ GResult GLoggerImpl::parserLogConf()
 				m_globalRule.setTopLogLevel(logLevel);
 			}
 		}
-		else if (childElement->tagName() == "")
+		else if (childElement->valueStr() == "maxfilenum")
 		{
 			
 		}
-		else if (childElement->tagName() == "")
+		else if (childElement->valueStr() == "maxfilesize")
 		{
 			
 		}
-		else if (childElement->tagName() == "")
+		else if (childElement->valueStr() == "autowordwrap")
 		{
-				GXmlAttribute* attribute = childElement->firstAttribute();
+			// GXmlAttribute* attribute = childElement->firstAttribute();
 		}
-		
-		
-		if ()
+		else if (childElement->valueStr() == "module")
+		{
+			// GXmlAttribute* attribute = childElement->firstAttribute();
+		}        
 	}
 	
 	return G_YES;	
 }
 
-GResult GLoggerImpl::findLogLevel(GInt8* logLevelStr, GLogLevel& logLevel)
+GResult GLoggerImpl::findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel)
 {
 	return G_YES;	
 }
@@ -194,7 +195,11 @@ void GLoggerImpl::setError(const GInt8* args, ...)
 	GSys::format(m_error, G_ERROR_BUF_SIZE, args);
 }
 
-GlobalRule::GlobalRule() : m_fileSize(0), m_fileCount(0), m_isWordWrap(true)
+GlobalRule::GlobalRule() 
+    : m_topLogLevel(LOG_TRACE)
+    , m_maxFileNum(0)
+    , m_maxFileSize(0)
+    , m_isAutoWordWrap(true)
 {
 }
 
@@ -202,44 +207,34 @@ GlobalRule::~GlobalRule()
 {
 }
 
-void GlobalRule::setFileName(const std::string& fileName)
+void GlobalRule::setMaxFileNum(const GUint32 maxFileNum)
 {
-	m_fileName = fileName;    
+	m_maxFileNum = maxFileNum;
 }
 
-const std::string GlobalRule::getFileName() const
+GUint32 GlobalRule::getMaxFileNum() const
 {
-	return m_fileName;    
+	return m_maxFileNum;
 }
 
-void GlobalRule::setFileSize(const GUint64 fileSize)
+void GlobalRule::setMaxFileSize(const GUint64 maxFileSize)
 { 
-	m_fileSize = fileSize;   
+	m_maxFileSize = maxFileSize;   
 }
 
-GUint64 GlobalRule::getFileSize() const
+GUint64 GlobalRule::getMaxFileSize() const
 {
-	return m_fileSize;
+	return m_maxFileSize;
 }
 
-void GlobalRule::setFileCount(const GUint32 fileCount)
+void GlobalRule::setAutoWordWrap(const bool isAutoWordWrap)
 {
-	m_fileCount = fileCount;
+	m_isAutoWordWrap = isAutoWordWrap;
 }
 
-GUint32 GlobalRule::getFileCount() const
+bool GlobalRule::isAutoWordWrap() const
 {
-	return m_fileCount;
-}
-
-void GlobalRule::setWordWrap(const bool isWordWrap)
-{
-	m_isWordWrap = isWordWrap;
-}
-
-bool GlobalRule::isWordWrap() const
-{
-	return m_isWordWrap;   
+	return m_isAutoWordWrap;   
 }
     
 ModuleRule::ModuleRule() : m_logLevel(LOG_ERROR), m_printLevel(PRINT_BASIC)
@@ -260,7 +255,7 @@ const std::string& ModuleRule::getModuleName() const
 	return m_moduleName;
 }
 
-void ModuleRule::setLogLevel(const GLogLevel logLevel)
+void ModuleRule::setLogLevel(const GLogLevel& logLevel)
 {
 	m_logLevel = logLevel;
 }
@@ -270,7 +265,7 @@ const GLogLevel& ModuleRule::getLogLevel() const
 	return m_logLevel;
 }
 
-void ModuleRule::setPrintLevel(const GPrintLevel printLevel)
+void ModuleRule::setPrintLevel(const GPrintLevel& printLevel)
 {
 	m_printLevel = printLevel;
 }
@@ -278,4 +273,34 @@ void ModuleRule::setPrintLevel(const GPrintLevel printLevel)
 const GPrintLevel& ModuleRule::getPrintLevel() const
 {
 	return m_printLevel;
+}
+
+void ModuleRule::setSaveWay(const GSaveWay& saveWay)
+{
+	m_saveWay = saveWay;
+}
+
+const GSaveWay& ModuleRule::getSaveWay() const
+{
+	return m_saveWay;
+}
+
+void ModuleRule::setFilePrefix(const std::string& filePrefix)
+{
+	m_filePrefix = filePrefix;
+}
+
+const std::string& ModuleRule::getFilePrefix() const
+{
+	return m_filePrefix;
+}
+
+void ModuleRule::setFilePath(const std::string& filePath)
+{
+	m_filePath = filePath;
+}
+
+const std::string& ModuleRule::getFilePath() const
+{
+	return m_filePath;
 }
