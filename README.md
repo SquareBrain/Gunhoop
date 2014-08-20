@@ -31,7 +31,9 @@ Gohoop分布式存储与计算平台(Gohoop Distributed Storage And Compute Plat
 
 下载
 ====
-https://github.com/Gohoop/Gohoop/tag/xxx.rar.gz
+> 基础库版 https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.4.tar.gz
+> 文件系统版 https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.2.tar.gz
+> 结构化和非结构化存取服务版 https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.0.tar.gz
 
 部署
 ====
