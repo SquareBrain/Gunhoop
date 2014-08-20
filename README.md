@@ -12,23 +12,23 @@ Gohoop简介
 发布
 ====
 ### Gohoop.1.0.4 2015.06.30
-    在实现非结构化数据存取服务、结构化数据存取服务，包括：
+    增加结构和非结构化数据存取服务，包括：
     GStoreMaster 进程
     GStoreServer 进程
     GSQLMaster 进程
     GSQLServer 进程
 
 ### Gohoop.1.0.2 2015.02.28
-    文件系统实现、Mapreduce框架实现、丰富基础库，包括：
+    增加文件系统实现、Mapreduce框架实现、丰富基础库，包括：
     GDFSMaster 进程
     GDFSServer 进程
     GTaskMaster 进程
     GTaskServer 进程
-    addition and fixed bug 基础库
+    基础库增加和修复
 
 ### Gohoop.1.0.0 2014.10.31
     基础库实现，包括：
-    libgutils.so(gini.a gxml.a glogger.a gzip.a)
+    libgutils.so(包括gini gxml glogger gzip等子模块)
     libgsystem.so
 
 下载
