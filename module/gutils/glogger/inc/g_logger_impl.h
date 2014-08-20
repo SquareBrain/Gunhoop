@@ -19,7 +19,6 @@
 #include <map>
 #include <string>
 #include <g_system.h>
-#include <g_ini.h>
 
 /**
  * system log level
