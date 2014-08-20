@@ -11,14 +11,14 @@ Gohoop简介
 
 发布
 ====
-### 2015.06.30 Gohoop.1.0.4 
-    实现非结构化数据存取服务、结构化数据存取服务，包括：
+### Gohoop.1.0.4 2015.06.30
+    在实现非结构化数据存取服务、结构化数据存取服务，包括：
     GStoreMaster 进程
     GStoreServer 进程
     GSQLMaster 进程
     GSQLServer 进程
 
-### 2015.02.28 Gohoop.1.0.2 
+### Gohoop.1.0.2 2015.02.28
     文件系统实现、Mapreduce框架实现、丰富基础库，包括：
     GDFSMaster 进程
     GDFSServer 进程
@@ -26,16 +26,16 @@ Gohoop简介
     GTaskServer 进程
     addition and fixed bug 基础库
 
-### 2014.10.31 Gohoop.1.0.0 
+### Gohoop.1.0.0 2014.10.31
     基础库实现，包括：
     libgutils.so(gini.a gxml.a glogger.a gzip.a)
     libgsystem.so
 
 下载
 ====
-[基础库版gohoop.1.0.0](https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.4.tar.gz) <br />
-[文件系统版gohoop.1.0.2](https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.2.tar.gz) <br />
 [结构化和非结构化存取服务版gohoop.1.0.4](https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.0.tar.gz) <br />
+[文件系统版gohoop.1.0.2](https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.2.tar.gz) <br />
+[基础库版gohoop.1.0.0](https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.4.tar.gz) <br />
 
 部署
 ====
@@ -58,14 +58,10 @@ building
 ====
 > 详细见gohoop_guide.pdf
 
-GTaskMaster & GTaskServer
-----
+### GTaskMaster & GTaskServer
 
-GDFSMaster & GDFSServer
-----
+### GDFSMaster & GDFSServer
 
-GStoreMaster & GStoreServer
-----
+### GStoreMaster & GStoreServer
 
-GSQLMaster & GSQLServer
-----
+### GSQLMaster & GSQLServer
