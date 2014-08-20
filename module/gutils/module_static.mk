@@ -6,7 +6,6 @@ BUILD_PATH:=$(shell pwd)
 
 SUBDIRS:= \
 	gini \
-	glogger \
 	gxml
 
 INCLUDES:=

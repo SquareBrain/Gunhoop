@@ -1,7 +1,6 @@
 SUBDIRS:= \
 	gini \
-	gxml \
-	glogger
+	gxml 
 
 all:
 	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR; done
