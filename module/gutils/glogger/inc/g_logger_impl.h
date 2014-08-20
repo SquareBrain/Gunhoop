@@ -26,7 +26,8 @@
  */	
 typedef enum 
 {
-	LOG_ERROR = 0,
+	LOG_NULL,
+	LOG_ERROR,
 	LOG_WARN,
 	LOG_INFO,
 	LOG_DEBUG,
@@ -44,6 +45,16 @@ typedef enum
 }GPrintLevel;
 
 /**
+ * where to print
+ */
+typedef enum
+{
+	SAVE_STDOUT
+	SAVE_STDERR,
+	SAVE_FILE
+} GSaveWay;
+
+/**
  * system log global configuration rule
  */	
 class GlobalRule
@@ -52,23 +63,23 @@ public:
 	GlobalRule();
 	~GlobalRule();
 
-	void setFileName(const std::string& fileName);
-	const std::string getFileName() const;
+	void setTopLogLevel(const GLogLevel& logLevel);
+	const GLogLevel& getTopLogLevel() const;
 
-	void setFileSize(const GUint64 fileSize);
-	GUint64 getFileSize() const;
+	void setMaxFileNum(const GUint32 maxFileNum);
+	GUint32 getMaxFileNum() const;
 
-	void setFileCount(const GUint32 fileCount);
-	GUint32 getFileCount() const;
+	void setMaxFileSize(const GUint64 maxFileSize);
+	GUint64 getMaxFileSize() const;
 
-	void setWordWrap(const bool isWordWrap);
-	bool isWordWrap() const;    
+	void setAutoWordWrap(const bool isAutoWordWrap);
+	bool isAutoWordWrap() const;    
 
 private:
-	std::string     m_fileName;
-	GUint64         m_fileSize;
-	GUint32         m_fileCount;
-	bool            m_isWordWrap;
+	GLogLevel     	m_topLogLevel;
+	GUint32         m_maxFileNum;
+	GUint64			m_maxFileSize;		
+	bool            m_isAutoWordWrap;
 };
 
 /**
@@ -83,16 +94,28 @@ public:
 	void setModuleName(const std::string& moduleName);
 	const std::string& getModuleName() const;   
 
-	void setLogLevel(const GLogLevel logLevel);
+	void setLogLevel(const GLogLevel& logLevel);
 	const GLogLevel& getLogLevel() const;
 
-	void setPrintLevel(const GPrintLevel printLevel);
+	void setPrintLevel(const GPrintLevel& printLevel);
 	const GPrintLevel& getPrintLevel() const;   
+	
+	void setSaveWay(const GSaveWay& saveWay);
+	const GSaveWay& getSaveWay() const;
+	
+	void setFilePrefix(const std::string& filePrefix);
+	const std::string& getFilePrefix() const;
+	
+	void setFilePath(const std::string& filePath);
+	const std::string& getFilePath() const;
 
 private:
 	std::string     m_moduleName;
 	GLogLevel       m_logLevel;
 	GPrintLevel     m_printLevel;
+	GSaveWay		m_saveWay;
+	std::string		m_filePrefix;
+	std::string		m_filePath;
 };
 
 /**
@@ -103,7 +126,7 @@ class GLoggerImpl
 public:
 	// <module_name, module_rule>
 	typedef std::map<std::string, ModuleRule*> GModuleRuleMap;
-	typedef std::map<GLogLevel, const GInt8*> GLogLevelMap;
+	typedef std::map<GLogLevel, const std::string> GLogLevelMap;
     
 public:
 	GLoggerImpl();
@@ -144,6 +167,5 @@ private:
 	GLogLevelMap        m_logLevelMap;
 	GlobalRule          m_globalRule;
 	GModuleRuleMap      m_moduleRuleMap;
-	GFile            	m_iniFile;
 	GInt8               m_error[G_ERROR_BUF_SIZE];
 };
