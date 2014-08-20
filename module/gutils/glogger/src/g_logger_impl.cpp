@@ -41,17 +41,18 @@ GLoggerImpl* GLoggerImpl::GetInstance()
 
 GResult GLoggerImpl::init()
 {    
+	m_logLevelMap.insert(std::make_pair(LOG_ERROR, "NULL"));
 	m_logLevelMap.insert(std::make_pair(LOG_ERROR, "ERROR"));
 	m_logLevelMap.insert(std::make_pair(LOG_WARN, "WARN"));
 	m_logLevelMap.insert(std::make_pair(LOG_INFO, "INFO"));
 	m_logLevelMap.insert(std::make_pair(LOG_DEBUG, "DEBUG"));
 	m_logLevelMap.insert(std::make_pair(LOG_TRACE, "TRACE"));
 
-	// read configuration file
-	if (m_iniFile.loadFile(DEF_CONF_FILE_NAME) != G_YES)
+	// parser file
+	if (parserLogConf(logDoc) != G_YES)
 	{
-	    setError("load file '%s' failed", DEF_CONF_FILE_NAME);
-	    return G_NO;
+		setError("parser log conf file '%s' failed", DEF_CONF_FILE_NAME);
+		return G_NO;
 	}
 
 	return G_YES;
@@ -117,6 +118,62 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 GInt8* GLoggerImpl::getError()
 {
 	return m_error;
+}
+
+GResult GLoggerImpl::parserLogConf()
+{
+	// read configuration file
+	GXmlDocument logDoc;
+	if (!logDoc.loadFile(DEF_CONF_FILE_NAME))
+	{
+	    setError("load log conf file '%s' failed", DEF_CONF_FILE_NAME);
+	    return G_NO;
+	}
+	
+	logDoc.print();
+	
+	GXmlElement* rootElement = doc.rootElement();
+	GXmlElement* childElement = rootElement->firstChildElement();
+	for (; childElement != nullptr; childElement = childElement->nextSiblingElement())
+	{
+		if (childElement->tagName() == "toplevel")
+		{
+			const GInt8* text = childElement->getText();
+			if (text != nullptr)
+			{
+				GLogLevel logLevel = LOG_NULL;
+				if (findLogLevel(text, logLevel) != G_YES)
+				{
+					setError("log conf format error, please check glog.xml");
+					return G_NO;
+				}
+				
+				m_globalRule.setTopLogLevel(logLevel);
+			}
+		}
+		else if (childElement->tagName() == "")
+		{
+			
+		}
+		else if (childElement->tagName() == "")
+		{
+			
+		}
+		else if (childElement->tagName() == "")
+		{
+				GXmlAttribute* attribute = childElement->firstAttribute();
+		}
+		
+		
+		if ()
+	}
+	
+	return G_YES;	
+}
+
+GResult GLoggerImpl::findLogLevel(GInt8* logLevelStr, GLogLevel& logLevel)
+{
+	return G_YES;	
 }
 
 GResult GLoggerImpl::findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule)
