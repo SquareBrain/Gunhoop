@@ -19,7 +19,7 @@ Gohoop简介
     GSQLServer 进程
 
 ### Gohoop.1.0.2 2015.02.28
-    增加文件系统实现、Mapreduce框架实现、丰富基础库，包括：
+    增加文件系统服务、Task服务，Mapreduce框架实现、丰富基础库，包括：
     GDFSMaster 进程
     GDFSServer 进程
     GTaskMaster 进程
@@ -29,7 +29,7 @@ Gohoop简介
 ### Gohoop.1.0.0 2014.10.31
     基础库实现，包括：
     libgsystem.so
-    libgutils.so(包括gini gxml gzip)
+    libgutils.so(包括gini gxml gzip grpc gsoap)
     libglogger.so
     libgcommon.so(包括filesys function iostream network)
     
