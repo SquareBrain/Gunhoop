@@ -57,13 +57,13 @@ Gohoop简介
 ./configuration --prefix=/etc/usr/local
 
 2. 编译
-#make 
+make 
 
 3. 安装
-#make install
+make install
 
 4. 测试安装
-#gohoop_guide
+gohoop_guide
 ----
 
 使用
