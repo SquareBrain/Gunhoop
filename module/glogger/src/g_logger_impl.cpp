@@ -150,10 +150,31 @@ GResult GLoggerImpl::parserLogConf()
 				
 				m_globalRule.setTopLogLevel(logLevel);
 			}
+			else
+			{
+				// set default value
+				m_globalRule.setTopLogLevel(LOG_INFO);	
+			}
 		}
 		else if (childElement->valueStr() == "maxfilenum")
 		{
-			
+			const GInt8* text = childElement->getText();
+			if (text != nullptr)
+			{
+				GLogLevel logLevel = LOG_NULL;
+				if (findLogLevel(text, logLevel) != G_YES)
+				{
+					setError("log conf format error, please check glog.xml");
+					return G_NO;
+				}
+				
+				m_globalRule.setTopLogLevel(logLevel);
+			}
+			else
+			{
+				// set default value
+				m_globalRule.setTopLogLevel(LOG_INFO);	
+			}				
 		}
 		else if (childElement->valueStr() == "maxfilesize")
 		{
