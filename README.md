@@ -28,9 +28,11 @@ Gohoop简介
 
 ### Gohoop.1.0.0 2014.10.31
     基础库实现，包括：
-    libgutils.so(包括gini gxml glogger gzip等子模块)
     libgsystem.so
-
+    libgutils.so(包括gini gxml gzip)
+    libglogger.so
+    libgcommon.so(包括filesys function iostream network)
+    
 下载
 ====
 [结构化和非结构化存取服务版gohoop.1.0.4](https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.0.tar.gz) <br />
