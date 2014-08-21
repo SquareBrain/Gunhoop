@@ -43,17 +43,27 @@ Gohoop简介
 ====
     部署分为Master端和Slave端。Master负责管理、控制Slave端服务，Slave端负责具休的数据存储和运行行为。
 
-### Master端
+### Master端布署
 ----
     GTaskMaster、GDFSMaster、GStoreMaster、GSQLMaster
 
-### Slave端
+### Slave端布署
 ----
     GTaskServer、GDFSServer、GStoreServer、GSQLServer
 
 安装
 ====
-building
+1. 配置
+#./configuration --prefix=/etc/usr/local
+
+2. 编译
+#make 
+
+3. 安装
+#make install
+
+4. 测试安装
+#gohoop_guide
 ----
 
 使用
