@@ -64,7 +64,6 @@ make install
 
 4. 测试安装
 gohoop_guide
-----
 
 使用
 ====
