@@ -54,7 +54,7 @@ Gohoop简介
 安装
 ====
 1. 配置
-#./configuration --prefix=/etc/usr/local
+./configuration --prefix=/etc/usr/local
 
 2. 编译
 #make 
