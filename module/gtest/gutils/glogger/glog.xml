@@ -1,8 +1,9 @@
 <!--
 usage:
-<level> 	--print level, value can setting to : trace debug info warn error null
-<filenum> 	--the max number of log files
-<filesize>	--the size of one log file, unit is MB
+<toplevel> 	--print level, default is info, value can setting to : trace debug info warn error null
+<maxfilenum> 	--the max number of log files, default is 10
+<maxfilesize>	--the size of one log file, unit is MB, default 10
+<autoworkwrap> 	--automatic wordwrap, default is true
 <module>	--each module can addition one module tag
 	--name 		: module name
 	--level 	: print level
