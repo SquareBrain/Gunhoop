@@ -11,14 +11,14 @@ Gohoop简介
 
 发布
 ====
-### Gohoop.1.0.4 2015.06.30
+### Gohoop.1.2.0 2015.06.30
     增加结构和非结构化数据存取服务，包括：
     GStoreMaster 进程
     GStoreServer 进程
     GSQLMaster 进程
     GSQLServer 进程
 
-### Gohoop.1.0.2 2015.02.28
+### Gohoop.1.1.0 2015.02.28
     增加文件系统服务、Task服务，Mapreduce框架实现、丰富基础库，包括：
     GDFSMaster 进程
     GDFSServer 进程
