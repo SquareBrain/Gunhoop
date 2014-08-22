@@ -124,10 +124,10 @@ class GLoggerImpl
 {
 public:
 	// <module_name, module_rule>
-	typedef std::map<const std::string, const ModuleRule*> GModuleRuleMap;
-	typedef std::map<const GLogLevel, const std::string> GLogLevelMap;
-	typedef std::map<const GPrintFormat, const std::string> GPrintFormatMap;
-	typedef std::map<const GSaveWay, const std::string> GSaveWayMap;
+	typedef std::map<const std::string, const ModuleRule*> 	GModuleRuleMap;
+	typedef std::map<const GLogLevel, const std::string> 	GLogLevelMap;
+	typedef std::map<const GPrintFormat, const std::string>	GPrintFormatMap;
+	typedef std::map<const GSaveWay, const std::string> 	GSaveWayMap;
     
 public:
 	GLoggerImpl();
