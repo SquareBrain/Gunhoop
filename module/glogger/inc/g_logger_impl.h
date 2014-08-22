@@ -111,7 +111,7 @@ public:
 private:
 	std::string		m_moduleName;
 	GLogLevel		m_logLevel;
-	GPrintLevel		m_printFormat;
+	GPrintFormat	m_printFormat;
 	GSaveWay		m_saveWay;
 	std::string		m_filePrefix;
 	std::string		m_filePath;
@@ -187,8 +187,8 @@ private:
 	GResult parserLogConf();
 	GResult initFile();
 	GResult findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel);
-	GResult findPrintFormat(const GInt8* printFormat, GPrintFormat& printFormat);
-	GResult findSaveWay(const GInt8* saveWay, GSaveWay& saveWay);
+	GResult findPrintFormat(const GInt8* printFormatStr, GPrintFormat& printFormat);
+	GResult findSaveWay(const GInt8* saveWayStr, GSaveWay& saveWay);
 	GModuleRule* findModuleRule(const std::string& moduleName);
 	void setError(const GInt8* args, ...);
 

@@ -4,9 +4,11 @@ TARGET:=lib$(MODULE)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
 
-SUBDIRS:=./ 
+INCLUDES:=$(BUILD_PATH)/inc
 
-INCLUDES:=
+SRCDIRS:=$(BUILD_PATH)/src
+
+SUBDIRS:=
 
 LIBS_PATH:= 
 
@@ -14,7 +16,6 @@ LIBS:=
 
 SLIBS:=
 
-OUT_HEADS:=$(wildcard $(BUILD_PATH)/*.h) \
-	$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc/*.h)
+OUT_HEADS:=$(wildcard $(BUILD_PATH)/inc/*.h)
 
 include ../static.mk

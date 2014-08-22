@@ -47,6 +47,21 @@ GResult GFileUtil::createFile(const GInt8* filePath, const GUint64& initSize)
 	return G_YES;
 }
 
+bool GFileUtil::isExist(const GInt8* filePath)
+{
+	if (filePath == nullptr)
+    {
+    	return false;
+    }
+    
+	if (access(filePath, 0) < 0)
+    {
+    	return false;
+    }
+
+    return true;
+}
+
 GFile::GFile() : m_fd(-1), m_flags(0), m_pathLen(0)
 {
 	m_error[0] = 0;
@@ -71,27 +86,27 @@ GFile::~GFile()
 	close();
 }
 
-GResult GFile::open(const GUint64 flags)
+GResult GFile::open(const GFileOpenFlags fileOpenFlags)
 {
-	return open(flags, G_FILE_MASK);          
+	return open(fileOpenFlags, G_FILE_MASK);          
 }
 
-GResult GFile::open(const GUint64 flags, const GInt32 mode)
+GResult GFile::open(const GFileOpenFlags fileOpenFlags, const GInt32 mode)
 {
 	GInt32 openFlags = 0;
-	if (flags | G_OPEN_READ)
+	if (fileOpenFlags | G_OPEN_READ)
 	{
 		openFlags = O_RDONLY;
 	}
-	else if (flags | G_OPEN_WRITE)
+	else if (fileOpenFlags | G_OPEN_WRITE)
 	{
 		openFlags = O_WRONLY | O_CREAT;
 	}
-	else if (flags | G_OPEN_RDWR)
+	else if (fileOpenFlags | G_OPEN_RDWR)
 	{
 		openFlags = O_RDWR | O_CREAT;        
 	}
-	else if (flags | G_OPEN_APPEND)
+	else if (fileOpenFlags | G_OPEN_APPEND)
 	{
 		if (openFlags == 0)
 		{
@@ -141,7 +156,7 @@ GInt64 GFile::getSize()
 	return (GInt64)(fileStat.st_size);
 }
 
-GInt64 GFile::seek(const GInt64 offset, const SeekFlags& flags)
+GInt64 GFile::seek(const GInt64 offset, const GFileSeekFlags& flags)
 {
 	if (m_fd <= 0)
 	{

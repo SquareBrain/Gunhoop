@@ -20,7 +20,7 @@
 #include <g_system.h>
 #include <g_namespace.h>
 
-G_NS_GCOMMON_BEG
+namespace GCommon {
 
 /** 
  * @brief time convert wrapper
@@ -28,6 +28,16 @@ G_NS_GCOMMON_BEG
 class TimeConv
 {
 public:
+	/**
+	 * @brief get system time format:20140309
+	 * @param [in]sysTime : input system time with nanosecond
+	 * @param [out]sysTimeStr : output system time with nanosecond
+	 * @param [in] bufSize : output buffer size
+	 * @return G_YES/G_NO
+	 * @note 
+	 */			
+	static GResult convTime(const GInt8* format, GInt8* buffer, const GUint32 size);
+    
 	/**
 	 * @brief get system time format:20140309
 	 * @param [in]sysTime : input system time with nanosecond
@@ -78,5 +88,4 @@ public:
 	 */		
 	static GResult convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);
 };
-
-G_NS_END
+}

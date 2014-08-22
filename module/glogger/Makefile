@@ -1,4 +1,3 @@
-
 all:
 	$(MAKE) -f module_shared.mk
 	$(MAKE) -f module_static.mk

@@ -66,7 +66,10 @@ bool GlobalRule::isAutoWordWrap() const
 	return m_isAutoWordWrap;   
 }
     
-GModuleRule::GModuleRule() : m_logLevel(LOG_ERROR), m_printLevel(PRINT_BASIC), m_saveWay(SAVE_STDOUT)
+GModuleRule::GModuleRule() 
+    : m_logLevel(LOG_ERROR)
+    , m_printFormat(PRINT_BASIC)
+    , m_saveWay(SAVE_STDOUT)
 {
 }
 
@@ -94,14 +97,14 @@ const GLogLevel& GModuleRule::getLogLevel() const
 	return m_logLevel;
 }
 
-void GModuleRule::setPrintLevel(const GPrintLevel& printLevel)
+void GModuleRule::setPrintFormat(const GPrintFormat& printFormat)
 {
-	m_printLevel = printLevel;
+	m_printFormat = printFormat;
 }
 
-const GPrintLevel& GModuleRule::getPrintLevel() const
+const GPrintFormat& GModuleRule::getPrintFormat() const
 {
-	return m_printLevel;
+	return m_printFormat;
 }
 
 void GModuleRule::setSaveWay(const GSaveWay& saveWay)
@@ -167,7 +170,7 @@ GResult GLogFile::write(const GInt8* data, const GUint64 len)
 	
 	if (m_currFileSize >= m_maxFileSize)
 	{
-		open()
+		open();
 	}
 	
 	return G_YES;
@@ -183,7 +186,7 @@ GResult GLogFile::open()
 		
 		fileFullName = m_fileName + "_" + std::to_string(m_genFileCount) + ".glog";
 		
-		if (GFileUtil::isExist(fileFullName))
+		if (GFileUtil::isExist(fileFullName.c_str()))
 		{
 			m_genFileCount++;
 			continue;
@@ -193,7 +196,7 @@ GResult GLogFile::open()
 	}
 	
 	delete m_file;
-	m_file = new GFile(fileFullName);
+	m_file = new GFile(fileFullName.c_str());
 	if (m_file->open(G_OPEN_WRITE) != G_YES)
 	{
 		return G_NO;
@@ -262,13 +265,13 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	const GInt8* function,
 	const GInt8* args, ...)
 {   
-	ModuleRule* moduleRule = findModuleRule(module, moduleRule);
+	GModuleRule* moduleRule = findModuleRule(module);
 	if (moduleRule == nullptr)
 	{
 		return;
 	}
 
-	if (logLevel > moduleRule->getLogLevel() || logLevel > m_globalRule->getTopLogLevel())
+	if (logLevel > moduleRule->getLogLevel() || logLevel > m_globalRule.getTopLogLevel())
 	{
 		return;
 	}
@@ -280,7 +283,9 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	{
 		// add time
 		GInt8 timeStr[128] = {0};
-		pos += sprintf(printBuf + pos, "%s", GCommon::TimeConv::convTime(""));	
+        
+		pos += sprintf(printBuf + pos, "%s", 
+            GCommon::TimeConv::convTime("ye-mo-da ho:mi:se:ms", timeStr, ));   
 	}
 
 	// add log level and module name
@@ -546,12 +551,12 @@ GResult GLoggerImpl::findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel)
 	return G_NO;	
 }
 
-GResult GLoggerImpl::findPrintFormat(const GInt8* printFormat, GPrintFormat& printFormat)
+GResult GLoggerImpl::findPrintFormat(const GInt8* printFormatStr, GPrintFormat& printFormat)
 {
 	GPrintFormatMap::iterator iter = m_printFormatMap.begin();
 	for (; iter != m_printFormatMap.end(); ++iter)
 	{
-		if (iter->second->compare(logLevelStr) == 0)
+		if (iter->second->compare(printFormatStr) == 0)
 		{
 			logLevel = iter->first;
 			return G_YES;
@@ -561,12 +566,12 @@ GResult GLoggerImpl::findPrintFormat(const GInt8* printFormat, GPrintFormat& pri
 	return G_NO;	
 }
 
-GResult GLoggerImpl::findSaveWay(const GInt8* saveWay, GSaveWay& saveWay)
+GResult GLoggerImpl::findSaveWay(const GInt8* saveWayStr, GSaveWay& saveWay)
 {
 	GSaveWayMap::iterator iter = m_saveWayMap.begin();
 	for (; iter != m_saveWayMap.end(); ++iter)
 	{
-		if (iter->second->compare(saveWay, saveWay) == 0)
+		if (iter->second->compare(saveWayStr) == 0)
 		{
 			saveWay = iter->first;
 			return G_YES;

@@ -131,7 +131,7 @@ public:
 	 * @return offset/G_NO
 	 * @note 
 	 */			
-	GInt64 seek(const GInt64 offset, const SeekFlags& flags);	
+	GInt64 seek(const GInt64 offset, const GFileSeekFlags& flags);	
 
 	/**
 	 * @brief get file pointer offset from header

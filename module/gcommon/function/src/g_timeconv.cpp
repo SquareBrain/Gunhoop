@@ -16,7 +16,17 @@
 */
 #include <g_timeconv.h>
 
-G_NS_GCOMMON_BEG
+namespace GCommon {
+
+GResult TimeConv::convTime(const GInt8* format, GInt8* buffer, const GUint32 size)
+{
+	if (buffer == nullptr || size < 0)
+    {
+    	return G_NO;
+    }
+    
+	return G_YES;
+}
 
 GResult TimeConv::convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
 {
@@ -87,5 +97,4 @@ GResult TimeConv::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GU
 
 	return G_YES;
 }
-
-G_NS_END
+}
