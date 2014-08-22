@@ -262,29 +262,36 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	const GInt8* function,
 	const GInt8* args, ...)
 {   
-	ModuleRule* moduleRule = NULL;
-	if (findModuleRule(std::string(module), moduleRule) == G_NO)
+	ModuleRule* moduleRule = findModuleRule(module, moduleRule);
+	if (moduleRule == nullptr)
 	{
 		return;
 	}
 
-	if (logLevel > moduleRule->getLogLevel())
+	if (logLevel > moduleRule->getLogLevel() || logLevel > m_globalRule->getTopLogLevel())
 	{
 		return;
 	}
 
 	GInt8 printBuf[DEF_ONE_LINE_BUF_SIZE] = {0};
 	GUint64 pos = 0;
+	
+	if (moduleRule->getPrintFormat() >= PRINT_MORE)
+	{
+		// add time
+		GInt8 timeStr[128] = {0};
+		pos += sprintf(printBuf + pos, "%s", GCommon::TimeConv::convTime(""));	
+	}
 
 	// add log level and module name
 	pos += sprintf(printBuf + pos, "<%s>[%s]", m_logLevelMap[logLevel].c_str(), module);
 
-	switch (moduleRule->getPrintLevel())
+	switch (moduleRule->getPrintFormat())
 	{
 	case PRINT_BASIC:
 		break;
 	case PRINT_MORE:
-		// add file and function
+		// add time
 		pos += sprintf(printBuf + pos, "(%s:%s)", file, function);
 		break;
 	case PRINT_FULL:
@@ -567,17 +574,15 @@ GResult GLoggerImpl::findSaveWay(const GInt8* saveWay, GSaveWay& saveWay)
 	}
 }
 
-GResult GLoggerImpl::findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule)
+const GModuleRule* GLoggerImpl::findModuleRule(const std::string& moduleName) const
 {
-	GModuleRuleMap::iterator iter = m_moduleRuleMap.find(moduleName); 
+	GModuleRuleMap::const_iterator iter = m_moduleRuleMap.find(moduleName); 
 	if (iter == m_moduleRuleMap.end())
 	{
-		return G_NO;
+		return NULL;
 	}
 
-	moduleRule = iter->second;
-
-	return G_YES;
+	return iter->second;
 }
 
 void GLoggerImpl::setError(const GInt8* args, ...)
