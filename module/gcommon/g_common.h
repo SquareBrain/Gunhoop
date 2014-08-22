@@ -22,7 +22,6 @@
 #include <g_namespace.h>
 #include <g_configuration.h>
 #include <g_filesys.h>
-#include <g_numconv.h>
 #include <g_objpool.h>
 #include <g_singleton.h>
 #include <g_threadpool.h>
