@@ -118,6 +118,26 @@ private:
 };
 
 /**
+ * system log file
+ */
+class GLogFile
+{
+public:
+	explicit GLogFile(const std::string& fileName, const GUint64 maxFileSize);
+	~GLogFile();
+	
+	GResult open();
+	GResult write(const GInt8* data, const GUint64 len);
+	
+private:
+	GFile* 			m_file;
+	std::string		m_fileName;
+	GUint64			m_maxFileSize;
+	GUint64			m_currFileSize;
+	GUint32			m_genFileCount;
+};
+ 
+/**
  * system log configuration
  */	
 class GLoggerImpl
