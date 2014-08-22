@@ -26,6 +26,21 @@ static const GInt8* DEF_CONF_FILE_NAME = "glog.xml";
 
 GLoggerImpl::GLoggerImpl()
 {
+	m_logLevelMap.insert(std::make_pair(LOG_ERROR, "NULL"));
+	m_logLevelMap.insert(std::make_pair(LOG_ERROR, "ERROR"));
+	m_logLevelMap.insert(std::make_pair(LOG_WARN, "WARN"));
+	m_logLevelMap.insert(std::make_pair(LOG_INFO, "INFO"));
+	m_logLevelMap.insert(std::make_pair(LOG_DEBUG, "DEBUG"));
+	m_logLevelMap.insert(std::make_pair(LOG_TRACE, "TRACE"));
+	
+	m_printFormatMap.insert(std::make_pair(PRINT_BASIC, "basic"));
+	m_printFormatMap.insert(std::make_pair(PRINT_MORE, "more"));
+	m_printFormatMap.insert(std::make_pair(PRINT_FULL, "full"));
+	
+	m_saveWayMap.insert(std::make_pair(SAVE_STDOUT, "stdout"));
+	m_saveWayMap.insert(std::make_pair(SAVE_STDERR, "stderr"));
+	m_saveWayMap.insert(std::make_pair(SAVE_FILE, "file"));
+	
 	m_error[0] = 0;
 }
 
@@ -41,13 +56,6 @@ GLoggerImpl* GLoggerImpl::GetInstance()
 
 GResult GLoggerImpl::init()
 {    
-	m_logLevelMap.insert(std::make_pair(LOG_ERROR, "NULL"));
-	m_logLevelMap.insert(std::make_pair(LOG_ERROR, "ERROR"));
-	m_logLevelMap.insert(std::make_pair(LOG_WARN, "WARN"));
-	m_logLevelMap.insert(std::make_pair(LOG_INFO, "INFO"));
-	m_logLevelMap.insert(std::make_pair(LOG_DEBUG, "DEBUG"));
-	m_logLevelMap.insert(std::make_pair(LOG_TRACE, "TRACE"));
-
 	// parser file
 	if (parserLogConf() != G_YES)
 	{
@@ -215,22 +223,36 @@ GResult GLoggerImpl::parserLogConf()
 		else if (childElement->valueStr() == "module")
 		{
 			// get module rule
-			GInt8* name = childElement->attribute("name");
-			if (name == nullptr)
+			GInt8* moduleName = childElement->attribute("name");
+			if (moduleName == nullptr)
 			{
 				setError("parser log configuration error for get <module name>, please check file '%s'", DEF_CONF_FILE_NAME);
 				return G_NO;
 			}
 			
-			GInt8* level = childElement->attribute("level");
+			GInt8* levelStr = childElement->attribute("level");
 			if (level == nullptr)
 			{
 				setError("parser log configuration error for get <module level>, please check file '%s'", DEF_CONF_FILE_NAME)
 				return G_NO;
 			}
 			
-			GInt8* format = childElement->attribute("format");
+			GLogLevel logLevel = LOG_NULL;
+			if (findLogLevel(levelStr, logLevel) < 0)
+			{
+				setError("parser log configuration error for get <module level>, please check file '%s", DEF_CONF_FILE_NAME);
+				return G_NO;
+			}
+			
+			GInt8* formatStr = childElement->attribute("format");
 			if (format == nullptr)
+			{
+				setError("parser log configuration error for get <module format>, please check file '%s", DEF_CONF_FILE_NAME);
+				return G_NO;
+			}
+			
+			GPrintFormat printFormat = PRINT_BASIC;
+			if (findPrintFormat(formatStr, printFormat) < 0)
 			{
 				setError("parser log configuration error for get <module format>, please check file '%s", DEF_CONF_FILE_NAME);
 				return G_NO;
@@ -243,12 +265,32 @@ GResult GLoggerImpl::parserLogConf()
 				return G_NO;
 			}
 			
-			ModuleRule* moduleRule = new ModuleRule
+			GSaveWay saveWay = SAVE_STDOUT;
+			if (findSaveWay(outo, saveWay) < 0)
+			{
+				setError("parser log configuration error for get <module outo>, please check file '%s", DEF_CONF_FILE_NAME);
+				return G_NO;
+			}
+			
+			ModuleRule* moduleRule = new ModuleRule;
+			moduleRule->setModuleName(name);
+			moduleRule->setLogLevel(logLevel);
+			moduleRule->setPrintFormat(printFormat);
+			moduleRule->setSaveWay(saveWay);
+			
 			GInt8* prefix = childElement->attribute("prefix");
 			if (prefix != nullptr)
 			{
-				m_globalRule->set
+				moduleRule->setFilePrefix(prefix);
 			}
+			
+			GInt8* path = childElement->attribute("path");
+			if (path != nullptr)
+			{
+				moduleRule->setFilePath(path);
+			}
+			
+			m_moduleRuleMap.insert(std::make_pair(moduleName, moduleRule));
 		}        
 	}
 	
@@ -257,7 +299,45 @@ GResult GLoggerImpl::parserLogConf()
 
 GResult GLoggerImpl::findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel)
 {
-	return G_YES;	
+	GLogLevelMap::iterator iter = m_logLevelMap.begin();
+	for (; iter != m_logLevelMap.end(); ++iter)
+	{
+		if (iter->second->compare(logLevelStr) == 0)
+		{
+			logLevel = iter->first;
+			return YES;
+		}
+	}
+	
+	return G_NO;	
+}
+
+GResult GLoggerImpl::findPrintFormat(const GInt8* printFormat, GPrintFormat& printFormat)
+{
+	GPrintFormatMap::iterator iter = m_printFormatMap.begin();
+	for (; iter != m_printFormatMap.end(); ++iter)
+	{
+		if (iter->second->compare(logLevelStr) == 0)
+		{
+			logLevel = iter->first;
+			return G_YES;
+		}
+	}
+	
+	return G_NO;	
+}
+
+GResult GLoggerImpl::findSaveWay(const GInt8* saveWay, GSaveWay& saveWay)
+{
+	GSaveWayMap::iterator iter = m_saveWayMap.begin();
+	for (; iter != m_saveWayMap.end(); ++iter)
+	{
+		if (iter->second->compare(saveWay, saveWay) == 0)
+		{
+			saveWay = iter->first;
+			return G_YES;
+		}
+	}
 }
 
 GResult GLoggerImpl::findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule)
