@@ -68,10 +68,10 @@ public:
 	/**
 	 * @brief judge file whether is exist
 	 * @param [in] filePath : file path
-	 * @return G_YES/G_NO
+	 * @return true/false
 	 * @note 
 	 */	
-	static GResult isExist(const GInt8* filePath);	
+	static bool isExist(const GInt8* filePath);	
 };
 
 /** 
