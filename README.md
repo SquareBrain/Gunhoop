@@ -35,8 +35,8 @@ Gohoop简介
     
 下载
 ====
-[gohoop.1.0.4 新增结构化和非结构化存取服务](https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.0.tar.gz) <br />
-[gohoop.1.0.2 新增文件系统服务](https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.2.tar.gz) <br />
+[gohoop.1.2.0 新增结构化和非结构化存取服务](https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.0.tar.gz) <br />
+[gohoop.1.1.0 新增文件系统服务](https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.2.tar.gz) <br />
 [gohoop.1.0.0 仅完成基础库实现](https://github.com/Gohoop/Gohoop/tag/gohoop.1.0.4.tar.gz) <br />
 
 部署
