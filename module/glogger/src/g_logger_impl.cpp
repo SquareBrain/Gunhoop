@@ -24,6 +24,184 @@ static const GUint64 DEF_ONE_LINE_BUF_SIZE = 1024;
 // the configuration file name
 static const GInt8* DEF_CONF_FILE_NAME = "glog.xml";
 
+GlobalRule::GlobalRule() 
+    : m_topLogLevel(LOG_TRACE)
+    , m_maxFileNum(0)
+    , m_maxFileSize(0)
+    , m_isAutoWordWrap(true)
+{
+}
+
+GlobalRule::~GlobalRule()
+{
+}
+
+void GlobalRule::setMaxFileNum(const GUint32 maxFileNum)
+{
+	m_maxFileNum = maxFileNum;
+}
+
+GUint32 GlobalRule::getMaxFileNum() const
+{
+	return m_maxFileNum;
+}
+
+void GlobalRule::setMaxFileSize(const GUint64 maxFileSize)
+{ 
+	m_maxFileSize = maxFileSize;   
+}
+
+GUint64 GlobalRule::getMaxFileSize() const
+{
+	return m_maxFileSize;
+}
+
+void GlobalRule::setAutoWordWrap(const bool isAutoWordWrap)
+{
+	m_isAutoWordWrap = isAutoWordWrap;
+}
+
+bool GlobalRule::isAutoWordWrap() const
+{
+	return m_isAutoWordWrap;   
+}
+    
+GModuleRule::GModuleRule() : m_logLevel(LOG_ERROR), m_printLevel(PRINT_BASIC), m_saveWay(SAVE_STDOUT)
+{
+}
+
+GModuleRule::~GModuleRule()
+{
+}
+
+void GModuleRule::setModuleName(const std::string& moduleName)
+{
+	m_moduleName = moduleName;
+}
+
+const std::string& GModuleRule::getModuleName() const
+{
+	return m_moduleName;
+}
+
+void GModuleRule::setLogLevel(const GLogLevel& logLevel)
+{
+	m_logLevel = logLevel;
+}
+
+const GLogLevel& GModuleRule::getLogLevel() const
+{
+	return m_logLevel;
+}
+
+void GModuleRule::setPrintLevel(const GPrintLevel& printLevel)
+{
+	m_printLevel = printLevel;
+}
+
+const GPrintLevel& GModuleRule::getPrintLevel() const
+{
+	return m_printLevel;
+}
+
+void GModuleRule::setSaveWay(const GSaveWay& saveWay)
+{
+	m_saveWay = saveWay;
+}
+
+const GSaveWay& GModuleRule::getSaveWay() const
+{
+	return m_saveWay;
+}
+
+void GModuleRule::setFilePrefix(const std::string& filePrefix)
+{
+	m_filePrefix = filePrefix;
+}
+
+const std::string& GModuleRule::getFilePrefix() const
+{
+	return m_filePrefix;
+}
+
+void GModuleRule::setFilePath(const std::string& filePath)
+{
+	m_filePath = filePath;
+}
+
+const std::string& GModuleRule::getFilePath() const
+{
+	return m_filePath;
+}
+
+GLogFile::GLogFile(const std::string& fileName, const GUint64 maxFileSize) 
+	: m_file(nullptr)
+	, m_fileName(fileName) 
+	, m_maxFileSize(maxFileSize)
+	, m_currFileSize(0)
+	, m_genFileCount(0)
+{
+}
+
+GLogFile::~GLogFile()
+{
+	delete m_file;
+}
+
+GResult GLogFile::write(const GInt8* data, const GUint64 len)
+{
+	if (m_file == nullptr)
+	{
+		if (open() != G_YES)
+		{
+			return G_NO;	
+		}
+	}
+	
+	if (m_file->write(data, len) < 0)
+	{
+		return G_NO;
+	}
+	
+	m_currFileSize += len;
+	
+	if (m_currFileSize >= m_maxFileSize)
+	{
+		open()
+	}
+	
+	return G_YES;
+}
+
+GResult GLogFile::open()
+{
+	std::string fileFullName;
+	
+	while (true)
+	{
+		m_genFileCount++;
+		
+		fileFullName = m_fileName + "_" + std::to_string(m_genFileCount) + ".glog";
+		
+		if (GFileUtil::isExist(fileFullName))
+		{
+			m_genFileCount++;
+			continue;
+		}
+		
+		break;
+	}
+	
+	delete m_file;
+	m_file = new GFile(fileFullName);
+	if (m_file->open(G_OPEN_WRITE) != G_YES)
+	{
+		return G_NO;
+	}	
+	
+	return G_YES;
+}
+
 GLoggerImpl::GLoggerImpl()
 {
 	m_logLevelMap.insert(std::make_pair(LOG_ERROR, "NULL"));
@@ -60,6 +238,12 @@ GResult GLoggerImpl::init()
 	if (parserLogConf() != G_YES)
 	{
 		setError("parser log conf file '%s' failed", DEF_CONF_FILE_NAME);
+		return G_NO;
+	}
+	
+	// init file
+	if (initFile() != G_YES)
+	{
 		return G_NO;
 	}
 
@@ -272,7 +456,7 @@ GResult GLoggerImpl::parserLogConf()
 				return G_NO;
 			}
 			
-			ModuleRule* moduleRule = new ModuleRule;
+			GModuleRule* moduleRule = new GModuleRule;
 			moduleRule->setModuleName(name);
 			moduleRule->setLogLevel(logLevel);
 			moduleRule->setPrintFormat(printFormat);
@@ -295,6 +479,45 @@ GResult GLoggerImpl::parserLogConf()
 	}
 	
 	return G_YES;	
+}
+
+GResult GLoggerImpl::initFile()
+{
+	GModuleRuleMap::iterator iter = m_moduleRuleMap.begin();
+	for (; iter 1= m_moduleRuleMap.end(); ++iter)
+	{
+		GModuleRule* moduleRule = iter->second;
+		if (moduleRule->getSaveWay() == SAVE_FILE)
+		{
+			std::string filePath = moduleRule->getFilePath();
+			if (filePath == "." || filePath.empty())
+			{
+				filePath = "./";
+			}
+			else if (filePath.at(filePath.length() - 1) != '/')
+			{
+				filePath.append('/');
+			}
+			
+			std::string fileName;
+			if (moduleRule->getFilePrefix().empty())
+			{
+				fileName = filePath + moduleRule->getModuleName();
+			}
+			else
+			{
+				fileName = filePath + moduleRule->getFilePrefix();
+			}
+			
+			moduleRule->setFileName(fileName);
+			if (g_logFileMap.find(fileName) == g_logFileMap.end())
+			{
+				g_logFileMap.insert(std::make_pair(fileName, new GLogFile(fileName, g_globalRule->getMaxFileNum())));	
+			}
+		}		
+	}
+	
+	return G_YES;
 }
 
 GResult GLoggerImpl::findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel)
@@ -356,114 +579,4 @@ GResult GLoggerImpl::findModuleRule(const std::string& moduleName, ModuleRule*& 
 void GLoggerImpl::setError(const GInt8* args, ...)
 {
 	GSys::format(m_error, G_ERROR_BUF_SIZE, args);
-}
-
-GlobalRule::GlobalRule() 
-    : m_topLogLevel(LOG_TRACE)
-    , m_maxFileNum(0)
-    , m_maxFileSize(0)
-    , m_isAutoWordWrap(true)
-{
-}
-
-GlobalRule::~GlobalRule()
-{
-}
-
-void GlobalRule::setMaxFileNum(const GUint32 maxFileNum)
-{
-	m_maxFileNum = maxFileNum;
-}
-
-GUint32 GlobalRule::getMaxFileNum() const
-{
-	return m_maxFileNum;
-}
-
-void GlobalRule::setMaxFileSize(const GUint64 maxFileSize)
-{ 
-	m_maxFileSize = maxFileSize;   
-}
-
-GUint64 GlobalRule::getMaxFileSize() const
-{
-	return m_maxFileSize;
-}
-
-void GlobalRule::setAutoWordWrap(const bool isAutoWordWrap)
-{
-	m_isAutoWordWrap = isAutoWordWrap;
-}
-
-bool GlobalRule::isAutoWordWrap() const
-{
-	return m_isAutoWordWrap;   
-}
-    
-ModuleRule::ModuleRule() : m_logLevel(LOG_ERROR), m_printLevel(PRINT_BASIC)
-{
-}
-
-ModuleRule::~ModuleRule()
-{
-}
-
-void ModuleRule::setModuleName(const std::string& moduleName)
-{
-	m_moduleName = moduleName;
-}
-
-const std::string& ModuleRule::getModuleName() const
-{
-	return m_moduleName;
-}
-
-void ModuleRule::setLogLevel(const GLogLevel& logLevel)
-{
-	m_logLevel = logLevel;
-}
-
-const GLogLevel& ModuleRule::getLogLevel() const
-{
-	return m_logLevel;
-}
-
-void ModuleRule::setPrintLevel(const GPrintLevel& printLevel)
-{
-	m_printLevel = printLevel;
-}
-
-const GPrintLevel& ModuleRule::getPrintLevel() const
-{
-	return m_printLevel;
-}
-
-void ModuleRule::setSaveWay(const GSaveWay& saveWay)
-{
-	m_saveWay = saveWay;
-}
-
-const GSaveWay& ModuleRule::getSaveWay() const
-{
-	return m_saveWay;
-}
-
-void ModuleRule::setFilePrefix(const std::string& filePrefix)
-{
-	m_filePrefix = filePrefix;
-}
-
-const std::string& ModuleRule::getFilePrefix() const
-{
-	return m_filePrefix;
-}
-
-void ModuleRule::setFilePath(const std::string& filePath)
-{
-	m_filePath = filePath;
-}
-
-const std::string& ModuleRule::getFilePath() const
-{
-	return m_filePath;
 }
