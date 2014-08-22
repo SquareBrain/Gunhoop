@@ -75,10 +75,10 @@ public:
 	bool isAutoWordWrap() const;    
 
 private:
-	GLogLevel     	m_topLogLevel;
-	GUint32         m_maxFileNum;
+	GLogLevel		m_topLogLevel;
+	GUint32			m_maxFileNum;
 	GUint64			m_maxFileSize;		
-	bool            m_isAutoWordWrap;
+	bool			m_isAutoWordWrap;
 };
 
 /**
@@ -109,9 +109,9 @@ public:
 	const std::string& getFilePath() const;
 
 private:
-	std::string     m_moduleName;
-	GLogLevel       m_logLevel;
-	GPrintLevel     m_printFormat;
+	std::string		m_moduleName;
+	GLogLevel		m_logLevel;
+	GPrintLevel		m_printFormat;
 	GSaveWay		m_saveWay;
 	std::string		m_filePrefix;
 	std::string		m_filePath;
@@ -169,10 +169,10 @@ private:
 	void setError(const GInt8* args, ...);
 
 private:
-	GLogLevelMap        m_logLevelMap;
+	GLogLevelMap		m_logLevelMap;
 	GPrintFormatMap		m_printFormatMap;
 	GSaveWayMap			m_saveWayMap;
-	GlobalRule          m_globalRule;
-	GModuleRuleMap      m_moduleRuleMap;
-	GInt8               m_error[G_ERROR_BUF_SIZE];
+	GlobalRule			m_globalRule;
+	GModuleRuleMap		m_moduleRuleMap;
+	GInt8				m_error[G_ERROR_BUF_SIZE];
 };
