@@ -34,14 +34,14 @@ typedef enum
 }GLogLevel;
 
 /**
- * system log print output content
+ * system log print format
  */	
 typedef enum 
 {
 	PRINT_BASIC,
 	PRINT_MORE,
 	PRINT_FULL,
-}GPrintLevel;
+}GPrintFormat;
 
 /**
  * where to print
@@ -96,8 +96,8 @@ public:
 	void setLogLevel(const GLogLevel& logLevel);
 	const GLogLevel& getLogLevel() const;
 
-	void setPrintLevel(const GPrintLevel& printLevel);
-	const GPrintLevel& getPrintLevel() const;   
+	void setPrintFormat(const GPrintFormat& printFormat);
+	const GPrintFormat& getPrintFormat() const;   
 	
 	void setSaveWay(const GSaveWay& saveWay);
 	const GSaveWay& getSaveWay() const;
@@ -111,7 +111,7 @@ public:
 private:
 	std::string     m_moduleName;
 	GLogLevel       m_logLevel;
-	GPrintLevel     m_printLevel;
+	GPrintLevel     m_printFormat;
 	GSaveWay		m_saveWay;
 	std::string		m_filePrefix;
 	std::string		m_filePath;
@@ -124,8 +124,10 @@ class GLoggerImpl
 {
 public:
 	// <module_name, module_rule>
-	typedef std::map<std::string, ModuleRule*> GModuleRuleMap;
-	typedef std::map<GLogLevel, const std::string> GLogLevelMap;
+	typedef std::map<const std::string, const ModuleRule*> GModuleRuleMap;
+	typedef std::map<const GLogLevel, const std::string> GLogLevelMap;
+	typedef std::map<const GPrintFormat, const std::string> GPrintFormatMap;
+	typedef std::map<const GSaveWay, const std::string> GSaveWayMap;
     
 public:
 	GLoggerImpl();
@@ -161,11 +163,15 @@ public:
 private:
 	GResult parserLogConf();
 	GResult findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel);
+	GResult findPrintFormat(const GInt8* printFormat, GPrintFormat& printFormat);
+	GResult findSaveWay(const GInt8* saveWay, GSaveWay& saveWay);
 	GResult findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule);
 	void setError(const GInt8* args, ...);
 
 private:
 	GLogLevelMap        m_logLevelMap;
+	GPrintFormatMap		m_printFormatMap;
+	GSaveWayMap			m_saveWayMap;
 	GlobalRule          m_globalRule;
 	GModuleRuleMap      m_moduleRuleMap;
 	GInt8               m_error[G_ERROR_BUF_SIZE];
