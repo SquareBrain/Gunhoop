@@ -331,61 +331,58 @@ GResult GLoggerImpl::parserLogConf()
 		if (childElement->valueStr() == "toplevel")
 		{
 			const GInt8* text = childElement->getText();
-			if (text != nullptr)
-			{
-				GLogLevel logLevel = LOG_NULL;
-				if (findLogLevel(text, logLevel) != G_YES)
-				{
-					setError("parser log configuration error for get <toplevel>, please check file '%s'", DEF_CONF_FILE_NAME);
-					return G_NO;
-				}
-				
-				m_globalRule.setTopLogLevel(logLevel);
-			}
-			else
+			if (text == nullptr)
 			{
 				// set default value
 				m_globalRule.setTopLogLevel(LOG_INFO);	
+				continue;
 			}
+			
+			GLogLevel logLevel = LOG_NULL;
+			if (findLogLevel(text, logLevel) != G_YES)
+			{
+				setError("parser log configuration error for get <toplevel>, please check file '%s'", DEF_CONF_FILE_NAME);
+				return G_NO;
+			}
+			
+			m_globalRule.setTopLogLevel(logLevel);
 		}
 		else if (childElement->valueStr() == "maxfilenum")
 		{
 			const GInt8* text = childElement->getText();
-			if (text != nullptr)
-			{
-				GInt32 maxFileNum = std::stoi(text);
-				if (maxFileNum <= 0)
-				{
-					setError("parser log configuration error for get <maxfilenum>, please check file '%s'", DEF_CONF_FILE_NAME);
-					return G_NO;					
-				}
-				
-				m_globalRule.setTopLogLevel(logLevel);
-			}
-			else
+			if (text == nullptr)
 			{
 				// set default value
 				m_globalRule.setMaxFileNum(10);	
-			}				
+				continue;
+			}
+			
+			GInt32 maxFileNum = std::stoi(text);
+			if (maxFileNum <= 0)
+			{
+				setError("parser log configuration error for get <maxfilenum>, please check file '%s'", DEF_CONF_FILE_NAME);
+				return G_NO;					
+			}
+			
+			m_globalRule.setTopLogLevel(logLevel);
 		}
 		else if (childElement->valueStr() == "maxfilesize")
 		{
 			const GInt8* text = childElement->getText();
-			if (text != nullptr)
-			{
-				GInt32 maxFileSize = std::stoi(text);
-				if (maxFileSize <= 0)
-				{
-					setError("parser log configuration error for get <maxfilesize>, please check file '%s'", DEF_CONF_FILE_NAME);
-					return G_NO;
-				}
-				
-				m_globalRule.setMaxFileSize(maxFileSize);
-			}
-			else
+			if (text == nullptr)
 			{
 				m_globalRule.setMaxFileSize(10);
+				continue;
 			}
+			
+			GInt32 maxFileSize = std::stoi(text);
+			if (maxFileSize <= 0)
+			{
+				setError("parser log configuration error for get <maxfilesize>, please check file '%s'", DEF_CONF_FILE_NAME);
+				return G_NO;
+			}
+			
+			m_globalRule.setMaxFileSize(maxFileSize);
 		}
 		else if (childElement->valueStr() == "autowordwrap")
 		{
@@ -412,6 +409,11 @@ GResult GLoggerImpl::parserLogConf()
 			{
 				setError("parser log configuration error for get <module name>, please check file '%s'", DEF_CONF_FILE_NAME);
 				return G_NO;
+			}
+			
+			if (m_moduleRuleMap.find(moduleName) != m_moduleRuleMap.end())
+			{
+				continue;
 			}
 			
 			GInt8* levelStr = childElement->attribute("level");
@@ -487,34 +489,36 @@ GResult GLoggerImpl::initFile()
 	for (; iter 1= m_moduleRuleMap.end(); ++iter)
 	{
 		GModuleRule* moduleRule = iter->second;
-		if (moduleRule->getSaveWay() == SAVE_FILE)
+		if (moduleRule->getSaveWay() != SAVE_FILE)
 		{
-			std::string filePath = moduleRule->getFilePath();
-			if (filePath == "." || filePath.empty())
-			{
-				filePath = "./";
-			}
-			else if (filePath.at(filePath.length() - 1) != '/')
-			{
-				filePath.append('/');
-			}
-			
-			std::string fileName;
-			if (moduleRule->getFilePrefix().empty())
-			{
-				fileName = filePath + moduleRule->getModuleName();
-			}
-			else
-			{
-				fileName = filePath + moduleRule->getFilePrefix();
-			}
-			
-			moduleRule->setFileName(fileName);
-			if (g_logFileMap.find(fileName) == g_logFileMap.end())
-			{
-				g_logFileMap.insert(std::make_pair(fileName, new GLogFile(fileName, g_globalRule->getMaxFileNum())));	
-			}
-		}		
+			continue;
+		}
+		
+		std::string filePath = moduleRule->getFilePath();
+		if (filePath == "." || filePath.empty())
+		{
+			filePath = "./";
+		}
+		else if (filePath.at(filePath.length() - 1) != '/')
+		{
+			filePath.append('/');
+		}
+		
+		std::string fileName;
+		if (moduleRule->getFilePrefix().empty())
+		{
+			fileName = filePath + moduleRule->getModuleName();
+		}
+		else
+		{
+			fileName = filePath + moduleRule->getFilePrefix();
+		}
+		
+		moduleRule->setFileName(fileName);
+		if (g_logFileMap.find(fileName) == g_logFileMap.end())
+		{
+			g_logFileMap.insert(std::make_pair(fileName, new GLogFile(fileName, g_globalRule->getMaxFileNum())));	
+		}
 	}
 	
 	return G_YES;
