@@ -63,7 +63,15 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-	static GResult createFile(const GInt8* filePath, const GUint64& initSize);     
+	static GResult createFile(const GInt8* filePath, const GUint64& initSize);    
+	
+	/**
+	 * @brief judge file whether is exist
+	 * @param [in] filePath : file path
+	 * @return G_YES/G_NO
+	 * @note 
+	 */	
+	static GResult isExist(const GInt8* filePath);	
 };
 
 /** 
