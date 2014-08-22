@@ -30,7 +30,7 @@ typedef enum
 	G_OPEN_WRITE = 2,
 	G_OPEN_RDWR = 4,
 	G_OPEN_APPEND = 8
-} OpenFlags;
+} GFileOpenFlags;
 
 /** 
  * seek flags
@@ -40,7 +40,7 @@ typedef enum
 	G_SEEK_BEG = 1,
 	G_SEEK_CUR,
 	G_SEEK_END
-} SeekFlags;
+} GFileSeekFlags;
 
 /** 
  * file utility
@@ -85,20 +85,20 @@ public:
 
 	/**
 	 * @brief open file for reading
-	 * @param [in] flags : open mode flags, from type OpenFlags
+	 * @param [in] fileOpenFlags : open mode flags, from type OpenFlags
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-	GResult open(const GUint64 flags);
+	GResult open(const GFileOpenFlags fileOpenFlags);
 
 	/**
 	 * @brief open file for reading
-	 * @param [in] flags : open mode flags, from type OpenFlags
-	 * @param [in] mode : permission
+	 * @param [in] fileOpenFlags : open mode flags, from type OpenFlags
+	 * @param [in] fileOpenMode : permission
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-	GResult open(const GUint64 flags, const GInt32 mode);	
+	GResult open(const GFileOpenFlags fileOpenFlags, const GInt32 fileOpenMode);	
 
 	/**
 	 * @brief close file
@@ -136,7 +136,7 @@ public:
 	 * @brief read file
 	 * @param [out] buffer : output buffer
 	 * @param [in] size : the size of buffer     
-	 * @return size/G_NO
+	 * @return size/-1
 	 * @note 
 	 */			
 	GInt64 read(GInt8* buffer, const GUint64 size);
@@ -145,7 +145,7 @@ public:
 	 * @brief write file
 	 * @param [in] buffer : input buffer
 	 * @param [in] size : the size of buffer
-	 * @return size/G_NO
+	 * @return size/-1
 	 * @note 
 	 */		
 	GInt64 write(const GInt8* data, const GUint64 length);
