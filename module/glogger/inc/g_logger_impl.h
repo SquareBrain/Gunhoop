@@ -189,7 +189,7 @@ private:
 	GResult findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel);
 	GResult findPrintFormat(const GInt8* printFormat, GPrintFormat& printFormat);
 	GResult findSaveWay(const GInt8* saveWay, GSaveWay& saveWay);
-	GResult findModuleRule(const std::string& moduleName, ModuleRule*& moduleRule);
+	GModuleRule* findModuleRule(const std::string& moduleName);
 	void setError(const GInt8* args, ...);
 
 private:
