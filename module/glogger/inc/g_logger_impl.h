@@ -128,6 +128,7 @@ public:
 	typedef std::map<const GLogLevel, const std::string> 	GLogLevelMap;
 	typedef std::map<const GPrintFormat, const std::string>	GPrintFormatMap;
 	typedef std::map<const GSaveWay, const std::string> 	GSaveWayMap;
+	typedef std::map<const std::string, const GFile*>		GLogFileMap;
     
 public:
 	GLoggerImpl();
@@ -162,6 +163,7 @@ public:
 
 private:
 	GResult parserLogConf();
+	GResult initFile();
 	GResult findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel);
 	GResult findPrintFormat(const GInt8* printFormat, GPrintFormat& printFormat);
 	GResult findSaveWay(const GInt8* saveWay, GSaveWay& saveWay);
@@ -174,5 +176,6 @@ private:
 	GSaveWayMap			m_saveWayMap;
 	GlobalRule			m_globalRule;
 	GModuleRuleMap		m_moduleRuleMap;
+	GLogFileMap			m_logFileMap;
 	GInt8				m_error[G_ERROR_BUF_SIZE];
 };
