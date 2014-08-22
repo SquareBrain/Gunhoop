@@ -126,8 +126,10 @@ public:
 	explicit GLogFile(const std::string& fileName, const GUint64 maxFileSize);
 	~GLogFile();
 	
-	GResult open();
 	GResult write(const GInt8* data, const GUint64 len);
+
+private:
+	GResult open();
 	
 private:
 	GFile* 			m_file;
