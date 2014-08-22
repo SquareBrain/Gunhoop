@@ -41,7 +41,7 @@ Gohoop简介
 
 部署
 ====
-    部署分为Master端和Slave端。Master负责管理、控制Slave端服务，Slave端负责具休的数据存储和运行行为。
+    > 部署分为Master端和Slave端。Master负责管理、控制Slave端服务，Slave端负责具休的数据存储和运行行为。
 
 ### Master端布署
 ----
