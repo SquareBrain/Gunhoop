@@ -144,7 +144,7 @@ GResult GLoggerImpl::parserLogConf()
 				GLogLevel logLevel = LOG_NULL;
 				if (findLogLevel(text, logLevel) != G_YES)
 				{
-					setError("log conf format error, please check glog.xml");
+					setError("parser log configuration error for get <toplevel>, please check file '%s'", DEF_CONF_FILE_NAME);
 					return G_NO;
 				}
 				
@@ -161,11 +161,11 @@ GResult GLoggerImpl::parserLogConf()
 			const GInt8* text = childElement->getText();
 			if (text != nullptr)
 			{
-				GLogLevel logLevel = LOG_NULL;
-				if (findLogLevel(text, logLevel) != G_YES)
+				GInt32 maxFileNum = std::stoi(text);
+				if (maxFileNum <= 0)
 				{
-					setError("log conf format error, please check glog.xml");
-					return G_NO;
+					setError("parser log configuration error for get <maxfilenum>, please check file '%s'", DEF_CONF_FILE_NAME);
+					return G_NO;					
 				}
 				
 				m_globalRule.setTopLogLevel(logLevel);
@@ -173,20 +173,82 @@ GResult GLoggerImpl::parserLogConf()
 			else
 			{
 				// set default value
-				m_globalRule.setTopLogLevel(LOG_INFO);	
+				m_globalRule.setMaxFileNum(10);	
 			}				
 		}
 		else if (childElement->valueStr() == "maxfilesize")
 		{
-			
+			const GInt8* text = childElement->getText();
+			if (text != nullptr)
+			{
+				GInt32 maxFileSize = std::stoi(text);
+				if (maxFileSize <= 0)
+				{
+					setError("parser log configuration error for get <maxfilesize>, please check file '%s'", DEF_CONF_FILE_NAME);
+					return G_NO;
+				}
+				
+				m_globalRule.setMaxFileSize(maxFileSize);
+			}
+			else
+			{
+				m_globalRule.setMaxFileSize(10);
+			}
 		}
 		else if (childElement->valueStr() == "autowordwrap")
 		{
-			// GXmlAttribute* attribute = childElement->firstAttribute();
+			const GInt8* text = childElement->getText();
+			if (strcmp(text, "true") == 0)
+			{
+				m_globalRule.setAutoWordwrap(true);	
+			}
+			else if (strcmp(text, "false") == 0)
+			{
+				m_globalRule.setAutoWorkwrap(false);
+			}
+			else
+			{
+				setError("parser log configuration error for get <autowordwrap>, please check file '%s", DEF_CONF_FILE_NAME);
+				return G_NO;
+			}
 		}
 		else if (childElement->valueStr() == "module")
 		{
-			// GXmlAttribute* attribute = childElement->firstAttribute();
+			// get module rule
+			GInt8* name = childElement->attribute("name");
+			if (name == nullptr)
+			{
+				setError("parser log configuration error for get <module name>, please check file '%s'", DEF_CONF_FILE_NAME);
+				return G_NO;
+			}
+			
+			GInt8* level = childElement->attribute("level");
+			if (level == nullptr)
+			{
+				setError("parser log configuration error for get <module level>, please check file '%s'", DEF_CONF_FILE_NAME)
+				return G_NO;
+			}
+			
+			GInt8* format = childElement->attribute("format");
+			if (format == nullptr)
+			{
+				setError("parser log configuration error for get <module format>, please check file '%s", DEF_CONF_FILE_NAME);
+				return G_NO;
+			}
+			
+			GInt8* outo = childElement->attribute("outo");
+			if (outo == nullptr)
+			{
+				setError("parser log configuration error for get <module outo>, please check file '%s", DEF_CONF_FILE_NAME);
+				return G_NO;
+			}
+			
+			ModuleRule* moduleRule = new ModuleRule
+			GInt8* prefix = childElement->attribute("prefix");
+			if (prefix != nullptr)
+			{
+				m_globalRule->set
+			}
 		}        
 	}
 	
