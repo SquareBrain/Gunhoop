@@ -84,11 +84,11 @@ private:
 /**
  * system log module configuration rule
  */
-class ModuleRule
+class GModuleRule
 {
 public:
-	ModuleRule();
-	~ModuleRule();
+	GModuleRule();
+	~GModuleRule();
 
 	void setModuleName(const std::string& moduleName);
 	const std::string& getModuleName() const;   
@@ -124,7 +124,7 @@ class GLoggerImpl
 {
 public:
 	// <module_name, module_rule>
-	typedef std::map<const std::string, const ModuleRule*> 	GModuleRuleMap;
+	typedef std::map<const std::string, const GModuleRule*> GModuleRuleMap;
 	typedef std::map<const GLogLevel, const std::string> 	GLogLevelMap;
 	typedef std::map<const GPrintFormat, const std::string>	GPrintFormatMap;
 	typedef std::map<const GSaveWay, const std::string> 	GSaveWayMap;
