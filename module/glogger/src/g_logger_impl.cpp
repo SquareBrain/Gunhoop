@@ -28,7 +28,7 @@ GlobalRule::GlobalRule()
     : m_topLogLevel(LOG_TRACE)
     , m_maxFileNum(0)
     , m_maxFileSize(0)
-    , m_isAutoWordWrap(true)
+    , m_isAutoWordwrap(true)
 {
 }
 
@@ -56,14 +56,14 @@ GUint64 GlobalRule::getMaxFileSize() const
 	return m_maxFileSize;
 }
 
-void GlobalRule::setAutoWordWrap(const bool isAutoWordWrap)
+void GlobalRule::setAutoWordwrap(const bool isAutoWordwrap)
 {
-	m_isAutoWordWrap = isAutoWordWrap;
+	m_isAutoWordwrap = isAutoWordwrap;
 }
 
-bool GlobalRule::isAutoWordWrap() const
+bool GlobalRule::isAutoWordwrap() const
 {
-	return m_isAutoWordWrap;   
+	return m_isAutoWordwrap;   
 }
     
 GModuleRule::GModuleRule() 
@@ -137,12 +137,25 @@ const std::string& GModuleRule::getFilePath() const
 	return m_filePath;
 }
 
-GLogFile::GLogFile(const std::string& fileName, const GUint64 maxFileSize) 
+void GModuleRule::setFileName(const std::string& fileName)
+{
+	m_fileName = fileName;	
+}
+
+const std::string& GModuleRule::getFileName() const
+{
+	return m_fileName;
+}
+
+GLogFile::GLogFile(const std::string& fileName, 
+    const GUint32 maxFileNum,
+    const GUint64 maxFileSize) 
 	: m_file(nullptr)
 	, m_fileName(fileName) 
+	, m_maxFileNum(maxFileNum)
+	, m_genFileCount(0)
 	, m_maxFileSize(maxFileSize)
 	, m_currFileSize(0)
-	, m_genFileCount(0)
 {
 }
 
@@ -283,7 +296,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	{
 		// add time
 		GInt8 timeStr[128] = {0};
-        GCommon::TimeConv::convTime("ye-mo-da ho:mi:se:ms", timeStr, 128));
+        gcom::TimeConv::convTime("ye-mo-da ho:mi:se:ms", timeStr, 128);
 		pos += sprintf(printBuf + pos, "%s", timeStr); 
 	}
 
@@ -310,7 +323,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	pos += GSys::format(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, args);
 
 	// add word wrap
-	if (m_globalRule.isAutoWordWrap())
+	if (m_globalRule.isAutoWordwrap())
 	{
 		pos += sprintf(printBuf + pos, "\n");    
 	}
@@ -375,7 +388,7 @@ GResult GLoggerImpl::parserLogConf()
 				return G_NO;					
 			}
 			
-			m_globalRule.setTopLogLevel(logLevel);
+			m_globalRule.setMaxFileNum(maxFileNum);
 		}
 		else if (childElement->valueStr() == "maxfilesize")
 		{
@@ -404,7 +417,7 @@ GResult GLoggerImpl::parserLogConf()
 			}
 			else if (strcmp(text, "false") == 0)
 			{
-				m_globalRule.setAutoWorkwrap(false);
+				m_globalRule.setAutoWordwrap(false);
 			}
 			else
 			{
@@ -415,7 +428,7 @@ GResult GLoggerImpl::parserLogConf()
 		else if (childElement->valueStr() == "module")
 		{
 			// get module rule
-			GInt8* moduleName = childElement->attribute("name");
+			const GInt8* moduleName = childElement->attribute("name");
 			if (moduleName == nullptr)
 			{
 				setError("parser log configuration error for get <module name>, please check file '%s'", DEF_CONF_FILE_NAME);
@@ -427,10 +440,10 @@ GResult GLoggerImpl::parserLogConf()
 				continue;
 			}
 			
-			GInt8* levelStr = childElement->attribute("level");
-			if (level == nullptr)
+			const GInt8* levelStr = childElement->attribute("level");
+			if (levelStr == nullptr)
 			{
-				setError("parser log configuration error for get <module level>, please check file '%s'", DEF_CONF_FILE_NAME)
+				setError("parser log configuration error for get <module level>, please check file '%s'", DEF_CONF_FILE_NAME);
 				return G_NO;
 			}
 			
@@ -441,8 +454,8 @@ GResult GLoggerImpl::parserLogConf()
 				return G_NO;
 			}
 			
-			GInt8* formatStr = childElement->attribute("format");
-			if (format == nullptr)
+			const GInt8* formatStr = childElement->attribute("format");
+			if (formatStr == nullptr)
 			{
 				setError("parser log configuration error for get <module format>, please check file '%s", DEF_CONF_FILE_NAME);
 				return G_NO;
@@ -455,7 +468,7 @@ GResult GLoggerImpl::parserLogConf()
 				return G_NO;
 			}
 			
-			GInt8* outo = childElement->attribute("outo");
+			const GInt8* outo = childElement->attribute("outo");
 			if (outo == nullptr)
 			{
 				setError("parser log configuration error for get <module outo>, please check file '%s", DEF_CONF_FILE_NAME);
@@ -470,18 +483,18 @@ GResult GLoggerImpl::parserLogConf()
 			}
 			
 			GModuleRule* moduleRule = new GModuleRule;
-			moduleRule->setModuleName(name);
+			moduleRule->setModuleName(moduleName);
 			moduleRule->setLogLevel(logLevel);
 			moduleRule->setPrintFormat(printFormat);
 			moduleRule->setSaveWay(saveWay);
 			
-			GInt8* prefix = childElement->attribute("prefix");
+			const GInt8* prefix = childElement->attribute("prefix");
 			if (prefix != nullptr)
 			{
 				moduleRule->setFilePrefix(prefix);
 			}
 			
-			GInt8* path = childElement->attribute("path");
+			const GInt8* path = childElement->attribute("path");
 			if (path != nullptr)
 			{
 				moduleRule->setFilePath(path);
@@ -497,7 +510,7 @@ GResult GLoggerImpl::parserLogConf()
 GResult GLoggerImpl::initFile()
 {
 	GModuleRuleMap::iterator iter = m_moduleRuleMap.begin();
-	for (; iter 1= m_moduleRuleMap.end(); ++iter)
+	for (; iter != m_moduleRuleMap.end(); ++iter)
 	{
 		GModuleRule* moduleRule = iter->second;
 		if (moduleRule->getSaveWay() != SAVE_FILE)
@@ -512,7 +525,7 @@ GResult GLoggerImpl::initFile()
 		}
 		else if (filePath.at(filePath.length() - 1) != '/')
 		{
-			filePath.append('/');
+			filePath.append('/', 1);
 		}
 		
 		std::string fileName;
@@ -526,9 +539,12 @@ GResult GLoggerImpl::initFile()
 		}
 		
 		moduleRule->setFileName(fileName);
-		if (g_logFileMap.find(fileName) == g_logFileMap.end())
+		if (m_logFileMap.find(fileName) == m_logFileMap.end())
 		{
-			g_logFileMap.insert(std::make_pair(fileName, new GLogFile(fileName, g_globalRule->getMaxFileNum())));	
+			m_logFileMap.insert(std::make_pair(fileName, 
+                new GLogFile(fileName, 
+                m_globalRule.getMaxFileNum(),
+                m_globalRule.getMaxFileSize()))); 
 		}
 	}
 	

@@ -19,6 +19,7 @@
 #include <map>
 #include <string>
 #include <g_system.h>
+#include <g_timeconv.h>
 
 /**
  * system log level
@@ -71,14 +72,14 @@ public:
 	void setMaxFileSize(const GUint64 maxFileSize);
 	GUint64 getMaxFileSize() const;
 
-	void setAutoWordWrap(const bool isAutoWordWrap);
-	bool isAutoWordWrap() const;    
+	void setAutoWordwrap(const bool isAutoWordwrap);
+	bool isAutoWordwrap() const;    
 
 private:
 	GLogLevel		m_topLogLevel;
 	GUint32			m_maxFileNum;
 	GUint64			m_maxFileSize;		
-	bool			m_isAutoWordWrap;
+	bool			m_isAutoWordwrap;
 };
 
 /**
@@ -108,6 +109,9 @@ public:
 	void setFilePath(const std::string& filePath);
 	const std::string& getFilePath() const;
 
+    void setFileName(const std::string& fileName);
+    const std::string& getFileName() const;
+
 private:
 	std::string		m_moduleName;
 	GLogLevel		m_logLevel;
@@ -115,6 +119,7 @@ private:
 	GSaveWay		m_saveWay;
 	std::string		m_filePrefix;
 	std::string		m_filePath;
+    std::string		m_fileName;
 };
 
 /**
@@ -123,7 +128,10 @@ private:
 class GLogFile
 {
 public:
-	explicit GLogFile(const std::string& fileName, const GUint64 maxFileSize);
+	explicit GLogFile(const std::string& fileName, 
+        const GUint32 maxFileNum,
+        const GUint64 maxFileSize);
+    
 	~GLogFile();
 	
 	GResult write(const GInt8* data, const GUint64 len);
@@ -134,9 +142,10 @@ private:
 private:
 	GFile* 			m_file;
 	std::string		m_fileName;
-	GUint64			m_maxFileSize;
-	GUint64			m_currFileSize;
-	GUint32			m_genFileCount;
+    GUint32			m_maxFileNum;
+    GUint32			m_genFileCount;
+    GUint64			m_maxFileSize;
+    GUint64			m_currFileSize;
 };
  
 /**
@@ -146,11 +155,11 @@ class GLoggerImpl
 {
 public:
 	// <module_name, module_rule>
-	typedef std::map<const std::string, const GModuleRule*> GModuleRuleMap;
-	typedef std::map<const GLogLevel, const std::string> 	GLogLevelMap;
+	typedef std::map<const std::string, GModuleRule*> GModuleRuleMap;
+	typedef std::map<const GLogLevel, const std::string> GLogLevelMap;
 	typedef std::map<const GPrintFormat, const std::string>	GPrintFormatMap;
-	typedef std::map<const GSaveWay, const std::string> 	GSaveWayMap;
-	typedef std::map<const std::string, const GFile*>		GLogFileMap;
+	typedef std::map<const GSaveWay, const std::string> GSaveWayMap;
+	typedef std::map<const std::string, GFile*>	GLogFileMap;
     
 public:
 	GLoggerImpl();

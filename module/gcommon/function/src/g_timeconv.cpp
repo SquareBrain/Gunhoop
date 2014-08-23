@@ -16,7 +16,7 @@
 */
 #include <g_timeconv.h>
 
-namespace GCommon {
+using namespace gcom;
 
 GResult TimeConv::convTime(const GInt8* format, GInt8* buffer, const GUint32 size)
 {
@@ -96,5 +96,4 @@ GResult TimeConv::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GU
 	sprintf(outSysTime, "%s", curSysTime);
 
 	return G_YES;
-}
 }
