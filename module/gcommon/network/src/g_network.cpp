@@ -18,5 +18,5 @@
 
 #include <g_network.h>
 
-G_NS_GCOMMON_BEG
-G_NS_END
+namespace gcom {
+}

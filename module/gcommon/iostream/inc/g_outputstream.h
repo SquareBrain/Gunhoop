@@ -24,7 +24,7 @@
 #include <g_namespace.h>
 #include <g_io_exception.h>
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 class OutputStream
 {
@@ -86,7 +86,4 @@ public:
      	  */
 	virtual void close() throw(std::ios_base::failure);
 };
-
-G_NS_END
-
-
+}

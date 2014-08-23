@@ -24,7 +24,7 @@
 #include <g_namespace.h>
 #include <g_io_exception.h>
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 class InputStream
 {
@@ -112,6 +112,4 @@ private:
 	};
 	static GInt8 ms_skipbuffer[SKIP_BUFFER_SIZE];
 };
-
-G_NS_END
-
+}

@@ -23,7 +23,7 @@
 // default the count of thread pool
 static const GUint32 G_DEF_THREAD_COUNT = 20;
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 ThreadPool::ThreadPool() : m_threadCount(G_DEF_THREAD_COUNT)
 {
@@ -106,5 +106,4 @@ GResult ThreadWorker::run()
 
 	return G_YES;
 }
-
-G_NS_END
+}

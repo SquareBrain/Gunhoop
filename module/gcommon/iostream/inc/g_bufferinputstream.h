@@ -21,7 +21,7 @@
 #include <g_namespace.h>
 #include <g_inputstream.h>
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 class BufferInputStream : public InputStream
 {
@@ -103,6 +103,4 @@ private:
 
 	GMutex m_mtx;
 };
-
-G_NS_END
-
+}

@@ -20,7 +20,7 @@
 #include <g_bufferinputstream.h>
 
 using namespace std;
-using namespace GCommon;
+using namespace gcom;
 
 BufferInputStream::BufferInputStream(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len)
 	: m_mtx(PTHREAD_MUTEX_NORMAL)

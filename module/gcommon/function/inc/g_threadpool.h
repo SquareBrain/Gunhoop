@@ -24,7 +24,7 @@
 #include <g_thread.h>
 #include <g_condition.h>
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 /**
  * @brief thread job, be inherited by user
@@ -172,5 +172,4 @@ private:
 	// current running user data
 	void*			m_userData;	
 };
-
-G_NS_END
+}

@@ -24,7 +24,7 @@
  */
 #define synchronized(mtx) for (GInt32 i = 0; i < 1; i ++) for (GAutoLock lock(mtx); i < 1; i ++)
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 /** 
  * @brief secrity object template
@@ -36,5 +36,4 @@ public:
 	SecrityObj() {}
 	~SecrityObj() {}
 };
-
-G_NS_END
+}

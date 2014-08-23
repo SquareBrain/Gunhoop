@@ -27,11 +27,9 @@ inline std::string EXCEPTION_DESCRIPTION(const std::string& desc)
 	std::string(", exception:") + std::string(desc));
 }
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 class EOFException : public std::exception
 {
 };
-
-G_NS_END
-
+}

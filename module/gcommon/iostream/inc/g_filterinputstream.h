@@ -23,7 +23,7 @@
 #include <g_namespace.h>
 #include <g_inputstream.h>
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 class FilterInputStream : public InputStream
 {
@@ -107,5 +107,4 @@ public:
 protected:
 	std::shared_ptr<InputStream> m_in;
 };
-
-G_NS_END
+}

@@ -21,7 +21,7 @@
 #include <g_system.h>
 #include <g_namespace.h>
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 /** 
  *  @brief provide user inheritance
@@ -144,5 +144,4 @@ void ObjPool<T>::releaseObjPool()
 		return;
 	}
 }
-
-G_NS_END
+}

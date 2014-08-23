@@ -283,9 +283,8 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	{
 		// add time
 		GInt8 timeStr[128] = {0};
-        
-		pos += sprintf(printBuf + pos, "%s", 
-            GCommon::TimeConv::convTime("ye-mo-da ho:mi:se:ms", timeStr, ));   
+        GCommon::TimeConv::convTime("ye-mo-da ho:mi:se:ms", timeStr, 128));
+		pos += sprintf(printBuf + pos, "%s", timeStr); 
 	}
 
 	// add log level and module name

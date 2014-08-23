@@ -22,7 +22,7 @@
 #include <g_filterinputstream.h>
 #include <g_datainput.h>
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 class DataInputStream : public FilterInputStream, public DataInput
 {
@@ -44,6 +44,4 @@ public:
 	virtual void readFully(GInt8* buffer, GInt32 bufferLen) throw(std::ios_base::failure, std::logic_error, GCommon::EOFException);
 	virtual void readFully(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error, GCommon::EOFException);
 };
-
-G_NS_END
-
+}

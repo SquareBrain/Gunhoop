@@ -20,7 +20,7 @@
 #include <g_system.h>
 #include <g_namespace.h>
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 /** 
  * @brief singletion template
@@ -50,5 +50,4 @@ T& Singleton<T>::GetInstance()
 {
 	return &m_instance;
 }
-
-G_NS_END
+}

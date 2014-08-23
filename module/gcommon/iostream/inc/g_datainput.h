@@ -24,7 +24,7 @@
 #include <g_namespace.h>
 #include <g_io_exception.h>
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 class DataInput
 {
@@ -46,7 +46,4 @@ public:
 	virtual void readFully(GInt8* buffer, GInt32 bufferLen) throw(std::ios_base::failure, std::logic_error, GCommon::EOFException) = 0;
 	virtual void readFully(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error, GCommon::EOFException) = 0;
 };
-
-G_NS_END
-
-
+}

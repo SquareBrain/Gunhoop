@@ -20,7 +20,7 @@
 #include <g_system.h>
 #include <g_namespace.h>
 
-namespace GCommon {
+namespace gcom {
 
 /** 
  * @brief time convert wrapper

@@ -24,7 +24,7 @@
 #include <g_namespace.h>
 #include <g_inputstream.h>
 
-G_NS_GCOMMON_BEG
+namespace gcom {
 
 class FileInputStream : public InputStream
 {
@@ -91,6 +91,4 @@ private:
 	std::shared_ptr<GFile> m_file;
 	GMutex m_mtx;
 };
-
-G_NS_END
-
+}
