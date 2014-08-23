@@ -20,7 +20,7 @@
 #include <g_fileinputstream.h>
 
 using namespace std;
-using namespace GCommon;
+using namespace gcom;
 
 FileInputStream::FileInputStream(std::shared_ptr<GFile> file)
 	: m_file(file)

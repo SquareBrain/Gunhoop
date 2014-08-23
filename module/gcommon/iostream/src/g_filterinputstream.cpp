@@ -18,7 +18,7 @@
 #include <g_filterinputstream.h>
 
 using namespace std;
-using namespace GCommon;
+using namespace gcom;
 
 FilterInputStream::FilterInputStream(std::shared_ptr<InputStream> in)
 	: m_in(in)

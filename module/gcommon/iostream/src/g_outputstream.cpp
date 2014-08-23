@@ -17,7 +17,7 @@
 #include <g_outputstream.h>
 	
 using namespace std;
-using namespace GCommon;
+using namespace gcom;
 
 OutputStream::OutputStream()
 {

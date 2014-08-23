@@ -159,7 +159,7 @@ public:
 	typedef std::map<const GLogLevel, const std::string> GLogLevelMap;
 	typedef std::map<const GPrintFormat, const std::string>	GPrintFormatMap;
 	typedef std::map<const GSaveWay, const std::string> GSaveWayMap;
-	typedef std::map<const std::string, GFile*>	GLogFileMap;
+	typedef std::map<const std::string, GLogFile*>	GLogFileMap;
     
 public:
 	GLoggerImpl();

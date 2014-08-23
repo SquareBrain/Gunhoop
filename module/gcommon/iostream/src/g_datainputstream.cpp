@@ -18,7 +18,7 @@
 #include <g_datainputstream.h>
 
 using namespace std;
-using namespace GCommon;
+using namespace gcom;
 
 DataInputStream::DataInputStream(std::shared_ptr<InputStream> in)
 	: FilterInputStream(in)
@@ -29,7 +29,7 @@ DataInputStream::~DataInputStream()
 {
 }
 
-bool DataInputStream::readBool() throw(std::ios_base::failure, GCommon::EOFException)
+bool DataInputStream::readBool() throw(std::ios_base::failure, gcom::EOFException)
 {
 	register GInt32 c = read();
 	if (c < 0)
@@ -39,7 +39,7 @@ bool DataInputStream::readBool() throw(std::ios_base::failure, GCommon::EOFExcep
 	return (c != 0);
 }
 
-GInt8 DataInputStream::readChar() throw(std::ios_base::failure, GCommon::EOFException)
+GInt8 DataInputStream::readChar() throw(std::ios_base::failure, gcom::EOFException)
 {
 	register GInt32 c = read();
 	if (c < 0)
@@ -49,14 +49,14 @@ GInt8 DataInputStream::readChar() throw(std::ios_base::failure, GCommon::EOFExce
 	return static_cast<GInt8>(c);
 }
 
-GInt16 DataInputStream::readShort() throw(std::ios_base::failure, GCommon::EOFException)
+GInt16 DataInputStream::readShort() throw(std::ios_base::failure, gcom::EOFException)
 {
 	register GInt8 buffer[2] = {0};
 	readFully(buffer, 2);
 	return static_cast<GInt16>(((buffer[0] & 0xff) << 8) | (buffer[1] & 0xff));
 }
 
-GInt32 DataInputStream::readInt() throw(std::ios_base::failure, GCommon::EOFException)
+GInt32 DataInputStream::readInt() throw(std::ios_base::failure, gcom::EOFException)
 {
 	register GInt8 buffer[4] = {0};
 	readFully(buffer, 4);
@@ -64,7 +64,7 @@ GInt32 DataInputStream::readInt() throw(std::ios_base::failure, GCommon::EOFExce
             ((buffer[2] & 0xff) << 8) | (buffer[3] & 0xff));
 }
 
-GInt64 DataInputStream::readLong() throw(std::ios_base::failure, GCommon::EOFException)
+GInt64 DataInputStream::readLong() throw(std::ios_base::failure, gcom::EOFException)
 {
 	register GInt8 buffer[8] = {0};
 	readFully(buffer, 8);
@@ -75,7 +75,7 @@ GInt64 DataInputStream::readLong() throw(std::ios_base::failure, GCommon::EOFExc
 	return static_cast<GInt64>(((i1 & 0xffffffffL) << 32) |(i2 & 0xffffffffL));
 }
 
-GUint8 DataInputStream::readUnsignedChar() throw(std::ios_base::failure, GCommon::EOFException)
+GUint8 DataInputStream::readUnsignedChar() throw(std::ios_base::failure, gcom::EOFException)
 {	
 	register GInt32 c = read();
 	if (c < 0)
@@ -85,14 +85,14 @@ GUint8 DataInputStream::readUnsignedChar() throw(std::ios_base::failure, GCommon
 	return static_cast<GUint8>(c);
 }
 
-GUint16 DataInputStream::readUnsignedShort() throw(std::ios_base::failure, GCommon::EOFException)
+GUint16 DataInputStream::readUnsignedShort() throw(std::ios_base::failure, gcom::EOFException)
 {
 	register GInt8 buffer[2] = {0};
 	readFully(buffer, 2);
 	return static_cast<GUint16>(((buffer[0] & 0xff) << 8) | (buffer[1] & 0xff));
 }
 
-GUint32 DataInputStream::readUnsignedInt() throw(std::ios_base::failure, GCommon::EOFException)
+GUint32 DataInputStream::readUnsignedInt() throw(std::ios_base::failure, gcom::EOFException)
 {
 	register GInt8 buffer[4] = {0};
 	readFully(buffer, 4);
@@ -100,7 +100,7 @@ GUint32 DataInputStream::readUnsignedInt() throw(std::ios_base::failure, GCommon
 			((buffer[2] & 0xff) << 8) | (buffer[3] & 0xff));
 }
 
-GUint64 DataInputStream::readUnsignedLong() throw(std::ios_base::failure, GCommon::EOFException)
+GUint64 DataInputStream::readUnsignedLong() throw(std::ios_base::failure, gcom::EOFException)
 {
 	register GInt8 buffer[8] = {0};
 	readFully(buffer, 8);
@@ -111,17 +111,17 @@ GUint64 DataInputStream::readUnsignedLong() throw(std::ios_base::failure, GCommo
 	return static_cast<GUint64>(((i1 & 0xffffffffUL) << 32) |(i2 & 0xffffffffUL));
 }
 
-std::string DataInputStream::readLine() throw(std::ios_base::failure, GCommon::EOFException)
+std::string DataInputStream::readLine() throw(std::ios_base::failure, gcom::EOFException)
 {
 	return string("");
 }
 
-void DataInputStream::readFully(GInt8* buffer, GInt32 bufferLen) throw(std::ios_base::failure, std::logic_error, GCommon::EOFException)
+void DataInputStream::readFully(GInt8* buffer, GInt32 bufferLen) throw(std::ios_base::failure, std::logic_error, gcom::EOFException)
 {
 	readFully(buffer, bufferLen, 0, bufferLen);
 }
 
-void DataInputStream::readFully(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error, GCommon::EOFException)
+void DataInputStream::readFully(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len) throw(std::ios_base::failure, std::logic_error, gcom::EOFException)
 {
 	if (!buffer)
 	{
@@ -146,4 +146,3 @@ void DataInputStream::readFully(GInt8* buffer, GInt32 bufferLen, GInt32 offset, 
 		offset += num;
 	}
 }
-

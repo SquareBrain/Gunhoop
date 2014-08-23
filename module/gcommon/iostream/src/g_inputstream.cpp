@@ -18,7 +18,7 @@
 #include <g_inputstream.h>
 
 using namespace std;
-using namespace GCommon;
+using namespace gcom;
 
 GInt8 InputStream::ms_skipbuffer[SKIP_BUFFER_SIZE] ={0};
 
