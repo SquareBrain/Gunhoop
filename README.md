@@ -17,7 +17,7 @@ GSQLMaster 进程
 GSQLServer 进程
 
 ### Gohoop.1.1.0 2015.02.28
-增加文件系统服务、Task服务，Mapreduce框架实现、丰富基础库，包括：
+增加文件系统服务、Task服务，Mapreduce框架实现、丰富基础库，包括：</br>
 GDFSMaster 进程
 GDFSServer 进程
 GTaskMaster 进程
