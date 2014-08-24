@@ -11,25 +11,25 @@ Gohoop分布式存储与计算平台(Gohoop Distributed Storage And Compute Plat
 ====
 ### Gohoop.1.2.0 2015.06.30
 增加结构和非结构化数据存取服务，包括：<br/>
-GStoreMaster 进程
-GStoreServer 进程
-GSQLMaster 进程
-GSQLServer 进程
+GStoreMaster 进程<br/>
+GStoreServer 进程<br/>
+GSQLMaster 进程<br/>
+GSQLServer 进程<br/>
 
 ### Gohoop.1.1.0 2015.02.28
-增加文件系统服务、Task服务，Mapreduce框架实现、丰富基础库，包括：</br>
-GDFSMaster 进程
-GDFSServer 进程
-GTaskMaster 进程
-GTaskServer 进程
-基础库增加和修复
+增加文件系统服务、Task服务，Mapreduce框架实现、丰富基础库，包括：<br/>
+GDFSMaster 进程<br/>
+GDFSServer 进程<br/>
+GTaskMaster 进程<br/>
+GTaskServer 进程<br/>
+基础库增加和修复<br/>
 
 ### Gohoop.1.0.0 2014.10.31
-基础库实现，包括：
-libgsystem.so
-libgutils.so(包括gini gxml gzip grpc gsoap)
-libglogger.so
-libgcommon.so(包括filesys function iostream network)
+基础库实现，包括：<br/>
+libgsystem.so<br/>
+libgutils.so(包括gini gxml gzip grpc gsoap)<br/>
+libglogger.so<br/>
+libgcommon.so(包括filesys function iostream network)<br/>
     
 下载
 ====
