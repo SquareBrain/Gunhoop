@@ -10,7 +10,7 @@ Gohoop分布式存储与计算平台(Gohoop Distributed Storage And Compute Plat
 发布
 ====
 ### Gohoop.1.2.0 2015.06.30
-增加结构和非结构化数据存取服务，包括：
+增加结构和非结构化数据存取服务，包括：<br/>
 GStoreMaster 进程
 GStoreServer 进程
 GSQLMaster 进程
