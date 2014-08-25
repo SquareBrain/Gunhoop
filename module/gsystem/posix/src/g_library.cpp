@@ -16,6 +16,8 @@
 */
 #include <g_library.h>
 
+using namespace gsys;
+
 GLibrary::GLibrary()
 {
 }
