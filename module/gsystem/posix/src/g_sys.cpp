@@ -24,17 +24,17 @@
 
 using namespace gsys;
 
-void sleep(const GUint64 time)
+void GSystem::sleep(const GUint64 time)
 {
 	::sleep(time);
 }
 
-void usleep(const GUint64 time)
+void GSystem::usleep(const GUint64 time)
 {
 	::usleep(time);
 }
 
-GUint64 pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
+GUint64 GSystem::pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
 {
 	va_list vaList;
 	va_start(vaList, args);
@@ -43,26 +43,26 @@ GUint64 pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
 	return strLen;
 }
 
-GResult shell(const GInt8* cmd, const GShellMode mode, GInt8* buffer, const GUint32 size)
+GResult GSystem::shell(const GInt8* cmd)
+{
+	G_ASSERT(cmd != NULL);
+
+	FILE* retStream = popen(cmd, "r");
+	if (retStream == NULL)
+	{
+		return G_NO;
+	}
+	
+	pclose(retStream);
+
+	return G_YES;      
+}
+
+GResult GSystem::shell(const GInt8* cmd, GInt8* buffer, const GUint32 size)
 {
 	G_ASSERT(cmd != NULL && buffer != NULL && size > 0);
 
-	GInt8* pipeMode = NULL;
-	switch (mode)
-	{
-	case G_SHELL_R:
-		pipeMode = (GInt8*)"r";
-		break;
-	case G_SHELL_W:
-		pipeMode = (GInt8*)"w";
-		break;
-	default:
-		return G_NO;
-		break;
-	}
-
-
-	FILE* retStream = popen(cmd, pipeMode);
+	FILE* retStream = popen(cmd, "r");
 	if (retStream == NULL)
 	{
 		return G_NO;
@@ -76,7 +76,7 @@ GResult shell(const GInt8* cmd, const GShellMode mode, GInt8* buffer, const GUin
 	return G_YES;      
 }
 
-GUint64 getSysTime()
+GUint64 GSystem::getSysTime()
 {
 	struct timeval now;
 	struct timezone tz;
