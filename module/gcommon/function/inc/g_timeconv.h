@@ -32,6 +32,7 @@ namespace gcom {
  * mi - minute
  * se - second
  * ms - millisecond
+ * us - microsecond
  * ns - nansecond
  * we - week
  * 
@@ -42,7 +43,7 @@ class TimeConv
 public:
 	/**
 	 * @brief get system recording to time format
-	 * @param [in]format : e.g "ye-mo-da ho:mi:se:ms"
+	 * @param [in]format : e.g "ye-mo-da ho:mi:se:ms:us"
 	 * @param [out]buffer : time string recording to format
 	 * @param [in]size : out buffer size
 	 * @return G_YES/G_NO
