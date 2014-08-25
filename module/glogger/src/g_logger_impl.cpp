@@ -160,7 +160,7 @@ GLogFile::GLogFile(const std::string& fileName,
 	// remove old log files
 	GInt8 cmd[256] = {0};
 	sprintf(cmd, "rm %s*.glog -f", m_fileName);
-	gsys::shell(cmd);
+	gsys::GSystem::shell(cmd);
 }
 
 GLogFile::~GLogFile()
