@@ -16,6 +16,8 @@
 */
 #include <g_thread.h> 
 
+using namespace gsys;
+
 GThread::GThread(GRunnable* runnable, const bool autoRel) 
 	: m_threadId(-1)
 	, m_autoRel(autoRel)
