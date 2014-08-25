@@ -22,6 +22,8 @@
 #include <pthread.h> 
 #include <g_type.h>
 
+namespace gsys {
+	
 /** 
  * @brief thread state
  */
@@ -99,7 +101,7 @@ private:
 private:
 	// GThread ID
 	pthread_t	m_threadId;
-	// indicate whether is detached with main GThread£¬default is detached
+	// indicate whether is detached with main GThreadÂ£Â¬default is detached
 	bool		m_autoRel;
 	// user GThread object
 	GRunnable*	m_runnable;
@@ -167,3 +169,4 @@ public:
 	 */		
 	static GInt32 createThread(void* entry, void* argument, const bool autoRel = true);
 };
+}
