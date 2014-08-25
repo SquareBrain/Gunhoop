@@ -17,6 +17,8 @@
 */
 #include <g_shm.h>
 
+using namespace gsys;
+
 // default GShm size is 10M
 static const GUint64 G_DEF_GShm_SIZE = 1024 * 1024 * 10;
 
