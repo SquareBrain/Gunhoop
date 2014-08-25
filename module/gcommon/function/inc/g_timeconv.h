@@ -24,68 +24,41 @@ namespace gcom {
 
 /** 
  * @brief time convert wrapper
+ * time format:
+ * ye - year
+ * mo - mouth
+ * da - day
+ * ho - hour
+ * mi - minute
+ * se - second
+ * ms - millisecond
+ * ns - nansecond
+ * we - week
+ * 
+ * time format e.g : "ye-mo-da ho:mi:se:ms"
  */
 class TimeConv
 {
 public:
 	/**
-	 * @brief get system time format:20140309
-	 * @param [in]sysTime : input system time with nanosecond
-	 * @param [out]sysTimeStr : output system time with nanosecond
-	 * @param [in] bufSize : output buffer size
+	 * @brief get system recording to time format
+	 * @param [in]format : e.g "ye-mo-da ho:mi:se:ms"
+	 * @param [out]buffer : time string recording to format
+	 * @param [in]size : out buffer size
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
 	static GResult convTime(const GInt8* format, GInt8* buffer, const GUint32 size);
-    
+	
 	/**
-	 * @brief get system time format:20140309
-	 * @param [in]sysTime : input system time with nanosecond
-	 * @param [out]sysTimeStr : output system time with nanosecond
-	 * @param [in] bufSize : output buffer size
+	 * @brief convert time recording to time format
+	 * @param [in]inTime : input time, unit is millisecond
+	 * @param [in]format : e.g "ye-mo-da ho:mi:se:ms"
+	 * @param [out]buffer : time string recording to format
+	 * @param [in]size : out buffer size
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-	static GResult convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
-
-	/**
-	 * @brief get system time format:2014-03-09
-	 * @param [in]sysTime : input system time with nanosecond
-	 * @param [out]sysTimeStr : output system time with nanosecond
-	 * @param [in] bufSize : output buffer size
-	 * @return G_YES/G_NO
-	 * @note 
-	 */		
-	static GResult convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
-
-	/**
-	 * @brief get system time format:2014/03/09
-	 * @param [in]sysTime : input system time with nanosecond
-	 * @param [out]sysTimeStr : output system time with nanosecond
-	 * @param [in] bufSize : output buffer size
-	 * @return G_YES/G_NO
-	 * @note 
-	 */		
-	static GResult convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize); 
-
-	/**
-	 * @brief get system time format:2014.03.09
-	 * @param [in]sysTime : input system time with nanosecond
-	 * @param [out]sysTimeStr : output system time with nanosecond
-	 * @param [in] bufSize : output buffer size
-	 * @return G_YES/G_NO
-	 * @note 
-	 */		
-	static GResult convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);  
-
-	/**
-	 * @brief get system time format:2014-03-09:999
-	 * @param [in]sysTime : input system time with nanosecond
-	 * @param [out]sysTimeStr : output system time with nanosecond
-	 * @param [in] bufSize : output buffer size
-	 * @return G_YES/G_NO
-	 * @note 
-	 */		
-	static GResult convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize);
+	static GResult convTime(const GUint64 inTime, const GInt8* format, GInt8* buffer, const GUint32 size);	
 };
 }
