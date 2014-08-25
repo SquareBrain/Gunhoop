@@ -27,6 +27,8 @@
 #include <unistd.h>
 #include <g_type.h>
 
+namespace gsys {
+	
 /** 
  * @brief POSIX GMutex wrapper
  */
