@@ -74,6 +74,14 @@ public:
 	 * @note 
 	 */	
 	static bool isExist(const GInt8* filePath);	
+	
+	/**
+	 * @brief remove file
+	 * @param [in] filePath : file path
+	 * @return true/false
+	 * @note 
+	 */	
+	static GResult removeFile(const GInt8* filePath);	
 };
 
 /** 
