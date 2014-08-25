@@ -24,6 +24,8 @@
 #include <unistd.h>
 #include <g_type.h>
 
+namespace gsys {
+	
 /** 
  * @brief pipe base class, be inherited by WriteGPipe and ReadGPipe class
  */
@@ -137,3 +139,4 @@ private:
 	*/		
 	void operator=(const GReadPipe&);	
 };
+}
