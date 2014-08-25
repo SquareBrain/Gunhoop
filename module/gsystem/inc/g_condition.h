@@ -21,6 +21,8 @@
 #include <pthread.h>
 #include <g_type.h>
 
+namespace gsys {
+	
 /** 
  * POSIX GCondition wrapper
  */
@@ -80,3 +82,4 @@ private:
 	pthread_cond_t		m_condition;
 	pthread_mutex_t		m_mutex;	
 };
+}
