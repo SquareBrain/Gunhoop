@@ -21,6 +21,8 @@
 #include <g_type.h>
 #include <g_sys.h>
 
+namespace gsys {
+	
 /** 
  * file open flags
  */
@@ -191,3 +193,4 @@ private:
 	GUint32		m_pathLen;
 	GInt8		m_error[G_ERROR_BUF_SIZE];
 };
+}
