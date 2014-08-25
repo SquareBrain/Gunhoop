@@ -193,6 +193,7 @@ public:
 	GInt8* getError();    
 
 private:
+	void printFile(const GModuleRule* moduleRule, const GInt8* log, const GUint64 len);
 	GResult parserLogConf();
 	GResult initFile();
 	GResult findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel);
