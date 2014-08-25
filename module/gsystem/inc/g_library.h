@@ -20,6 +20,8 @@
 #include <dlfcn.h>
 #include <g_type.h>
 
+namespace gsys {
+
 /** 
  * shared GLibrary wrapper
  */
@@ -47,3 +49,4 @@ public:
 	 */		
 	static bool close(void* handle);
 };
+}
