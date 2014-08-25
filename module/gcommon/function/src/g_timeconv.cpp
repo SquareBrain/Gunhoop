@@ -18,82 +18,46 @@
 
 using namespace gcom;
 
+
+
 GResult TimeConv::convTime(const GInt8* format, GInt8* buffer, const GUint32 size)
 {
-	if (buffer == nullptr || size < 0)
-    {
-    	return G_NO;
-    }
-    
-	return G_YES;
+	// millisecond
+	return convTime(gsys::getSysTime(), format, buffer, size);
 }
 
-GResult TimeConv::convTimeA(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+GResult TimeConv::convTime(const std::string& format, std::string& buffer)
 {
-	if (outSysTime == NULL)
+	GInt8* timeBuffer[128] = {0};
+	if (convTime(format, timeBuffer, 128) != G_YES)
 	{
 		return G_NO;
 	}
-
-	const GInt8* curSysTime = "20140309";
-
-	sprintf(outSysTime, "%s", curSysTime);
-
+	
+	buffer.assign(timeBuffer);
+	
 	return G_YES;
 }
 
-GResult TimeConv::convTimeB(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+GResult TimeConv::convTime(const GUint64 millisecond, const GInt8* format, GInt8* buffer, const GUint32 size)
 {
-	if (outSysTime == NULL)
+	if (format == nullptr || buffer == nullptr || size == 0)
 	{
-	return G_NO;
+		return G_NO;	
 	}
-
-	const GInt8* curSysTime = "2014-03-09";
-
-	sprintf(outSysTime, "%s", curSysTime);
-
+	
 	return G_YES;
 }
 
-GResult TimeConv::convTimeC(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
+GResult TimeConv::convTime(const GUint64 millisecond, const std::string format, std::string& buffer)
 {
-	if (outSysTime == NULL)
+	GInt8* timeBuffer[128] = {0};
+	if (convTime(millisecond, format, timeBuffer, 128) != G_YES)
 	{
-		return G_NO;
+		return G_NO;	
 	}
-
-	const GInt8* curSysTime = "2014/03/09";
-
-	sprintf(outSysTime, "%s", curSysTime);
-
-	return G_YES;
-}
-
-GResult TimeConv::convTimeD(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
-{
-	if (outSysTime == NULL)
-	{
-		return G_NO;
-	}
-
-	const GInt8* curSysTime = "2014.03.09";
-
-	sprintf(outSysTime, "%s", curSysTime);
-
-	return G_YES;
-}
-
-GResult TimeConv::convTimeE(const GUint64 inSysTime, GInt8* outSysTime, const GUint64 bufSize)
-{
-	if (outSysTime == NULL)
-	{
-		return false;
-	}
-
-	const GInt8* curSysTime = "2014-03-09:999";
-
-	sprintf(outSysTime, "%s", curSysTime);
-
+	
+	buffer.assign(timeBuffer);
+	
 	return G_YES;
 }
