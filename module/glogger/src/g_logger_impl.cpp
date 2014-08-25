@@ -297,43 +297,56 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 		// add time
 		GInt8 timeStr[128] = {0};
         gcom::TimeConv::convTime("ye-mo-da ho:mi:se:ms", timeStr, 128);
-		pos += sprintf(printBuf + pos, "%s", timeStr); 
+		pos += snprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, "%s", timeStr); 
 	}
 
 	// add log level and module name
-	pos += sprintf(printBuf + pos, "<%s>[%s]", m_logLevelMap[logLevel].c_str(), module);
-
-	switch (moduleRule->getPrintFormat())
+	pos += snprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, "<%s>[%s]", m_logLevelMap[logLevel].c_str(), module);
+	
+	// add log string
+	pos += gsys::pformat(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, args);
+	
+	// add source file name, function name and line
+	if (moduleRule->getPrintFormat() >= PRINT_FULL)
 	{
-	case PRINT_BASIC:
-		break;
-	case PRINT_MORE:
-		// add time
-		pos += sprintf(printBuf + pos, "(%s:%s)", file, function);
-		break;
-	case PRINT_FULL:
-		// add file, line number and function
-		pos += sprintf(printBuf + pos, "(%s:%s:%d)", file, function, line);    
-		break;
-	default:
-		return;
+		pos + snprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, "%s:%s:%d", file, function, line);
 	}
-
-	// add log content
-	pos += GSys::format(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, args);
 
 	// add word wrap
 	if (m_globalRule.isAutoWordwrap())
 	{
-		pos += sprintf(printBuf + pos, "\n");    
+		pos += snprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, "\n");    
 	}
-
-	printf("%s", printBuf);
+	
+	switch (moduleRule->getSaveWay())
+	{
+	case SAVE_STDOUT:
+		printf(stdout, "%s", printBuf);
+		break;
+	case SAVE_STDERR:
+		printf(stderr, "%s", printBuf);
+		break;
+	case SAVE_FILE:
+		printFile(moduleRule, printBuf, pos);
+		break;
+	}
 }
 
 GInt8* GLoggerImpl::getError()
 {
 	return m_error;
+}
+
+void GLoggerImpl::printFile(const GModuleRule* moduleRule, const GInt8* log, const GUint64 len)
+{
+	GLogFileMap::iterator iter = m_logFileMap.find(moduleRule->getFileName());
+	if (iter == m_logFileMap.end())
+	{
+		return;
+	}
+	
+	GLogFile* logFile = iter->second;
+	logFile->write(log, len);
 }
 
 GResult GLoggerImpl::parserLogConf()
