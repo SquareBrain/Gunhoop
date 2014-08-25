@@ -26,6 +26,8 @@
 #include <string>
 #include <g_type.h>
 
+namespace gsys {
+	
 /** 
  * @brief posix socket wrapper class
  */
@@ -122,3 +124,4 @@ private:
 	// address length
 	socklen_t	m_addrLen;			
 };
+}
