@@ -20,6 +20,8 @@
 #include <string.h>
 #include <g_file.h>
 
+using namespace gsys;
+
 // default create GFile permissions
 static const GUint32 G_FILE_MASK = 0x775;
 
