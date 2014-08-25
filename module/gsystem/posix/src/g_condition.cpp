@@ -16,6 +16,8 @@
 */
 #include <g_condition.h>
 
+using namespace gsys;
+
 GCondition::GCondition()       
 { 
 	pthread_cond_init(&m_condition, 0);        
