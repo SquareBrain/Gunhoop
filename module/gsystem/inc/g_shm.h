@@ -25,6 +25,8 @@
 #include <string.h>
 #include <g_type.h>
 
+namespace gsys {
+	
 /** 
  * @brief shm error code
  */
@@ -143,3 +145,4 @@ private:
 	void*	m_shmAddr;
 	bool	m_initFlags;
 };
+}
