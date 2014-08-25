@@ -64,6 +64,18 @@ bool GFileUtil::isExist(const GInt8* filePath)
     return true;
 }
 
+GResult GFileUtil::removeFile(const GInt8* filePath)
+{
+	if (filePath == nullPtr)
+	{
+		return G_NO;
+	}
+	
+	GInt8* cmd[128] = {0};
+	sprintf(cmd, "rm %s -f", filePath);
+	return GSystem::shell(cmd);
+}
+
 GFile::GFile() : m_fd(-1), m_flags(0), m_pathLen(0)
 {
 	m_error[0] = 0;
