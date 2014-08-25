@@ -22,17 +22,19 @@
 #include <string.h>
 #include <g_sys.h>
 
-void GSys::sleep(const GUint64 time)
+using namespace gsys;
+
+void sleep(const GUint64 time)
 {
 	::sleep(time);
 }
 
-void GSys::usleep(const GUint64 time)
+void usleep(const GUint64 time)
 {
 	::usleep(time);
 }
 
-GUint64 GSys::format(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
+GUint64 pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
 {
 	va_list vaList;
 	va_start(vaList, args);
@@ -41,7 +43,7 @@ GUint64 GSys::format(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
 	return strLen;
 }
 
-GResult GSys::shell(const GInt8* cmd, const GShellMode mode, GInt8* buffer, const GUint32 size)
+GResult shell(const GInt8* cmd, const GShellMode mode, GInt8* buffer, const GUint32 size)
 {
 	G_ASSERT(cmd != NULL && buffer != NULL && size > 0);
 
@@ -74,7 +76,7 @@ GResult GSys::shell(const GInt8* cmd, const GShellMode mode, GInt8* buffer, cons
 	return G_YES;      
 }
 
-GUint64 GSys::getSysTime()
+GUint64 getSysTime()
 {
 	struct timeval now;
 	struct timezone tz;
@@ -83,5 +85,5 @@ GUint64 GSys::getSysTime()
 		return 0;
 	}
 	
-	return (GUint64)(now.tv_sec) * 1000 + now.tv_usec / 1000;
+	return (GUint64)(now.tv_sec) * 1000000 + now.tv_usec;
 }
