@@ -20,6 +20,8 @@
 */
 #include <g_lock.h>
 
+using namespace gsys;
+
 GMutex::GMutex()
 {
 	init(PTHREAD_MUTEX_RECURSIVE);
