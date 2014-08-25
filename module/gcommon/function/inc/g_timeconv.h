@@ -52,13 +52,13 @@ public:
 	
 	/**
 	 * @brief convert time recording to time format
-	 * @param [in]inTime : input time, unit is millisecond
+	 * @param [in]millisecond : input time, unit is millisecond
 	 * @param [in]format : e.g "ye-mo-da ho:mi:se:ms"
 	 * @param [out]buffer : time string recording to format
 	 * @param [in]size : out buffer size
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-	static GResult convTime(const GUint64 inTime, const GInt8* format, GInt8* buffer, const GUint32 size);	
+	static GResult convTime(const GUint64 millisecond, const GInt8* format, GInt8* buffer, const GUint32 size);	
 };
 }
