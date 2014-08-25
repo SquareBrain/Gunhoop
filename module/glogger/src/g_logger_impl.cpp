@@ -157,6 +157,10 @@ GLogFile::GLogFile(const std::string& fileName,
 	, m_maxFileSize(maxFileSize)
 	, m_currFileSize(0)
 {
+	// remove old log files
+	GInt8 cmd[256] = {0};
+	sprintf(cmd, "rm %s*.glog -f", m_fileName);
+	gsys::shell(cmd);
 }
 
 GLogFile::~GLogFile()
@@ -197,18 +201,20 @@ GResult GLogFile::open()
 	{
 		m_genFileCount++;
 		
-		fileFullName = m_fileName + "_" + std::to_string(m_genFileCount) + ".glog";
-		
-		if (GFileUtil::isExist(fileFullName.c_str()))
+		if (m_genFileCount > m_maxFileNum)
 		{
-			m_genFileCount++;
-			continue;
+			std::string removeFileFullName = m_fileName + "_" + std::to_string(m_genFileCount - m_maxFileNum) + ".glog";
+			GFileUtil::removeFile(removeFileFullName.c_str());
 		}
+		
+		fileFullName = m_fileName + "_" + std::to_string(m_genFileCount) + ".glog";
 		
 		break;
 	}
 	
 	delete m_file;
+	m_file = nullptr;
+	
 	m_file = new GFile(fileFullName.c_str());
 	if (m_file->open(G_OPEN_WRITE) != G_YES)
 	{
