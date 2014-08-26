@@ -18,6 +18,7 @@
 */
 #include <g_ini_section.h>
 
+using namespace gsys;
 using namespace gutils;
 
 IniSection::IniSection()

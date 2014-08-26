@@ -91,8 +91,8 @@ public:
 	const KeyValueMap& getkeyValueMap() const;   
     
 private:
-	std::string     m_sectionName;
-	KeyValueMap     m_keyValueMap;
-	Mutex          m_mapMutex;
+	std::string		m_sectionName;
+	KeyValueMap		m_keyValueMap;
+	gsys::Mutex		m_mapMutex;
 };
 }

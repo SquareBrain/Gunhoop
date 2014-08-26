@@ -18,6 +18,8 @@
 #include <g_xml.h>
 #include <g_logger_impl.h>
 
+using namespace gsys;
+
 // the max buffer size of in one line
 static const GUint64 DEF_ONE_LINE_BUF_SIZE = 1024;
 
@@ -159,8 +161,8 @@ GLogFile::GLogFile(const std::string& fileName,
 {
 	// remove old log files
 	GInt8 cmd[256] = {0};
-	sprintf(cmd, "rm %s*.glog -f", m_fileName);
-	gsys::System::shell(cmd);
+	sprintf(cmd, "rm %s*.glog -f", m_fileName.c_str());
+	System::shell(cmd);
 }
 
 GLogFile::~GLogFile()
@@ -310,12 +312,12 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	pos += snprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, "<%s>[%s]", m_logLevelMap[logLevel].c_str(), module);
 	
 	// add log string
-	pos += gsys::pformat(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, args);
+	pos += System::pformat(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, args);
 	
 	// add source file name, function name and line
 	if (moduleRule->getPrintFormat() >= PRINT_FULL)
 	{
-		pos + snprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, "%s:%s:%d", file, function, line);
+		pos += snprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, "%s:%s:%d", file, function, line);
 	}
 
 	// add word wrap
@@ -327,10 +329,10 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	switch (moduleRule->getSaveWay())
 	{
 	case SAVE_STDOUT:
-		printf(stdout, "%s", printBuf);
+		sprintf(stdout, "%s", printBuf);
 		break;
 	case SAVE_STDERR:
-		printf(stderr, "%s", printBuf);
+		sprintf(stderr, "%s", printBuf);
 		break;
 	case SAVE_FILE:
 		printFile(moduleRule, printBuf, pos);

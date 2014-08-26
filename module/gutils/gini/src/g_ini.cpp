@@ -18,6 +18,7 @@
 #include <g_ini_section.h>
 #include <g_ini.h>
 
+using namespace gsys;
 using namespace gutils;
 
 static const GUint64 INI_TMP_BUF_SIZE = 1024 * 10;
@@ -51,7 +52,7 @@ GResult IniFile::loadFile(const std::string& filePath)
 
 	m_filePath = filePath;
 
-	File file(m_filePath.c_str());
+	gsys::File file(m_filePath.c_str());
 	if (file.open(G_OPEN_READ) != G_YES)
 	{
 		setError("open file failed");
@@ -218,7 +219,7 @@ GResult IniFile::saveFile(const std::string& filePath)
 
 	tmpBuf[bufPos] = 0;
 
-	File file(m_filePath.c_str());
+	gsys::File file(m_filePath.c_str());
 	if (file.open(G_OPEN_WRITE) != G_YES)
 	{
 		return G_NO;
@@ -338,5 +339,5 @@ GResult IniFile::getOneLine(const GInt8* data,
 
 void IniFile::setError(const char *args,...)
 {
-	GSys::format(m_error, G_ERROR_BUF_SIZE, args);
+	System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
