@@ -33,4 +33,3 @@
 #include <g_sys.h>
 #include <g_thread.h>
 #include <g_file.h>
-#include <g_time.h>

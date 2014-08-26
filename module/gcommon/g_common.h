@@ -19,7 +19,6 @@
 #pragma once
 
 #include <g_system.h>
-#include <g_namespace.h>
 #include <g_configuration.h>
 #include <g_filesys.h>
 #include <g_objpool.h>
