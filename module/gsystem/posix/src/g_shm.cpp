@@ -22,36 +22,36 @@ using namespace gsys;
 // default GShm size is 10M
 static const GUint64 G_DEF_GShm_SIZE = 1024 * 1024 * 10;
 
-GShm::GShm() : m_shmSize(0), m_shmAddr(NULL), m_initFlags(false)
+Shm::Shm() : m_shmSize(0), m_shmAddr(NULL), m_initFlags(false)
 {
 	m_shmPath[0] = 0;
 }
 
-GShm::GShm(const GInt8* shmPath, const GUint64 shmSize) 
+Shm::Shm(const GInt8* shmPath, const GUint64 shmSize) 
     : m_shmSize(shmSize), m_shmAddr(NULL), m_initFlags(false)
 {
 	setPath(shmPath);
 	init();
 }
 
-GShm::~GShm()
+Shm::~Shm()
 {
 	uninit();    
 }
 
-void GShm::setPath(const GInt8* shmPath)
+void Shm::setPath(const GInt8* shmPath)
 {
 	GUint32 len = strlen(shmPath);
 	memcpy(m_shmPath, shmPath, len);
 	m_shmPath[len] = 0;
 }
 
-void GShm::setSize(const GUint64 shmSize)
+void Shm::setSize(const GUint64 shmSize)
 {
 	m_shmSize = shmSize;    
 }
      
-GResult GShm::sync()
+GResult Shm::sync()
 {
 	if (!m_initFlags)
 	{
@@ -68,7 +68,7 @@ GResult GShm::sync()
 	return G_YES;    
 } 
  
-GResult GShm::write(const GUint32 offset, const GInt8* data, const GUint32 length)
+GResult Shm::write(const GUint32 offset, const GInt8* data, const GUint32 length)
 {
 	if (!m_initFlags)
 	{
@@ -99,7 +99,7 @@ GResult GShm::write(const GUint32 offset, const GInt8* data, const GUint32 lengt
 	return G_YES;        
 }
 
-GResult GShm::read(const GUint32 offset, GInt8* buffer, const GUint32 size)
+GResult Shm::read(const GUint32 offset, GInt8* buffer, const GUint32 size)
 {
 	if (!m_initFlags)
 	{
@@ -130,7 +130,7 @@ GResult GShm::read(const GUint32 offset, GInt8* buffer, const GUint32 size)
 	return G_YES;     
 }
 
-GResult GShm::init()
+GResult Shm::init()
 {
 	if (m_initFlags)
 	{
@@ -173,7 +173,7 @@ GResult GShm::init()
 	return G_YES;
 }
     
-GResult GShm::uninit()
+GResult Shm::uninit()
 {
 	if (!m_initFlags)
 	{

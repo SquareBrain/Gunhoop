@@ -31,10 +31,10 @@ namespace gsys {
 /** 
  * @brief posix socket wrapper class
  */
-class GSocket
+class Socket
 {
 public:
-	GSocket();
+	Socket();
 
 	/**
 	 * @brief constructor
@@ -42,15 +42,15 @@ public:
 	 * @param [in] port : port
 	 * @note 
 	 */			
-	GSocket(const GUint32 ip, const GUint16 port);
+	Socket(const GUint32 ip, const GUint16 port);
 
 	/**
 	 * @brief copy constructor
 	 * @param [in] socket : socket
 	 * @note 
 	 */			
-	GSocket(const GSocket& socket);
-	~GSocket();
+	Socket(const Socket& socket);
+	~Socket();
 
 	/**
 	 * @brief init socket

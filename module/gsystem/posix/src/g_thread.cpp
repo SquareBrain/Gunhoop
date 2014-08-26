@@ -18,18 +18,18 @@
 
 using namespace gsys;
 
-GThread::GThread(GRunnable* runnable, const bool autoRel) 
+Thread::Thread(Runnable* runnable, const bool autoRel) 
 	: m_threadId(-1)
 	, m_autoRel(autoRel)
 	, m_runnable(runnable)
 {
 }
 
-GThread::~GThread()
+Thread::~Thread()
 {
 }
 
-GResult GThread::start()
+GResult Thread::start()
 {
 	pthread_attr_t* attributes = NULL;
 	GResult ret = pthread_create(&m_threadId, attributes, enterPoint, m_runnable);
@@ -47,27 +47,27 @@ GResult GThread::start()
 	return G_YES;
 }
 
-GUint32 GThread::getGThreadId() const
+GUint32 Thread::getGThreadId() const
 {
 	return (GUint32)m_threadId;
 }
 
-void* GThread::enterPoint(void* argument)
+void* Thread::enterPoint(void* argument)
 {
-	GRunnable* runnable = static_cast<GRunnable*>(argument);
+	Runnable* runnable = static_cast<Runnable*>(argument);
 	runnable->run();
 	return NULL;
 }
 
-GThreadTask::GThreadTask(const bool autoRel) : m_threadId(-1), m_autoRel(autoRel)
+ThreadTask::ThreadTask(const bool autoRel) : m_threadId(-1), m_autoRel(autoRel)
 {
 }
 
-GThreadTask::~GThreadTask()
+ThreadTask::~ThreadTask()
 {
 }
 
-GResult GThreadTask::start()
+GResult ThreadTask::start()
 {
 	pthread_attr_t* attributes = NULL;
 	GInt32 ret = pthread_create(&m_threadId, attributes, enterPoint, this);
@@ -85,14 +85,14 @@ GResult GThreadTask::start()
 	return G_YES;
 }
 
-void* GThreadTask::enterPoint(void* argument)
+void* ThreadTask::enterPoint(void* argument)
 {
-	GThreadTask* threadTask = static_cast<GThreadTask*>(argument);
+	ThreadTask* threadTask = static_cast<ThreadTask*>(argument);
 	threadTask->run();
 	return NULL;
 }
 
-GInt32 GThreadUtil::createThread(void* entry, void* argument, const bool autoRel)
+GInt32 ThreadUtil::createThread(void* entry, void* argument, const bool autoRel)
 {
 	pthread_attr_t* attributes = NULL;
 	pthread_t threadId = -1;

@@ -16,25 +16,26 @@
 *  1. 2014-03-15 duye Created this file
 * 
 */
-
 #include <g_ini_section.h>
 
-GIniSection::GIniSection()
+using namespace gutils;
+
+IniSection::IniSection()
 {
 }
 
-GIniSection::GIniSection(const std::string& sectionName)
+IniSection::IniSection(const std::string& sectionName)
 {
 	m_sectionName = sectionName;
 }
 
-GIniSection::~GIniSection()
+IniSection::~IniSection()
 {
 }
 
-GResult GIniSection::getPara(const std::string& para, std::string& value)
+GResult IniSection::getPara(const std::string& para, std::string& value)
 {
-	GAutoLock autoLock(m_mapMutex);
+	AutoLock autoLock(m_mapMutex);
 
 	KeyValueMap::iterator iter = m_keyValueMap.find(para);
 	if (iter == m_keyValueMap.end())
@@ -47,9 +48,9 @@ GResult GIniSection::getPara(const std::string& para, std::string& value)
 	return G_YES;    
 }
 
-GResult GIniSection::setPara(const std::string& para, const std::string& value)
+GResult IniSection::setPara(const std::string& para, const std::string& value)
 {
-	GAutoLock autoLock(m_mapMutex);
+	AutoLock autoLock(m_mapMutex);
 
 	KeyValueMap::iterator iter = m_keyValueMap.find(para);
 	if (iter == m_keyValueMap.end())
@@ -62,9 +63,9 @@ GResult GIniSection::setPara(const std::string& para, const std::string& value)
 	return G_YES;   
 }
 
-GResult GIniSection::addPara(const std::string& para, const std::string& value)
+GResult IniSection::addPara(const std::string& para, const std::string& value)
 {
-	GAutoLock autoLock(m_mapMutex);
+	AutoLock autoLock(m_mapMutex);
 
 	KeyValueMap::iterator iter = m_keyValueMap.find(para);
 	if (iter != m_keyValueMap.end())
@@ -77,9 +78,9 @@ GResult GIniSection::addPara(const std::string& para, const std::string& value)
 	return G_YES;
 }
 
-GResult GIniSection::delPara(const std::string& para)
+GResult IniSection::delPara(const std::string& para)
 {
-	GAutoLock autoLock(m_mapMutex);
+	AutoLock autoLock(m_mapMutex);
 
 	KeyValueMap::iterator iter = m_keyValueMap.find(para);
 	if (iter == m_keyValueMap.end())
@@ -92,7 +93,7 @@ GResult GIniSection::delPara(const std::string& para)
 	return G_YES;
 }
 
-const GIniSection::KeyValueMap& GIniSection::getkeyValueMap() const
+const IniSection::KeyValueMap& IniSection::getkeyValueMap() const
 {
 	return m_keyValueMap; 
 }

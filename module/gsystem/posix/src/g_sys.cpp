@@ -24,17 +24,17 @@
 
 using namespace gsys;
 
-void GSystem::sleep(const GUint64 time)
+void System::sleep(const GUint64 time)
 {
 	::sleep(time);
 }
 
-void GSystem::usleep(const GUint64 time)
+void System::usleep(const GUint64 time)
 {
 	::usleep(time);
 }
 
-GUint64 GSystem::pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
+GUint64 System::pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
 {
 	va_list vaList;
 	va_start(vaList, args);
@@ -43,7 +43,7 @@ GUint64 GSystem::pformat(GInt8* buffer, const GUint64 size, const GInt8* args, .
 	return strLen;
 }
 
-GResult GSystem::shell(const GInt8* cmd)
+GResult System::shell(const GInt8* cmd)
 {
 	G_ASSERT(cmd != NULL);
 
@@ -58,7 +58,7 @@ GResult GSystem::shell(const GInt8* cmd)
 	return G_YES;      
 }
 
-GResult GSystem::shell(const GInt8* cmd, GInt8* buffer, const GUint32 size)
+GResult System::shell(const GInt8* cmd, GInt8* buffer, const GUint32 size)
 {
 	G_ASSERT(cmd != NULL && buffer != NULL && size > 0);
 
@@ -76,7 +76,7 @@ GResult GSystem::shell(const GInt8* cmd, GInt8* buffer, const GUint32 size)
 	return G_YES;      
 }
 
-GUint64 GSystem::getSysTime()
+GUint64 System::getSysTime()
 {
 	struct timeval now;
 	struct timezone tz;

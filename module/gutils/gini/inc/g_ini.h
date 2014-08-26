@@ -21,30 +21,32 @@
 #include <string>
 #include <g_system.h>
 
-class GIniSection;
+namespace gutils {
+
+class IniSection;
 
 /** 
 * @brief ini file section map
 * <section_name, ini_section>
 */
-typedef std::map<std::string, GIniSection*> GIniSectionMap;
+typedef std::map<std::string, IniSection*> IniSectionMap;
 
 /** 
  * @brief POSIX condition wrapper
  */
-class GIniFile
+class IniFile
 {
 public:
-	GIniFile();
+	IniFile();
 
 	/**
 	 * @brief constructor
 	 * @param [in] filePath : file path
 	 * @note 
 	 */ 
-	GIniFile(const std::string& filePath);
+	IniFile(const std::string& filePath);
 
-	~GIniFile();
+	~IniFile();
 
 	/**
 	 * @brief load file
@@ -150,8 +152,9 @@ private:
 	void setError(const GInt8* args, ...);
 
 private:
-	std::string         m_filePath;
-	GIniSectionMap      m_iniSectionMap;
-	GMutex              m_mapMutex;
-	GInt8               m_error[G_ERROR_BUF_SIZE];
+	std::string		m_filePath;
+	IniSectionMap	m_iniSectionMap;
+	gsys::Mutex		m_mapMutex;
+	GInt8			m_error[G_ERROR_BUF_SIZE];
 };
+}

@@ -123,7 +123,7 @@ private:
 /** 
  * @brief thread worker, class ThreadPool depend on 
  */
-class ThreadWorker : public GThreadTask
+class ThreadWorker : public ThreadTask
 {
 public:
 	/**
@@ -166,7 +166,7 @@ private:
 	// thread worker ID, setting by external
 	GUint32			m_workerId;
 	// waitting condition
-	GCondition		m_condition;
+	Condition		m_condition;
 	// current running job
 	ThreadJob*		m_threadJob;	
 	// current running user data

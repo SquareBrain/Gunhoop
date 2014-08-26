@@ -25,12 +25,12 @@ namespace gsys {
 /** 
  * shared GLibrary wrapper
  */
-class GLibrary
+class Library
 {
 public:
-	GLibrary();
+	Library();
 
-	~GLibrary();
+	~Library();
 
 	/**
 	 * @brief load shared GLibrary

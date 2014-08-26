@@ -69,10 +69,10 @@ typedef enum
 /** 
  * @brief shared memory for ipc
  */
-class GShm
+class Shm
 {
 public:
-	GShm();   
+	Shm();   
 	/**
 	 * @brief constructor
 	 * @param [in] GShmPath : shm mapping file path
@@ -80,8 +80,8 @@ public:
 	 * @return true/false
 	 * @note 
 	 */		
-	GShm(const GInt8* shmPath, const GUint64 shmSize);
-	~GShm();
+	Shm(const GInt8* shmPath, const GUint64 shmSize);
+	~Shm();
 
 	/**
 	 * @brief set shm mapping file path

@@ -35,7 +35,7 @@ void GXmlTest::printSchoolXml()
 {
     cout << "TEST 1. print file school.xml" << endl;
 
-	GXmlDocument doc;  
+	XmlDocument doc;  
 	const char* xml_file = "school.xml";	
 	if (doc.loadFile(xml_file)) 
     {   
@@ -52,7 +52,7 @@ void GXmlTest::readSchoolXml()
 	cout << "TEST 2. read file school.xml" << endl;
     
 	const char * xmlFile = "school.xml";	
-	GXmlDocument doc;  
+	XmlDocument doc;  
 	if (doc.loadFile(xmlFile)) 
     {   
 		doc.print();  
@@ -63,18 +63,18 @@ void GXmlTest::readSchoolXml()
 		return;
 	}
     
-	GXmlElement* rootElement = doc.rootElement();  //School元素  
-	GXmlElement* classElement = rootElement->firstChildElement();  // Class元素
-	GXmlElement* studentElement = classElement->firstChildElement();  //Students  
+	XmlElement* rootElement = doc.rootElement();  //School元素  
+	XmlElement* classElement = rootElement->firstChildElement();  // Class元素
+	XmlElement* studentElement = classElement->firstChildElement();  //Students  
 	for (; studentElement != NULL; studentElement = studentElement->nextSiblingElement()) 
     {  
-		GXmlAttribute* attributeOfStudent = studentElement->firstAttribute();  //获得student的name属性  
+		XmlAttribute* attributeOfStudent = studentElement->firstAttribute();  //获得student的name属性  
 		for (; attributeOfStudent != NULL; attributeOfStudent = attributeOfStudent->next()) 
         {  
 			cout << attributeOfStudent->name() << " : " << attributeOfStudent->value() << std::endl;  
 		}
 
-		GXmlElement* studentContactElement = studentElement->firstChildElement();//获得student的第一个联系方式 
+		XmlElement* studentContactElement = studentElement->firstChildElement();//获得student的第一个联系方式 
 		for (; studentContactElement != NULL; studentContactElement = studentContactElement->nextSiblingElement()) 
         {
 			string contactType = studentContactElement->value();
@@ -90,29 +90,29 @@ void GXmlTest::writeSchoolXml()
 	cout << "TEST 3. write file school.xml" << endl;
     
 	const char * xmlFile = "school-write.xml";	
-	GXmlDocument doc;  
-	GXmlDeclaration * decl = new GXmlDeclaration("1.0", "", "");  
-	GXmlElement * schoolElement = new GXmlElement( "School" );  
-	GXmlElement * classElement = new GXmlElement( "Class" );  
+	XmlDocument doc;  
+	XmlDeclaration * decl = new XmlDeclaration("1.0", "", "");  
+	XmlElement * schoolElement = new XmlElement( "School" );  
+	XmlElement * classElement = new XmlElement( "Class" );  
 	classElement->setAttribute("name", "C++");
 
-	GXmlElement * stu1Element = new GXmlElement("Student");
+	XmlElement * stu1Element = new XmlElement("Student");
 	stu1Element->setAttribute("name", "tinyxml");
 	stu1Element->setAttribute("number", "123");
-	GXmlElement * stu1EmailElement = new GXmlElement("email");
-	stu1EmailElement->linkEndChild(new GXmlText("tinyxml@163.com") );
-	GXmlElement * stu1AddressElement = new GXmlElement("address");
-	stu1AddressElement->linkEndChild(new GXmlText("dazhou"));
+	XmlElement * stu1EmailElement = new XmlElement("email");
+	stu1EmailElement->linkEndChild(new XmlText("tinyxml@163.com") );
+	XmlElement * stu1AddressElement = new XmlElement("address");
+	stu1AddressElement->linkEndChild(new XmlText("dazhou"));
 	stu1Element->linkEndChild(stu1EmailElement);
 	stu1Element->linkEndChild(stu1AddressElement);
 
-	GXmlElement * stu2Element = new GXmlElement("Student");
+	XmlElement * stu2Element = new XmlElement("Student");
 	stu2Element->setAttribute("name", "jsoncpp");
 	stu2Element->setAttribute("number", "456");
-	GXmlElement * stu2EmailElement = new GXmlElement("email");
-	stu2EmailElement->linkEndChild(new GXmlText("jsoncpp@163.com"));
-	GXmlElement * stu2AddressElement = new GXmlElement("address");
-	stu2AddressElement->linkEndChild(new GXmlText("chengdu"));
+	XmlElement * stu2EmailElement = new XmlElement("email");
+	stu2EmailElement->linkEndChild(new XmlText("jsoncpp@163.com"));
+	XmlElement * stu2AddressElement = new XmlElement("address");
+	stu2AddressElement->linkEndChild(new XmlText("chengdu"));
 	stu2Element->linkEndChild(stu2EmailElement);
 	stu2Element->linkEndChild(stu2AddressElement);
 

@@ -32,7 +32,7 @@ typedef enum
 	G_OPEN_WRITE = 2,
 	G_OPEN_RDWR = 4,
 	G_OPEN_APPEND = 8
-} GFileOpenFlags;
+} FileOpenFlags;
 
 /** 
  * seek flags
@@ -42,12 +42,12 @@ typedef enum
 	G_SEEK_BEG = 1,
 	G_SEEK_CUR,
 	G_SEEK_END
-} GFileSeekFlags;
+} FileSeekFlags;
 
 /** 
  * file utility
  */
-class GFileUtil
+class FileUtil
 {
 public:
 	/**
@@ -87,19 +87,19 @@ public:
 /** 
  * file operation wrapper
  */
-class file
+class File
 {
 public:
-	GFile();
+	File();
 
 	/**
 	 * @brief set file path
 	 * @param [in] GFilePath : GFile path
 	 * @note 
 	 */	    
-	explicit GFile(const GInt8* filePath);
+	explicit File(const GInt8* filePath);
 
-	~GFile();
+	~File();
 
 	/**
 	 * @brief open file for reading
@@ -107,7 +107,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-	GResult open(const GFileOpenFlags fileOpenFlags);
+	GResult open(const FileOpenFlags fileOpenFlags);
 
 	/**
 	 * @brief open file for reading
@@ -116,7 +116,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-	GResult open(const GFileOpenFlags fileOpenFlags, const GInt32 fileOpenMode);	
+	GResult open(const FileOpenFlags fileOpenFlags, const GInt32 fileOpenMode);	
 
 	/**
 	 * @brief close file
@@ -141,7 +141,7 @@ public:
 	 * @return offset/G_NO
 	 * @note 
 	 */			
-	GInt64 seek(const GInt64 offset, const GFileSeekFlags& flags);	
+	GInt64 seek(const GInt64 offset, const FileSeekFlags& flags);	
 
 	/**
 	 * @brief get file pointer offset from header

@@ -22,12 +22,12 @@
 
 using namespace gsys;
 
-GMutex::GMutex()
+Mutex::Mutex()
 {
 	init(PTHREAD_MUTEX_RECURSIVE);
 }
 
-GMutex::GMutex(const GInt32 kind)
+Mutex::Mutex(const GInt32 kind)
 {
 	if (kind != PTHREAD_MUTEX_NORMAL && 
 		kind != PTHREAD_MUTEX_RECURSIVE &&
@@ -42,27 +42,27 @@ GMutex::GMutex(const GInt32 kind)
 	}
 }
 
-GMutex::~GMutex()
+Mutex::~Mutex()
 {
 	pthread_mutex_destroy(&m_mutex);
 }
 
-bool GMutex::lock() 
+bool Mutex::lock() 
 {
 	return pthread_mutex_lock(&m_mutex) == 0 ? true : false;
 }
 
-bool GMutex::tryLock()
+bool Mutex::tryLock()
 {
 	return pthread_mutex_trylock(&m_mutex) == 0 ? true : false;
 }
 
-bool GMutex::unlock()
+bool Mutex::unlock()
 {
 	return pthread_mutex_unlock(&m_mutex) == 0 ? true : false;
 }
 
-void GMutex::init(const GInt32 kind)
+void Mutex::init(const GInt32 kind)
 {
 	pthread_mutexattr_t attr;
 	pthread_mutexattr_init(&attr);
@@ -71,13 +71,13 @@ void GMutex::init(const GInt32 kind)
 	pthread_mutexattr_destroy(&attr);
 }
 
-GTryLock::GTryLock(GMutex& mutex, const bool autoUnlock) 
+TryLock::TryLock(Mutex& mutex, const bool autoUnlock) 
 	: m_mutex(mutex)
 	, m_autoUnlock(autoUnlock)
 {
 }
 
-GTryLock::~GTryLock() 
+TryLock::~TryLock() 
 {
 	if (m_autoUnlock)
 	{
@@ -85,7 +85,7 @@ GTryLock::~GTryLock()
 	}
 }
 
-bool GTryLock::lock(const GUint32 timeout)
+bool TryLock::lock(const GUint32 timeout)
 {
 	if (m_mutex.tryLock())
 	{
@@ -120,7 +120,7 @@ bool GTryLock::lock(const GUint32 timeout)
 	return false;
 }
 
-bool GTryLock::unlock()
+bool TryLock::unlock()
 {
 	if (m_autoUnlock)
 	{
@@ -130,12 +130,12 @@ bool GTryLock::unlock()
 	return m_mutex.unlock();
 }
 
-GAutoLock::GAutoLock(GMutex& mutex) : m_mutex(mutex)
+AutoLock::AutoLock(Mutex& mutex) : m_mutex(mutex)
 {
 	m_mutex.lock();
 }
 
-GAutoLock::~GAutoLock()
+AutoLock::~AutoLock()
 {
 	m_mutex.unlock();
 }

@@ -22,7 +22,7 @@
 
 namespace gsys {
 
-class GSystem
+class System
 {
 public:
 	/**

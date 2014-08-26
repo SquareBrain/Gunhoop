@@ -18,23 +18,25 @@
 #include <g_ini_section.h>
 #include <g_ini.h>
 
+using namespace gutils;
+
 static const GUint64 INI_TMP_BUF_SIZE = 1024 * 10;
 
-GIniFile::GIniFile()
+IniFile::IniFile()
 {
 	m_error[0] = 0;
 }
 
-GIniFile::GIniFile(const std::string& filePath)
+IniFile::IniFile(const std::string& filePath)
 {
 	loadFile(m_filePath);
 }
 
-GIniFile::~GIniFile()
+IniFile::~IniFile()
 {
 }
 
-GResult GIniFile::loadFile(const std::string& filePath)
+GResult IniFile::loadFile(const std::string& filePath)
 {
 	if (m_filePath == filePath)
 	{
@@ -49,7 +51,7 @@ GResult GIniFile::loadFile(const std::string& filePath)
 
 	m_filePath = filePath;
 
-	GFile file(m_filePath.c_str());
+	File file(m_filePath.c_str());
 	if (file.open(G_OPEN_READ) != G_YES)
 	{
 		setError("open file failed");
@@ -83,12 +85,12 @@ GResult GIniFile::loadFile(const std::string& filePath)
 	return ret;
 }
 
-GResult GIniFile::importData(const std::string& fileData)
+GResult IniFile::importData(const std::string& fileData)
 {
 	return importData(fileData.c_str(), fileData.length());
 }
 
-GResult GIniFile::importData(const GInt8* data, const GUint64 length)
+GResult IniFile::importData(const GInt8* data, const GUint64 length)
 {
 	GUint64 offset = 0;
 
@@ -112,12 +114,12 @@ GResult GIniFile::importData(const GInt8* data, const GUint64 length)
 	return G_YES;
 }
 
-GResult GIniFile::getParaVal(const std::string& section, 
+GResult IniFile::getParaVal(const std::string& section, 
 	const std::string& paraName, 
 	std::string& value)
 {
-	GAutoLock autoLock(m_mapMutex); 
-	GIniSectionMap::iterator iter = m_iniSectionMap.find(section);
+	AutoLock autoLock(m_mapMutex); 
+	IniSectionMap::iterator iter = m_iniSectionMap.find(section);
 	if (iter == m_iniSectionMap.end())
 	{
 		setError("section failed");
@@ -127,12 +129,12 @@ GResult GIniFile::getParaVal(const std::string& section,
 	return iter->second->getPara(paraName, value);
 }
 
-GResult GIniFile::setParaVal(const std::string& section, 
+GResult IniFile::setParaVal(const std::string& section, 
 	const std::string& paraName, 
 	const std::string& value)
 {
-	GAutoLock autoLock(m_mapMutex); 
-	GIniSectionMap::iterator iter = m_iniSectionMap.find(section);
+	AutoLock autoLock(m_mapMutex); 
+	IniSectionMap::iterator iter = m_iniSectionMap.find(section);
 	if (iter == m_iniSectionMap.end())
 	{
 		return G_NO;
@@ -141,10 +143,10 @@ GResult GIniFile::setParaVal(const std::string& section,
 	return iter->second->setPara(paraName, value);    
 }
 
-GResult GIniFile::delSection(const std::string& section)
+GResult IniFile::delSection(const std::string& section)
 {
-	GAutoLock autoLock(m_mapMutex); 
-	GIniSectionMap::iterator iter = m_iniSectionMap.find(section);
+	AutoLock autoLock(m_mapMutex); 
+	IniSectionMap::iterator iter = m_iniSectionMap.find(section);
 	if (iter == m_iniSectionMap.end())
 	{
 		return G_NO;
@@ -155,10 +157,10 @@ GResult GIniFile::delSection(const std::string& section)
 	return G_YES;    
 }
 
-GResult GIniFile::delPara(const std::string& section, const std::string& paraName)
+GResult IniFile::delPara(const std::string& section, const std::string& paraName)
 {
-	GAutoLock autoLock(m_mapMutex); 
-	GIniSectionMap::iterator iter = m_iniSectionMap.find(section);
+	AutoLock autoLock(m_mapMutex); 
+	IniSectionMap::iterator iter = m_iniSectionMap.find(section);
 	if (iter == m_iniSectionMap.end())
 	{
 		return G_NO;
@@ -167,7 +169,7 @@ GResult GIniFile::delPara(const std::string& section, const std::string& paraNam
 	return iter->second->delPara(paraName);     
 }
 
-GResult GIniFile::saveFile()
+GResult IniFile::saveFile()
 {
 	if (m_filePath.empty())
 	{
@@ -179,7 +181,7 @@ GResult GIniFile::saveFile()
 	return G_YES;
 }
 
-GResult GIniFile::saveFile(const std::string& filePath)
+GResult IniFile::saveFile(const std::string& filePath)
 {
 	if (filePath.empty())
 	{
@@ -189,9 +191,9 @@ GResult GIniFile::saveFile(const std::string& filePath)
 	GInt8 tmpBuf[INI_TMP_BUF_SIZE] = {0};
 	GUint64 bufPos = 0;
 
-	GAutoLock autoLock(m_mapMutex); 
+	AutoLock autoLock(m_mapMutex); 
 
-	GIniSectionMap::iterator iter = m_iniSectionMap.begin();
+	IniSectionMap::iterator iter = m_iniSectionMap.begin();
 	for (; iter != m_iniSectionMap.end(); ++iter)
 	{
 		bufPos += sprintf(tmpBuf + bufPos, "[%s]\n", iter->first.c_str());
@@ -201,9 +203,9 @@ GResult GIniFile::saveFile(const std::string& filePath)
 			return G_NO;
 		}       
 
-		GIniSection* section = iter->second;
-		const GIniSection::KeyValueMap& keyValueMap = section->getkeyValueMap();
-		GIniSection::KeyValueMap::const_iterator iter = keyValueMap.begin();
+		IniSection* section = iter->second;
+		const IniSection::KeyValueMap& keyValueMap = section->getkeyValueMap();
+		IniSection::KeyValueMap::const_iterator iter = keyValueMap.begin();
 		for (; iter != keyValueMap.end(); ++iter)
 		{
 			bufPos += sprintf(tmpBuf + bufPos, "%s=%s\n", iter->first.c_str(), iter->second.c_str()); 
@@ -216,7 +218,7 @@ GResult GIniFile::saveFile(const std::string& filePath)
 
 	tmpBuf[bufPos] = 0;
 
-	GFile file(m_filePath.c_str());
+	File file(m_filePath.c_str());
 	if (file.open(G_OPEN_WRITE) != G_YES)
 	{
 		return G_NO;
@@ -233,16 +235,16 @@ GResult GIniFile::saveFile(const std::string& filePath)
 	return G_YES;
 }
 
-GInt8* GIniFile::getError()
+GInt8* IniFile::getError()
 {
 	return m_error;
 }
 
-void GIniFile::cleanIniSectionMap()
+void IniFile::cleanIniSectionMap()
 {
-	GAutoLock autoLock(m_mapMutex); 
+	AutoLock autoLock(m_mapMutex); 
 
-	GIniSectionMap::iterator iter = m_iniSectionMap.begin();
+	IniSectionMap::iterator iter = m_iniSectionMap.begin();
 	while (iter != m_iniSectionMap.end())
 	{
 		delete iter->second;
@@ -250,7 +252,7 @@ void GIniFile::cleanIniSectionMap()
 	}
 }
 
-GResult GIniFile::parserSection(const GInt8* data, 
+GResult IniFile::parserSection(const GInt8* data, 
     const GUint64 length, 
     GUint64& offset)
 {
@@ -289,7 +291,7 @@ GResult GIniFile::parserSection(const GInt8* data,
 	}
 
 	std::string sectionName(data + begPos, endPos - begPos);
-	GIniSection* section = new GIniSection(sectionName);
+	IniSection* section = new IniSection(sectionName);
 
 	std::string lineStr;
 	while (getOneLine(data + endPos, length - offset, lineStr) == G_YES)
@@ -311,7 +313,7 @@ GResult GIniFile::parserSection(const GInt8* data,
 	return G_YES;
 }
 
-GResult GIniFile::getOneLine(const GInt8* data, 
+GResult IniFile::getOneLine(const GInt8* data, 
     const GUint64 length, 
     std::string& lineStr)
 {
@@ -334,7 +336,7 @@ GResult GIniFile::getOneLine(const GInt8* data,
 	return G_YES;
 }
 
-void GIniFile::setError(const char *args,...)
+void IniFile::setError(const char *args,...)
 {
 	GSys::format(m_error, G_ERROR_BUF_SIZE, args);
 }

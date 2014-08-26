@@ -140,7 +140,7 @@ private:
 	GResult open();
 	
 private:
-	GFile* 			m_file;
+	gsys::File* 	m_file;
 	std::string		m_fileName;
     GUint32			m_maxFileNum;
     GUint32			m_genFileCount;

@@ -29,8 +29,8 @@ namespace gsys {
 class Condition 
 {
 public:
-	GCondition();
-	~GCondition();
+	Condition();
+	~Condition();
 
 	/**
 	 * @brief wake up the waitting thread, only wake up one thread,
@@ -70,13 +70,13 @@ private:
 	 * @return true/false
 	 * @note 
 	 */		
-	GCondition(const GCondition&); 
+	Condition(const Condition&); 
 
 	/**
 	 * @brief prevent copying
 	 * @note
 	 */	
-	void operator=(const GCondition&);	
+	void operator=(const Condition&);	
     
 private:
 	pthread_cond_t		m_condition;

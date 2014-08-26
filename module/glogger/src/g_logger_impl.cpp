@@ -160,7 +160,7 @@ GLogFile::GLogFile(const std::string& fileName,
 	// remove old log files
 	GInt8 cmd[256] = {0};
 	sprintf(cmd, "rm %s*.glog -f", m_fileName);
-	gsys::GSystem::shell(cmd);
+	gsys::System::shell(cmd);
 }
 
 GLogFile::~GLogFile()
@@ -204,7 +204,7 @@ GResult GLogFile::open()
 		if (m_genFileCount > m_maxFileNum)
 		{
 			std::string removeFileFullName = m_fileName + "_" + std::to_string(m_genFileCount - m_maxFileNum) + ".glog";
-			GFileUtil::removeFile(removeFileFullName.c_str());
+			FileUtil::removeFile(removeFileFullName.c_str());
 		}
 		
 		fileFullName = m_fileName + "_" + std::to_string(m_genFileCount) + ".glog";
@@ -215,7 +215,7 @@ GResult GLogFile::open()
 	delete m_file;
 	m_file = nullptr;
 	
-	m_file = new GFile(fileFullName.c_str());
+	m_file = new File(fileFullName.c_str());
 	if (m_file->open(G_OPEN_WRITE) != G_YES)
 	{
 		return G_NO;
@@ -358,7 +358,7 @@ void GLoggerImpl::printFile(const GModuleRule* moduleRule, const GInt8* log, con
 GResult GLoggerImpl::parserLogConf()
 {
 	// read configuration file
-	GXmlDocument logDoc;
+	XmlDocument logDoc;
 	if (!logDoc.loadFile(DEF_CONF_FILE_NAME))
 	{
 	    setError("load log conf file '%s' failed", DEF_CONF_FILE_NAME);
@@ -367,8 +367,8 @@ GResult GLoggerImpl::parserLogConf()
 	
 	logDoc.print();
 	
-	GXmlElement* rootElement = logDoc.rootElement();
-	GXmlElement* childElement = rootElement->firstChildElement();
+	XmlElement* rootElement = logDoc.rootElement();
+	XmlElement* childElement = rootElement->firstChildElement();
 	for (; childElement != nullptr; childElement = childElement->nextSiblingElement())
 	{
 		if (childElement->valueStr() == "toplevel")

@@ -32,14 +32,14 @@ namespace gsys {
 /** 
  * @brief POSIX GMutex wrapper
  */
-class GMutex
+class Mutex
 {
 public:
 	/**
 	 * @brief constructor
 	 * @note default GMutex type is PTHREAD_GMutex_RECURSIVE
 	 */	
-	GMutex();
+	Mutex();
 	
 	/**
 	 * @brief constructor
@@ -47,9 +47,9 @@ public:
 	 * @note have four GMutex type, are PTHREAD_GMutex_NORMAL��PTHREAD_GMutex_RECURSIVE
 	 * PTHREAD_GMutex_ERRORCHECK��PTHREAD_GMutex_DEFAULT
 	 */		
-	explicit GMutex(const GInt32 kind);
+	explicit Mutex(const GInt32 kind);
 	
-	virtual ~GMutex();
+	virtual ~Mutex();
 	
 	/**
 	 * @brief lock GMutex, enter to awaited state
@@ -77,9 +77,9 @@ private:
 	 * @brief to prevent copying
 	 * @note 
 	 */			
-	GMutex(const GMutex&); 
+	Mutex(const Mutex&); 
 	
-	void operator=(const GMutex&);	
+	void operator=(const Mutex&);	
 	
 	/**
 	 * @brief initialize GMutex
@@ -95,7 +95,7 @@ private:
 /** 
  * try lock wrapper
  */
-class GTryLock
+class TryLock
 {
 public:
 	/**
@@ -104,9 +104,9 @@ public:
 	 * @param [in] autoUnlock : whether release lock automatic
 	 * @note 
 	 */		
-	GTryLock(GMutex& GMutex, const bool autoUnlock = true);
+	TryLock(Mutex& Mutex, const bool autoUnlock = true);
 	
-	~GTryLock();
+	~TryLock();
 
 	/**
 	 * @brief try lock
@@ -129,23 +129,23 @@ private:
 	 * @brief prevent copying
 	 * @note
 	 */	
-	GTryLock(const GTryLock&); 
+	TryLock(const TryLock&); 
 
 	/**
 	 * @brief prevent copying
 	 * @note
 	 */		
-	void operator=(const GTryLock&);	
+	void operator=(const TryLock&);	
     
 private:
-	GMutex&	m_mutex;
+	Mutex&	m_mutex;
 	bool	m_autoUnlock;
 };
 
 /** 
  * @brief auto lock wrapper
  */
-class GAutoLock
+class AutoLock
 {
 public:
 	/**
@@ -153,24 +153,24 @@ public:
 	 * @param [in]GMutex : GMutex
 	 * @note 
 	 */			
-	explicit GAutoLock(GMutex& GMutex);
+	explicit AutoLock(Mutex& Mutex);
 
-	~GAutoLock();
+	~AutoLock();
 
 private:
 	/**
 	 * @brief prevent copying
 	 * @note
 	 */		
-	GAutoLock(const GAutoLock&);
+	AutoLock(const AutoLock&);
 
 	/**
 	 * @brief prevent copying
 	 * @note
 	 */			
-	void operator=(const GAutoLock&);
+	void operator=(const AutoLock&);
 
 private:
-	GMutex&      m_mutex;
+	Mutex&      m_mutex;
 };
 }

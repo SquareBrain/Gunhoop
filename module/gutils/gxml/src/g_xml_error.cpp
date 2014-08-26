@@ -16,6 +16,8 @@
 */
 #include <g_xml.h>
 
+using namespace gutils;
+
 // The goal of the seperate error file is to make the first
 // step towards localization. tinyxml (currently) only supports
 // english error messages, but the could now be translated.
@@ -23,7 +25,7 @@
 // It also cleans up the code a bit.
 //
 
-const char* GXmlBase::m_errorString[GXmlBase::GXML_ERROR_STRING_COUNT] = 
+const char* XmlBase::m_errorString[XmlBase::GXML_ERROR_STRING_COUNT] = 
 {
 	"No error",
 	"Error",
@@ -40,5 +42,5 @@ const char* GXmlBase::m_errorString[GXmlBase::GXML_ERROR_STRING_COUNT] =
 	"Error document empty.",
 	"Error null (0) or unexpected EOF found in input stream.",
 	"Error parsing CDATA.",
-	"Error when GXmlDocument added to document, because GXmlDocument can only be at the root.",
+	"Error when XmlDocument added to document, because XmlDocument can only be at the root.",
 };

@@ -16,9 +16,8 @@
 */
 #include <g_timeconv.h>
 
+using namespace gsys;
 using namespace gcom;
-
-
 
 GResult TimeConv::convTime(const GInt8* format, GInt8* buffer, const GUint32 size)
 {

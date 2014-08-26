@@ -22,10 +22,12 @@
 #include <string>
 #include <g_system.h>
 
+namespace gutils {
+
 /** 
  * @brief ini file section
  */
-class GIniSection
+class IniSection
 {
 public:
 	/** 
@@ -34,7 +36,7 @@ public:
 	typedef std::map<std::string, std::string> KeyValueMap;
 
 public:
-	GIniSection();
+	IniSection();
 
 	/**
 	* @brief constructor
@@ -42,9 +44,9 @@ public:
 	* @return KeyValueMap const reference
 	* @note 
 	*/    
-	explicit GIniSection(const std::string& sectionName);
+	explicit IniSection(const std::string& sectionName);
 
-	~GIniSection();
+	~IniSection();
 
 	/**
 	 * @brief get value
@@ -91,5 +93,6 @@ public:
 private:
 	std::string     m_sectionName;
 	KeyValueMap     m_keyValueMap;
-	GMutex          m_mapMutex;
+	Mutex          m_mapMutex;
 };
+}

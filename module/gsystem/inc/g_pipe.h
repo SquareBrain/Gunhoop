@@ -29,11 +29,11 @@ namespace gsys {
 /** 
  * @brief pipe base class, be inherited by WriteGPipe and ReadGPipe class
  */
-class GPipe
+class Pipe
 {
 public:
-	GPipe() {}
-	virtual ~GPipe() {}
+	Pipe() {}
+	virtual ~Pipe() {}
 
 	/**
 	 * @brief Open the pipe
@@ -63,7 +63,7 @@ protected:
 /** 
  * @brief Be used to write GPipe
  */
-class GWritePipe : public GPipe
+class GWritePipe : public Pipe
 {
 public:
 	GWritePipe() {}
@@ -103,7 +103,7 @@ private:
 /** 
  * @brief be used to read GPipe
  */
-class GReadPipe : public GPipe
+class GReadPipe : public Pipe
 {
 public:
 	GReadPipe() {}

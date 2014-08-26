@@ -29,7 +29,7 @@ namespace gcom {
 class FileInputStream : public InputStream
 {
 public:
-	FileInputStream(std::shared_ptr<GFile> file);
+	FileInputStream(std::shared_ptr<File> file);
 	FileInputStream(const std::string& filePath);
 	virtual ~FileInputStream(); 
 
@@ -85,10 +85,10 @@ public:
         */
 	virtual GInt64 skip(GInt64 num) throw(std::ios_base::failure);
 
-	std::shared_ptr<GFile> GetFile();
+	std::shared_ptr<File> GetFile();
 
 private:
-	std::shared_ptr<GFile> m_file;
-	GMutex m_mtx;
+	std::shared_ptr<File> m_file;
+	Mutex m_mtx;
 };
 }

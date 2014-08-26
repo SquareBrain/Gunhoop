@@ -27,7 +27,7 @@ namespace gsys {
 /** 
  * @brief thread state
  */
-enum GThreadState
+enum ThreadState
 {
 	/** 
 	 * @brief running state
@@ -51,10 +51,10 @@ typedef void* (*GThreadFunPoint_t)(void*);
 /** 
  * @brief be inherited ty user
  */
-class GRunnable
+class Runnable
 {
 public:
-	virtual ~GRunnable() {}
+	virtual ~Runnable() {}
 
 	/**
 	 * @brief user thread entry function
@@ -67,7 +67,7 @@ public:
 /** 
  * @brief POSIX thread wrapper
  */
-class GThread
+class Thread
 {
 public:
 	/**
@@ -76,8 +76,8 @@ public:
 	 * @param [in] autoRel : whether support automatic release, default is yes
 	 * @note 
 	 */		
-	explicit GThread(GRunnable* target, const bool autoRel = true);
-	~GThread();
+	explicit Thread(Runnable* target, const bool autoRel = true);
+	~Thread();
 
 	/**
 	 * @brief startup thread
@@ -94,8 +94,8 @@ public:
 	GUint32 getGThreadId() const;
 
 private:
-	GThread(const GThread&);
-	void operator=(const GThread&);
+	Thread(const Thread&);
+	void operator=(const Thread&);
 	static void* enterPoint(void* argument);
 
 private:
@@ -104,13 +104,13 @@ private:
 	// indicate whether is detached with main GThread£¬default is detached
 	bool		m_autoRel;
 	// user GThread object
-	GRunnable*	m_runnable;
+	Runnable*	m_runnable;
 };
 
 /** 
  * @brief thread base class, be inherited by user
  */
-class GThreadTask
+class ThreadTask
 {
 public:
 	/**
@@ -118,8 +118,8 @@ public:
 	 * @para [in] autoRel : whether is detached with main GThread, default is detached
 	 * @note 
 	 */		
-	explicit GThreadTask(const bool autoRel = true);
-	virtual ~GThreadTask();
+	explicit ThreadTask(const bool autoRel = true);
+	virtual ~ThreadTask();
 
 	/**
 	 * @brief startup thread
@@ -137,8 +137,8 @@ public:
 
 private:
 	// brief : prevate copying
-	GThreadTask(const GThreadTask&);
-	void operator=(const GThreadTask&);
+	ThreadTask(const ThreadTask&);
+	void operator=(const ThreadTask&);
 
 	// brief : inner used for starting GThread
 	// @para [in]argument : GThread argument
@@ -156,7 +156,7 @@ private:
 /** 
  * @brief POSIX GThread static API used outside
  */
-class GThreadUtil
+class ThreadUtil
 {
 public:
 	/**

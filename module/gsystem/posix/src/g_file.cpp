@@ -25,12 +25,12 @@ using namespace gsys;
 // default create GFile permissions
 static const GUint32 G_FILE_MASK = 0x775;
 
-GResult GFileUtil::createFile(const GInt8* filePath)
+GResult FileUtil::createFile(const GInt8* filePath)
 {
 	return createFile(filePath, 0);
 }
 
-GResult GFileUtil::createFile(const GInt8* filePath, const GUint64& initSize)
+GResult FileUtil::createFile(const GInt8* filePath, const GUint64& initSize)
 {
 	GInt32 fd = ::creat(filePath, G_FILE_MASK);
 	if (fd == -1)
@@ -49,7 +49,7 @@ GResult GFileUtil::createFile(const GInt8* filePath, const GUint64& initSize)
 	return G_YES;
 }
 
-bool GFileUtil::isExist(const GInt8* filePath)
+bool FileUtil::isExist(const GInt8* filePath)
 {
 	if (filePath == nullptr)
     {
@@ -64,7 +64,7 @@ bool GFileUtil::isExist(const GInt8* filePath)
     return true;
 }
 
-GResult GFileUtil::removeFile(const GInt8* filePath)
+GResult FileUtil::removeFile(const GInt8* filePath)
 {
 	if (filePath == nullptr)
 	{
@@ -73,16 +73,16 @@ GResult GFileUtil::removeFile(const GInt8* filePath)
 	
 	GInt8 cmd[128] = {0};
 	sprintf(cmd, "rm %s -f", filePath);
-	return GSystem::shell(cmd);
+	return System::shell(cmd);
 }
 
-GFile::GFile() : m_fd(-1), m_flags(0), m_pathLen(0)
+File::File() : m_fd(-1), m_flags(0), m_pathLen(0)
 {
 	m_error[0] = 0;
 	m_path[0] = 0;
 }
 
-GFile::GFile(const GInt8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
+File::File(const GInt8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
 {
 	GUint32 len = strlen(filePath);
 	if (len < G_PATH_MAX)
@@ -95,17 +95,17 @@ GFile::GFile(const GInt8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
 	m_error[0] = 0;
 }
 
-GFile::~GFile() 
+File::~File() 
 {
 	close();
 }
 
-GResult GFile::open(const GFileOpenFlags fileOpenFlags)
+GResult File::open(const FileOpenFlags fileOpenFlags)
 {
 	return open(fileOpenFlags, G_FILE_MASK);          
 }
 
-GResult GFile::open(const GFileOpenFlags fileOpenFlags, const GInt32 mode)
+GResult File::open(const FileOpenFlags fileOpenFlags, const GInt32 mode)
 {
 	GInt32 openFlags = 0;
 	if (fileOpenFlags | G_OPEN_READ)
@@ -139,7 +139,7 @@ GResult GFile::open(const GFileOpenFlags fileOpenFlags, const GInt32 mode)
 	return orgOpen(openFlags, mode);          
 }
 
-GResult GFile::close()
+GResult File::close()
 {
 	if (m_fd < 0)
 	{
@@ -156,7 +156,7 @@ GResult GFile::close()
 	return ret;
 }
 
-GInt64 GFile::getSize()
+GInt64 File::getSize()
 {
 	if (m_fd <= 0)
 	{
@@ -170,7 +170,7 @@ GInt64 GFile::getSize()
 	return (GInt64)(fileStat.st_size);
 }
 
-GInt64 GFile::seek(const GInt64 offset, const GFileSeekFlags& flags)
+GInt64 File::seek(const GInt64 offset, const FileSeekFlags& flags)
 {
 	if (m_fd <= 0)
 	{
@@ -199,12 +199,12 @@ GInt64 GFile::seek(const GInt64 offset, const GFileSeekFlags& flags)
 	return ::lseek(m_fd, offset, sysFlags);
 }
 
-GInt64 GFile::tell()
+GInt64 File::tell()
 {
 	return seek(0, G_SEEK_CUR);
 }
 
-GInt64 GFile::read(GInt8* buffer, const GUint64 size)
+GInt64 File::read(GInt8* buffer, const GUint64 size)
 {
 	if (buffer == NULL || size <= 0)
 	{
@@ -221,7 +221,7 @@ GInt64 GFile::read(GInt8* buffer, const GUint64 size)
 	return ::read(m_fd, buffer, size);
 }
 
-GInt64 GFile::write(const GInt8* data, const GUint64 length)
+GInt64 File::write(const GInt8* data, const GUint64 length)
 {
 	if (data == NULL || length <= 0)
 	{
@@ -238,12 +238,12 @@ GInt64 GFile::write(const GInt8* data, const GUint64 length)
 	return ::write(m_fd, data, length);
 }
 
-GInt8* GFile::getError()
+GInt8* File::getError()
 {
 	return m_error;
 }
 
-GResult GFile::orgOpen(const GInt32 flags, const GUint32 mode)
+GResult File::orgOpen(const GInt32 flags, const GUint32 mode)
 {    
 	if (m_fd > 0)
 	{
@@ -270,7 +270,7 @@ GResult GFile::orgOpen(const GInt32 flags, const GUint32 mode)
 	return (m_fd != -1 ? true : false);
 }
 
-void GFile::setError(const GInt8* args, ...)
+void File::setError(const GInt8* args, ...)
 {
-	GSystem::pformat(m_error, G_ERROR_BUF_SIZE, args);
+	System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }

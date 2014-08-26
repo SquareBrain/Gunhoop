@@ -22,7 +22,7 @@
 using namespace std;
 using namespace gcom;
 
-FileInputStream::FileInputStream(std::shared_ptr<GFile> file)
+FileInputStream::FileInputStream(std::shared_ptr<File> file)
 	: m_file(file)
 	, m_mtx(PTHREAD_MUTEX_NORMAL)
 {
@@ -33,7 +33,7 @@ FileInputStream::FileInputStream(std::shared_ptr<GFile> file)
 }
 
 FileInputStream::FileInputStream(const std::string& filePath)
-	: m_file((shared_ptr<GFile>(new GFile(filePath.c_str()))))
+	: m_file((shared_ptr<File>(new File(filePath.c_str()))))
 {
 	if (m_file->open(G_OPEN_READ) == G_NO)
 	{
@@ -127,7 +127,7 @@ GInt64 FileInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 	return 0;	// can not reach here
 }
 
-std::shared_ptr<GFile> FileInputStream::GetFile()
+std::shared_ptr<File> FileInputStream::GetFile()
 {
 	return m_file;
 }

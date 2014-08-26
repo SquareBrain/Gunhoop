@@ -22,7 +22,7 @@
 /** 
  * @brief synchronized code scope
  */
-#define synchronized(mtx) for (GInt32 i = 0; i < 1; i ++) for (GAutoLock lock(mtx); i < 1; i ++)
+#define synchronized(mtx) for (GInt32 i = 0; i < 1; i ++) for (AutoLock lock(mtx); i < 1; i ++)
 
 namespace gcom {
 
@@ -30,7 +30,7 @@ namespace gcom {
  * @brief secrity object template
  */
 template <class T>
-class SecrityObj : public T, public GMutex
+class SecrityObj : public T, public Mutex
 {
 public:
 	SecrityObj() {}

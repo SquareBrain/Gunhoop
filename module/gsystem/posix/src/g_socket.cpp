@@ -22,28 +22,28 @@ using namespace gsys;
 // the max request number, system default value it's 20
 static const GUint32 G_DEF_MAX_REQ = 20;
 
-GSocket::GSocket() : m_sockfd(-1), m_addrLen(0)
+Socket::Socket() : m_sockfd(-1), m_addrLen(0)
 {
 }
 
-GSocket::GSocket(const GUint32 ip, const GUint16 port) 
+Socket::Socket(const GUint32 ip, const GUint16 port) 
     : m_sockfd(-1), m_addrLen(0)
 {
 	setAddr(ip, port);        
 }
 
-GSocket::GSocket(const GSocket& GSocket)
+Socket::Socket(const Socket& Socket)
 {
-	m_sockfd = GSocket.m_sockfd;
-	m_addr = GSocket.m_addr;
+	m_sockfd = Socket.m_sockfd;
+	m_addr = Socket.m_addr;
 }
 
-GSocket::~GSocket()
+Socket::~Socket()
 {
 	closeSocket(m_sockfd);
 }
 
-GResult GSocket::openSocket(const GInt32 domain, const GInt32 type)
+GResult Socket::openSocket(const GInt32 domain, const GInt32 type)
 {
 	if ((m_sockfd = socket(domain, type, 0)) == -1)
 	{
@@ -60,17 +60,17 @@ GResult GSocket::openSocket(const GInt32 domain, const GInt32 type)
 	return G_YES;
 }
 
-GInt64 GSocket::sendData(const GUint8* data, const GUint64 length, const GInt32 flags)
+GInt64 Socket::sendData(const GUint8* data, const GUint64 length, const GInt32 flags)
 {
 	return send(m_sockfd, data, length, flags);
 }
 
-GInt64 GSocket::recvData(GUint8* buffer, const GUint64 size, const GInt32 flags)
+GInt64 Socket::recvData(GUint8* buffer, const GUint64 size, const GInt32 flags)
 {
 	return recv(m_sockfd, buffer, size, flags);
 }
 
-GResult GSocket::closeSocket(const GInt32 how)
+GResult Socket::closeSocket(const GInt32 how)
 {
 	// how = 0 : stop receive data
 	// how = 1 : stop send data
@@ -84,7 +84,7 @@ GResult GSocket::closeSocket(const GInt32 how)
 	return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
 }
 
-void GSocket::setAddr(const GUint32 ip, const GUint16 port)
+void Socket::setAddr(const GUint32 ip, const GUint16 port)
 {
 	m_addr.sin_family = AF_INET;		// RF_INET
 	m_addr.sin_port = htons(port);		// port
@@ -93,17 +93,17 @@ void GSocket::setAddr(const GUint32 ip, const GUint16 port)
 	m_addrLen = sizeof(struct sockaddr);
 }
 
-GUint32 GSocket::getIP() const
+GUint32 Socket::getIP() const
 {
 	return ntohl(m_addr.sin_addr.s_addr);
 }
 
-GUint16 GSocket::getPort() const
+GUint16 Socket::getPort() const
 {
 	return ntohs(m_addr.sin_port);
 }
 
-GResult GSocket::initOption()
+GResult Socket::initOption()
 {
 	GResult ret = G_YES;
 

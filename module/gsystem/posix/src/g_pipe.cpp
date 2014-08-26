@@ -19,7 +19,7 @@
 
 using namespace gsys;
 
-bool GPipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
+bool Pipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
 {
 	if (pipeName == NULL)
 	{
