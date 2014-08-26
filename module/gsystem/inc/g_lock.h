@@ -173,3 +173,4 @@ private:
 private:
 	GMutex&      m_mutex;
 };
+}

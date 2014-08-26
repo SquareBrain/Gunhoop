@@ -94,7 +94,6 @@ bool GTryLock::lock(const GUint32 timeout)
 
 	if (timeout == 0)
 	{
-		//G_LOG_ERROR(G_LOG_PREFIX, "timeout should > 0");
 		return false;    
 	}
 
@@ -118,8 +117,6 @@ bool GTryLock::lock(const GUint32 timeout)
 		}
 	} while(--loops);
 
-	//G_LOG_ERROR(G_LOG_PREFIX, "time out, and lock failed");
-
 	return false;
 }
 
@@ -127,7 +124,6 @@ bool GTryLock::unlock()
 {
 	if (m_autoUnlock)
 	{
-		//G_LOG_WARN(G_LOG_PREFIX, "this is automation unlock");
 		return false;
 	}
 

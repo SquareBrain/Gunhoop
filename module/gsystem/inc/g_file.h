@@ -87,7 +87,7 @@ public:
 /** 
  * file operation wrapper
  */
-class GFile
+class file
 {
 public:
 	GFile();

@@ -24,6 +24,7 @@ namespace gsys {
 
 class GSystem
 {
+public:
 	/**
 	 * @brief sleep
 	 * @param [in] time : second
@@ -46,7 +47,7 @@ class GSystem
 	 * @return string size
 	 * @note 
 	 */		
-	static GUint64 format(GInt8* buffer, const GUint64 size, const GInt8* args, ...);   
+	static GUint64 pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ...);   
 	
 	/**
 	 * @brief execute shell commond

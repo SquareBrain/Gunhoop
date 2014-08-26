@@ -18,20 +18,20 @@
 
 using namespace gsys;
 
-GLibrary::GLibrary()
+Library::Library()
 {
 }
 
-GLibrary::~GLibrary()
+Library::~Library()
 {
 }
 
-void* GLibrary::open(const GInt8* libFilePath, const GInt32 flags)
+void* Library::open(const GInt8* libFilePath, const GInt32 flags)
 {
 	return dlopen(libFilePath, flags);
 }
 
-bool GLibrary::close(void* handle)
+bool Library::close(void* handle)
 {
 	return dlclose(handle) == 0 ? true : false;    
 }

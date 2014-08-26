@@ -26,7 +26,7 @@ namespace gsys {
 /** 
  * POSIX GCondition wrapper
  */
-class GCondition 
+class Condition 
 {
 public:
 	GCondition();

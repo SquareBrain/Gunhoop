@@ -66,12 +66,12 @@ bool GFileUtil::isExist(const GInt8* filePath)
 
 GResult GFileUtil::removeFile(const GInt8* filePath)
 {
-	if (filePath == nullPtr)
+	if (filePath == nullptr)
 	{
 		return G_NO;
 	}
 	
-	GInt8* cmd[128] = {0};
+	GInt8 cmd[128] = {0};
 	sprintf(cmd, "rm %s -f", filePath);
 	return GSystem::shell(cmd);
 }
@@ -272,5 +272,5 @@ GResult GFile::orgOpen(const GInt32 flags, const GUint32 mode)
 
 void GFile::setError(const GInt8* args, ...)
 {
-	GSys::format(m_error, G_ERROR_BUF_SIZE, args);
+	GSystem::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }

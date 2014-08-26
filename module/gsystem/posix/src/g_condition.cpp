@@ -18,19 +18,19 @@
 
 using namespace gsys;
 
-GCondition::GCondition()       
+Condition::Condition()       
 { 
 	pthread_cond_init(&m_condition, 0);        
 	pthread_mutex_init(&m_mutex, 0);       
 }       
 
-GCondition::~GCondition()     
+Condition::~Condition()     
 {      
 	pthread_cond_destroy(&m_condition);        
 	pthread_mutex_destroy(&m_mutex);    
 }
 
-bool GCondition::signal()        
+bool Condition::signal()        
 {        
 	pthread_mutex_lock(&m_mutex);
 	GInt32 ret = pthread_cond_signal(&m_condition);
@@ -39,7 +39,7 @@ bool GCondition::signal()
 	return (ret == 0 ? true : false);
 }    
 
-bool GCondition::broadcast() 
+bool Condition::broadcast() 
 {     
 	pthread_mutex_lock(&m_mutex);
 	GInt32 ret = pthread_cond_broadcast(&m_condition);
@@ -48,7 +48,7 @@ bool GCondition::broadcast()
 	return (ret == 0 ? true : false);
 }     
 
-bool GCondition::wait()  
+bool Condition::wait()  
 {        
 	pthread_mutex_lock(&m_mutex);
 	GInt32 ret = pthread_cond_wait(&m_condition, &m_mutex);
@@ -57,7 +57,7 @@ bool GCondition::wait()
 	return (ret == 0 ? true : false);
 }      
 
-bool GCondition::wait(const GUint32 timeout)     
+bool Condition::wait(const GUint32 timeout)     
 {       
 	struct timeval now;    
 	struct timespec tmpTimeout;  
