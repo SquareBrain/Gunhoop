@@ -18,7 +18,7 @@
 #include <stddef.h>
 #include <g_xml.h>
 
-using namespace gutils;
+namespace gutils {
 
 // Note tha "PutString" hardcodes the same list. This
 // is less flexible than it appears. Changing the entries
@@ -176,12 +176,13 @@ class XmlParsingData
 	
 public:
 	void stamp(const char* now, XmlEncoding encoding);
+    
 	const XmlCursor& cursor() const	
 	{ 
 		return m_cursor; 
 	}
 
-  private:
+private:
 	// Only used by the document!
 	XmlParsingData(const char* start, int tabsize, int row, int col)
 	{
@@ -927,47 +928,29 @@ XmlNode* XmlNode::identify(const char* p, XmlEncoding encoding)
 
 	if (stringEqual(p, xmlHeader, true, encoding))
 	{
-		#ifdef DEBUG_PARSER
-			GXML_LOG("XML parsing Declaration\n");
-		#endif
 		returnNode = new XmlDeclaration();
 	}
 	else if (stringEqual(p, commentHeader, false, encoding))
 	{
-		#ifdef DEBUG_PARSER
-			GXML_LOG("XML parsing Comment\n");
-		#endif
 		returnNode = new XmlComment();
 	}
 	else if (stringEqual(p, cdataHeader, false, encoding))
 	{
-		#ifdef DEBUG_PARSER
-			GXML_LOG("XML parsing CDATA\n");
-		#endif
-		XmlText* text = new GXmlText("");
+		XmlText* text = new XmlText("");
 		text->setCdata(true);
 		returnNode = text;
 	}
 	else if (stringEqual(p, dtdHeader, false, encoding))
 	{
-		#ifdef DEBUG_PARSER
-			GXML_LOG("XML parsing Unknown(1)\n");
-		#endif
 		returnNode = new XmlUnknown();
 	}
 	else if (isAlpha(*(p + 1), encoding)
 		|| *(p + 1) == '_')
 	{
-		#ifdef DEBUG_PARSER
-			GXML_LOG("XML parsing Element\n");
-		#endif
 		returnNode = new XmlElement("");
 	}
 	else
 	{
-		#ifdef DEBUG_PARSER
-			GXML_LOG("XML parsing Unknown(2)\n");
-		#endif
 		returnNode = new XmlUnknown();
 	}
 
@@ -1372,7 +1355,7 @@ const char* XmlElement::readValue(const char* p, XmlParsingData* data, XmlEncodi
 		{
 			// We hit a '<'
 			// Have we hit a new element or an end tag? This could also be
-			// a GXmlText in the "CDATA" style.
+			// a XmlText in the "CDATA" style.
 			if (stringEqual(p, "</", false, encoding))
 			{
 				return p;
@@ -1864,4 +1847,5 @@ bool XmlText::blank() const
 	}
 	
 	return true;
+}
 }

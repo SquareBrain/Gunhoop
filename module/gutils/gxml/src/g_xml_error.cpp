@@ -25,6 +25,8 @@ using namespace gutils;
 // It also cleans up the code a bit.
 //
 
+namespace gutils {
+
 const char* XmlBase::m_errorString[XmlBase::GXML_ERROR_STRING_COUNT] = 
 {
 	"No error",
@@ -44,3 +46,4 @@ const char* XmlBase::m_errorString[XmlBase::GXML_ERROR_STRING_COUNT] =
 	"Error parsing CDATA.",
 	"Error when XmlDocument added to document, because XmlDocument can only be at the root.",
 };
+}

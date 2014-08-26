@@ -18,7 +18,6 @@
 #pragma once
 
 #include <g_system.h>
-#include <g_namespace.h>
 #include <g_filterinputstream.h>
 #include <g_datainput.h>
 

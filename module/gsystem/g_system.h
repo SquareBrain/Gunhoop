@@ -26,7 +26,6 @@
 #include <g_file.h>
 #include <g_library.h>
 #include <g_lock.h>
-#include <g_memory.h>
 #include <g_pipe.h>
 #include <g_shm.h>
 #include <g_socket.h>

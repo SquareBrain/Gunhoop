@@ -20,9 +20,10 @@
 
 #include <list>
 #include <g_system.h>
-#include <g_namespace.h>
 #include <g_thread.h>
 #include <g_condition.h>
+
+using namespace gsys;
 
 namespace gcom {
 

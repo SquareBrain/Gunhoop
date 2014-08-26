@@ -17,18 +17,21 @@
 #include <g_timeconv.h>
 
 using namespace gsys;
-using namespace gcom;
 
-GResult TimeConv::convTime(const GInt8* format, GInt8* buffer, const GUint32 size)
+namespace gcom {
+
+GResult TimeConv::convTime(const GInt8* format, 
+    GInt8* buffer, 
+    const GUint32 size)
 {
-	// millisecond
-	return convTime(gsys::getSysTime(), format, buffer, size);
+	return convTime(System::getSysTime(), format, buffer, size);
 }
 
-GResult TimeConv::convTime(const std::string& format, std::string& buffer)
+GResult TimeConv::convTime(const std::string& format, 
+    std::string& buffer)
 {
-	GInt8* timeBuffer[128] = {0};
-	if (convTime(format, timeBuffer, 128) != G_YES)
+	GInt8 timeBuffer[128] = {0};
+	if (convTime(format.c_str(), timeBuffer, sizeof(timeBuffer)) != G_YES)
 	{
 		return G_NO;
 	}
@@ -38,20 +41,27 @@ GResult TimeConv::convTime(const std::string& format, std::string& buffer)
 	return G_YES;
 }
 
-GResult TimeConv::convTime(const GUint64 millisecond, const GInt8* format, GInt8* buffer, const GUint32 size)
+GResult TimeConv::convTime(const GUint64 millisecond, 
+    const GInt8* format, 
+    GInt8* buffer, 
+    const GUint32 size)
 {
-	if (format == nullptr || buffer == nullptr || size == 0)
+	if (format == nullptr 
+        || buffer == nullptr 
+        || size == 0)
 	{
 		return G_NO;	
 	}
-	
+
 	return G_YES;
 }
 
-GResult TimeConv::convTime(const GUint64 millisecond, const std::string format, std::string& buffer)
+GResult TimeConv::convTime(const GUint64 millisecond, 
+    const std::string format, 
+    std::string& buffer)
 {
-	GInt8* timeBuffer[128] = {0};
-	if (convTime(millisecond, format, timeBuffer, 128) != G_YES)
+	GInt8 timeBuffer[128] = {0};
+	if (convTime(millisecond, format.c_str(), timeBuffer, sizeof(timeBuffer)) != G_YES)
 	{
 		return G_NO;	
 	}
@@ -59,4 +69,5 @@ GResult TimeConv::convTime(const GUint64 millisecond, const std::string format, 
 	buffer.assign(timeBuffer);
 	
 	return G_YES;
+}
 }

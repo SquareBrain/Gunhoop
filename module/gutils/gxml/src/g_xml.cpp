@@ -19,7 +19,7 @@
 #include <iostream>
 #include <g_xml.h>
 
-using namespace gutils;
+namespace gutils {
 
 // Microsoft compiler security
 FILE* XmlFOpen(const char* filename, const char* mode)
@@ -1904,4 +1904,5 @@ bool XmlPrinter::visit(const XmlUnknown& unknown)
 	m_buffer += ">";
 	doLineBreak();
 	return true;
+}
 }

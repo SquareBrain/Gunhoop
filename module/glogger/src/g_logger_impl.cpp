@@ -19,6 +19,7 @@
 #include <g_logger_impl.h>
 
 using namespace gsys;
+using namespace gutils;
 
 // the max buffer size of in one line
 static const GUint64 DEF_ONE_LINE_BUF_SIZE = 1024;
@@ -286,7 +287,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	const GInt8* function,
 	const GInt8* args, ...)
 {   
-	GModuleRule* moduleRule = findModuleRule(module);
+	const GModuleRule* moduleRule = findModuleRule(module);
 	if (moduleRule == nullptr)
 	{
 		return;
@@ -304,7 +305,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	{
 		// add time
 		GInt8 timeStr[128] = {0};
-        gcom::TimeConv::convTime("ye-mo-da ho:mi:se:ms", timeStr, 128);
+        getSysTime(timeStr, sizeof(timeStr));
 		pos += snprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, "%s", timeStr); 
 	}
 
@@ -329,13 +330,13 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	switch (moduleRule->getSaveWay())
 	{
 	case SAVE_STDOUT:
-		sprintf(stdout, "%s", printBuf);
+		fprintf(stdout, "%s", printBuf);
 		break;
 	case SAVE_STDERR:
-		sprintf(stderr, "%s", printBuf);
+		fprintf(stderr, "%s", printBuf);
 		break;
 	case SAVE_FILE:
-		printFile(moduleRule, printBuf, pos);
+		saveToFile(moduleRule, printBuf, pos);
 		break;
 	}
 }
@@ -345,7 +346,7 @@ GInt8* GLoggerImpl::getError()
 	return m_error;
 }
 
-void GLoggerImpl::printFile(const GModuleRule* moduleRule, const GInt8* log, const GUint64 len)
+void GLoggerImpl::saveToFile(const GModuleRule* moduleRule, const GInt8* log, const GUint64 len)
 {
 	GLogFileMap::iterator iter = m_logFileMap.find(moduleRule->getFileName());
 	if (iter == m_logFileMap.end())
@@ -572,27 +573,12 @@ GResult GLoggerImpl::initFile()
 	return G_YES;
 }
 
-GResult GLoggerImpl::findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel)
+GResult GLoggerImpl::findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel) const
 {
-	GLogLevelMap::iterator iter = m_logLevelMap.begin();
+	GLogLevelMap::const_iterator iter = m_logLevelMap.begin();
 	for (; iter != m_logLevelMap.end(); ++iter)
 	{
-		if (iter->second->compare(logLevelStr) == 0)
-		{
-			logLevel = iter->first;
-			return YES;
-		}
-	}
-	
-	return G_NO;	
-}
-
-GResult GLoggerImpl::findPrintFormat(const GInt8* printFormatStr, GPrintFormat& printFormat)
-{
-	GPrintFormatMap::iterator iter = m_printFormatMap.begin();
-	for (; iter != m_printFormatMap.end(); ++iter)
-	{
-		if (iter->second->compare(printFormatStr) == 0)
+		if (iter->second.compare(logLevelStr) == 0)
 		{
 			logLevel = iter->first;
 			return G_YES;
@@ -602,17 +588,34 @@ GResult GLoggerImpl::findPrintFormat(const GInt8* printFormatStr, GPrintFormat& 
 	return G_NO;	
 }
 
-GResult GLoggerImpl::findSaveWay(const GInt8* saveWayStr, GSaveWay& saveWay)
+GResult GLoggerImpl::findPrintFormat(const GInt8* printFormatStr, GPrintFormat& printFormat) const
 {
-	GSaveWayMap::iterator iter = m_saveWayMap.begin();
+	GPrintFormatMap::const_iterator iter = m_printFormatMap.begin();
+	for (; iter != m_printFormatMap.end(); ++iter)
+	{
+		if (iter->second.compare(printFormatStr) == 0)
+		{
+			printFormat = iter->first;
+			return G_YES;
+		}
+	}
+	
+	return G_NO;	
+}
+
+GResult GLoggerImpl::findSaveWay(const GInt8* saveWayStr, GSaveWay& saveWay) const
+{
+	GSaveWayMap::const_iterator iter = m_saveWayMap.begin();
 	for (; iter != m_saveWayMap.end(); ++iter)
 	{
-		if (iter->second->compare(saveWayStr) == 0)
+		if (iter->second.compare(saveWayStr) == 0)
 		{
 			saveWay = iter->first;
 			return G_YES;
 		}
 	}
+
+    return G_NO;
 }
 
 const GModuleRule* GLoggerImpl::findModuleRule(const std::string& moduleName) const
@@ -626,7 +629,26 @@ const GModuleRule* GLoggerImpl::findModuleRule(const std::string& moduleName) co
 	return iter->second;
 }
 
+void getSysTime(GInt8* buffer, const GUint32 size)
+{
+	if (buffer == nullptr || size == 0)
+    {
+    	return;
+    }
+
+	GUint32 year = 0;
+    GUint32 mouth = 0;
+    GUint32 day = 0;
+    GUint32 hour = 0;
+    GUint32 minute = 0;
+    GUint32 second = 0;
+    GUint32 millisecond = 0;
+    
+    snprintf(buffer, size, "%d-%d-%d %d:%d:%d:%d", 
+        year, mouth, day, hour, minute, second, millisecond);
+}
+
 void GLoggerImpl::setError(const GInt8* args, ...)
 {
-	GSys::format(m_error, G_ERROR_BUF_SIZE, args);
+	System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }

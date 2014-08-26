@@ -1118,10 +1118,10 @@ public:
     }
 
 	/** Convenience function for easy access to the text inside an element. Although easy
-		and concise, GetText() is limited compared to getting the GXmlText child
+		and concise, GetText() is limited compared to getting the XmlText child
 		and accessing it directly.
 	
-		If the first child of 'this' is a GXmlText, the GetText()
+		If the first child of 'this' is a XmlText, the GetText()
 		returns the character string of the Text node, else null is returned.
 
 		This is a convenient method for getting the text of simple contained text:
@@ -1728,7 +1728,7 @@ public:
 		return ((m_node && m_node->toElement()) ? m_node->toElement() : 0); 
     }
     
-	/**	Return the handle as a GXmlText. This may return null.
+	/**	Return the handle as a XmlText. This may return null.
 	*/
 	XmlText* toText() const			
 	{ 
@@ -1751,7 +1751,7 @@ public:
 	*/
 	XmlElement* element() const { return toElement(); }
 	/**	@deprecated use ToText()
-		Return the handle as a GXmlText. This may return null.
+		Return the handle as a XmlText. This may return null.
 	*/
 	XmlText* text() const { return toText(); }
 	/** @deprecated use ToUnknown()

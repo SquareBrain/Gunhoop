@@ -19,7 +19,6 @@
 #include <map>
 #include <string>
 #include <g_system.h>
-#include <g_timeconv.h>
 
 /**
  * system log level
@@ -193,13 +192,14 @@ public:
 	GInt8* getError();    
 
 private:
-	void printFile(const GModuleRule* moduleRule, const GInt8* log, const GUint64 len);
+	void saveToFile(const GModuleRule* moduleRule, const GInt8* log, const GUint64 len);
 	GResult parserLogConf();
 	GResult initFile();
-	GResult findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel);
-	GResult findPrintFormat(const GInt8* printFormatStr, GPrintFormat& printFormat);
-	GResult findSaveWay(const GInt8* saveWayStr, GSaveWay& saveWay);
-	GModuleRule* findModuleRule(const std::string& moduleName);
+	GResult findLogLevel(const GInt8* logLevelStr, GLogLevel& logLevel) const;
+	GResult findPrintFormat(const GInt8* printFormatStr, GPrintFormat& printFormat) const;
+	GResult findSaveWay(const GInt8* saveWayStr, GSaveWay& saveWay) const;
+	const GModuleRule* findModuleRule(const std::string& moduleName) const;
+    void getSysTime(GInt8* buffer, const GUint32 size);
 	void setError(const GInt8* args, ...);
 
 private:

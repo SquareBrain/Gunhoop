@@ -18,7 +18,6 @@
 #pragma once
 
 #include <g_system.h>
-#include <g_namespace.h>
 
 namespace gcom {
 
@@ -49,7 +48,11 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-	static GResult convTime(const GInt8* format, GInt8* buffer, const GUint32 size);
+	static GResult convTime(const GInt8* format, 
+		GInt8* buffer, 
+		const GUint32 size);
+    static GResult convTime(const std::string& format, 
+        std::string& buffer);
 	
 	/**
 	 * @brief convert time recording to time format
@@ -60,6 +63,12 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
-	static GResult convTime(const GUint64 millisecond, const GInt8* format, GInt8* buffer, const GUint32 size);	
+	static GResult convTime(const GUint64 millisecond, 
+		const GInt8* format, 
+		GInt8* buffer, 
+		const GUint32 size);	
+	static GResult convTime(const GUint64 millisecond, 
+        const std::string format, 
+        std::string& buffer);
 };
 }

@@ -17,7 +17,8 @@
 #pragma once
 
 #include <g_system.h>
-#include <g_namespace.h>
+
+using namespace gsys;
 
 /** 
  * @brief synchronized code scope

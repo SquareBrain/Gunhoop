@@ -21,7 +21,6 @@
 #include <stdexcept>
 #include <iostream>
 #include <g_system.h>
-#include <g_namespace.h>
 #include <g_io_exception.h>
 
 namespace gcom {

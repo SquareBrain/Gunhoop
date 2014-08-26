@@ -19,7 +19,6 @@
 
 #include <list>
 #include <g_system.h>
-#include <g_namespace.h>
 
 namespace gcom {
 
