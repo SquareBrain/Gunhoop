@@ -191,7 +191,7 @@ public:
 	GInt8* getError();    
 
 private:
-	GResult uninit();
+	void uninit();
 	void saveToFile(const GModuleRule* moduleRule, const GInt8* log, const GUint64 len);
 	GResult parserLogConf();
 	GResult initFile();
