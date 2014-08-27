@@ -21,7 +21,7 @@ usage:
 	<module name="module.a" level="null" format="basic" outo="stdout">
 	<module name="module.b" level="error" format="more" outo="file" prefix="mylog" path=".">
 	<module name="module.c" level="warn" format="full" outo="stderr">
-	<module name="module.d" level="info" format="full" outo="stdout">
+	<module name="module.d" level="info" format="full" outo="file" prefix="mylogd", path="/">
 	<module name="module.e" level="debug" format="full" outo="stdout">
 	<module name="module.f" level="trace" format="full" outo="stdout">
 </glogconf>  
