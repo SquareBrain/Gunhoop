@@ -249,6 +249,7 @@ GLoggerImpl::GLoggerImpl()
 
 GLoggerImpl::~GLoggerImpl()
 {
+	uninit();
 }
 
 GLoggerImpl* GLoggerImpl::GetInstance()
@@ -272,11 +273,6 @@ GResult GLoggerImpl::init()
 		return G_NO;
 	}
 
-	return G_YES;
-}
-
-GResult GLoggerImpl::uninit()
-{
 	return G_YES;
 }
 
@@ -344,6 +340,23 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 GInt8* GLoggerImpl::getError()
 {
 	return m_error;
+}
+
+void GLoggerImpl::uninit()
+{
+	GModuleRuleMap::iterator ruleIter = m_moduleRuleMap.begin();
+	for (; ruleIter != m_moduleRuleMap.end(); ++ruleIter)
+	{
+		delete ruleIter->second;
+	}
+	m_moduleRuleMap.clear();
+	
+	GLogFileMap::iterator fileIter = m_logFileMap.begin();
+	for (; fileIter != m_logFileMap.end(); ++fileIter)
+	{
+		delete fileIter->second;
+	}
+	m_logFileMap.clear();
 }
 
 void GLoggerImpl::saveToFile(const GModuleRule* moduleRule, const GInt8* log, const GUint64 len)
