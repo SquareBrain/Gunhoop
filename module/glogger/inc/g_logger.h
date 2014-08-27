@@ -26,11 +26,6 @@
 #define G_LOG_INIT() GLogger::init()
 
 /**
- * @brief uninit log system
- */
-//#define G_LOG_UNINIT() GLogger::uninit()
-
-/**
  * @brief print error log
  * @param [in] module : module name
  * @param [in] args : parameters
@@ -75,11 +70,6 @@ public:
 	 * @brief init
 	 */
 	static GResult init();
-
-	/**
-	 * @brief uninit
-	 */
-	static GResult uninit();
 
 	/**
 	 * @brief print log
