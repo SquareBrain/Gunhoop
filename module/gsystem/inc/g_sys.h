@@ -73,5 +73,24 @@ public:
 	 * @note 
 	 */		
 	static GUint64 getSysTime();   
+	
+	/**
+	 * @brief get system time
+	 * @param [in] format : output time format
+	 * @param [out] buffer : output string time
+	 * @param [in] size : output buffer size
+	 * @return void
+	 * @note format "y-m-d h:m:s:ms:us"
+	 * y:yead
+	 * m:mouth
+	 * d:day
+	 * w:week
+	 * h:hour
+	 * m:minute
+	 * s:second
+	 * ms:millisecond
+	 * us:microsecond
+	 */		
+	static GResult getSysTime(const GInt8* format, GInt8* buffer, const GUint32 size);   	
 };
 }
