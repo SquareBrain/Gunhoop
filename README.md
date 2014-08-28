@@ -77,7 +77,7 @@ GTaskServer 进程<br/>
 ### Gohoop.1.0.0 2014.10.31
 基础库实现，包括：<br/>
 libgsystem.so<br/>
-libgutils.so(包括gini gxml gzip grpc gsoap)<br/>
+libgutils.so(包括gini gxml gzip)<br/>
 libglogger.so<br/>
 libgcommon.so(包括filesys function iostream network)<br/>
     
