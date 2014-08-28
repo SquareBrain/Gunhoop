@@ -80,7 +80,21 @@ public:
 	 * @param [out] buffer : output string time
 	 * @param [in] size : output buffer size
 	 * @return void
-	 * @note format "y-m-d h:m:s:ms:us"
+	 * @note 
+	 * format1 "h:m:s"
+	 * format2 "h:m:s:ms"
+	 * format3 "h:m:s:ms:us"
+	 * format3 "y-m-d h:m:s"
+	 * format4 "y-m-d h:m:s:ms"
+	 * format5 "y-m-d h:m:s:ms:us"
+	 * 
+	 * format1 "h:m:s w"
+	 * format2 "h:m:s:ms w"
+	 * format3 "h:m:s:ms:us w"
+	 * format3 "y-m-d h:m:s w"
+	 * format4 "y-m-d h:m:s:ms w"
+	 * format5 "y-m-d h:m:s:ms:us w"
+	 * 
 	 * y:yead
 	 * m:mouth
 	 * d:day
