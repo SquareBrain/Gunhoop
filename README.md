@@ -20,6 +20,7 @@ GSQLServer 进程<br/>
 增加文件系统服务、Task服务，Mapreduce框架实现、丰富基础库，包括：<br/>
 GDFSMaster 进程<br/>
 GDFSServer 进程<br/>
+GDFSClient 进程<br/>
 GTaskMaster 进程<br/>
 GTaskServer 进程<br/>
 基础库增加和修复<br/>
