@@ -87,3 +87,13 @@ GUint64 System::getSysTime()
 	
 	return (GUint64)(now.tv_sec) * 1000000 + now.tv_usec;
 }
+
+GResult System::getSysTime(const GInt8* format, GInt8* buffer, const GUint32 size)
+{
+	struct timeval now;
+	struct timezone tz;
+	if (gettimeofday(&now, &tz) < 0)
+	{
+		return 0;
+	}
+}
