@@ -10,7 +10,8 @@ Gohoop分布式存储与计算平台(Gohoop Distributed Storage And Compute Plat
 软件结构
 ====
 ### 基础库
-1. gsystem libgsystem.so libgsystem.a 依赖：系统API、标准库
+1. gsystem 
+    > 生成物：libgsystem.so libgsystem.a 依赖：系统API、标准库
 2. gutils libgutils.so libgutils.a 依赖：gsystem、标准库
     子模块1 gini -提供解析ini文件接口
     子模块2 gxml -提供解析xml文件接口
