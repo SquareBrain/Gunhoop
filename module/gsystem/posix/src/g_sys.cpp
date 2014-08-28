@@ -90,10 +90,15 @@ GUint64 System::getSysTime()
 
 GResult System::getSysTime(const GInt8* format, GInt8* buffer, const GUint32 size)
 {
-	struct timeval now;
-	struct timezone tz;
-	if (gettimeofday(&now, &tz) < 0)
-	{
-		return 0;
-	}
+        struct timeval tv;
+        struct tm      tm;
+        size_t         len = 28;
+ 
+        gettimeofday(&tv, NULL);
+        localtime_r(&tv.tv_sec, &tm);
+        strftime(buf, len, "%Y-%m-%d %H:%M:%S", &tm);
+        len = strlen(buf);
+        sprintf(buf + len, ".%06.6d", (int)(tv.tv_usec));
+ 
+        return buf;		
 }
