@@ -7,6 +7,39 @@ Gohoop分布式存储与计算平台(Gohoop Distributed Storage And Compute Plat
 ====
 在大数据平台已经非常多的情况下，为何我们还要开始这样一个项目？有两点：1.非常喜欢做的挑战的事儿。2.希望有朝一日我们也能做出一个有惊动世界开源项目。
 
+软件结构
+====
+### 基础库
+1. gsystem libgsystem.so libgsystem.a 依赖：系统API、标准库
+2. gutils libgutils.so libgutils.a 依赖：gsystem、标准库
+    子模块1 gini -提供解析ini文件接口
+    子模块2 gxml -提供解析xml文件接口
+3. glogger libglogger.so libglogger.a 依赖：gsystem、gutils、标准库
+4. gcommon libgcommon.so libgcommon.a 依赖：gsystem、gutils、glogger、标准库
+    子模块1 filesys     -提供封装的文件系统API
+    子模块2 function    -提供封装的语言特性组件
+    子模块3 iostream    -提供封装的I/O操作组件
+    子模块4 mapreduce   -提供map、reduce基础结构
+    子模块5 network     -提供网络编程组件
+
+### 服务进程
+1. gdfs 文件系统服务
+    子模块1 gdfsmaster 部署在master服务器上，管理slave结点
+    子模块2 gdfsserver 部署在slave服务器上，管理本地文件系统
+    子模块3 gdfsclient 外部访问文件系统的命令行客户端程序
+2. gtask 任务执行服务
+    子模块1 gtaskmaster 部署在master服务器上，管理slave结点
+    子模块2 gtaskserver 部署在slave服务器上，管理任务执行
+3. gsql 结构化数据存储和查询服务
+    子模块1 gsqlmaster 部署在master服务器上，管理slave结点
+    子模块2 gsqlserver 部署在slave服务器上，管理本地结构化数据存储和查询
+4. gstore 非结构化数据存储和查询服务
+    子模块1 gstoremaster 部署在master服务器上，管理slave结点
+    子模块2 gstoreserver 部署在slave服务器上，管理非结构化数据存储和查询
+
+### 测试模块 gtest
+对各个库和服务的测试程序编写。
+
 发布
 ====
 ### Gohoop.1.2.0 2015.06.30
