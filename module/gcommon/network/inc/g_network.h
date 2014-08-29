@@ -30,6 +30,32 @@ typedef enum
 	IP_TYPE_V4,
 	IP_TYPE_V6
 } IPAddrType;
+
+/**
+ * network convert class
+ */
+class NetWorkConv
+{
+public:
+	NetWorkConv();
+	~NetWorkConv();
+	
+	/**
+	 * @brief string IP to integer
+	 * @param [in] strIP :  input string IP
+	 * @param [out] intIP : output integer IP
+	 * @return G_YES/G_NO
+	 */
+	GResult ipToInt(const std::string& strIP, GUint32& intIP);
+	
+	/**
+	 * @brief integer IP to string
+	 * @param [in] intIP :  input integer IP
+	 * @param [out] strIP : output string IP
+	 * @return G_YES/G_NO
+	 */
+	GResult ipToString(const GUint32 intIP, std::string& strIP);	
+};
 	
 /**
  * IP address
