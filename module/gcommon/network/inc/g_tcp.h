@@ -36,22 +36,14 @@ typedef enum
 	// closed state
 	TCP_CON_STATE_CLOSED
 } TcpConnectState;
-	
-class TcpInterface
-{
-public:
-	virtual ~TcpInterface() {}
-	virtual GResult state(const TcpConnectState& state) = 0;
-	virtual GResult received(GInt8* data, const GUint64 len) = 0;
-};
 
 /**
  * @brief tcp socket class
  */
-class Tcp : public gsys::ThreadTask
+class Tcp
 {
 public:
-	Tcp(const IPPortPair& ipPortPair, const TcpInterface* interface/*nullptr*/);
+	Tcp(const IPPortPair& ipPortPair);
 	~Tcp();
 	
 	/**
@@ -74,21 +66,33 @@ public:
 	 */
 	GInt64 send(const GInt8* data, const GUing64 len);
 	
-private:
-	virtual GResult run();
+	/**
+	 * @brief receive data
+	 * @param [in] buffer : data buffer
+	 * @param [in] size : buffer size
+	 * @return -1:failed, > 0:received size
+	 */
+	GInt64 recv(const GInt8* buffer, const GUing64 size);	
 	
 private:
 	SocketAddr		m_socketAddr;
-	TcpInterface*	m_tcpInterface;
+};
+	
+class TcpInterface
+{
+public:
+	virtual ~TcpInterface() {}
+	virtual GResult state(const TcpConnectState& state) = 0;
+	virtual GResult received(GInt8* data, const GUint64 len) = 0;
 };
 
 /**
  * @brief tcp component
  */
-class TcpClient : public TcpInterface
+class TcpClient : public gsys::ThreadTask
 {
 public:
-	TcpClient();
+	explicit TcpClient(Tcp* tcp, TcpInterface* interface);
 	virtual ~TcpClient();
 	
 	/**
@@ -111,7 +115,10 @@ protected:
 	virtual GResult received(GInt8* data, const GUint64 len) = 0;
 	
 private:
-	Tcp		m_tcp;
+	virtual GResult run();	
+	
+private:
+	Tcp*	m_tcp;
 };
 
 }
