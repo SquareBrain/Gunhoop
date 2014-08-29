@@ -150,7 +150,7 @@ private:
 	IPAddr			m_ipv4;
 	IPv6Addr		m_ipv6;
 	GUint16			m_port;
-	IPAddrType		m_ipType;
+	IPAddrType		m_ipAddrType;
 };
 
 /**
@@ -159,6 +159,9 @@ private:
 class NetAddr
 {
 public:
+	/**
+	 * @param [in] ipAddrType : IP address type, default is IPv4
+	 */
 	explicit NetAddr(const IPAddrType& ipAddrType/*IP_TYPE_V4*/);
 	~NetAddr();
 	
@@ -179,6 +182,7 @@ private:
 	IPAddr		m_ipv4Addr;
 	IPv6Addr	m_ipv6Addr;
 	GUint16		m_port;
+	IPAddrType	m_ipAddrType;
 };
  
 /**
