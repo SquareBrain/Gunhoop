@@ -46,7 +46,7 @@ public:
 	 * @param [out] intIP : output integer IP
 	 * @return G_YES/G_NO
 	 */
-	GResult ipToInt(const std::string& strIP, GUint32& intIP);
+	GResult ipToInteger(const std::string& strIP, GUint32& intIP);
 	
 	/**
 	 * @brief integer IP to string
@@ -55,6 +55,22 @@ public:
 	 * @return G_YES/G_NO
 	 */
 	GResult ipToString(const GUint32 intIP, std::string& strIP);	
+	
+	/**
+	 * @brief string MAC to integer
+	 * @param [in] strMac :  input string MAC
+	 * @param [out] intMac : output integer MAC
+	 * @return G_YES/G_NO
+	 */
+	GResult macToInteger(const std::string& strMac, GUint32& intMac);
+	
+	/**
+	 * @brief integer MAC to string
+	 * @param [in] intMac :  input integer MAC
+	 * @param [out] strMac : output string MAC
+	 * @return G_YES/G_NO
+	 */
+	GResult macToString(const GUint32 intMac, std::string& strMac);	
 };
 	
 /**
@@ -83,17 +99,13 @@ private:
 class IPv6Addr
 {
 public:
-	explicit IPv6Addr(const GUint64 ip);
 	explicit IPv6Addr(const GInt8* ip);
 	explicit IPv6Addr(const std::string& ip);
-	
 	~IPv6Addr();
 	
-	GUint64 getIP() const;
 	const std::string& getIP() const;
 	
 private:
-	GUint32			m_ip;
 	std::string		m_ipStr;	
 };
 
@@ -121,22 +133,24 @@ private:
 class IPPortPair
 {
 public:
-	explicit IPPortPair(const IPAddr& ipAddr, 
-		const GUint16 port, 
-		const IPAddrType& ipAddrType/*IP_TYPE_V4*/);
-		
+	explicit IPPortPair(const IPAddr& ipAddr, const GUint16 port);
+	explicit IPPortPair(const IPv6Addr& ipAddr, const GUint16 port);
 	~IPPortPair();
 	
-	const GUint32 getIP() const;
-	const GUint64 getIP() const;
-	const std::string& getIP() const;
+	void setIPv4(const IPAddr& ipAddr);
+	const IPAddr& getIPv4() const;
 	
+	void setIPv6(const IPv6Addr& ipAddr);
+	const IPv6Addr& getIPv6() const;
+	
+	void setPort(const GUint16 port);
 	const GUint16 getPort() const;
 	
 private:
-	IPAddr		m_ipv4;
-	IPv6Addr	m_ipv6;
-	GUint16		m_port;
+	IPAddr			m_ipv4;
+	IPv6Addr		m_ipv6;
+	GUint16			m_port;
+	IPAddrType		m_ipType;
 };
 
 /**
