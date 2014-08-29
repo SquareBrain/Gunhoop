@@ -121,11 +121,15 @@ MacAddr::MacAddr(const std::string& mac) : m_macStr(mac)
     NetWorkConv::macToInteger(m_macStr, m_mac);
 }
 
-IPPortPair::IPPortPair(const IPAddr& ipAddr, const GUint16 port) : m_ipv4(ipAddr), m_port(port)
+IPPortPair::IPPortPair(const IPAddr& ipAddr, const GUint16 port) : m_ipAddrType(IP_TYPE_V4), m_ipv4(ipAddr), m_port(port)
 {
 }
 
-IPPortPair::IPPortPair(const IPv6Addr& ipAddr, const GUint16 port) : m_ipv6(ipAddr), m_port(port)
+IPPortPair::IPPortPair(const IPv6Addr& ipAddr, const GUint16 port) : m_ipAddrType(IP_TYPE_V6), m_ipv6(ipAddr), m_port(port)
+{
+}
+
+IPPortPair::~IPPortPair()
 {
 }
 
@@ -159,6 +163,80 @@ GUint16 IPPortPair::getPort() const
     return m_port;
 }
 
+NetAddr::NetAddr(const IPAddrType& ipAddrType = IP_TYPE_V4) : m_ipAddrType(ipAddrType)
+{
+}
 
+NetAddr::~NetAddr()
+{
+}
+
+void NetAddr::setMacAddr(const MacAddr& macAddr)
+{
+    m_macAddr = macAddr;
+}
+
+const MacAddr& NetAddr::getMacAddr() const
+{
+    return m_macAddr;
+}
+
+void NetAddr::setIPv4Addr(const IPAddr& ipAddr)
+{
+    m_ipv4Addr = ipAddr;
+}
+
+const IPAddr& getIPv4Addr() const
+{
+    return m_ipv4Addr;
+}
+
+void NetAddr::setIPv6Addr(const IPv6Addr& ipAddr)
+{
+    m_ipv6Addr = ipAddr;
+}
+
+const IPv6Addr& NetAddr::getIPv6Addr() const
+{
+    return m_ipv6Addr;
+}
+
+void NetAddr::setPort(const GUint16 port)
+{
+    m_port = port;
+}
+
+GUint16 NetAddr::getPort() const
+{
+    return m_port;
+}
+
+SocketAddr::SocketAddr(const NetAddr& srcAddr, const NetAddr& dstAddr) : m_srcAddr(srcAddr), m_dstAddr(dstAddr)
+{
+}
+
+SocketAddr::~SocketAddr()
+{
+}
+
+void SocketAddr::setSrcAddr(const NetAddr& srcAddr)
+{
+    m_srcAddr = srcAddr;
+}
+
+const NetAddr& SocketAddr::getSrcAddr() const
+{
+    return m_srcAddr;
+}
+
+void SocketAddr::setDstAddr(const NetAddr& dstAddr)
+{
+    m_dstAddr = dstAddr;
+}
+
+const NetAddr& SocketAddr::getDstAddr() const
+{
+    return m_dstAddr;
+}
 
 }
