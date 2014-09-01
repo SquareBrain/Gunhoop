@@ -34,7 +34,11 @@ namespace gsys {
 class SockEntity
 {
 public:
-	explicit SockEntity(const GUint32 ip, const GUint16 port);
+	/**
+	 * auto get local address, and rand setting a port
+	 */
+	SockEntity();
+	explicit SockEntity(const GUint32 ip, const GUint16 port = 0);
 	~SockEntity();
 	
 	/**
@@ -56,13 +60,25 @@ public:
 	void setSockfd(const GInt32 sockfd) const;
 	GInt32 getSockfd() const;
 	
+	/**
+	 * @brief set/get sock addr
+	 * @return 
+	 */		
+	const sockaddr_in& getSockAddr() const;	
+	
+	/**
+	 * @brief set/get addr length
+	 * @return 
+	 */		
+	socklen_t& getAddrLen() const;		
+	
 private:
 	// socket file descrition
 	GInt32			m_sockfd;
 	// address
 	sockaddr_in		m_sockAddr;
 	// sock length
-	socklen_t		m_sockLen;	
+	socklen_t		m_addrLen;	
 };
 
 /** 
@@ -71,7 +87,8 @@ private:
 class Socket
 {
 public:
-	explicit Socket(const GUint32 ip, const GUint16 port);
+	Socket();
+	explicit Socket(const GUint32 ip, const GUint16 port = 0);
 	~Socket();
 	
 	/**
@@ -91,7 +108,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-	virtual GResult init(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM);
+	virtual GResult init(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM, const GInt32 protocol = 0);
 	
 	/**
 	 * @brief shutdown connecting
@@ -123,6 +140,7 @@ public:
 	
 protected:
 	SockEntity	m_sockEntity;
+	bool		m_isInit;
 	
 private:
 	/**
@@ -139,9 +157,13 @@ class ServerSocket : public Socket
 {
 public:
 	/**
+	 * @brief auto find location host
+	 */
+	ServerSocket();
+	/**
 	 * @brief constructor
 	 * @param [in] ip : ip address
-	 * @param [in] port : port, default is 0
+	 * @param [in] port : port, default is 0, random generate port
 	 * @note 
 	 */			
 	explicit ServerSocket(const GUint32 ip, const GUint16 port = 0);
@@ -156,17 +178,19 @@ public:
 	
 	/**
 	 * @brief listen port
+	 * @param [in] maxConnectNum : the max client connect number, default is 20
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-	GResult listen();	
+	GResult listen(const GUint32 maxConnectNum = 20);	
 	
 	/**
 	 * @brief waitting for connect
+	 * @param [in] clientSockAddr : client sock address
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-	GResult accept();	
+	GResult accept(sockaddr_in& clientSockAddr);	
 };
 
 /** 
@@ -176,9 +200,13 @@ class ClientSocket : public Socket
 {
 public:
 	/**
+	 * @brief connect location server
+	 */		
+	ClientSocket();
+	/**
 	 * @brief constructor
 	 * @param [in] ip : ip address
-	 * @param [in] port : port, default is 0
+	 * @param [in] port : port, default is 0, generate random port
 	 * @note 
 	 */			
 	explicit ClientSocket(const GUint32 ip, const GUint16 port = 0);
