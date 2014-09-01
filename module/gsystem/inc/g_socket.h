@@ -35,7 +35,6 @@ class SocketEntity
 {
 public:
 	SocketEntity();
-	explicit SocketEntity(const GUint32 ip, const GUint16 port);
 	~SocketEntity();
 	
 	/**
@@ -53,14 +52,30 @@ public:
 	GUint32 getPort() const;
 	
 	/**
+	 * @brief set/get socket fd
+	 * @return 
+	 */		
+	void setSockfd(const GInt32 sockfd) const;
+	GInt32 getSockfd() const;
+	
+	/**
+	 * @brief set/get sockaddr
+	 * @return 
+	 */		
+	void setSockAddr(const sockaddr_in sockaddr) const;
+	sockaddr_in getSockAddr() const;	
+	
+	/**
 	 * @brief set/get address length
 	 * @return 
 	 */		
-	void setAddrLen(const GInt32 addrLen) const;
-	GInt32 getAddrLen() const;	
+	void setAddrLen(const socklen_t addrLen) const;
+	socklen_t getAddrLen() const;	
 	
 private:
-	// GSocket file descrition
+	GUint32			m_ip;
+	GUint16			m_port;
+	// socket file descrition
 	GInt32			m_sockfd;
 	// address
 	sockaddr_in		m_addr;
@@ -76,24 +91,30 @@ public:
 	
 	/**
 	 * @brief send data
-	 * @param [in] socketEntity : 
+	 * @param [in] socketEntity : SocketEntity
 	 * @param [in] data : send data
 	 * @param [in] dataLen : data length
 	 * @param [in] flags : flags
 	 * @return size/-1
 	 * @note 
 	 */		
-	static GInt64 send(const SocketEntity& socketEntity, const GUint8* data, const GUint64 length, const GInt32 flags = MSG_NOSIGNAL);
+	static GInt64 send(const SocketEntity& socketEntity, 
+		const GUint8* data, 
+		const GUint64 len, 
+		const GInt32 flags);
 	
 	/**
 	 * @brief receive data
+	 * @param [in] socketEntity : SocketEntity
 	 * @param [out] buffer : output buffer
 	 * @param [in] bufferSize : buffer size
 	 * @param [in] flags : flags
 	 * @return size/-1
 	 * @note 
 	 */	
-	static GInt64 recv(const SocketEntity& socketEntity, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
+	static GInt64 recv(const SocketEntity& socketEntity, 
+		GUint8* buffer, const GUint64 size, 
+		const GInt32 flags);	
 };
 	
 /** 
