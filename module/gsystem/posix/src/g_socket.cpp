@@ -19,35 +19,29 @@
 
 namespace gsys {
 
-SockEntity::SockEntity() : m_ip(0), m_port(0), m_sockfd(-1), m_sockLen(0)
+SockEntity::SockEntity(const GUint32 ip, const GUint16 port) : m_sockfd(-1), m_sockLen(0)
 {
 	bzero(m_sockAddr, sizeof(sockaddr_in));	
+	m_sockAddr.sin_family = AF_INET;		// RF_INET
+	m_sockAddr.sin_port = htons(port);		// port
+	m_sockAddr.sin_addr.s_addr = ip;		// IP
+	memset(&(m_sockAddr.sin_zero), 0, 8);		// set 0
+	m_sockLen = sizeof(struct sockaddr);
 }
 
 SockEntity::~SockEntity()
 {
 }
 
-void SockEntity::setIP(const GUint32 ip)
-{
-	m_ip = ip;
-}
-
 GUint32 SockEntity::getIP() const
 {
-	return m_ip;
+	return ntohl(m_addr.sin_addr.s_addr);
 }
 
-void SockEntity::setPort(const GUint32 port) const
+GUint16 SockEntity::getPort() const
 {
-	m_port = port;	
+	return ntohs(m_addr.sin_port);
 }
-
-GUint32 SockEntity::getPort() const
-{
-	return m_port;
-}
-
 
 void SockEntity::setSockfd(const GInt32 sockfd) const
 {
@@ -59,271 +53,66 @@ GInt32 SockEntity::getSockfd() const
 	return m_sockfd;
 }
 
-void SockEntity::setSockAddr(const sockaddr_in sockaddr) const
-{
-	m_sockAddr = sockAddr;
-}
-
-sockaddr_in SockEntity::getSockAddr() const
-{
-	return m_sockAddr;
-}
-
-void SockEntity::setSockLen(const socklen_t sockLen) const
-{
-	m_sockLen = sockLen;
-}
-
-socklen_t SockEntity::getSockLen() const
-{
-	return m_sockLen;
-}
-
-SockTransfer::SockTransfer() {}
-
-SockTransfer~SockTransfer() {}
-
-GInt64 SockTransfer::send(const SockEntity& sockEntity, 
-	const GUint8* data, 
-	const GUint64 len, 
-	const GInt32 flags)
-{
-	return ::send(sockEntity.getSockfd(), data, len, flags);
-}
-
-GInt64 SockTransfer::recv(const SockEntity& sockEntity, 
-	GUint8* buffer, 
-	const GUint64 size, 
-	const GInt32 flags)
-{
-	return ::recv(sockEntity.getSockfd(), buffer, size, flags);
-}
-
-ServerSocket::ServerSocket() : ServerSocket(0, 0) {}
-ServerSocket::ServerSocket(const GUint32 ip, const GUint16 port)
-{
-	m_sockEntity.setIP(ip);
-	m_sockEntity.setPort(ip);
-}
-
-ServerSocket::~ServerSocket() {}
-
-void ServerSocket::setIP(const GUint32 ip)
-{
-	m_sockEntity.setIP(ip);
-}
-
-GUint32 ServerSocket::getIP() const
-{
-	return m_sockEntity.getIP();
-}
-
-void ServerSocket::setPort(const GUint32 port) const
-{
-	m_sockEntity.setPort(port);	
-}
-
-GUint32 ServerSocket::getPort() const
-{
-	m_sockEntity.getPort();
-}
-
-GResult ServerSocket::init(const GInt32 domain/*AF_INET*/, const GInt32 type/*SOCK_STREAM*/)
-{
-	GInt31 sockfd = socket(domain, type, 0)
-	if (sockfd < 0)
-	{
-		return G_NO;
-	}
-	
-	m_sockEntify.setSockfd(sockfd);
-
-	// init socket option
-	initOption();
-
-	return G_YES;
-}
-
-GResult ServerSocket::uninit(const GInt32 how/*0*/)
-{
-	// how = 0 : stop receive data
-	// how = 1 : stop send data
-	// how = 2 : both above way
-	if (m_sockEntity.getSockfd() < -1)
-	{
-	    return G_YES;
-	}
-
-	return (shutdown(m_sockEntity.getSockfd(), how) == 0 ? G_YES : G_NO);
-}
-
-GResult ServerSocket::bind()
-{
-	return G_YES;
-}
-
-GResult ServerSocket::listen()
-{
-	return G_YES;
-}
-
-GResult ServerSocket::accept()
-{
-	return G_YES;
-}
-
-ClientSocket::ClientSocket() : ClientSocket(0, 0) {}
-ClientSocket::ClientSocket(const GUint32 ip, const GUint16 port) 
-{
-	m_sockEntity.setIP(ip);
-	m_sockEntity.setPort(ip);	
-}
-
-ClientSocket::~ClientSocket() {}
-
-void ClientSocket::setIP(const GUint32 ip)
-{
-	m_sockEntity.setIP(ip);
-}
-
-GUint32 ClientSocket::getIP() const
-{
-	return m_sockEntity.getIP();
-}
-
-void ClientSocket::setPort(const GUint32 port) const
-{
-	m_sockEntity.setPort(port);	
-}
-
-GUint32 ClientSocket::getPort() const
-{
-	m_sockEntity.getPort();
-}
-
-GResult ClientSocket::init(const GInt32 domain/*AF_INET*/, const GInt32 type/*SOCK_STREAM*/)
-{
-	GInt31 sockfd = socket(domain, type, 0)
-	if (sockfd < 0)
-	{
-		return G_NO;
-	}
-	
-	m_sockEntify.setSockfd(sockfd);
-
-	// init socket option
-	initOption();
-
-	return G_YES;
-}
-
-GResult ClientSocket::uninit(const GInt32 how/*0*/)
-{
-	// how = 0 : stop receive data
-	// how = 1 : stop send data
-	// how = 2 : both above way
-	if (m_sockEntity.getSockfd() < -1)
-	{
-	    return G_YES;
-	}
-
-	return (shutdown(m_sockEntity.getSockfd(), how) == 0 ? G_YES : G_NO);
-}
-
-GResult ClientSocket::connect()
-{
-	return G_YES;
-}
-	
-GInt64 ClientSocket::send(const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
-{
-	return SockTransfer::send(m_sockEntify.getSockfd(), data, len, flags);
-}
-
-GInt64 ClientSocket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
-{
-	return SockTransfer::recv(m_sockEntify.getSockfd(), buffer, size, flags);
-}
-
-Socket::Socket() : m_sockfd(-1), m_addrLen(0)
-{
-}
-
-Socket::Socket(const GUint32 ip, const GUint16 port) 
-    : m_sockfd(-1), m_addrLen(0)
-{
-	setAddr(ip, port);        
-}
-
-Socket::Socket(const Socket& Socket)
-{
-	m_sockfd = Socket.m_sockfd;
-	m_addr = Socket.m_addr;
-}
-
-Socket::~Socket()
-{
-	closeSocket(m_sockfd);
-}
-
-GResult Socket::openSocket(const GInt32 domain, const GInt32 type)
-{
-	if ((m_sockfd = socket(domain, type, 0)) == -1)
-	{
-		//G_LOG_ERROR(G_LOG_PREFIX, "open GSocket() failed");
-		return G_NO;
-	}
-
-	// init GSocket option
-	if (!initOption())
-	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "init GSocket option failed");
-	}
-
-	return G_YES;
-}
-
-GInt64 Socket::sendData(const GUint8* data, const GUint64 length, const GInt32 flags)
-{
-	return send(m_sockfd, data, length, flags);
-}
-
-GInt64 Socket::recvData(GUint8* buffer, const GUint64 size, const GInt32 flags)
-{
-	return recv(m_sockfd, buffer, size, flags);
-}
-
-GResult Socket::closeSocket(const GInt32 how)
-{
-	// how = 0 : stop receive data
-	// how = 1 : stop send data
-	// how = 2 : both above way
-	if (m_sockfd == -1)
-	{
-	    //G_LOG_ERROR(G_LOG_PREFIX, "GSocket hasn't open");
-	    return G_YES;
-	}
-
-	return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
-}
-
-void Socket::setAddr(const GUint32 ip, const GUint16 port)
-{
-	m_addr.sin_family = AF_INET;		// RF_INET
-	m_addr.sin_port = htons(port);		// port
-	m_addr.sin_addr.s_addr = ip;		// IP
-	memset(&(m_addr.sin_zero),'\0', 8);		// set 0
-	m_addrLen = sizeof(struct sockaddr);
-}
+Socket::Socket(const GUint32 ip, const GUint16 port) : m_sockEntity(ip, port) {}
+Socket::~Socket() {}
 
 GUint32 Socket::getIP() const
 {
-	return ntohl(m_addr.sin_addr.s_addr);
+	return m_sockEntity.getIP();
 }
 
-GUint16 Socket::getPort() const
+GUint32 Socket::getPort() const
 {
-	return ntohs(m_addr.sin_port);
+	m_sockEntity.getPort();
+}
+
+GResult Socket::init(const GInt32 domain/*AF_INET*/, const GInt32 type/*SOCK_STREAM*/)
+{
+	GInt31 sockfd = socket(domain, type, 0)
+	if (sockfd < 0)
+	{
+		return G_NO;
+	}
+	
+	m_sockEntify.setSockfd(sockfd);
+
+	// init socket option
+	initOption();
+
+	return G_YES;
+}
+
+GResult Socket::uninit(const GInt32 how/*0*/)
+{
+	// how = 0 : stop receive data
+	// how = 1 : stop send data
+	// how = 2 : both above way
+	if (m_sockEntity.getSockfd() < 0)
+	{
+	    return G_YES;
+	}
+
+	return (shutdown(m_sockEntity.getSockfd(), how) == 0 ? G_YES : G_NO);
+}
+
+GInt64 Socket::send(const GUint8* data, const GUint64 len, const GInt32 flags)
+{
+	if (m_sockEntity.getSockfd() < 0)
+	{
+	    return -1;
+	}
+	
+	return ::send(m_sockEntity.getSockfd(), data, len, flags);
+}
+
+GInt64 Socket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags)
+{
+	if (m_sockEntity.getSockfd() < 0)
+	{
+	    return -1;
+	}
+	
+	return ::recv(m_sockEntity.getSockfd(), buffer, size, flags);
 }
 
 GResult Socket::initOption()
@@ -342,7 +131,7 @@ GResult Socket::initOption()
 	GInt32 nosize = 0;
 
 	// set address reuse
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockEntity.getSockfd(), SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
 	{
 	    //G_LOG_WARN(G_LOG_PREFIX, "set address reuse failed");
 		ret = false;	
@@ -361,25 +150,25 @@ GResult Socket::initOption()
 	//}
 
 	// set send data buffer size
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockEntity.getSockfd(), SOL_SOCKET, SO_SNDBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 
 	// set receive data buffer size
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockEntity.getSockfd(), SOL_SOCKET, SO_RCVBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 
 	// don't copy data from system buffer to GSocket buffer when send data
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockEntity.getSockfd(), SOL_SOCKET, SO_SNDBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
 
 	// don't copy data from system buffer to GSocket buffer when receive data
-	if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
+	if (setsockopt(m_sockEntity.getSockfd(), SOL_SOCKET, SO_RCVBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
 	{
 		ret = false;
 	}
@@ -402,5 +191,32 @@ GResult Socket::initOption()
 	*/
 
 	return ret;
+}
+
+ServerSocket::ServerSocket(const GUint32 ip, const GUint16 port) : Socket(ip, port) {}
+ServerSocket::~ServerSocket() {}
+
+GResult ServerSocket::bind()
+{
+	
+	return G_YES;
+}
+
+GResult ServerSocket::listen()
+{
+	return G_YES;
+}
+
+GResult ServerSocket::accept()
+{
+	return G_YES;
+}
+
+ClientSocket::ClientSocket(const GUint32 ip, const GUint16 port) : Socket(ip, port) {} 
+ClientSocket::~ClientSocket() {}
+
+GResult ClientSocket::connect()
+{
+	return G_YES;
 }
 }
