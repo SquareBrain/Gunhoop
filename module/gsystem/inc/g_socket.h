@@ -31,11 +31,11 @@ namespace gsys {
 /** 
  * @brief socket base class
  */
-class SocketEntity
+class SockEntity
 {
 public:
-	SocketEntity();
-	~SocketEntity();
+	SockEntity();
+	~SockEntity();
 	
 	/**
 	 * @brief set/get IP address
@@ -69,8 +69,8 @@ public:
 	 * @brief set/get address length
 	 * @return 
 	 */		
-	void setAddrLen(const socklen_t addrLen) const;
-	socklen_t getAddrLen() const;	
+	void setSockLen(const socklen_t sockLen) const;
+	socklen_t getSockLen() const;	
 	
 private:
 	GUint32			m_ip;
@@ -78,42 +78,43 @@ private:
 	// socket file descrition
 	GInt32			m_sockfd;
 	// address
-	sockaddr_in		m_addr;
-	// address length
-	socklen_t		m_addrLen;	
+	sockaddr_in		m_sockAddr;
+	// sock length
+	socklen_t		m_sockLen;	
 };
 
-class SocketTransfer
+class SockTransfer
 {
 public:
-	SocketTransfer();
-	~SocketTransfer();
+	SockTransfer();
+	~SockTransfer();
 	
 	/**
 	 * @brief send data
-	 * @param [in] socketEntity : SocketEntity
+	 * @param [in] sockEntity : SockEntity
 	 * @param [in] data : send data
 	 * @param [in] dataLen : data length
 	 * @param [in] flags : flags
 	 * @return size/-1
 	 * @note 
 	 */		
-	static GInt64 send(const SocketEntity& socketEntity, 
+	static GInt64 send(const SockEntity& sockEntity, 
 		const GUint8* data, 
 		const GUint64 len, 
 		const GInt32 flags);
 	
 	/**
 	 * @brief receive data
-	 * @param [in] socketEntity : SocketEntity
+	 * @param [in] sockEntity : SockEntity
 	 * @param [out] buffer : output buffer
 	 * @param [in] bufferSize : buffer size
 	 * @param [in] flags : flags
 	 * @return size/-1
 	 * @note 
 	 */	
-	static GInt64 recv(const SocketEntity& socketEntity, 
-		GUint8* buffer, const GUint64 size, 
+	static GInt64 recv(const SockEntity& sockEntity, 
+		GUint8* buffer, 
+		const GUint64 size, 
 		const GInt32 flags);	
 };
 	
@@ -136,11 +137,25 @@ public:
 	~ServerSocket();
 	
 	/**
+	 * @brief set/get IP address
+	 * @return
+	 */		
+	void setIP(const GUint32 ip);
+	GUint32 getIP() const;
+
+	/**
+	 * @brief set/get port
+	 * @return 
+	 */		
+	void setPort(const GUint32 port) const;
+	GUint32 getPort() const;	
+	
+	/**
 	 * @brief init socket
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-	GResult init(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
+	GResult init(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM);
 	
 	/**
 	 * @brief shutdown connecting
@@ -171,8 +186,28 @@ public:
 	 */	
 	GResult accept();	
 	
+	/**
+	 * @brief send data
+	 * @param [in] data : send data
+	 * @param [in] len : data length
+	 * @param [in] flags : flags
+	 * @return size/-1
+	 * @note 
+	 */		
+	GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+	
+	/**
+	 * @brief receive data
+	 * @param [out] buffer : output buffer
+	 * @param [in] bufferSize : buffer size
+	 * @param [in] flags : flags
+	 * @return size/-1
+	 * @note 
+	 */	
+	GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
+	
 private:
-	SocketEntity	m_socketEntity;
+	SockEntity	m_sockEntity;
 };
 
 /** 
@@ -213,7 +248,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-	GResult init(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
+	GResult init(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM);
 	
 	/**
 	 * @brief shutdown connecting
@@ -233,12 +268,12 @@ public:
 	/**
 	 * @brief send data
 	 * @param [in] data : send data
-	 * @param [in] dataLen : data length
+	 * @param [in] len : data length
 	 * @param [in] flags : flags
 	 * @return size/-1
 	 * @note 
 	 */		
-	GInt64 send(const GUint8* data, const GUint64 length, const GInt32 flags = MSG_NOSIGNAL);
+	GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
 	
 	/**
 	 * @brief receive data
