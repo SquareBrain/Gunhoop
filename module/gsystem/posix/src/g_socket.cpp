@@ -185,12 +185,31 @@ GUint32 ClientSocket::getPort() const
 
 GResult ClientSocket::init(const GInt32 domain/*AF_INET*/, const GInt32 type/*SOCK_STREAM*/)
 {
+	GInt31 sockfd = socket(domain, type, 0)
+	if (sockfd < 0)
+	{
+		return G_NO;
+	}
+	
+	m_sockEntify.setSockfd(sockfd);
+
+	// init socket option
+	initOption();
+
 	return G_YES;
 }
 
 GResult ClientSocket::uninit(const GInt32 how/*0*/)
 {
-	return G_YES;	
+	// how = 0 : stop receive data
+	// how = 1 : stop send data
+	// how = 2 : both above way
+	if (m_sockEntity.getSockfd() < -1)
+	{
+	    return G_YES;
+	}
+
+	return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
 }
 
 GResult ClientSocket::connect()
