@@ -19,14 +19,16 @@
 
 namespace gsys {
 
-SockEntity::SockEntity(const GUint32 ip, const GUint16 port) : m_sockfd(-1), m_sockLen(0)
+SockEntity::SockEntity() : SockEntity(INADDR_ANY, 0) {}
+
+SockEntity::SockEntity(const GUint32 ip, const GUint16 port/*0*/) : m_sockfd(-1), m_addrLen(0)
 {
 	bzero(m_sockAddr, sizeof(sockaddr_in));	
 	m_sockAddr.sin_family = AF_INET;		// RF_INET
 	m_sockAddr.sin_port = htons(port);		// port
 	m_sockAddr.sin_addr.s_addr = ip;		// IP
 	memset(&(m_sockAddr.sin_zero), 0, 8);		// set 0
-	m_sockLen = sizeof(struct sockaddr);
+	m_addrLen = sizeof(struct sockaddr);
 }
 
 SockEntity::~SockEntity()
@@ -53,7 +55,18 @@ GInt32 SockEntity::getSockfd() const
 	return m_sockfd;
 }
 
-Socket::Socket(const GUint32 ip, const GUint16 port) : m_sockEntity(ip, port) {}
+const sockaddr_in& SockEntity::getSockAddr() const
+{
+	return m_sockAddr;
+}
+
+socklen_t& SockEntity::getAddrLen() const
+{
+	return m_addrLen;
+}
+
+Socket::Socket() : m_sockEntity(), m_isInit(false) {}
+Socket::Socket(const GUint32 ip, const GUint16 port/*0*/) : m_sockEntity(ip, port), m_isInit(false) {}
 Socket::~Socket() {}
 
 GUint32 Socket::getIP() const
@@ -66,9 +79,57 @@ GUint32 Socket::getPort() const
 	m_sockEntity.getPort();
 }
 
-GResult Socket::init(const GInt32 domain/*AF_INET*/, const GInt32 type/*SOCK_STREAM*/)
+GResult Socket::init(const GInt32 domain/*AF_INET*/, const GInt32 type/*SOCK_STREAM*/, const GInt32 protocol/*0*/)
 {
-	GInt31 sockfd = socket(domain, type, 0)
+	switch (domain)
+	{
+	case AF_INET:
+	case AF_INET6:
+	case AF_LOCAL:
+	case AF_UNIX:
+	case AF_ROUTE:
+		break;
+	default:
+		return G_NO;
+	}
+	
+	switch (type)
+	{
+	case SOCK_STREAM: // TCP
+	case SOCK_DGRAM: // UDP
+	case SOCK_RAW:
+	case SOCK_PACKET:
+	case SOCK_SEQPACKET:
+		break;
+	default:
+		return G_NO;
+	}
+	
+	if (protocol != 0)
+	{
+		switch (protocol)
+		{
+		case IPPROTO_TCP:
+		case IPPROTO_UDP:
+		case IPPROTO_SCTP:
+		case IPPROTO_TIPC:
+			break;
+		default:
+			return G_NO;
+		}
+	}
+	
+	if (domain == SOCK_STREAM && protocol != IPPROTO_TCP)
+	{
+		return G_NO;
+	}
+
+	if (domain == SOCK_DGRAM && protocol != IPPROTO_UDP)
+	{
+		return G_NO;
+	}	
+	
+	GInt32 sockfd = ::socket(domain, type, protocol)
 	if (sockfd < 0)
 	{
 		return G_NO;
@@ -78,6 +139,8 @@ GResult Socket::init(const GInt32 domain/*AF_INET*/, const GInt32 type/*SOCK_STR
 
 	// init socket option
 	initOption();
+	
+	m_isInit = true;
 
 	return G_YES;
 }
@@ -87,7 +150,7 @@ GResult Socket::uninit(const GInt32 how/*0*/)
 	// how = 0 : stop receive data
 	// how = 1 : stop send data
 	// how = 2 : both above way
-	if (m_sockEntity.getSockfd() < 0)
+	if (!m_isInit)
 	{
 	    return G_YES;
 	}
@@ -97,7 +160,7 @@ GResult Socket::uninit(const GInt32 how/*0*/)
 
 GInt64 Socket::send(const GUint8* data, const GUint64 len, const GInt32 flags)
 {
-	if (m_sockEntity.getSockfd() < 0)
+	if (!m_isInit)
 	{
 	    return -1;
 	}
@@ -107,7 +170,7 @@ GInt64 Socket::send(const GUint8* data, const GUint64 len, const GInt32 flags)
 
 GInt64 Socket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags)
 {
-	if (m_sockEntity.getSockfd() < 0)
+	if (!m_isInit)
 	{
 	    return -1;
 	}
@@ -193,30 +256,51 @@ GResult Socket::initOption()
 	return ret;
 }
 
-ServerSocket::ServerSocket(const GUint32 ip, const GUint16 port) : Socket(ip, port) {}
+ServerSocket::ServerSocket() : Socket() {}
+ServerSocket::ServerSocket(const GUint32 ip, const GUint16 port/*0*/) : Socket(ip, port) {}
 ServerSocket::~ServerSocket() {}
 
-GResult ServerSocket::bind()
+GResult ServerSocket::bind(m_sockEntity.getSockfd())
 {
+	if (!m_isInit)
+	{
+		return G_NO;
+	}
 	
-	return G_YES;
+	return ::bind(m_sockEntity.getSockfd(), &m_sockEntity.getSockAddr(), m_sockEntity.getAddrLen()) < 0 ? G_NO : G_YES;
 }
 
-GResult ServerSocket::listen()
+GResult ServerSocket::listen(const GUint32 maxConnectNum/*20*/)
 {
-	return G_YES;
+	if (!m_isInit)
+	{
+		return G_NO;
+	}
+	
+	return ::listen(m_sockEntity.getSockfd(), maxConnectNum) == 0 ? G_YES : G_NO;
 }
 
-GResult ServerSocket::accept()
+GResult ServerSocket::accept(sockaddr_in& clientSockAddr)
 {
-	return G_YES;
+	if (!m_isInit)
+	{
+		return G_NO;
+	}
+	
+	return ::accept(m_sockEntity.getSockfd(), &clientSockAddr, m_sockEntity.getAddrLen()) < 0 ? G_NO : G_YES;
 }
 
-ClientSocket::ClientSocket(const GUint32 ip, const GUint16 port) : Socket(ip, port) {} 
+ClientSocket::ClientSocket() : Socket() {}
+ClientSocket::ClientSocket(const GUint32 ip, const GUint16 port/*0*/) : Socket(ip, port) {} 
 ClientSocket::~ClientSocket() {}
 
 GResult ClientSocket::connect()
 {
-	return G_YES;
+	if (!m_isInit)
+	{
+		return G_NO;
+	}
+	
+	return ::connect(m_sockEntity.getSockfd(), m_sockEntity.getSockAddr(), m_sockEntity.getAddrLen()) < 0 ? G_NO : G_YES;
 }
 }
