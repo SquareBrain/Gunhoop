@@ -17,10 +17,196 @@
 */
 #include <g_socket.h>
 
-using namespace gsys;
+namespace gsys {
 
-// the max request number, system default value it's 20
-static const GUint32 G_DEF_MAX_REQ = 20;
+SockEntity::SockEntity() : m_ip(0), m_port(0), m_sockfd(-1), m_sockLen(0)
+{
+	bzero(m_sockAddr, sizeof(sockaddr_in));	
+}
+
+SockEntity::~SockEntity()
+{
+}
+
+void SockEntity::setIP(const GUint32 ip)
+{
+	m_ip = ip;
+}
+
+GUint32 SockEntity::getIP() const
+{
+	return m_ip;
+}
+
+void SockEntity::setPort(const GUint32 port) const
+{
+	m_port = port;	
+}
+
+GUint32 SockEntity::getPort() const
+{
+	return m_port;
+}
+
+
+void SockEntity::setSockfd(const GInt32 sockfd) const
+{
+	m_sockfd = sockfd;
+}
+
+GInt32 SockEntity::getSockfd() const
+{
+	return m_sockfd;
+}
+
+void SockEntity::setSockAddr(const sockaddr_in sockaddr) const
+{
+	m_sockAddr = sockAddr;
+}
+
+sockaddr_in SockEntity::getSockAddr() const
+{
+	return m_sockAddr;
+}
+
+void SockEntity::setSockLen(const socklen_t sockLen) const
+{
+	m_sockLen = sockLen;
+}
+
+socklen_t SockEntity::getSockLen() const
+{
+	return m_sockLen;
+}
+
+SockTransfer::SockTransfer() {}
+
+SockTransfer~SockTransfer() {}
+
+GInt64 SockTransfer::send(const SockEntity& sockEntity, 
+	const GUint8* data, 
+	const GUint64 len, 
+	const GInt32 flags)
+{
+	return ::send(sockEntity.getSockfd(), data, len, flags);
+}
+
+GInt64 SockTransfer::recv(const SockEntity& sockEntity, 
+	GUint8* buffer, 
+	const GUint64 size, 
+	const GInt32 flags)
+{
+	return ::recv(sockEntity.getSockfd(), buffer, size, flags);
+}
+
+
+ServerSocket::ServerSocket() : ServerSocket(0, 0) {}
+ServerSocket::ServerSocket(const GUint32 ip, const GUint16 port)
+{
+	m_sockEntity.setIP(ip);
+	m_sockEntity.setPort(ip);
+}
+
+ServerSocket::~ServerSocket() {}
+
+void ServerSocket::setIP(const GUint32 ip)
+{
+	m_sockEntity.setIP(ip);
+}
+
+GUint32 ServerSocket::getIP() const
+{
+	return m_sockEntity.getIP();
+}
+
+void ServerSocket::setPort(const GUint32 port) const
+{
+	m_sockEntity.setPort(port);	
+}
+
+GUint32 ServerSocket::getPort() const
+{
+	m_sockEntity.getPort();
+}
+	
+GResult ServerSocket::init(const GInt32 domain/*AF_INET*/, const GInt32 type/*SOCK_STREAM*/)
+{
+	return G_YES;
+}
+
+GResult ServerSocket::uninit(const GInt32 how/*0*/)
+{
+	return G_YES;
+}
+
+GResult ServerSocket::bind()
+{
+	return G_YES;
+}
+
+GResult ServerSocket::listen()
+{
+	return G_YES;
+}
+
+GResult ServerSocket::accept()
+{
+	return G_YES;
+}
+
+ClientSocket::ClientSocket() : ClientSocket(0, 0) {}
+ClientSocket::ClientSocket(const GUint32 ip, const GUint16 port) 
+{
+	m_sockEntity.setIP(ip);
+	m_sockEntity.setPort(ip);	
+}
+
+ClientSocket::~ClientSocket() {}
+
+void ClientSocket::setIP(const GUint32 ip)
+{
+	m_sockEntity.setIP(ip);
+}
+
+GUint32 ClientSocket::getIP() const
+{
+	return m_sockEntity.getIP();
+}
+
+void ClientSocket::setPort(const GUint32 port) const
+{
+	m_sockEntity.setPort(port);	
+}
+
+GUint32 ClientSocket::getPort() const
+{
+	m_sockEntity.getPort();
+}
+
+GResult ClientSocket::init(const GInt32 domain/*AF_INET*/, const GInt32 type/*SOCK_STREAM*/)
+{
+	return G_YES;
+}
+
+GResult ClientSocket::uninit(const GInt32 how/*0*/)
+{
+	return G_YES;	
+}
+
+GResult ClientSocket::connect()
+{
+	return G_YES;
+}
+	
+GInt64 ClientSocket::send(const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
+{
+	return SockTransfer::send(m_sockEntify.getSockfd(), data, len, flags);
+}
+
+GInt64 ClientSocket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+{
+	return SockTransfer::recv(m_sockEntify.getSockfd(), buffer, size, flags);
+}
 
 Socket::Socket() : m_sockfd(-1), m_addrLen(0)
 {
@@ -179,4 +365,5 @@ GResult Socket::initOption()
 	*/
 
 	return ret;
+}
 }
