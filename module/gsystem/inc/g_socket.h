@@ -207,6 +207,13 @@ public:
 	GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
 	
 private:
+	/**
+	 * @brief setting socket options 
+	 * @return G_YES/G_NO
+	 */		
+	GResult initOption();
+	
+private:
 	SockEntity	m_sockEntity;
 };
 
