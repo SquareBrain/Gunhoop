@@ -34,21 +34,19 @@ namespace gsys {
 class SockEntity
 {
 public:
-	SockEntity();
+	explicit SockEntity(const GUint32 ip, const GUint16 port);
 	~SockEntity();
 	
 	/**
 	 * @brief set/get IP address
 	 * @return
 	 */		
-	void setIP(const GUint32 ip);
 	GUint32 getIP() const;
 
 	/**
 	 * @brief set/get port
 	 * @return 
 	 */		
-	void setPort(const GUint32 port) const;
 	GUint32 getPort() const;
 	
 	/**
@@ -58,23 +56,7 @@ public:
 	void setSockfd(const GInt32 sockfd) const;
 	GInt32 getSockfd() const;
 	
-	/**
-	 * @brief set/get sockaddr
-	 * @return 
-	 */		
-	void setSockAddr(const sockaddr_in sockaddr) const;
-	sockaddr_in getSockAddr() const;	
-	
-	/**
-	 * @brief set/get address length
-	 * @return 
-	 */		
-	void setSockLen(const socklen_t sockLen) const;
-	socklen_t getSockLen() const;	
-	
 private:
-	GUint32			m_ip;
-	GUint16			m_port;
 	// socket file descrition
 	GInt32			m_sockfd;
 	// address
@@ -86,63 +68,22 @@ private:
 /** 
  * @brief server socket class
  */
-class SockTransfer
-{
-public:
-	SockTransfer();
-	~SockTransfer();
-	
-	/**
-	 * @brief send data
-	 * @param [in] sockEntity : SockEntity
-	 * @param [in] data : send data
-	 * @param [in] dataLen : data length
-	 * @param [in] flags : flags
-	 * @return size/-1
-	 * @note 
-	 */		
-	static GInt64 send(const SockEntity& sockEntity, 
-		const GUint8* data, 
-		const GUint64 len, 
-		const GInt32 flags);
-	
-	/**
-	 * @brief receive data
-	 * @param [in] sockEntity : SockEntity
-	 * @param [out] buffer : output buffer
-	 * @param [in] bufferSize : buffer size
-	 * @param [in] flags : flags
-	 * @return size/-1
-	 * @note 
-	 */	
-	static GInt64 recv(const SockEntity& sockEntity, 
-		GUint8* buffer, 
-		const GUint64 size, 
-		const GInt32 flags);	
-};
-
-/** 
- * @brief server socket class
- */
 class Socket
 {
 public:
-	Socket();
-	Socket(const GUint32 ip, const GUint16 port);
+	explicit Socket(const GUint32 ip, const GUint16 port);
 	~Socket();
 	
 	/**
 	 * @brief set/get IP address
 	 * @return
 	 */		
-	void setIP(const GUint32 ip);
 	GUint32 getIP() const;
 
 	/**
 	 * @brief set/get port
 	 * @return 
 	 */		
-	void setPort(const GUint32 port) const;
 	GUint32 getPort() const;	
 	
 	/**
@@ -194,18 +135,16 @@ private:
 /** 
  * @brief server socket class
  */
-class ServerSocket
+class ServerSocket : public Socket
 {
 public:
-	ServerSocket();
-	
 	/**
 	 * @brief constructor
 	 * @param [in] ip : ip address
-	 * @param [in] port : port
+	 * @param [in] port : port, default is 0
 	 * @note 
 	 */			
-	 explicit ServerSocket(const GUint32 ip, const GUint16 port);
+	explicit ServerSocket(const GUint32 ip, const GUint16 port = 0);
 	~ServerSocket();
 	
 	/**
@@ -233,18 +172,16 @@ public:
 /** 
  * @brief client socket class
  */
-class ClientSocket
+class ClientSocket : public Socket
 {
 public:
-	ClientSocket();
-
 	/**
 	 * @brief constructor
 	 * @param [in] ip : ip address
-	 * @param [in] port : port
+	 * @param [in] port : port, default is 0
 	 * @note 
 	 */			
-	explicit ClientSocket(const GUint32 ip, const GUint16 port);
+	explicit ClientSocket(const GUint32 ip, const GUint16 port = 0);
 	~ClientSocket();
 	
 	/**
