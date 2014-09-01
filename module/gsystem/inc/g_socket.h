@@ -29,48 +29,62 @@
 namespace gsys {
 	
 /** 
- * @brief posix socket wrapper class
+ * @brief socket base class
  */
-class Socket
+class SocketEntity
 {
 public:
-	Socket();
-
+	SocketEntity();
+	explicit SocketEntity(const GUint32 ip, const GUint16 port);
+	~SocketEntity();
+	
 	/**
-	 * @brief constructor
-	 * @param [in] ip : ip address
-	 * @param [in] port : port
-	 * @note 
-	 */			
-	Socket(const GUint32 ip, const GUint16 port);
-
-	/**
-	 * @brief copy constructor
-	 * @param [in] socket : socket
-	 * @note 
-	 */			
-	Socket(const Socket& socket);
-	~Socket();
-
-	/**
-	 * @brief init socket
-	 * @param [in] domain : domain
-	 * @param [in] type : socket type
-	 * @return G_YES/G_NO
-	 * @note 
+	 * @brief set/get IP address
+	 * @return
 	 */		
-	GResult openSocket(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
-			
+	void setIP(const GUint32 ip);
+	GUint32 getIP() const;
+
+	/**
+	 * @brief set/get port
+	 * @return 
+	 */		
+	void setPort(const GUint32 port) const;
+	GUint32 getPort() const;
+	
+	/**
+	 * @brief set/get address length
+	 * @return 
+	 */		
+	void setAddrLen(const GInt32 addrLen) const;
+	GInt32 getAddrLen() const;	
+	
+private:
+	// GSocket file descrition
+	GInt32			m_sockfd;
+	// address
+	sockaddr_in		m_addr;
+	// address length
+	socklen_t		m_addrLen;	
+};
+
+class SocketTransfer
+{
+public:
+	SocketTransfer();
+	~SocketTransfer();
+	
 	/**
 	 * @brief send data
+	 * @param [in] socketEntity : 
 	 * @param [in] data : send data
 	 * @param [in] dataLen : data length
 	 * @param [in] flags : flags
 	 * @return size/-1
 	 * @note 
 	 */		
-	GInt64 sendData(const GUint8* data, const GUint64 length, const GInt32 flags = MSG_NOSIGNAL);
-
+	static GInt64 send(const SocketEntity& socketEntity, const GUint8* data, const GUint64 length, const GInt32 flags = MSG_NOSIGNAL);
+	
 	/**
 	 * @brief receive data
 	 * @param [out] buffer : output buffer
@@ -79,35 +93,141 @@ public:
 	 * @return size/-1
 	 * @note 
 	 */	
-	GInt64 recvData(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
-
+	static GInt64 recv(const SocketEntity& socketEntity, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
+};
+	
+/** 
+ * @brief server socket class
+ */
+class ServerSocket
+{
+public:
+	ServerSocket();
+	
+	/**
+	 * @brief constructor
+	 * @param [in] ip : ip address
+	 * @param [in] port : port
+	 * @note 
+	 */			
+	 explicit ServerSocket(const GUint32 ip, const GUint16 port);
+	 
+	~ServerSocket();
+	
+	/**
+	 * @brief init socket
+	 * @return G_YES/G_NO
+	 * @note 
+	 */		
+	GResult init(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
+	
 	/**
 	 * @brief shutdown connecting
 	 * @param [in] how : way
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-	GResult closeSocket(const GInt32 how = 0);
-		
+	GResult uninit(const GInt32 how = 0);	
+	
 	/**
-	 * @brief setting address
+	 * @brief bind address and port
+	 * @return G_YES/G_NO
+	 * @note 
+	 */	
+	GResult bind();	
+	
+	/**
+	 * @brief listen port
+	 * @return G_YES/G_NO
+	 * @note 
+	 */	
+	GResult listen();	
+	
+	/**
+	 * @brief waitting for connect
+	 * @return G_YES/G_NO
+	 * @note 
+	 */	
+	GResult accept();	
+	
+private:
+	SocketEntity	m_socketEntity;
+};
+
+/** 
+ * @brief client socket class
+ */
+class ClientSocket
+{
+public:
+	ClientSocket();
+
+	/**
+	 * @brief constructor
 	 * @param [in] ip : ip address
 	 * @param [in] port : port
 	 * @note 
-	 */		
-	void setAddr(const GUint32 ip, const GUint16 port);
-
+	 */			
+	explicit ClientSocket(const GUint32 ip, const GUint16 port);
+	~ClientSocket();
+	
 	/**
-	 * @brief get ip address
-	 * @return ip address
+	 * @brief set/get IP address
+	 * @return
 	 */		
+	void setIP(const GUint32 ip);
 	GUint32 getIP() const;
 
 	/**
-	 * @brief get port
-	 * @return port
+	 * @brief set/get port
+	 * @return 
 	 */		
-	GUint16 getPort() const;
+	void setPort(const GUint32 port) const;
+	GUint32 getPort() const;
+
+	/**
+	 * @brief init socket
+	 * @param [in] domain : domain
+	 * @param [in] type : socket type
+	 * @return G_YES/G_NO
+	 * @note 
+	 */		
+	GResult init(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM/*SOCK_DGRAM*/);
+	
+	/**
+	 * @brief shutdown connecting
+	 * @param [in] how : way
+	 * @return G_YES/G_NO
+	 * @note 
+	 */	
+	GResult uninit(const GInt32 how = 0);	
+	
+	/**
+	 * @brief connect socket
+	 * @return G_YES/G_NO
+	 * @note 
+	 */		
+	GResult connect();	
+
+	/**
+	 * @brief send data
+	 * @param [in] data : send data
+	 * @param [in] dataLen : data length
+	 * @param [in] flags : flags
+	 * @return size/-1
+	 * @note 
+	 */		
+	GInt64 send(const GUint8* data, const GUint64 length, const GInt32 flags = MSG_NOSIGNAL);
+	
+	/**
+	 * @brief receive data
+	 * @param [out] buffer : output buffer
+	 * @param [in] bufferSize : buffer size
+	 * @param [in] flags : flags
+	 * @return size/-1
+	 * @note 
+	 */	
+	GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 
 private:
 	/**
@@ -117,11 +237,6 @@ private:
 	GResult initOption();
 
 private:
-	// GSocket file descrition
-	GInt32		m_sockfd;
-	// address
-	sockaddr_in	m_addr;
-	// address length
-	socklen_t	m_addrLen;			
+	SocketEntity	m_socketEntity;				
 };
 }
