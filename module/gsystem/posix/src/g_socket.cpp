@@ -18,54 +18,110 @@
 #include <g_socket.h>
 
 namespace gsys {
+	
+const struct in6_addr IN6ADDR_ANY = IN6ADDR_ANY_INIT;
 
-SockEntity::SockEntity() : SockEntity(INADDR_ANY, 0) {}
+IPv4Entity::IPv4Entity() : IPv4Entity(INADDR_ANY, 0) {}
 
-SockEntity::SockEntity(const GUint32 ip, const GUint16 port/*0*/) : m_sockfd(-1), m_addrLen(0)
+IPv4Entity::IPv4Entity(const GUint32 ip, const GUint16 port/*0*/) : m_sockfd(-1), m_addrLen(0)
 {
-	bzero(m_sockAddr, sizeof(sockaddr_in));	
-	m_sockAddr.sin_family = AF_INET;		// RF_INET
+	m_addrLen = sizeof(struct sockaddr_in);
+	bzero(&m_sockAddr, m_addrLen);
+	
+	m_sockAddr.sin_family = AF_INET;		// IPv4
 	m_sockAddr.sin_port = htons(port);		// port
-	m_sockAddr.sin_addr.s_addr = ip;		// IP
-	memset(&(m_sockAddr.sin_zero), 0, 8);		// set 0
-	m_addrLen = sizeof(struct sockaddr);
+	m_sockAddr.sin_addr.s_addr = htonl(ip);		// IP
 }
 
-SockEntity::~SockEntity()
+IPv4Entity::~IPv4Entity()
 {
 }
 
-GUint32 SockEntity::getIP() const
+GUint32 IPv4Entity::getIP() const
 {
-	return ntohl(m_addr.sin_addr.s_addr);
+	return ntohl(m_sockAddr.sin_addr.s_addr);
 }
 
-GUint16 SockEntity::getPort() const
+GUint16 IPv4Entity::getPort() const
 {
-	return ntohs(m_addr.sin_port);
+	return ntohs(m_sockAddr.sin_port);
 }
 
-void SockEntity::setSockfd(const GInt32 sockfd) const
+void IPv4Entity::setSockfd(const GInt32 sockfd) const
 {
 	m_sockfd = sockfd;
 }
 
-GInt32 SockEntity::getSockfd() const
+GInt32 IPv4Entity::getSockfd() const
 {
 	return m_sockfd;
 }
 
-const sockaddr_in& SockEntity::getSockAddr() const
+const sockaddr_in& IPv4Entity::getSockAddr() const
 {
 	return m_sockAddr;
 }
 
-socklen_t& SockEntity::getAddrLen() const
+socklen_t& IPv4Entity::getAddrLen() const
 {
 	return m_addrLen;
 }
 
-Socket::Socket() : m_sockEntity(), m_isInit(false) {}
+IPv6Entity::IPv6Entity() : m_sockfd(-1), m_addrLen(0)
+{
+	m_addrLen = sizeof(struct sockaddr_in6);
+	bzero(&m_sockAddr, m_addrLen);
+	
+	m_sockAddr.sin6_family = AF_INET6;	// IPv6
+	m_sockAddr.sin6_port = 0;			// port
+	m_sockAddr.sin6_addr = IN6ADDR_ANY; // addr
+}
+
+IPv6Entity::IPv6Entity(const GUint8* ip, const GUint16 port/*0*/) : m_sockfd(-1), m_addrLen(0)
+{
+	m_addrLen = sizeof(struct sockaddr_in6);
+	bzero(&m_sockAddr, m_addrLen);
+	
+	m_sockAddr.sin6_family = AF_INET6;		// IPv4
+	m_sockAddr.sin6_port = htons(port);		// port
+	memcpy(m_sockAddr.sin6_addr.s6_addr, ip, 16); // addr 
+}
+
+IPv6Entity::~IPv6Entity()
+{
+}
+
+GUint8* IPv6Entity::getIP() const
+{
+	return m_sockAddr.sin6_addr.s6_addr;
+}
+
+GUint16 IPv6Entity::getPort() const
+{
+	return ntohs(m_sockAddr.sin6_port);
+}
+
+void IPv6Entity::setSockfd(const GInt32 sockfd) const
+{
+	m_sockfd = sockfd;
+}
+
+GInt32 IPv6Entity::getSockfd() const
+{
+	return m_sockfd;
+}
+
+const sockaddr_in6& IPv6Entity::getSockAddr() const
+{
+	return m_sockAddr;
+}
+
+socklen_t& IPv6Entity::getAddrLen() const
+{
+	return m_addrLen;
+}
+
+Socket::Socket() : m_isInit(false) {}
 Socket::Socket(const GUint32 ip, const GUint16 port/*0*/) : m_sockEntity(ip, port), m_isInit(false) {}
 Socket::~Socket() {}
 
@@ -79,57 +135,98 @@ GUint32 Socket::getPort() const
 	m_sockEntity.getPort();
 }
 
-GResult Socket::init(const GInt32 domain/*AF_INET*/, const GInt32 type/*SOCK_STREAM*/, const GInt32 protocol/*0*/)
+GResult Socket::init(const AddrFamily& family, const SockType& type, const NetProtocol& protocol)
 {
-	switch (domain)
+	GInt32 domain = -1;
+	switch (family)
 	{
-	case AF_INET:
-	case AF_INET6:
-	case AF_LOCAL:
-	case AF_UNIX:
-	case AF_ROUTE:
+	case G_AF_IPV4:
+		domain = AF_INET;
 		break;
+	case G_AF_IPV6:
+		domain = AF_INET6;
+		break;	
+	case G_AF_LOCAL:
+		domain = AF_LOCAL;
+		break;	
+	case G_AF_UNIX:
+		domain = AF_UNIX;
+		break;	
+	case G_AF_ROUTE:
+		domain = AF_ROUTE;
+		break;	
+	case G_AF_PACKET:
+		domain = AF_PACKET;
+		break;	
 	default:
 		return G_NO;
 	}
 	
+	GInt32 sockType = -1;
 	switch (type)
 	{
-	case SOCK_STREAM: // TCP
-	case SOCK_DGRAM: // UDP
-	case SOCK_RAW:
-	case SOCK_PACKET:
-	case SOCK_SEQPACKET:
+	case G_SOCK_STREAM:
+		sockType = SOCK_STREAM;
 		break;
+	case G_SOCK_DGRAM:
+		sockType = SOCK_STREAM;
+		break;	
+	case G_SOCK_SEQPACKET:
+		sockType = SOCK_STREAM;
+		break;	
+	case G_SOCK_RAW:
+		sockType = SOCK_STREAM;
+		break;
+	case G_SOCK_RDM:
+		sockType = SOCK_STREAM;
+		break;
+	case G_SOCK_PACKET:
+		sockType = SOCK_STREAM;
+		break;	
+	case G_SOCK_NONBLOCK:
+		sockType = SOCK_STREAM;
+		break;	
+	case G_SOCK_CLOEXEC:
+		sockType = SOCK_STREAM;
+		break;	
 	default:
 		return G_NO;
 	}
 	
-	if (protocol != 0)
+	GInt32 sockProtocol = -1;
+	switch (protocol)
 	{
-		switch (protocol)
+	case G_IPPROTO_TCP:
 		{
-		case IPPROTO_TCP:
-		case IPPROTO_UDP:
-		case IPPROTO_SCTP:
-		case IPPROTO_TIPC:
-			break;
-		default:
-			return G_NO;
+			if (type != G_SOCK_STREAM)
+			{
+				return G_NO;
+			}
+			
+			sockProtocol = IPPROTO_TCP;
 		}
-	}
-	
-	if (domain == SOCK_STREAM && protocol != IPPROTO_TCP)
-	{
-		return G_NO;
-	}
-
-	if (domain == SOCK_DGRAM && protocol != IPPROTO_UDP)
-	{
+		break;
+	case G_IPPROTO_UDP:
+		{
+			if (type != SOCK_DGRAM)
+			{
+				return G_NO;
+			}		
+			
+			sockProtocol = IPPROTO_TCP;
+		}
+		break;		
+	case G_IPPROTO_SCTP:
+		sockProtocol = IPPROTO_SCTP;
+		return G_NO; // not support
+	case G_IPPROTO_TIPC:
+		sockProtocol = IPPROTO_TIPC;
+		return G_NO; // not support
+	default:
 		return G_NO;
 	}	
 	
-	GInt32 sockfd = ::socket(domain, type, protocol)
+	GInt32 sockfd = ::socket(domain, sockType, sockProtocol)
 	if (sockfd < 0)
 	{
 		return G_NO;
