@@ -29,17 +29,62 @@
 namespace gsys {
 	
 /** 
- * @brief socket base class
+ * @brief address family
  */
-class SockEntity
+typedef enum 
+{
+	// AF_INET
+	G_AF_IPV4,
+	// AF_INET6
+	G_AF_IPV6,
+	G_AF_LOCAL,
+	G_AF_UNIX,
+	G_AF_ROUTE,
+	G_AF_PACKET
+} AddrFamily;
+
+/** 
+ * @brief transfer type
+ */
+typedef enum 
+{
+	// tcp
+	G_SOCK_STREAM,
+	// udp
+	G_SOCK_DGRAM,
+	G_SOCK_SEQPACKET,
+	G_SOCK_RAW,
+	G_SOCK_RDM,
+	G_SOCK_PACKET,
+	G_SOCK_NONBLOCK,
+	G_SOCK_CLOEXEC
+} SockType;
+
+/** 
+ * @brief network protocol
+ */
+typedef enum 
+{
+	// SOCK_STREAM
+	G_IPPROTO_TCP,
+	// SOCK_DGRAM
+	G_IPPROTO_UDP,
+	G_IPPROTO_SCTP,
+	G_IPPROTO_TIPC
+} NetProtocol;
+	
+/** 
+ * @brief IPv4 
+ */
+class IPv4Entity
 {
 public:
 	/**
 	 * auto get local address, and rand setting a port
 	 */
-	SockEntity();
-	explicit SockEntity(const GUint32 ip, const GUint16 port = 0);
-	~SockEntity();
+	IPv4Entity();
+	explicit IPv4Entity(const GUint32 ip, const GUint16 port = 0);
+	~IPv4Entity();
 	
 	/**
 	 * @brief set/get IP address
@@ -82,6 +127,59 @@ private:
 };
 
 /** 
+ * @brief IPv6
+ */
+class IPv6Entity
+{
+public:
+	/**
+	 * auto get local address, and rand setting a port
+	 */
+	IPv6Entity();
+	explicit IPv6Entity(const GUint8* ip, const GUint16 port = 0);
+	~IPv6Entity();
+	
+	/**
+	 * @brief set/get IP address
+	 * @return
+	 */		
+	GUint8* getIP() const;
+
+	/**
+	 * @brief set/get port
+	 * @return 
+	 */		
+	GUint32 getPort() const;
+	
+	/**
+	 * @brief set/get socket fd
+	 * @return 
+	 */		
+	void setSockfd(const GInt32 sockfd) const;
+	GInt32 getSockfd() const;
+	
+	/**
+	 * @brief set/get sock addr
+	 * @return 
+	 */		
+	const sockaddr_in6& getSockAddr() const;	
+	
+	/**
+	 * @brief set/get addr length
+	 * @return 
+	 */		
+	socklen_t& getAddrLen() const;		
+	
+private:
+	// socket file descrition
+	GInt32			m_sockfd;
+	// address
+	sockaddr_in6	m_sockAddr;
+	// sock length
+	socklen_t		m_addrLen;	
+};
+
+/** 
  * @brief server socket class
  */
 class Socket
@@ -108,7 +206,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-	virtual GResult init(const GInt32 domain = AF_INET, const GInt32 type = SOCK_STREAM, const GInt32 protocol = 0);
+	virtual GResult init(const AddrFamily& family, const SockType& type, const NetProtocol& protocol);
 	
 	/**
 	 * @brief shutdown connecting
