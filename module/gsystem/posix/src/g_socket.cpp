@@ -21,20 +21,25 @@ namespace gsys {
 	
 const struct in6_addr IN6ADDR_ANY = IN6ADDR_ANY_INIT;
 
-SockEntity::SockEntity() : m_sockfd(-1), m_addrLen(0) {}
+SockAddr::SockAddr() : m_addrLen(0) {}
 
 SockEntity::~SockEntity() {}
 
-void SockEntity::setSockfd(const GInt32 sockfd) const
+GUint32 IPv4Entity::getAddrLen() const
 {
-	m_sockfd = sockfd;
+	return m_addrLen;
 }
 
-GInt32 SockEntity::getSockfd() const
+const sockaddr_in* getSockAddr() const
 {
-	return m_sockfd;
+	return nullptr;
 }
 
+const sockaddr_in6* getSockAddr() const
+{
+	return nullptr;
+}
+	
 GUint32 SockEntity::getIP() const
 {
 	return 0;
@@ -45,14 +50,8 @@ GUint8* SockEntity::getIP() const
 	return nullptr;
 }
 
-GUint32 IPv4Entity::getAddrLen() const
-{
-	return m_addrLen;
-}
-
-IPv4Entity::IPv4Entity() : IPv4Entity(INADDR_ANY, 0) {}
-
-IPv4Entity::IPv4Entity(const GUint32 ip, const GUint16 port/*0*/)
+IPv4Addr::IPv4Addr() : IPv4Addr(INADDR_ANY, 0) {}
+IPv4Addr::IPv4Addr(const GUint32 ip, const GUint16 port/*0*/)
 {
 	m_addrLen = sizeof(struct sockaddr_in);	
 	bzero(&m_sockAddr, m_addrLen);
@@ -62,31 +61,29 @@ IPv4Entity::IPv4Entity(const GUint32 ip, const GUint16 port/*0*/)
 	m_sockAddr.sin_addr.s_addr = htonl(ip);		// IP
 }
 
-IPv4Entity::~IPv4Entity()
-{
-}
+IPv4Addr::~IPv4Addr() {}
 
-GUint32 IPv4Entity::getIP() const
+GUint32 IPv4Addr::getIP() const
 {
 	return ntohl(m_sockAddr.sin_addr.s_addr);
 }
 
-GUint8* IPv4Entity::getIP() const
+GUint8* IPv4Addr::getIP() const
 {
 	return inet_ntoa(m_sockAddr);
 }
 
-GUint16 IPv4Entity::getPort() const
+GUint16 IPv4Addr::getPort() const
 {
 	return ntohs(m_sockAddr.sin_port);
 }
 
-const sockaddr_in& IPv4Entity::getSockAddr() const
+const sockaddr_in* IPv4Addr::getSockAddr() const
 {
-	return m_sockAddr;
+	return &m_sockAddr;
 }
 
-IPv6Entity::IPv6Entity() : m_sockfd(-1), m_addrLen(0)
+IPv6Addr::IPv6Addr()
 {
 	m_addrLen = sizeof(struct sockaddr_in6);
 	bzero(&m_sockAddr, m_addrLen);
@@ -96,7 +93,7 @@ IPv6Entity::IPv6Entity() : m_sockfd(-1), m_addrLen(0)
 	m_sockAddr.sin6_addr = IN6ADDR_ANY; // addr
 }
 
-IPv6Entity::IPv6Entity(const GUint8* ip, const GUint16 port/*0*/) : m_sockfd(-1), m_addrLen(0)
+IPv6Addr::IPv6Addr(const GUint8 ip[16], const GUint16 port/*0*/)
 {
 	m_addrLen = sizeof(struct sockaddr_in6);
 	bzero(&m_sockAddr, m_addrLen);
@@ -106,87 +103,30 @@ IPv6Entity::IPv6Entity(const GUint8* ip, const GUint16 port/*0*/) : m_sockfd(-1)
 	memcpy(m_sockAddr.sin6_addr.s6_addr, ip, 16); // addr 
 }
 
-IPv6Entity::~IPv6Entity()
-{
-}
+IPv6Addr::~IPv6Addr() {}
 
-GUint8* IPv6Entity::getIP() const
+GUint8* IPv6Addr::getIP() const
 {
 	return m_sockAddr.sin6_addr.s6_addr;
 }
 
-GUint16 IPv6Entity::getPort() const
+GUint16 IPv6Addr::getPort() const
 {
 	return ntohs(m_sockAddr.sin6_port);
 }
 
-const sockaddr_in6& IPv6Entity::getSockAddr() const
+const sockaddr_in6* IPv6Addr::getSockAddr() const
 {
-	return m_sockAddr;
+	return &m_sockAddr;
 }
 
-Socket::Socket(const AddrFamily& addrFamily) 
-	: m_addrFamily(addrFamily), m_sockEntity(nullptr), m_isInit(false)
-{
-	switch (m_addrFamily)
-	{
-	case G_AF_IPV4:
-		m_sockEntity = new IPv4Entity();
-		break;
-	case G_AF_IPV6:
-		m_sockEntity = new IPv6Entity();
-		break;
-	default:
-		break;
-	}
-}
-
-Socket::Socket(const GAddrIPv4& ip, const GUint16 port/*0*/) 
-	: m_addrFamily(G_AF_IPV4), m_sockEntity(nullptr), m_isInit(false)
-{
-	m_sockEntity = new IPv4Entity(ip, port);
-}
-
-Socket::Socket(const GAddrIPv6& ip, const GUint16 port/*0*/) 
-	: m_addrFamily(G_AF_IPV6), m_sockEntity(nullptr), m_isInit(false)
-{
-	m_sockEntity = new IPv6Entity(ip, port);	
-}
+Socket::Socket(const std::shared_ptr<SockAddr>& sockAddr) 
+	: m_sockfd(-1), m_sockAddr(sockAddr), m_isInit(false) {}
 
 Socket::~Socket() 
 {
-	delete m_sockEntity;
-	m_sockEntity = nullptr;
-}
-
-GUint32 Socket::getIP() const
-{
-	if (m_sockEntity != nullptr)
-	{
-		return m_sockEntity->getIP();
-	}
-	
-	return 0;
-}
-
-GUint8* Socket::getIPv6() const
-{
-	if (m_sockEntity != nullptr)
-	{
-		return m_sockEntity->getIP();
-	}
-	
-	return 0;
-}
-
-GUint32 Socket::getPort() const
-{
-	if (m_sockEntity != nullptr)
-	{	
-		m_sockEntity.getPort();
-	}
-	
-	return 0;
+	delete m_sockAddr;
+	m_sockAddr = nullptr;
 }
 
 GResult Socket::init(const AddrFamily& family, const SockType& type, const NetProtocol& protocol)
@@ -280,13 +220,11 @@ GResult Socket::init(const AddrFamily& family, const SockType& type, const NetPr
 		return G_NO;
 	}	
 	
-	GInt32 sockfd = ::socket(domain, sockType, sockProtocol)
-	if (sockfd < 0)
+	GInt32 m_sockfd = ::socket(domain, sockType, sockProtocol)
+	if (m_sockfd < 0)
 	{
 		return G_NO;
 	}
-	
-	m_sockEntify.setSockfd(sockfd);
 
 	// init socket option
 	initOption();
@@ -306,27 +244,117 @@ GResult Socket::uninit(const GInt32 how/*0*/)
 	    return G_YES;
 	}
 
-	return (shutdown(m_sockEntity.getSockfd(), how) == 0 ? G_YES : G_NO);
+	return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
 }
 
-GInt64 Socket::send(const GUint8* data, const GUint64 len, const GInt32 flags)
+const std::shared_ptr<SockAddr>& Socket::getSockAddr() const
+{
+	return m_sockAddr;
+}
+
+GResult Socket::bind()
 {
 	if (!m_isInit)
 	{
 	    return -1;
 	}
 	
-	return ::send(m_sockEntity.getSockfd(), data, len, flags);
+	return ::bind(m_sockfd, &m_sockAddr->getSockAddr() , m_sockAddr->getAddrLen()) < 0 ? G_NO : G_YES;
 }
 
-GInt64 Socket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags)
+GResult Socket::listen(const GUint32 maxConnectNum/*20*/)
 {
 	if (!m_isInit)
 	{
 	    return -1;
 	}
 	
-	return ::recv(m_sockEntity.getSockfd(), buffer, size, flags);
+	return ::listen(m_sockfd, maxConnectNum) == 0 ? G_YES : G_NO;
+}
+
+GResult Socket::accept(sockaddr_in& clientAddr)
+{
+	if (!m_isInit)
+	{
+	    return -1;
+	}
+	
+	return ::accept(m_sockfd, &clientAddr, sizeof(sockaddr_in)) < 0 ? G_NO : G_YES;
+}
+
+GResult Socket::accept(sockaddr_in6& clientAddr)
+{
+	if (!m_isInit)
+	{
+	    return -1;
+	}
+	
+	return ::accept(m_sockfd, &clientAddr, sizeof(sockaddr_in6)) < 0 ? G_NO : G_YES;
+}
+
+GResult Socket::connect()
+{
+	
+}
+
+GInt64 Socket::send(const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
+{
+	if (!m_isInit)
+	{
+	    return -1;
+	}
+	
+	return ::send(m_sockfd, data, len, flags);
+}
+
+GInt64 Socket::sendmsg(const struct msghdr* msg, const GInt32 flags/*MSG_NOSIGNAL*/)
+{
+	if (!m_isInit)
+	{
+	    return -1;
+	}
+	
+	return ::sendmsg(m_sockfd, msg, flags);	
+}
+
+GInt64 Socket::sendto(const sockaddr_in& dstAddr, const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
+{
+	return ::send(m_sockfd, data, len, flags, &dstAddr, sizeof(sockaddr_in));	
+}
+
+GInt64 Socket::sendto(const sockaddr_in6& dstAddr, const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
+{
+	return ::send(m_sockfd, data, len, flags, &dstAddr, sizeof(sockaddr_in6));	
+}
+
+GInt64 Socket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+{
+	if (!m_isInit)
+	{
+	    return -1;
+	}
+	
+	return ::recv(m_sockfd, buffer, size, flags);
+}
+
+GInt64 Socket::recvmsg(struct msghdr* msg, const GInt32 flags/*0*/)
+{
+	if (!m_isInit)
+	{
+	    return -1;
+	}
+	
+	return ::recvmsg(m_sockfd, msg, flags);	
+}
+
+GInt64 Socket::recvfrom(sockaddr_in& srcAddr, GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+{
+	if (!m_isInit)
+	{
+	    return -1;
+	}
+	
+	return ::recv(m_sockfd, buffer, size, flags, &srcAddr, sizeof(sockaddr_in));	
 }
 
 GResult Socket::initOption()
@@ -407,8 +435,17 @@ GResult Socket::initOption()
 	return ret;
 }
 
-ServerSocket::ServerSocket(Socket* socket) : m_socket(nullptr) {}
-ServerSocket::~ServerSocket() {}
+ServerSocket::ServerSocket(const std::shared_ptr<Socket>& socket) : m_socket(socket) {}
+ServerSocket::~ServerSocket() 
+{
+	delete m_socket;
+	m_socket = nullptr;
+}
+
+const std::shared_ptr<Socket>& ServerSocket::getSocket() const
+{
+	return m_socket;
+}
 
 GResult ServerSocket::bind()
 {
@@ -417,7 +454,7 @@ GResult ServerSocket::bind()
 		return G_NO;
 	}
 	
-	return ::bind(m_socket->getSockfd(), &m_socket->getSockAddr(), m_socket->getAddrLen()) < 0 ? G_NO : G_YES;
+	return m_socket->bind();
 }
 
 GResult ServerSocket::listen(const GUint32 maxConnectNum/*20*/)
@@ -427,33 +464,50 @@ GResult ServerSocket::listen(const GUint32 maxConnectNum/*20*/)
 		return G_NO;
 	}
 	
-	return ::listen(m_socket->getSockfd(), maxConnectNum) == 0 ? G_YES : G_NO;
+	return m_socket->listen(maxConnectNum);
 }
 
-GResult ServerSocket::accept(sockaddr_in& clientSockAddr)
+GResult ServerSocket::accept(std::shared_ptr<SockAddr>& cliAddr)
 {
+	if (cliAddr->get() == nullptr)
+	{
+		return G_NO;	
+	}
+	
 	if (m_socket == nullptr)
 	{
 		return G_NO;
 	}
 	
-	return ::accept(m_socket->getSockfd(), &clientSockAddr, m_socket->getAddrLen()) < 0 ? G_NO : G_YES;
+	return m_socket->accept(*cliAddr->getSockAddr());
 }
 
-GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
-
-/**
- * @brief receive data
- * @param [out] buffer : output buffer
- * @param [in] bufferSize : buffer size
- * @param [in] flags : flags
- * @return size/-1
- * @note 
- */	
-GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+GInt64 ServerSocket::recvfrom(std::shared_ptr<SockAddr>& cliAddr, GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+{
+	if (cliAddr->get() == nullptr)
+	{
+		return G_NO;	
+	}
 	
-ClientSocket::ClientSocket(Socket* socket) : m_socket(nullptr) {}
-ClientSocket::~ClientSocket() {}
+	if (m_socket == nullptr)
+	{
+		return G_NO;
+	}
+	
+	return m_socket->recvfrom(*cliAddr->getSockAddr(), buffer, size, flags);	
+}
+	
+ClientSocket::ClientSocket(const std::shared_ptr<Socket>& socket) : m_socket(socket) {}
+ClientSocket::~ClientSocket() 
+{
+	delete m_socket;
+	m_socket = nullptr;
+}
+
+const std::shared_ptr<Socket>& ClientSocket::getSocket() const
+{
+	return m_socket;
+}
 
 GResult ClientSocket::connect()
 {
@@ -462,6 +516,26 @@ GResult ClientSocket::connect()
 		return G_NO;
 	}
 	
-	return ::connect(m_socket->getSockfd(), m_socket->getSockAddr(), m_socket->getAddrLen()) < 0 ? G_NO : G_YES;
+	return m_socket->connect();
+}
+
+GInt64 ClientSocket::send(const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
+{
+	if (m_socket == nullptr)
+	{
+		return G_NO;
+	}
+	
+	return m_socket->send(data, len, flags);	
+}
+
+GInt64 ClientSocket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+{
+	if (m_socket == nullptr)
+	{
+		return G_NO;
+	}
+	
+	return m_socket->recv(buffer, size, flags);	
 }
 }
