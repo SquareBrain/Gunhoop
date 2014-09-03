@@ -240,6 +240,13 @@ public:
 	GInt64 recvfrom(sockaddr_in& srcAddr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 	GInt64 recvfrom(sockaddr_in6& srcAddr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 	
+	/**
+	 * @brief get last error string
+	 * @return error string
+	 * @note 
+	 */		
+	GInt8* getError();		
+	
 private:
 	/**
 	 * @brief setting socket options 
@@ -247,10 +254,18 @@ private:
 	 */		
 	GResult initOption();
 	
+	/**
+	 * @brief origin set program running error
+	 * @param [in] error : error string
+	 * @note 
+	 */		
+	void setError(const GInt8* args, ...);	
+	
 private:
 	GInt32						m_sockfd;	
 	std::shared_ptr<SockAddr>	m_sockAddr;
 	bool						m_isInit;
+	GInt8						m_error[G_ERROR_BUF_SIZE];
 };
 	
 /** 
@@ -300,8 +315,24 @@ public:
 	 */	
 	GInt64 recvfrom(std::shared_ptr<SockAddr>& cliAddr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 	
+	/**
+	 * @brief get last error string
+	 * @return error string
+	 * @note 
+	 */		
+	GInt8* getError();	
+	
 private:
-	std::shared_ptr<Socket> 	m_socket;
+	/**
+	 * @brief origin set program running error
+	 * @param [in] error : error string
+	 * @note 
+	 */		
+	void setError(const GInt8* args, ...);
+	
+private:
+	std::shared_ptr<Socket> m_socket;
+	GInt8					m_error[G_ERROR_BUF_SIZE];
 };
 
 /** 
@@ -345,7 +376,23 @@ public:
 	 */	
 	GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 	
+	/**
+	 * @brief get last error string
+	 * @return error string
+	 * @note 
+	 */		
+	GInt8* getError();	
+	
+private:
+	/**
+	 * @brief origin set program running error
+	 * @param [in] error : error string
+	 * @note 
+	 */		
+	void setError(const GInt8* args, ...);
+	
 private:
 	std::shared_ptr<Socket> m_socket;	
+	GInt8					m_error[G_ERROR_BUF_SIZE];
 };
 }
