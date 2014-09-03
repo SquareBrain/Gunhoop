@@ -21,11 +21,40 @@ namespace gsys {
 	
 const struct in6_addr IN6ADDR_ANY = IN6ADDR_ANY_INIT;
 
+SockEntity::SockEntity() : m_sockfd(-1), m_addrLen(0) {}
+
+SockEntity::~SockEntity() {}
+
+void SockEntity::setSockfd(const GInt32 sockfd) const
+{
+	m_sockfd = sockfd;
+}
+
+GInt32 SockEntity::getSockfd() const
+{
+	return m_sockfd;
+}
+
+GUint32 SockEntity::getIP() const
+{
+	return 0;
+}
+
+GUint8* SockEntity::getIP() const
+{
+	return nullptr;
+}
+
+GUint32 IPv4Entity::getAddrLen() const
+{
+	return m_addrLen;
+}
+
 IPv4Entity::IPv4Entity() : IPv4Entity(INADDR_ANY, 0) {}
 
-IPv4Entity::IPv4Entity(const GUint32 ip, const GUint16 port/*0*/) : m_sockfd(-1), m_addrLen(0)
+IPv4Entity::IPv4Entity(const GUint32 ip, const GUint16 port/*0*/)
 {
-	m_addrLen = sizeof(struct sockaddr_in);
+	m_addrLen = sizeof(struct sockaddr_in);	
 	bzero(&m_sockAddr, m_addrLen);
 	
 	m_sockAddr.sin_family = AF_INET;		// IPv4
@@ -42,29 +71,19 @@ GUint32 IPv4Entity::getIP() const
 	return ntohl(m_sockAddr.sin_addr.s_addr);
 }
 
+GUint8* IPv4Entity::getIP() const
+{
+	return inet_ntoa(m_sockAddr);
+}
+
 GUint16 IPv4Entity::getPort() const
 {
 	return ntohs(m_sockAddr.sin_port);
 }
 
-void IPv4Entity::setSockfd(const GInt32 sockfd) const
-{
-	m_sockfd = sockfd;
-}
-
-GInt32 IPv4Entity::getSockfd() const
-{
-	return m_sockfd;
-}
-
 const sockaddr_in& IPv4Entity::getSockAddr() const
 {
 	return m_sockAddr;
-}
-
-socklen_t& IPv4Entity::getAddrLen() const
-{
-	return m_addrLen;
 }
 
 IPv6Entity::IPv6Entity() : m_sockfd(-1), m_addrLen(0)
@@ -101,38 +120,73 @@ GUint16 IPv6Entity::getPort() const
 	return ntohs(m_sockAddr.sin6_port);
 }
 
-void IPv6Entity::setSockfd(const GInt32 sockfd) const
-{
-	m_sockfd = sockfd;
-}
-
-GInt32 IPv6Entity::getSockfd() const
-{
-	return m_sockfd;
-}
-
 const sockaddr_in6& IPv6Entity::getSockAddr() const
 {
 	return m_sockAddr;
 }
 
-socklen_t& IPv6Entity::getAddrLen() const
+Socket::Socket(const AddrFamily& addrFamily) 
+	: m_addrFamily(addrFamily), m_sockEntity(nullptr), m_isInit(false)
 {
-	return m_addrLen;
+	switch (m_addrFamily)
+	{
+	case G_AF_IPV4:
+		m_sockEntity = new IPv4Entity();
+		break;
+	case G_AF_IPV6:
+		m_sockEntity = new IPv6Entity();
+		break;
+	default:
+		break;
+	}
 }
 
-Socket::Socket() : m_isInit(false) {}
-Socket::Socket(const GUint32 ip, const GUint16 port/*0*/) : m_sockEntity(ip, port), m_isInit(false) {}
-Socket::~Socket() {}
+Socket::Socket(const GAddrIPv4& ip, const GUint16 port/*0*/) 
+	: m_addrFamily(G_AF_IPV4), m_sockEntity(nullptr), m_isInit(false)
+{
+	m_sockEntity = new IPv4Entity(ip, port);
+}
+
+Socket::Socket(const GAddrIPv6& ip, const GUint16 port/*0*/) 
+	: m_addrFamily(G_AF_IPV6), m_sockEntity(nullptr), m_isInit(false)
+{
+	m_sockEntity = new IPv6Entity(ip, port);	
+}
+
+Socket::~Socket() 
+{
+	delete m_sockEntity;
+	m_sockEntity = nullptr;
+}
 
 GUint32 Socket::getIP() const
 {
-	return m_sockEntity.getIP();
+	if (m_sockEntity != nullptr)
+	{
+		return m_sockEntity->getIP();
+	}
+	
+	return 0;
+}
+
+GUint8* Socket::getIPv6() const
+{
+	if (m_sockEntity != nullptr)
+	{
+		return m_sockEntity->getIP();
+	}
+	
+	return 0;
 }
 
 GUint32 Socket::getPort() const
 {
-	m_sockEntity.getPort();
+	if (m_sockEntity != nullptr)
+	{	
+		m_sockEntity.getPort();
+	}
+	
+	return 0;
 }
 
 GResult Socket::init(const AddrFamily& family, const SockType& type, const NetProtocol& protocol)
@@ -353,51 +407,61 @@ GResult Socket::initOption()
 	return ret;
 }
 
-ServerSocket::ServerSocket() : Socket() {}
-ServerSocket::ServerSocket(const GUint32 ip, const GUint16 port/*0*/) : Socket(ip, port) {}
+ServerSocket::ServerSocket(Socket* socket) : m_socket(nullptr) {}
 ServerSocket::~ServerSocket() {}
 
-GResult ServerSocket::bind(m_sockEntity.getSockfd())
+GResult ServerSocket::bind()
 {
-	if (!m_isInit)
+	if (m_socket == nullptr)
 	{
 		return G_NO;
 	}
 	
-	return ::bind(m_sockEntity.getSockfd(), &m_sockEntity.getSockAddr(), m_sockEntity.getAddrLen()) < 0 ? G_NO : G_YES;
+	return ::bind(m_socket->getSockfd(), &m_socket->getSockAddr(), m_socket->getAddrLen()) < 0 ? G_NO : G_YES;
 }
 
 GResult ServerSocket::listen(const GUint32 maxConnectNum/*20*/)
 {
-	if (!m_isInit)
+	if (m_socket == nullptr)
 	{
 		return G_NO;
 	}
 	
-	return ::listen(m_sockEntity.getSockfd(), maxConnectNum) == 0 ? G_YES : G_NO;
+	return ::listen(m_socket->getSockfd(), maxConnectNum) == 0 ? G_YES : G_NO;
 }
 
 GResult ServerSocket::accept(sockaddr_in& clientSockAddr)
 {
-	if (!m_isInit)
+	if (m_socket == nullptr)
 	{
 		return G_NO;
 	}
 	
-	return ::accept(m_sockEntity.getSockfd(), &clientSockAddr, m_sockEntity.getAddrLen()) < 0 ? G_NO : G_YES;
+	return ::accept(m_socket->getSockfd(), &clientSockAddr, m_socket->getAddrLen()) < 0 ? G_NO : G_YES;
 }
 
-ClientSocket::ClientSocket() : Socket() {}
-ClientSocket::ClientSocket(const GUint32 ip, const GUint16 port/*0*/) : Socket(ip, port) {} 
+GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+
+/**
+ * @brief receive data
+ * @param [out] buffer : output buffer
+ * @param [in] bufferSize : buffer size
+ * @param [in] flags : flags
+ * @return size/-1
+ * @note 
+ */	
+GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+	
+ClientSocket::ClientSocket(Socket* socket) : m_socket(nullptr) {}
 ClientSocket::~ClientSocket() {}
 
 GResult ClientSocket::connect()
 {
-	if (!m_isInit)
+	if (m_socket == nullptr)
 	{
 		return G_NO;
 	}
 	
-	return ::connect(m_sockEntity.getSockfd(), m_sockEntity.getSockAddr(), m_sockEntity.getAddrLen()) < 0 ? G_NO : G_YES;
+	return ::connect(m_socket->getSockfd(), m_socket->getSockAddr(), m_socket->getAddrLen()) < 0 ? G_NO : G_YES;
 }
 }
