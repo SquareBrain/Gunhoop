@@ -153,6 +153,7 @@ GResult Socket::init(const AddrFamily& family, const SockType& type, const NetPr
 		domain = AF_PACKET;
 		break;	
 	default:
+		setError("[error]%s:argument family(%d) invalid (%s:%d)\n", __FUNCTION__, family, __FILE__, __LINE__);
 		return G_NO;
 	}
 	
@@ -184,6 +185,7 @@ GResult Socket::init(const AddrFamily& family, const SockType& type, const NetPr
 		sockType = SOCK_STREAM;
 		break;	
 	default:
+		setError("[error]%s:argument type(%d) invalid (%s:%d)\n", __FUNCTION__, type, __FILE__, __LINE__);
 		return G_NO;
 	}
 	
@@ -212,17 +214,22 @@ GResult Socket::init(const AddrFamily& family, const SockType& type, const NetPr
 		break;		
 	case G_IPPROTO_SCTP:
 		sockProtocol = IPPROTO_SCTP;
+		setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
 		return G_NO; // not support
 	case G_IPPROTO_TIPC:
 		sockProtocol = IPPROTO_TIPC;
+		setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
 		return G_NO; // not support
 	default:
+		setError("[error]%s:argument protocol(%d) invalid (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
 		return G_NO;
 	}	
 	
 	GInt32 m_sockfd = ::socket(domain, sockType, sockProtocol)
 	if (m_sockfd < 0)
 	{
+		setError("[error]%s: socket(%d, %d, %d) ret=%d invalid (%s:%d)\n", 
+			__FUNCTION__, domain, sockType, sockProtocol, m_sockfd, __FILE__, __LINE__);
 		return G_NO;
 	}
 
@@ -256,16 +263,18 @@ GResult Socket::bind()
 {
 	if (!m_isInit)
 	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 	    return -1;
 	}
 	
-	return ::bind(m_sockfd, &m_sockAddr->getSockAddr() , m_sockAddr->getAddrLen()) < 0 ? G_NO : G_YES;
+	return ::bind(m_sockfd, m_sockAddr->getSockAddr() , m_sockAddr->getAddrLen()) < 0 ? G_NO : G_YES;
 }
 
 GResult Socket::listen(const GUint32 maxConnectNum/*20*/)
 {
 	if (!m_isInit)
 	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 	    return -1;
 	}
 	
@@ -276,6 +285,7 @@ GResult Socket::accept(sockaddr_in& clientAddr)
 {
 	if (!m_isInit)
 	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 	    return -1;
 	}
 	
@@ -286,6 +296,7 @@ GResult Socket::accept(sockaddr_in6& clientAddr)
 {
 	if (!m_isInit)
 	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 	    return -1;
 	}
 	
@@ -294,13 +305,20 @@ GResult Socket::accept(sockaddr_in6& clientAddr)
 
 GResult Socket::connect()
 {
+	if (!m_isInit)
+	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+	    return -1;
+	}
 	
+	return ::connect(m_sockfd, m_sockAddr->getSockAddr() , m_sockAddr->getAddrLen()) < 0 ? G_NO : G_YES;	
 }
 
 GInt64 Socket::send(const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
 {
 	if (!m_isInit)
 	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 	    return -1;
 	}
 	
@@ -311,6 +329,7 @@ GInt64 Socket::sendmsg(const struct msghdr* msg, const GInt32 flags/*MSG_NOSIGNA
 {
 	if (!m_isInit)
 	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 	    return -1;
 	}
 	
@@ -319,11 +338,23 @@ GInt64 Socket::sendmsg(const struct msghdr* msg, const GInt32 flags/*MSG_NOSIGNA
 
 GInt64 Socket::sendto(const sockaddr_in& dstAddr, const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
 {
+	if (!m_isInit)
+	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+	    return -1;
+	}
+	
 	return ::send(m_sockfd, data, len, flags, &dstAddr, sizeof(sockaddr_in));	
 }
 
 GInt64 Socket::sendto(const sockaddr_in6& dstAddr, const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
 {
+	if (!m_isInit)
+	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+	    return -1;
+	}
+	
 	return ::send(m_sockfd, data, len, flags, &dstAddr, sizeof(sockaddr_in6));	
 }
 
@@ -331,6 +362,7 @@ GInt64 Socket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
 {
 	if (!m_isInit)
 	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 	    return -1;
 	}
 	
@@ -341,6 +373,7 @@ GInt64 Socket::recvmsg(struct msghdr* msg, const GInt32 flags/*0*/)
 {
 	if (!m_isInit)
 	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 	    return -1;
 	}
 	
@@ -351,10 +384,16 @@ GInt64 Socket::recvfrom(sockaddr_in& srcAddr, GUint8* buffer, const GUint64 size
 {
 	if (!m_isInit)
 	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 	    return -1;
 	}
 	
 	return ::recv(m_sockfd, buffer, size, flags, &srcAddr, sizeof(sockaddr_in));	
+}
+
+GInt8* Socket::getError()
+{
+	return m_error;
 }
 
 GResult Socket::initOption()
@@ -376,6 +415,7 @@ GResult Socket::initOption()
 	if (setsockopt(m_sockEntity.getSockfd(), SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
 	{
 	    //G_LOG_WARN(G_LOG_PREFIX, "set address reuse failed");
+	    setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		ret = false;	
 	}
 
@@ -394,24 +434,28 @@ GResult Socket::initOption()
 	// set send data buffer size
 	if (setsockopt(m_sockEntity.getSockfd(), SOL_SOCKET, SO_SNDBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
 	{
+		setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		ret = false;
 	}
 
 	// set receive data buffer size
 	if (setsockopt(m_sockEntity.getSockfd(), SOL_SOCKET, SO_RCVBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
 	{
+		setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		ret = false;
 	}
 
 	// don't copy data from system buffer to GSocket buffer when send data
 	if (setsockopt(m_sockEntity.getSockfd(), SOL_SOCKET, SO_SNDBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
 	{
+		setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		ret = false;
 	}
 
 	// don't copy data from system buffer to GSocket buffer when receive data
 	if (setsockopt(m_sockEntity.getSockfd(), SOL_SOCKET, SO_RCVBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
 	{
+		setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		ret = false;
 	}
 
@@ -435,6 +479,11 @@ GResult Socket::initOption()
 	return ret;
 }
 
+void Socket::setError(const GInt8* args, ...)
+{
+	System::pformat(m_error, G_ERROR_BUF_SIZE, args);
+}
+
 ServerSocket::ServerSocket(const std::shared_ptr<Socket>& socket) : m_socket(socket) {}
 ServerSocket::~ServerSocket() 
 {
@@ -451,6 +500,7 @@ GResult ServerSocket::bind()
 {
 	if (m_socket == nullptr)
 	{
+		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		return G_NO;
 	}
 	
@@ -461,6 +511,7 @@ GResult ServerSocket::listen(const GUint32 maxConnectNum/*20*/)
 {
 	if (m_socket == nullptr)
 	{
+		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		return G_NO;
 	}
 	
@@ -476,6 +527,7 @@ GResult ServerSocket::accept(std::shared_ptr<SockAddr>& cliAddr)
 	
 	if (m_socket == nullptr)
 	{
+		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		return G_NO;
 	}
 	
@@ -486,15 +538,27 @@ GInt64 ServerSocket::recvfrom(std::shared_ptr<SockAddr>& cliAddr, GUint8* buffer
 {
 	if (cliAddr->get() == nullptr)
 	{
+		setError("[error]%s:cliAddr->get() == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		return G_NO;	
 	}
 	
 	if (m_socket == nullptr)
 	{
+		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		return G_NO;
 	}
 	
 	return m_socket->recvfrom(*cliAddr->getSockAddr(), buffer, size, flags);	
+}
+
+GInt8* ServerSocket::getError()
+{
+	return m_error;
+}
+
+void ServerSocket::setError(const GInt8* args, ...)
+{
+	System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
 	
 ClientSocket::ClientSocket(const std::shared_ptr<Socket>& socket) : m_socket(socket) {}
@@ -513,6 +577,7 @@ GResult ClientSocket::connect()
 {
 	if (m_socket == nullptr)
 	{
+		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		return G_NO;
 	}
 	
@@ -523,6 +588,7 @@ GInt64 ClientSocket::send(const GUint8* data, const GUint64 len, const GInt32 fl
 {
 	if (m_socket == nullptr)
 	{
+		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		return G_NO;
 	}
 	
@@ -533,9 +599,20 @@ GInt64 ClientSocket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags
 {
 	if (m_socket == nullptr)
 	{
+		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
 		return G_NO;
 	}
 	
 	return m_socket->recv(buffer, size, flags);	
+}
+
+GInt8* ClientSocket::getError()
+{
+	return m_error;
+}
+
+void ClientSocket::setError(const GInt8* args, ...)
+{
+	System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
 }
