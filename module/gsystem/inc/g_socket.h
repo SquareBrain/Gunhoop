@@ -28,6 +28,9 @@
 
 namespace gsys {
 	
+typedef GUint32 GAddrIPv4;
+typedef GUint8* GAddrIPv6;
+
 /** 
  * @brief address family
  */
@@ -73,10 +76,49 @@ typedef enum
 	G_IPPROTO_TIPC
 } NetProtocol;
 	
+class SockEntify
+{
+public:
+	SockEntify();
+	virtual ~SockEntify();
+	
+	/**
+	 * @brief set/get socket fd
+	 * @return 
+	 */		
+	void setSockfd(const GInt32 sockfd) const;
+	GInt32 getSockfd() const;	
+	
+	/**
+	 * @brief set/get addr length
+	 * @return 
+	 */		
+	GUint32 getAddrLen() const;	
+	
+	/**
+	 * @brief set/get IP address
+	 * @return
+	 */		
+	virtual GUint32 getIP() const;
+	virtual GUint8* getIP() const;
+
+	/**
+	 * @brief set/get port
+	 * @return 
+	 */		
+	virtual GUint32 getPort() const = 0;
+	
+protected:
+	// socket file descrition
+	GInt32			m_sockfd;	
+	// sock length
+	GUint32			m_addrLen;	
+};
+
 /** 
  * @brief IPv4 
  */
-class IPv4Entity
+class IPv4Entity : public SockEntify
 {
 public:
 	/**
@@ -91,6 +133,7 @@ public:
 	 * @return
 	 */		
 	GUint32 getIP() const;
+	GUint8* getIP() const;
 
 	/**
 	 * @brief set/get port
@@ -99,37 +142,20 @@ public:
 	GUint32 getPort() const;
 	
 	/**
-	 * @brief set/get socket fd
-	 * @return 
-	 */		
-	void setSockfd(const GInt32 sockfd) const;
-	GInt32 getSockfd() const;
-	
-	/**
 	 * @brief set/get sock addr
 	 * @return 
 	 */		
 	const sockaddr_in& getSockAddr() const;	
 	
-	/**
-	 * @brief set/get addr length
-	 * @return 
-	 */		
-	socklen_t& getAddrLen() const;		
-	
 private:
-	// socket file descrition
-	GInt32			m_sockfd;
 	// address
 	sockaddr_in		m_sockAddr;
-	// sock length
-	socklen_t		m_addrLen;	
 };
 
 /** 
  * @brief IPv6
  */
-class IPv6Entity
+class IPv6Entity : public SockEntify
 {
 public:
 	/**
@@ -152,31 +178,14 @@ public:
 	GUint32 getPort() const;
 	
 	/**
-	 * @brief set/get socket fd
-	 * @return 
-	 */		
-	void setSockfd(const GInt32 sockfd) const;
-	GInt32 getSockfd() const;
-	
-	/**
 	 * @brief set/get sock addr
 	 * @return 
 	 */		
 	const sockaddr_in6& getSockAddr() const;	
 	
-	/**
-	 * @brief set/get addr length
-	 * @return 
-	 */		
-	socklen_t& getAddrLen() const;		
-	
 private:
-	// socket file descrition
-	GInt32			m_sockfd;
 	// address
 	sockaddr_in6	m_sockAddr;
-	// sock length
-	socklen_t		m_addrLen;	
 };
 
 /** 
@@ -185,8 +194,9 @@ private:
 class Socket
 {
 public:
-	Socket();
-	explicit Socket(const GUint32 ip, const GUint16 port = 0);
+	explicit Socket(const AddrFamily& addrFamily);
+	explicit Socket(const GAddrIPv4& ip, const GUint16 port = 0);
+	explicit Socket(const GAddrIPv6& ip, const GUint16 port = 0);
 	~Socket();
 	
 	/**
@@ -194,6 +204,7 @@ public:
 	 * @return
 	 */		
 	GUint32 getIP() const;
+	GUint8* getIPv6() const;
 
 	/**
 	 * @brief set/get port
@@ -206,7 +217,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-	virtual GResult init(const AddrFamily& family, const SockType& type, const NetProtocol& protocol);
+	GResult init(const AddrFamily& family, const SockType& type, const NetProtocol& protocol);
 	
 	/**
 	 * @brief shutdown connecting
@@ -214,7 +225,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-	virtual GResult uninit(const GInt32 how = 0);	
+	GResult uninit(const GInt32 how = 0);	
 	
 	/**
 	 * @brief send data
@@ -236,35 +247,29 @@ public:
 	 */	
 	GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
 	
-protected:
-	SockEntity	m_sockEntity;
-	bool		m_isInit;
-	
 private:
 	/**
 	 * @brief setting socket options 
 	 * @return G_YES/G_NO
 	 */		
 	GResult initOption();
+	
+private:
+	AddrFamily		m_addrFamily;
+	SockEntify*		m_sockEntity;
+	bool			m_isInit;
 };
 	
 /** 
  * @brief server socket class
  */
-class ServerSocket : public Socket
+class ServerSocket
 {
 public:
 	/**
 	 * @brief auto find location host
 	 */
-	ServerSocket();
-	/**
-	 * @brief constructor
-	 * @param [in] ip : ip address
-	 * @param [in] port : port, default is 0, random generate port
-	 * @note 
-	 */			
-	explicit ServerSocket(const GUint32 ip, const GUint16 port = 0);
+	explicit ServerSocket(Socket* socket);
 	~ServerSocket();
 	
 	/**
@@ -288,26 +293,42 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-	GResult accept(sockaddr_in& clientSockAddr);	
+	GResult accept(sockaddr_in& clientSockAddr);
+	
+	/**
+	 * @brief send data
+	 * @param [in] data : send data
+	 * @param [in] len : data length
+	 * @param [in] flags : flags
+	 * @return size/-1
+	 * @note 
+	 */		
+	GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+	
+	/**
+	 * @brief receive data
+	 * @param [out] buffer : output buffer
+	 * @param [in] bufferSize : buffer size
+	 * @param [in] flags : flags
+	 * @return size/-1
+	 * @note 
+	 */	
+	GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+	
+private:
+	Socket* 	m_socket;
 };
 
 /** 
  * @brief client socket class
  */
-class ClientSocket : public Socket
+class ClientSocket
 {
 public:
 	/**
 	 * @brief connect location server
 	 */		
-	ClientSocket();
-	/**
-	 * @brief constructor
-	 * @param [in] ip : ip address
-	 * @param [in] port : port, default is 0, generate random port
-	 * @note 
-	 */			
-	explicit ClientSocket(const GUint32 ip, const GUint16 port = 0);
+	ClientSocket(Socket* socket);
 	~ClientSocket();
 	
 	/**
@@ -316,5 +337,28 @@ public:
 	 * @note 
 	 */		
 	GResult connect();
+	
+	/**
+	 * @brief send data
+	 * @param [in] data : send data
+	 * @param [in] len : data length
+	 * @param [in] flags : flags
+	 * @return size/-1
+	 * @note 
+	 */		
+	GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+	
+	/**
+	 * @brief receive data
+	 * @param [out] buffer : output buffer
+	 * @param [in] bufferSize : buffer size
+	 * @param [in] flags : flags
+	 * @return size/-1
+	 * @note 
+	 */	
+	GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+	
+private:
+	Socket* 	m_socket;	
 };
 }
