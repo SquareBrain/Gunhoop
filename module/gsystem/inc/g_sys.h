@@ -105,6 +105,6 @@ public:
 	 * ms:millisecond
 	 * us:microsecond
 	 */		
-	static GResult getSysTime(const GInt8* format, GInt8* buffer, const GUint32 size);   	
+	static GResult getSysTime(const GInt8* format, GInt8* buffer, const GUint32 size);
 };
 }
