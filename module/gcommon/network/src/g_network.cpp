@@ -56,14 +56,49 @@ GResult NetWorkConv::ipToString(const GUint32 intIP, std::string& strIP)
     return G_YES;
 }
 
-GResult NetWorkConv::macToInteger(const std::string& strMac, GUint32& intMac)
+GResult NetWorkConv::macToInteger(const std::string& strMac, GUint64& intMac)
+{
+    std::list<std::string> split_list;
+    IS_NOED(Convert::splitString(strIP, '.', split_list));
+    IS_FALSED(split_list.size() == 0, G_ERROR_INVALID_PARAMETERS);
+    
+    GUint32 ip_array[4] = {0};
+    GUint16 i = 0;
+    std::list<std::string>::iterator iter = split_list.begin();
+    for (; iter != split_list.end(); ++iter)
+    {
+        ip_array[i] = std::stoul(*iter);
+    }
+    
+    intIP = (ip_array[0] << 24) + (ip_array[1] << 16) + (ip_array[2] << 8) + ip_array[3];
+    
+    return G_YES;  
+    return G_YES;
+}
+
+GResult NetWorkConv::macToInteger(const GInt8 bytesMac[6], GUint64& intMac)
 {
     return G_YES;
 }
 
-GResult NetWorkConv::macToString(const GUint32 intMac, std::string& strMac)
+GResult NetWorkConv::macToBytes(const std::string& strMac, GInt8 bytesMac[6])
 {
-    return G_NO;
+    return G_YES;
+}
+
+GResult NetWorkConv::macToBytes(const GUint64 intMac, GInt8 bytesMac[6])
+{
+    return G_YES;
+}
+
+GResult NetWorkConv::macToString(const GUint64 intMac, std::string& strMac)
+{
+    return G_YES;
+}
+
+GResult NetWorkConv::macToString(GInt8 bytesMac[6], std::string& strMac)
+{
+    return G_YES;
 }
 
 IPAddr::IPAddr(const GUint32 ip) : m_ip(ip) 
