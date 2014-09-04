@@ -22,44 +22,31 @@
 namespace gcom {
 
 /** 
- * @brief time convert wrapper
- * time format:
- * ye - year
- * mo - mouth
- * da - day
- * ho - hour
- * mi - minute
- * se - second
- * ms - millisecond
- * us - microsecond
- * ns - nansecond
- * we - week
- * 
- * time format e.g : "ye-mo-da ho:mi:se:ms"
+ * @brief time convert tool class
  */
-class TimeConv
+class Convert
 {
 public:
 	/**
 	 * @brief get system recording to time format
-	 * @param [in]format : e.g "ye-mo-da ho:mi:se:ms:us"
-	 * @param [out]buffer : time string recording to format
-	 * @param [in]size : out buffer size
+	 * @param [in] format : e.g "ye-mo-da ho:mi:se:ms:us"
+	 * @param [out] buffer : time string recording to format
+	 * @param [in] size : out buffer size
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
 	static GResult convTime(const GInt8* format, 
 		GInt8* buffer, 
 		const GUint32 size);
-    static GResult convTime(const std::string& format, 
-        std::string& buffer);
+	static GResult convTime(const std::string& format, 
+	std::string& buffer);
 	
 	/**
 	 * @brief convert time recording to time format
-	 * @param [in]millisecond : input time, unit is millisecond
-	 * @param [in]format : e.g "ye-mo-da ho:mi:se:ms"
-	 * @param [out]buffer : time string recording to format
-	 * @param [in]size : out buffer size
+	 * @param [in] millisecond : input time, unit is millisecond
+	 * @param [in] format : e.g "ye-mo-da ho:mi:se:ms"
+	 * @param [out] buffer : time string recording to format
+	 * @param [in] size : out buffer size
 	 * @return G_YES/G_NO
 	 * @note 
 	 */			
@@ -68,7 +55,16 @@ public:
 		GInt8* buffer, 
 		const GUint32 size);	
 	static GResult convTime(const GUint64 millisecond, 
-        const std::string format, 
-        std::string& buffer);
+		const std::string format, 
+		std::string& buffer);
+	
+	/**
+	 * @brief split string
+	 * @param [in] src_str : input string
+	 * @param [in] split : split
+	 * @param [out] splitList : output string list
+	 */
+	static GResult splitString(const std::string& src_str, const GInt8 split, std::list<std::string> splitList);
+	static GResult splitString(const std::string& src_str, const std::string split, std::list<std::string> splitList);
 };
 }
