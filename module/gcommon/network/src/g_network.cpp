@@ -51,6 +51,15 @@ GResult NetWorkConv::ipToInt(const std::string& strIP, GUint32& intIP)
 
 GResult NetWorkConv::ipToString(const GUint32 intIP, std::string& strIP)
 {
+    GInt8 tmp_buf[16] = {0};  
+    sprintf(tmp_buf, "%u.%u.%u.%u",  
+        (strIP & 0xff000000) >> 24,  
+        (strIP & 0x00ff0000) >> 16,  
+        (strIP & 0x0000ff00) >> 8,  
+        (strIP & 0x000000ff));
+    
+    strIP.assign(tmp_buf);
+        
     return G_YES;
 }
 
