@@ -25,26 +25,19 @@ NetWorkConv::~NetWorkConv() {}
 
 GResult NetWorkConv::ipToInt(const std::string& strIP, GUint32& intIP)
 {
-    std::string tmpStr;
-    GUint16 begPos = 0;
+    std::list<std::string> split_list;
+    IS_NOED(Convert::splitString(strIP, '.', split_list));
+    IS_FALSED(split_list.size() == 0);
     
-    for (GUint16 i = 0; i < strIP.size(); i++)
+    GUint32 ip_array[4] = {0};
+    GUint16 i = 0;
+    std::list<std::string>::iterator iter = split_list.begin();
+    for (; iter != split_list.end(); ++iter)
     {
-        if (strIP[i] != '.' && (strIP[i] < '0' || strIP[i] > '9'))
-        {
-            return G_NO;
-        }
-        
-        if (i == 0 && strIP[i] == '.')
-        {
-            return G_NO;
-        }
-        
-        if (strIP[i] == '.')
-        {
-            tmpStr.assign(strIP.subString(beg, i - beg));
-        }
+        ip_array[i] = std::stoul(*iter);
     }
+    
+    intIP = (ip_array[0] << 24) + (ip_array[1] << 16) + (ip_array[2] << 8) + ip_array[3];
     
     return G_YES;
 }
