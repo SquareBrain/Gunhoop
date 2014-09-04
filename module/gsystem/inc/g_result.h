@@ -66,7 +66,7 @@ do \
 	} \
 } while(0)
 
-#define CHECK_POINTER(_p) \
+#define IS_NULL(_p) \
 do \
 { \
 	if ((_p) == NULL) \
