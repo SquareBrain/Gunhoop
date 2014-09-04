@@ -27,7 +27,7 @@ GResult NetWorkConv::ipToInt(const std::string& strIP, GUint32& intIP)
 {
     std::list<std::string> split_list;
     IS_NOED(Convert::splitString(strIP, '.', split_list));
-    IS_FALSED(split_list.size() == 0);
+    IS_FALSED(split_list.size() == 0, G_ERROR_INVALID_PARAMETERS);
     
     GUint32 ip_array[4] = {0};
     GUint16 i = 0;
