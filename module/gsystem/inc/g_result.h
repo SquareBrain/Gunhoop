@@ -50,7 +50,7 @@
 do \
 { \
 	GResult _result = (_x); \
-	if (_result != G_YES) \
+	if (_result == G_YES) \
 	{ \
 		return _result; \
 	} \
@@ -60,9 +60,18 @@ do \
 do \
 { \
 	GResult _result = (_x); \
-	if (_result != G_NO) \
+	if (_result == G_NO) \
 	{ \
 		return _result; \
+	} \
+} while(0)
+
+#define IS_FALSED(_x, _ret) \
+do \
+{ \
+	if ((_x) == 0) \
+	{ \
+		return (_ret); \
 	} \
 } while(0)
 
