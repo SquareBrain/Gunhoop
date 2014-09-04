@@ -58,19 +58,51 @@ public:
 	
 	/**
 	 * @brief string MAC to integer
-	 * @param [in] strMac :  input string MAC
+	 * @param [in] strMac :  input string MAC, like : 00:60:6E:73:01:77
 	 * @param [out] intMac : output integer MAC
 	 * @return G_YES/G_NO
 	 */
-	GResult macToInteger(const std::string& strMac, GUint32& intMac);
+	GResult macToInteger(const std::string& strMac, GUint64& intMac);
+	
+	/**
+	 * @brief bytes MAC to integer
+	 * @param [in] bytesMac :  input string MAC, 6 bytes
+	 * @param [out] intMac : output integer MAC
+	 * @return G_YES/G_NO
+	 */
+	GResult macToInteger(const GInt8 bytesMac[6], GUint64& intMac);	
+	
+	/**
+	 * @brief string MAC to bytes
+	 * @param [in] strMac :  input integer MAC, like : 00:60:6E:73:01:77
+	 * @param [out] bytesMac : output bytes MAC, 6 bytes
+	 * @return G_YES/G_NO
+	 */
+	GResult macToBytes(const std::string& strMac, GInt8 bytesMac[6]);
+	
+	/**
+	 * @brief integer MAC to bytes
+	 * @param [in] intMac : integer MAC, long long, 8 byte
+	 * @param [out] bytesMac : output string MAC, 6 bytes
+	 * @return G_YES/G_NO
+	 */
+	GResult macToBytes(const GUint64 intMac, GInt8 bytesMac[6]);
 	
 	/**
 	 * @brief integer MAC to string
-	 * @param [in] intMac :  input integer MAC
-	 * @param [out] strMac : output string MAC
+	 * @param [in] intMac : integer MAC, 8 byte, long long
+	 * @param [out] strMac : output string MAC, like : 00:60:6E:73:01:77
 	 * @return G_YES/G_NO
 	 */
-	GResult macToString(const GUint32 intMac, std::string& strMac);	
+	GResult macToString(const GUint64 intMac, std::string& strMac);	
+	
+	/**
+	 * @brief bytes MAC to string
+	 * @param [in] bytesMac : bytes MAC, 6 bytes
+	 * @param [out] strMac : output string MAC, like : 00:60:6E:73:01:77
+	 * @return G_YES/G_NO
+	 */
+	GResult macToString(GInt8 bytesMac[6], std::string& strMac);	
 };
 	
 /**
