@@ -46,11 +46,21 @@
  */
 #define G_ERROR_NO_FILE                     (G_ERROR_SYSTEM_BASE - 1)
 
-#define CHECK_RESULT(_x) \
+#define IS_YESED(_x) \
 do \
 { \
 	GResult _result = (_x); \
 	if (_result != G_YES) \
+	{ \
+		return _result; \
+	} \
+} while(0)
+
+#define IS_NOED(_x) \
+do \
+{ \
+	GResult _result = (_x); \
+	if (_result != G_NO) \
 	{ \
 		return _result; \
 	} \
@@ -66,4 +76,4 @@ do \
 } while(0)
 
 #define IS_YES(_ret) ((ret) == G_YES)
-#define IS_NO(_ret)  ((ret) == G_NO)
+#define IS_NO(_ret) ((ret) == G_NO)
