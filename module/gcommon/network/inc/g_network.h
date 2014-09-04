@@ -59,15 +59,15 @@ public:
 	/**
 	 * @brief string MAC to integer
 	 * @param [in] strMac :  input string MAC, like : 00:60:6E:73:01:77
-	 * @param [out] intMac : output integer MAC
+	 * @param [out] intMac : output integer MAC, long long
 	 * @return G_YES/G_NO
 	 */
 	GResult macToInteger(const std::string& strMac, GUint64& intMac);
 	
 	/**
 	 * @brief bytes MAC to integer
-	 * @param [in] bytesMac :  input string MAC, 6 bytes
-	 * @param [out] intMac : output integer MAC
+	 * @param [in] bytesMac : input string MAC, 6 bytes
+	 * @param [out] intMac : output integer MAC, long long
 	 * @return G_YES/G_NO
 	 */
 	GResult macToInteger(const GInt8 bytesMac[6], GUint64& intMac);	
