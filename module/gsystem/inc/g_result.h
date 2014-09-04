@@ -45,3 +45,25 @@
  * gsystem error code
  */
 #define G_ERROR_NO_FILE                     (G_ERROR_SYSTEM_BASE - 1)
+
+#define CHECK_RESULT(_x) \
+do \
+{ \
+	GResult _result = (_x); \
+	if (_result != G_YES) \
+	{ \
+		return _result; \
+	} \
+} while(0)
+
+#define CHECK_POINTER(_p) \
+do \
+{ \
+	if ((_p) == NULL) \
+	{ \
+		return G_ERROR_INVALID_PARAMETERS; \
+	} \
+} while(0)
+
+#define IS_YES(_ret) ((ret) == G_YES)
+#define IS_NO(_ret)  ((ret) == G_NO)
