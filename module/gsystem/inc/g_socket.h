@@ -25,6 +25,7 @@
 #include <string.h>
 #include <string>
 #include <memory>
+
 #include <g_type.h>
 
 namespace gsys {
