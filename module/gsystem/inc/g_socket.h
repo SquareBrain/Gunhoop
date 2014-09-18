@@ -24,7 +24,7 @@
 
 #include <string.h>
 #include <string>
-
+#include <memory>
 #include <g_type.h>
 
 namespace gsys {
@@ -91,14 +91,14 @@ public:
 	 * @brief set/get IP address
 	 * @return
 	 */		
-	GUint32 getIP() const;
-	GUint8* getIPStr() const;
+	GUint32 getIP();
+	GUint8* getIPStr();
 
 	/**
 	 * @brief set/get port
 	 * @return 
 	 */		
-	GUint32 getPort() const;
+	GUint16 getPort();
 	
 	/**
 	 * @brief set/get sock addr
@@ -129,13 +129,13 @@ public:
 	 * @brief set/get IP address
 	 * @return
 	 */		
-	GUint8* getIPStr() const;
+	GUint8* getIPStr();
 
 	/**
 	 * @brief set/get port
 	 * @return 
 	 */		
-	GUint32 getPort() const;
+	GUint16 getPort();
 	
 	/**
 	 * @brief set/get sock addr
@@ -165,7 +165,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-	GResult init(const AddrFamily& family, const SockType& type, const NetProtocol& protocol);
+	GResult init(const SockType& type, const NetProtocol& protocol);
 	
 	/**
 	 * @brief shutdown connecting

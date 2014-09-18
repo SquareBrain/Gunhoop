@@ -33,17 +33,17 @@ IPv4Addr::IPv4Addr(const GUint32 ip, const GUint16 port/*0*/)
 
 IPv4Addr::~IPv4Addr() {}
 
-GUint32 IPv4Addr::getIP() const
+GUint32 IPv4Addr::getIP()
 {
 	return ntohl(m_sockAddr.sin_addr.s_addr);
 }
 
-GUint8* IPv4Addr::getIPStr() const
+GUint8* IPv4Addr::getIPStr()
 {
-	return inet_ntoa(m_sockAddr);
+	return (GUint8*)inet_ntoa(m_sockAddr.sin_addr);
 }
 
-GUint16 IPv4Addr::getPort() const
+GUint16 IPv4Addr::getPort()
 {
 	return ntohs(m_sockAddr.sin_port);
 }
@@ -77,12 +77,12 @@ IPv6Addr::IPv6Addr(const GUint8 ip[16], const GUint16 port/*0*/)
 
 IPv6Addr::~IPv6Addr() {}
 
-GUint8* IPv6Addr::getIPStr() const
+GUint8* IPv6Addr::getIPStr()
 {
 	return m_sockAddr.sin6_addr.s6_addr;
 }
 
-GUint16 IPv6Addr::getPort() const
+GUint16 IPv6Addr::getPort()
 {
 	return ntohs(m_sockAddr.sin6_port);
 }
@@ -105,11 +105,6 @@ Socket::Socket(const std::shared_ptr<IPv6Addr>& sock_addr)
 
 Socket::~Socket() 
 {
-	delete m_ipv4Addr;
-	m_ipv4Addr = nullptr;
-
-	delete m_ipv6Addr;
-	m_ipv6Addr = nullptr;
 }
 
 GResult Socket::init(const SockType& type, const NetProtocol& protocol)
@@ -136,43 +131,43 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
 		domain = AF_PACKET;
 		break;	
 	default:
-		setError("[error]%s:argument family(%d) invalid (%s:%d)\n", __FUNCTION__, family, __FILE__, __LINE__);
+		setError("[error]%s:argument family(%d) invalid (%s:%d)\n", __FUNCTION__, m_family, __FILE__, __LINE__);
 		return G_NO;
 	}
 	
-	GInt32 sockType = -1;
+	GInt32 sock_type = -1;
 	switch (type)
 	{
 	case G_SOCK_STREAM:
-		sockType = SOCK_STREAM;
+		sock_type = SOCK_STREAM;
 		break;
 	case G_SOCK_DGRAM:
-		sockType = SOCK_STREAM;
+		sock_type = SOCK_DGRAM;
 		break;	
 	case G_SOCK_SEQPACKET:
-		sockType = SOCK_STREAM;
+		sock_type = SOCK_SEQPACKET;
 		break;	
 	case G_SOCK_RAW:
-		sockType = SOCK_STREAM;
+		sock_type = SOCK_RAW;
 		break;
 	case G_SOCK_RDM:
-		sockType = SOCK_STREAM;
+		sock_type = SOCK_RDM;
 		break;
 	case G_SOCK_PACKET:
-		sockType = SOCK_STREAM;
+		sock_type = SOCK_SEQPACKET;
 		break;	
 	case G_SOCK_NONBLOCK:
-		sockType = SOCK_STREAM;
+		sock_type = SOCK_NONBLOCK;
 		break;	
 	case G_SOCK_CLOEXEC:
-		sockType = SOCK_STREAM;
+		sock_type = SOCK_CLOEXEC;
 		break;	
 	default:
 		setError("[error]%s:argument type(%d) invalid (%s:%d)\n", __FUNCTION__, type, __FILE__, __LINE__);
 		return G_NO;
 	}
 	
-	GInt32 sockProtocol = -1;
+	GInt32 sock_protocol = -1;
 	switch (protocol)
 	{
 	case G_IPPROTO_TCP:
@@ -182,7 +177,7 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
 				return G_NO;
 			}
 			
-			sockProtocol = IPPROTO_TCP;
+			sock_protocol = IPPROTO_TCP;
 		}
 		break;
 	case G_IPPROTO_UDP:
@@ -192,15 +187,15 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
 				return G_NO;
 			}		
 			
-			sockProtocol = IPPROTO_TCP;
+			sock_protocol = IPPROTO_TCP;
 		}
 		break;		
 	case G_IPPROTO_SCTP:
-		sockProtocol = IPPROTO_SCTP;
+		sock_protocol = IPPROTO_SCTP;
 		setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
 		return G_NO; // not support
 	case G_IPPROTO_TIPC:
-		sockProtocol = IPPROTO_TIPC;
+		//sock_protocol = IPPROTO_TIPC;
 		setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
 		return G_NO; // not support
 	default:
@@ -208,11 +203,11 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
 		return G_NO;
 	}	
 	
-	GInt32 m_sockfd = ::socket(domain, sockType, sockProtocol)
+	GInt32 m_sockfd = ::socket(domain, sock_type, sock_protocol);
 	if (m_sockfd < 0)
 	{
 		setError("[error]%s: socket(%d, %d, %d) ret=%d invalid (%s:%d)\n", 
-			__FUNCTION__, domain, sockType, sockProtocol, m_sockfd, __FILE__, __LINE__);
+			__FUNCTION__, domain, sock_type, sock_protocol, m_sockfd, __FILE__, __LINE__);
 		return G_NO;
 	}
 

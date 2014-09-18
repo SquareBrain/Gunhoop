@@ -8,10 +8,9 @@ BUILD_PATH:=$(shell pwd)
 
 PRE_DEFINED:= 
 
-INCLUDES:=$(BUILD_PATH)/inc \
-	$(BUILD_PATH)/posix/inc
+INCLUDES:=$(BUILD_PATH)/inc
 
-SRCDIRS:=$(BUILD_PATH)/posix/src
+SRCDIRS:=$(BUILD_PATH)/src
 
 LIBS_PATH:=
 
