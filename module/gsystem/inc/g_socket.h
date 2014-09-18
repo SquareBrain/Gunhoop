@@ -24,6 +24,7 @@
 
 #include <string.h>
 #include <string>
+
 #include <g_type.h>
 
 namespace gsys {
@@ -72,45 +73,11 @@ typedef enum
 	G_IPPROTO_SCTP,
 	G_IPPROTO_TIPC
 } NetProtocol;
-	
-class SockAddr
-{
-public:
-	SockAddr();
-	virtual ~SockAddr();
-	
-	/**
-	 * @brief set/get addr length
-	 * @return 
-	 */		
-	GUint32 getAddrLen() const;	
-	
-	virtual const sockaddr_in* getSockAddr() const;
-	virtual const sockaddr_in6* getSockAddr() const;
-	
-	/**
-	 * @brief set/get IP address
-	 * @return
-	 */		
-	virtual GUint32 getIP() const;
-	virtual GUint8* getIP() const;
-
-	/**
-	 * @brief set/get port
-	 * @return 
-	 */		
-	virtual GUint32 getPort() const = 0;
-	virtual const AddrFamily& getAddrFamily() const = 0;
-	
-protected:
-	// addr length
-	GUint32			m_addrLen;	
-};
 
 /** 
  * @brief IPv4 
  */
-class IPv4Addr : public SockAddr
+class IPv4Addr
 {
 public:
 	/**
@@ -119,36 +86,36 @@ public:
 	IPv4Addr();
 	explicit IPv4Addr(const GUint32 ip, const GUint16 port = 0);
 	~IPv4Addr();
-	
+
 	/**
 	 * @brief set/get IP address
 	 * @return
 	 */		
 	GUint32 getIP() const;
-	GUint8* getIP() const;
+	GUint8* getIPStr() const;
 
 	/**
 	 * @brief set/get port
 	 * @return 
 	 */		
 	GUint32 getPort() const;
-	const AddrFamily& getAddrFamily() const;
 	
 	/**
 	 * @brief set/get sock addr
 	 * @return 
 	 */		
 	const sockaddr_in* getSockAddr() const;	
-	
+	GUint16 getAddrLen() const;
+    
 private:
-	// address
 	sockaddr_in		m_sockAddr;
+    GUint16         m_addrLen;
 };
 
 /** 
  * @brief IPv6
  */
-class IPv6Addr : public SockAddr
+class IPv6Addr
 {
 public:
 	/**
@@ -162,24 +129,25 @@ public:
 	 * @brief set/get IP address
 	 * @return
 	 */		
-	GUint8* getIP() const;
+	GUint8* getIPStr() const;
 
 	/**
 	 * @brief set/get port
 	 * @return 
 	 */		
 	GUint32 getPort() const;
-	const AddrFamily& getAddrFamily() const;
 	
 	/**
 	 * @brief set/get sock addr
 	 * @return 
 	 */		
-	const sockaddr_in6& getSockAddr() const;	
-	
+	const sockaddr_in6* getSockAddr() const;	
+    GUint16 getAddrLen() const;
+        
 private:
 	// address
 	sockaddr_in6	m_sockAddr;
+    GUint16         m_addrLen;
 };
 
 /** 
@@ -188,7 +156,8 @@ private:
 class Socket
 {
 public:
-	explicit Socket(const std::shared_ptr<SockAddr>& sockAddr);
+	explicit Socket(const std::shared_ptr<IPv4Addr>& sock_addr);
+    explicit Socket(const std::shared_ptr<IPv6Addr>& sock_addr);
 	~Socket();
 
 	/**
@@ -206,12 +175,13 @@ public:
 	 */	
 	GResult uninit(const GInt32 how = 0);	
 	
-	const std::shared_ptr<SockAddr>& getSockAddr() const;
-	
+	const std::shared_ptr<IPv4Addr>& getIPv4Addr() const;
+	const std::shared_ptr<IPv6Addr>& getIPv6Addr() const;
+    
 	GResult bind();
-	GResult listen(const GUint32 maxConnectNum = 20);
-	GResult accept(sockaddr_in& clientAddr);
-	GResult accept(sockaddr_in6& clientAddr);
+	GResult listen(const GUint32 max_connect_num = 20);
+	GResult accept(sockaddr_in& client_addr);
+	GResult accept(sockaddr_in6& client_addr);
 	GResult connect();
 	
 	/**
@@ -224,21 +194,21 @@ public:
 	 */		
 	GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
 	GInt64 sendmsg(const struct msghdr* msg, const GInt32 flags = MSG_NOSIGNAL);
-	GInt64 sendto(const sockaddr_in& dstAddr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
-	GInt64 sendto(const sockaddr_in6& dstAddr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+	GInt64 sendto(const sockaddr_in& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+	GInt64 sendto(const sockaddr_in6& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
 	
 	/**
 	 * @brief receive data
 	 * @param [out] buffer : output buffer
-	 * @param [in] bufferSize : buffer size
+	 * @param [in] size : buffer size
 	 * @param [in] flags : flags
 	 * @return size/-1
 	 * @note 
 	 */	
 	GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
 	GInt64 recvmsg(struct msghdr* msg, const GInt32 flags = 0);
-	GInt64 recvfrom(sockaddr_in& srcAddr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
-	GInt64 recvfrom(sockaddr_in6& srcAddr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+	GInt64 recvfrom(sockaddr_in& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+	GInt64 recvfrom(sockaddr_in6& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 	
 	/**
 	 * @brief get last error string
@@ -263,8 +233,10 @@ private:
 	
 private:
 	GInt32						m_sockfd;	
-	std::shared_ptr<SockAddr>	m_sockAddr;
+	std::shared_ptr<IPv4Addr>	m_ipv4Addr;
+    std::shared_ptr<IPv6Addr>	m_ipv6Addr;
 	bool						m_isInit;
+    AddrFamily                  m_family;
 	GInt8						m_error[G_ERROR_BUF_SIZE];
 };
 	
@@ -291,19 +263,19 @@ public:
 	
 	/**
 	 * @brief listen port
-	 * @param [in] maxConnectNum : the max client connect number, default is 20
+	 * @param [in] max_connect_num : the max client connect number, default is 20
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-	GResult listen(const GUint32 maxConnectNum = 20);	
+	GResult listen(const GUint32 max_connect_num = 20);	
 	
 	/**
 	 * @brief waitting for connect
-	 * @param [in] clientSockAddr : client sock address
+	 * @param [in] client_addr : client sock address
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-	GResult accept(std::shared_ptr<SockAddr>& cliAddr);
+	GResult accept(std::shared_ptr<IPv4Addr>& client_addr);
 	
 	/**
 	 * @brief receive data
@@ -313,7 +285,7 @@ public:
 	 * @return size/-1
 	 * @note 
 	 */	
-	GInt64 recvfrom(std::shared_ptr<SockAddr>& cliAddr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+	GInt64 recvfrom(std::shared_ptr<IPv4Addr>& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 	
 	/**
 	 * @brief get last error string
@@ -344,10 +316,10 @@ public:
 	/**
 	 * @brief connect location server
 	 */		
-	ClientSocket(const std::shared_ptr<Socket>& socket);
+	ClientSocket(const std::shared_ptr<IPv4Addr>& socket);
 	~ClientSocket();
 	
-	const std::shared_ptr<Socket>& getSocket() const;
+	const std::shared_ptr<IPv4Addr>& getSocket() const;
 	
 	/**
 	 * @brief connect socket
