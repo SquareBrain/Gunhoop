@@ -105,7 +105,8 @@ public:
 	 * @brief set/get sock addr
 	 * @return 
 	 */		
-	const sockaddr_in* getSockAddr() const;	
+    sockaddr_in& getSockAddr();
+    
 	GUint16 getAddrLen() const;
     
 private:
@@ -141,8 +142,9 @@ public:
 	/**
 	 * @brief set/get sock addr
 	 * @return 
-	 */		
-	const sockaddr_in6* getSockAddr() const;	
+	 */			
+    sockaddr_in6& getSockAddr();
+    
     GUint16 getAddrLen() const;
         
 private:
@@ -317,7 +319,7 @@ public:
 	/**
 	 * @brief connect location server
 	 */		
-	ClientSocket(const std::shared_ptr<IPv4Addr>& socket);
+	explicit ClientSocket(const std::shared_ptr<IPv4Addr>& socket);
 	~ClientSocket();
 	
 	const std::shared_ptr<IPv4Addr>& getSocket() const;
