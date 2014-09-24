@@ -36,15 +36,32 @@ typedef enum
 	// closed state
 	TCP_CON_STATE_CLOSED
 } TcpConnectState;
-
+	
 /**
- * @brief tcp socket class
- */
-class Tcp
+ * @brief tcp client user interface
+ */	
+class TcpClientInterface
 {
 public:
-	Tcp(const IPPortPair& ipPortPair);
-	~Tcp();
+	virtual ~TcpClientInterface() {}
+	virtual GResult state(const TcpConnectState& state) = 0;
+	virtual GResult received(GInt8* data, const GUint64 len) = 0;
+};
+
+/**
+ * @brief tcp client
+ */
+class TcpClient
+{
+public:
+	TcpClient();
+	explicit TcpClient(const IPPortPair& serverAddr, TcpClientInterface* interface = nullptr);
+	~TcpClient();
+	
+	/**
+	 * @brief setting server address
+	 */
+	void setServerAddr(const IPPortPair& serverAddr);
 	
 	/**
 	 * @brief connect
@@ -70,30 +87,47 @@ public:
 	 * @brief receive data
 	 * @param [in] buffer : data buffer
 	 * @param [in] size : buffer size
+	 * @param [in] timeout : waitting timeout, default is 0, indicate waitting untill has data
 	 * @return -1:failed, > 0:received size
 	 */
-	GInt64 recv(const GInt8* buffer, const GUing64 size);	
+	GInt64 recv(const GInt8* buffer, const GUing64 size, const GUint32 timeout = 0);
 	
 private:
-	SocketAddr		m_socketAddr;
-};
-	
-class TcpInterface
-{
-public:
-	virtual ~TcpInterface() {}
-	virtual GResult state(const TcpConnectState& state) = 0;
-	virtual GResult received(GInt8* data, const GUint64 len) = 0;
+	IPPortPair			m_serverAddr;
+	TcpClientInterface*	m_tcpClientInterface;
 };
 
 /**
- * @brief tcp component
+ * @brief tcp server user interface
  */
-class TcpClient : public gsys::ThreadTask
+class TcpServerInterface
 {
 public:
-	explicit TcpClient(Tcp* tcp, TcpInterface* interface);
-	virtual ~TcpClient();
+	virtual ~TcpServerInterface() {}
+	virtual GResult accepted(const SocketAddr& clientAddr) = 0;
+};
+
+/**
+ * @brief tcp server
+ */
+class TcpServer
+{
+public:
+	TcpServer();
+	explicit TcpServer(const IPPortPair& serverAddr, TcpServerInterface* interface = nullptr);
+	virtual ~TcpServer();
+	
+	/**
+	 * @brief start
+	 * @return G_YES/G_NO
+	 */
+	GResult start();
+	
+	/**
+	 * @brief stop
+	 * @return G_YES/G_NO
+	 */
+	GResult stop();
 	
 	/**
 	 * @brief setting server address
@@ -101,24 +135,23 @@ public:
 	void setServerAddr(const IPPortPair& serverAddr);
 	
 	/**
-	 * @brief start
+	 * @brief send data
+	 * @param [in] data : send data
+	 * @param [in] len : data length
+	 * @return -1:failed, > 0:send size
 	 */
-	GResult start();
+	GInt64 send(const GInt8* data, const GUing64 len);
 	
 	/**
-	 * @brief stop
+	 * @brief receive data
+	 * @param [in] buffer : data buffer
+	 * @param [in] size : buffer size
+	 * @return -1:failed, > 0:received size
 	 */
-	GResult stop();
-
-protected:
-	virtual GResult state(const TcpConnectState& state) = 0;
-	virtual GResult received(GInt8* data, const GUint64 len) = 0;
+	GInt64 recv(const GInt8* buffer, const GUing64 size);
 	
 private:
-	virtual GResult run();	
-	
-private:
-	Tcp*	m_tcp;
+	IPPortPair			m_serverAddr;
+	TcpServerInterface*	m_tcpServerInterface;
 };
-
 }
