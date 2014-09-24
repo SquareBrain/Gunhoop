@@ -34,21 +34,11 @@ GResult DFSServer::start()
         return G_YES;
     }
     
-    if (IS_YES())
-    
-    if (m_dfsCfgFilePath.empty())
-    {
-        m_dfsCfgFilePath = DEF_DFS_CFG_FILE_PATH;
-    }
-    
-    if (!m_dfsCfgFile.loadFile(m_dfsCfgFilePath))
-    {
-        m_serverState = SERVER_FAILED;
-        return G_NO;
-    }
+    IS_NO_R(loadCfg());
+    IS_NO_R(createService());
     
     m_serverState = SERVER_ON;
-    
+     
     return G_YES;
 }
 
@@ -60,6 +50,27 @@ GResult DFSServer::stop()
 DFSServerState DFSServer::getServerState()
 {
     return m_serverState;
+}
+
+DFSServerState DFSServer::run()
+{
+    return G_YES;
+}
+
+DFSServerState DFSServer::loadCfg()
+{
+    if (m_dfsCfgFilePath.empty())
+    {
+        m_dfsCfgFilePath = DEF_DFS_CFG_FILE_PATH;
+    }
+    
+    if (!m_dfsCfgFile.loadFile(m_dfsCfgFilePath))
+    {
+        m_serverState = SERVER_FAILED;
+        return G_NO;
+    }
+    
+    return G_YES;
 }
 
 }
