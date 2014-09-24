@@ -17,20 +17,20 @@
 
 #pragma once
 
-#include <g_tcp.h>
-#include <g_udp.h>
-#include <g_rpc.h>
-#include <g_http.h>
-#include <g_thread.h>
+#include <g_system.h>
+#include <g_common.h>
+#include <g_utils.h>
+
+using namespace gcom;
+using namespace gsys;
+
+static const std::string DEF_DFS_CFG_FILE("./dfs_cfg.xml");
+
+namespace gdfs {
 
 /**
  * @brief dfs server
  */
- 
-static const std::string DEF_DFS_CFG_FILE("./dfs_cfg.xml");
-
-namespace gdfs {
- 
 class DFSServer : public ThreadTask
 {
 public:
@@ -52,7 +52,7 @@ private:
     GResult run();
     
 private:
-    
+    XmlDocument     m_dfsCfgFile;
 };
  
 }
