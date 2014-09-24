@@ -66,6 +66,8 @@ public:
     
 private:
     GResult run();
+    GResult loadCfg();
+    GResult createService();
     
 private:
     DFSServerState  m_serverState;  
