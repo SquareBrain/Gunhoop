@@ -57,7 +57,7 @@ sockaddr_in& IPv4Addr::getSockAddr()
 GUint16 IPv4Addr::getAddrLen() const
 {
 	return m_addrLen;
-}
+}
 
 IPv6Addr::IPv6Addr()
 {
@@ -95,7 +95,8 @@ sockaddr_in6& IPv6Addr::getSockAddr()
 GUint16 IPv6Addr::getAddrLen() const
 {
 	return m_addrLen;
-}
+
+}
 
 Socket::Socket(const std::shared_ptr<IPv4Addr>& sock_addr) 
 	: m_sockfd(-1), m_ipv4Addr(sock_addr), m_isInit(false), m_family(G_AF_IPV4) {}
