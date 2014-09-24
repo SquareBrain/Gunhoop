@@ -121,24 +121,7 @@ public:
 	const std::string& getIP() const;
 	
 private:
-	GUint32			m_ip;
-	std::string		m_ipStr;
-};
-
-/**
- * IPv6 address
- */
-class IPv6Addr
-{
-public:
-	explicit IPv6Addr(const GInt8* ip);
-	explicit IPv6Addr(const std::string& ip);
-	~IPv6Addr();
-	
-	const std::string& getIP() const;
-	
-private:
-	std::string		m_ipStr;	
+	IPv4Addr		m_ipv4Addr;
 };
 
 /**
@@ -166,23 +149,17 @@ class IPPortPair
 {
 public:
 	explicit IPPortPair(const IPAddr& ipAddr, const GUint16 port);
-	explicit IPPortPair(const IPv6Addr& ipAddr, const GUint16 port);
 	~IPPortPair();
 	
-	void setIPv4(const IPAddr& ipAddr);
-	const IPAddr& getIPv4() const;
-	
-	void setIPv6(const IPv6Addr& ipAddr);
-	const IPv6Addr& getIPv6() const;
+	void setIPAddr(const IPAddr& ipAddr);
+	const IPAddr& getIPAddr() const;
 	
 	void setPort(const GUint16 port);
 	const GUint16 getPort() const;
 	
 private:
-	IPAddr			m_ipv4;
-	IPv6Addr		m_ipv6;
+	IPAddr			m_ipAddr;
 	GUint16			m_port;
-	IPAddrType		m_ipAddrType;
 };
 
 /**
@@ -191,10 +168,7 @@ private:
 class NetAddr
 {
 public:
-	/**
-	 * @param [in] ipAddrType : IP address type, default is IPv4
-	 */
-	explicit NetAddr(const IPAddrType& ipAddrType/*IP_TYPE_V4*/);
+	NetAddr();
 	~NetAddr();
 	
 	void setMacAddr(const MacAddr& macAddr);
@@ -203,18 +177,13 @@ public:
 	void setIPv4Addr(const IPAddr& ipAddr);
 	const IPAddr& getIPv4Addr() const;
 	
-	void setIPv6Addr(const IPv6Addr& ipAddr);
-	const IPv6Addr& getIPv6Addr() const;
-	
 	void setPort(const GUint16 port);
 	GUint16 getPort() const;
 	
 private:
 	MacAddr		m_macAddr;
-	IPAddr		m_ipv4Addr;
-	IPv6Addr	m_ipv6Addr;
+	IPAddr		m_ipAddr;
 	GUint16		m_port;
-	IPAddrType	m_ipAddrType;
 };
  
 /**
