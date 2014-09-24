@@ -24,9 +24,20 @@
 using namespace gcom;
 using namespace gsys;
 
-static const std::string DEF_DFS_CFG_FILE("./dfs_cfg.xml");
+static const std::string DEF_DFS_CFG_FILE_PATH("./dfs_cfg.xml");
 
 namespace gdfs {
+    
+/**
+ * @brief server state
+ */
+typedef enum
+{
+    SERVER_INIT,
+    SERVER_FAILED,
+    SERVER_ON,
+    SERVER_OFF
+} DFSServerState;
 
 /**
  * @brief dfs server
@@ -48,10 +59,16 @@ public:
      */
     GResult stop();
     
+    /**
+     * @brief get DFS service state
+     */
+    DFSServerState getServerState();
+    
 private:
     GResult run();
     
 private:
+    DFSServerState  m_serverState;  
     XmlDocument     m_dfsCfgFile;
 };
  
