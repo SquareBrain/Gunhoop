@@ -46,7 +46,10 @@
  */
 #define G_ERROR_NO_FILE                     (G_ERROR_SYSTEM_BASE - 1)
 
-#define IS_YESED(_x) \
+#define IS_YES(_ret) ((ret) == G_YES)
+#define IS_NO(_ret) ((ret) == G_NO)
+
+#define IS_YES_R(_x) \
 do \
 { \
 	GResult _result = (_x); \
@@ -56,7 +59,7 @@ do \
 	} \
 } while(0)
 
-#define IS_NOED(_x) \
+#define IS_NO_R(_x) \
 do \
 { \
 	GResult _result = (_x); \
@@ -75,7 +78,7 @@ do \
 	} \
 } while(0)
 
-#define IS_NULL(_p) \
+#define IS_NULL_R(_p) \
 do \
 { \
 	if ((_p) == NULL) \
@@ -83,6 +86,3 @@ do \
 		return G_ERROR_INVALID_PARAMETERS; \
 	} \
 } while(0)
-
-#define IS_YES(_ret) ((ret) == G_YES)
-#define IS_NO(_ret) ((ret) == G_NO)
