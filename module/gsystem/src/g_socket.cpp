@@ -95,14 +95,10 @@ sockaddr_in6& IPv6Addr::getSockAddr()
 GUint16 IPv6Addr::getAddrLen() const
 {
 	return m_addrLen;
-
 }
 
-Socket::Socket(const std::shared_ptr<IPv4Addr>& sock_addr) 
-	: m_sockfd(-1), m_ipv4Addr(sock_addr), m_isInit(false), m_family(G_AF_IPV4) {}
-
-Socket::Socket(const std::shared_ptr<IPv6Addr>& sock_addr) 
-	: m_sockfd(-1), m_ipv6Addr(sock_addr), m_isInit(false), m_family(G_AF_IPV6) {}
+Socket::Socket() {}
+Socket::Socket(const IPv4Addr& addr) : m_sockfd(-1), m_ipv4Addr(addr), m_isInit(false), m_family(G_AF_IPV4) {}
 
 Socket::~Socket() 
 {
@@ -233,14 +229,14 @@ GResult Socket::uninit(const GInt32 how/*0*/)
 	return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
 }
 
-const std::shared_ptr<IPv4Addr>& Socket::getIPv4Addr() const
+void Socket::setIPv4Addr(const IPv4Addr& ipv4Addr)
 {
-	return m_ipv4Addr;
+	m_ipv4Addr = ipv4Addr;	
 }
 
-const std::shared_ptr<IPv6Addr>& Socket::getIPv6Addr() const
+const IPv4Addr& Socket::getIPv4Addr() const
 {
-	return m_ipv6Addr;
+	return m_ipv4Addr;
 }
 
 GResult Socket::bind()
@@ -495,7 +491,11 @@ void Socket::setError(const GInt8* args, ...)
 	System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
 
-ServerSocket::ServerSocket(const std::shared_ptr<Socket>& socket) : m_socket(socket) {}
+ServerSocket::ServerSocket(const GUint32 server_ip, const GUint16 server_port) 
+{
+		
+}
+
 ServerSocket::~ServerSocket() {}
 
 const std::shared_ptr<Socket>& ServerSocket::getSocket() const
