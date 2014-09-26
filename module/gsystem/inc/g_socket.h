@@ -159,8 +159,8 @@ private:
 class Socket
 {
 public:
-	explicit Socket(const std::shared_ptr<IPv4Addr>& sock_addr);
-    explicit Socket(const std::shared_ptr<IPv6Addr>& sock_addr);
+	Socket();
+	explicit Socket(const IPv4Addr& addr);
 	~Socket();
 
 	/**
@@ -178,8 +178,8 @@ public:
 	 */	
 	GResult uninit(const GInt32 how = 0);	
 	
-	const std::shared_ptr<IPv4Addr>& getIPv4Addr() const;
-	const std::shared_ptr<IPv6Addr>& getIPv6Addr() const;
+	void setIPv4Addr(const IPv4Addr& addr);
+	const IPv4Addr& getIPv4Addr() const;
     
 	GResult bind();
 	GResult listen(const GUint32 max_connect_num = 20);
@@ -235,12 +235,11 @@ private:
 	void setError(const GInt8* args, ...);	
 	
 private:
-	GInt32						m_sockfd;	
-	std::shared_ptr<IPv4Addr>	m_ipv4Addr;
-    std::shared_ptr<IPv6Addr>	m_ipv6Addr;
-	bool						m_isInit;
-    AddrFamily                  m_family;
-	GInt8						m_error[G_ERROR_BUF_SIZE];
+	GInt32		m_sockfd;	
+	IPv4Addr	m_ipv4Addr;
+	bool		m_isInit;
+    AddrFamily	m_family;
+	GInt8		m_error[G_ERROR_BUF_SIZE];
 };
 	
 /** 
@@ -249,13 +248,14 @@ private:
 class SocketServer
 {
 public:
+	SocketServer();
 	/**
 	 * @brief auto find location host
 	 */
-	explicit SocketServer(const std::shared_ptr<Socket>& socket);
+	explicit SocketServer(const GUint32 server_ip, const GUint16 server_port);
 	~SocketServer();
 	
-	const std::shared_ptr<Socket>& getSocket() const;
+	const Socket& getSocket() const;
 	
 	/**
 	 * @brief bind address and port
@@ -306,8 +306,8 @@ private:
 	void setError(const GInt8* args, ...);
 	
 private:
-	std::shared_ptr<Socket> m_socket;
-	GInt8					m_error[G_ERROR_BUF_SIZE];
+	Socket 		m_socket;
+	GInt8		m_error[G_ERROR_BUF_SIZE];
 };
 
 /** 
@@ -316,13 +316,14 @@ private:
 class SocketClient
 {
 public:
+	SocketClient();
 	/**
 	 * @brief connect location server
 	 */		
-	explicit SocketClient(const std::shared_ptr<IPv4Addr>& socket);
+	explicit SocketClient(const GUint32 server_ip, const GUint16 server_port);
 	~SocketClient();
 	
-	const std::shared_ptr<IPv4Addr>& getSocket() const;
+	const Socket& getSocket() const;
 	
 	/**
 	 * @brief connect socket
@@ -367,8 +368,8 @@ private:
 	void setError(const GInt8* args, ...);
 	
 private:
-	std::shared_ptr<Socket> m_socket;	
-	GInt8					m_error[G_ERROR_BUF_SIZE];
+	Socket 	m_socket;	
+	GInt8	m_error[G_ERROR_BUF_SIZE];
 };
 
 /**
@@ -377,11 +378,14 @@ private:
 class EpollServer
 {
 public:
-	EpollServer(const GUint32 server_ip, const );
+	EpollServer();
+	explicit EpollServer(const GUint32 server_ip, const GUint16 server_port);
 	virtual ~EpollServer();
 	
 	GResult init();
 	
+private:
+ 	SocketServer	m_socketServer;
 };
 
 }
