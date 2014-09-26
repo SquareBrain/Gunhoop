@@ -246,14 +246,14 @@ private:
 /** 
  * @brief server socket class
  */
-class ServerSocket
+class SocketServer
 {
 public:
 	/**
 	 * @brief auto find location host
 	 */
-	explicit ServerSocket(const std::shared_ptr<Socket>& socket);
-	~ServerSocket();
+	explicit SocketServer(const std::shared_ptr<Socket>& socket);
+	~SocketServer();
 	
 	const std::shared_ptr<Socket>& getSocket() const;
 	
@@ -313,14 +313,14 @@ private:
 /** 
  * @brief client socket class
  */
-class ClientSocket
+class SocketClient
 {
 public:
 	/**
 	 * @brief connect location server
 	 */		
-	explicit ClientSocket(const std::shared_ptr<IPv4Addr>& socket);
-	~ClientSocket();
+	explicit SocketClient(const std::shared_ptr<IPv4Addr>& socket);
+	~SocketClient();
 	
 	const std::shared_ptr<IPv4Addr>& getSocket() const;
 	
@@ -370,4 +370,18 @@ private:
 	std::shared_ptr<Socket> m_socket;	
 	GInt8					m_error[G_ERROR_BUF_SIZE];
 };
+
+/**
+ * @brief epoll server
+ */
+class EpollServer
+{
+public:
+	EpollServer(const GUint32 server_ip, const );
+	virtual ~EpollServer();
+	
+	GResult init();
+	
+};
+
 }
