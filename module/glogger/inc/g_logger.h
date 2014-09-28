@@ -26,6 +26,11 @@
 #define G_LOG_INIT() GLogger::init()
 
 /**
+ * @brief uninit log system
+ */
+#define G_LOG_INIT() GLogger::uninit()
+
+/**
  * @brief print error log
  * @param [in] module : module name
  * @param [in] args : parameters
