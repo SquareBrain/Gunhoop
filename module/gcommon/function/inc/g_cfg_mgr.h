@@ -88,6 +88,7 @@ public:
     
 private:
     GResult loadCfg();
+    GResult loadCfg(const GInt8* cfg_data);
     
 private:
     std::string     m_cfgFilePath;
