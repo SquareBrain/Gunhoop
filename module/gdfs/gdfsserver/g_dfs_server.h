@@ -62,7 +62,7 @@ public:
     /**
      * @brief get DFS service state
      */
-    DFSServerState getServerState();
+    DFSServerState getState();
     
 private:
     GResult run();
