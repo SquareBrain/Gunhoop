@@ -60,8 +60,9 @@ public:
     GResult stop();
     
     /**
-     * @brief get DFS service state
+     * @brief set/get DFS service state
      */
+    void setState(const DFSServerState state);
     DFSServerState getState();
     
 private:
