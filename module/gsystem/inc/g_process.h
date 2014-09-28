@@ -47,6 +47,7 @@ public:
     ~ProcessMonitor();
     
     void addMonitor(ProcessMonitorInterface* monitor);
+    void removeMonitor(ProcessMonitorInterface* monitor);
     
 private:
     static void signalHandler(const GInt32 sig);
