@@ -167,6 +167,7 @@ public:
 	static GLoggerImpl* GetInstance();
 
 	GResult init();
+	GResult uninit();
 
 	/**
 	 * @brief print log
