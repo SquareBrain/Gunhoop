@@ -19,4 +19,35 @@
 
 #include <g_common.h>
 
+namespace gdfs {
+    
 /**
+ * @brief DFS http service
+ */
+class DfsHttpService : public gcom::HttpService
+{
+public:
+    DfsHttpService(const IPPortPair& ipPortPair);
+    ~DfsHttpService();
+    
+    /**
+     * @brief startup http server
+     * @return G_YES/G_NO
+     */
+    GResult start();
+    
+    /**
+     * @brief stop http server
+     * @return G_YES/G_NO
+     */
+    GResult stop();
+    
+private:
+    // inherit form base class gcom::HttpService
+    GResult onHttpRequest();
+    
+private:
+    IPPortPair      m_ipPortPair;
+};
+
+}
