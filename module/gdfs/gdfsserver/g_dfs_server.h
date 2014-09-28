@@ -74,5 +74,10 @@ private:
     DFSServerState      m_serverState;  
     std::string         m_dfsCfgFilePath;
     gcom::CfgMgr        m_cfgMgr;
+    
+    // dfs services list
+    gcom::HttpServer    m_httpServer;
+    gcom::FtpServer     m_ftpServer;
+    gcom::CmdServer     m_cmdServer;
 };
 }
