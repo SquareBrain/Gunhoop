@@ -35,8 +35,8 @@ typedef enum
 {
     SERVER_INIT,
     SERVER_FAILED,
-    SERVER_ON,
-    SERVER_OFF
+    SERVER_RUNNING,
+    SERVER_STOP
 } DFSServerState;
 
 /**
