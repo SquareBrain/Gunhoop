@@ -60,7 +60,7 @@ public:
      * @brief set/get DFS service state
      */
     void setState(const DFSServerState state);
-    DFSServerState getState();
+    const DFSServerState& getState() const;
     
 private:
     // inherit from base class gsys::ThreadTask
@@ -72,6 +72,7 @@ private:
     
 private:
     DFSServerState  m_serverState;  
+    std::string     m_dfsCfgFilePath;
     XmlDocument     m_dfsCfgFile;
 };
 }
