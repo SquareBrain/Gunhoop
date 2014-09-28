@@ -41,8 +41,8 @@ public:
      */
     GResult load();
     GResult load(const std::string& cfg_file_path);
-    GResult load(const GInt8* cfg_data);
-    GResult load(const std::string cfg_data);
+    GResult loadData(const GInt8* cfg_data);
+    GResult loadData(const std::string cfg_data);
     
     /**
      * @brief set configuration value
@@ -85,10 +85,6 @@ public:
      * @return G_YES/G_NO
      */
     GResult save();
-    
-private:
-    GResult loadCfg();
-    GResult loadCfg(const GInt8* cfg_data);
     
 private:
     std::string     m_cfgFilePath;
