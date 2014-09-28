@@ -35,6 +35,19 @@ void ProcessMonitor::addMonitor(ProcessMonitorInterface* monitor)
     m_monitorList.push_back(monitor);
 }
 
+void ProcessMonitor::removeMonitor(ProcessMonitorInterface* monitor)
+{
+    MonitorList::iterator iter = m_monitorList.begin();
+    for (; iter != m_monitorList.end(); ++iter)
+    {
+        if (monitor == *iter)
+        {
+            m_monitorList.erase(iter);
+            break;
+        }
+    }    
+}
+
 void ProcessMonitor::signalHandler(const GInt32 sig)
 {
     MonitorList::iterator iter = m_monitorList.begin();
