@@ -21,6 +21,10 @@
 #include <g_common.h>
 #include <g_utils.h>
 
+#include <g_dfs_http_server.h>
+#include <g_dfs_ftp_server.h>
+#include <g_dfs_cli_server.h>
+
 static const std::string DEF_DFS_CFG_FILE_PATH("./dfs_cfg.xml");
 
 namespace gdfs {
@@ -76,8 +80,8 @@ private:
     gcom::CfgMgr        m_cfgMgr;
     
     // dfs services list
-    gcom::HttpServer    m_httpServer;
-    gcom::FtpServer     m_ftpServer;
-    gcom::CmdServer     m_cmdServer;
+    DFSHttpServer       m_httpServer;
+    DFSFtpServer        m_ftpServer;
+    DFSCliServer        m_cliServer;
 };
 }
