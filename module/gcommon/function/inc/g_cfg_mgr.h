@@ -36,6 +36,15 @@ public:
     ~CfgMgr();
     
     /**
+     * @breif load configuration
+     * @return G_YES/G_NO
+     */
+    GResult load();
+    GResult load(const std::string& cfg_file_path);
+    GResult load(const GInt8* cfg_data);
+    GResult load(const std::string cfg_data);
+    
+    /**
      * @brief set configuration value
      * @param [in] path : parameter path, like : dfscfg.server.port
      * @param [in] value : set value
@@ -55,7 +64,21 @@ public:
      * @param [out] value : get value
      * @return G_YES/G_NO
      */
-    GResult getValue(const std::string& path, bool value);
+    GResult getValue(const std::string& path, bool& value);
+    GResult getValue(const std::string& path, GInt32& value);
+    GResult getValue(const std::string& path, GInt64& value);
+    GResult getValue(const std::string& path, GUint32& value);
+    GResult getValue(const std::string& path, GUint64& value);
+    GResult getValue(const std::string& path, std::string& value);
+    
+    /**
+     * @brief get configuration data
+     * @param [in] path : parameter path, like : dfscfg.server.port
+     * @param [out] buffer : data buffer
+     * @param [in] size : data buffer size
+     * @return G_YES/G_NO
+     */    
+    GResult getValue(const std::string& path, GInt8* buffer, const GUint64 size);
     
 private:
     std::string     m_cfgFilePath;
