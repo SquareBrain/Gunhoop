@@ -47,6 +47,11 @@ GResult DFSServer::stop()
     return G_NO;
 }
 
+void DFSServer::setState(const DFSServerState state)
+{
+    m_serverState = state;
+}
+
 DFSServerState DFSServer::getState()
 {
     return m_serverState;
