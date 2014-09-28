@@ -39,7 +39,12 @@ GResult DFSServer::start()
         return G_YES;
     }
     
-    IS_NO_R(loadCfg());
+    if (m_dfsCfgFilePath.empty())
+    {
+        m_dfsCfgFilePath = DEF_DFS_CFG_FILE_PATH;
+    }
+    
+    IS_NO_R(m_cfgMgr.load(m_dfsCfgFilePath));
     IS_NO_R(createService());
     
     m_serverState = SERVER_ON;
@@ -73,30 +78,9 @@ DFSServerState DFSServer::run()
     return G_YES;
 }
 
-GResult DFSServer::loadCfg()
-{
-    G_LOG_FUN_IN();
-    
-    if (m_dfsCfgFilePath.empty())
-    {
-        m_dfsCfgFilePath = DEF_DFS_CFG_FILE_PATH;
-    }
-    
-    if (!m_dfsCfgFile.loadFile(m_dfsCfgFilePath))
-    {
-        m_serverState = SERVER_FAILED;
-        G_LOG_ERROR(LOG_PREFIX, "startup DFS server load configuration file failed, set server state = SERVER_FAILED");
-        return G_NO;
-    }
-    
-    G_LOG_FUN_OUT();
-    
-    return G_YES;
-}
-
 GResult DFSServer::createService()
 {
-    
+     
 }
 
 }
