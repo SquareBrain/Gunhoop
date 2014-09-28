@@ -21,11 +21,11 @@
 
 namespace gcom {
 
-class RPCService
+class RpcService
 {
 public:
-	RPCService() {}
-	~RPCService() {}
+	RpcService() {}
+	~RpcService() {}
 };
 
 }
