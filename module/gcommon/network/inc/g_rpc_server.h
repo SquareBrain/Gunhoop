@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_rpc.h
+* @file		g_rpc_server.h
 * @version     
 * @brief      
 * @author   duye
@@ -21,10 +21,11 @@
 
 namespace gcom {
 
-class RPC
+class RPCService
 {
 public:
-	RPC() {}
-	~RPC() {}
+	RPCService() {}
+	~RPCService() {}
 };
+
 }
