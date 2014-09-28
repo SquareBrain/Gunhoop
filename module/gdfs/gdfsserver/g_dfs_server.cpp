@@ -32,6 +32,8 @@ DFSServer::~DFSServer() {}
 
 GResult DFSServer::start()
 {
+    G_LOG_FUN_IN();
+    
     if (m_serverState == SERVER_ON)
     {
         return G_YES;
@@ -41,12 +43,16 @@ GResult DFSServer::start()
     IS_NO_R(createService());
     
     m_serverState = SERVER_ON;
-     
+    
+    G_LOG_FUN_OUT();
+    
     return G_YES;
 }
 
 GResult DFSServer::stop()
 {
+    G_LOG_FUN_IN();
+    G_LOG_FUN_OUT();
     return G_NO;
 }
 
@@ -62,12 +68,14 @@ const DFSServerState& DFSServer::getState() const
 
 DFSServerState DFSServer::run()
 {
+    G_LOG_FUN_IN();
+    G_LOG_FUN_OUT();
     return G_YES;
 }
 
 GResult DFSServer::loadCfg()
 {
-    G_LOG_ENTER();
+    G_LOG_FUN_IN();
     
     if (m_dfsCfgFilePath.empty())
     {
@@ -81,7 +89,7 @@ GResult DFSServer::loadCfg()
         return G_NO;
     }
     
-    G_LOG_EXIT();
+    G_LOG_FUN_OUT();
     
     return G_YES;
 }
