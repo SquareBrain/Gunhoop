@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_udp.h
+* @file		g_udp_server.h
 * @version     
 * @brief      
 * @author   duye
@@ -21,10 +21,10 @@
 
 namespace gcom {
 
-class Udp
+class UdpService
 {
 public:
-	Udp() {}
-	~Udp() {}
+	UdpService() {}
+	~UdpService() {}
 };
 }
