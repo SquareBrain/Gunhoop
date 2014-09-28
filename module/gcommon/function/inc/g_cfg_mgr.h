@@ -87,6 +87,9 @@ public:
     GResult save();
     
 private:
+    GResult loadCfg();
+    
+private:
     std::string     m_cfgFilePath;
     XmlDocument     m_cfgDoc;
 };
