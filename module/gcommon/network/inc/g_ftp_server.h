@@ -16,3 +16,16 @@
 */
 
 #pragma once
+
+#include <g_system.h>
+
+namespace gcom {
+
+class FtpClient
+{
+public:
+	FtpClient();
+	explicit FtpClient(const IPPortPair& server);
+	~FtpClient();
+};
+}
