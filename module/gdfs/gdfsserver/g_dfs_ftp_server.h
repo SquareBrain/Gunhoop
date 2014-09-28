@@ -44,7 +44,7 @@ public:
     
 private:
     // inherit form base class gcom::HttpService
-    GResult onFtpRequest();
+    GResult onRequest();
     
 private:
     IPPortPair      m_ipPortPair;
