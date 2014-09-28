@@ -16,6 +16,9 @@
 */
 
 #include <g_dfs_server.h>
+#include <g_logger.h>
+
+static const GInt8* LOG_PREFIX = "dfs.server.startup";
 
 namespace gdfs {
 
@@ -52,7 +55,7 @@ void DFSServer::setState(const DFSServerState state)
     m_serverState = state;
 }
 
-DFSServerState DFSServer::getState()
+const DFSServerState& DFSServer::getState() const
 {
     return m_serverState;
 }
@@ -62,8 +65,10 @@ DFSServerState DFSServer::run()
     return G_YES;
 }
 
-DFSServerState DFSServer::loadCfg()
+GResult DFSServer::loadCfg()
 {
+    G_LOG_ENTER();
+    
     if (m_dfsCfgFilePath.empty())
     {
         m_dfsCfgFilePath = DEF_DFS_CFG_FILE_PATH;
@@ -72,8 +77,11 @@ DFSServerState DFSServer::loadCfg()
     if (!m_dfsCfgFile.loadFile(m_dfsCfgFilePath))
     {
         m_serverState = SERVER_FAILED;
+        G_LOG_ERROR(LOG_PREFIX, "startup DFS server load configuration file failed, set server state = SERVER_FAILED");
         return G_NO;
     }
+    
+    G_LOG_EXIT();
     
     return G_YES;
 }
