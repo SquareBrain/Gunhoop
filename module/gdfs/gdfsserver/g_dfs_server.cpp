@@ -94,4 +94,9 @@ GResult DFSServer::loadCfg()
     return G_YES;
 }
 
+GResult DFSServer::createService()
+{
+    
+}
+
 }
