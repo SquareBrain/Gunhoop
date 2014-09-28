@@ -29,7 +29,7 @@ public:
 	
 	virtual GResult start() = 0;
 	virtual GResult stop() = 0;
-	virtual void run() = 0;
+	virtual GResult run() = 0;
 };
 
 }
