@@ -80,6 +80,12 @@ public:
      */    
     GResult getValue(const std::string& path, GInt8* buffer, const GUint64 size);
     
+    /**
+     * @brief save configuration 
+     * @return G_YES/G_NO
+     */
+    GResult save();
+    
 private:
     std::string     m_cfgFilePath;
     XmlDocument     m_cfgDoc;
