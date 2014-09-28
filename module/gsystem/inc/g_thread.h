@@ -84,7 +84,7 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */		
-	GResult start();
+	GResult startTask();
 
 	/**
 	 * @brief get thread ID
