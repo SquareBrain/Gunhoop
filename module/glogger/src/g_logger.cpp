@@ -23,6 +23,11 @@ GResult GLogger::init()
 	return GLoggerImpl::GetInstance()->init();
 }
 
+GResult GLogger::uninit()
+{
+	return GLoggerImpl::GetInstance()->uninit();
+}
+
 void GLogger::printError(const GInt8* module, 
 	const GInt8* file, 
 	const GUint32 line, 
