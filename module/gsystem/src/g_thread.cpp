@@ -67,7 +67,7 @@ ThreadTask::~ThreadTask()
 {
 }
 
-GResult ThreadTask::start()
+GResult ThreadTask::startTask()
 {
 	pthread_attr_t* attributes = NULL;
 	GInt32 ret = pthread_create(&m_threadId, attributes, enterPoint, this);
