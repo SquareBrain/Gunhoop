@@ -75,6 +75,11 @@ public:
 	 * @brief init
 	 */
 	static GResult init();
+	
+	/**
+	 * @brief uninit
+	 */
+	static GResult uninit();	
 
 	/**
 	 * @brief print log
