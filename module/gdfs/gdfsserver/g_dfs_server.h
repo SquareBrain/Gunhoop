@@ -42,7 +42,7 @@ typedef enum
 /**
  * @brief dfs server
  */
-class DFSServer : public ThreadTask
+class DFSServer : public ThreadTask, public Singleton
 {
 public:
     DFSServer();
