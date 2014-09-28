@@ -24,8 +24,8 @@ namespace gcom {
 class RpcClient
 {
 public:
-	RpcClient() {}
-	~RpcClient() {}
+	RpcClient();
+	explicit RpcClient(const IPPortPair& server);
+	~RpcClient();
 };
-
 }
