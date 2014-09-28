@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_tcp.h
+* @file		g_tcp_server.h
 * @version     
 * @brief      
 * @author   duye
@@ -110,12 +110,12 @@ public:
 /**
  * @brief tcp server
  */
-class TcpServer
+class TcpService
 {
 public:
-	TcpServer();
-	explicit TcpServer(const IPPortPair& serverAddr, TcpServerInterface* interface = nullptr);
-	virtual ~TcpServer();
+	TcpService();
+	explicit TcpService(const IPPortPair& serverAddr, TcpServerInterface* interface = nullptr);
+	virtual ~TcpService();
 	
 	/**
 	 * @brief start
