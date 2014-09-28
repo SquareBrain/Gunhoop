@@ -19,6 +19,8 @@
 #include <g_system.h>
 #include <g_dfs_server.h>
 
+static const GInt8* LOG_PREFIX = "dfs.server.main";
+
 /**
  * @brief dfs server process monitor class
  */
@@ -35,6 +37,7 @@ public:
      */
     void onSegmentation(const GInt32 sig)
     {
+        DFSServer::getInstance()->setState(SERVER_FAILED);
     }
     
     /**
@@ -44,6 +47,7 @@ public:
      */
     void onCtrlC(const GInt32 sig)
     {
+        DFSServer::getInstance()->setState(SERVER_STOP);
     }
 }
 
@@ -53,18 +57,22 @@ int main()
     
     // process monitor
     DFSProcessMonitor dfs_process_monitor;
-    gsys::ProcessMonitor process_monitor(dfs_process_monitor);
+    gsys::ProcessMonitor process_monitor(&dfs_process_monitor);
     
-    DFSServer dfs_server;
-    if (IS_NO(dfs_server.start()))
+    if (IS_NO(DFSServer::getInstance()->start()))
     {
+        G_LOG_INFO(LOG_PREFIX, "DFS Server Startup Fault");
         return -1;
     }
     
-    for (;;)
+    while (DFSServer::getInstance()->getState() == SERVER_RUNNING
     {
         gsys::gsystem::sleep(2);
     }
+    
+    DFSServer::getInstance()->stop();
+    
+    
     
     G_LOG_UNINIT();
     
