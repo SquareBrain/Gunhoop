@@ -28,7 +28,7 @@
 /**
  * @brief uninit log system
  */
-#define G_LOG_INIT() GLogger::uninit()
+#define G_LOG_UNINIT() GLogger::uninit()
 
 /**
  * @brief print error log
@@ -64,6 +64,16 @@
  * @param [in] args : parameters
  */
 #define G_LOG_TRACE(module, args...) GLogger::printTrace(module, __FILE__, __LINE__, __FUNCTION__, ##args)  
+
+/**
+ * @brief function enter print
+ */
+ #define G_LOG_IN(log_prefix) G_LOG_DEBUG(log_prefix, "In %s:%s:%d", __FUNCTION__, __FILE__, __LINE__);
+ 
+ /**
+ * @brief function out print
+ */
+#define G_LOG_OUT(log_prefix) G_LOG_DEBUG(log_prefix, "Out %s:%s:%d", __FUNCTION__, __FILE__, __LINE__);
 
 /**
  * system log tool
