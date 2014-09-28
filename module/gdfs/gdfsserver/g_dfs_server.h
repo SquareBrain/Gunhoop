@@ -21,9 +21,6 @@
 #include <g_common.h>
 #include <g_utils.h>
 
-using namespace gcom;
-using namespace gsys;
-
 static const std::string DEF_DFS_CFG_FILE_PATH("./dfs_cfg.xml");
 
 namespace gdfs {
@@ -42,7 +39,7 @@ typedef enum
 /**
  * @brief dfs server
  */
-class DFSServer : public ThreadTask, public Singleton
+class DFSServer : public gsys::ThreadTask, public gcom::Singleton<DFSServer>
 {
 public:
     DFSServer();
@@ -66,13 +63,15 @@ public:
     DFSServerState getState();
     
 private:
+    // inherit from base class gsys::ThreadTask
     GResult run();
+    // read DFS Server configuration file
     GResult loadCfg();
+    // create service thread
     GResult createService();
     
 private:
     DFSServerState  m_serverState;  
     XmlDocument     m_dfsCfgFile;
 };
- 
 }
