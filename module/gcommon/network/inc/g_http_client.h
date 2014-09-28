@@ -24,7 +24,8 @@ namespace gcom {
 class HttpClient
 {
 public:
-	HttpClient() {}
-	~HttpClient() {}
+	HttpClient();
+	explicit HttpClient(const IPPortPair& server);
+	~FtpClient();
 };
 }
