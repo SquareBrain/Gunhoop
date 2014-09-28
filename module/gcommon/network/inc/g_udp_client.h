@@ -24,7 +24,8 @@ namespace gcom {
 class UdpClient
 {
 public:
-	UdpClient() {}
-	~UdpClient() {}
+	UdpClient();
+	explicit UdpClient(const IPPortPair& server);
+	~UdpClient();
 };
 }
