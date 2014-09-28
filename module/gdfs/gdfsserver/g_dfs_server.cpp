@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_dfs_server.cpp
+* @file     g_dfs_server.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -47,7 +47,7 @@ GResult DFSServer::stop()
     return G_NO;
 }
 
-DFSServerState DFSServer::getServerState()
+DFSServerState DFSServer::getState()
 {
     return m_serverState;
 }
