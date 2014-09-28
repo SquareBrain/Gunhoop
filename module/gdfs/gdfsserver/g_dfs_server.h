@@ -71,8 +71,8 @@ private:
     GResult createService();
     
 private:
-    DFSServerState  m_serverState;  
-    std::string     m_dfsCfgFilePath;
-    XmlDocument     m_dfsCfgFile;
+    DFSServerState      m_serverState;  
+    std::string         m_dfsCfgFilePath;
+    gcom::CfgMgr        m_cfgMgr;
 };
 }
