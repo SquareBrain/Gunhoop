@@ -18,3 +18,36 @@
 #pragma once
 
 #include <g_common.h>
+
+namespace gdfs {
+    
+/**
+ * @brief DFS http service
+ */
+class DFSFtpService : public gcom::FtpService
+{
+public:
+    DFSFtpService(const IPPortPair& ipPortPair);
+    ~DFSFtpService();
+    
+    /**
+     * @brief startup http server
+     * @return G_YES/G_NO
+     */
+    GResult start();
+    
+    /**
+     * @brief stop http server
+     * @return G_YES/G_NO
+     */
+    GResult stop();
+    
+private:
+    // inherit form base class gcom::HttpService
+    GResult onFtpRequest();
+    
+private:
+    IPPortPair      m_ipPortPair;
+};
+
+}
