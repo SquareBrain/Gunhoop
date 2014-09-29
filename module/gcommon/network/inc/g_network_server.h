@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_network_service.h
+* @file		g_network_server.h
 * @version     
 * @brief      
-* @author   duye
-* @date     2014-08-29
+* @author	duye
+* @date		2014-08-29
 * @note 
 *
 *  1. 2014-08-29 duye Created this file
@@ -21,7 +21,7 @@
 
 namespace gcom {
 
-class NetworkService : public gsys::ThreadTask
+class NetworkServer : public gsys::ThreadTask
 {
 public:
 	NetworkService() {}
@@ -29,7 +29,11 @@ public:
 	
 	virtual GResult start() = 0;
 	virtual GResult stop() = 0;
-	virtual GResult run() = 0;
+	virtual GResult service() = 0;
+	
+private:	
+	// inherit from base class gsys::ThreadTask
+	GResult run();
 };
 
 }
