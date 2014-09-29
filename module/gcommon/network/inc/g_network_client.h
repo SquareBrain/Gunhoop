@@ -44,10 +44,11 @@ public:
     virtual GResult response(const GInt8* msg) = 0;
     
     /**
-     * @brief set server address
+     * @brief set/get server address
      * @param [in] server_addr : server address
      */
     void setServerAddr(const IPPortPair& server_addr);
+    const IPPortPair& getServerAddr() const;
     
     /**
      * @brief set/get connect state
