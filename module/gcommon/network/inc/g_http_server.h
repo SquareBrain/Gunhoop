@@ -7,8 +7,8 @@
 * @file		g_http_server.h
 * @version     
 * @brief      
-* @author   duye
-* @date     2014-08-29
+* @author	duye
+* @date		2014-08-29
 * @note 
 *
 *  1. 2014-08-29 duye Created this file
