@@ -17,14 +17,18 @@
 
 #pragma once
 
-#include <g_system.h>
+#include <g_network_service.h>
 
 namespace gcom {
 
-class HttpServer
+class HttpServer : public NetworkServer
 {
 public:
 	HttpServer() {}
-	~HttpServer() {}
+	virtual ~HttpServer() {}
+	
+	virtual GResult start() = 0;
+	virtual GResult stop() = 0;
+	virtual GResult service() = 0;
 };
 }
