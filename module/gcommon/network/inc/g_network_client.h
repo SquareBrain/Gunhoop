@@ -41,12 +41,26 @@ public:
     virtual ~NetworkClient();
     
     virtual GResult connect() = 0;
-    virtual GResult event() = 0;
+    virtual GResult response(const GInt8* msg) = 0;
+    
+    /**
+     * @brief set server address
+     * @param [in] server_addr : server address
+     */
+    void setServerAddr(const IPPortPair& server_addr);
+    
+    /**
+     * @brief set/get connect state
+     */
+    void setConnectState(const ClientConnectState& connect_state); 
+    const ClientConnectState& getConnectState() const;
 
 private:
     GResult run();
     
 protected:
-    IPPortPair  m_ipPortPair;
+    IPPortPair          m_serverAddr;
+    ClientConnectState  m_connectState;
 };
+
 }
