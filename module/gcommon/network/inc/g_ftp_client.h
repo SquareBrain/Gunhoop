@@ -26,7 +26,7 @@ class FtpClient : public NetworkClient
 {
 public:
 	FtpClient();
-	explicit FtpClient(const IPPortPair& server);
+	explicit FtpClient(const IPPortPair& server_addr);
 	virtual ~FtpClient();
 	
 	/**
