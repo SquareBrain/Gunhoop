@@ -17,8 +17,7 @@
 
 #pragma once
 
-#include <g_system.h>
-#include <g_network.h>
+#include <g_network_server.h>
 
 namespace gcom {
 	
@@ -40,22 +39,22 @@ typedef enum
 /**
  * @brief tcp server user interface
  */
-class TcpServiceInterface
+class TcpServerInterface
 {
 public:
-	virtual ~TcpServiceInterface() {}
+	virtual ~TcpServerInterface() {}
 	virtual GResult accepted(const SocketAddr& clientAddr) = 0;
 };
 
 /**
  * @brief tcp server
  */
-class TcpService
+class TcpServer
 {
 public:
-	TcpService();
-	explicit TcpService(const IPPortPair& serverAddr, TcpServerInterface* interface = nullptr);
-	virtual ~TcpService();
+	TcpServer();
+	explicit TcpServer(const IPPortPair& serverAddr, TcpServerInterface* interface = nullptr);
+	virtual ~TcpServer();
 	
 	/**
 	 * @brief start
