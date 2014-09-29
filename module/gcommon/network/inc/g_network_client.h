@@ -16,17 +16,33 @@
 */
 
 #include <g_system.h>
+#include <g_network_def.h>
 
 namespace gcom {
+    
+/**
+ * @brief connect state
+ */
+typedef enum
+{
+    CONNECT_INIT,
+    CONNECT_ON,
+    CONNECT_OFF
+} ClientConnectState;
+
 /**
  * @brief network client component base class
  */
 class NetworkClient
 {
 public:
-    NetworkClient() {}
-    virtual ~NetworkClient() {}
+    NetworkClient();
+    explicit NetworkClient(const IPPortPair& ip_port_pair);
+    virtual ~NetworkClient();
     
     virtual GResult connect() = 0;
+    
+protected:
+    IPPortPair  m_ipPortPair;
 };
 }
