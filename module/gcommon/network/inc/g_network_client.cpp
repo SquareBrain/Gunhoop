@@ -14,3 +14,12 @@
 *  1. 2014-09-30 duye Created this file
 * 
 */
+#include <g_network_client.h>
+
+namespace gcom {
+    
+NetworkClient::NetworkClient() {}
+NetworkClient::NetworkClient(const IPPortPair& ip_port_pair) : m_ipPortPair(ip_port_pair) {}
+NetworkClient::~NetworkClient() {}
+
+}
