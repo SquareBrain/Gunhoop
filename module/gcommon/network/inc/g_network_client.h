@@ -15,4 +15,9 @@
 * 
 */
 
+#include <g_system.h>
+
+namespace gcom {
 /**
+ * @brief network client
+}
