@@ -14,16 +14,34 @@
 *  1. 2014-09-28 duye Created this file
 * 
 */
-
 #pragma once
+
+#include <g_network_client.h>
+#include <g_tcp_client.h>
+#include <g_udp_client.h>
 
 namespace gcom {
 
-class FtpClient
+class FtpClient : public NetworkClient
 {
 public:
 	FtpClient();
 	explicit FtpClient(const IPPortPair& server);
-	~FtpClient();
+	virtual ~FtpClient();
+	
+	/**
+	 * @brief inherit from base class NetworkClient, to connect server
+	 */
+	GResult connect();
+	
+	/**
+	 * @brief inherit from base class NetworkClient, to handle server response
+	 */
+	GResult response(const GInt8* msg);
+	
+private:
+	TcpClient	m_tcpClient;
+	UdpClinet	m_udpClient;
 };
+
 }
