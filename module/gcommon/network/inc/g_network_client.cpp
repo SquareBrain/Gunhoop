@@ -18,8 +18,27 @@
 
 namespace gcom {
     
-NetworkClient::NetworkClient() {}
-NetworkClient::NetworkClient(const IPPortPair& ip_port_pair) : m_ipPortPair(ip_port_pair) {}
+NetworkClient::NetworkClient() : m_connectState(CONNECT_INIT) {}
+
+NetworkClient::NetworkClient(const IPPortPair& server_addr) 
+    : m_serverAddr(server_addr)
+    , m_connectState(CONNECT_INIT) {}
+    
 NetworkClient::~NetworkClient() {}
+
+NetworkClient::setServerAddr(const IPPortPair& server_addr)
+{
+    m_serverAddr = server_addr;
+}
+
+NetworkClient::setConnectState(const ClientConnectState& connect_state)
+{
+    m_connectState = connect_state;
+}
+
+const ClientConnectState& NetworkClient::getConnectState() const
+{
+    return m_connectState;
+}
 
 }
