@@ -19,5 +19,14 @@
 
 namespace gcom {
 /**
- * @brief network client
+ * @brief network client component base class
+ */
+class NetworkClient
+{
+public:
+    NetworkClient() {}
+    virtual ~NetworkClient() {}
+    
+    virtual GResult connect() = 0;
+};
 }
