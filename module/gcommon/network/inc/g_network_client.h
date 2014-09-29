@@ -33,7 +33,7 @@ typedef enum
 /**
  * @brief network client component base class
  */
-class NetworkClient
+class NetworkClient : public gsys::ThreadTask
 {
 public:
     NetworkClient();
@@ -41,6 +41,10 @@ public:
     virtual ~NetworkClient();
     
     virtual GResult connect() = 0;
+    virtual GResult event() = 0;
+
+private:
+    GResult run();
     
 protected:
     IPPortPair  m_ipPortPair;
