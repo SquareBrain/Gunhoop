@@ -26,12 +26,17 @@ NetworkClient::NetworkClient(const IPPortPair& server_addr)
     
 NetworkClient::~NetworkClient() {}
 
-NetworkClient::setServerAddr(const IPPortPair& server_addr)
+void NetworkClient::setServerAddr(const IPPortPair& server_addr)
 {
     m_serverAddr = server_addr;
 }
 
-NetworkClient::setConnectState(const ClientConnectState& connect_state)
+const IPPortPair& NetworkClient::getServerAddr() const
+{
+    return m_serverAddr;
+}
+
+void NetworkClient::setConnectState(const ClientConnectState& connect_state)
 {
     m_connectState = connect_state;
 }
