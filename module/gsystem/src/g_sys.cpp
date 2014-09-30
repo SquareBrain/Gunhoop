@@ -128,9 +128,4 @@ GResult System::getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, std::string& va
 	return G_YES;
 }
 
-GInt8 System::getopt(GInt32 argc, GInt8** argv, GInt8* cmd)
-{
-	return 
-}
-
 }
