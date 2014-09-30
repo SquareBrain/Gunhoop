@@ -31,30 +31,65 @@ typedef enum
 } ClientConnectState;
 
 /**
+ * @biref network client interface
+ */
+class NetworkClientInterface
+{
+public:
+    virtual ~NetworkClientInterface() {}
+    
+    /**
+    virtual GResult response(const GInt8* msg) = 0;    
+};
+
+/**
  * @brief network client component base class
  */
 class NetworkClient : public gsys::ThreadTask
 {
 public:
+    typedef std::list<NetworkClientInterface*> ObserverList;
+    
+public:
     NetworkClient();
-    explicit NetworkClient(const IPPortPair& ip_port_pair);
+    explicit NetworkClient(const IPPortPair& server_addr);
     virtual ~NetworkClient();
     
+    /**
+     * @brief to connect ftp server
+     */
     virtual GResult connect() = 0;
-    virtual GResult response(const GInt8* msg) = 0;
+    virtual GResult connect(const IPPortPair& server_addr) = 0;
     
     /**
-     * @brief set/get server address
+     * @brief send message
+     * @param [in] data : by sent data
+     * @param [in] len : data length
+     * @return have sent size, -1 failed
+     */
+    virtual GInt64 sendMsg(const GInt8* data, const GUint64 len) = 0;
+    
+    /**
+     * @brief message loop handle, new thread
+     */
+    virtual void msgLoop() = 0;
+    
+    /**
+     * @brief get server address
      * @param [in] server_addr : server address
      */
-    void setServerAddr(const IPPortPair& server_addr);
     const IPPortPair& getServerAddr() const;
     
     /**
-     * @brief set/get connect state
+     * @brief get connect state
      */
-    void setConnectState(const ClientConnectState& connect_state); 
     const ClientConnectState& getConnectState() const;
+    
+    /**
+     * @brief add/remove observer
+     */
+    void addObserver(NetworkClientInterface* observer);
+    void removeObserver(NetworkClientInterface* observer);    
 
 private:
     GResult run();
@@ -62,6 +97,7 @@ private:
 protected:
     IPPortPair          m_serverAddr;
     ClientConnectState  m_connectState;
+    ObserverList        m_observerList;
 };
 
 }
