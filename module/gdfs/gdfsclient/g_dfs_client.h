@@ -16,15 +16,22 @@
 */
 #pragma once
 
+#include <g_system.h>
 #include <g_rpc_client.h>
 
 namespace gdfs {
 
-class DfsClient : public gcom::NetworkClientInterface
+class DfsClient : public gcom::NetworkClientInterface, public gsys::ThreadTask
 {
 public:
     DfsClient();
     ~DfsClient();
+    
+    /**
+     * @brief start dfs client
+     * @return G_YES/G_NO
+     */
+    GResult start();
     
     /**
      * @brief handle server response message, user need implement
@@ -33,7 +40,13 @@ public:
      */
     GResult serverResponse(const GInt8* msg);
     
+private:
+    // inherite from base class gsys::ThreadTask, to create new thread
+    // to be called, when call this->startTask();
+    GResult run();
+    
 private:    
+    gcom::RpcClient     m_rpcClient;
 };
 
 }
