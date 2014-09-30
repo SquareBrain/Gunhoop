@@ -67,7 +67,7 @@ public:
     }
 }
 
-int main()
+int main(int argc, char** argv)
 {
     G_LOG_INIT();
     
