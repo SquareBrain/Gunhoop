@@ -381,19 +381,47 @@ private:
 };
 
 /**
- * @brief epoll server
+ * @brief epoll socket server
  */
 class EpollServer
 {
 public:
 	EpollServer();
-	explicit EpollServer(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = nullptr);
+	/**
+	 * @brief constructor
+	 * @param [in] server_ip : server ip address
+	 * @param [in] server_port : server port, default is 0, indent to random generate
+	 * @param [in] interface : net card name, default is eth0, network communication card
+	 */
+	explicit EpollServer(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = "eth0");
 	virtual ~EpollServer();
 	
 	GResult init();
 	
 private:
  	SocketServer	m_socketServer;
+};
+
+/**
+ * @brief epoll socket client
+ */
+class EpollClient
+{
+public:
+	EpollClient();
+	/**
+	 * @brief constructor
+	 * @param [in] server_ip : server ip address
+	 * @param [in] server_port : server port, default is 0, indent to random generate
+	 * @param [in] interface : net card name, default is eth0, network communication card
+	 */	
+	explicit EpollClient(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = nullptr);
+	virtual ~EpollClient();
+	
+	GResult init();
+	
+private:
+ 	SocketClient	m_socketClient;
 };
 
 }
