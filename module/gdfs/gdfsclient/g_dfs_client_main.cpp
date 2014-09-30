@@ -21,6 +21,75 @@
 static const GInt8* LOG_PREFIX = "dfs.client.main";
 static gsys::Condition exit_condition;
 
+class DfsClientProcessMonitorObserver;
+
+int main(int argc, char** argv)
+{
+    G_LOG_INIT();
+    
+    G_LOG_INFO(LOG_PREFIX, "==============DFS client startup===========");
+    
+    gsys::Usage usage;
+    usage.format("dfsclient [-s] [-p] [OPTION...]");
+    usage.addExample("dfsclient -s 192.168.5.122 -p 8080");
+    usage.addExample("dfsclient -s 192.168.5.122 -p 8080 -i eth0");
+    usage.addOpt('h', gsys::Usage::option, "help", "print help information");
+    usage.addOpt('s', gsys::Usage::need, "server_ip", "the DFS server ip, eg : 192.168.5.122");
+    usage.addOpt('p', gsys::Usage::need, "server_port", "the DFS server port, eg : 8080");
+    usage.addOpt('i', gsys::Usage::option, "local_interface", "the local communication interface, default is eth0");
+    
+    // process monitor
+    DfsClientProcessMonitorObserver dfs_client_process_monitor_observer;
+    gsys::ProcessMonitor process_monitor(&dfs_client_process_monitor_observer);
+
+    // get help
+    std::string help;
+    if (IS_YES(gsys::System::getOptArg(argc, argv, "h", help)))
+    {
+        usage.print();
+        return 0;
+    }    
+    
+    // get server ip
+    std::string server_ip;
+    if (IS_NO(gsys::System::getOptArg(argc, argv, "s", server_ip)))
+    {
+        G_LOG_ERROR(LOG_PREFIX, "Parser argument -h for DFS server IP failed");        
+        return -1;
+    }
+    
+    // get server port
+    GUint16 server_port = 0;
+    if (IS_NO(gsys::System::getOptArg(argc, argv, "p", server_port)))
+    {
+        G_LOG_ERROR(LOG_PREFIX, "Parser argument -p for DFS server port failed");        
+        return -1;
+    }
+    
+    // get communication interface
+    std::string interface;
+    if (IS_NO(gsys::System::getOptArg(argc, argv, "i", interface)))
+    {
+        G_LOG_WARN(LOG_PREFIX, "Parser argument -p for DFS server port failed");
+    }    
+    
+    // init dfs client
+    gdfs::DfsClient dfs_client;
+    if (IS_NO(dfs_client->start(server_ip, server_port)))
+    {
+        G_LOG_ERROR(LOG_PREFIX, "Try to connect DFS server failed");
+        return -1;
+    }
+    
+    exit_condition.wait();
+    
+    G_LOG_INFO(LOG_PREFIX, "==============DFS client exit===========");
+    
+    G_LOG_UNINIT();
+    
+    return 0;
+}
+
 /**
  * @brief dfs server process monitor class
  */
@@ -53,56 +122,4 @@ public:
         G_LOG_INFO(LOG_PREFIX, "DFS client will stopped, waitting for exit");
         exit_condition.signal();
     }
-}
-
-int main(int argc, char** argv)
-{
-    G_LOG_INIT();
-    
-    G_LOG_INFO(LOG_PREFIX, "==============DFS client startup===========");
-    
-    // process monitor
-    DfsClientProcessMonitorObserver dfs_client_process_monitor_observer;
-    gsys::ProcessMonitor process_monitor(&dfs_client_process_monitor_observer);
-    
-    std::string server_ip;
-    GInt8 server_port = 0;
-    
-    GInt8 cmd = 0;
-    while ((cmd = gsys::System::getopt(argc, argv, "h:p")))
-    {
-        switch (cmd)
-        {
-            case 'h':
-                server_ip.assign(optarg);
-                break;
-            case 'p':
-                server_port = std::
-                break;
-            default:
-                break;
-        }
-    }
-    
-    if (server_ip.empty() || server_port == 0)
-    {
-        G_LOG_ERROR(LOG_PREFIX, "Argument -h or -p error");
-        return -1;
-    }
-    
-    // init dfs client
-    DfsClient dfs_client;
-    if (IS_NO(dfs_client->start()))
-    {
-        G_LOG_ERROR(LOG_PREFIX, "Try to connect DFS server failed");
-        return -1;
-    }
-    
-    exit_condition.wait();
-    
-    G_LOG_INFO(LOG_PREFIX, "==============DFS client exit===========");
-    
-    G_LOG_UNINIT();
-    
-    return 0;
-}
+};
