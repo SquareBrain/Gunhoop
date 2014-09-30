@@ -43,7 +43,7 @@ public:
      * @param [in] msg : message data
      * @return G_YES/G_NO
      */
-    virtual GResult serverResponse(const GInt8* msg) = 0; 
+    virtual GResult onServerResponse(const GInt8* msg) = 0; 
 };
 
 /**
