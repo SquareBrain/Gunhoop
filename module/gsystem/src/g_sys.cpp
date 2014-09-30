@@ -22,7 +22,7 @@
 #include <string.h>
 #include <g_sys.h>
 
-using namespace gsys;
+namespace gsys {
 
 void System::sleep(const GUint64 time)
 {
@@ -105,4 +105,11 @@ GResult System::getSysTime(const GInt8* format, GInt8* buffer, const GUint32 siz
     snprintf(buffer + len, size - len, ".%06.6d", (GInt32)(tv.tv_usec));
 
     return G_YES;		
+}
+
+GInt8 System::getopt(GInt32 argc, GInt8** argv, GInt8* cmd)
+{
+	return getopt(argc, argv, cmd);
+}
+
 }
