@@ -61,8 +61,17 @@ public:
     
     /**
      * @brief to connect ftp server
+     * @return G_YES/G_NO
+     * @note derive class implemention
      */
     virtual GResult connect() = 0;
+    
+    /**
+     * @brief to connect ftp server
+     * @param [in] server_addr : server address
+     * @return G_YES/G_NO
+     * @note derive class implemention
+     */
     virtual GResult connect(const IPPortPair& server_addr) = 0;
     
     /**
@@ -70,11 +79,13 @@ public:
      * @param [in] data : by sent data
      * @param [in] len : data length
      * @return have sent size, -1 failed
+     * @note derive class implemention
      */
     virtual GInt64 sendMsg(const GInt8* data, const GUint64 len) = 0;
     
     /**
      * @brief message loop handle, new thread
+     * @note derive class implemention
      */
     virtual void msgLoop() = 0;
     
