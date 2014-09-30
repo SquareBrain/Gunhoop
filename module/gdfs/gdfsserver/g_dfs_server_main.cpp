@@ -26,11 +26,11 @@ static const GUint32 exit_timeout = 10; // second
 /**
  * @brief dfs server process monitor class
  */
-class DfsProcessMonitorObserver : public gsys::ProcessMoniterInterface
+class DfsServerProcessMonitorObserver : public gsys::ProcessMoniterInterface
 {
 public:
-    DfsProcessMonitorObserver() {}
-    ~DfsProcessMonitorObserver() {}
+    DfsServerProcessMonitorObserver() {}
+    ~DfsServerProcessMonitorObserver() {}
     
     /**
      * @brief handle system signal, when segmentation fault
@@ -41,7 +41,7 @@ public:
     {
         G_LOG_ERROR(LOG_PREFIX, "DFS server segmentation fault happened");
         G_LOG_INFO(LOG_PREFIX, "DFS server will stopped, waitting for exit");
-        DFSServer::getInstance()->setState(SERVER_FAILED);
+        DfsServer::getInstance()->setState(SERVER_FAILED);
         if (!exit_condition.wait(exit_timeout))
         {
             G_LOG_ERROR(LOG_PREFIX, "DFS server can't normal exit, will force exit");
@@ -58,7 +58,7 @@ public:
     {
         G_LOG_INFO(LOG_PREFIX, "DFS server stop by ctrl + c");
         G_LOG_INFO(LOG_PREFIX, "DFS server will stopped, waitting for exit");
-        DFSServer::getInstance()->setState(SERVER_STOP);
+        DfsServer::getInstance()->setState(SERVER_STOP);
         if (!exit_condition.wait(exit_timeout))
         {
             G_LOG_ERROR(LOG_PREFIX, "DFS server can't normal exit, will force exit");
@@ -74,8 +74,8 @@ int main()
     G_LOG_INFO(LOG_PREFIX, "==============DFS server startup===========");
     
     // process monitor
-    DfsProcessMonitorObserver dfs_process_monitor_observer;
-    gsys::ProcessMonitor process_monitor(&dfs_process_monitor_observer);
+    DfsServerProcessMonitorObserver dfs_server_process_monitor_observer;
+    gsys::ProcessMonitor process_monitor(&dfs_server_process_monitor_observer);
     
     if (IS_NO(DFSServer::getInstance()->start()))
     {
@@ -83,17 +83,17 @@ int main()
         return -1;
     }
     
-    while (DFSServer::getInstance()->getState() == SERVER_RUNNING)
+    while (DfsServer::getInstance()->getState() == SERVER_RUNNING)
     {
         gsys::gsystem::sleep(2);
     }
     
-    DFSServer::getInstance()->stop();
+    DfsServer::getInstance()->stop();
     exit_condition.broadcast();
     
-    G_LOG_UNINIT();
-    
     G_LOG_INFO(LOG_PREFIX, "==============DFS server stopped===========");
+    
+    G_LOG_UNINIT();
     
     return 0;
 }
