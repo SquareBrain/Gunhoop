@@ -20,4 +20,20 @@
 
 namespace gdfs {
 
+class DfsClient : public gcom::NetworkClientInterface
+{
+public:
+    DfsClient();
+    ~DfsClient();
+    
+    /**
+     * @brief handle server response message, user need implement
+     * @param [in] msg : message data
+     * @return G_YES/G_NO
+     */
+    GResult serverResponse(const GInt8* msg);
+    
+private:    
+};
+
 }
