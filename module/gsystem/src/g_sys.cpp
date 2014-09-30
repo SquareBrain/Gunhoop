@@ -36,6 +36,8 @@ void System::usleep(const GUint64 time)
 
 GUint64 System::pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
 {
+	IS_NULL_R(buffer);
+	
 	va_list vaList;
 	va_start(vaList, args);
 	GUint64 strLen = vsnprintf(buffer, size, args, vaList);
@@ -45,7 +47,7 @@ GUint64 System::pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ..
 
 GResult System::shell(const GInt8* cmd)
 {
-	G_ASSERT(cmd != NULL);
+	IS_NULL_R(cmd);
 
 	FILE* retStream = popen(cmd, "r");
 	if (retStream == NULL)
@@ -60,7 +62,8 @@ GResult System::shell(const GInt8* cmd)
 
 GResult System::shell(const GInt8* cmd, GInt8* buffer, const GUint32 size)
 {
-	G_ASSERT(cmd != NULL && buffer != NULL && size > 0);
+	IS_NULL_R(cmd);
+	IS_NULL_R(buffer);
 
 	FILE* retStream = popen(cmd, "r");
 	if (retStream == NULL)
@@ -90,6 +93,9 @@ GUint64 System::getSysTime()
 
 GResult System::getSysTime(const GInt8* format, GInt8* buffer, const GUint32 size)
 {
+	IS_NULL_R(format);
+	IS_NULL_R(buffer);
+	
     struct timeval tv;
     struct tm tm;
     
@@ -107,9 +113,24 @@ GResult System::getSysTime(const GInt8* format, GInt8* buffer, const GUint32 siz
     return G_YES;		
 }
 
+GResult System::getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, std::string& value)
+{
+	IS_NULL_R(argv);
+	IS_NULL_R(cmd);
+	
+	if (getopt(argc, argv, cmd) != cmd[0])
+	{
+		return G_NO;
+	}
+	
+	value.assign(optarg);
+	
+	return G_YES;
+}
+
 GInt8 System::getopt(GInt32 argc, GInt8** argv, GInt8* cmd)
 {
-	return getopt(argc, argv, cmd);
+	return 
 }
 
 }
