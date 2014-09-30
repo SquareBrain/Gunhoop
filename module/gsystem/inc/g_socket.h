@@ -105,13 +105,17 @@ public:
 	 * @brief set/get sock addr
 	 * @return 
 	 */		
-    sockaddr_in& getSockAddr();
+    	sockaddr_in& getSockAddr();
     
+	/**
+	 * @brief get sock address length
+	 * @return 
+	 */	    
 	GUint16 getAddrLen() const;
     
 private:
-	sockaddr_in		m_sockAddr;
-    GUint16         m_addrLen;
+	sockaddr_in	m_sockAddr;
+	GUint16         m_addrLen;
 };
 
 /** 
@@ -143,14 +147,18 @@ public:
 	 * @brief set/get sock addr
 	 * @return 
 	 */			
-    sockaddr_in6& getSockAddr();
+    	sockaddr_in6& getSockAddr();
     
-    GUint16 getAddrLen() const;
+	/**
+	 * @brief get sock address length
+	 * @return 
+	 */	        
+    	GUint16 getAddrLen() const;
         
 private:
 	// address
 	sockaddr_in6	m_sockAddr;
-    GUint16         m_addrLen;
+    	GUint16         m_addrLen;
 };
 
 /** 
@@ -238,7 +246,7 @@ private:
 	GInt32		m_sockfd;	
 	IPv4Addr	m_ipv4Addr;
 	bool		m_isInit;
-    AddrFamily	m_family;
+    	AddrFamily	m_family;
 	GInt8		m_error[G_ERROR_BUF_SIZE];
 };
 	
@@ -379,7 +387,7 @@ class EpollServer
 {
 public:
 	EpollServer();
-	explicit EpollServer(const GUint32 server_ip, const GUint16 server_port);
+	explicit EpollServer(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = nullptr);
 	virtual ~EpollServer();
 	
 	GResult init();
