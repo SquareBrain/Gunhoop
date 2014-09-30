@@ -24,11 +24,11 @@ namespace gdfs {
 /**
  * @brief DFS http service
  */
-class DFSHttpService : public gcom::HttpService
+class DfdHttpServer : public gcom::HttpServer
 {
 public:
-    DFSHttpService(const IPPortPair& ipPortPair);
-    ~DFSHttpService();
+    DfdHttpServer(const IPPortPair& ipPortPair);
+    ~DfdHttpServer();
     
     /**
      * @brief startup http server
