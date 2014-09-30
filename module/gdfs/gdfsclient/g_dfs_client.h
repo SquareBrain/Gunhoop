@@ -38,7 +38,7 @@ public:
      * @param [in] msg : message data
      * @return G_YES/G_NO
      */
-    GResult serverResponse(const GInt8* msg);
+    GResult onServerResponse(const GInt8* msg);
     
 private:
     // inherite from base class gsys::ThreadTask, to create new thread
