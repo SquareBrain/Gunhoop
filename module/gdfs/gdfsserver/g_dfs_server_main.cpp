@@ -26,11 +26,11 @@ static const GUint32 exit_timeout = 10; // second
 /**
  * @brief dfs server process monitor class
  */
-class DFSProcessMonitorObserver : public gsys::ProcessMoniterInterface
+class DfsProcessMonitorObserver : public gsys::ProcessMoniterInterface
 {
 public:
-    DFSProcessMonitorObserver() {}
-    ~DFSProcessMonitorObserver() {}
+    DfsProcessMonitorObserver() {}
+    ~DfsProcessMonitorObserver() {}
     
     /**
      * @brief handle system signal, when segmentation fault
@@ -74,7 +74,7 @@ int main()
     G_LOG_INFO(LOG_PREFIX, "==============DFS server startup===========");
     
     // process monitor
-    DFSProcessMonitorObserver dfs_process_monitor_observer;
+    DfsProcessMonitorObserver dfs_process_monitor_observer;
     gsys::ProcessMonitor process_monitor(&dfs_process_monitor_observer);
     
     if (IS_NO(DFSServer::getInstance()->start()))
