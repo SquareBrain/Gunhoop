@@ -112,9 +112,10 @@ public:
 	 * @param [in] argc : argument count
 	 * @param [in] argv : argument list
 	 * @param [in] cmd : need parser command
-	 * @return cmd char
+	 * @param [out] value : out value
+	 * @return G_YES/G_NO
 	 */
-	static GInt8 getopt(GInt32 argc, GInt8** argv, GInt8* cmd);
+	static GResult getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, std::string& value);
 };
 
 }
