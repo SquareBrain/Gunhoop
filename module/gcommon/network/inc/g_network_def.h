@@ -20,6 +20,8 @@
 
 #include <g_system.h>
 
+static const GUint16 IPV4_BUF_SIZE = 16;
+
 namespace gcom {
 	
 /**
