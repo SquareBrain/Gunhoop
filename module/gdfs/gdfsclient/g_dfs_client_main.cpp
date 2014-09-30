@@ -55,7 +55,7 @@ public:
     }
 }
 
-int main()
+int main(int argc, char** argv)
 {
     G_LOG_INIT();
     
@@ -65,11 +65,36 @@ int main()
     DfsClientProcessMonitorObserver dfs_client_process_monitor_observer;
     gsys::ProcessMonitor process_monitor(&dfs_client_process_monitor_observer);
     
+    std::string server_ip;
+    GInt8 server_port = 0;
+    
+    GInt8 cmd = 0;
+    while ((cmd = gsys::System::getopt(argc, argv, "h:p")))
+    {
+        switch (cmd)
+        {
+            case 'h':
+                server_ip.assign(optarg);
+                break;
+            case 'p':
+                server_port = std::
+                break;
+            default:
+                break;
+        }
+    }
+    
+    if (server_ip.empty() || server_port == 0)
+    {
+        G_LOG_ERROR(LOG_PREFIX, "Argument -h or -p error");
+        return -1;
+    }
+    
     // init dfs client
     DfsClient dfs_client;
     if (IS_NO(dfs_client->start()))
     {
-        G_LOG_ERROR(LOG_PREFIX, "DFS client startup fault");
+        G_LOG_ERROR(LOG_PREFIX, "Try to connect DFS server failed");
         return -1;
     }
     
