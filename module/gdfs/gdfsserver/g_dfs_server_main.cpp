@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_dfs_main.h
+* @file     g_dfs_server_main.h
 * @version     
 * @brief      
 * @author   duye
