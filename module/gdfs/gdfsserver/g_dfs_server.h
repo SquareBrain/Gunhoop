@@ -43,12 +43,12 @@ typedef enum
 /**
  * @brief dfs server
  */
-class DFSServer : public gsys::ThreadTask, public gcom::Singleton<DFSServer>
+class DfsServer : public gcom::Singleton<DFSServer>, public gsys::ThreadTask
 {
 public:
-    DFSServer();
-    explicit DFSServer(const std::string& dfs_cfg_file_path);
-    ~DFSServer();
+    DfsServer();
+    explicit DfsServer(const std::string& dfs_cfg_file_path);
+    ~DfsServer();
     
     /**
      * @brief startup DFF service
@@ -80,8 +80,8 @@ private:
     gcom::CfgMgr        m_cfgMgr;
     
     // dfs services list
-    DFSHttpServer       m_httpServer;
-    DFSFtpServer        m_ftpServer;
-    DFSCliServer        m_cliServer;
+    DfsHttpServer       m_httpServer;
+    DfsFtpServer        m_ftpServer;
+    DfsCliServer        m_cliServer;
 };
 }
