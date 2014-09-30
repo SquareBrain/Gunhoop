@@ -39,7 +39,11 @@ public:
     virtual ~NetworkClientInterface() {}
     
     /**
-    virtual GResult response(const GInt8* msg) = 0;    
+     * @brief handle server response message, user need implement
+     * @param [in] msg : message data
+     * @return G_YES/G_NO
+     */
+    virtual GResult serverResponse(const GInt8* msg) = 0; 
 };
 
 /**
@@ -87,12 +91,15 @@ public:
     
     /**
      * @brief add/remove observer
+     * @brief [in] observer : observer
+     * @return G_YES/G_NO
      */
-    void addObserver(NetworkClientInterface* observer);
-    void removeObserver(NetworkClientInterface* observer);    
+    GResult addObserver(NetworkClientInterface* observer);
+    GResult removeObserver(NetworkClientInterface* observer);    
 
 private:
     GResult run();
+    GResult findObserver(NetworkClientInterface* observer);
     
 protected:
     IPPortPair          m_serverAddr;
