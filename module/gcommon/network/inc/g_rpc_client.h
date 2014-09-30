@@ -68,8 +68,7 @@ public:
 	void msgLoop();	
 	
 private:
-	TcpClient	m_tcpClient;
-	UdpClinet	m_udpClient;
+	HttpClient	m_httpClient;
 };
 
 }
