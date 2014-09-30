@@ -29,9 +29,12 @@ public:
     
     /**
      * @brief start dfs client
+     * @param [in] server_ip : server ip
+     * @param [in] server_port : server port
+     * @param [in] interface : communication net card in local
      * @return G_YES/G_NO
      */
-    GResult start();
+    GResult start(const std::string& server_ip, const GUint16 server_port, const std::string& interface = "eth0");
     
     /**
      * @brief handle server response message, user need implement
