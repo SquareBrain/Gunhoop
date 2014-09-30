@@ -18,4 +18,43 @@
 
 namespace gcom {
 
+NetworkClient::NetworkClient() {}
+NetworkClient::NetworkClient(const IPPortPair& server_addr) 
+  : m_serverAddr(server_addr)
+  , m_connectState(CONNECT_INIT) {}
+
+NetworkClient::~NetworkClient() {}
+
+const IPPortPair& NetworkClient::getServerAddr() const
+{
+    return m_serverAddr;
+}
+
+const ClientConnectState& NetworkClient::getConnectState() const;
+{
+    return m_connectState;
+}
+
+GResult NetworkClient::addObserver(NetworkClientInterface* observer)
+{
+    IS_YES_R(findObserver(observer));
+    m_observerList.push_back(observer);   
+}
+
+GResult NetworkClient::removeObserver(NetworkClientInterface* observer)
+{
+    m_observerList.remove(observer);
+}
+
+GResult NetworkClient::run()
+{
+    this->msgLoop();
+}
+
+GResult NetworkClient::findObserver(NetworkClientInterface* observer);
+{
+    
+    return G_YES;    
+}
+
 }
