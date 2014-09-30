@@ -22,4 +22,71 @@
 
 namespace gcom {
 
+class Argument;
+
+/**
+ * @brief usage class
+ */
+class Usage
+{
+public:
+    typedef list<Argument> ArgumentList;
+    typedef list<string::string> ExampleList;
+    
+    /**
+     * @brief argument type
+     */
+    typedef emun
+    {
+        need,
+        option
+    } ArgType;
+  
+public:
+    Usage();
+    ~Usage();
+    
+    void format(const GInt8* format);
+    
+    /**
+     * @brief add usage example
+     * @param [in] example : example
+     */
+    void addeg(const GInt8* example);
+    
+    /**
+     * @brief add arguments
+     * @param [in] shor_cmd : shor command
+     * @param [in] arg_type : need or option
+     * @param [in] long_cmd : long command
+     * @param [in] description : argument description
+     */
+    void addArg(const GInt8 short_cmd, const ArgType& arg_type, const GInt8* long_cmd, const GInt8* description);
+    
+    /**
+     * @brief print usage
+     */
+    void print();
+    
+private:
+    ArgumentList        m_argList;
+    ExampleList         m_egList;
+};
+
+/**
+ * @brief argument class
+ */
+class Argument
+{
+public:
+    Argument();
+    ~Argument();
+    
+private:
+    GInt8       m_shortCmd;
+    ArgType     m_argType;
+    std::string m_longCmd;
+    std::string m_description;
+};
+
 }
