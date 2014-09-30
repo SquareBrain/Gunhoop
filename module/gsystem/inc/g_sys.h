@@ -106,5 +106,15 @@ public:
 	 * us:microsecond
 	 */		
 	static GResult getSysTime(const GInt8* format, GInt8* buffer, const GUint32 size);
+	
+	/**
+	 * @brief getopt
+	 * @param [in] argc : argument count
+	 * @param [in] argv : argument list
+	 * @param [in] cmd : need parser command
+	 * @return cmd char
+	 */
+	static GInt8 getopt(GInt32 argc, GInt8** argv, GInt8* cmd);
 };
+
 }
