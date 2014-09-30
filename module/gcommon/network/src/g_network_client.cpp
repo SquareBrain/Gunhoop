@@ -53,8 +53,16 @@ GResult NetworkClient::run()
 
 GResult NetworkClient::findObserver(NetworkClientInterface* observer);
 {
+    ObserverList::const_iterator iter = m_observerList.begin();
+    for (; iter != m_oberserList.end(); ++iter)
+    {
+        if (*iter == observer)
+        {
+            return G_YES;
+        }
+    }
     
-    return G_YES;    
+    return G_NO;    
 }
 
 }
