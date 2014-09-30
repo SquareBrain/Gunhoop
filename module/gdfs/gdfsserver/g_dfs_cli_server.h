@@ -25,11 +25,11 @@ namespace gdfs {
 /**
  * @brief DFS http service
  */
-class DFSCliService : public gcom::TcpService
+class DfsCliServer : public gcom::RpcServer
 {
 public:
-    DFSCliService(const IPPortPair& ipPortPair);
-    ~DFSCliService();
+    DfsCliServer(const IPPortPair& ipPortPair);
+    ~DfsCliServer();
     
     /**
      * @brief startup http server
