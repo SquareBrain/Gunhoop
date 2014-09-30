@@ -33,11 +33,12 @@ public:
 	 * @brief inherit from base class NetworkClient, to connect server
 	 */
 	GResult connect();
+	GResult connect(const IPPortPair& server_addr);
 	
 	/**
-	 * @brief inherit from base class NetworkClient, to handle server response
+	 * @brief inherit from base class NetworkClient, to handle server response, implement by user
 	 */
-	GResult response(const GInt8* msg);
+	virtual GResult response(const GInt8* msg) = 0;
 	
 private:
 	TcpClient	m_tcpClient;
