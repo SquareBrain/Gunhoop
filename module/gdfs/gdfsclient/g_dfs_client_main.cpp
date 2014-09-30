@@ -14,20 +14,21 @@
 *  1. 2014-08-30 duye Created this file
 * 
 */
+#include <g_system.h>
+#include <g_logger.h>
 #include <g_rpc_client.h>
 
-static const GInt8* LOG_PREFIX = "dfs.server.main";
+static const GInt8* LOG_PREFIX = "dfs.client.main";
 static gsys::Condition exit_condition;
-static const GUint32 exit_timeout = 10; // second
 
 /**
  * @brief dfs server process monitor class
  */
-class DFSProcessMonitorObserver : public gsys::ProcessMoniterInterface
+class DfsClientProcessMonitorObserver : public gsys::ProcessMoniterInterface
 {
 public:
-    DFSProcessMonitorObserver() {}
-    ~DFSProcessMonitorObserver() {}
+    DfsClientProcessMonitorObserver() {}
+    ~DfsClientProcessMonitorObserver() {}
     
     /**
      * @brief handle system signal, when segmentation fault
@@ -36,14 +37,9 @@ public:
      */
     void onSegmentationFault(const GInt32 sig)
     {
-        G_LOG_ERROR(LOG_PREFIX, "DFS server segmentation fault happened");
-        G_LOG_INFO(LOG_PREFIX, "DFS server will stopped, waitting for exit");
-        DFSServer::getInstance()->setState(SERVER_FAILED);
-        if (!exit_condition.wait(exit_timeout))
-        {
-            G_LOG_ERROR(LOG_PREFIX, "DFS server can't normal exit, will force exit");
-            G_LOG_WARN(LOG_PREFIX, "==============DFS server force exit===========");
-        }
+        G_LOG_ERROR(LOG_PREFIX, "DFS client segmentation fault happened");
+        G_LOG_INFO(LOG_PREFIX, "DFS client will stopped, waitting for exit");
+        exit_condition.signal();
     }
     
     /**
@@ -53,14 +49,9 @@ public:
      */
     void onCtrlC(const GInt32 sig)
     {
-        G_LOG_INFO(LOG_PREFIX, "DFS server stop by ctrl + c");
-        G_LOG_INFO(LOG_PREFIX, "DFS server will stopped, waitting for exit");
-        DFSServer::getInstance()->setState(SERVER_STOP);
-        if (!exit_condition.wait(exit_timeout))
-        {
-            G_LOG_ERROR(LOG_PREFIX, "DFS server can't normal exit, will force exit");
-            G_LOG_WARN(LOG_PREFIX, "==============DFS server force exit==============");
-        }
+        G_LOG_INFO(LOG_PREFIX, "DFS client stop by ctrl + c");
+        G_LOG_INFO(LOG_PREFIX, "DFS client will stopped, waitting for exit");
+        exit_condition.signal();
     }
 }
 
@@ -68,29 +59,25 @@ int main()
 {
     G_LOG_INIT();
     
-    G_LOG_INFO(LOG_PREFIX, "==============DFS server startup===========");
+    G_LOG_INFO(LOG_PREFIX, "==============DFS client startup===========");
     
     // process monitor
-    DFSProcessMonitorObserver dfs_process_monitor_observer;
-    gsys::ProcessMonitor process_monitor(&dfs_process_monitor_observer);
+    DfsClientProcessMonitorObserver dfs_client_process_monitor_observer;
+    gsys::ProcessMonitor process_monitor(&dfs_client_process_monitor_observer);
     
-    if (IS_NO(DFSServer::getInstance()->start()))
+    // init dfs client
+    DfsClient dfs_client;
+    if (IS_NO(dfs_client->start()))
     {
-        G_LOG_ERROR(LOG_PREFIX, "DFS server startup fault");
+        G_LOG_ERROR(LOG_PREFIX, "DFS client startup fault");
         return -1;
     }
     
-    while (DFSServer::getInstance()->getState() == SERVER_RUNNING)
-    {
-        gsys::gsystem::sleep(2);
-    }
+    exit_condition.wait();
     
-    DFSServer::getInstance()->stop();
-    exit_condition.broadcast();
+    G_LOG_INFO(LOG_PREFIX, "==============DFS client exit===========");
     
     G_LOG_UNINIT();
-    
-    G_LOG_INFO(LOG_PREFIX, "==============DFS server stopped===========");
     
     return 0;
 }
