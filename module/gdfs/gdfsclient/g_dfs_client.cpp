@@ -17,5 +17,33 @@
 #include <g_dfs_client.h>
 
 namespace gdfs {
+  
+DfsClient::DfsClient() {}
+DfsClient::~DfsClient() {}
+
+GResult DfsClient::start()
+{
+    return G_YES;    
+}
+
+GResult DfsClient::serverResponse(const GInt8* msg)
+{
+    // TODB
+    // handle server response
+    return G_YES;
+}
+
+GResult DfsClient::run()
+{
+    // event loop
+    while (true)
+    {
+        char* cmd = gets();
+        
+        if (cmd)
+    }
+    
+    return G_YES;
+}
 
 }
