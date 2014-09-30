@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_rpc_client_main.cpp
+* @file		g_dfs_client_main.cpp
 * @version     
 * @brief      
 * @author	duye
@@ -16,7 +16,7 @@
 */
 #include <g_system.h>
 #include <g_logger.h>
-#include <g_rpc_client.h>
+#include <g_dfs_client.h>
 
 static const GInt8* LOG_PREFIX = "dfs.client.main";
 static gsys::Condition exit_condition;
