@@ -115,6 +115,8 @@ public:
 	 * @param [out] value : out value
 	 * @return G_YES/G_NO
 	 */
+	static GResult getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, GInt64& value);
+	static GResult getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, GUInt64& value);
 	static GResult getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, std::string& value);
 };
 
