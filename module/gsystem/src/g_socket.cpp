@@ -98,7 +98,7 @@ GUint16 IPv6Addr::getAddrLen() const
 }
 
 Socket::Socket() {}
-Socket::Socket(const IPv4Addr& addr) : m_sockfd(-1), m_ipv4Addr(addr), m_isInit(false), m_family(G_AF_IPV4) {}
+Socket::Socket(const IPv4Addr& addr) : m_sockfd(-1), m_ipv4Addr(addr), m_isInit(false) {}
 
 Socket::~Socket() 
 {
@@ -106,7 +106,8 @@ Socket::~Socket()
 
 GResult Socket::init(const SockType& type, const NetProtocol& protocol)
 {
-	GInt32 domain = -1;
+	GInt32 domain = AF_INET;
+	/*
 	switch (m_family)
 	{
 	case G_AF_IPV4:
@@ -131,6 +132,7 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
 		setError("[error]%s:argument family(%d) invalid (%s:%d)\n", __FUNCTION__, m_family, __FILE__, __LINE__);
 		return G_NO;
 	}
+	*/
 	
 	GInt32 sock_type = -1;
 	switch (type)
@@ -244,22 +246,10 @@ GResult Socket::bind()
 	if (!m_isInit)
 	{
 		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-	    return -1;
+	    return G_NO;
 	}
 
-	switch (m_family)
-	{
-	case G_AF_IPV4:
-		return ::bind(m_sockfd, (const struct sockaddr*)&m_ipv4Addr->getSockAddr(), m_ipv4Addr->getAddrLen()) < 0 ? G_NO : G_YES;
-		break;
-	case G_AF_IPV6:
-		return ::bind(m_sockfd, (const struct sockaddr*)&m_ipv6Addr->getSockAddr(), m_ipv6Addr->getAddrLen()) < 0 ? G_NO : G_YES;
-		break;
-	default:
-		break;
-	}
-
-	return G_NO;
+	return ::bind(m_sockfd, (const struct sockaddr*)&m_ipv4Addr.getSockAddr(), m_ipv4Addr.getAddrLen()) < 0 ? G_NO : G_YES;
 }
 
 GResult Socket::listen(const GUint32 max_connect_num/*20*/)
@@ -267,7 +257,7 @@ GResult Socket::listen(const GUint32 max_connect_num/*20*/)
 	if (!m_isInit)
 	{
 		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-	    return -1;
+	    return G_NO;
 	}
 	
 	return ::listen(m_sockfd, max_connect_num) == 0 ? G_YES : G_NO;
@@ -278,7 +268,7 @@ GResult Socket::accept(sockaddr_in& client_addr)
 	if (!m_isInit)
 	{
 		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-	    return -1;
+	    return G_NO;
 	}
 
 	GUint32 addr_len = 0;
@@ -290,7 +280,7 @@ GResult Socket::accept(sockaddr_in6& client_addr)
 	if (!m_isInit)
 	{
 		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-	    return -1;
+	    return G_NO;
 	}
 
 	GUint32 addr_len = 0;
@@ -302,22 +292,10 @@ GResult Socket::connect()
 	if (!m_isInit)
 	{
 		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-	    return -1;
+	    return G_NO;
 	}
 
-	switch (m_family)
-	{
-	case G_AF_IPV4:
-		return ::connect(m_sockfd, (const struct sockaddr*)&m_ipv4Addr->getSockAddr(), m_ipv4Addr->getAddrLen()) < 0 ? G_NO : G_YES;
-		break;
-	case G_AF_IPV6:
-		return ::connect(m_sockfd, (const struct sockaddr*)&m_ipv6Addr->getSockAddr(), m_ipv6Addr->getAddrLen()) < 0 ? G_NO : G_YES;
-		break;
-	default:
-		break;
-	}
-
-	return G_NO;
+	return ::connect(m_sockfd, (const struct sockaddr*)&m_ipv4Addr.getSockAddr(), m_ipv4Addr.getAddrLen()) < 0 ? G_NO : G_YES;
 }
 
 GInt64 Socket::send(const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
@@ -325,7 +303,7 @@ GInt64 Socket::send(const GUint8* data, const GUint64 len, const GInt32 flags/*M
 	if (!m_isInit)
 	{
 		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-	    return -1;
+	    return G_NO;
 	}
 	
 	return ::send(m_sockfd, data, len, flags);
@@ -336,7 +314,7 @@ GInt64 Socket::sendmsg(const struct msghdr* msg, const GInt32 flags/*MSG_NOSIGNA
 	if (!m_isInit)
 	{
 		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-	    return -1;
+	    return G_NO;
 	}
 	
 	return ::sendmsg(m_sockfd, msg, flags);	
@@ -347,7 +325,7 @@ GInt64 Socket::sendto(const sockaddr_in& dst_addr, const GUint8* data, const GUi
 	if (!m_isInit)
 	{
 		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-	    return -1;
+	    return G_NO;
 	}
 	
 	return ::sendto(m_sockfd, data, len, flags, (const struct sockaddr*)&dst_addr, sizeof(sockaddr_in));	
@@ -358,7 +336,7 @@ GInt64 Socket::sendto(const sockaddr_in6& dst_addr, const GUint8* data, const GU
 	if (!m_isInit)
 	{
 		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-	    return -1;
+	    return G_NO;
 	}
 	
 	return ::sendto(m_sockfd, data, len, flags, (const struct sockaddr*)&dst_addr, sizeof(sockaddr_in6));	
@@ -369,7 +347,7 @@ GInt64 Socket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
 	if (!m_isInit)
 	{
 		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-	    return -1;
+	    return G_NO;
 	}
 	
 	return ::recv(m_sockfd, buffer, size, flags);
@@ -380,7 +358,7 @@ GInt64 Socket::recvmsg(struct msghdr* msg, const GInt32 flags/*0*/)
 	if (!m_isInit)
 	{
 		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-	    return -1;
+	    return G_NO;
 	}
 	
 	return ::recvmsg(m_sockfd, msg, flags);	
@@ -391,7 +369,7 @@ GInt64 Socket::recvfrom(sockaddr_in& src_addr, GUint8* buffer, const GUint64 siz
 	if (!m_isInit)
 	{
 		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-	    return -1;
+	    return G_NO;
 	}
 
 	GUint32 addr_len = 0;
@@ -491,130 +469,76 @@ void Socket::setError(const GInt8* args, ...)
 	System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
 
-ServerSocket::ServerSocket(const GUint32 server_ip, const GUint16 server_port) 
+SocketServer::SocketServer(const GUint32 server_ip, const GUint16 server_port) 
 {
-		
 }
 
-ServerSocket::~ServerSocket() {}
+SocketServer::~SocketServer() {}
 
-const std::shared_ptr<Socket>& ServerSocket::getSocket() const
+const Socket& SocketServer::getSocket() const
 {
 	return m_socket;
 }
 
-GResult ServerSocket::bind()
+GResult SocketServer::bind()
 {
-	if (m_socket == nullptr)
-	{
-		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-		return G_NO;
-	}
-	
-	return m_socket->bind();
+	return m_socket.bind();
 }
 
-GResult ServerSocket::listen(const GUint32 max_connect_num/*20*/)
+GResult SocketServer::listen(const GUint32 max_connect_num/*20*/)
 {
-	if (m_socket == nullptr)
-	{
-		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-		return G_NO;
-	}
-	
-	return m_socket->listen(max_connect_num);
+	return m_socket.listen(max_connect_num);
 }
 
-GResult ServerSocket::accept(std::shared_ptr<IPv4Addr>& client_addr)
+GResult SocketServer::accept(IPv4Addr& client_addr)
 {
-	if (client_addr.get() == nullptr)
-	{
-		return G_NO;	
-	}
-	
-	if (m_socket == nullptr)
-	{
-		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-		return G_NO;
-	}
-
-	return m_socket->accept(client_addr->getSockAddr());
+	return m_socket.accept(client_addr.getSockAddr());
 }
 
-GInt64 ServerSocket::recvfrom(std::shared_ptr<IPv4Addr>& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+GInt64 SocketServer::recvfrom(IPv4Addr& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
 {
-	if (client_addr.get() == nullptr)
-	{
-		setError("[error]%s:cliAddr->get() == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-		return G_NO;	
-	}
-	
-	if (m_socket == nullptr)
-	{
-		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-		return G_NO;
-	}
-	
-	return m_socket->recvfrom(client_addr->getSockAddr(), buffer, size, flags);	
+	return m_socket.recvfrom(client_addr.getSockAddr(), buffer, size, flags);	
 }
 
-GInt8* ServerSocket::getError()
+GInt8* SocketServer::getError()
 {
 	return m_error;
 }
 
-void ServerSocket::setError(const GInt8* args, ...)
+void SocketServer::setError(const GInt8* args, ...)
 {
 	System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
 	
-ClientSocket::ClientSocket(const std::shared_ptr<IPv4Addr>& socket) : m_socket(socket) {}
-ClientSocket::~ClientSocket() {}
+SocketClient::SocketClient(const GUint32 server_ip, const GUint16 server_port) {}
+SocketClient::~SocketClient() {}
 
-const std::shared_ptr<Socket>& ClientSocket::getSocket() const
+const Socket& SocketClient::getSocket() const
 {
 	return m_socket;
 }
 
-GResult ClientSocket::connect()
+GResult SocketClient::connect()
 {
-	if (m_socket == nullptr)
-	{
-		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-		return G_NO;
-	}
-	
-	return m_socket->connect();
+	return m_socket.connect();
 }
 
-GInt64 ClientSocket::send(const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
+GInt64 SocketClient::send(const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
 {
-	if (m_socket == nullptr)
-	{
-		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-		return G_NO;
-	}
-	
-	return m_socket->send(data, len, flags);	
+	return m_socket.send(data, len, flags);	
 }
 
-GInt64 ClientSocket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+GInt64 SocketClient::recv(GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
 {
-	if (m_socket == nullptr)
-	{
-		setError("[error]%s:m_socket == nullptr (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-		return G_NO;
-	}
-	
-	return m_socket->recv(buffer, size, flags);	
+	return m_socket.recv(buffer, size, flags);	
 }
 
-GInt8* ClientSocket::getError()
+GInt8* SocketClient::getError()
 {
 	return m_error;
 }
 
-void ClientSocket::setError(const GInt8* args, ...)
+void SocketClient::setError(const GInt8* args, ...)
 {
 	System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }

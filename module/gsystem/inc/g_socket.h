@@ -246,7 +246,6 @@ private:
 	GInt32		m_sockfd;	
 	IPv4Addr	m_ipv4Addr;
 	bool		m_isInit;
-    	AddrFamily	m_family;
 	GInt8		m_error[G_ERROR_BUF_SIZE];
 };
 	
@@ -286,17 +285,18 @@ public:
 	 * @return G_YES/G_NO
 	 * @note 
 	 */	
-	GResult accept(std::shared_ptr<IPv4Addr>& client_addr);
+	GResult accept(IPv4Addr& client_addr);
 	
 	/**
 	 * @brief receive data
+	 * @param [in] client_addr : client address
 	 * @param [out] buffer : output buffer
-	 * @param [in] bufferSize : buffer size
-	 * @param [in] flags : flags
+	 * @param [in] size : output buffer size
+	 * @param [in] flags : flags, default is 0
 	 * @return size/-1
 	 * @note 
 	 */	
-	GInt64 recvfrom(std::shared_ptr<IPv4Addr>& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+	GInt64 recvfrom(IPv4Addr& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 	
 	/**
 	 * @brief get last error string

@@ -108,7 +108,7 @@ GResult System::getSysTime(const GInt8* format, GInt8* buffer, const GUint32 siz
     	return G_NO;	
     }
     
-    snprintf(buffer + len, size - len, ".%06.6d", (GInt32)(tv.tv_usec));
+    snprintf(buffer + len, size - len, ".%6d", (GInt32)tv.tv_usec);
 
     return G_YES;		
 }
@@ -129,7 +129,7 @@ GResult System::getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, GInt64& value)
 	return G_YES;
 }
 
-GResult System::getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, GUInt64& value)
+GResult System::getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, GUint64& value)
 {
 	IS_NULL_R(argv);
 	IS_NULL_R(cmd);
@@ -140,7 +140,7 @@ GResult System::getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, GUInt64& value)
 	}
 	
 	const std::string temp_str(optarg);
-	value = (GUInt64)std::stoi(temp_str);	
+	value = (GUint64)std::stoi(temp_str);	
 	
 	return G_YES;
 }

@@ -17,32 +17,57 @@
 #include <signal.h>
 #include <g_process.h>
 
-ProcessMonitor::ProcessMonitor()
+namespace gsys {
+
+ProcessSysCallback::ProcessSysCallback()
 {
     // segmentation fault
-    signal(SIGSEGV, signalHandler);
-    // Ctrl + c
-    signal(SIGINT, signalHandler);
+    signal(SIGSEGV, signalHandlerCallback);
+	
+    // ctrl + c
+    signal(SIGINT, signalHandlerCallback);
+}
+
+ProcessMonitor* ProcessSysCallback::m_processMonitor = nullptr;
+
+ProcessSysCallback::~ProcessSysCallback() {}
+
+void ProcessSysCallback::registProcessMonitor(ProcessMonitor* process_monitor)
+{
+	m_processMonitor = process_monitor;
+}
+
+void ProcessSysCallback::signalHandlerCallback(const GInt32 sig)
+{
+	if (m_processMonitor != nullptr)
+	{
+		m_processMonitor->signalHandler(sig);
+	}
+}
+
+ProcessMonitor::ProcessMonitor()
+{
+	m_processSysCallback.registProcessMonitor(this);
 }
 
 ProcessMonitor::~ProcessMonitor()
 {
-    m_monitorList.clear();
+    m_processMonitorList.clear();
 }
 
 void ProcessMonitor::addMonitor(ProcessMonitorInterface* monitor)
 {
-    m_monitorList.push_back(monitor);
+    m_processMonitorList.push_back(monitor);
 }
 
 void ProcessMonitor::removeMonitor(ProcessMonitorInterface* monitor)
 {
-    MonitorList::iterator iter = m_monitorList.begin();
-    for (; iter != m_monitorList.end(); ++iter)
+    ProcessMonitorList::iterator iter = m_processMonitorList.begin();
+    for (; iter != m_processMonitorList.end(); ++iter)
     {
         if (monitor == *iter)
         {
-            m_monitorList.erase(iter);
+            m_processMonitorList.erase(iter);
             break;
         }
     }    
@@ -50,10 +75,12 @@ void ProcessMonitor::removeMonitor(ProcessMonitorInterface* monitor)
 
 void ProcessMonitor::signalHandler(const GInt32 sig)
 {
-    MonitorList::iterator iter = m_monitorList.begin();
-    for (; iter != m_monitorList.end(); ++iter)
+    ProcessMonitorList::iterator iter = m_processMonitorList.begin();
+    for (; iter != m_processMonitorList.end(); ++iter)
     {
         (*iter)->onSegmentationFault(sig);
         (*iter)->onCtrlC(sig);
     }    
+}
+
 }

@@ -34,25 +34,65 @@ public:
     virtual void onCtrlC(const GInt32 sig) {}
 };
 
+class ProcessMonitor;
+
+/**
+ * @biref process monitor
+ */
+class ProcessSysCallback
+{
+public:
+    ProcessSysCallback();
+    ~ProcessSysCallback();
+
+	/**
+	 * @brief regist ProcessMonitor
+	 * @param [in] process_monitor : ProcessMonitor
+	 */
+    void registProcessMonitor(ProcessMonitor* process_monitor);
+    
+	/**
+	 * @brief system signal callback
+	 * @param [in] sig : signal
+	 */
+    static void signalHandlerCallback(const GInt32 sig);
+
+private:
+    static ProcessMonitor*  m_processMonitor;
+};
+
+
 /**
  * @biref process monitor
  */
 class ProcessMonitor
 {
 public:
-    typedef std::list<ProcessMonitorInterface*> MonitorList;
+    typedef std::list<ProcessMonitorInterface*> ProcessMonitorList;
     
-public:
     ProcessMonitor();
     ~ProcessMonitor();
     
-    void addMonitor(ProcessMonitorInterface* monitor);
-    void removeMonitor(ProcessMonitorInterface* monitor);
+	/**
+	 * @brife addition process monitor interface 
+	 * @param [in] monitor_interface : process monitor interface
+	 */
+    void addMonitor(ProcessMonitorInterface* monitor_interface);
+
+	/**
+	 * @brief remove process monitor interface
+	 * @param [in] monitor_interface : process monitor interface
+	 */
+    void removeMonitor(ProcessMonitorInterface* monitor_interface);
     
 private:
-    static void signalHandler(const GInt32 sig);
+  	// system signal handler
+	void signalHandler(const GInt32 sig);
+
+    friend class ProcessSysCallback;
     
-private:
-    MonitorList     m_monitorList;
+    ProcessSysCallback  m_processSysCallback;
+    ProcessMonitorList  m_processMonitorList;
 };
+
 }
