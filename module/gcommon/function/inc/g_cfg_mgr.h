@@ -14,7 +14,6 @@
 *  1. 2014-09-28 duye Created this file
 * 
 */
-
 #pragma once
 
 #include <string>
@@ -53,8 +52,8 @@ public:
     GResult setValue(const std::string& path, const bool value);
     GResult setValue(const std::string& path, const GInt32 value);
     GResult setValue(const std::string& path, const GInt64 value);
-    GResult setValue(const std::string& path, const GUInt32 value);
-    GResult setValue(const std::string& path, const GUInt64 value);
+    GResult setValue(const std::string& path, const GUint32 value);
+    GResult setValue(const std::string& path, const GUint64 value);
     GResult setValue(const std::string& path, const GInt8* value);
     GResult setValue(const std::string& path, const std::string& value);
     
@@ -87,7 +86,7 @@ public:
     GResult save();
     
 private:
-    std::string     m_cfgFilePath;
-    XmlDocument     m_cfgDoc;
+    std::string         m_cfgFilePath;
+    gutils::XmlDocument m_cfgDoc;
 };
 }

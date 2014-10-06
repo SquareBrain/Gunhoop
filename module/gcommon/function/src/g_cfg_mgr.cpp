@@ -41,7 +41,7 @@ GResult CfgMgr::load()
 
 GResult CfgMgr::load(const std::string& cfg_file_path)
 {
-    if (!m_cfgDoc.load(cfg_file_path))
+    if (!m_cfgDoc.loadFile(cfg_file_path))
     {
         G_LOG_ERROR(LOG_PREFIX, "load configuration file %s failed", m_cfgFilePath.c_str());
         return G_NO;        
@@ -81,12 +81,12 @@ GResult CfgMgr::setValue(const std::string& path, const GInt64 value)
     return G_YES;
 }
 
-GResult CfgMgr::setValue(const std::string& path, const GUInt32 value)
+GResult CfgMgr::setValue(const std::string& path, const GUint32 value)
 {
     return G_YES;
 }
 
-GResult CfgMgr::setValue(const std::string& path, const GUInt64 value)
+GResult CfgMgr::setValue(const std::string& path, const GUint64 value)
 {
     return G_YES;
 }
@@ -140,15 +140,4 @@ GResult CfgMgr::save()
 {
     return G_YES;
 }
-
-GResult CfgMgr::loadCfg()
-{
-    return G_YES;
-}
-
-GResult CfgMgr::loadCfg(const GInt* cfg_data)
-{
-    return G_YES;
-}
-
 }

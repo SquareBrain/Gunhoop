@@ -12,7 +12,10 @@ SUBDIRS:= \
 	network
 
 INCLUDES:=$(BUILD_PATH)/inc \
-	$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc)
+	$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc) \
+	$(GOHOOP_INC_PATH)/gsystem \
+	$(GOHOOP_INC_PATH)/gutils \
+	$(GOHOOP_INC_PATH)/glogger
 
 SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/src)
 

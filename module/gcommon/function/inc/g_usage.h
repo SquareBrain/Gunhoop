@@ -16,11 +16,22 @@
 */
 #pragma once
 
+#include <list>
+#include <string>
+
 #include <g_type.h>
 #include <g_system.h>
-#include <list>
 
 namespace gcom {
+
+/**
+ * @brief argument type
+ */
+typedef enum
+{
+    need,
+    option
+} ArgType;
 
 class Argument;
 
@@ -30,19 +41,10 @@ class Argument;
 class Usage
 {
 public:
-    typedef list<Argument> ArgumentList;
-    typedef list<string::string> ExampleList;
-    
-    /**
-     * @brief argument type
-     */
-    typedef emun
-    {
-        need,
-        option
-    } ArgType;
-  
-public:
+    typedef std::list<Argument> ArgumentList;
+    typedef std::list<std::string> ExampleList;
+
+public:  
     Usage();
     ~Usage();
     
@@ -61,7 +63,10 @@ public:
      * @param [in] long_cmd : long command
      * @param [in] description : argument description
      */
-    void addArg(const GInt8 short_cmd, const ArgType& arg_type, const GInt8* long_cmd, const GInt8* description);
+    void addArg(const GInt8 short_cmd, 
+        const ArgType& arg_type, 
+        const GInt8* long_cmd, 
+        const GInt8* description);
     
     /**
      * @brief print usage

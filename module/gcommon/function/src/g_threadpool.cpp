@@ -69,7 +69,7 @@ ThreadWorker::ThreadWorker(const GUint32 workerId)
 	: m_workerId(workerId)
 	, m_threadJob(NULL)
 {
-	this->start();
+	this->startTask();
 }
 
 ThreadWorker::~ThreadWorker()

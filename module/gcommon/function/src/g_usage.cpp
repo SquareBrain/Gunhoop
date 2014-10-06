@@ -14,8 +14,6 @@
 *  1. 2014-09-30 duye Created this file
 * 
 */
-#pragma once
-
 #include <g_usage.h>
 
 namespace gcom {
