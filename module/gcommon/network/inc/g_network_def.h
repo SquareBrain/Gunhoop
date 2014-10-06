@@ -123,7 +123,7 @@ public:
 	const std::string& getIP() const;
 	
 private:
-	IPv4Addr		m_ipv4Addr;
+	gsys::IPv4Addr		m_ipv4Addr;
 };
 
 /**
