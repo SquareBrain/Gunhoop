@@ -1,7 +1,8 @@
 INCLUDES+= \
-	$(GOHOOP_INC_PATH)/gsystem \
-	$(GOHOOP_INC_PATH)/gcommon \
-	$(GOHOOP_INC_PATH)/gutils
+	#$(GOHOOP_INC_PATH)/gsystem \
+	#$(GOHOOP_INC_PATH)/gcommon \
+	#$(GOHOOP_INC_PATH)/gutils \
+	#$(GOHOOP_INC_PATH)/glogger
 
 SLIBS+=
 

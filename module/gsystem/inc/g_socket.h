@@ -114,7 +114,7 @@ public:
 	GUint16 getAddrLen() const;
     
 private:
-	sockaddr_in	m_sockAddr;
+	sockaddr_in	    m_sockAddr;
 	GUint16         m_addrLen;
 };
 

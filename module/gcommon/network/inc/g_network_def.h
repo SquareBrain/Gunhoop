@@ -120,10 +120,12 @@ public:
 	~IPAddr();
 	
 	GUint32 getIP() const;
-	const std::string& getIP() const;
+    const std::string& getIPStr() const;
 	
 private:
-	gsys::IPv4Addr		m_ipv4Addr;
+	gsys::IPv4Addr	m_ipv4Addr;
+    GUint32         m_ip;
+    std::string		m_ipStr;
 };
 
 /**
@@ -137,7 +139,7 @@ public:
 	explicit MacAddr(const std::string& mac);
 	
 	GUint64 getMac() const;
-	const std::string& getMac() const;
+	const std::string& getMacStr() const;
 	
 private:
 	GUint64 		m_mac;

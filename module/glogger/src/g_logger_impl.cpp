@@ -276,7 +276,7 @@ GResult GLoggerImpl::init()
 	return G_YES;
 }
 
-void GLoggerImpl::uninit()
+GResult GLoggerImpl::uninit()
 {
 	GModuleRuleMap::iterator ruleIter = m_moduleRuleMap.begin();
 	for (; ruleIter != m_moduleRuleMap.end(); ++ruleIter)
@@ -291,6 +291,8 @@ void GLoggerImpl::uninit()
 		delete fileIter->second;
 	}
 	m_logFileMap.clear();
+
+	return G_YES;
 }
 
 void GLoggerImpl::printLog(const GLogLevel logLevel, 

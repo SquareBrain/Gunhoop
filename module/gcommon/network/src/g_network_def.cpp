@@ -130,19 +130,6 @@ const std::string& IPAddr::getIP(const GUint32 ip) const
     return m_ipStr;
 }
 
-IPv6Addr::IPv6Addr(const GInt8* ip) : m_ipStr(ip)
-{
-}
-
-IPv6Addr::IPv6Addr(const std::string& ip) : m_ipStr(ip)
-{
-}
-
-const std::string& IPv6Addr::getIP() const
-{
-    return m_ipStr;
-}
-
 MacAddr::MacAddr(const GUint64 mac) : m_mac(mac)
 {
     NetWorkConv::macToString(m_mac, m_macStr);
@@ -156,6 +143,16 @@ MacAddr::MacAddr(const GInt8* mac) : m_macStr(mac)
 MacAddr::MacAddr(const std::string& mac) : m_macStr(mac)
 {
     NetWorkConv::macToInteger(m_macStr, m_mac);
+}
+
+GUint64 MacAddr::getMac() const
+{
+	return m_mac;
+}
+
+const std::string& MacAddr::getMacStr() const
+{
+	return m_macStr;
 }
 
 IPPortPair::IPPortPair(const IPAddr& ipAddr, const GUint16 port) : m_ipAddrType(IP_TYPE_V4), m_ipv4(ipAddr), m_port(port)
