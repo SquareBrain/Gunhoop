@@ -4,7 +4,9 @@ TARGET:=lib$(MODULE)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
 
-INCLUDES:=$(BUILD_PATH)/inc
+INCLUDES:=$(BUILD_PATH)/inc \
+	$(GOHOOP_INC_PATH)/gsystem \
+	$(GOHOOP_INC_PATH)/gutils
 
 SRCDIRS:=$(BUILD_PATH)/src
 

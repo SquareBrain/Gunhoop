@@ -152,6 +152,7 @@ private:
 class IPPortPair
 {
 public:
+    IPPortPair();
 	explicit IPPortPair(const IPAddr& ipAddr, const GUint16 port);
 	~IPPortPair();
 	
@@ -162,8 +163,8 @@ public:
 	const GUint16 getPort() const;
 	
 private:
-	IPAddr			m_ipAddr;
-	GUint16			m_port;
+	IPAddr  m_ipAddr;
+	GUint16	m_port;
 };
 
 /**
@@ -173,41 +174,42 @@ class NetAddr
 {
 public:
 	NetAddr();
+    explicit NetAddr(const MacAddr mac_addr, const IPAddr& ip_addr, const GUint16 port);
 	~NetAddr();
 	
 	void setMacAddr(const MacAddr& macAddr);
-	const MacAddr& getMacAddr() cosnt;
+	const MacAddr& getMacAddr() const;
 	
-	void setIPv4Addr(const IPAddr& ipAddr);
-	const IPAddr& getIPv4Addr() const;
+	void setIPAddr(const IPAddr& ipAddr);
+	const IPAddr& getIPAddr() const;
 	
 	void setPort(const GUint16 port);
 	GUint16 getPort() const;
 	
 private:
 	MacAddr		m_macAddr;
-	IPAddr		m_ipAddr;
-	GUint16		m_port;
+    IPPortPair  m_ipPortPair;
 };
  
 /**
  * socket address
  */
-clas SocketAddr
+class SocketAddr
 {
 public:
-	explicit SocketAddr(const NetAddr& srcAddr, const NetAddr& dstAddr);
+    SocketAddr();
+	explicit SocketAddr(const NetAddr& src_addr, const NetAddr& dst_addr);
 	~SocketAddr();
 	
-	void setSrcAddr(const NetAddr& srcAddr);
+	void setSrcAddr(const NetAddr& src_addr);
 	const NetAddr& getSrcAddr() const;
 	
-	void setDstAddr(const NetAddr& dstAddr);
+	void setDstAddr(const NetAddr& dst_addr);
 	const NetAddr& getDstAddr() const;
 	
 private:
-	NetAddr		m_srcAddr;
-	NetAddr		m_dstAddr;
+	NetAddr	m_srcAddr;
+	NetAddr	m_dstAddr;
 };
 
 }

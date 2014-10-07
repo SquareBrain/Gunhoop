@@ -11,8 +11,7 @@ SUBDIRS:= \
 	mapreduce \
 	network
 
-INCLUDES:=$(BUILD_PATH)/inc \
-	$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc) \
+INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc) \
 	$(GOHOOP_INC_PATH)/gsystem \
 	$(GOHOOP_INC_PATH)/gutils \
 	$(GOHOOP_INC_PATH)/glogger
@@ -26,7 +25,6 @@ LIBS:=gsystem glogger gutils
 SLIBS:=
 
 OUT_HEADS:=$(wildcard $(BUILD_PATH)/*.h) \
-	$(wildcard $(BUILD_PATH)/inc/*.h) \
 	$(foreach dir, $(SUBDIRS), $(wildcard $(BUILD_PATH)/$(dir)/inc/*.h))
 
 include ../shared.mk
