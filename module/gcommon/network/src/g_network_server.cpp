@@ -19,5 +19,8 @@
 namespace gcom {
 
 NetworkServer::NetworkServer() {}
+NetworkServer::~NetworkServer() {}
+
+
 
 }

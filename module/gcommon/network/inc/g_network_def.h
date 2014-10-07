@@ -44,67 +44,67 @@ public:
 	
 	/**
 	 * @brief string IP to integer
-	 * @param [in] strIP :  input string IP
-	 * @param [out] intIP : output integer IP
+	 * @param [in] str_ip :  input string IP
+	 * @param [out] int_ip : output integer IP
 	 * @return G_YES/G_NO
 	 */
-	GResult ipToInteger(const std::string& strIP, GUint32& intIP);
+	static GResult ipToInteger(const std::string& str_ip, GUint32& int_ip);
 	
 	/**
 	 * @brief integer IP to string
-	 * @param [in] intIP :  input integer IP
-	 * @param [out] strIP : output string IP
+	 * @param [in] int_ip :  input integer IP
+	 * @param [out] str_ip : output string IP
 	 * @return G_YES/G_NO
 	 */
-	GResult ipToString(const GUint32 intIP, std::string& strIP);	
+	static GResult ipToString(const GUint32 int_ip, std::string& str_ip);	
 	
 	/**
 	 * @brief string MAC to integer
-	 * @param [in] strMac :  input string MAC, like : 00:60:6E:73:01:77
-	 * @param [out] intMac : output integer MAC, long long
+	 * @param [in] str_mac :  input string MAC, like : 00:60:6E:73:01:77
+	 * @param [out] int_mac : output integer MAC, long long
 	 * @return G_YES/G_NO
 	 */
-	GResult macToInteger(const std::string& strMac, GUint64& intMac);
+	static GResult macToInteger(const std::string& str_mac, GUint64& int_mac);
 	
 	/**
 	 * @brief bytes MAC to integer
-	 * @param [in] bytesMac : input string MAC, 6 bytes
-	 * @param [out] intMac : output integer MAC, long long
+	 * @param [in] bytes_mac : input string MAC, 6 bytes
+	 * @param [out] int_mac : output integer MAC, long long
 	 * @return G_YES/G_NO
 	 */
-	GResult macToInteger(const GInt8 bytesMac[6], GUint64& intMac);	
+	static GResult macToInteger(const GInt8 bytes_mac[6], GUint64& int_mac);	
 	
 	/**
 	 * @brief string MAC to bytes
-	 * @param [in] strMac :  input integer MAC, like : 00:60:6E:73:01:77
-	 * @param [out] bytesMac : output bytes MAC, 6 bytes
+	 * @param [in] str_mac :  input integer MAC, like : 00:60:6E:73:01:77
+	 * @param [out] bytes_mac : output bytes MAC, 6 bytes
 	 * @return G_YES/G_NO
 	 */
-	GResult macToBytes(const std::string& strMac, GInt8 bytesMac[6]);
+	static GResult macToBytes(const std::string& str_mac, GInt8 bytes_mac[6]);
 	
 	/**
 	 * @brief integer MAC to bytes
-	 * @param [in] intMac : integer MAC, long long, 8 byte
-	 * @param [out] bytesMac : output string MAC, 6 bytes
+	 * @param [in] int_mac : integer MAC, long long, 8 byte
+	 * @param [out] bytes_mac : output string MAC, 6 bytes
 	 * @return G_YES/G_NO
 	 */
-	GResult macToBytes(const GUint64 intMac, GInt8 bytesMac[6]);
+	static GResult macToBytes(const GUint64 int_mac, GInt8 bytes_mac[6]);
 	
 	/**
 	 * @brief integer MAC to string
-	 * @param [in] intMac : integer MAC, 8 byte, long long
-	 * @param [out] strMac : output string MAC, like : 00:60:6E:73:01:77
+	 * @param [in] int_mac : integer MAC, 8 byte, long long
+	 * @param [out] str_mac : output string MAC, like : 00:60:6E:73:01:77
 	 * @return G_YES/G_NO
 	 */
-	GResult macToString(const GUint64 intMac, std::string& strMac);	
+	static GResult macToString(const GUint64 int_mac, std::string& str_mac);	
 	
 	/**
 	 * @brief bytes MAC to string
-	 * @param [in] bytesMac : bytes MAC, 6 bytes
-	 * @param [out] strMac : output string MAC, like : 00:60:6E:73:01:77
+	 * @param [in] bytes_mac : bytes MAC, 6 bytes
+	 * @param [out] str_mac : output string MAC, like : 00:60:6E:73:01:77
 	 * @return G_YES/G_NO
 	 */
-	GResult macToString(GInt8 bytesMac[6], std::string& strMac);	
+	static GResult macToString(GInt8 bytes_mac[6], std::string& str_mac);	
 };
 	
 /**
@@ -113,19 +113,21 @@ public:
 class IPAddr
 {
 public:
+    IPAddr();
 	explicit IPAddr(const GUint32 ip);
-	explicit IPAddr(const GInt8* ip);
 	explicit IPAddr(const std::string& ip);
 	
 	~IPAddr();
-	
+
+    void setIP(const GUint32 ip);
+    void setIP(const std::string& ip);
+    
 	GUint32 getIP() const;
     const std::string& getIPStr() const;
 	
 private:
-	gsys::IPv4Addr	m_ipv4Addr;
-    GUint32         m_ip;
-    std::string		m_ipStr;
+    GUint32     m_ip;
+    std::string m_ipStr;
 };
 
 /**
@@ -134,10 +136,13 @@ private:
 class MacAddr
 {
 public:
+    MacAddr();
 	explicit MacAddr(GUint64 mac);
-	explicit MacAddr(const GInt8* mac);
 	explicit MacAddr(const std::string& mac);
-	
+
+    void setMac(GUint64 mac);
+    void setMac(const std::string& mac);
+    
 	GUint64 getMac() const;
 	const std::string& getMacStr() const;
 	
@@ -153,14 +158,14 @@ class IPPortPair
 {
 public:
     IPPortPair();
-	explicit IPPortPair(const IPAddr& ipAddr, const GUint16 port);
+	explicit IPPortPair(const IPAddr& ip_addr, const GUint16 port);
 	~IPPortPair();
 	
-	void setIPAddr(const IPAddr& ipAddr);
+	void setIPAddr(const IPAddr& ip_addr);
 	const IPAddr& getIPAddr() const;
 	
 	void setPort(const GUint16 port);
-	const GUint16 getPort() const;
+	GUint16 getPort() const;
 	
 private:
 	IPAddr  m_ipAddr;
@@ -177,18 +182,19 @@ public:
     explicit NetAddr(const MacAddr mac_addr, const IPAddr& ip_addr, const GUint16 port);
 	~NetAddr();
 	
-	void setMacAddr(const MacAddr& macAddr);
+	void setMacAddr(const MacAddr& mac_addr);
 	const MacAddr& getMacAddr() const;
 	
-	void setIPAddr(const IPAddr& ipAddr);
+	void setIPAddr(const IPAddr& ip_addr);
 	const IPAddr& getIPAddr() const;
 	
 	void setPort(const GUint16 port);
 	GUint16 getPort() const;
 	
 private:
-	MacAddr		m_macAddr;
-    IPPortPair  m_ipPortPair;
+	MacAddr	m_macAddr;
+    IPAddr  m_ip;
+    GUint16 m_port;
 };
  
 /**

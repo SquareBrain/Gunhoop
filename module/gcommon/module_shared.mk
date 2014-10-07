@@ -11,7 +11,8 @@ SUBDIRS:= \
 	mapreduce \
 	network
 
-INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc) \
+INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)) \
+	$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc) \
 	$(GOHOOP_INC_PATH)/gsystem \
 	$(GOHOOP_INC_PATH)/gutils \
 	$(GOHOOP_INC_PATH)/glogger
