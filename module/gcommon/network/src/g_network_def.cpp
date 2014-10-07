@@ -15,6 +15,7 @@
 *  1. 2014-05-13 duye Created this file
 * 
 */
+#include <g_function.h>
 #include <g_network_def.h>
 
 namespace gcom {
@@ -22,11 +23,11 @@ namespace gcom {
 NetWorkConv::NetWorkConv() {}
 NetWorkConv::~NetWorkConv() {}
 
-GResult NetWorkConv::ipToInt(const std::string& strIP, GUint32& intIP)
+GResult NetWorkConv::ipToInteger(const std::string& strIP, GUint32& intIP)
 {
     std::list<std::string> split_list;
-    IS_NOED(Convert::splitString(strIP, '.', split_list));
-    IS_FALSED(split_list.size() == 0, G_ERROR_INVALID_PARAMETERS);
+    IS_NO_R(Convert::splitString(strIP, '.', split_list));
+    IS_FAULT_R(split_list.size() == 0, G_ERROR_INVALID_PARAMETERS);
     
     GUint32 ip_array[4] = {0};
     GUint16 i = 0;
@@ -58,8 +59,8 @@ GResult NetWorkConv::ipToString(const GUint32 intIP, std::string& strIP)
 GResult NetWorkConv::macToInteger(const std::string& strMac, GUint64& intMac)
 {
     std::list<std::string> split_list;
-    IS_NOED(Convert::splitString(strIP, '.', split_list));
-    IS_FALSED(split_list.size() == 0, G_ERROR_INVALID_PARAMETERS);
+    IS_NO_R(Convert::splitString(strIP, '.', split_list));
+    IS_FAULT_R(split_list.size() == 0, G_ERROR_INVALID_PARAMETERS);
     
     GUint32 ip_array[4] = {0};
     GUint16 i = 0;

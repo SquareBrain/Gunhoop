@@ -25,6 +25,7 @@ LIBS:=gsystem glogger gutils
 SLIBS:=
 
 OUT_HEADS:=$(wildcard $(BUILD_PATH)/*.h) \
+	$(foreach dir, $(SUBDIRS), $(wildcard $(BUILD_PATH)/$(dir)/*.h)) \
 	$(foreach dir, $(SUBDIRS), $(wildcard $(BUILD_PATH)/$(dir)/inc/*.h))
 
 include ../shared.mk
