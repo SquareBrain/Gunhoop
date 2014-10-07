@@ -15,4 +15,6 @@ clean:
 
 cleanall:
 	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR cleanall; done
-	@rm ./output -rf
+	@rm -rf $(GOHOOP_BIN_PATH)/*
+	@rm -rf $(GOHOOP_LIB_PATH)/*
+	@rm -rf $(GOHOOP_INC_PATH)/*

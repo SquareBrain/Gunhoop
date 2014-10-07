@@ -69,7 +69,7 @@ do \
 	} \
 } while(0)
 
-#define IS_FALSED(_x, _ret) \
+#define IS_FAULT_R(_x, _ret) \
 do \
 { \
 	if ((_x) == 0) \

@@ -64,7 +64,9 @@ endif
 
 clean:
 	@rm $(OUTPUT)/obj -rf
+ifneq ($(SOURCE),)	
 	@touch -a $(SOURCE)
+endif
 
 cleanall:clean
 	@rm $(OUTPUT) -rf

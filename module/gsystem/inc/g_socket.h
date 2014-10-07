@@ -105,7 +105,7 @@ public:
 	 * @brief set/get sock addr
 	 * @return 
 	 */		
-    	sockaddr_in& getSockAddr();
+    sockaddr_in& getSockAddr();
     
 	/**
 	 * @brief get sock address length
