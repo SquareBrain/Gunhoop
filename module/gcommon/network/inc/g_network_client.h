@@ -86,8 +86,9 @@ public:
     /**
      * @brief message loop handle, new thread
      * @note derive class implemention
+     * @return G_YES/G_NO
      */
-    virtual void msgLoop() = 0;
+    virtual GResult msgLoop() = 0;
     
     /**
      * @brief get server address

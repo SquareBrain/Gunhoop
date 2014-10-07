@@ -4,21 +4,20 @@
 *
 *************************************************************************************/
 /**
-* @file		g_common.h
+* @file		g_network_server.cpp
 * @version     
 * @brief      
 * @author	duye
-* @date		2013-11-15
+* @date		2014-10-07
 * @note 
 *
-*  2. 2014-06-21 duye move to gohoop project 
-*  1. 2013-11-15 duye Created this file
+*  1. 2014-10-07 duye Created this file
 * 
 */
-#pragma once
+#include <g_network_server.h>
 
-#include <g_filesys.h>
-#include <g_function.h>
-#include <g_iostion.h>
-#include <g_mapreduce.h>
-#include <g_network.h>
+namespace gcom {
+
+NetworkServer::NetworkServer() {}
+
+}

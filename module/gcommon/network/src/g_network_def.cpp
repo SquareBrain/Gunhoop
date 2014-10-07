@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_network.cpp
+* @file		g_network_def.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -15,8 +15,7 @@
 *  1. 2014-05-13 duye Created this file
 * 
 */
-
-#include <g_network.h>
+#include <g_network_def.h>
 
 namespace gcom {
     

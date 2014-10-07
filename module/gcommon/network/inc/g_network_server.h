@@ -24,8 +24,8 @@ namespace gcom {
 class NetworkServer : public gsys::ThreadTask
 {
 public:
-	NetworkService() {}
-	virtual ~NetworkService() {}
+	NetworkService();
+	virtual ~NetworkService();
 	
 	virtual GResult start() = 0;
 	virtual GResult stop() = 0;

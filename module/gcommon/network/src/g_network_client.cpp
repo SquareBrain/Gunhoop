@@ -30,7 +30,7 @@ const IPPortPair& NetworkClient::getServerAddr() const
     return m_serverAddr;
 }
 
-const ClientConnectState& NetworkClient::getConnectState() const;
+const ClientConnectState& NetworkClient::getConnectState() const
 {
     return m_connectState;
 }
@@ -38,23 +38,25 @@ const ClientConnectState& NetworkClient::getConnectState() const;
 GResult NetworkClient::addObserver(NetworkClientInterface* observer)
 {
     IS_YES_R(findObserver(observer));
-    m_observerList.push_back(observer);   
+    m_observerList.push_back(observer);
+	return G_YES;
 }
 
 GResult NetworkClient::removeObserver(NetworkClientInterface* observer)
 {
     m_observerList.remove(observer);
+	return G_YES;
 }
 
 GResult NetworkClient::run()
 {
-    this->msgLoop();
+    return this->msgLoop();
 }
 
-GResult NetworkClient::findObserver(NetworkClientInterface* observer);
+GResult NetworkClient::findObserver(NetworkClientInterface* observer)
 {
     ObserverList::const_iterator iter = m_observerList.begin();
-    for (; iter != m_oberserList.end(); ++iter)
+    for (; iter != m_observerList.end(); ++iter)
     {
         if (*iter == observer)
         {
