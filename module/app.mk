@@ -2,12 +2,11 @@ INCLUDES+= \
 	$(GOHOOP_INC_PATH)/gsystem \
 	$(GOHOOP_INC_PATH)/glogger \
 	$(GOHOOP_INC_PATH)/gutils \
-	$(GOHOOP_INC_PATH)/gutils \
 	$(GOHOOP_INC_PATH)/gcommon
 
 SLIBS+= 
 
-LIBS+=gsystem pthread dl 
+LIBS+=gsystem gutils glogger gcommon
 
 LIBS_PATH+=$(GOHOOP_LIB_PATH) 
 

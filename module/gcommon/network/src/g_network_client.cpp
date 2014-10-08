@@ -21,7 +21,7 @@ namespace gcom {
 NetworkClient::NetworkClient() {}
 NetworkClient::NetworkClient(const IPPortPair& server_addr) 
   : m_serverAddr(server_addr)
-  , m_connectState(CONNECT_INIT) {}
+  , m_connectState(CLIENT_INIT) {}
 
 NetworkClient::~NetworkClient() {}
 

@@ -17,8 +17,7 @@
 
 #pragma once
 
-#include <g_system.h>
-#include <g_network.h>
+#include <g_network_client.h>
 
 /**
  * @brief tcp client user interface
@@ -34,47 +33,51 @@ public:
 /**
  * @brief tcp client
  */
-class TcpClient
+class TcpClient : public NetworkClient
 {
 public:
 	TcpClient();
-	explicit TcpClient(const IPPortPair& serverAddr, TcpClientInterface* interface = nullptr);
+	/**
+	 * @brief constructor
+	 * @param [in] server_addr : ftp server address
+	 * @param [in] net_card : network card for communication, defualt is eth0
+	 */    
+	explicit TcpClient(const IPPortPair& server_addr, const std::string& net_card = "eth0");
 	~TcpClient();
-	
+    
 	/**
-	 * @brief setting server address
-	 */
-	void setServerAddr(const IPPortPair& serverAddr);
-	
-	/**
-	 * @brief connect
+	 * @brief to connect ftp server
 	 * @return G_YES/G_NO
+	 * @note derive class implemention
 	 */
 	GResult connect();
+    
+    /**
+     * @brief to connect ftp server
+     * @param [in] server_addr : server address
+	 * @param [in] server_addr : ftp server address
+	 * @param [in] net_card : network card for communication, defualt is eth0     
+     * @return G_YES/G_NO
+     * @note derive class implemention
+     */
+    GResult connect(const IPPortPair& server_addr, const std::string& net_card = "eth0");
 	
 	/**
-	 * @brief close
-	 * @return G_YES/G_NO
-	 */
-	GResult close();
-	
-	/**
-	 * @brief send data
-	 * @param [in] data : send data
+	 * @brief send message
+	 * @param [in] data : by sent data
 	 * @param [in] len : data length
-	 * @return -1:failed, > 0:send size
+	 * @return have sent size, -1 failed
+	 * @note derive class implemention
 	 */
-	GInt64 send(const GInt8* data, const GUing64 len);
+	GInt64 sendMsg(const GInt8* data, const GUint64 len);
 	
-	/**
-	 * @brief receive data
-	 * @param [in] buffer : data buffer
-	 * @param [in] size : buffer size
-	 * @param [in] timeout : waitting timeout, default is 0, indicate waitting untill has data
-	 * @return -1:failed, > 0:received size
-	 */
-	GInt64 recv(const GInt8* buffer, const GUing64 size, const GUint32 timeout = 0);
-	
+    /**
+     * @brief message loop handle, new thread
+     * @note derive class implemention
+     * @return G_YES/G_NO
+     */
+    virtual GResult msgLoop();	
+
 private:
 	IPPortPair			m_serverAddr;
 	TcpClientInterface*	m_tcpClientInterface;

@@ -49,48 +49,43 @@ public:
 /**
  * @brief tcp server
  */
-class TcpServer
+class TcpServer : public NetworkServer
 {
 public:
 	TcpServer();
-	explicit TcpServer(const IPPortPair& serverAddr, TcpServerInterface* interface = nullptr);
+	/**
+	 * @brief constructor
+	 * @param [in] server_addr : ftp server address
+	 * @param [in] net_card : network card for communication, defualt is eth0
+	 */    
+	explicit TcpServer(const IPPortPair& serverAddr, TcpServerInterface* net_card = nullptr);
 	virtual ~TcpServer();
 	
-	/**
-	 * @brief start
+    /**
+     * @brief startup service
 	 * @return G_YES/G_NO
-	 */
+	 */       
 	GResult start();
-	
-	/**
-	 * @brief stop
+
+    /**
+     * @brief startup service
+	 * @param [in] server_addr : ftp server address
+	 * @param [in] net_card : network card for communication, defualt is eth0
 	 * @return G_YES/G_NO
-	 */
-	GResult stop();
-	
-	/**
-	 * @brief setting server address
-	 */
-	void setServerAddr(const IPPortPair& serverAddr);
-	
-	/**
-	 * @brief send data
-	 * @param [in] data : send data
-	 * @param [in] len : data length
-	 * @return -1:failed, > 0:send size
-	 */
-	GInt64 send(const GInt8* data, const GUing64 len);
-	
-	/**
-	 * @brief receive data
-	 * @param [in] buffer : data buffer
-	 * @param [in] size : buffer size
-	 * @return -1:failed, > 0:received size
-	 */
-	GInt64 recv(const GInt8* buffer, const GUing64 size);
-	
-private:
-	IPPortPair			m_serverAddr;
-	TcpServerInterface*	m_tcpServerInterface;
+	 */       
+	GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0");
+
+    /**
+     * @brief stop service
+     * @return G_YES/G_NO
+     */
+	GResult stop();   
+
+    /**
+     * @brief message loop handle, new thread
+     * @note derive class implemention
+     * @return G_YES/G_NO
+     */
+    GResult msgLoop();      
 };
 }

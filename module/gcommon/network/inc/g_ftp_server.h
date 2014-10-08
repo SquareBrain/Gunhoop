@@ -17,15 +17,47 @@
 
 #pragma once
 
-#include <g_system.h>
+#include <g_network_server.h>
 
 namespace gcom {
 
-class FtpClient
+class FtpServer : public NetworkServer
 {
 public:
-	FtpClient();
-	explicit FtpClient(const IPPortPair& server);
-	~FtpClient();
+	FtpServer();
+	/**
+	 * @brief constructor
+	 * @param [in] server_addr : ftp server address
+	 * @param [in] net_card : network card for communication, defualt is eth0
+	 */    
+    explicit FtpServer(const IPPortPair& server_addr, const std::string& net_card = "eth0");
+	~FtpServer();
+
+    /**
+     * @brief startup service
+	 * @return G_YES/G_NO
+	 */       
+	GResult start();
+
+    /**
+     * @brief startup service
+	 * @param [in] server_addr : ftp server address
+	 * @param [in] net_card : network card for communication, defualt is eth0
+	 * @return G_YES/G_NO
+	 */       
+	GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0");
+
+    /**
+     * @brief stop service
+     * @return G_YES/G_NO
+     */
+	GResult stop();
+
+    /**
+     * @brief message loop handle, new thread
+     * @note derive class implemention
+     * @return G_YES/G_NO
+     */
+    GResult msgLoop();    
 };
 }

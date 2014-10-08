@@ -14,3 +14,12 @@
 *  1. 2014-08-29 duye Created this file
 * 
 */
+#include <g_http_client.h>
+
+namespace gcom {
+
+HttpClient::HttpClient() {}
+HttpClient::HttpClient(const IPPortPair& server_addr) : m_serverAddr(server_addr) {}
+HttpClient::~HttpClient() {}
+
+}

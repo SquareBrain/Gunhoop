@@ -17,7 +17,7 @@
 
 #pragma once
 
-#include <g_system.h>
+#include <g_network_client.h>
 #include <g_http_client.h>
 
 namespace gcom {
@@ -32,9 +32,9 @@ public:
 	/**
 	 * @brief constructor
 	 * @param [in] server_addr : ftp server address
-	 * @param [in] interface : network card name, defualt is eth0
+	 * @param [in] net_card : network card for communication, defualt is eth0
 	 */
-	explicit RpcClient(const IPPortPair& server_addr, const GInt8* interface = "eth0");
+	explicit RpcClient(const IPPortPair& server_addr, const std::string& net_card = "eth0");
 	virtual ~RpcClient();
 	
 	/**
@@ -44,13 +44,15 @@ public:
 	 */
 	GResult connect();
     
-	/**
-	 * @brief to connect ftp server
-	 * @param [in] server_addr : server address
-	 * @return G_YES/G_NO
-	 * @note derive class implemention
-	 */
-	GResult connect(const IPPortPair& server_addr);
+    /**
+     * @brief to connect ftp server
+     * @param [in] server_addr : server address
+	 * @param [in] server_addr : ftp server address
+	 * @param [in] net_card : network card for communication, defualt is eth0     
+     * @return G_YES/G_NO
+     * @note derive class implemention
+     */
+    GResult connect(const IPPortPair& server_addr, const std::string& net_card = "eth0");
 	
 	/**
 	 * @brief send message
@@ -61,11 +63,12 @@ public:
 	 */
 	GInt64 sendMsg(const GInt8* data, const GUint64 len);
 	
-	/**
-	 * @brief message loop handle, new thread
-	 * @note derive class implemention
-	 */
-	void msgLoop();	
+    /**
+     * @brief message loop handle, new thread
+     * @note derive class implemention
+     * @return G_YES/G_NO
+     */
+	GResult msgLoop();	
 	
 private:
 	HttpClient	m_httpClient;

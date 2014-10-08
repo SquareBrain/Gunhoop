@@ -1,15 +1,16 @@
-MODULE:=gdfs
-VERSION:=1.0.0
-TARGET:=lib$(MODULE)
-PRE_DEFINED:= 
-BUILD_PATH:=$(shell pwd)
+SUBDIRS:= \
+	gdfsclient \
+	gdfsmaster \
+	gdfsserver
 
-INCLUDES:=$(BUILD_PATH)/inc \
+all:
+	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR; done
 
-LIBS_PATH:= 
+clean:
+	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR clean; done
 
-LIBS:= 
+cleanall:
+	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR cleanall; done
 
-SLIBS:=
-
-include ../shared.mk
+install:
+	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR install; done

@@ -14,20 +14,32 @@
 *  1. 2014-09-30 duye Created this file
 * 
 */
+#pragma once
 
+#include <string>
 #include <g_system.h>
 #include <g_network_def.h>
 
 namespace gcom {
     
 /**
- * @brief connect state
+ * @brief client connect state
  */
 typedef enum
 {
-    CONNECT_INIT,
-    CONNECT_ON,
-    CONNECT_OFF
+    CLIENT_INIT,
+    CLIENT_ON,
+    CLIENT_OFF
+} ClientConnectState;
+
+/**
+ * @brief server running state
+ */
+typedef enum
+{
+    SERVER_INIT,
+    SERVER_RUN,
+    SERVER_STOP
 } ClientConnectState;
 
 /**
@@ -56,7 +68,12 @@ public:
     
 public:
     NetworkClient();
-    explicit NetworkClient(const IPPortPair& server_addr);
+	/**
+	 * @brief constructor
+	 * @param [in] server_addr : ftp server address
+	 * @param [in] net_card : network card for communication, defualt is eth0
+	 */    
+    explicit NetworkClient(const IPPortPair& server_addr, const std::string& net_card = "eth0");
     virtual ~NetworkClient();
     
     /**
@@ -69,10 +86,12 @@ public:
     /**
      * @brief to connect ftp server
      * @param [in] server_addr : server address
+	 * @param [in] server_addr : ftp server address
+	 * @param [in] net_card : network card for communication, defualt is eth0     
      * @return G_YES/G_NO
      * @note derive class implemention
      */
-    virtual GResult connect(const IPPortPair& server_addr) = 0;
+    virtual GResult connect(const IPPortPair& server_addr, const std::string& net_card = "eth0") = 0;
     
     /**
      * @brief send message
@@ -92,13 +111,21 @@ public:
     
     /**
      * @brief get server address
-     * @param [in] server_addr : server address
+     * @return server address
      */
     const IPPortPair& getServerAddr() const;
+
+    /**
+     * @brief get net card
+     * @return net card
+     */
+    const std::string getNetCard() const;    
     
     /**
-     * @brief get connect state
+     * @brief set/get connect state
+     * @return connect state
      */
+    void setConnectState(const ClientConnectState& state) const;
     const ClientConnectState& getConnectState() const;
     
     /**
@@ -115,6 +142,7 @@ private:
     
 protected:
     IPPortPair          m_serverAddr;
+    std::string         m_netCard;
     ClientConnectState  m_connectState;
     ObserverList        m_observerList;
 };

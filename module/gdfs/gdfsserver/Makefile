@@ -12,4 +12,4 @@ LIBS:=
 
 SLIBS:=
 
-include ../shared.mk
+include ../../app.mk

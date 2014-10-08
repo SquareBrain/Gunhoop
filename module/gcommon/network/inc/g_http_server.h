@@ -14,10 +14,9 @@
 *  1. 2014-08-29 duye Created this file
 * 
 */
-
 #pragma once
 
-#include <g_network_service.h>
+#include <g_network_server.h>
 
 namespace gcom {
 
@@ -25,10 +24,39 @@ class HttpServer : public NetworkServer
 {
 public:
 	HttpServer() {}
+	/**
+	 * @brief constructor
+	 * @param [in] server_addr : ftp server address
+	 * @param [in] net_card : network card for communication, defualt is eth0
+	 */    
+    explicit FtpServer(const IPPortPair& server_addr, const std::string& net_card = "eth0");
 	virtual ~HttpServer() {}
 	
-	virtual GResult start() = 0;
-	virtual GResult stop() = 0;
-	virtual GResult service() = 0;
+    /**
+     * @brief startup service
+	 * @return G_YES/G_NO
+	 */       
+	GResult start();
+
+    /**
+     * @brief startup service
+	 * @param [in] server_addr : ftp server address
+	 * @param [in] net_card : network card for communication, defualt is eth0
+	 * @return G_YES/G_NO
+	 */       
+	GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0");
+
+    /**
+     * @brief stop service
+     * @return G_YES/G_NO
+     */
+	GResult stop();
+
+    /**
+     * @brief message loop handle, new thread
+     * @note derive class implemention
+     * @return G_YES/G_NO
+     */
+    GResult msgLoop();      
 };
 }
