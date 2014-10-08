@@ -1,0 +1,22 @@
+<dfs>
+    <service>
+        <http>
+            <addr>127.0.0.1</http_addr>
+            <netcard>eth0</netcard>
+            <port>8081</port>
+            <max_connect>10000</max_connect>
+        </http>
+        <fpt>
+            <addr>127.0.0.1</http_addr>
+            <netcard>eth0</netcard>
+            <port>8081</port>
+            <max_connect>10000</max_connect>
+        </fpt>
+        <cmd>
+            <addr>127.0.0.1</http_addr>
+            <netcard>eth0</netcard>
+            <port>8081</port>
+            <max_connect>10000</max_connect>
+        </cmd>
+    </service>
+</dfs>
