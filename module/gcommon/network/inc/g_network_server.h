@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_network_server.h
+* @file     g_network_server.h
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-10-29
+* @author   duye
+* @date     2014-10-29
 * @note 
 *
 *  1. 2014-10-29 duye Created this file
