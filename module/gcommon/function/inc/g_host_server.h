@@ -53,7 +53,7 @@ public:
 	/**
 	 * @brief message loop handle
 	 */
-	virtual void routine() = 0;      
+	virtual void routine() = 0;       
 	
 	/**
 	 * @brief set/get host server state
