@@ -27,7 +27,7 @@ namespace gdfs {
 /**
  * @brief dfs server
  */
-class DfsServer : public gcom::HostServer
+class DfsServer : public gcom::HostServer, public gcom::Singleton<DfsServer>
 {
 public:
     DfsServer();
