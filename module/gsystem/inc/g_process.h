@@ -66,7 +66,7 @@ private:
 class ProcessMonitor
 {
 public:
-	friend class ProcessSysCallback;
+    friend class ProcessSysCallback;
     typedef std::list<ProcessMonitorInterface*> ProcessMonitorList;
     
 public:    
