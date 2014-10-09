@@ -31,6 +31,10 @@ class DfsServer : public gcom::HostServer
 {
 public:
     DfsServer();
+    /**
+     * @brief constructor
+     * @param [in] dfs_cfg_file_path, dfs server configuration file
+     */
     explicit DfsServer(const std::string& dfs_cfg_file_path);
     ~DfsServer();
     
