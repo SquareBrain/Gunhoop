@@ -36,8 +36,7 @@ class HostServer
 {
 public:
     HostServer() {}
-	virtual ~HostServer() {}
-	
+    virtual ~HostServer() {}
 	/**
 	 * @brief startup service
 	 * @return G_YES/G_NO
