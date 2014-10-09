@@ -55,14 +55,14 @@ public:
     virtual void routine() = 0;       
 	
 	/**
-	* @brief set/get host server state
-	*/
-	
+	 * @brief set/get host server state
+	 */
+
 	void setServerState(const HostServerState& state) { m_serverState = state; }
 	const HostServerState& getServerState() const { return m_serverState; }
 	
 private:
-	HostServerState     m_serverState;
+	HostServerState     m_serverState;	
 };
 
 }
