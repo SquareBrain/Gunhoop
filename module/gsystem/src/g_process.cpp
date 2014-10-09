@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_process.cpp
+* @file	    g_process.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -34,25 +34,31 @@ ProcessSysCallback::~ProcessSysCallback() {}
 
 void ProcessSysCallback::registProcessMonitor(ProcessMonitor* process_monitor)
 {
-	m_processMonitor = process_monitor;
+    m_processMonitor = process_monitor;
 }
 
 void ProcessSysCallback::signalHandlerCallback(const GInt32 sig)
 {
-	if (m_processMonitor != nullptr)
-	{
-		m_processMonitor->signalHandler(sig);
-	}
+    if (m_processMonitor != nullptr)
+    {
+        m_processMonitor->signalHandler(sig);
+    }
 }
 
 ProcessMonitor::ProcessMonitor()
 {
-	m_processSysCallback.registProcessMonitor(this);
+    m_processSysCallback.registProcessMonitor(this);
 }
 
 ProcessMonitor::~ProcessMonitor()
 {
     m_processMonitorList.clear();
+}
+
+ProcessMonitor& ProcessMonitor::getInstance()
+{
+    static ProcessMonitor process_monitor;
+    return process_monitor;
 }
 
 void ProcessMonitor::addMonitor(ProcessMonitorInterface* monitor)
