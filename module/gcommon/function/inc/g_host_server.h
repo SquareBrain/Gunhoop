@@ -16,6 +16,8 @@
 */
 #pragma once
 
+#include <g_system.h>
+
 namespace gcom {
     
 /**
@@ -32,7 +34,7 @@ typedef enum
 /**
  * @brief host server base class
  */
-class HostServer
+class HostServer : public gsys::ThreadTask
 {
 public:
     HostServer() {}
@@ -51,17 +53,22 @@ public:
 	
     /**
      * @brief message loop handle
+     * @return G_YES/G_NO
      */
-    virtual void routine() = 0;       
+    virtual GResult routine() = 0;       
 	
     /**
      * @brief set/get host server state	
      */
     void setServerState(const HostServerState& state) { m_serverState = state; }
     const HostServerState& getServerState() const { return m_serverState; }
+    
+private:
+    // inherit from base class gsys::ThreadTask
+    // to run new service thread
+    GResult run() { return routine(); }	
 	
 private: 
     HostServerState     m_serverState;	 
 };
-
 }
