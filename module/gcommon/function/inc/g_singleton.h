@@ -39,6 +39,6 @@ template<typename T>
 T& Singleton<T>::GetInstance()
 {
     static T t;
-    return &t;
+    return t;
 }
 }
