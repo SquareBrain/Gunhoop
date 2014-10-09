@@ -19,6 +19,8 @@
 
 #include <list>
 #include <g_type.h>
+#include <g_condition.h>
+#include <g_lock.h>
 
 namespace gsys {
 
@@ -73,7 +75,7 @@ public:
     ProcessMonitor();
     ~ProcessMonitor();
     
-    static ProcessMonitor& getInstance();
+    static ProcessMonitor& instance();
     
     /**
      * @brife addition process monitor interface 
@@ -94,6 +96,8 @@ private:
 private:    
     ProcessSysCallback  m_processSysCallback;
     ProcessMonitorList  m_processMonitorList;
+    Mutex               m_monitorListMutex;
+    Condition           m_exitCondition;
 };
 
 }
