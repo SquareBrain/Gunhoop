@@ -60,7 +60,7 @@ public:
     void setServerState(const HostServerState& state) { m_serverState = state; }
     const HostServerState& getServerState() const { return m_serverState; }
 	
-private:
+private: 
 	HostServerState     m_serverState;	 
 };
 
