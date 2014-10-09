@@ -61,7 +61,7 @@ public:
     const HostServerState& getServerState() const { return m_serverState; }
 	
 private: 
-	HostServerState     m_serverState;	 
+    HostServerState     m_serverState;	 
 };
 
 }
