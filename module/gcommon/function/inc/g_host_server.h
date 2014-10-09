@@ -39,6 +39,7 @@ class HostServer : public gsys::ThreadTask
 public:
     HostServer() {}
     virtual ~HostServer() {}
+    
     /**
      * @brief startup service
      * @return G_YES/G_NO
