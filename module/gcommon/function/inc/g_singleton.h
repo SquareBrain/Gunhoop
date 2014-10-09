@@ -27,25 +27,18 @@ template<typename T>
 class Singleton
 {
 public:
-    typedef T object_type;
-    
-public:
-    static T& GetInstance();
+    static T& getInstance();
     
 protected:
     Singleton() {}
     Singleton(const Singleton&);
     Singleton& operator=(const Singleton&);
-
-private:
-    static T m_instance;
 };
-
-template<typename T> typename Singleton<T>::object_type Singleton<T>::m_instance;
 
 template<typename T>
 T& Singleton<T>::GetInstance()
 {
-    return &m_instance;
+    static T t;
+    return &t;
 }
 }
