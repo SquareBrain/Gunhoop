@@ -7,8 +7,8 @@
 * @file		g_dfs_server.h
 * @version     
 * @brief      
-* @author       duye
-* @date         2014-09-24
+* @author   duye
+* @date     2014-09-24
 * @note 
 *
 *  1. 2014-09-24 duye Created this file
