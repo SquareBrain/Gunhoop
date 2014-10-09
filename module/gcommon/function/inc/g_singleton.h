@@ -4,17 +4,16 @@
 *
 *************************************************************************************/
 /**
-* @file		g_singleton.h
+* @file     g_singleton.h
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-06-18
+* @author   duye
+* @date     2014-06-18
 * @note 
 *
 *  1. 2014-06-18 duye Created this file
 * 
 */
-
 #pragma once
 
 #include <g_system.h>
@@ -28,18 +27,18 @@ template<typename T>
 class Singleton
 {
 public:
-	typedef T object_type;
+    typedef T object_type;
     
 public:
-	static T& GetInstance();
+    static T& GetInstance();
     
 protected:
-	Singleton() {}
-	Singleton(const Singleton&);
-	Singleton& operator=(const Singleton&);
+    Singleton() {}
+    Singleton(const Singleton&);
+    Singleton& operator=(const Singleton&);
 
 private:
-	static T m_instance;
+    static T m_instance;
 };
 
 template<typename T> typename Singleton<T>::object_type Singleton<T>::m_instance;
@@ -47,6 +46,6 @@ template<typename T> typename Singleton<T>::object_type Singleton<T>::m_instance
 template<typename T>
 T& Singleton<T>::GetInstance()
 {
-	return &m_instance;
+    return &m_instance;
 }
 }
