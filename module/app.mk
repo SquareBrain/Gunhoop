@@ -40,7 +40,7 @@ ifdef VERSION
 	TARGET_FILE:=$(OUTPUT)/bin/$(TARGET).$(VERSION)
 endif
 
-all:$(TARGET) install
+all:$(TARGET)
 
 $(TARGET):$(OBJS)
 	@$(CC) $(CPPFLAGS) $(OBJS) -o $(TARGET_FILE) $(SLIB_FLAGS) $(LIB_FLAGS)
