@@ -39,14 +39,14 @@ public:
      * @return G_YES/G_NO
      * @note inherit from base class gcom::HostServer
      */       
-    GResult start() = 0;
+    GResult start();
 	
     /**
      * @brief stop service
      * @return G_YES/G_NO
      * @note inherit from base class gcom::HostServer
      */
-    GResult stop() = 0;
+    GResult stop();
 	
 private:	
     /**
