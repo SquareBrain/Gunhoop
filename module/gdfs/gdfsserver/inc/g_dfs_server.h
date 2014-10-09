@@ -7,8 +7,8 @@
 * @file		g_dfs_server.h
 * @version     
 * @brief      
-* @author   duye
-* @date     2014-09-24
+* @author       duye
+* @date         2014-09-24
 * @note 
 *
 *  1. 2014-09-24 duye Created this file
@@ -28,22 +28,11 @@
 static const std::string DEF_DFS_CFG_FILE_PATH("./dfs_cfg.xml");
 
 namespace gdfs {
-    
-/**
- * @brief server state
- */
-typedef enum
-{
-    SERVER_INIT,
-    SERVER_FAILED,
-    SERVER_RUNNING,
-    SERVER_STOP
-} DFSServerState;
 
 /**
  * @brief dfs server
  */
-class DfsServer : public gcom::Singleton<DFSServer>, public gsys::ThreadTask
+class DfsServer : public gcom::NetworkServer, public gcom::Singleton<DfsServer>
 {
 public:
     DfsServer();
@@ -75,7 +64,6 @@ private:
     GResult createService();
     
 private:
-    DFSServerState      m_serverState;  
     std::string         m_dfsCfgFilePath;
     gcom::CfgMgr        m_cfgMgr;
     
