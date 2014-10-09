@@ -37,19 +37,19 @@ class HostServer
 public:
     HostServer() {}
 	virtual ~HostServer() {}
-
+	
 	/**
 	 * @brief startup service
 	 * @return G_YES/G_NO
 	 */       
 	virtual GResult start() = 0;
-
+	
 	/**
 	 * @brief stop service
 	 * @return G_YES/G_NO
 	 */
 	virtual GResult stop() = 0;
-
+	
 	/**
 	 * @brief message loop handle
 	 */
@@ -62,7 +62,7 @@ public:
 	const HostServerState& getServerState() const { return m_serverState; }
 	
 private:
-    HostServerState     m_serverState;
+	HostServerState     m_serverState;
 };
 
 }
