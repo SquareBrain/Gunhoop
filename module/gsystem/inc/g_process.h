@@ -73,7 +73,7 @@ public:
     ProcessMonitor();
     ~ProcessMonitor();
     
-    static ProcessMonitor* getInstance();
+    static ProcessMonitor& getInstance();
     
     /**
      * @brife addition process monitor interface 
