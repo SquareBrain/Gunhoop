@@ -27,28 +27,28 @@ class NetworkServer : public gsys::ThreadTask
 public:
     NetworkServer();
     /**
-	 * @brief constructor
-	 * @param [in] server_addr : ftp server address
-	 * @param [in] net_card : network card for communication, defualt is eth0
-	 */    
-	explicit NetworkServer(const IPPortPair& server_addr, const std::string& net_card = "eth0");
-	virtual ~NetworkServer();
-
-	/**
-	 * @brief startup service
-	 * @return G_YES/G_NO
-	 */       
-	virtual GResult start() = 0;
-
-	/**
-	 * @brief startup service
-	 * @param [in] server_addr : ftp server address
-	 * @param [in] net_card : network card for communication, defualt is eth0
-	 * @return G_YES/G_NO
-	 */       
-	virtual GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0") = 0;
-
-	/**
+     * @brief constructor
+     * @param [in] server_addr : ftp server address
+     * @param [in] net_card : network card for communication, defualt is eth0
+     */    
+    explicit NetworkServer(const IPPortPair& server_addr, const std::string& net_card = "eth0");
+    virtual ~NetworkServer();
+    
+    /**
+     * @brief startup service
+     * @return G_YES/G_NO
+     */
+    virtual GResult start() = 0;
+    
+    /**
+     * @brief startup service
+     * @param [in] server_addr : ftp server address
+     * @param [in] net_card : network card for communication, defualt is eth0
+     * @return G_YES/G_NO
+     */
+    virtual GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0") = 0;
+    
+    /**
 	 * @brief stop service
 	 * @return G_YES/G_NO
 	 */
