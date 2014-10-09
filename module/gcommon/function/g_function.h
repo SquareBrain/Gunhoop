@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_function.h
+* @file     g_function.h
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-10-07
+* @author   duye
+* @date     2014-10-07
 * @note 
 *
 *  1. 2014-10-07 duye Created this file
@@ -23,3 +23,4 @@
 #include <g_sync.h>
 #include <g_threadpool.h>
 #include <g_usage.h>
+#include <g_host_server.h>
