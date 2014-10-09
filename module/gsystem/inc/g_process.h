@@ -86,8 +86,19 @@ public:
     /**
      * @brief remove process monitor interface
      * @param [in] monitor_interface : process monitor interface
-    */
+     */
     void removeMonitor(ProcessMonitorInterface* monitor_interface);
+    
+    /**
+     * @brief wait process exit
+     * @param [in] timeout : wait time, default is 2 seconds
+     */
+    void waitExit(const guint32 timeout = 2);
+    
+    /**
+     * @brief wakeup all waiter thread
+     */
+    void wakeupExit();
     
 private:
     // system signal handler
@@ -99,5 +110,4 @@ private:
     Mutex               m_monitorListMutex;
     Condition           m_exitCondition;
 };
-
 }
