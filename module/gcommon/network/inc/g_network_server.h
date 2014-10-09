@@ -8,10 +8,10 @@
 * @version     
 * @brief      
 * @author	duye
-* @date		2014-08-29
+* @date		2014-10-29
 * @note 
 *
-*  1. 2014-08-29 duye Created this file
+*  1. 2014-10-29 duye Created this file
 * 
 */
 #pragma once
