@@ -40,23 +40,24 @@ public:
     /**
      * @brief startup service
      * @return G_YES/G_NO
-	 */       
-	virtual GResult start() = 0;
+     */       
+    virtual GResult start() = 0;
+	
+    /**
+     * @brief stop service
+     * @return G_YES/G_NO
+     */
+    virtual GResult stop() = 0;
+	
+    /**
+     * @brief message loop handle
+     */
+    virtual void routine() = 0;       
 	
 	/**
-	 * @brief stop service
-	 * @return G_YES/G_NO
-	 */
-	virtual GResult stop() = 0;
+	* @brief set/get host server state
+	*/
 	
-	/**
-	 * @brief message loop handle
-	 */
-	virtual void routine() = 0;       
-	
-	/**
-	 * @brief set/get host server state
-	 */
 	void setServerState(const HostServerState& state) { m_serverState = state; }
 	const HostServerState& getServerState() const { return m_serverState; }
 	
