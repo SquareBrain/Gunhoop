@@ -37,9 +37,9 @@ class HostServer
 public:
     HostServer() {}
     virtual ~HostServer() {}
-	/**
-	 * @brief startup service
-	 * @return G_YES/G_NO
+    /**
+     * @brief startup service
+     * @return G_YES/G_NO
 	 */       
 	virtual GResult start() = 0;
 	
