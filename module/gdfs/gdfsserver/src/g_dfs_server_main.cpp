@@ -87,7 +87,7 @@ int main(int argc, char** argv)
     }
     
     DfsServer::instance().stop();
-    exit_condition.broadcast();
+    gsys::ProcessMonitor::instance().exitWakeup();
     
     G_LOG_INFO(LOG_PREFIX, "==============DFS server stopped===========");
     
