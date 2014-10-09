@@ -25,8 +25,8 @@ namespace gcom {
 class NetworkServer : public gsys::ThreadTask
 {
 public:
-	NetworkServer();
-	/**
+    NetworkServer();
+    /**
 	 * @brief constructor
 	 * @param [in] server_addr : ftp server address
 	 * @param [in] net_card : network card for communication, defualt is eth0
