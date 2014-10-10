@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_network_client.h
+* @file	    g_network_client.h
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-09-30
+* @author   duye
+* @date	    2014-09-30
 * @note 
 *
 *  1. 2014-09-30 duye Created this file
@@ -23,24 +23,14 @@
 namespace gcom {
     
 /**
- * @brief client connect state
+ * @brief network client connect state
  */
 typedef enum
 {
     CLIENT_INIT,
     CLIENT_ON,
     CLIENT_OFF
-} ClientConnectState;
-
-/**
- * @brief server running state
- */
-typedef enum
-{
-    SERVER_INIT,
-    SERVER_RUN,
-    SERVER_STOP
-} ClientConnectState;
+} ClientState;
 
 /**
  * @biref network client interface
