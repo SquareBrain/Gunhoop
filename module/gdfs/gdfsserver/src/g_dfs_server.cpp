@@ -82,23 +82,11 @@ DfsServerState DfsServer::routine()
     m_cliServer->start();
     
     for (;;)
-    {    
+    {   
         // startup all server
-        if (m_httpServer->state() != SERVER_WORK)
-        {
-            m_httpServer->restart();    
-        }
-        
-        if (m_ftpServer->state() != SERVER_WORK)
-        {
-            m_ftpServer->restart();    
-        }
-        
-        if (m_cliServer->state() != SERVER_WORK)
-        {
-            m_cliServer->restart();    
-        }        
-        
+        gcom::NetworkServerMonitor::keepServer(m_httpServer);
+        gcom::NetworkServerMonitor::keepServer(m_ftpServer);
+        gcom::NetworkServerMonitor::keepServer(m_cliServer);
         gsys::System::sleep(5);    
     }
     
