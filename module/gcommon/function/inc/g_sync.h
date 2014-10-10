@@ -50,18 +50,18 @@ private:
 template <class T> 
 void SecrityObj::lock()
 {
-	m_mutex.lock();
+    m_mutex.lock();
 }
 
 template <class T>
 void SecrityObj::unlock()
 {
-	m_mutex.unlock();
+    m_mutex.unlock();
 }
 
 template <class T>
 gsys::Mutex Secrity::mutex() const
 {
-	return m_mutex;
+    return m_mutex;
 }
 }
