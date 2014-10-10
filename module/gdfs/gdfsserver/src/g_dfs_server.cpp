@@ -22,17 +22,15 @@ static const GInt8* LOG_PREFIX = "dfs.server.startup";
 
 namespace gdfs {
 
-DFSServer::DFSServer() : m_serverState(SERVER_INIT) {}
+DfsServer::DfsServer() {}
 
-DFSServer::DFSServer(const std::string& dfs_cfg_file_path) 
-    : m_serverState(SERVER_INIT)
-    , m_dfsCfgFilePath(dfs_cfg_file_path) {}
+DfsServer::DfsServer(const std::string& dfs_cfg_file_path) : m_dfsCfgFilePath(dfs_cfg_file_path) {}
 
-DFSServer::~DFSServer() {}
+DfsServer::~DfsServer() {}
 
-GResult DFSServer::start()
+GResult DfsServer::start()
 {
-    G_LOG_FUN_IN();
+    G_LOG_IN();
     
     if (m_serverState == SERVER_ON)
     {
@@ -49,7 +47,7 @@ GResult DFSServer::start()
     
     m_serverState = SERVER_ON;
     
-    G_LOG_FUN_OUT();
+    G_LOG_OUT();
     
     return G_YES;
 }
