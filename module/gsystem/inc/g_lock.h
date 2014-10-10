@@ -147,22 +147,13 @@ private:
 class AutoLock
 {
 public:
-    AutoLock() {}
-    
     /**
      * @brief constructor
      * @param [in]GMutex : GMutex
      * @note 
      */			
     explicit AutoLock(Mutex& mutex);
-
     ~AutoLock();
-    
-    /**
-     * @brief auto lock
-     * @param [in] mutex : mutex
-     */
-    void lock(Mutex& mutex);
 
 private:
     /**
