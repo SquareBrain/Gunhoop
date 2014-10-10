@@ -28,9 +28,9 @@ DfsServer::DfsServer(const std::string& dfs_cfg_file_path) : gcom::HostServer(),
 
 DfsServer::~DfsServer() 
 {
-    DfsServerFactory::DestroyServer(HTTP_SERVER, m_httpServer);
-    DfsServerFactory::DestroyServer(FTP_SERVER, m_httpServer);
-    DfsServerFactory::DestroyServer(CLI_SERVER, m_httpServer);
+    gcom::ServerFactory::intance().destroyServer(m_httpServer);
+    gcom::ServerFactory::intance().destroyServer(m_ftpServer);
+    gcom::ServerFactory::intance().destroyServer(m_cliServer);
 }
 
 GResult DfsServer::start()
@@ -99,12 +99,13 @@ GResult DfsServer::initService()
 {
     G_LOG_IN();
     
-    m_httpServer = DfsServerFactory::createServer(HTTP_SERVER);
-    m_ftpServer = DfsServerFactory::createServer(FTP_SERVER);
-    m_cliServer = DfsServerFactory::createServer(CLI_SERVER);
+    m_httpServer = gcom::ServerFactory::intance().createServer(HTTP_SERVER);
+    m_ftpServer = gcom::ServerFactory::intance().createServer(FTP_SERVER);
+    m_cliServer = gcom::ServerFactory::intance().createServer(CLI_SERVER);
     
     G_LOG_OUT();
     
     return G_YES;
 }
+
 }
