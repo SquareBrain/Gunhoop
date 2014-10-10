@@ -84,6 +84,12 @@ public:
     virtual GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0") = 0;
     
     /**
+     * @brief restart service
+     * @return G_YES/NO
+     */
+    virtual GResult restart() = 0;
+    
+    /**
      * @brief stop service
      * @return G_YES/G_NO
      */
