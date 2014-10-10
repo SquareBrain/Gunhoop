@@ -22,7 +22,18 @@
 #include <g_network_def.h>
 
 namespace gcom {
-	
+
+/**
+ * @brief network server running state
+ */
+typedef enum
+{
+    SERVER_INIT,
+    SERVER_WORK,
+    SERVER_STOP,
+    SERVER_FAULT
+} ServerState;
+
 /**
  * @brief server user interface
  */
@@ -108,6 +119,12 @@ public:
      * @return net card
      */
     const std::string getNetCard() const;    
+    
+    /**
+     * @brief get server state
+     * @return server state
+     */
+    const ServerState& state() const;
 	
 private:	
     // inherit from base class gsys::ThreadTask
@@ -117,6 +134,7 @@ private:
 private:
     IPPortPair	m_serverAddr;
     std::string m_netCard;
+    ServerState m_state;
     gsys::SecrityObj<InterfaceList> m_interfaceList;
 };
 }
