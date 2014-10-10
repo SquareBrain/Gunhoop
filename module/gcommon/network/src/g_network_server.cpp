@@ -60,9 +60,14 @@ const IPPortPair& NetworkServer::getServerAddr() const
     return m_serverAddr;
 }
 
-const std::string NetworkServer::getNetCard() const
+const std::string& NetworkServer::getNetCard() const
 {
     return m_netCard;
+}
+
+const ServerState& NetworkServer::state() const
+{
+    return m_state;
 }
 
 GResult NetworkServer::run()
