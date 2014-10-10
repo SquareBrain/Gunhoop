@@ -143,4 +143,20 @@ private:
     ServerState m_state;
     gsys::SecrityObj<InterfaceList> m_interfaceList;
 };
+
+/**
+ * @brief network server monitor
+ */
+class NetworkServerMonitor
+{
+public:
+	NetworkServerMonitor();
+	~NetworkServerMonitor();
+	
+	/**
+	 * @brief to keep server work
+	 * @return G_YES/G_NO
+	 */
+	static GResult keepServer(NetworkServer* server);
+};
 }
