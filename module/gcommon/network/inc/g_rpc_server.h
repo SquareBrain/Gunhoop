@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_rpc_server.h
+* @file     g_rpc_server.h
 * @version     
 * @brief      
 * @author   duye
@@ -24,34 +24,35 @@ namespace gcom {
 class RpcServer : public NetworkServer
 {
 public:
-	RpcServer();
-	/**
-	 * @brief constructor
-	 * @param [in] server_addr : ftp server address
-	 * @param [in] net_card : network card for communication, defualt is eth0
-	 */    
+    RpcServer();
+    
+    /**
+     * @brief constructor
+     * @param [in] server_addr : ftp server address
+     * @param [in] net_card : network card for communication, defualt is eth0
+     */    
     explicit RpcServer(const IPPortPair& server_addr, const std::string& net_card = "eth0");
-	~RpcServer();
+    ~RpcServer();
 
     /**
      * @brief startup service
-	 * @return G_YES/G_NO
-	 */       
-	GResult start();
+     * @return G_YES/G_NO
+     */       
+    GResult start();
 
     /**
      * @brief startup service
-	 * @param [in] server_addr : ftp server address
-	 * @param [in] net_card : network card for communication, defualt is eth0
-	 * @return G_YES/G_NO
-	 */       
-	GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0");
+     * @param [in] server_addr : ftp server address
+     * @param [in] net_card : network card for communication, defualt is eth0
+     * @return G_YES/G_NO
+     */      
+    GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0");
 
     /**
      * @brief stop service
      * @return G_YES/G_NO
      */
-	GResult stop();   
+    GResult stop();   
 
     /**
      * @brief message loop handle, new thread
@@ -60,5 +61,4 @@ public:
      */
     GResult msgLoop();      
 };
-
 }
