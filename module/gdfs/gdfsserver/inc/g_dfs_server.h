@@ -58,7 +58,7 @@ private:
      * @return G_YES/G_NO
      * @note inherit from base class gcom::HostServer
      */
-    GResult routine() = 0;     
+    GResult routine();     
     
     // read DFS Server configuration file
     GResult loadCfg();
