@@ -25,13 +25,13 @@ namespace gcom {
  */
 typedef enum
 {
-    SERVER_UNKNOWN = 0,
-    SERVER_FTP,
-    SERVER_HTTP,
-    SERVER_RPC,
-    SERVER_TCP,
-    SERVER_UDP,
-    SERVER_CLI
+    CLIENT_UNKNOWN = 0,
+    CLIENT_FTP,
+    CLIENT_HTTP,
+    CLIENT_RPC,
+    CLIENT_TCP,
+    CLIENT_UDP,
+    CLIENT_CLI
 } ClientType;
     
 /**
