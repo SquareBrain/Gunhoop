@@ -14,9 +14,9 @@
 * 4. 2014-06-20 duye move to gohoop project
 * 3. 2014-01-09 duye Add comments
 * 2. 2014-01-04 duye 
-* 	a. Modify GMutex function GTryLock to GTryLock()
-* 	b. Add function GTryLock() for class GOrgLock
-* 	c. Modify GTryLock class implimenting
+*     a. Modify GMutex function GTryLock to GTryLock()
+*     b. Add function GTryLock() for class GOrgLock
+*     c. Modify GTryLock class implimenting
 *
 * 1. 2013-11-26 duye Created this file
 */
@@ -147,14 +147,22 @@ private:
 class AutoLock
 {
 public:
+    AutoLock() {}
+    
     /**
      * @brief constructor
      * @param [in]GMutex : GMutex
      * @note 
      */			
-    explicit AutoLock(Mutex& Mutex);
+    explicit AutoLock(Mutex& mutex);
 
     ~AutoLock();
+    
+    /**
+     * @brief auto lock
+     * @param [in] mutex : mutex
+     */
+    void lock(Mutex& mutex);
 
 private:
     /**
