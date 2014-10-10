@@ -37,7 +37,7 @@ typedef enum
 /**
  * @brief server factory
  */
-class ClientFactory
+class ClientFactory : public Singleton<ClientFactory>
 {
 public:
     ClientFactory() {}
