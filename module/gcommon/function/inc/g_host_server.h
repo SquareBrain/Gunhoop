@@ -37,7 +37,7 @@ typedef enum
 class HostServer : public gsys::ThreadTask
 {
 public:
-    HostServer() {}
+    HostServer() : m_serverState(HOST_SERVER_INIT) {}
     virtual ~HostServer() {}
     
     /**
