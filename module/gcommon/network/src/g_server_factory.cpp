@@ -14,4 +14,6 @@
 *  1. 2014-10-10 duye Created this file
 * 
 */
-#pragma once
+#include <g_server_factory.h>
+
+
