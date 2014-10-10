@@ -40,8 +40,8 @@ typedef enum
 class ServerFactory
 {
 public:
-    ServerFactory();
-    virtual ~ServerFactory();
+    ServerFactory() {}
+    virtual ~ServerFactory() {}
     
     virtual void createServer(const ServerType& server_type) = 0;
     virtual void destroyServer(NetworkServer* server) = 0;
