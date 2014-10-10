@@ -57,7 +57,7 @@ private:
     GResult routine();
     
     // create service thread
-    GResult startupService();
+    GResult initService();
     
 private:
     std::string             m_dfsCfgFilePath;
