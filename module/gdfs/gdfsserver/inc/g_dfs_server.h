@@ -53,18 +53,11 @@ public:
     GResult stop();
 	
 private:	
-    /**
-     * @brief message loop handle
-     * @return G_YES/G_NO
-     * @note inherit from base class gcom::HostServer
-     */
-    GResult routine();     
-    
-    // read DFS Server configuration file
-    GResult loadCfg();
+    // message loop handle, inherit from base class gcom::HostServer
+    GResult routine();
     
     // create service thread
-    GResult createService();
+    GResult startupService();
     
 private:
     std::string             m_dfsCfgFilePath;
