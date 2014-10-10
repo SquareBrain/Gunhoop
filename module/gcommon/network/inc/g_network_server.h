@@ -29,23 +29,27 @@ namespace gcom {
 class NetworkServerInterface
 {
 public:
-	virtual ~NetworkServerInterface() {}
-	
-	/**
-	 * @brief message handler
-	 * @param [in] user_data : user data
-	 * @return G_YES/G_NO
-	 */
-	virtual GResult onMessage(void* user_data);
+    virtual ~NetworkServerInterface() {}
+    
+    /**
+     * @brief message handler
+     * @param [in] user_data : user data
+     * @return G_YES/G_NO
+     */
+     virtual GResult onMessage(void* user_data);
 };
 
+/**
+ * @brief network server
+ */
 class NetworkServer : public gsys::ThreadTask
 {
 public:
-	typedef std::list<NetworkServerInterface*> InterfaceList;
+    typedef std::list<NetworkServerInterface*> InterfaceList;
 	
 public:
     NetworkServer();
+    
     /**
      * @brief constructor
      * @param [in] server_addr : ftp server address
@@ -111,8 +115,8 @@ private:
     GResult run();
 
 private:
-    IPPortPair		m_serverAddr;
-    std::string 	m_netCard;
-    InterfaceList	m_interfaceList;
+    IPPortPair	m_serverAddr;
+    std::string m_netCard;
+    gsys::SecrityObj<InterfaceList> m_interfaceList;
 };
 }
