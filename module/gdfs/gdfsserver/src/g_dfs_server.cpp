@@ -84,5 +84,4 @@ GResult DfsServer::startupService()
     
     return G_YES;
 }
-
 }
