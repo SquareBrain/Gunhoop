@@ -74,4 +74,27 @@ GResult NetworkServer::run()
 {
     return routine();
 }
+
+GResult NetworkServerMonitor::keepServer(NetworkServer* server)
+{
+    IS_NULL_R(server);
+    
+    switch (server->state)
+    {
+        case SERVER_INIT:
+            return server->start();
+            break;
+        case SERVER_WORK:
+            return G_YES;
+            break;
+        case SERVER_STOP:
+        case SERVER_FAULT:
+            return server->restart();
+            break;
+        default:
+            break;
+    }
+    
+    return G_NO;
+}
 }
