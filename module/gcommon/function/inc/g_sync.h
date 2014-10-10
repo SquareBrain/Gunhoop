@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_sync.h
-* @version     
+* @file	     g_sync.h
+* @version      
 * @brief      
-* @author	duye
-* @date		2014-07-18
+* @author    duye
+* @date	     2014-07-18
 * @note 
 *
 *  1. 2014-07-18 duye Created this file
@@ -18,12 +18,10 @@
 
 #include <g_system.h>
 
-using namespace gsys;
-
 /** 
  * @brief synchronized code scope
  */
-#define synchronized(mtx) for (GInt32 i = 0; i < 1; i ++) for (AutoLock lock(mtx); i < 1; i ++)
+#define synchronized(mtx) for (GInt32 i = 0; i < 1; i ++) for (gsys::AutoLock lock(mtx); i < 1; i ++)
 
 namespace gcom {
 
@@ -31,10 +29,25 @@ namespace gcom {
  * @brief secrity object template
  */
 template <class T>
-class SecrityObj : public T, public Mutex
+class SecrityObj : public T
 {
 public:
-	SecrityObj() {}
-	~SecrityObj() {}
+    SecrityObj() {}
+    ~SecrityObj() {}
+    
+    /**
+     * @brief auto lock
+     * @param [in] auto_lock : auto lock object
+     */
+	void autoLock(const gsys::AutoLock& auto_lock);   
+    
+private:
+    gsys::Mutex	m_mutex;
 };
+
+template <class T> void SecrityObj::autoLock(const gsys::AutoLock& auto_lock)
+{
+	auto_lock.
+}
+
 }
