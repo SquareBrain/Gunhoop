@@ -47,6 +47,9 @@ GResult DfsServer::start()
     
     m_serverState = HOST_SERVER_WORK;
     
+    // start routine() thread
+    this->startTask();
+    
     G_LOG_OUT();
     
     return G_YES;
@@ -63,6 +66,12 @@ GResult DfsServer::stop()
 DfsServerState DfsServer::routine()
 {
     G_LOG_IN();
+    
+    for (;;)
+    {
+        gsys::System::sleep(1);    
+    }
+    
     G_LOG_OUT();
     
     return G_YES;
