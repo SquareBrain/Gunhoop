@@ -22,9 +22,9 @@ static const GInt8* LOG_PREFIX = "dfs.server.startup";
 
 namespace gdfs {
 
-DfsServer::DfsServer() {}
+DfsServer::DfsServer() : gcom::HostServer() {}
 
-DfsServer::DfsServer(const std::string& dfs_cfg_file_path) : m_dfsCfgFilePath(dfs_cfg_file_path) {}
+DfsServer::DfsServer(const std::string& dfs_cfg_file_path) : gcom::HostServer(), m_dfsCfgFilePath(dfs_cfg_file_path) {}
 
 DfsServer::~DfsServer() {}
 
@@ -32,7 +32,7 @@ GResult DfsServer::start()
 {
     G_LOG_IN();
     
-    if (m_serverState == SERVER_ON)
+    if (getServerState() == HOST_SERVER_WORK)
     {
         return G_YES;
     }
@@ -43,42 +43,37 @@ GResult DfsServer::start()
     }
     
     IS_NO_R(m_cfgMgr.load(m_dfsCfgFilePath));
-    IS_NO_R(createService());
+    IS_NO_R(startupService());
     
-    m_serverState = SERVER_ON;
+    m_serverState = HOST_SERVER_WORK;
     
     G_LOG_OUT();
     
     return G_YES;
 }
 
-GResult DFSServer::stop()
+GResult DfsServer::stop()
 {
-    G_LOG_FUN_IN();
-    G_LOG_FUN_OUT();
+    G_LOG_IN();
+    G_LOG_OUT();
+    
     return G_NO;
 }
 
-void DFSServer::setState(const DFSServerState state)
+DfsServerState DfsServer::routine()
 {
-    m_serverState = state;
-}
-
-const DFSServerState& DFSServer::getState() const
-{
-    return m_serverState;
-}
-
-DFSServerState DFSServer::run()
-{
-    G_LOG_FUN_IN();
-    G_LOG_FUN_OUT();
+    G_LOG_IN();
+    G_LOG_OUT();
+    
     return G_YES;
 }
 
-GResult DFSServer::createService()
+GResult DfsServer::startupService()
 {
-     
+    G_LOG_IN();
+    G_LOG_OUT();
+    
+    return G_YES;
 }
 
 }
