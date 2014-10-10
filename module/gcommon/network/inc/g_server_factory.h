@@ -43,7 +43,7 @@ public:
     ServerFactory() {}
     virtual ~ServerFactory() {}
     
-    virtual void createServer(const ServerType& server_type) = 0;
+    virtual NetworkServer* createServer(const ServerType& server_type) = 0;
     virtual void destroyServer(NetworkServer* server) = 0;
 };
 
