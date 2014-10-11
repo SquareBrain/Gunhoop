@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_http_server.h
+* @file	    g_http_server.h
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-08-29
+* @author   duye
+* @date	    2014-08-29
 * @note 
 *
 *  1. 2014-08-29 duye Created this file
@@ -23,34 +23,41 @@ namespace gcom {
 class HttpServer : public NetworkServer
 {
 public:
-	HttpServer() {}
-	/**
-	 * @brief constructor
-	 * @param [in] server_addr : ftp server address
-	 * @param [in] net_card : network card for communication, defualt is eth0
-	 */    
+    HttpServer() {}
+    
+    /**
+     * @brief constructor
+     * @param [in] server_addr : ftp server address
+     * @param [in] net_card : network card for communication, defualt is eth0
+     */    
     explicit FtpServer(const IPPortPair& server_addr, const std::string& net_card = "eth0");
-	virtual ~HttpServer() {}
+    virtual ~HttpServer() {}
 	
     /**
      * @brief startup service
-	 * @return G_YES/G_NO
-	 */       
-	GResult start();
+     * @return G_YES/G_NO
+     */       
+    GResult start();
 
     /**
      * @brief startup service
-	 * @param [in] server_addr : ftp server address
-	 * @param [in] net_card : network card for communication, defualt is eth0
-	 * @return G_YES/G_NO
-	 */       
-	GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0");
+     * @param [in] server_addr : ftp server address
+     * @param [in] net_card : network card for communication, defualt is eth0
+     * @return G_YES/G_NO
+     */       
+    GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0");
 
+    /**
+     * @brief restart service
+     * @return G_YES/NO
+     */
+    GResult restart();
+    
     /**
      * @brief stop service
      * @return G_YES/G_NO
      */
-	GResult stop();
+    GResult stop();
 
     /**
      * @brief message loop handle, new thread
@@ -59,4 +66,5 @@ public:
      */
     GResult msgLoop();      
 };
+
 }
