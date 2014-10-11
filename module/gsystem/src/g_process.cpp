@@ -52,7 +52,7 @@ ProcessMonitor::ProcessMonitor()
 
 ProcessMonitor::~ProcessMonitor()
 {
-    m_processMonitorList.clear();
+    m_processObserverList.clear();
 }
 
 ProcessMonitor& ProcessMonitor::getInstance()
@@ -61,19 +61,28 @@ ProcessMonitor& ProcessMonitor::getInstance()
     return process_monitor;
 }
 
-void ProcessMonitor::addMonitor(ProcessMonitorInterface* monitor)
+void ProcessMonitor::addObserver(ProcessMonitorObserver* observer)
 {
-    m_processMonitorList.push_back(monitor);
+    ProcessObserverList::iterator iter = m_processObserverList.begin();
+    for (; iter != m_processObserverList.end(); ++iter)
+    {
+        if (observer == *iter)
+        {
+			return;
+        }
+    }   
+    
+    m_processObserverList.push_back(observer);
 }
 
-void ProcessMonitor::removeMonitor(ProcessMonitorInterface* monitor)
+void ProcessMonitor::removeObserver(ProcessMonitorObserver* observer)
 {
-    ProcessMonitorList::iterator iter = m_processMonitorList.begin();
-    for (; iter != m_processMonitorList.end(); ++iter)
+    ProcessObserverList::iterator iter = m_processObserverList.begin();
+    for (; iter != m_processObserverList.end(); ++iter)
     {
-        if (monitor == *iter)
+        if (observer == *iter)
         {
-            m_processMonitorList.erase(iter);
+            m_processObserverList.erase(iter);
             break;
         }
     }    
@@ -81,8 +90,8 @@ void ProcessMonitor::removeMonitor(ProcessMonitorInterface* monitor)
 
 void ProcessMonitor::signalHandler(const GInt32 sig)
 {
-    ProcessMonitorList::iterator iter = m_processMonitorList.begin();
-    for (; iter != m_processMonitorList.end(); ++iter)
+    ProcessObserverList::iterator iter = m_processObserverList.begin();
+    for (; iter != m_processObserverList.end(); ++iter)
     {
         (*iter)->onSegmentationFault(sig);
         (*iter)->onCtrlC(sig);
