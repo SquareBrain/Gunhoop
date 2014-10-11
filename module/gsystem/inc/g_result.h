@@ -108,7 +108,7 @@ do \
  */
 #define IS_NULL_R(_x) \
 do \
-{ \ 
+{ \
     if ((_x) == nullptr) \
     { \
         return; \
@@ -120,7 +120,7 @@ do \
  */
 #define IS_NULL_RX(_x, _ret) \
 do \
-{ \ 
+{ \
     if ((_x) == nullptr) \
     { \
         return (_ret); \

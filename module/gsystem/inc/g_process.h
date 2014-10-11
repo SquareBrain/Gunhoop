@@ -24,17 +24,19 @@
 namespace gsys {
 
 /**
- * @brief process monitor interface
+ * @brief system callback observer
  */
-class ProcessTrackerObserver
+class ProcessSysCallbackObserver
 {
 public:
-    virtual ~ProcessTrackerObserver() {}
-    virtual void onSegmentationFault(const GInt32 sig) {}
-    virtual void onCtrlC(const GInt32 sig) {}
-};
+    virtual ~ProcessSysCallbackObserver() {}
 
-class ProcessMonitor;
+    /**
+     * @brief system signal handler
+     * @param [in] sig : signal
+     */    
+    void onSignalHandler(const GInt32 sig);
+};
 
 /**
  * @biref process monitor for system API callback
@@ -46,10 +48,10 @@ public:
     ~ProcessSysCallback();
     
     /**
-     * @brief regist ProcessMonitor
-     * @param [in] process_monitor : ProcessMonitor
+     * @brief regist process system callback observer
+     * @param [in] observer : observer
      */
-    void registProcessMonitor(ProcessMonitor* process_monitor);
+    void registObserver(ProcessSysCallbackObserver* observer);
     
     /**
      * @brief system signal callback
@@ -58,55 +60,7 @@ public:
     static void signalHandlerCallback(const GInt32 sig);
 
 private:
-    static ProcessMonitor*  m_processMonitor;
-};
-
-/**
- * @biref process monitor
- */
-class ProcessTracker
-{
-public:
-    friend class ProcessSysCallback;
-    typedef gsys::SecrityObj<std::list<ProcessTrackerObserver*>> ObserverList;
-    
-public:    
-    ProcessTracker();
-    ~ProcessTracker();
-    
-    static ProcessTracker& instance();
-    
-    /**
-     * @brife addition process monitor interface 
-     * @param [in] observer : process observer
-     */
-    void addObserver(ProcessMonitorObserver* observer);
-
-    /**
-     * @brief remove process monitor interface
-     * @param [in] observer : process observer
-     */
-    void removeObserver(ProcessMonitorObserver* observer);
-    
-    /**
-     * @brief wait process exit
-     * @param [in] timeout : wait time, default is 2 seconds
-     */
-    void waitExit(const guint32 timeout = 2);
-    
-    /**
-     * @brief wakeup all waiter thread
-     */
-    void wakeupExit();
-    
-private:
-    // system signal handler
-    void signalHandler(const GInt32 sig);
-    
-private:    
-    ProcessSysCallback  m_processSysCallback;
-    ObserverList        m_observerList;
-    Condition           m_exitCondition;
+    ProcessSysCallbackObserver*  m_observer;
 };
 
 }

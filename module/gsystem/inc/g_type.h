@@ -14,7 +14,6 @@
 *  1. 2014-07-12 duye Created this file
 * 
 */
-
 #pragma once
 
 #include <g_result.h>
