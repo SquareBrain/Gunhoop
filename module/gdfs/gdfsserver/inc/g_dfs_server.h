@@ -56,9 +56,6 @@ private:
     // message loop handle, inherit from base class gcom::HostServer
     GResult routine();
     
-    // create service thread
-    GResult initService();
-    
 private:
     std::string             m_dfsCfgFilePath;
     gcom::CfgMgr            m_cfgMgr;
