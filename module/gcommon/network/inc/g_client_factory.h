@@ -43,8 +43,9 @@ public:
     ClientFactory() {}
     virtual ~ClientFactory() {}
     
-    virtual NetworkClient* createClient(const ClientType& client_type) = 0;
-    virtual void destroyClient(NetworkClient* client) = 0;
+    virtual NetworkClient* createClient(const ClientType& client_type);
+    virtual NetworkClient* createClient(const std::string& client_name);
+    void destroyClient(NetworkClient* client);
 };
 
 }
