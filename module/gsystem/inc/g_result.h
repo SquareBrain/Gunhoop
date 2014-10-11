@@ -49,7 +49,23 @@
 #define IS_YES(_ret) ((ret) == G_YES)
 #define IS_NO(_ret) ((ret) == G_NO)
 
+/**
+ * @brief _x is G_YES, return void
+ */
 #define IS_YES_R(_x) \
+do \
+{ \
+    GResult _result = (_x); \
+    if (_result == G_YES) \
+    { \
+        return; \
+    } \
+} while(0)
+
+/**
+ * @brief _x is G_YES, return G_YES
+ */
+#define IS_YES_RX(_x) \
 do \
 { \
     GResult _result = (_x); \
@@ -59,7 +75,23 @@ do \
     } \
 } while(0)
 
+/**
+ * @brief _x is G_NO, return void
+ */
 #define IS_NO_R(_x) \
+do \
+{ \
+    GResult _result = (_x); \
+    if (_result == G_NO) \
+    { \
+        return; \
+    } \
+} while(0)
+
+/**
+ * @brief _x is G_NO, return G_NO
+ */
+#define IS_NO_RX(_x) \
 do \
 { \
     GResult _result = (_x); \
@@ -69,43 +101,39 @@ do \
     } \
 } while(0)
 
+#define IS_NULL(_x) ((_x) == nullptr)
+
 /**
- * @brief is G_NO return parameter _ret
+ * @brief parameter is NULL, return void
  */
-#define IS_NO_RX(_x, _ret) \
-do \
-{ \
-    if ((_x) == 0) \
-    { \
-        return (_ret); \
-    } \
-} while(0)
-
-#define IS_NULL(_p) \
+#define IS_NULL_R(_x) \
 do \
 { \ 
-    if ((_p) == NULL) \
-    { \
-        return true; \
-    } \
-} while(0)
-
-#define IS_NULL_R(_p) \
-do \
-{ \ 
-    if ((_p) == NULL) \
+    if ((_x) == nullptr) \
     { \
         return; \
     } \
 } while(0)
 
 /**
- * @brief parameter is NULL
+ * @brief parameter is NULL, return _ret
  */
-#define P_IS_NULL_R(_p) \
+#define IS_NULL_RX(_x, _ret) \
+do \
+{ \ 
+    if ((_x) == nullptr) \
+    { \
+        return (_ret); \
+    } \
+} while(0)
+
+/**
+ * @brief parameter is NULL, return error code
+ */
+#define IS_NULL_RE(_p) \
 do \
 { \
-    if ((_p) == NULL) \
+    if ((_p) == nullptr) \
     { \
     	return G_ERROR_INVALID_PARAMETERS; \
     } \
