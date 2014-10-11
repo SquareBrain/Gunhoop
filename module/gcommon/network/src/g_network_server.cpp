@@ -31,7 +31,7 @@ void NetworkServer::addObserver(NetworkServerObserver* observer)
     IS_NULL_R(observer);
     
     gsys::AutoLock auto_lock(m_observerList.mutex());
-    ObserverList::iterator iter = m_observerList.begin();
+    ObserverList::const_iterator iter = m_observerList.begin();
     for (; iter != m_observerList.end(); ++iter)
     {
         if (*iter == observer)
@@ -40,23 +40,14 @@ void NetworkServer::addObserver(NetworkServerObserver* observer)
         }
     }
     
-    m_interfaceList.push_back(observer);
+    m_observerList.push_back(observer);
 }
 
 void NetworkServer::removeObserver(NetworkServerObserver* observer)
 {
     IS_NULL_R(observer);
-    
     gsys::AutoLock auto_lock(m_observerList.mutex());
-    ObserverList::iterator iter = m_observerList.begin();
-    for (; iter != m_observerList.end(); ++iter)
-    {
-        if (*iter == observer)
-        {
-            m_interfaceList.erase(iter);
-            break;
-        }
-    }
+    m_observerList.remove(observer);
 }
 
 const IPPortPair& NetworkServer::serverAddr() const
@@ -86,7 +77,7 @@ GResult NetworkServer::run()
 
 GResult NetworkServerMonitor::keepWork(NetworkServer* server)
 {
-    IS_NULL_R(server);
+    IS_NULL_RE(server);
     
     switch (server->state)
     {
