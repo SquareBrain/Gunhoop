@@ -173,7 +173,7 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
     {
         case G_IPPROTO_TCP:
         {
-            if (type != G_SOCK_STREAM)
+            if (type != G_SOCK_STREAM) 
 	        {
 	            return G_NO;
 			}
