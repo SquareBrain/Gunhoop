@@ -37,10 +37,10 @@ typedef enum
 /**
  * @brief server user interface
  */
-class NetworkServerInterface
+class NetworkServerObserver
 {
 public:
-    virtual ~NetworkServerInterface() {}
+    virtual ~NetworkServerObserver() {}
     
     /**
      * @brief message handler
@@ -56,8 +56,8 @@ public:
 class NetworkServer : public gsys::ThreadTask
 {
 public:
-    typedef std::list<NetworkServerInterface*> InterfaceList;
-	
+    typedef gsys::SecrityObj<std::list<NetworkServerInterface*>> ObserverList;
+  
 public:
     NetworkServer();
     
@@ -104,33 +104,39 @@ public:
     
     /**
      * @brief addition observer
-     * @param [in] interface : user observer
+     * @param [in] observer : user observer
      */
-    void addInterface(NetworkServerInterface* interface);
+    void addObserver(NetworkServerObserver* observer);
     
     /**
      * @brief remove observer
-     * @param [in] interface : user observer
+     * @param [in] observer : user observer
      */
-    void removeInterface(NetworkServerInterface* interface);    
+    void removeObserver(NetworkServerObserver* observer);    
       
     /**
      * @brief get server address
      * @return server address
      */
-    const IPPortPair& getServerAddr() const;
+    const IPPortPair& serverAddr() const;
     
     /**
      * @brief get net card
      * @return net card
      */
-    const std::string getNetCard() const;    
+    const std::string netCard() const;    
     
     /**
      * @brief get server state
      * @return server state
      */
     const ServerState& state() const;
+    
+    /**
+     * @brief get observer list
+     * @return observer list
+     */
+    ObserverList& observerList() const;
 	
 private:	
     // inherit from base class gsys::ThreadTask
@@ -138,25 +144,25 @@ private:
     GResult run();
 
 private:
-    IPPortPair	m_serverAddr;
-    std::string m_netCard;
-    ServerState m_state;
-    gsys::SecrityObj<InterfaceList> m_interfaceList;
+    IPPortPair		m_serverAddr;
+    std::string 	m_netCard;
+    ServerState 	m_state;
+    ObserverList 	m_observerList;
 };
 
 /**
  * @brief network server monitor
  */
-class NetworkServerMonitor
+class NetworkServerTracker
 {
 public:
-	NetworkServerMonitor();
-	~NetworkServerMonitor();
+	NetworkServerTracker();
+	~NetworkServerTracker();
 	
 	/**
 	 * @brief to keep server work
 	 * @return G_YES/G_NO
 	 */
-	static GResult keepServer(NetworkServer* server);
+	static GResult keepWork(NetworkServer* server);
 };
 }
