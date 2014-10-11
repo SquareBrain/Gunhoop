@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_socket.h
+* @file     g_socket.h
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-02-16
+* @author   duye
+* @date	    2014-02-16
 * @note 
 *
 *  2. 2014-06-20 duye move to gohoop project 
@@ -35,14 +35,14 @@ namespace gsys {
  */
 typedef enum 
 {
-	// AF_INET
-	G_AF_IPV4,
-	// AF_INET6
-	G_AF_IPV6,
-	G_AF_LOCAL,
-	G_AF_UNIX,
-	G_AF_ROUTE,
-	G_AF_PACKET
+    // AF_INET
+    G_AF_IPV4,
+    // AF_INET6
+    G_AF_IPV6,
+    G_AF_LOCAL,
+    G_AF_UNIX,
+    G_AF_ROUTE,
+    G_AF_PACKET
 } AddrFamily;
 
 /** 
@@ -50,16 +50,16 @@ typedef enum
  */
 typedef enum 
 {
-	// tcp
-	G_SOCK_STREAM,
-	// udp
-	G_SOCK_DGRAM,
-	G_SOCK_SEQPACKET,
-	G_SOCK_RAW,
-	G_SOCK_RDM,
-	G_SOCK_PACKET,
-	G_SOCK_NONBLOCK,
-	G_SOCK_CLOEXEC
+    // tcp
+    G_SOCK_STREAM,
+    // udp
+    G_SOCK_DGRAM,
+    G_SOCK_SEQPACKET,
+    G_SOCK_RAW,
+    G_SOCK_RDM,
+    G_SOCK_PACKET,
+    G_SOCK_NONBLOCK,
+    G_SOCK_CLOEXEC
 } SockType;
 
 /** 
@@ -67,12 +67,12 @@ typedef enum
  */
 typedef enum 
 {
-	// SOCK_STREAM
-	G_IPPROTO_TCP,
-	// SOCK_DGRAM
-	G_IPPROTO_UDP,
-	G_IPPROTO_SCTP,
-	G_IPPROTO_TIPC
+    // SOCK_STREAM
+    G_IPPROTO_TCP,
+    // SOCK_DGRAM
+    G_IPPROTO_UDP,
+    G_IPPROTO_SCTP,
+    G_IPPROTO_TIPC
 } NetProtocol;
 
 /** 
@@ -81,41 +81,41 @@ typedef enum
 class IPv4Addr
 {
 public:
-	/**
-	 * auto get local address, and rand setting a port
-	 */
-	IPv4Addr();
-	explicit IPv4Addr(const GUint32 ip, const GUint16 port = 0);
-	~IPv4Addr();
+    /**
+     * auto get local address, and rand setting a port
+     */
+    IPv4Addr();
+    explicit IPv4Addr(const GUint32 ip, const GUint16 port = 0);
+    ~IPv4Addr();
 
-	/**
-	 * @brief set/get IP address
-	 * @return
-	 */		
-	GUint32 getIP();
-	GUint8* getIPStr();
+    /**
+     * @brief set/get IP address
+     * @return
+     */		
+    GUint32 getIP();
+    GUint8* getIPStr();
 
-	/**
-	 * @brief set/get port
-	 * @return 
-	 */		
-	GUint16 getPort();
+    /**
+     * @brief set/get port
+     * @return 
+     */		
+    GUint16 getPort();
 	
-	/**
-	 * @brief set/get sock addr
-	 * @return 
-	 */		
+    /**
+     * @brief set/get sock addr
+     * @return 
+     */		
     sockaddr_in& getSockAddr();
     
-	/**
-	 * @brief get sock address length
-	 * @return 
-	 */	    
-	GUint16 getAddrLen() const;
+    /**
+     * @brief get sock address length
+     * @return 
+     */	    
+    GUint16 getAddrLen() const;
     
 private:
-	sockaddr_in	    m_sockAddr;
-	GUint16         m_addrLen;
+    sockaddr_in	    m_sockAddr;
+    GUint16         m_addrLen;
 };
 
 /** 
@@ -124,41 +124,41 @@ private:
 class IPv6Addr
 {
 public:
-	/**
-	 * auto get local address, and rand setting a port
-	 */
-	IPv6Addr();
-	explicit IPv6Addr(const GUint8 ip[16], const GUint16 port = 0);
-	~IPv6Addr();
+    /**
+     * auto get local address, and rand setting a port
+     */
+    IPv6Addr();
+    explicit IPv6Addr(const GUint8 ip[16], const GUint16 port = 0);
+    ~IPv6Addr();
 	
-	/**
-	 * @brief set/get IP address
-	 * @return
-	 */		
-	GUint8* getIPStr();
+    /**
+     * @brief set/get IP address
+     * @return
+     */		
+    GUint8* getIPStr();
 
-	/**
-	 * @brief set/get port
-	 * @return 
-	 */		
-	GUint16 getPort();
+    /**
+     * @brief set/get port
+     * @return 
+     */		
+    GUint16 getPort();
 	
-	/**
-	 * @brief set/get sock addr
-	 * @return 
-	 */			
-    	sockaddr_in6& getSockAddr();
+    /**
+     * @brief set/get sock addr
+     * @return 
+     */		
+    sockaddr_in6& getSockAddr();
     
-	/**
-	 * @brief get sock address length
-	 * @return 
-	 */	        
-    	GUint16 getAddrLen() const;
+    /**
+     * @brief get sock address length
+     * @return 
+     */	        
+    GUint16 getAddrLen() const;
         
 private:
-	// address
-	sockaddr_in6	m_sockAddr;
-    	GUint16         m_addrLen;
+    // address
+    sockaddr_in6	m_sockAddr;
+    GUint16         m_addrLen;
 };
 
 /** 
@@ -167,86 +167,86 @@ private:
 class Socket
 {
 public:
-	Socket();
-	explicit Socket(const IPv4Addr& addr);
-	~Socket();
+    Socket();
+    explicit Socket(const IPv4Addr& addr);
+    ~Socket();
 
-	/**
-	 * @brief init socket
-	 * @return G_YES/G_NO
-	 * @note 
-	 */		
-	GResult init(const SockType& type, const NetProtocol& protocol);
+    /**
+     * @brief init socket
+     * @return G_YES/G_NO
+     * @note 
+     */		
+    GResult init(const SockType& type, const NetProtocol& protocol);
 	
-	/**
-	 * @brief shutdown connecting
-	 * @param [in] how : way
-	 * @return G_YES/G_NO
-	 * @note 
-	 */	
-	GResult uninit(const GInt32 how = 0);	
+    /**
+     * @brief shutdown connecting
+     * @param [in] how : way
+     * @return G_YES/G_NO
+     * @note 
+     */	
+    GResult uninit(const GInt32 how = 0);	
 	
-	void setIPv4Addr(const IPv4Addr& addr);
-	const IPv4Addr& getIPv4Addr() const;
+    void setIPv4Addr(const IPv4Addr& addr);
+    const IPv4Addr& getIPv4Addr() const;
     
-	GResult bind();
-	GResult listen(const GUint32 max_connect_num = 20);
-	GResult accept(sockaddr_in& client_addr);
-	GResult accept(sockaddr_in6& client_addr);
-	GResult connect();
+    GResult bind();
+    GResult listen(const GUint32 max_connect_num = 20);
+    GResult accept(sockaddr_in& client_addr);
+    GResult accept(sockaddr_in6& client_addr);
+    GResult connect();
 	
-	/**
-	 * @brief send data
-	 * @param [in] data : send data
-	 * @param [in] len : data length
-	 * @param [in] flags : flags
-	 * @return size/-1
-	 * @note 
-	 */		
-	GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
-	GInt64 sendmsg(const struct msghdr* msg, const GInt32 flags = MSG_NOSIGNAL);
-	GInt64 sendto(const sockaddr_in& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
-	GInt64 sendto(const sockaddr_in6& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+    /**
+     * @brief send data
+     * @param [in] data : send data
+     * @param [in] len : data length
+     * @param [in] flags : flags
+     * @return size/-1
+     * @note 
+     */		
+    GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+    GInt64 sendmsg(const struct msghdr* msg, const GInt32 flags = MSG_NOSIGNAL);
+    GInt64 sendto(const sockaddr_in& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+    GInt64 sendto(const sockaddr_in6& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
 	
-	/**
-	 * @brief receive data
-	 * @param [out] buffer : output buffer
-	 * @param [in] size : buffer size
-	 * @param [in] flags : flags
-	 * @return size/-1
-	 * @note 
-	 */	
-	GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
-	GInt64 recvmsg(struct msghdr* msg, const GInt32 flags = 0);
-	GInt64 recvfrom(sockaddr_in& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
-	GInt64 recvfrom(sockaddr_in6& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+    /**
+     * @brief receive data
+     * @param [out] buffer : output buffer
+     * @param [in] size : buffer size
+     * @param [in] flags : flags
+     * @return size/-1
+     * @note 
+     */	
+    GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
+    GInt64 recvmsg(struct msghdr* msg, const GInt32 flags = 0);
+    GInt64 recvfrom(sockaddr_in& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+    GInt64 recvfrom(sockaddr_in6& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 	
-	/**
-	 * @brief get last error string
-	 * @return error string
-	 * @note 
-	 */		
-	GInt8* getError();		
-	
-private:
-	/**
-	 * @brief setting socket options 
-	 * @return G_YES/G_NO
-	 */		
-	GResult initOption();
-	
-	/**
-	 * @brief origin set program running error
-	 * @param [in] error : error string
-	 * @note 
-	 */		
-	void setError(const GInt8* args, ...);	
+    /**
+     * @brief get last error string
+     * @return error string
+     * @note 
+     */		
+    GInt8* getError();		
 	
 private:
-	GInt32		m_sockfd;	
-	IPv4Addr	m_ipv4Addr;
-	bool		m_isInit;
-	GInt8		m_error[G_ERROR_BUF_SIZE];
+    /**
+     * @brief setting socket options 
+     * @return G_YES/G_NO
+     */		
+    GResult initOption();
+	
+    /**
+     * @brief origin set program running error
+     * @param [in] error : error string
+     * @note 
+     */		
+    void setError(const GInt8* args, ...);	
+	
+private:
+    GInt32		m_sockfd;	
+    IPv4Addr  	m_ipv4Addr;
+    bool		m_isInit;
+    GInt8		m_error[G_ERROR_BUF_SIZE];
 };
 	
 /** 
