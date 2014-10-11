@@ -105,14 +105,16 @@ public:
     /**
      * @brief addition observer
      * @param [in] observer : user observer
+     * @return G_YES/G_NO
      */
-    void addObserver(NetworkServerObserver* observer);
+    GResult addObserver(NetworkServerObserver* observer);
     
     /**
      * @brief remove observer
      * @param [in] observer : user observer
+     * @return G_YES/G_NO
      */
-    void removeObserver(NetworkServerObserver* observer);    
+    GResult removeObserver(NetworkServerObserver* observer);    
       
     /**
      * @brief get server address
