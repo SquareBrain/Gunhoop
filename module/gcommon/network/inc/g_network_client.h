@@ -127,8 +127,8 @@ public:
     GResult removeObserver(NetworkClientObserver* observer);    
 
 private:
+    // inherit from base class gsys::ThreadTask
     GResult run();
-    GResult findObserver(NetworkClientInterface* observer);
     
 protected:
     IPPortPair          m_serverAddr;
