@@ -100,10 +100,7 @@ GUint16 IPv6Addr::getAddrLen() const
 
 Socket::Socket() {}
 Socket::Socket(const IPv4Addr& addr) : m_sockfd(-1), m_ipv4Addr(addr), m_isInit(false) {}
-
-Socket::~Socket() 
-{
-}
+Socket::~Socket() {}
 
 GResult Socket::init(const SockType& type, const NetProtocol& protocol)
 {
@@ -174,7 +171,7 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
     	case G_IPPROTO_TCP:
     	{
     		if (type != G_SOCK_STREAM) 
-    		{
+            {
     			return G_NO;
     		}
     		sock_protocol = IPPROTO_TCP;
