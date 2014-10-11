@@ -64,7 +64,7 @@ public:
      * @note derive class implemention
      * @return G_YES/G_NO
      */
-    virtual GResult msgLoop();	
+    GResult routine();	
 	
 private:
     NetworkClient*	m_tcpClient;
