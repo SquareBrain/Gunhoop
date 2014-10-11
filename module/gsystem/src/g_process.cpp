@@ -39,10 +39,8 @@ void ProcessSysCallback::registProcessMonitor(ProcessMonitor* process_monitor)
 
 void ProcessSysCallback::signalHandlerCallback(const GInt32 sig)
 {
-    if (m_processMonitor != nullptr)
-    {
-        m_processMonitor->signalHandler(sig);
-    }
+	IS_NULL_R(m_processMonitor);
+    m_processMonitor->signalHandler(sig);
 }
 
 ProcessMonitor::ProcessMonitor()
@@ -52,7 +50,7 @@ ProcessMonitor::ProcessMonitor()
 
 ProcessMonitor::~ProcessMonitor()
 {
-    m_processObserverList.clear();
+    m_observerList.clear();
 }
 
 ProcessMonitor& ProcessMonitor::getInstance()
@@ -63,25 +61,25 @@ ProcessMonitor& ProcessMonitor::getInstance()
 
 void ProcessMonitor::addObserver(ProcessMonitorObserver* observer)
 {
-    ProcessObserverList::iterator iter = m_processObserverList.begin();
-    for (; iter != m_processObserverList.end(); ++iter)
+    ObserverList::iterator iter = m_observerList.begin();
+    for (; iter != m_observerList.end(); ++iter)
     {
-        if (observer == *iter)
+        if (*iter == observer)
         {
-        	return;
+            return;
         }
     }   
     
-    m_processObserverList.push_back(observer);
+    m_observerList.push_back(observer);
 }
 
 void ProcessMonitor::removeObserver(ProcessMonitorObserver* observer)
 {
-	gsys::AutoLock autoLock(m_observerList.mutex());
+    gsys::AutoLock autoLock(m_observerList.mutex());
     ObserverList::iterator iter = m_observerList.begin();
     for (; iter != m_observerList.end(); ++iter)
     {
-        if (observer == *iter)
+        if (*iter == observer)
         {
             m_observerList.erase(iter);
             break;
@@ -91,7 +89,7 @@ void ProcessMonitor::removeObserver(ProcessMonitorObserver* observer)
 
 void ProcessMonitor::signalHandler(const GInt32 sig)
 {
-	gsys::AutoLock autoLock(m_observerList.mutex());
+    gsys::AutoLock autoLock(m_observerList.mutex());
     ObserverList::iterator iter = m_observerList.begin();
     for (; iter != m_observerList.end(); ++iter)
     {
