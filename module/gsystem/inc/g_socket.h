@@ -325,60 +325,60 @@ class SocketClient
 {
 public:
     SocketClient();
-	
-	/**
-	 * @brief connect location server
-	 */		
-	explicit SocketClient(const GUint32 server_ip, const GUint16 server_port);
-	~SocketClient();
-	
-	const Socket& getSocket() const;
-	
-	/**
-	 * @brief connect socket
-	 * @return G_YES/G_NO
-	 * @note 
-	 */		
-	GResult connect();
-	
-	/**
-	 * @brief send data
-	 * @param [in] data : send data
-	 * @param [in] len : data length
-	 * @param [in] flags : flags
-	 * @return size/-1
-	 * @note 
-	 */		
-	GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
-	
-	/**
-	 * @brief receive data
-	 * @param [out] buffer : output buffer
-	 * @param [in] bufferSize : buffer size
-	 * @param [in] flags : flags
-	 * @return size/-1
-	 * @note 
-	 */	
-	GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
-	
-	/**
-	 * @brief get last error string
-	 * @return error string
-	 * @note 
-	 */		
-	GInt8* getError();	
-	
-private:
-	/**
-	 * @brief origin set program running error
-	 * @param [in] error : error string
-	 * @note 
-	 */		
-	void setError(const GInt8* args, ...);
+    
+    /**
+     * @brief connect location server
+     */		
+    explicit SocketClient(const GUint32 server_ip, const GUint16 server_port);
+    ~SocketClient();
+    
+    const Socket& getSocket() const;
+    
+    /**
+     * @brief connect socket
+     * @return G_YES/G_NO
+     * @note 
+     */		
+    GResult connect();
+    
+    /**
+     * @brief send data
+     * @param [in] data : send data
+     * @param [in] len : data length
+     * @param [in] flags : flags
+     * @return size/-1
+     * @note 
+     */		
+    GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+    
+    /**
+     * @brief receive data
+     * @param [out] buffer : output buffer
+     * @param [in] bufferSize : buffer size
+     * @param [in] flags : flags
+     * @return size/-1
+     * @note 
+     */	
+    GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+    
+    /**
+     * @brief get last error string
+     * @return error string
+     * @note 
+     */		
+    GInt8* getError();	
 	
 private:
-	Socket 	m_socket;	
-	GInt8	m_error[G_ERROR_BUF_SIZE];
+    /**
+     * @brief origin set program running error
+     * @param [in] error : error string
+     * @note 
+     */		
+    void setError(const GInt8* args, ...);
+	
+private:
+    Socket    m_socket;	
+    GInt8     m_error[G_ERROR_BUF_SIZE];
 };
 
 /**
@@ -387,20 +387,21 @@ private:
 class EpollServer
 {
 public:
-	EpollServer();
-	/**
-	 * @brief constructor
-	 * @param [in] server_ip : server ip address
-	 * @param [in] server_port : server port, default is 0, indent to random generate
-	 * @param [in] interface : net card name, default is eth0, network communication card
-	 */
-	explicit EpollServer(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = "eth0");
-	virtual ~EpollServer();
-	
-	GResult init();
+    EpollServer();
+    
+    /**
+     * @brief constructor
+     * @param [in] server_ip : server ip address
+     * @param [in] server_port : server port, default is 0, indent to random generate
+     * @param [in] interface : net card name, default is eth0, network communication card
+     */
+    explicit EpollServer(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = "eth0");
+    virtual ~EpollServer();
+    
+    GResult init();
 	
 private:
- 	SocketServer	m_socketServer;
+    SocketServer	m_socketServer;
 };
 
 /**
@@ -409,21 +410,21 @@ private:
 class EpollClient
 {
 public:
-	EpollClient();
-	
-	/**
-	 * @brief constructor
-	 * @param [in] server_ip : server ip address
-	 * @param [in] server_port : server port, default is 0, indent to random generate
-	 * @param [in] interface : net card name, default is eth0, network communication card
-	 */	
-	explicit EpollClient(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = nullptr);
-	virtual ~EpollClient();
-	
-	GResult init();
+    EpollClient();
+   
+    /**
+     * @brief constructor
+     * @param [in] server_ip : server ip address
+     * @param [in] server_port : server port, default is 0, indent to random generate
+     * @param [in] interface : net card name, default is eth0, network communication card
+     */	
+    explicit EpollClient(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = nullptr);
+    virtual ~EpollClient();
+   
+    GResult init();
 	
 private:
- 	SocketClient	m_socketClient;
+    SocketClient    m_socketClient;
 };
 
 }
