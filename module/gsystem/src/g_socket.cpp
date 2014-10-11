@@ -27,9 +27,9 @@ IPv4Addr::IPv4Addr(const GUint32 ip, const GUint16 port/*0*/)
 {
     m_addrLen = sizeof(sockaddr_in);
     bzero(&m_sockAddr, m_addrLen);
-    m_sockAddr.sin_family = AF_INET;		// IPv4
-    m_sockAddr.sin_port = htons(port);		// port
-    m_sockAddr.sin_addr.s_addr = htonl(ip);		// IP
+    m_sockAddr.sin_family = AF_INET; // IPv4
+    m_sockAddr.sin_port = htons(port); // port
+    m_sockAddr.sin_addr.s_addr = htonl(ip); // IP
 }
 
 IPv4Addr::~IPv4Addr() {}
@@ -63,16 +63,16 @@ IPv6Addr::IPv6Addr()
 {
     m_addrLen = sizeof(sockaddr_in6);
     bzero(&m_sockAddr, m_addrLen);
-    m_sockAddr.sin6_family = AF_INET6;	// IPv6
-    m_sockAddr.sin6_port = 0;			// port
+    m_sockAddr.sin6_family = AF_INET6; // IPv6
+    m_sockAddr.sin6_port = 0; // port
     m_sockAddr.sin6_addr = IN6ADDR_ANY; // addr
 }
 
 IPv6Addr::IPv6Addr(const GUint8 ip[16], const GUint16 port/*0*/)
 {
     bzero(&m_sockAddr, sizeof(m_sockAddr));
-    m_sockAddr.sin6_family = AF_INET6;		// IPv4
-    m_sockAddr.sin6_port = htons(port);		// port
+    m_sockAddr.sin6_family = AF_INET6; // IPv4
+    m_sockAddr.sin6_port = htons(port); // port
     memcpy(m_sockAddr.sin6_addr.s6_addr, ip, 16); // addr 
 }
 
@@ -187,36 +187,34 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
     	    break;
     	}
     	case G_IPPROTO_SCTP:
-	    {
-	        sock_protocol = IPPROTO_SCTP;
-	        setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
-	        return G_NO; // not support
-	    }
-	    case G_IPPROTO_TIPC:
-	    {
-	    	//sock_protocol = IPPROTO_TIPC;
-	        setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
-	        return G_NO; // not support
-	    }
-	default:
-	    setError("[error]%s:argument protocol(%d) invalid (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
-	    return G_NO;
-	}	
+    	{
+    	    sock_protocol = IPPROTO_SCTP;
+    	    setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
+    	    return G_NO; // not support
+    	}
+    	case G_IPPROTO_TIPC:
+    	{
+    	    //sock_protocol = IPPROTO_TIPC;
+    	    setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
+    	    return G_NO; // not support
+    	}
+    	default:
+    	    setError("[error]%s:argument protocol(%d) invalid (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
+    	    return G_NO;
+    }	
 	
-	m_sockfd = ::socket(domain, sock_type, sock_protocol);
-	if (m_sockfd < 0)
-	{
-	    setError("[error]%s: socket(%d, %d, %d) ret=%d invalid (%s:%d)\n", 
-	    __FUNCTION__, domain, sock_type, sock_protocol, m_sockfd, __FILE__, __LINE__);
-	    return G_NO;
-	}
+    m_sockfd = ::socket(domain, sock_type, sock_protocol);
+    if (m_sockfd < 0)
+    {
+    	setError("[error]%s: socket(%d, %d, %d) ret=%d invalid (%s:%d)\n", 
+    	    __FUNCTION__, domain, sock_type, sock_protocol, m_sockfd, __FILE__, __LINE__);
+        return G_NO;
+    }
 
-	// init socket option
-	initOption();
-	
-	m_isInit = true;
-
-	return G_YES;
+    // init socket option
+    initOption();
+    m_isInit = true;
+    return G_YES;
 }
 
 GResult Socket::uninit(const GInt32 how/*0*/)
