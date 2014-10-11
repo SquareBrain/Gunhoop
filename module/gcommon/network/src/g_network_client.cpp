@@ -21,31 +21,18 @@ namespace gcom {
 NetworkClient::NetworkClient() {}
 NetworkClient::NetworkClient(const IPPortPair& server_addr) 
   : m_serverAddr(server_addr)
-  , m_connectState(CLIENT_INIT) {}
+  , m_state(CLIENT_INIT) {}
 
 NetworkClient::~NetworkClient() {}
 
-const IPPortPair& NetworkClient::getServerAddr() const
+const IPPortPair& NetworkClient::serverAddr() const
 {
     return m_serverAddr;
 }
 
-const ClientConnectState& NetworkClient::getConnectState() const
+const std::string& NetworkClient::netCard() const
 {
-    return m_connectState;
-}
-
-GResult NetworkClient::addObserver(NetworkClientObserver* observer)
-{
-    IS_YES_RX(findObserver(observer));
-    m_observerList.push_back(observer);
-    return G_YES;
-}
-
-GResult NetworkClient::removeObserver(NetworkClientObserver* observer)
-{
-    m_observerList.remove(observer);
-    return G_YES;
+    return m_netCard;
 }
 
 void NetworkClient::setState(const ClientState& state)
@@ -58,13 +45,10 @@ const ClientState& NetworkClient::state() const
     return m_state;
 }
 
-GResult NetworkClient::run()
+GResult NetworkClient::addObserver(NetworkClientObserver* observer)
 {
-    return this->msgLoop();
-}
-
-GResult NetworkClient::findObserver(NetworkClientObserver* observer)
-{
+    IS_NULL_RE(observer);
+    gsys::AutoLock auto_lock(m_observerList.mutex());
     ObserverList::const_iterator iter = m_observerList.begin();
     for (; iter != m_observerList.end(); ++iter)
     {
@@ -73,8 +57,22 @@ GResult NetworkClient::findObserver(NetworkClientObserver* observer)
             return G_YES;
         }
     }
-    
-    return G_NO;    
+
+    m_observerList.push_back(observer);
+    return G_YES;
+}
+
+GResult NetworkClient::removeObserver(NetworkClientObserver* observer)
+{
+    IS_NULL_RE(observer);
+    gsys::AutoLock auto_lock(m_observerList.mutex());
+    m_observerList.remove(observer);
+    return G_YES;
+}
+
+GResult NetworkClient::run()
+{
+    return this->msgLoop();
 }
 
 }
