@@ -133,7 +133,7 @@ private:
 protected:
     IPPortPair          m_serverAddr;
     std::string         m_netCard;
-    ClientState  	    m_state;
+    ClientState         m_state;
     ObserverList        m_observerList;
 };
 
