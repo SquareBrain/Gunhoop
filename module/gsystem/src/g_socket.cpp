@@ -170,23 +170,23 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
     {
     	case G_IPPROTO_TCP:
     	{
-    		if (type != G_SOCK_STREAM) 
+    	    if (type != G_SOCK_STREAM) 
             {
-    			return G_NO;
-    		}
-    		sock_protocol = IPPROTO_TCP;
-    		break;
+            	return G_NO;
+            }
+            sock_protocol = IPPROTO_TCP;
+            break;
     	}
     	case G_IPPROTO_UDP:
     	{
-    		if (type != SOCK_DGRAM)
-    		{
-    			return G_NO;
-    		}		
-    		sock_protocol = IPPROTO_TCP;
-    		break;
-	    }
-	    case G_IPPROTO_SCTP:
+    	    if (type != SOCK_DGRAM)
+    	    {
+    	    	return G_NO;
+    	    }		
+    	    sock_protocol = IPPROTO_TCP;
+    	    break;
+    	}
+    	case G_IPPROTO_SCTP:
 	    {
 	        sock_protocol = IPPROTO_SCTP;
 	        setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
