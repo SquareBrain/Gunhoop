@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_http_client.h
+* @file	    g_http_client.h
 * @version     
 * @brief      
 * @author   duye
@@ -24,40 +24,41 @@ namespace gcom {
 class HttpClient : public NetworkClient
 {
 public:
-	HttpClient();
-	/**
-	 * @brief constructor
-	 * @param [in] server_addr : ftp server address
-	 * @param [in] net_card : network card for communication, defualt is eth0
-	 */    
-	explicit HttpClient(const IPPortPair& server_addr, const std::string& net_card = "eth0");
-	~HttpClient();
+    HttpClient();
+    
+    /**
+     * @brief constructor
+     * @param [in] server_addr : ftp server address
+     * @param [in] net_card : network card for communication, defualt is eth0
+     */    
+    explicit HttpClient(const IPPortPair& server_addr, const std::string& net_card = "eth0");
+    ~HttpClient();
 
-	/**
-	 * @brief to connect ftp server
-	 * @return G_YES/G_NO
-	 * @note derive class implemention
-	 */
-	GResult connect();
+    /**
+     * @brief to connect ftp server
+     * @return G_YES/G_NO
+     * @note derive class implemention
+     */
+    GResult connect();
     
     /**
      * @brief to connect ftp server
      * @param [in] server_addr : server address
-	 * @param [in] server_addr : ftp server address
-	 * @param [in] net_card : network card for communication, defualt is eth0     
+     * @param [in] server_addr : ftp server address
+     * @param [in] net_card : network card for communication, defualt is eth0     
      * @return G_YES/G_NO
      * @note derive class implemention
      */
     GResult connect(const IPPortPair& server_addr, const std::string& net_card = "eth0");
 	
-	/**
-	 * @brief send message
-	 * @param [in] data : by sent data
-	 * @param [in] len : data length
-	 * @return have sent size, -1 failed
-	 * @note derive class implemention
-	 */
-	GInt64 sendMsg(const GInt8* data, const GUint64 len);
+    /**
+     * @brief send message
+     * @param [in] data : by sent data
+     * @param [in] len : data length
+     * @return have sent size, -1 failed
+     * @note derive class implemention
+     */
+    GInt64 sendMsg(const GInt8* data, const GUint64 len);
 	
     /**
      * @brief message loop handle, new thread
@@ -66,4 +67,5 @@ public:
      */
     virtual GResult msgLoop();		    
 };
+
 }
