@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_result.h
+* @file	    g_result.h
 * @version     
 * @brief      
-* @author	duye
-* @date		2013-11-15
+* @author   duye
+* @date	    2013-11-15
 * @note 
 *
 *  2. 2014-06-21 duye move to gohoop project 
@@ -52,37 +52,46 @@
 #define IS_YES_R(_x) \
 do \
 { \
-	GResult _result = (_x); \
-	if (_result == G_YES) \
-	{ \
-		return _result; \
-	} \
+    GResult _result = (_x); \
+    if (_result == G_YES) \
+    { \
+        return _result; \
+    } \
 } while(0)
 
 #define IS_NO_R(_x) \
 do \
 { \
-	GResult _result = (_x); \
-	if (_result == G_NO) \
-	{ \
-		return _result; \
-	} \
+    GResult _result = (_x); \
+    if (_result == G_NO) \
+    { \
+        return _result; \
+    } \
 } while(0)
 
 #define IS_FAULT_R(_x, _ret) \
 do \
 { \
-	if ((_x) == 0) \
-	{ \
-		return (_ret); \
+    if ((_x) == 0) \
+    { \
+        return (_ret); \
+    } \
+} while(0)
+
+#define P_IS_NULL_R(_p) \
+do \
+{ \
+    if ((_p) == NULL) \
+    { \
+    	return G_ERROR_INVALID_PARAMETERS; \
 	} \
 } while(0)
 
 #define IS_NULL_R(_p) \
 do \
-{ \
-	if ((_p) == NULL) \
-	{ \
-		return G_ERROR_INVALID_PARAMETERS; \
-	} \
+{ \ 
+    if ((_p) == NULL) \
+    { \
+        return; \
+    } \
 } while(0)
