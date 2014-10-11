@@ -27,10 +27,10 @@ namespace gsys {
 /**
  * @brief process monitor interface
  */
-class ProcessMonitorInterface
+class ProcessMonitorObserver
 {
 public:
-    virtual ~ProcessMonitorInterface() {}
+    virtual ~ProcessMonitorObserver() {}
     virtual void onSegmentationFault(const GInt32 sig) {}
     virtual void onCtrlC(const GInt32 sig) {}
 };
@@ -69,7 +69,7 @@ class ProcessMonitor
 {
 public:
     friend class ProcessSysCallback;
-    typedef std::list<ProcessMonitorInterface*> ProcessMonitorList;
+    typedef std::list<ProcessMonitorObserver*> ProcessObserverList;
     
 public:    
     ProcessMonitor();
@@ -79,15 +79,15 @@ public:
     
     /**
      * @brife addition process monitor interface 
-     * @param [in] monitor_interface : process monitor interface
+     * @param [in] observer : process observer
      */
-    void addMonitor(ProcessMonitorInterface* monitor_interface);
+    void addObserver(ProcessMonitorObserver* observer);
 
     /**
      * @brief remove process monitor interface
-     * @param [in] monitor_interface : process monitor interface
+     * @param [in] observer : process observer
      */
-    void removeMonitor(ProcessMonitorInterface* monitor_interface);
+    void removeObserver(ProcessMonitorObserver* observer);
     
     /**
      * @brief wait process exit
