@@ -26,28 +26,32 @@ NetworkServer::NetworkServer(const IPPortPair& server_addr, const std::string& n
     
 NetworkServer::~NetworkServer() {}
 
-void NetworkServer::addInterface(NetworkServerInterface* interface)
+void NetworkServer::addObserver(NetworkServerObserver* observer)
 {
-    gsys::AutoLock auto_lock(m_interfaceList.mutex());
-    InterfaceList::iterator iter = m_interfaceList.begin();
-    for (; iter != m_interfaceList.end(); ++iter)
+    IS_NULL_R(observer);
+    
+    gsys::AutoLock auto_lock(m_observerList.mutex());
+    ObserverList::iterator iter = m_observerList.begin();
+    for (; iter != m_observerList.end(); ++iter)
     {
-        if (interface == *iter)
+        if (*iter == observer)
         {
             return;
         }
     }
     
-    m_interfaceList.push_back(interface);
+    m_interfaceList.push_back(observer);
 }
 
-void NetworkServer::removeInterface(NetworkServerInterface* interface)
+void NetworkServer::removeObserver(NetworkServerObserver* observer)
 {
-    gsys::AutoLock auto_lock(m_interfaceList.mutex());
-    InterfaceList::iterator iter = m_interfaceList.begin();
-    for (; iter != m_interfaceList.end(); ++iter)
+    IS_NULL_R(observer);
+    
+    gsys::AutoLock auto_lock(m_observerList.mutex());
+    ObserverList::iterator iter = m_observerList.begin();
+    for (; iter != m_observerList.end(); ++iter)
     {
-        if (*iter == interface)
+        if (*iter == observer)
         {
             m_interfaceList.erase(iter);
             break;
@@ -55,12 +59,12 @@ void NetworkServer::removeInterface(NetworkServerInterface* interface)
     }
 }
 
-const IPPortPair& NetworkServer::getServerAddr() const
+const IPPortPair& NetworkServer::serverAddr() const
 {
     return m_serverAddr;
 }
 
-const std::string& NetworkServer::getNetCard() const
+const std::string& NetworkServer::netCard() const
 {
     return m_netCard;
 }
@@ -70,12 +74,17 @@ const ServerState& NetworkServer::state() const
     return m_state;
 }
 
+ObserverList& NetworkServer::observerList() const
+{
+    return m_observerList;
+}
+
 GResult NetworkServer::run()
 {
     return routine();
 }
 
-GResult NetworkServerMonitor::keepServer(NetworkServer* server)
+GResult NetworkServerMonitor::keepWork(NetworkServer* server)
 {
     IS_NULL_R(server);
     
@@ -97,4 +106,5 @@ GResult NetworkServerMonitor::keepServer(NetworkServer* server)
     
     return G_NO;
 }
+
 }
