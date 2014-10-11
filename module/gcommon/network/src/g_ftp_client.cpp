@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_ftp_client.cpp
+* @file	    g_ftp_client.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -21,40 +21,43 @@
 namespace gcom {
 
 FtpClient::FtpClient() {}
-FtpClient::FtpClient(const IPPortPair& server_addr, const std::string& netcard) 
-	: NetworkClient(server_addr, netcard) {}
+FtpClient::FtpClient(const IPPortPair& server_addr, const std::string& net_card) : NetworkClient(server_addr, net_card) {}
 FtpClient::~FtpClient();
 
 GResult FtpClient::connect()
 {
-	if (getServerAddr().getIPAddr().getIPStr().empty())
-	{
-		return G_NO;
-	}
-
+    if (getServerAddr().getIPAddr().getIPStr().empty())
+    {
+    	return G_NO;
+    }
 	
-	return G_YES;
+    return G_YES;
 }
 
-GResult FtpClient::connect(const IPPortPair& server_addr, const std::string& interface)
+GResult FtpClient::connect(const IPPortPair& server_addr, const std::string& net_card)
 {
-	if (getServerAddr().getIPAddr().getIPStr().empty())
-	{
-		return G_NO;
-	}
+    if (getServerAddr().getIPAddr().getIPStr().empty())
+    {
+    	return G_NO;
+    }
 
-	return G_YES;
+    return G_YES;
 }
 
 GInt64 FtpClient::sendMsg(const GInt8* data, const GUint64 len)
 {
-	GInt64 size = -1;
-	return size;
+    GInt64 size = -1;
+    return size;
 }
 
-GResult FtpClient::msgLoop()
+GResult FtpClient::routine()
 {
-	return G_YES;
+    for (;;)
+    {
+    	gsys::System::sleep(2);	
+    }
+    
+    return G_YES;
 }
 
 }
