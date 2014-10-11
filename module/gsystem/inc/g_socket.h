@@ -15,7 +15,6 @@
 *  1. 2014-02-16 duye Created this file
 * 
 */
-
 #pragma once
 
 #include <sys/socket.h>
@@ -255,67 +254,68 @@ private:
 class SocketServer
 {
 public:
-	SocketServer();
-	/**
-	 * @brief auto find location host
-	 */
-	explicit SocketServer(const GUint32 server_ip, const GUint16 server_port);
-	~SocketServer();
+    SocketServer();
+    
+    /**
+     * @brief auto find location host
+     */
+    explicit SocketServer(const GUint32 server_ip, const GUint16 server_port);
+    ~SocketServer();
+    
+    const Socket& getSocket() const;
 	
-	const Socket& getSocket() const;
+    /**
+     * @brief bind address and port
+     * @return G_YES/G_NO
+     * @note 
+     */	
+    GResult bind();	
 	
-	/**
-	 * @brief bind address and port
-	 * @return G_YES/G_NO
-	 * @note 
-	 */	
-	GResult bind();	
+    /**
+     * @brief listen port
+     * @param [in] max_connect_num : the max client connect number, default is 20
+     * @return G_YES/G_NO
+     * @note 
+     */	
+    GResult listen(const GUint32 max_connect_num = 20);	
 	
-	/**
-	 * @brief listen port
-	 * @param [in] max_connect_num : the max client connect number, default is 20
-	 * @return G_YES/G_NO
-	 * @note 
-	 */	
-	GResult listen(const GUint32 max_connect_num = 20);	
+    /**
+     * @brief waitting for connect
+     * @param [in] client_addr : client sock address
+     * @return G_YES/G_NO
+     * @note 
+     */	
+    GResult accept(IPv4Addr& client_addr);
 	
-	/**
-	 * @brief waitting for connect
-	 * @param [in] client_addr : client sock address
-	 * @return G_YES/G_NO
-	 * @note 
-	 */	
-	GResult accept(IPv4Addr& client_addr);
+    /**
+     * @brief receive data
+     * @param [in] client_addr : client address
+     * @param [out] buffer : output buffer
+     * @param [in] size : output buffer size
+     * @param [in] flags : flags, default is 0
+     * @return size/-1
+     * @note 
+     */	
+    GInt64 recvfrom(IPv4Addr& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 	
-	/**
-	 * @brief receive data
-	 * @param [in] client_addr : client address
-	 * @param [out] buffer : output buffer
-	 * @param [in] size : output buffer size
-	 * @param [in] flags : flags, default is 0
-	 * @return size/-1
-	 * @note 
-	 */	
-	GInt64 recvfrom(IPv4Addr& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
-	
-	/**
-	 * @brief get last error string
-	 * @return error string
-	 * @note 
-	 */		
-	GInt8* getError();	
-	
-private:
-	/**
-	 * @brief origin set program running error
-	 * @param [in] error : error string
-	 * @note 
-	 */		
-	void setError(const GInt8* args, ...);
+    /**
+     * @brief get last error string
+     * @return error string
+     * @note 
+     */		
+    GInt8* getError();	
 	
 private:
-	Socket 		m_socket;
-	GInt8		m_error[G_ERROR_BUF_SIZE];
+    /**
+     * @brief origin set program running error
+     * @param [in] error : error string
+     * @note 
+     */		
+    void setError(const GInt8* args, ...);
+	
+private:
+    Socket      m_socket;
+    GInt8       m_error[G_ERROR_BUF_SIZE];
 };
 
 /** 
@@ -325,6 +325,7 @@ class SocketClient
 {
 public:
 	SocketClient();
+	
 	/**
 	 * @brief connect location server
 	 */		
@@ -409,6 +410,7 @@ class EpollClient
 {
 public:
 	EpollClient();
+	
 	/**
 	 * @brief constructor
 	 * @param [in] server_ip : server ip address
