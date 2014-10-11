@@ -52,7 +52,7 @@ public:
      * @brief restart service
      * @return G_YES/NO
      */
-    virtual GResult restart() = 0;
+    GResult restart() = 0;
     
     /**
      * @brief stop service
