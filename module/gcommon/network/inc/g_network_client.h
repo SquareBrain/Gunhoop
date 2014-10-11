@@ -33,12 +33,12 @@ typedef enum
 } ClientState;
 
 /**
- * @biref network client interface
+ * @biref network client observer
  */
-class NetworkClientInterface
+class NetworkClientObserver
 {
 public:
-    virtual ~NetworkClientInterface() {}
+    virtual ~NetworkClientObserver() {}
     
     /**
      * @brief handle server response message, user need implement
@@ -54,7 +54,7 @@ public:
 class NetworkClient : public gsys::ThreadTask
 {
 public:
-    typedef std::list<NetworkClientInterface*> ObserverList;
+    typedef gsys::SecrityObj<std::list<NetworkClientObserver*>> ObserverList;
     
 public:
     NetworkClient();
@@ -104,34 +104,27 @@ public:
      * @brief get server address
      * @return server address
      */
-    const IPPortPair& getServerAddr() const;
+    const IPPortPair& serverAddr() const;
 
     /**
      * @brief get net card
      * @return net card
      */
-    const std::string getNetCard() const;    
+    const std::string& netCard() const;
     
     /**
      * @brief set/get connect state
-     * @return connect state
      */
-    void setConnectState(const ClientConnectState& state) const;
-    const ClientConnectState& getConnectState() const;
+    void setState(const ClientState& state);
+    const ClientState& state() const;    
     
     /**
      * @brief add/remove observer
      * @brief [in] observer : observer
      * @return G_YES/G_NO
      */
-    GResult addObserver(NetworkClientInterface* observer);
-    GResult removeObserver(NetworkClientInterface* observer);    
-    
-    /**
-     * @brief set/get connect state
-     */
-    void setState(const ClientState& state);
-    const ClientState& state() const;
+    GResult addObserver(NetworkClientObserver* observer);
+    GResult removeObserver(NetworkClientObserver* observer);    
 
 private:
     GResult run();
@@ -140,7 +133,7 @@ private:
 protected:
     IPPortPair          m_serverAddr;
     std::string         m_netCard;
-    ClientState  	m_state;
+    ClientState  	    m_state;
     ObserverList        m_observerList;
 };
 
