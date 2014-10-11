@@ -77,42 +77,54 @@ typedef enum
 /** 
  * @brief IPv4 
  */
-class IPv4Addr
+class Sockaddr
 {
 public:
     /**
-     * auto get local address, and rand setting a port
+     * @brief auto get local address, and rand setting a port
+     * @param [in] net_card : network card name
+     * @param [in] ip : ip address
+     * @param [in] port : port, default is 0, will random generate
      */
-    IPv4Addr();
-    explicit IPv4Addr(const GUint32 ip, const GUint16 port = 0);
-    ~IPv4Addr();
+    Sockaddr();
+    explicit Sockaddr(const std::string& net_card, const GUint32 ip, const GUint16 port = 0);
+    ~Sockaddr();
 
+	/**
+	 * @brief set/get net card
+	 */
+	void setNetCard(const std::string& net_card);
+	const std::string& netCard() const;
+	
     /**
      * @brief set/get IP address
      * @return
-     */		
-    GUint32 getIP();
-    GUint8* getIPStr();
+     */
+    void setIP(const GUint32 ip);
+    GUint32 ip();
+    const std::string& ipStr();
 
     /**
      * @brief set/get port
      * @return 
-     */		
-    GUint16 getPort();
+     */
+    void setPort(const GUint16 port);
+    GUint16 port();
 	
     /**
      * @brief set/get sock addr
      * @return 
      */		
-    sockaddr_in& getSockAddr();
+    sockaddr_in& sockAddrIn();
     
     /**
      * @brief get sock address length
      * @return 
      */	    
-    GUint16 getAddrLen() const;
+    GUint16 addrLen() const;
     
 private:
+	std::string		m_netCard;
     sockaddr_in	    m_sockAddr;
     GUint16         m_addrLen;
 };
@@ -167,7 +179,7 @@ class Socket
 {
 public:
     Socket();
-    explicit Socket(const IPv4Addr& addr);
+    explicit Socket(const Sockaddr& sockaddr);
     ~Socket();
 
     /**
@@ -243,7 +255,7 @@ private:
 	
 private:
     GInt32      m_sockfd;	
-    IPv4Addr    m_ipv4Addr;
+    Sockaddr    m_sockaddr;
     bool        m_isInit;
     GInt8       m_error[G_ERROR_BUF_SIZE];
 };
@@ -257,9 +269,12 @@ public:
     SocketServer();
     
     /**
-     * @brief auto find location host
-     */
-    explicit SocketServer(const GUint32 server_ip, const GUint16 server_port);
+     * @brief constructor
+     * @param [in] server_ip : server ip address
+     * @param [in] server_port : server port, default is 0, indent to random generate
+     * @param [in] interface : net card name, default is eth0, network communication card, default is eth0 
+     */     
+    explicit SocketServer(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = "eth0");
     ~SocketServer();
     
     const Socket& getSocket() const;
@@ -327,9 +342,12 @@ public:
     SocketClient();
     
     /**
-     * @brief connect location server
-     */		
-    explicit SocketClient(const GUint32 server_ip, const GUint16 server_port);
+     * @brief constructor
+     * @param [in] server_ip : server ip address
+     * @param [in] server_port : server port, default is 0, indent to random generate
+     * @param [in] interface : net card name, default is eth0, network communication card, default is eth0 
+     */     
+    explicit SocketClient(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = "eth0");
     ~SocketClient();
     
     const Socket& getSocket() const;
@@ -393,7 +411,7 @@ public:
      * @brief constructor
      * @param [in] server_ip : server ip address
      * @param [in] server_port : server port, default is 0, indent to random generate
-     * @param [in] interface : net card name, default is eth0, network communication card
+     * @param [in] interface : net card name, default is eth0, network communication card, default is eth0 
      */
     explicit EpollServer(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = "eth0");
     virtual ~EpollServer();
@@ -416,9 +434,9 @@ public:
      * @brief constructor
      * @param [in] server_ip : server ip address
      * @param [in] server_port : server port, default is 0, indent to random generate
-     * @param [in] interface : net card name, default is eth0, network communication card
+     * @param [in] interface : net card name, default is eth0, network communication card, default is eth0
      */	
-    explicit EpollClient(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = nullptr);
+    explicit EpollClient(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = "eth0");
     virtual ~EpollClient();
    
     GResult init();
