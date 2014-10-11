@@ -98,7 +98,7 @@ public:
      * @note derive class implemention
      * @return G_YES/G_NO
      */
-    virtual GResult msgLoop() = 0;
+    virtual GResult routine() = 0;
     
     /**
      * @brief get server address
