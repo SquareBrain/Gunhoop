@@ -156,13 +156,14 @@ private:
 class NetworkServerTracker
 {
 public:
-	NetworkServerTracker();
-	~NetworkServerTracker();
-	
-	/**
-	 * @brief to keep server work
-	 * @return G_YES/G_NO
-	 */
-	static GResult keepWork(NetworkServer* server);
+    NetworkServerTracker();
+    ~NetworkServerTracker();
+    
+    /**
+     * @brief to keep server work
+     * @return G_YES/G_NO
+     */
+    static GResult keepWork(NetworkServer* server);
 };
+
 }
