@@ -14,7 +14,6 @@
 *  1. 2014-09-28 duye Created this file
 * 
 */
-
 #pragma once
 
 #include <list>
@@ -27,10 +26,10 @@ namespace gsys {
 /**
  * @brief process monitor interface
  */
-class ProcessMonitorObserver
+class ProcessTrackerObserver
 {
 public:
-    virtual ~ProcessMonitorObserver() {}
+    virtual ~ProcessTrackerObserver() {}
     virtual void onSegmentationFault(const GInt32 sig) {}
     virtual void onCtrlC(const GInt32 sig) {}
 };
@@ -65,17 +64,17 @@ private:
 /**
  * @biref process monitor
  */
-class ProcessMonitor
+class ProcessTracker
 {
 public:
     friend class ProcessSysCallback;
-    typedef std::list<ProcessMonitorObserver*> ProcessObserverList;
+    typedef gsys::SecrityObj<std::list<ProcessTrackerObserver*>> ObserverList;
     
 public:    
-    ProcessMonitor();
-    ~ProcessMonitor();
+    ProcessTracker();
+    ~ProcessTracker();
     
-    static ProcessMonitor& instance();
+    static ProcessTracker& instance();
     
     /**
      * @brife addition process monitor interface 
@@ -106,8 +105,8 @@ private:
     
 private:    
     ProcessSysCallback  m_processSysCallback;
-    ProcessObserverList m_processMonitorList;
-    Mutex               m_monitorListMutex;
+    ObserverList        m_observerList;
     Condition           m_exitCondition;
 };
+
 }
