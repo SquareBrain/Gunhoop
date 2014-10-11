@@ -68,7 +68,7 @@ void ProcessMonitor::addObserver(ProcessMonitorObserver* observer)
     {
         if (observer == *iter)
         {
-			return;
+        	return;
         }
     }   
     
@@ -77,12 +77,13 @@ void ProcessMonitor::addObserver(ProcessMonitorObserver* observer)
 
 void ProcessMonitor::removeObserver(ProcessMonitorObserver* observer)
 {
-    ProcessObserverList::iterator iter = m_processObserverList.begin();
-    for (; iter != m_processObserverList.end(); ++iter)
+	gsys::AutoLock autoLock(m_observerList.mutex());
+    ObserverList::iterator iter = m_observerList.begin();
+    for (; iter != m_observerList.end(); ++iter)
     {
         if (observer == *iter)
         {
-            m_processObserverList.erase(iter);
+            m_observerList.erase(iter);
             break;
         }
     }    
@@ -90,8 +91,9 @@ void ProcessMonitor::removeObserver(ProcessMonitorObserver* observer)
 
 void ProcessMonitor::signalHandler(const GInt32 sig)
 {
-    ProcessObserverList::iterator iter = m_processObserverList.begin();
-    for (; iter != m_processObserverList.end(); ++iter)
+	gsys::AutoLock autoLock(m_observerList.mutex());
+    ObserverList::iterator iter = m_observerList.begin();
+    for (; iter != m_observerList.end(); ++iter)
     {
         (*iter)->onSegmentationFault(sig);
         (*iter)->onCtrlC(sig);
