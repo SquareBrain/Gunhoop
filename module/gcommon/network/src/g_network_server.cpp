@@ -26,10 +26,9 @@ NetworkServer::NetworkServer(const IPPortPair& server_addr, const std::string& n
     
 NetworkServer::~NetworkServer() {}
 
-void NetworkServer::addObserver(NetworkServerObserver* observer)
+GResult NetworkServer::addObserver(NetworkServerObserver* observer)
 {
-    IS_NULL_R(observer);
-    
+    IS_NULL_RE(observer);
     gsys::AutoLock auto_lock(m_observerList.mutex());
     ObserverList::const_iterator iter = m_observerList.begin();
     for (; iter != m_observerList.end(); ++iter)
@@ -43,9 +42,9 @@ void NetworkServer::addObserver(NetworkServerObserver* observer)
     m_observerList.push_back(observer);
 }
 
-void NetworkServer::removeObserver(NetworkServerObserver* observer)
+GResult NetworkServer::removeObserver(NetworkServerObserver* observer)
 {
-    IS_NULL_R(observer);
+    IS_NULL_RE(observer);
     gsys::AutoLock auto_lock(m_observerList.mutex());
     m_observerList.remove(observer);
 }
