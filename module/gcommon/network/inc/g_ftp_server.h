@@ -52,7 +52,7 @@ public:
      * @brief restart service
      * @return G_YES/NO
      */
-    GResult restart() = 0;
+    GResult restart();
     
     /**
      * @brief stop service
