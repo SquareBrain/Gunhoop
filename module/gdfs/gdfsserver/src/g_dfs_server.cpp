@@ -48,12 +48,17 @@ GResult DfsServer::start()
     }
     
     IS_NO_R(m_cfgMgr.load(m_dfsCfgFilePath));
-    IS_NO_R(initService());
     
-    m_serverState = HOST_SERVER_WORK;
+    // init all service
+    m_httpServer = gcom::ServerFactory::intance().createServer(HTTP_SERVER);
+    m_ftpServer = gcom::ServerFactory::intance().createServer(FTP_SERVER);
+    m_cliServer = gcom::ServerFactory::intance().createServer(CLI_SERVER);
     
     // start routine() thread
     this->startTask();
+        
+    // set server state is work
+    m_serverState = HOST_SERVER_WORK;
     
     G_LOG_OUT();
     
@@ -87,21 +92,9 @@ DfsServerState DfsServer::routine()
         gcom::NetworkServerMonitor::keepServer(m_httpServer);
         gcom::NetworkServerMonitor::keepServer(m_ftpServer);
         gcom::NetworkServerMonitor::keepServer(m_cliServer);
+        
         gsys::System::sleep(5);    
     }
-    
-    G_LOG_OUT();
-    
-    return G_YES;
-}
-
-GResult DfsServer::initService()
-{
-    G_LOG_IN();
-    
-    m_httpServer = gcom::ServerFactory::intance().createServer(HTTP_SERVER);
-    m_ftpServer = gcom::ServerFactory::intance().createServer(FTP_SERVER);
-    m_cliServer = gcom::ServerFactory::intance().createServer(CLI_SERVER);
     
     G_LOG_OUT();
     
