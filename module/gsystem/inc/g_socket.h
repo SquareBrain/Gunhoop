@@ -185,7 +185,7 @@ public:
      */	
     GResult uninit(const GInt32 how = 0);	
 	
-    void setIPv4Addr(const IPv4Addr& addr);
+    void setAddr(const IPv4Addr& addr);
     const IPv4Addr& getIPv4Addr() const;
     
     GResult bind();
@@ -324,7 +324,7 @@ private:
 class SocketClient
 {
 public:
-	SocketClient();
+    SocketClient();
 	
 	/**
 	 * @brief connect location server
