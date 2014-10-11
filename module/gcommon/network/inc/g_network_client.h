@@ -58,11 +58,12 @@ public:
     
 public:
     NetworkClient();
-	/**
-	 * @brief constructor
-	 * @param [in] server_addr : ftp server address
-	 * @param [in] net_card : network card for communication, defualt is eth0
-	 */    
+    
+    /**
+     * @brief constructor
+     * @param [in] server_addr : ftp server address
+     * @param [in] net_card : network card for communication, defualt is eth0
+     */    
     explicit NetworkClient(const IPPortPair& server_addr, const std::string& net_card = "eth0");
     virtual ~NetworkClient();
     
@@ -76,8 +77,8 @@ public:
     /**
      * @brief to connect ftp server
      * @param [in] server_addr : server address
-	 * @param [in] server_addr : ftp server address
-	 * @param [in] net_card : network card for communication, defualt is eth0     
+     * @param [in] server_addr : ftp server address
+     * @param [in] net_card : network card for communication, defualt is eth0     
      * @return G_YES/G_NO
      * @note derive class implemention
      */
@@ -125,6 +126,12 @@ public:
      */
     GResult addObserver(NetworkClientInterface* observer);
     GResult removeObserver(NetworkClientInterface* observer);    
+    
+    /**
+     * @brief set/get connect state
+     */
+    void setState(const ClientState& state);
+    const ClientState& state() const;
 
 private:
     GResult run();
@@ -133,7 +140,7 @@ private:
 protected:
     IPPortPair          m_serverAddr;
     std::string         m_netCard;
-    ClientConnectState  m_connectState;
+    ClientState  	m_state;
     ObserverList        m_observerList;
 };
 
