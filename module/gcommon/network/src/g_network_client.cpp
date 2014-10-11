@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_network_client.cpp
+* @file	    g_network_client.cpp
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-09-30
+* @author   duye
+* @date	    2014-09-30
 * @note 
 *
 *  1. 2014-09-30 duye Created this file
@@ -35,17 +35,27 @@ const ClientConnectState& NetworkClient::getConnectState() const
     return m_connectState;
 }
 
-GResult NetworkClient::addObserver(NetworkClientInterface* observer)
+GResult NetworkClient::addObserver(NetworkClientObserver* observer)
 {
-    IS_YES_R(findObserver(observer));
+    IS_YES_RX(findObserver(observer));
     m_observerList.push_back(observer);
-	return G_YES;
+    return G_YES;
 }
 
-GResult NetworkClient::removeObserver(NetworkClientInterface* observer)
+GResult NetworkClient::removeObserver(NetworkClientObserver* observer)
 {
     m_observerList.remove(observer);
-	return G_YES;
+    return G_YES;
+}
+
+void NetworkClient::setState(const ClientState& state)
+{
+    m_state = state;
+}
+
+const ClientState& NetworkClient::state() const
+{
+    return m_state;
 }
 
 GResult NetworkClient::run()
@@ -53,7 +63,7 @@ GResult NetworkClient::run()
     return this->msgLoop();
 }
 
-GResult NetworkClient::findObserver(NetworkClientInterface* observer)
+GResult NetworkClient::findObserver(NetworkClientObserver* observer)
 {
     ObserverList::const_iterator iter = m_observerList.begin();
     for (; iter != m_observerList.end(); ++iter)
