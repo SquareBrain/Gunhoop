@@ -69,7 +69,10 @@ do \
     } \
 } while(0)
 
-#define IS_FAULT_R(_x, _ret) \
+/**
+ * @brief is G_NO return parameter _ret
+ */
+#define IS_NO_RX(_x, _ret) \
 do \
 { \
     if ((_x) == 0) \
@@ -78,13 +81,13 @@ do \
     } \
 } while(0)
 
-#define P_IS_NULL_R(_p) \
+#define IS_NULL(_p) \
 do \
-{ \
+{ \ 
     if ((_p) == NULL) \
     { \
-    	return G_ERROR_INVALID_PARAMETERS; \
-	} \
+        return true; \
+    } \
 } while(0)
 
 #define IS_NULL_R(_p) \
@@ -93,5 +96,17 @@ do \
     if ((_p) == NULL) \
     { \
         return; \
+    } \
+} while(0)
+
+/**
+ * @brief parameter is NULL
+ */
+#define P_IS_NULL_R(_p) \
+do \
+{ \
+    if ((_p) == NULL) \
+    { \
+    	return G_ERROR_INVALID_PARAMETERS; \
     } \
 } while(0)
