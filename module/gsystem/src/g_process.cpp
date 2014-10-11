@@ -39,7 +39,7 @@ void ProcessSysCallback::registProcessMonitor(ProcessMonitor* process_monitor)
 
 void ProcessSysCallback::signalHandlerCallback(const GInt32 sig)
 {
-	IS_NULL_R(m_processMonitor);
+    IS_NULL_R(m_processMonitor);
     m_processMonitor->signalHandler(sig);
 }
 
