@@ -106,7 +106,7 @@ private:
     
 private:    
     ProcessSysCallback  m_processSysCallback;
-    ProcessMonitorList  m_processMonitorList;
+    ProcessObserverList m_processMonitorList;
     Mutex               m_monitorListMutex;
     Condition           m_exitCondition;
 };
