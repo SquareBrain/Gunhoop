@@ -171,32 +171,36 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
     GInt32 sock_protocol = -1;
     switch (protocol)
     {
-        case G_IPPROTO_TCP:
-        {
-            if (type != G_SOCK_STREAM) 
-	        {
-	            return G_NO;
-			}
-			sock_protocol = IPPROTO_TCP;
-	}
-	    break;
-	case G_IPPROTO_UDP:
-	    {
-	        if (type != SOCK_DGRAM)
-			{
-			    return G_NO;
-			}		
-			sock_protocol = IPPROTO_TCP;
+    	case G_IPPROTO_TCP:
+    	{
+    		if (type != G_SOCK_STREAM) 
+    		{
+    			return G_NO;
+    		}
+    		sock_protocol = IPPROTO_TCP;
+    		break;
+    	}
+    	case G_IPPROTO_UDP:
+    	{
+    		if (type != SOCK_DGRAM)
+    		{
+    			return G_NO;
+    		}		
+    		sock_protocol = IPPROTO_TCP;
+    		break;
 	    }
-	    break;		
-	case G_IPPROTO_SCTP:
-	    sock_protocol = IPPROTO_SCTP;
-	    setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
-	    return G_NO; // not support
-	case G_IPPROTO_TIPC:
-	    //sock_protocol = IPPROTO_TIPC;
-	    setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
-	    return G_NO; // not support
+	    case G_IPPROTO_SCTP:
+	    {
+	        sock_protocol = IPPROTO_SCTP;
+	        setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
+	        return G_NO; // not support
+	    }
+	    case G_IPPROTO_TIPC:
+	    {
+	    	//sock_protocol = IPPROTO_TIPC;
+	        setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
+	        return G_NO; // not support
+	    }
 	default:
 	    setError("[error]%s:argument protocol(%d) invalid (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
 	    return G_NO;
@@ -225,7 +229,7 @@ GResult Socket::uninit(const GInt32 how/*0*/)
     // how = 2 : both above way
     if (!m_isInit)
     {
-        return G_YES;
+    	return G_YES;
     }
 
     return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
@@ -245,8 +249,8 @@ GResult Socket::bind()
 {
     if (!m_isInit)
     {
-        setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
+    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	return G_NO;
     }
 
     return ::bind(m_sockfd, (const struct sockaddr*)&m_ipv4Addr.getSockAddr(), m_ipv4Addr.getAddrLen()) < 0 ? G_NO : G_YES;
@@ -257,7 +261,7 @@ GResult Socket::listen(const GUint32 max_connect_num/*20*/)
     if (!m_isInit)
     {
     	etError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
+    	return G_NO;
     }
 	
     return ::listen(m_sockfd, max_connect_num) == 0 ? G_YES : G_NO;
@@ -268,7 +272,7 @@ GResult Socket::accept(sockaddr_in& client_addr)
     if (!m_isInit)
     {
     	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
+    	return G_NO;
     }
 
     GUint32 addr_len = 0;
@@ -303,7 +307,7 @@ GInt64 Socket::send(const GUint8* data, const GUint64 len, const GInt32 flags/*M
     if (!m_isInit)
     {
     	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
+    	return G_NO;
     }
 	
     return ::send(m_sockfd, data, len, flags);
@@ -314,7 +318,7 @@ GInt64 Socket::sendmsg(const struct msghdr* msg, const GInt32 flags/*MSG_NOSIGNA
     if (!m_isInit)
     {
     	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
+    	return G_NO;
     }
 	
     return ::sendmsg(m_sockfd, msg, flags);	
@@ -324,8 +328,8 @@ GInt64 Socket::sendto(const sockaddr_in& dst_addr, const GUint8* data, const GUi
 {
     if (!m_isInit)
     {
-        setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
+    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	return G_NO;
     }
 	
     return ::sendto(m_sockfd, data, len, flags, (const struct sockaddr*)&dst_addr, sizeof(sockaddr_in));	
@@ -336,7 +340,7 @@ GInt64 Socket::sendto(const sockaddr_in6& dst_addr, const GUint8* data, const GU
     if (!m_isInit)
     {
     	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
+    	return G_NO;
     }
 	
     return ::sendto(m_sockfd, data, len, flags, (const struct sockaddr*)&dst_addr, sizeof(sockaddr_in6));	
@@ -347,7 +351,7 @@ GInt64 Socket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
     if (!m_isInit)
     {
     	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
+    	return G_NO;
     }
 	
     return ::recv(m_sockfd, buffer, size, flags);
@@ -358,7 +362,7 @@ GInt64 Socket::recvmsg(struct msghdr* msg, const GInt32 flags/*0*/)
     if (!m_isInit)
     {
     	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
+    	return G_NO;
     }
 	
     return ::recvmsg(m_sockfd, msg, flags);	
@@ -369,7 +373,7 @@ GInt64 Socket::recvfrom(sockaddr_in& src_addr, GUint8* buffer, const GUint64 siz
     if (!m_isInit)
     {
     	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
+    	return G_NO;
     }
 
     GUint32 addr_len = 0;
@@ -426,29 +430,29 @@ GResult Socket::initOption()
     // set receive data buffer size
     if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
     {
-        setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        ret = false;
+    	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	ret = false;
     }
 
     // don't copy data from system buffer to GSocket buffer when send data
     if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
     {
-        setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        ret = false;
+    	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	ret = false;
     }
 
     // don't copy data from system buffer to GSocket buffer when receive data
     if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
     {
-        setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        ret = false;
+    	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	ret = false;
     }
 
     // let data send completly after execute close GSocket
     struct STR_Linger
     {
-        GInt16 l_onoff;
-        GInt16 l_linger;
+    	GInt16 l_onoff;
+    	GInt16 l_linger;
     };
 
     /*
