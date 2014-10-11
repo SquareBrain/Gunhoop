@@ -243,10 +243,10 @@ private:
     void setError(const GInt8* args, ...);	
 	
 private:
-    GInt32		m_sockfd;	
-    IPv4Addr  	m_ipv4Addr;
-    bool		m_isInit;
-    GInt8		m_error[G_ERROR_BUF_SIZE];
+    GInt32      m_sockfd;	
+    IPv4Addr    m_ipv4Addr;
+    bool        m_isInit;
+    GInt8       m_error[G_ERROR_BUF_SIZE];
 };
 	
 /** 
