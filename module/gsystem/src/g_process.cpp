@@ -19,6 +19,19 @@
 
 namespace gsys {
 
+Process::Process() : m_id(-1) {}
+~Process::Process() {}
+
+void Process::setId(const GInt32 id)
+{
+	m_id = id;
+}
+
+GInt32 Process::id() 
+{
+	return m_id;
+}
+
 ProcessSysCallback::ProcessSysCallback()
 {
     // segmentation fault
@@ -41,61 +54,6 @@ void ProcessSysCallback::signalHandlerCallback(const GInt32 sig)
 {
     IS_NULL_R(m_processMonitor);
     m_processMonitor->signalHandler(sig);
-}
-
-ProcessMonitor::ProcessMonitor()
-{
-    m_processSysCallback.registProcessMonitor(this);
-}
-
-ProcessMonitor::~ProcessMonitor()
-{
-    m_observerList.clear();
-}
-
-ProcessMonitor& ProcessMonitor::getInstance()
-{
-    static ProcessMonitor process_monitor;
-    return process_monitor;
-}
-
-void ProcessMonitor::addObserver(ProcessMonitorObserver* observer)
-{
-    ObserverList::iterator iter = m_observerList.begin();
-    for (; iter != m_observerList.end(); ++iter)
-    {
-        if (*iter == observer)
-        {
-            return;
-        }
-    }   
-    
-    m_observerList.push_back(observer);
-}
-
-void ProcessMonitor::removeObserver(ProcessMonitorObserver* observer)
-{
-    gsys::AutoLock autoLock(m_observerList.mutex());
-    ObserverList::iterator iter = m_observerList.begin();
-    for (; iter != m_observerList.end(); ++iter)
-    {
-        if (*iter == observer)
-        {
-            m_observerList.erase(iter);
-            break;
-        }
-    }    
-}
-
-void ProcessMonitor::signalHandler(const GInt32 sig)
-{
-    gsys::AutoLock autoLock(m_observerList.mutex());
-    ObserverList::iterator iter = m_observerList.begin();
-    for (; iter != m_observerList.end(); ++iter)
-    {
-        (*iter)->onSegmentationFault(sig);
-        (*iter)->onCtrlC(sig);
-    }    
 }
 
 }

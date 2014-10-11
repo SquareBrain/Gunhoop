@@ -16,66 +16,55 @@
 */
 #pragma once
 
+#include <list>
 #include <g_system.h>
 
 namespace gcom {
 
 /**
- * @brief process monitor interface
- */
-class ProcessTrackerObserver
-{
-public:
-    virtual ProcessTrackerObserver() {}
-    virtual void onSegmentationFault(const GInt32 sig) {}
-    virtual void onCtrlC(const GInt32 sig) {}
-};
-
-/**
  * @biref process tracker
  */
-class ProcessTracker
+class ProcessTracker : public gsys::ProcessSysCallbackObserver, public Singleton<ProcessTracker>
 {
 public:
-    typedef gsys::SecrityObj<std::list<ProcessTrackerObserver*>> ObserverList;
+    typedef SecrityObj<std::list<ProcessTrackerObserver*>> ObserverList;
     
 public:    
     ProcessTracker();
     ~ProcessTracker();
     
-    static ProcessTracker& instance();
-    
     /**
-     * @brife addition process monitor interface 
+     * @brife addition process  
      * @param [in] observer : process observer
      */
-    void addObserver(ProcessTrackerObserver* observer);
+    void addProcess(gsys::Process* process);
 
     /**
-     * @brief remove process monitor interface
+     * @brief remove process 
      * @param [in] observer : process observer
      */
-    void removeObserver(ProcessTrackerObserver* observer);
+    void removeProcess(gsys::Process* process);
     
     /**
      * @brief wait process exit
      * @param [in] timeout : wait time, default is 2 seconds
      */
-    void waitExit(const guint32 timeout = 2);
+    void wait(const guint32 timeout = 2);
     
     /**
      * @brief wakeup all waiter thread
      */
-    void wakeupExit();
+    void wakeup();
     
 private:
+    // inherit from base class gsys::ProcessSysCallbackObserver 
     // system signal handler
     void signalHandler(const GInt32 sig);
     
 private:    
-    ProcessSysCallback  m_processSysCallback;
-    ObserverList        m_observerList;
-    Condition           m_exitCondition;
+    gsys::ProcessSysCallback    m_processSysCallback;
+    ObserverList                m_observerList;
+    Condition                   m_exitCondition;
 };
 
 

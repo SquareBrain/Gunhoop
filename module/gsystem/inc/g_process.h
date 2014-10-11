@@ -16,12 +16,51 @@
 */
 #pragma once
 
-#include <list>
 #include <g_type.h>
-#include <g_condition.h>
-#include <g_lock.h>
 
 namespace gsys {
+
+/**
+ * @brief process monitor interface
+ */
+class ProcessObserver
+{
+public:
+    virtual ~ProcessObserver() {}
+    virtual void onSegFault(const GInt32 sig) = 0;
+    virtual void onCtrlC(const GInt32 sig) = 0;
+    virtual void onOther(const GInt32 sig) = 0;
+};
+
+/**
+ * @brief process
+ */
+class Process
+{
+public:
+    /**
+     * @brief process signal type
+     */
+    typedef enum
+    {
+        G_SIGSEGV = 0,
+        G_SIGINT    
+    } ProcessSignal;
+        
+public:
+    Process();
+    ~Process();
+
+    /**
+     * @brief set/get process id
+     * @return process id
+     */
+    void setId(const GInt32 id);
+    GInt32 id();
+
+private:
+    GInt32 m_id;
+};
 
 /**
  * @brief system callback observer
@@ -35,7 +74,7 @@ public:
      * @brief system signal handler
      * @param [in] sig : signal
      */    
-    void onSignalHandler(const GInt32 sig);
+    virtual void onSignalHandler(const GInt32 sig) = 0;
 };
 
 /**
