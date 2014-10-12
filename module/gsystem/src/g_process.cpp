@@ -19,20 +19,7 @@
 
 namespace gsys {
 
-Process::Process() : m_id(-1) {}
-~Process::Process() {}
-
-void Process::setId(const GInt32 id)
-{
-	m_id = id;
-}
-
-GInt32 Process::id() 
-{
-	return m_id;
-}
-
-ProcessSysCallback::ProcessSysCallback()
+ProcessSysCallback::ProcessSysCallback() : m_observer(nullptr)
 {
     // segmentation fault
     signal(SIGSEGV, signalHandlerCallback);
@@ -41,19 +28,17 @@ ProcessSysCallback::ProcessSysCallback()
     signal(SIGINT, signalHandlerCallback);
 }
 
-ProcessMonitor* ProcessSysCallback::m_processMonitor = nullptr;
-
 ProcessSysCallback::~ProcessSysCallback() {}
 
-void ProcessSysCallback::registProcessMonitor(ProcessMonitor* process_monitor)
+void ProcessSysCallback::registProcessMonitor(ProcessMonitor* observer)
 {
-    m_processMonitor = process_monitor;
+    m_observer = observer;
 }
 
 void ProcessSysCallback::signalHandlerCallback(const GInt32 sig)
 {
-    IS_NULL_R(m_processMonitor);
-    m_processMonitor->signalHandler(sig);
+    IS_NULL_R(m_observer);
+    m_observer->onSignalHandler(sig);
 }
 
 }
