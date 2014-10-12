@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_process_tracker.h
+* @file	    g_process_tracker.h
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-10-11
+* @author   duye
+* @date	    2014-10-11
 * @note 
 *
 *  1. 2014-10-11 duye Created this file
@@ -71,7 +71,7 @@ public:
 private:
     // inherit from base class gsys::ProcessSysCallbackObserver 
     // system signal handler
-    void signalHandler(const GInt32 sig);
+    void onSignalHandler(const GInt32 sig);
     
 private:    
     gsys::ProcessSysCallback    m_processSysCallback;
