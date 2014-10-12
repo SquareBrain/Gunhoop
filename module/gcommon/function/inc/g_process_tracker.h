@@ -22,12 +22,24 @@
 namespace gcom {
 
 /**
+ * @brief process monitor interface
+ */
+class ProcessObserver
+{
+public:
+    virtual ~ProcessObserver() {}
+    virtual void onSegFault(const GInt32 sig) = 0;
+    virtual void onCtrlC(const GInt32 sig) = 0;
+    virtual void onOther(const GInt32 sig) = 0;
+};
+
+/**
  * @biref process tracker
  */
 class ProcessTracker : public gsys::ProcessSysCallbackObserver, public Singleton<ProcessTracker>
 {
 public:
-    typedef SecrityObj<std::list<ProcessTrackerObserver*>> ObserverList;
+    typedef SecrityObj<std::list<ProcessObserver*>> ObserverList;
     
 public:    
     ProcessTracker();
@@ -37,13 +49,13 @@ public:
      * @brife addition process  
      * @param [in] observer : process observer
      */
-    void addProcess(gsys::Process* process);
+    void addObserver(ProcessObserver* observer);
 
     /**
      * @brief remove process 
      * @param [in] observer : process observer
      */
-    void removeProcess(gsys::Process* process);
+    void removeObserver(ProcessObserver* observer);
     
     /**
      * @brief wait process exit
@@ -66,6 +78,5 @@ private:
     ObserverList                m_observerList;
     Condition                   m_exitCondition;
 };
-
 
 }
