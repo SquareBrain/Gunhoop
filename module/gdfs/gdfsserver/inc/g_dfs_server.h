@@ -18,7 +18,6 @@
 
 #include <g_system.h>
 #include <g_common.h>
-#include <g_utils.h>
 
 static const std::string DEF_DFS_CFG_FILE_PATH("./dfs_cfg.xml");
 
