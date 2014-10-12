@@ -14,7 +14,6 @@
 *  1. 2014-09-28 duye Created this file
 * 
 */
-
 #include <g_logger.h>
 #include <g_system.h>
 #include <g_dfs_server.h>
@@ -62,7 +61,12 @@ public:
         }
     }
     
-    
+    /**
+     * @brief handle system signal, when others signal
+     * @param [in] sig : signal
+     * @note inherit from base class ProcessMoniterInterface
+     */    
+    void onOther(const GInt32 sig) {}
 }
 
 int main(int argc, char** argv)
