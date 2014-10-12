@@ -28,9 +28,11 @@ DfsServer::DfsServer(const std::string& dfs_cfg_file_path) : gcom::HostServer(),
 
 DfsServer::~DfsServer() 
 {
+    G_LOG_IN();
     gcom::ServerFactory::intance().destroyServer(m_httpServer);
     gcom::ServerFactory::intance().destroyServer(m_ftpServer);
     gcom::ServerFactory::intance().destroyServer(m_cliServer);
+    G_LOG_OUT();
 }
 
 GResult DfsServer::start()
@@ -53,6 +55,11 @@ GResult DfsServer::start()
     m_httpServer = gcom::ServerFactory::intance().createServer(HTTP_SERVER);
     m_ftpServer = gcom::ServerFactory::intance().createServer(FTP_SERVER);
     m_cliServer = gcom::ServerFactory::intance().createServer(CLI_SERVER);
+    
+    // startup all service
+    m_httpServer->start();
+    m_ftpServer->start();
+    m_cliServer->start();    
     
     // start routine() thread
     this->startTask();
@@ -82,13 +89,9 @@ DfsServerState DfsServer::routine()
 {
     G_LOG_IN();
     
-    m_httpServer->start();
-    m_ftpServer->start();
-    m_cliServer->start();
-    
     for (;;)
     {   
-        // startup all server
+        // keep all service is running
         gcom::NetworkServerMonitor::keepServer(m_httpServer);
         gcom::NetworkServerMonitor::keepServer(m_ftpServer);
         gcom::NetworkServerMonitor::keepServer(m_cliServer);
