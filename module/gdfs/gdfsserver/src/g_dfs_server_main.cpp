@@ -24,23 +24,22 @@ static const GInt8* LOG_PREFIX = "dfs.server.main";
 /**
  * @brief dfs server process monitor class
  */
-class DfsServerProcessMonitorObserver : public gsys::ProcessMoniterInterface
+class DfsProcessMonitor : public gcom::ProcessObserver
 {
 public:
-    DfsServerProcessMonitorObserver() {}
-    ~DfsServerProcessMonitorObserver() {}
+    DfsProcessMonitor() {}
+    ~DfsProcessMonitor() {}
     
     /**
      * @brief handle system signal, when segmentation fault
-     * @param [in] sig : signal 
      * @note inherit from base class ProcessMoniterInterface
      */
-    void onSegmentationFault(const GInt32 sig)
+    void onSegmentationFault()
     {
         G_LOG_ERROR(LOG_PREFIX, "DFS server segmentation fault happened");
         G_LOG_INFO(LOG_PREFIX, "DFS server will stopped, waitting for exit");
         DfsServer::instance().setState(HOST_SERVER_FAULT);
-        if (!gsys::ProcessMonitor::instance().exitWait())
+        if (!gcom::ProcessTracker::instance().exitWait())
         {
             G_LOG_ERROR(LOG_PREFIX, "DFS server can't normal exit, will force exit");
             G_LOG_WARN(LOG_PREFIX, "==============DFS server force exit===========");
@@ -49,20 +48,21 @@ public:
     
     /**
      * @brief handle system signal, when ctrl+c
-     * @param [in] sig : signal 
      * @note inherit from base class ProcessMoniterInterface
      */
-    void onCtrlC(const GInt32 sig)
+    void onCtrlC()
     {
         G_LOG_INFO(LOG_PREFIX, "DFS server stop by ctrl + c");
         G_LOG_INFO(LOG_PREFIX, "DFS server will stopped, waitting for exit");
         DfsServer::instance()->setState(HOST_SERVER_STOP);
-        if (!gsys::ProcessMonitor::instance().exitWait())
+        if (!gcom::ProcessTracker::instance().exitWait())
         {
             G_LOG_ERROR(LOG_PREFIX, "DFS server can't normal exit, will force exit");
             G_LOG_WARN(LOG_PREFIX, "==============DFS server force exit==============");
         }
     }
+    
+    
 }
 
 int main(int argc, char** argv)
@@ -72,8 +72,8 @@ int main(int argc, char** argv)
     G_LOG_INFO(LOG_PREFIX, "==============DFS server startup===========");
     
     // process monitor
-    DfsServerProcessMonitorObserver dfs_server_process_monitor_observer;
-    gsys::ProcessMonitor::instance().addMonitor(&dfs_server_process_monitor_observer);
+    DfsProcessMonitor dfs_process_monitor;
+    gcom::ProcessTracker::instance().addObserver(&dfs_process_monitor);
     
     if (IS_NO(DfdServer::instance().start()))
     {
