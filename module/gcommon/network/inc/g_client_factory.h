@@ -40,12 +40,21 @@ typedef enum
 class ClientFactory : public Singleton<ClientFactory>
 {
 public:
-    ClientFactory() {}
-    virtual ~ClientFactory() {}
+    ClientFactory();
+    ~ClientFactory();
     
-    virtual NetworkClient* createClient(const ClientType& client_type);
-    virtual NetworkClient* createClient(const std::string& client_name);
-    void destroyClient(NetworkClient* client);
+    /**
+     * @brief create new client
+     * @param [in] client_type : client type
+     */
+    NetworkClient* createClient(const ClientType& client_type);
+    
+    /**
+     * @brief destroy client
+     * @param [in] client_type : client type
+     * @param [in] client : client
+     */
+    void destroyClient(const ClientType& client_type, NetworkClient* client);
 };
 
 }
