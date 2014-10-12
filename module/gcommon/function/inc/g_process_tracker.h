@@ -59,9 +59,9 @@ public:
     
     /**
      * @brief wait process exit
-     * @param [in] timeout : wait time, default is 2 seconds
+     * @param [in] timeout : wait time, default is 10 seconds
      */
-    void wait(const guint32 timeout = 2);
+    void wait(const GUint32 timeout = 10);
     
     /**
      * @brief wakeup all waiter thread
