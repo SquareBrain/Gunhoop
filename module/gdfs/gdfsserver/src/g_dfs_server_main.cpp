@@ -38,7 +38,7 @@ public:
         G_LOG_ERROR(LOG_PREFIX, "DFS server segmentation fault happened");
         G_LOG_INFO(LOG_PREFIX, "DFS server will stopped, waitting for exit");
         DfsServer::instance().setState(HOST_SERVER_FAULT);
-        if (!gcom::ProcessTracker::instance().exitWait())
+        if (!gcom::ProcessTracker::instance().wait())
         {
             G_LOG_ERROR(LOG_PREFIX, "DFS server can't normal exit, will force exit");
             G_LOG_WARN(LOG_PREFIX, "==============DFS server force exit===========");
@@ -54,7 +54,7 @@ public:
         G_LOG_INFO(LOG_PREFIX, "DFS server stop by ctrl + c");
         G_LOG_INFO(LOG_PREFIX, "DFS server will stopped, waitting for exit");
         DfsServer::instance()->setState(HOST_SERVER_STOP);
-        if (!gcom::ProcessTracker::instance().exitWait())
+        if (!gcom::ProcessTracker::instance().wait())
         {
             G_LOG_ERROR(LOG_PREFIX, "DFS server can't normal exit, will force exit");
             G_LOG_WARN(LOG_PREFIX, "==============DFS server force exit==============");
@@ -91,7 +91,7 @@ int main(int argc, char** argv)
     }
     
     DfsServer::instance().stop();
-    gsys::ProcessMonitor::instance().exitWakeup();
+    gcom::ProcessTracker::instance().wakeup();
     
     G_LOG_INFO(LOG_PREFIX, "==============DFS server stopped===========");
     
