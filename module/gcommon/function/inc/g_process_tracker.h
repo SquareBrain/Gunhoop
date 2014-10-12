@@ -28,8 +28,8 @@ class ProcessObserver
 {
 public:
     virtual ~ProcessObserver() {}
-    virtual void onSegFault(const GInt32 sig) = 0;
-    virtual void onCtrlC(const GInt32 sig) = 0;
+    virtual void onSegFault() = 0;
+    virtual void onCtrlC() = 0;
     virtual void onOther(const GInt32 sig) = 0;
 };
 
