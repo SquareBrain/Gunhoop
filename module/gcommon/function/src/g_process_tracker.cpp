@@ -31,7 +31,7 @@ ProcessTracker::~ProcessTracker()
 
 void ProcessTracker::addObserver(ProcessObserver* observer)
 {
-	IS_NULL_R(observer);
+    IS_NULL_R(observer);
     gsys::AutoLock auto_lock(m_observerList.mutex()); 
     ObserverList::iterator iter = m_observerList.begin();
     for (; iter != m_observerList.end(); ++iter)
@@ -47,9 +47,9 @@ void ProcessTracker::addObserver(ProcessObserver* observer)
 
 void ProcessTracker::removeObserver(ProcessObserver* observer)
 {
-	IS_NULL_R(observer);
+    IS_NULL_R(observer);
     gsys::AutoLock auto_lock(m_observerList.mutex());
-	m_observerList.remove(observer);
+    m_observerList.remove(observer);
 }
 
 void ProcessTracker::signalHandler(const GInt32 sig)
@@ -59,10 +59,17 @@ void ProcessTracker::signalHandler(const GInt32 sig)
     for (; iter != m_observerList.end(); ++iter)
     {
     	switch (sig)
-		{
-    	    case 	
-        (*iter)->onSegmentationFault(sig);
-        (*iter)->onCtrlC(sig);
+        {
+    	    case gsys::G_SIGSEGV:
+    	    	(*iter)->onSegmentationFault();
+    	    	break;
+    	    case gsys::G_SIGINT:
+    	    	(*iter)->onCtrlC();
+    	     	break;
+    	    default:
+    	    	(*iter)->onOther(sig);
+    	    	break;
+        }
     }    
 }
 
