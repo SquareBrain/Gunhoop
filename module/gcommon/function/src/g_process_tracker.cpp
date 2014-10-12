@@ -52,6 +52,16 @@ void ProcessTracker::removeObserver(ProcessObserver* observer)
     m_observerList.remove(observer);
 }
 
+void ProcessTracker::wait(const GUint32 timeout)
+{
+    m_exitCondition.wait(timeout);
+}
+
+void ProcessTracker::wakeup()
+{
+    m_exitCondition.broadcast();
+}
+    
 void ProcessTracker::signalHandler(const GInt32 sig)
 {
     gsys::AutoLock autoLock(m_observerList.mutex());
