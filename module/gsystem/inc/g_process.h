@@ -19,6 +19,15 @@
 #include <g_type.h>
 
 namespace gsys {
+    
+/**
+ * @brief signal type
+ */
+typedef enum
+{
+    G_SIGSEGV = 0,
+    G_SIGINT,
+} SignalType;
 
 /**
  * @brief system callback observer
