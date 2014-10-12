@@ -40,11 +40,11 @@ typedef enum
 class ServerFactory : public Singleton<ClientFactory>
 {
 public:
-    ServerFactory() {}
-    virtual ~ServerFactory() {}
+    ServerFactory();
+    ~ServerFactory();
     
-    virtual NetworkServer* createServer(const ServerType& server_type) = 0;
-    virtual void destroyServer(NetworkServer* server) = 0;
+    NetworkServer* createServer(const ServerType& server_type);
+    void destroyServer(const ServerType& server_type, NetworkServer* server);
 };
 
 }
