@@ -37,13 +37,24 @@ typedef enum
 /**
  * @brief server factory
  */
-class ServerFactory : public Singleton<ClientFactory>
+class ServerFactory : public Singleton<ServerFactory>
 {
 public:
     ServerFactory();
     ~ServerFactory();
     
+    /**
+     * @brief create a new server
+     * @param [in] server_type : server type
+     * @return server object
+     */
     NetworkServer* createServer(const ServerType& server_type);
+    
+    /**
+     * @brief destroy server
+     * @param [in] server_type : server type
+     * @param [in] server : server object
+     */
     void destroyServer(const ServerType& server_type, NetworkServer* server);
 };
 
