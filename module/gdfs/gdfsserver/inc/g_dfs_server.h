@@ -43,7 +43,14 @@ public:
      * @note inherit from base class gcom::HostServer
      */       
     GResult start();
-	
+   
+    /**
+     * @brief startup service
+     * @param [in] dfs_cfg_file_path, dfs server configuration file
+     * @return G_YES/G_NO
+     */       
+    GResult start(const std::string& dfs_cfg_file_path);
+    
     /**
      * @brief stop service
      * @return G_YES/G_NO
