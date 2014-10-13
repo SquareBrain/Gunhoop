@@ -165,7 +165,7 @@ public:
      * @brief to keep server work
      * @return G_YES/G_NO
      */
-    static GResult keepWork(NetworkServer* server);
+    static GResult keepping(NetworkServer* server);
 };
 
 }
