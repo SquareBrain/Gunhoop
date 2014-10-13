@@ -22,9 +22,9 @@ static const GInt8* LOG_PREFIX = "dfs.server.startup";
 
 namespace gdfs {
 
-DfsServer::DfsServer() : gcom::HostServer() {}
+DfsServer::DfsServer(){}
 
-DfsServer::DfsServer(const std::string& dfs_cfg_file_path) : gcom::HostServer(), m_dfsCfgFilePath(dfs_cfg_file_path) {}
+DfsServer::DfsServer(const std::string& dfs_cfg_file_path) : m_dfsCfgFilePath(dfs_cfg_file_path) {}
 
 DfsServer::~DfsServer() 
 {
@@ -84,6 +84,11 @@ GResult DfsServer::stop()
     G_LOG_OUT();
     
     return G_NO;
+}
+
+void DfsServer::setCfgFilePath(const std::string& dfs_cfg_file_path)
+{
+    m_dfsCfgFilePath = dfs_cfg_file_path; 
 }
 
 DfsServerState DfsServer::routine()
