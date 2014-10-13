@@ -89,7 +89,7 @@ int main(int argc, char** argv)
         return -1;
     }
     
-    while (DfsServer::instance().getState() == SERVER_RUNNING)
+    while (DfsServer::instance().state() == G_HSERVER_WORK)
     {
         gsys::gsystem::sleep(2);
     }
