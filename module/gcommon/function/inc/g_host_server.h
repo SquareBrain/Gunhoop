@@ -25,10 +25,10 @@ namespace gcom {
  */
 typedef enum 
 {
-    HOST_SERVER_INIT = 0,
-    HOST_SERVER_WORK,
-    HOST_SERVER_STOP,
-    HOST_SERVER_FAULT
+    G_HSERVER_INIT = 0,
+    G_HSERVER_WORK,
+    G_HSERVER_STOP,
+    G_HSERVER_FAULT
 } HostServerState;
   
 /**
@@ -61,8 +61,8 @@ public:
     /**
      * @brief set/get host server state	
      */
-    void setServerState(const HostServerState& state) { m_serverState = state; }
-    const HostServerState& getServerState() const { return m_serverState; }
+    void setState(const HostServerState& state) { m_state = state; }
+    const HostServerState& state() const { return m_state; }
     
 private:
     // inherit from base class gsys::ThreadTask
@@ -70,6 +70,6 @@ private:
     GResult run() { return routine(); }	
 	
 private: 
-    HostServerState     m_serverState;	 
+    HostServerState     m_state;	 
 };
 }
