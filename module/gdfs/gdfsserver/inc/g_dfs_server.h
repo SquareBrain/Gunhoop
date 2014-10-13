@@ -50,6 +50,12 @@ public:
      * @note inherit from base class gcom::HostServer
      */
     GResult stop();
+    
+    /**
+     * @brief set dfs server configuration file path
+     * @param [in] dfs_cfg_file_path: file path
+     */
+    void setCfgFilePath(const std::string& dfs_cfg_file_path);
 	
 private:	
     // message loop handle, inherit from base class gcom::HostServer
