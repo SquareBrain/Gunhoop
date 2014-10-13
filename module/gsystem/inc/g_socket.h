@@ -124,7 +124,7 @@ public:
     GUint16 addrLen() const;
     
 private:
-	std::string		m_netCard;
+    std::string	    m_netCard;
     sockaddr_in	    m_sockAddr;
     GUint16         m_addrLen;
 };
