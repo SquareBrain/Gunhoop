@@ -101,7 +101,7 @@ GUint16 IPv6Addr::getAddrLen() const
 
 Socket::Socket() {}
 Socket::Socket(const SockAddr& addr) : m_sockfd(-1), m_addr(addr), m_isInit(false) {}
-Socket::~Socket() {}
+Socket::~Socket() { uninit(); }
 
 GResult Socket::init(const SockType& type, const NetProtocol& protocol)
 {
@@ -200,8 +200,10 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
     	    return G_NO; // not support
     	}
     	default:
+		{
     	    setError("[error]%s:argument protocol(%d) invalid (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
     	    return G_NO;
+		}
     }	
 	
     m_sockfd = ::socket(domain, sock_type, sock_protocol);
@@ -218,7 +220,7 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
     return G_YES;
 }
 
-GResult Socket::uninit(const GInt32 how/*0*/)
+GResult Socket::uninit(const GInt32 how)
 {
     // how = 0 : stop receive data
     // how = 1 : stop send data
@@ -231,14 +233,14 @@ GResult Socket::uninit(const GInt32 how/*0*/)
     return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
 }
 
-void Socket::setAddr(const IPv4Addr& ipv4Addr)
+void Socket::setAddr(const SockAddr& ipv4Addr)
 {
-    m_ipv4Addr = ipv4Addr;	
+    m_addr = ipv4Addr;	
 }
 
-const IPv4Addr& Socket::getIPv4Addr() const
+const SockAddr& Socket::addr() const
 {
-    return m_ipv4Addr;
+    return m_addr;
 }
 
 GResult Socket::bind()
@@ -249,10 +251,10 @@ GResult Socket::bind()
     	return G_NO;
     }
 
-    return ::bind(m_sockfd, (const struct sockaddr*)&m_ipv4Addr.getSockAddr(), m_ipv4Addr.getAddrLen()) < 0 ? G_NO : G_YES;
+    return ::bind(m_sockfd, (const struct sockaddr*)&m_addr.addr(), m_addr.getAddrLen()) < 0 ? G_NO : G_YES;
 }
 
-GResult Socket::listen(const GUint32 max_connect_num/*20*/)
+GResult Socket::listen(const GUint32 max_connect_num)
 {
     if (!m_isInit)
     {
@@ -263,7 +265,7 @@ GResult Socket::listen(const GUint32 max_connect_num/*20*/)
     return ::listen(m_sockfd, max_connect_num) == 0 ? G_YES : G_NO;
 }
 
-GResult Socket::accept(sockaddr_in& client_addr)
+GResult Socket::accept(SockAddr& client_addr)
 {
     if (!m_isInit)
     {
@@ -272,9 +274,10 @@ GResult Socket::accept(sockaddr_in& client_addr)
     }
 
     GUint32 addr_len = 0;
-    return ::accept(m_sockfd, (struct sockaddr*)&client_addr, &addr_len) < 0 ? G_NO : G_YES;
+    return ::accept(m_sockfd, (struct sockaddr*)&client_addr.addr(), &addr_len) < 0 ? G_NO : G_YES;
 }
 
+/*
 GResult Socket::accept(sockaddr_in6& client_addr)
 {
     if (!m_isInit)
@@ -286,6 +289,7 @@ GResult Socket::accept(sockaddr_in6& client_addr)
     GUint32 addr_len = 0;
     return ::accept(m_sockfd, (struct sockaddr*)&client_addr, &addr_len) < 0 ? G_NO : G_YES;
 }
+*/
 
 GResult Socket::connect()
 {
@@ -320,7 +324,7 @@ GInt64 Socket::sendmsg(const struct msghdr* msg, const GInt32 flags/*MSG_NOSIGNA
     return ::sendmsg(m_sockfd, msg, flags);	
 }
 
-GInt64 Socket::sendto(const sockaddr_in& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags)
+GInt64 Socket::sendto(const SockAddr& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags)
 {
     if (!m_isInit)
     {
