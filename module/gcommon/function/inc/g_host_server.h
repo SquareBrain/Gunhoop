@@ -37,8 +37,8 @@ typedef enum
 class HostServer : public gsys::ThreadTask
 {
 public:
-    HostServer() : m_serverState(G_HSERVER_INIT) {}
-    virtual ~HostServer() {}
+    HostServer();
+    virtual ~HostServer();
     
     /**
      * @brief startup service
@@ -61,13 +61,13 @@ public:
     /**
      * @brief set/get host server state	
      */
-    void setState(const HostServerState& state) { m_state = state; }
-    const HostServerState& state() const { return m_state; }
+    void setState(const HostServerState& state);
+    const HostServerState& state() const;
     
 private:
     // inherit from base class gsys::ThreadTask
     // to run new service thread
-    GResult run() { return routine(); }	
+    GResult run();
 	
 private: 
     HostServerState     m_state;	 
