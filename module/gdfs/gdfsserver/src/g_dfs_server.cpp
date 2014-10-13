@@ -93,9 +93,9 @@ DfsServerState DfsServer::routine()
     for (;;)
     {   
         // keep all service is running
-        gcom::NetworkServerMonitor::keepServer(m_httpServer);
-        gcom::NetworkServerMonitor::keepServer(m_ftpServer);
-        gcom::NetworkServerMonitor::keepServer(m_cliServer);
+        gcom::NetworkServerMonitor::keepping(m_httpServer);
+        gcom::NetworkServerMonitor::keepping(m_ftpServer);
+        gcom::NetworkServerMonitor::keepping(m_cliServer);
         
         gsys::System::sleep(5);    
     }
