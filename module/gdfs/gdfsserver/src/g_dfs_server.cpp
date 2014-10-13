@@ -50,7 +50,11 @@ GResult DfsServer::start()
     }
     
     // read server configuration
-    IS_NO_R(m_cfgMgr.load(m_dfsCfgFilePath));
+    if (IS_NO(m_cfgMgr.load(m_dfsCfgFilePath)))
+    {
+        G_LOG_ERROR(LOG_PREFIX, "load configuration file '%s' failed", m_dfsCfgFilePath.c_str());
+        return G_NO;
+    }
     
     // init all service
     m_httpServer = gcom::ServerFactory::intance().create(HTTP_SERVER);
