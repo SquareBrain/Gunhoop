@@ -78,21 +78,21 @@ GResult DfsServer::start(const std::string& dfs_cfg_file_path)
     // startup all service
     if (IS_NO(m_httpServer->start()))
     {
-        setState(HOST_SERVER_FAULT);
+        setState(G_HSERVER_FAULT);
         G_LOG_ERROR(LOG_PREFIX, "startup http server failed");
         return G_NO;        
     }
     
     if (IS_NO(m_ftpServer->start()))
     {
-        setState(HOST_SERVER_FAULT);
+        setState(G_HSERVER_FAULT);
         G_LOG_ERROR(LOG_PREFIX, "startup ftp server failed");
         return G_NO;        
     }
     
     if (IS_NO(m_cliServer->start()))
     {
-        setState(HOST_SERVER_FAULT);
+        setState(G_HSERVER_FAULT);
         G_LOG_ERROR(LOG_PREFIX, "startup cli server failed");
         return G_NO;        
     }    
@@ -101,7 +101,7 @@ GResult DfsServer::start(const std::string& dfs_cfg_file_path)
     this->startTask();
         
     // set server state is work
-    setState(HOST_SERVER_WORK);
+    setState(G_HSERVER_WORK);
     
     G_LOG_OUT();
     
@@ -136,19 +136,19 @@ DfsServerState DfsServer::routine()
         if (IS_NO(gcom::NetworkServerMonitor::keepping(m_httpServer)))
         {
             G_LOG_ERROR(LOG_PREFIX, "http server fault, can't restart");
-            setState(HOST_SERVER_FAULT);    
+            setState(G_HSERVER_FAULT);    
         }
         
         if (IS_NO(gcom::NetworkServerMonitor::keepping(m_ftpServer)))
         {
             G_LOG_ERROR(LOG_PREFIX, "ftp server fault, can't restart");
-            setState(HOST_SERVER_FAULT);
+            setState(G_HSERVER_FAULT);
         }
         
         if (IS_NO(gcom::NetworkServerMonitor::keepping(m_cliServer)))
         {
             G_LOG_ERROR(LOG_PREFIX, "cli server fault, can't restart");
-            setState(HOST_SERVER_FAULT);
+            setState(G_HSERVER_FAULT);
         }
         
         gsys::System::sleep(5);    
