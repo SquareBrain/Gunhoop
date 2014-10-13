@@ -26,8 +26,8 @@ namespace gcom {
  */
 typedef enum
 {
-    POP_BLOCK = 0,
-    POP_NOBLOCK
+    G_POP_BLOCK = 0,
+    G_POP_NOBLOCK
 } AccessMode;
 
 /**
@@ -37,11 +37,13 @@ template <type T>
 class MsgQueue
 {
 public:
+    MsgQueue();
+    
     /**
      * @brief construtor
      * @param [in] mode : pop function mode, POP_BLOCK:block, POP_NOBLOCK:noblock
      */
-    MsgQueue(const AccessMode& mode = POP_BLOCK);
+    MsgQueue(const AccessMode& mode = G_POP_BLOCK);
     ~MsgQueue();
     
     /**
