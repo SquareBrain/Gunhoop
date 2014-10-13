@@ -15,3 +15,6 @@
 * 
 */
 #include <g_msg_queue.h>
+
+MsgQueue::MsgQueue() : m_mode(G_POP_BLOCK) {}
+MsgQueue::MsgQueue(const AccessMode& mode) : m_mode(mode) {}
