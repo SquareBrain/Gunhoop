@@ -19,23 +19,25 @@
 
 namespace gsys {
 
-ProcessSysCallback::ProcessSysCallback() : m_observer(nullptr)
+ProcessSysCallbackObserver* ProcessSysCallback::m_observer = nullptr;
+
+ProcessSysCallback::ProcessSysCallback()
 {
     // segmentation fault
-    signal(SIGSEGV, signalHandlerCallback);
+    signal(SIGSEGV, ProcessSysCallback::signalHandler);
 	
     // ctrl + c
-    signal(SIGINT, signalHandlerCallback);
+    signal(SIGINT, ProcessSysCallback::signalHandler);
 }
 
 ProcessSysCallback::~ProcessSysCallback() {}
 
-void ProcessSysCallback::registProcessMonitor(ProcessMonitor* observer)
+void ProcessSysCallback::registObserver(ProcessSysCallbackObserver* observer)
 {
     m_observer = observer;
 }
 
-void ProcessSysCallback::signalHandlerCallback(const GInt32 sig)
+void ProcessSysCallback::signalHandler(const GInt32 sig)
 {
     IS_NULL_R(m_observer);
     m_observer->onSignalHandler(sig);

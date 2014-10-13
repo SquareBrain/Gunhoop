@@ -63,10 +63,10 @@ public:
      * @brief system signal callback
      * @param [in] sig : signal
      */
-    static void signalHandlerCallback(const GInt32 sig);
+    static void signalHandler(const GInt32 sig);
 
 private:
-    ProcessSysCallbackObserver*  m_observer;
+    static ProcessSysCallbackObserver*  m_observer;
 };
 
 }

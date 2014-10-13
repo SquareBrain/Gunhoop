@@ -77,24 +77,17 @@ typedef enum
 /** 
  * @brief IPv4 
  */
-class Sockaddr
+class SockAddr
 {
 public:
     /**
      * @brief auto get local address, and rand setting a port
-     * @param [in] net_card : network card name
      * @param [in] ip : ip address
      * @param [in] port : port, default is 0, will random generate
      */
-    Sockaddr();
-    explicit Sockaddr(const std::string& net_card, const GUint32 ip, const GUint16 port = 0);
-    ~Sockaddr();
-
-	/**
-	 * @brief set/get net card
-	 */
-	void setNetCard(const std::string& net_card);
-	const std::string& netCard() const;
+    SockAddr();
+    explicit SockAddr(const GUint32 ip, const GUint16 port = 0);
+    ~SockAddr();
 	
     /**
      * @brief set/get IP address
@@ -102,7 +95,7 @@ public:
      */
     void setIP(const GUint32 ip);
     GUint32 ip();
-    const std::string& ipStr();
+    GUint8* ipStr();
 
     /**
      * @brief set/get port
@@ -115,7 +108,7 @@ public:
      * @brief set/get sock addr
      * @return 
      */		
-    sockaddr_in& sockAddrIn();
+    sockaddr_in& addr();
     
     /**
      * @brief get sock address length
@@ -124,8 +117,7 @@ public:
     GUint16 addrLen() const;
     
 private:
-    std::string	    m_netCard;
-    sockaddr_in	    m_sockAddr;
+    sockaddr_in	    m_addr;
     GUint16         m_addrLen;
 };
 
@@ -179,7 +171,7 @@ class Socket
 {
 public:
     Socket();
-    explicit Socket(const Sockaddr& sockaddr);
+    explicit Socket(const SockAddr& addr);
     ~Socket();
 
     /**
@@ -197,13 +189,13 @@ public:
      */	
     GResult uninit(const GInt32 how = 0);	
 	
-    void setAddr(const IPv4Addr& addr);
-    const IPv4Addr& getIPv4Addr() const;
+    void setAddr(const SockAddr& addr);
+    const SockAddr& addr() const;
     
     GResult bind();
     GResult listen(const GUint32 max_connect_num = 20);
-    GResult accept(sockaddr_in& client_addr);
-    GResult accept(sockaddr_in6& client_addr);
+    GResult accept(SockAddr& client_addr);
+    //GResult accept(sockaddr_in6& client_addr);
     GResult connect();
 	
     /**
@@ -216,8 +208,8 @@ public:
      */		
     GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
     GInt64 sendmsg(const struct msghdr* msg, const GInt32 flags = MSG_NOSIGNAL);
-    GInt64 sendto(const sockaddr_in& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
-    GInt64 sendto(const sockaddr_in6& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+    GInt64 sendto(const SockAddr& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+    //GInt64 sendto(const sockaddr_in6& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
 	
     /**
      * @brief receive data
@@ -229,8 +221,8 @@ public:
      */	
     GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
     GInt64 recvmsg(struct msghdr* msg, const GInt32 flags = 0);
-    GInt64 recvfrom(sockaddr_in& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
-    GInt64 recvfrom(sockaddr_in6& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+    GInt64 recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+    //GInt64 recvfrom(sockaddr_in6& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 	
     /**
      * @brief get last error string
@@ -255,7 +247,7 @@ private:
 	
 private:
     GInt32      m_sockfd;	
-    Sockaddr    m_sockaddr;
+    sockaddr_in m_addr;
     bool        m_isInit;
     GInt8       m_error[G_ERROR_BUF_SIZE];
 };

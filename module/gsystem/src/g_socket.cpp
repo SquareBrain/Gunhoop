@@ -22,39 +22,40 @@ namespace gsys {
 	
 const struct in6_addr IN6ADDR_ANY = IN6ADDR_ANY_INIT;
 
-IPv4Addr::IPv4Addr() : IPv4Addr(INADDR_ANY, 0) {}
-IPv4Addr::IPv4Addr(const GUint32 ip, const GUint16 port/*0*/)
+
+SockAddr::SockAddr() : SockAddr(INADDR_ANY, 0) {}
+SockAddr::SockAddr(const GUint32 ip, const GUint16 port)
 {
     m_addrLen = sizeof(sockaddr_in);
-    bzero(&m_sockAddr, m_addrLen);
-    m_sockAddr.sin_family = AF_INET; // IPv4
-    m_sockAddr.sin_port = htons(port); // port
-    m_sockAddr.sin_addr.s_addr = htonl(ip); // IP
+    bzero(&m_addr, m_addrLen);
+    m_addr.sin_family = AF_INET; // IPv4
+    m_addr.sin_port = htons(port); // port
+    m_addr.sin_addr.s_addr = htonl(ip); // IP
 }
 
 IPv4Addr::~IPv4Addr() {}
 
-GUint32 IPv4Addr::getIP()
+GUint32 IPv4Addr::ip()
 {
-    return ntohl(m_sockAddr.sin_addr.s_addr);
+    return ntohl(m_addr.sin_addr.s_addr);
 }
 
-GUint8* IPv4Addr::getIPStr()
+GUint8* IPv4Addr::ipstr()
 {
-    return (GUint8*)inet_ntoa(m_sockAddr.sin_addr);
+    return (GUint8*)inet_ntoa(m_addr.sin_addr);
 }
 
-GUint16 IPv4Addr::getPort()
+GUint16 IPv4Addr::port()
 {
-    return ntohs(m_sockAddr.sin_port);
+    return ntohs(m_addr.sin_port);
 }
 
-sockaddr_in& IPv4Addr::getSockAddr()
+sockaddr_in& IPv4Addr::addr()
 {
-    return m_sockAddr;
+    return m_addr;
 }
 
-GUint16 IPv4Addr::getAddrLen() const
+GUint16 IPv4Addr::addrLen() const
 {
     return m_addrLen;
 }
@@ -99,7 +100,7 @@ GUint16 IPv6Addr::getAddrLen() const
 }
 
 Socket::Socket() {}
-Socket::Socket(const IPv4Addr& addr) : m_sockfd(-1), m_ipv4Addr(addr), m_isInit(false) {}
+Socket::Socket(const SockAddr& addr) : m_sockfd(-1), m_addr(addr), m_isInit(false) {}
 Socket::~Socket() {}
 
 GResult Socket::init(const SockType& type, const NetProtocol& protocol)
@@ -319,7 +320,7 @@ GInt64 Socket::sendmsg(const struct msghdr* msg, const GInt32 flags/*MSG_NOSIGNA
     return ::sendmsg(m_sockfd, msg, flags);	
 }
 
-GInt64 Socket::sendto(const sockaddr_in& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
+GInt64 Socket::sendto(const sockaddr_in& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags)
 {
     if (!m_isInit)
     {
@@ -330,7 +331,8 @@ GInt64 Socket::sendto(const sockaddr_in& dst_addr, const GUint8* data, const GUi
     return ::sendto(m_sockfd, data, len, flags, (const struct sockaddr*)&dst_addr, sizeof(sockaddr_in));	
 }
 
-GInt64 Socket::sendto(const sockaddr_in6& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
+/*
+GInt64 Socket::sendto(const sockaddr_in6& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags)
 {
     if (!m_isInit)
     {
@@ -340,8 +342,9 @@ GInt64 Socket::sendto(const sockaddr_in6& dst_addr, const GUint8* data, const GU
 	
     return ::sendto(m_sockfd, data, len, flags, (const struct sockaddr*)&dst_addr, sizeof(sockaddr_in6));	
 }
+*/
 
-GInt64 Socket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+GInt64 Socket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags)
 {
     if (!m_isInit)
     {
@@ -363,7 +366,7 @@ GInt64 Socket::recvmsg(struct msghdr* msg, const GInt32 flags/*0*/)
     return ::recvmsg(m_sockfd, msg, flags);	
 }
 
-GInt64 Socket::recvfrom(sockaddr_in& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+GInt64 Socket::recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
 {
     if (!m_isInit)
     {
