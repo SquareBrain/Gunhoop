@@ -22,13 +22,26 @@
 namespace gcom {
   
 /**
+ * @brief access mode
+ */
+typedef enum
+{
+    POP_BLOCK = 0,
+    POP_NOBLOCK
+} AccessMode;
+
+/**
  * @brief message queue
  */
 template <type T>
 class MsgQueue
 {
 public:
-    MsgQueue();
+    /**
+     * @brief construtor
+     * @param [in] mode : pop function mode, POP_BLOCK:block, POP_NOBLOCK:noblock
+     */
+    MsgQueue(const AccessMode& mode = POP_BLOCK);
     ~MsgQueue();
     
     /**
@@ -44,7 +57,8 @@ public:
     T* pop();
     
 private:
-    std::list<T*> m_msgList;
+    std::list<T*>   m_msgList;
+    AccessMode      m_mode;
     gsys::Condition m_cond;
 };
 
