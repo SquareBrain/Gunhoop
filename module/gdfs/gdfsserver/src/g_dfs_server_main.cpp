@@ -33,7 +33,7 @@ public:
      * @brief handle system signal, when segmentation fault
      * @note inherit from base class ProcessMoniterInterface
      */
-    void onSegmentationFault()
+    void onSegFault()
     {
         G_LOG_ERROR(LOG_PREFIX, "DFS server segmentation fault happened");
         G_LOG_INFO(LOG_PREFIX, "DFS server will stopped, waitting for exit");
@@ -66,7 +66,11 @@ public:
      * @param [in] sig : signal
      * @note inherit from base class ProcessMoniterInterface
      */    
-    void onOther(const GInt32 sig) {}
+    void onOther(const GInt32 sig) 
+    {
+        G_LOG_IN();
+        G_LOG_OUT();
+    }
 }
 
 int main(int argc, char** argv)
