@@ -48,14 +48,14 @@ public:
      * @param [in] server_type : server type
      * @return server object
      */
-    NetworkServer* createServer(const ServerType& server_type);
+    NetworkServer* create(const ServerType& server_type);
     
     /**
      * @brief destroy server
      * @param [in] server_type : server type
      * @param [in] server : server object
      */
-    void destroyServer(const ServerType& server_type, NetworkServer* server);
+    void destroy(const ServerType& server_type, NetworkServer* server);
 };
 
 }
