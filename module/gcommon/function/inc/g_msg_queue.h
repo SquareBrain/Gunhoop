@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file     g_msg_queue.cpp
+* @file     g_msg_queue.h
 * @version     
 * @brief      
 * @author   duye
@@ -16,4 +16,36 @@
 */
 #pragma once
 
+#include <list>
 #include <g_system.h>
+
+namespace gcom {
+  
+/**
+ * @brief message queue
+ */
+template <type T>
+class MsgQueue
+{
+public:
+    MsgQueue();
+    ~MsgQueue();
+    
+    /**
+     * @brief push message
+     * @param [in] msg : message
+     */
+    GResult push(T* msg);
+    
+    /**
+     * @brief pop message
+     * @return message
+     */
+    T* pop();
+    
+private:
+    std::list<T*> m_msgList;
+    gsys::Condition m_cond;
+};
+
+}
