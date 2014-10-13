@@ -47,14 +47,14 @@ public:
      * @brief create new client
      * @param [in] client_type : client type
      */
-    NetworkClient* createClient(const ClientType& client_type);
+    NetworkClient* create(const ClientType& client_type);
     
     /**
      * @brief destroy client
      * @param [in] client_type : client type
      * @param [in] client : client
      */
-    void destroyClient(const ClientType& client_type, NetworkClient* client);
+    void destroy(const ClientType& client_type, NetworkClient* client);
 };
 
 }
