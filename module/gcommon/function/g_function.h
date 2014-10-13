@@ -24,3 +24,4 @@
 #include <g_threadpool.h>
 #include <g_usage.h>
 #include <g_host_server.h>
+#include <g_process_tracker.h>
