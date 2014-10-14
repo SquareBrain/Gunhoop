@@ -17,6 +17,7 @@
 */
 #include <g_sys.h>
 #include <g_socket.h>
+#include <net/if.h>
 
 namespace gsys {
 	
@@ -44,7 +45,7 @@ GUint32 SockAddr::ip()
     return ntohl(m_addr.sin_addr.s_addr);
 }
 
-GUint8* SockAddr::ipstr()
+GUint8* SockAddr::ipStr()
 {
     return (GUint8*)inet_ntoa(m_addr.sin_addr);
 }
@@ -203,7 +204,7 @@ GResult Socket::initOption(const std::string& if_name)
     
     struct ifreq interface;
     strncpy(interface.ifr_ifrn.ifrn_name, if_name.c_str(), if_name.length());
-    if (setsockopt(m_sockfd, SOL_SOCKET, SO_BINDTODEVICE, (char *)&interface, sizeof(interface)) == -1) 
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_BINDTODEVICE, (char*)&interface, sizeof(interface)) == -1) 
     {
     	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	ret = false;        
@@ -288,10 +289,10 @@ GInt64 Transfer::send(Socket& socket, const GUint8* data, const GUint64 len, con
 
 GInt64 Transfer::sendmsg(Socket& socket, const struct msghdr* msg, const GInt32 flags)
 {
-    return ::sendmsg(m_sockfd, msg, flags);	
+    return ::sendmsg(socket.sockfd(), msg, flags);	
 }
 
-GInt64 Transfer::sendto(Socket& socket, const SockAddr& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags)
+GInt64 Transfer::sendto(Socket& socket, SockAddr& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags)
 {
     return ::sendto(socket.sockfd(), data, len, flags, (const struct sockaddr*)&dst_addr.addr(), dst_addr.addrLen());	
 }
@@ -313,7 +314,7 @@ GInt64 Transfer::recvfrom(Socket& socket, SockAddr& src_addr, GUint8* buffer, co
 }
 
 SocketServer::SocketServer() {}
-SocketServer::SocketServer(const SocketInfo& socket_info) {}
+SocketServer::SocketServer(const SocketInfo& socket_info)
 {
     setSocketInfo(socket_info);
 }
@@ -356,7 +357,7 @@ GInt64 SocketServer::recvfrom(SockAddr& client_addr, GUint8* buffer, const GUint
 
 GResult SocketServer::close()
 {
-    m_socket.uninit();    	
+    return m_socket.uninit();    	
 }
 
 GInt8* SocketServer::getError()
@@ -369,33 +370,39 @@ void SocketServer::setError(const GInt8* args, ...)
     System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
 	
-SocketClient::SocketClient(const GUint32 server_ip, const GUint16 server_port) {}
-SocketClient::~SocketClient() {}
-
-const Socket& SocketClient::getSocket() const
+SocketClient::SocketClient(const SocketInfo& socket_info) 
 {
-    return m_socket;
+	setSocketInfo(socket_info);		
+}
+
+SocketClient::~SocketClient() 
+{
+	m_socket.uninit();
+}
+
+void SocketClient::setSocketInfo(const SocketInfo& socket_info)
+{
+	m_socketInfo = socket_info;
 }
 
 GResult SocketClient::connect()
 {
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
-    }
-
-    return ::connect(m_sockfd, (const struct sockaddr*)&m_ipv4Addr.getSockAddr(), m_ipv4Addr.getAddrLen()) < 0 ? G_NO : G_YES;
+	return ::connect(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
 }
 
-GInt64 SocketClient::send(const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
+GInt64 SocketClient::send(const GUint8* data, const GUint64 len, const GInt32 flags)
 {
-    return m_socket.send(data, len, flags);	
+    return Transfer::send(m_socket, data, len, flags);	
 }
 
-GInt64 SocketClient::recv(GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+GInt64 SocketClient::recv(GUint8* buffer, const GUint64 size, const GInt32 flags)
 {
-    return m_socket.recv(buffer, size, flags);	
+    return Transfer::recv(m_socket, buffer, size, flags);	
+}
+
+GResult SocketClient::close()
+{
+	return m_socket.uninit();
 }
 
 GInt8* SocketClient::getError()

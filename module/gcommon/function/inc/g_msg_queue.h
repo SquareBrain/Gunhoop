@@ -33,17 +33,11 @@ typedef enum
 /**
  * @brief message queue
  */
-template <type T>
+template <class T>
 class MsgQueue
 {
 public:
     MsgQueue();
-    
-    /**
-     * @brief construtor
-     * @param [in] mode : pop function mode, POP_BLOCK:block, POP_NOBLOCK:noblock
-     */
-    MsgQueue(const AccessMode& mode = G_POP_BLOCK);
     ~MsgQueue();
     
     /**
@@ -60,8 +54,24 @@ public:
     
 private:
     std::list<T*>   m_msgList;
-    AccessMode      m_mode;
     gsys::Condition m_cond;
 };
+
+template <class T>
+MsgQueue::MsgQueue() : m_mode(G_POP_BLOCK) {}
+
+template <class T>
+GResult MsgQueue::push(T* msg)
+{
+    
+	return G_YES;
+}
+
+template <class T>
+T* MsgQueue::pop(const AccessMode& mode = G_POP_BLOCK)
+{
+    
+	return G_NO;	
+}
 
 }

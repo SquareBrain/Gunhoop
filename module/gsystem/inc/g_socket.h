@@ -246,7 +246,7 @@ public:
      */		
     static GInt64 send(Socket& socket, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
     static GInt64 sendmsg(Socket& socket, const struct msghdr* msg, const GInt32 flags = MSG_NOSIGNAL);
-    static GInt64 sendto(Socket& socket, const SockAddr& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+    static GInt64 sendto(Socket& socket, SockAddr& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
    
     /**
      * @brief receive data
@@ -386,30 +386,16 @@ public:
   
     /**
      * @brief constructor
-     * @param [in] server_ip : server ip address
-     * @param [in] server_port : server port, default is 0, indent to random generate
-     * @param [in] if_name : net card name, default is eth0, network communication card, default is eth0 
-     */     
-    explicit SocketClient(const GUint32 server_ip, const GUint16 server_port = 0, const std::string& if_name = "eth0");    
+     * @param [in] socket_info : socket information
+     */   
+    explicit SocketClient(const SocketInfo& socket_info);    
     ~SocketClient();
-    
+
     /**
-     * @brief set server address
-     * @param [in] server_ip : server ip address
+     * @brief set socket information
+     * @param [in] socket_info : socket information
      */
-    void setIP(const GUint32 server_ip);
-    
-    /**
-     * @brief set server port
-     * @param [in] server_port : server bind port
-     */
-    void setPort(const GUint16 server_port);
-    
-    /**
-     * @brief set interface
-     * @param [in] if_name : server socket communication interface name
-     */
-    void setIf(const std::string& if_name);    
+    void setSocketInfo(const SocketInfo& socket_info);
 
     /**
      * @brief connect socket
@@ -437,6 +423,13 @@ public:
      * @note 
      */	
     GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+
+    /**
+     * @brief close client socket
+     * @reture G_YES/G_NO
+     * @note 
+     */	
+    GResult close();
     
     /**
      * @brief get last error string
@@ -456,7 +449,7 @@ private:
 private:
     Socket		m_socket;	
     SockAddr	m_addr;    
-    std::string m_ifName;
+    SocketInfo  m_socketInfo;
     GInt8       m_error[G_ERROR_BUF_SIZE];
 };
 

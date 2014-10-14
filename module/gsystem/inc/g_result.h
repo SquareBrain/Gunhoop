@@ -46,8 +46,8 @@
  */
 #define G_ERROR_NO_FILE                     (G_ERROR_SYSTEM_BASE - 1)
 
-#define IS_YES(_ret) ((ret) == G_YES)
-#define IS_NO(_ret) ((ret) == G_NO)
+#define IS_YES(_ret) ((_ret) == G_YES)
+#define IS_NO(_ret) ((_ret) == G_NO)
 
 /**
  * @brief _x is G_YES, return void
@@ -55,8 +55,8 @@
 #define IS_YES_R(_x) \
 do \
 { \
-    GResult _result = (_x); \
-    if (_result == G_YES) \
+    GResult _ret = (_x); \
+    if (_ret == G_YES) \
     { \
         return; \
     } \
@@ -68,10 +68,10 @@ do \
 #define IS_YES_RX(_x) \
 do \
 { \
-    GResult _result = (_x); \
-    if (_result == G_YES) \
+    GResult _ret = (_x); \
+    if (_ret == G_YES) \
     { \
-        return _result; \
+        return _ret; \
     } \
 } while(0)
 
@@ -81,8 +81,8 @@ do \
 #define IS_NO_R(_x) \
 do \
 { \
-    GResult _result = (_x); \
-    if (_result == G_NO) \
+    GResult _ret = (_x); \
+    if (_ret == G_NO) \
     { \
         return; \
     } \
@@ -94,10 +94,10 @@ do \
 #define IS_NO_RX(_x) \
 do \
 { \
-    GResult _result = (_x); \
-    if (_result == G_NO) \
+    GResult _ret = (_x); \
+    if (_ret == G_NO) \
     { \
-        return _result; \
+        return _ret; \
     } \
 } while(0)
 
@@ -111,7 +111,7 @@ do \
 { \
     if ((_x) == nullptr) \
     { \
-        return; \
+        return 0; \
     } \
 } while(0)
 
