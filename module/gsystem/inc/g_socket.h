@@ -175,14 +175,12 @@ public:
 
     /**
      * @brief init socket
-     * @param [in] type : socket type
      * @param [in] protocol : network protocol
      * @param [in] if_name : interface name
      * @return G_YES/G_NO
      * @note 
      */		
-    GResult init(const SockType& type, const NetProtocol& protocol, const std::string& if_name);
-	
+    GResult init(const NetProtocol& protocol, const std::string& if_name);
     /**
      * @brief shutdown connecting
      * @param [in] how : default is 2
@@ -264,6 +262,38 @@ public:
     static GInt64 recvfrom(Socket& socket, SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);    
 };
 
+/**
+ * @brief socket info
+ */
+class SocketInfo
+{
+public:
+    SocketInfo() {}
+    ~SocketInfo() {}
+    
+    void setProtocol(const NetProtocol& protocol) { m_protocol = protocol; }
+    const NetProtocol& protocol() const { return m_protocol; }
+    
+    void setServerIP(const GUint32& server_ip) { m_serverIP = server_ip; }
+    GUint32 serverIP() const { return m_serverIP; }
+    
+    void setServerPort(const GUint16& server_port) { m_serverPort = server_port; }
+    GUint16 serverPort() const { return m_serverPort; }
+    
+    void setClinetPort(const GUint16& client_port) { m_clientPort = client_port; }
+    GUint16 clientPort() const { return m_clientPort; }
+    
+    void setLocalIfName(const std::string& local_if_name) { m_localIfName = local_if_name; }
+    const std::string& localIfName() const { return m_localIfName; }
+    
+private:
+    NetProtocol   m_protocol;
+    GUint32       m_serverIP;
+    GUint16       m_serverPort;
+    GUint16       m_clientPort;
+    std::string   m_localIfName;
+};
+
 /** 
  * @brief server socket class
  */
@@ -274,30 +304,17 @@ public:
     
     /**
      * @brief constructor
-     * @param [in] server_ip : server ip address
-     * @param [in] server_port : server port, default is 0, indent to random generate
-     * @param [in] if_name : net card name, default is eth0, network communication card, default is eth0 
+     * @param [in] socket_info : socket information
      */     
-    explicit SocketServer(const GUint32 server_ip, const GUint16 server_port = 0, const std::string& if_name = "eth0");
+    explicit SocketServer(const SocketInfo& socket_info);
+        
     ~SocketServer();
     
     /**
-     * @brief set server address
-     * @param [in] server_ip : server ip address
+     * @brief set socket information
+     * @param [in] socket_info : socket information
      */
-    void setIP(const GUint32 server_ip);
-    
-    /**
-     * @brief set server port
-     * @param [in] server_port : server bind port
-     */
-    void setPort(const GUint16 server_port);
-    
-    /**
-     * @brief set interface
-     * @param [in] if_name : server socket communication interface name
-     */
-    void setIf(const std::string& if_name);
+    void setSocketInfo(const SocketInfo& socket_info);
     
     /**
      * @brief server bind port
@@ -329,6 +346,13 @@ public:
      * @note 
      */	
     GInt64 recvfrom(SockAddr& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+    
+    /**
+     * @brief close server socket
+     * @reture G_YES/G_NO
+     * @note 
+     */	
+    GResult close();
 	
     /**
      * @brief get last error string
@@ -348,7 +372,7 @@ private:
 private:
     Socket      m_socket;
     SockAddr	m_addr;
-    std::string m_ifName;
+    SocketInfo  m_socketInfo;
     GInt8       m_error[G_ERROR_BUF_SIZE];
 };
 
