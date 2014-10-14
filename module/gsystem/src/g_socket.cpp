@@ -73,17 +73,17 @@ IPv6Addr::IPv6Addr()
 {
     m_addrLen = sizeof(sockaddr_in6);
     bzero(&m_sockAddr, m_addrLen);
-    m_sockAddr.sin6_family = AF_INET6; // IPv6
-    m_sockAddr.sin6_port = 0; // port
-    m_sockAddr.sin6_addr = IN6ADDR_ANY; // addr
+    m_sockAddr.sin6_family = AF_INET6; 
+    m_sockAddr.sin6_port = 0; 
+    m_sockAddr.sin6_addr = IN6ADDR_ANY;
 }
 
-IPv6Addr::IPv6Addr(const GUint8 ip[16], const GUint16 port/*0*/)
+IPv6Addr::IPv6Addr(const GUint8 ip[16], const GUint16 port)
 {
     bzero(&m_sockAddr, sizeof(m_sockAddr));
-    m_sockAddr.sin6_family = AF_INET6; // IPv4
-    m_sockAddr.sin6_port = htons(port); // port
-    memcpy(m_sockAddr.sin6_addr.s6_addr, ip, 16); // addr 
+    m_sockAddr.sin6_family = AF_INET6; 
+    m_sockAddr.sin6_port = htons(port);
+    memcpy(m_sockAddr.sin6_addr.s6_addr, ip, 16);
 }
 
 IPv6Addr::~IPv6Addr() {}
@@ -111,88 +111,23 @@ GUint16 IPv6Addr::getAddrLen() const
 Socket::Socket() : m_sockfd(-1), m_isInit(false) {}
 Socket::~Socket() { uninit(); }
 
-GResult Socket::init(const SockType& type, const NetProtocol& protocol, const std::string& if_name)
+GResult Socket::init(const NetProtocol& protocol, const std::string& if_name)
 {
     GInt32 domain = AF_INET;
-    
-    /*
-    switch (m_family)
-    {
-    	case G_AF_IPV4:
-    	    domain = AF_INET;
-    	    break;
-    	case G_AF_IPV6:
-    	    domain = AF_INET6;
-    	    break;	
-    	case G_AF_LOCAL:
-    	    domain = AF_LOCAL;
-    	    break;	
-    	case G_AF_UNIX:
-    	    domain = AF_UNIX;
-    	    break;	
-    	case G_AF_ROUTE:
-    	    domain = AF_ROUTE;
-    	    break;	
-    	case G_AF_PACKET:
-    	    domain = AF_PACKET;
-    	    break;	
-    	default:
-    	    setError("[error]%s:argument family(%d) invalid (%s:%d)\n", __FUNCTION__, m_family, __FILE__, __LINE__);
-    	    return G_NO;
-    }
-    */
-	
     GInt32 sock_type = -1;
-    switch (type)
-    {
-    	case G_SOCK_STREAM:
-    	    sock_type = SOCK_STREAM;
-    	    break;
-    	case G_SOCK_DGRAM:
-    	    sock_type = SOCK_DGRAM;
-    	    break;	
-    	case G_SOCK_SEQPACKET:
-    	    sock_type = SOCK_SEQPACKET;
-    	    break;	
-    	case G_SOCK_RAW:
-    	    sock_type = SOCK_RAW;
-    	    break;
-    	case G_SOCK_RDM:
-    	    sock_type = SOCK_RDM;
-    	    break;
-    	case G_SOCK_PACKET:
-    	    sock_type = SOCK_SEQPACKET;
-    	    break;	
-    	case G_SOCK_NONBLOCK:
-    	    sock_type = SOCK_NONBLOCK;
-    	    break;	
-    	case G_SOCK_CLOEXEC:
-    	    sock_type = SOCK_CLOEXEC;
-    	    break;	
-    	default:
-    	    setError("[error]%s:argument type(%d) invalid (%s:%d)\n", __FUNCTION__, type, __FILE__, __LINE__);
-    	    return G_NO;
-    }
-	
     GInt32 sock_protocol = -1;
     switch (protocol)
     {
     	case G_IPPROTO_TCP:
     	{
-    	    if (type != G_SOCK_STREAM) 
-            {
-            	return G_NO;
-            }
             sock_protocol = IPPROTO_TCP;
+            sock_type = SOCK_STREAM;
             break;
     	}
     	case G_IPPROTO_UDP:
     	{
-    	    if (type != SOCK_DGRAM)
-    	    {
-    	    	return G_NO;
-    	    }		
-    	    sock_protocol = IPPROTO_TCP;
+    	    sock_protocol = IPPROTO_UDP;
+    	    sock_type = SOCK_DGRAM;
     	    break;
     	}
     	case G_IPPROTO_SCTP:
@@ -341,17 +276,17 @@ GResult Socket::initOption(const std::string& if_name)
     return ret;
 }
 
-void Transfer::setError(const GInt8* args, ...)
+void Socket::setError(const GInt8* args, ...)
 {
     System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
 
-GInt64 Transfer::send(Socket& socket, const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
+GInt64 Transfer::send(Socket& socket, const GUint8* data, const GUint64 len, const GInt32 flags)
 {
     return ::send(socket.sockfd(), data, len, flags);
 }
 
-GInt64 Transfer::sendmsg(Socket& socket, const struct msghdr* msg, const GInt32 flags/*MSG_NOSIGNAL*/)
+GInt64 Transfer::sendmsg(Socket& socket, const struct msghdr* msg, const GInt32 flags)
 {
     return ::sendmsg(m_sockfd, msg, flags);	
 }
@@ -374,49 +309,54 @@ GInt64 Transfer::recvmsg(Socket& socket, struct msghdr* msg, const GInt32 flags/
 GInt64 Transfer::recvfrom(Socket& socket, SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
 {
     GUint32 addr_len = 0;
-    return ::recvfrom(socket.sockfd(), buffer, size, flags, (struct sockaddr*)&src_addr, &addr_len);	
+    return ::recvfrom(socket.sockfd(), buffer, size, flags, (struct sockaddr*)&src_addr.addr(), &addr_len);	
 }
 
-SocketServer::SocketServer(const GUint32 server_ip, const GUint16 server_port) {}
+SocketServer::SocketServer() {}
+SocketServer::SocketServer(const SocketInfo& socket_info) {}
+{
+    setSocketInfo(socket_info);
+}
+
 SocketServer::~SocketServer() {}
+
+void SocketServer::setSocketInfo(const SocketInfo& socket_info)
+{
+    m_socketInfo = socket_info;
+    m_addr.setIP(m_socketInfo.serverIP());
+    m_addr.setPort(m_socketInfo.serverPort());
+}
 
 GResult SocketServer::bind()
 {
-    if (!m_isInit)
+    if (IS_NO(m_socket.init(m_socketInfo.protocol(), m_socketInfo.localIfName())))
     {
     	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	return G_NO;
     }
 
-    return ::bind(m_sockfd, (const struct sockaddr*)&m_addr.addr(), m_addr.getAddrLen()) < 0 ? G_NO : G_YES;
+    return ::bind(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
 }
 
 GResult SocketServer::listen(const GUint32 max_connect_num)
 {
-    if (!m_isInit)
-    {
-    	etError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-	
-    return ::listen(m_sockfd, max_connect_num) == 0 ? G_YES : G_NO;
+    return ::listen(m_socket.sockfd(), max_connect_num) == 0 ? G_YES : G_NO;
 }
 
 GResult SocketServer::accept(SockAddr& client_addr)
 {
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-
     GUint32 addr_len = 0;
-    return ::accept(m_sockfd, (struct sockaddr*)&client_addr.addr(), &addr_len) < 0 ? G_NO : G_YES;
+    return ::accept(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len) < 0 ? G_NO : G_YES;
 }
 
-GInt64 SocketServer::recvfrom(IPv4Addr& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+GInt64 SocketServer::recvfrom(SockAddr& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags)
 {
-    return m_socket.recvfrom(client_addr.getSockAddr(), buffer, size, flags);	
+    return Transfer::recvfrom(m_socket, client_addr, buffer, size, flags);	
+}
+
+GResult SocketServer::close()
+{
+    m_socket.uninit();    	
 }
 
 GInt8* SocketServer::getError()
