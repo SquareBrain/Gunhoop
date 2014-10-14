@@ -185,11 +185,14 @@ public:
 	
     /**
      * @brief shutdown connecting
-     * @param [in] how : way
+     * @param [in] how : default is 2
      * @return G_YES/G_NO
      * @note 
+     *     how = 0 : stop receive data
+     *     how = 1 : stop send data
+     *     how = 2 : both above way
      */	
-    GResult uninit(const GInt32 how = 0);
+    GResult uninit(const GInt32 how = 2);
     
     /**
      * @brief get sock fd
@@ -207,9 +210,10 @@ public:
 private:
     /**
      * @brief setting socket options 
+     * @param [in] if_name : interface name
      * @return G_YES/G_NO
      */		
-    GResult initOption();
+    GResult initOption(const std::string& if_name);
 	
     /**
      * @brief origin set program running error
@@ -242,9 +246,9 @@ public:
      * @return size/-1
      * @note 
      */		
-    static GInt64 send(Socket socket, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
-    static GInt64 sendmsg(Socket socket, const struct msghdr* msg, const GInt32 flags = MSG_NOSIGNAL);
-    static GInt64 sendto(Socket socket, const SockAddr& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+    static GInt64 send(Socket& socket, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+    static GInt64 sendmsg(Socket& socket, const struct msghdr* msg, const GInt32 flags = MSG_NOSIGNAL);
+    static GInt64 sendto(Socket& socket, const SockAddr& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
    
     /**
      * @brief receive data
@@ -255,9 +259,9 @@ public:
      * @return size/-1
      * @note 
      */	
-    static GInt64 recv(Socket socket, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
-    static GInt64 recvmsg(Socket socket, struct msghdr* msg, const GInt32 flags = 0);
-    static GInt64 recvfrom(Socket socket, SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);    
+    static GInt64 recv(Socket& socket, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
+    static GInt64 recvmsg(Socket& socket, struct msghdr* msg, const GInt32 flags = 0);
+    static GInt64 recvfrom(Socket& socket, SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);    
 };
 
 /** 
