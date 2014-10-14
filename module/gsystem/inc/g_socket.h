@@ -171,15 +171,17 @@ class Socket
 {
 public:
     Socket();
-    explicit Socket(const SockAddr& addr);
     ~Socket();
 
     /**
      * @brief init socket
+     * @param [in] type : socket type
+     * @param [in] protocol : network protocol
+     * @param [in] if_name : interface name
      * @return G_YES/G_NO
      * @note 
      */		
-    GResult init(const SockType& type, const NetProtocol& protocol);
+    GResult init(const SockType& type, const NetProtocol& protocol, const std::string& if_name);
 	
     /**
      * @brief shutdown connecting
@@ -187,42 +189,13 @@ public:
      * @return G_YES/G_NO
      * @note 
      */	
-    GResult uninit(const GInt32 how = 0);	
-	
-    void setAddr(const SockAddr& addr);
-    const SockAddr& addr() const;
+    GResult uninit(const GInt32 how = 0);
     
-    GResult bind();
-    GResult listen(const GUint32 max_connect_num = 20);
-    GResult accept(SockAddr& client_addr);
-    //GResult accept(sockaddr_in6& client_addr);
-    GResult connect();
-	
     /**
-     * @brief send data
-     * @param [in] data : send data
-     * @param [in] len : data length
-     * @param [in] flags : flags
-     * @return size/-1
-     * @note 
-     */		
-    GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
-    GInt64 sendmsg(const struct msghdr* msg, const GInt32 flags = MSG_NOSIGNAL);
-    GInt64 sendto(const SockAddr& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
-    //GInt64 sendto(const sockaddr_in6& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
-	
-    /**
-     * @brief receive data
-     * @param [out] buffer : output buffer
-     * @param [in] size : buffer size
-     * @param [in] flags : flags
-     * @return size/-1
-     * @note 
-     */	
-    GInt64 recv(GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
-    GInt64 recvmsg(struct msghdr* msg, const GInt32 flags = 0);
-    GInt64 recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
-    //GInt64 recvfrom(sockaddr_in6& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+     * @brief get sock fd
+     * @return sock fd
+     */
+    GInt32 sockfd() const;
 	
     /**
      * @brief get last error string
@@ -247,11 +220,46 @@ private:
 	
 private:
     GInt32      m_sockfd;	
-    sockaddr_in m_addr;
     bool        m_isInit;
     GInt8       m_error[G_ERROR_BUF_SIZE];
 };
 	
+/**
+ * @brief transfer api
+ */
+class Transfer
+{
+public:	
+    Transfer();
+    ~Transfer();
+    
+    /**
+     * @brief send data
+     * @param [in] socket : socket
+     * @param [in] data : send data
+     * @param [in] len : data length
+     * @param [in] flags : flags
+     * @return size/-1
+     * @note 
+     */		
+    static GInt64 send(Socket socket, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+    static GInt64 sendmsg(Socket socket, const struct msghdr* msg, const GInt32 flags = MSG_NOSIGNAL);
+    static GInt64 sendto(Socket socket, const SockAddr& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+   
+    /**
+     * @brief receive data
+     * @param [in] socket : socket
+     * @param [out] buffer : output buffer
+     * @param [in] size : buffer size
+     * @param [in] flags : flags
+     * @return size/-1
+     * @note 
+     */	
+    static GInt64 recv(Socket socket, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);	
+    static GInt64 recvmsg(Socket socket, struct msghdr* msg, const GInt32 flags = 0);
+    static GInt64 recvfrom(Socket socket, SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);    
+};
+
 /** 
  * @brief server socket class
  */
@@ -264,35 +272,48 @@ public:
      * @brief constructor
      * @param [in] server_ip : server ip address
      * @param [in] server_port : server port, default is 0, indent to random generate
-     * @param [in] interface : net card name, default is eth0, network communication card, default is eth0 
+     * @param [in] if_name : net card name, default is eth0, network communication card, default is eth0 
      */     
-    explicit SocketServer(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = "eth0");
+    explicit SocketServer(const GUint32 server_ip, const GUint16 server_port = 0, const std::string& if_name = "eth0");
     ~SocketServer();
     
-    const Socket& getSocket() const;
-	
     /**
-     * @brief bind address and port
-     * @return G_YES/G_NO
-     * @note 
-     */	
-    GResult bind();	
-	
+     * @brief set server address
+     * @param [in] server_ip : server ip address
+     */
+    void setIP(const GUint32 server_ip);
+    
     /**
-     * @brief listen port
-     * @param [in] max_connect_num : the max client connect number, default is 20
-     * @return G_YES/G_NO
-     * @note 
-     */	
-    GResult listen(const GUint32 max_connect_num = 20);	
-	
+     * @brief set server port
+     * @param [in] server_port : server bind port
+     */
+    void setPort(const GUint16 server_port);
+    
     /**
-     * @brief waitting for connect
-     * @param [in] client_addr : client sock address
+     * @brief set interface
+     * @param [in] if_name : server socket communication interface name
+     */
+    void setIf(const std::string& if_name);
+    
+    /**
+     * @brief server bind port
      * @return G_YES/G_NO
-     * @note 
-     */	
-    GResult accept(IPv4Addr& client_addr);
+     */
+    GResult bind();
+    
+    /**
+     * @brief server listen port
+     * @param [in] connect_num : server max connect client number, default is 20
+     * @return G_YES/G_NO
+     */
+    GResult listen(const GUint32 connect_num = 20);
+    
+    /**
+     * @brief accept client to connect
+     * @param [out] client_addr : output client address infomation
+     * @return G_YES/G_NO
+     */
+    GResult accept(SockAddr& client_addr);
 	
     /**
      * @brief receive data
@@ -303,7 +324,7 @@ public:
      * @return size/-1
      * @note 
      */	
-    GInt64 recvfrom(IPv4Addr& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
+    GInt64 recvfrom(SockAddr& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags = 0);
 	
     /**
      * @brief get last error string
@@ -322,6 +343,8 @@ private:
 	
 private:
     Socket      m_socket;
+    SockAddr	m_addr;
+    std::string m_ifName;
     GInt8       m_error[G_ERROR_BUF_SIZE];
 };
 
@@ -332,18 +355,34 @@ class SocketClient
 {
 public:
     SocketClient();
-    
+  
     /**
      * @brief constructor
      * @param [in] server_ip : server ip address
      * @param [in] server_port : server port, default is 0, indent to random generate
-     * @param [in] interface : net card name, default is eth0, network communication card, default is eth0 
+     * @param [in] if_name : net card name, default is eth0, network communication card, default is eth0 
      */     
-    explicit SocketClient(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = "eth0");
+    explicit SocketClient(const GUint32 server_ip, const GUint16 server_port = 0, const std::string& if_name = "eth0");    
     ~SocketClient();
     
-    const Socket& getSocket() const;
+    /**
+     * @brief set server address
+     * @param [in] server_ip : server ip address
+     */
+    void setIP(const GUint32 server_ip);
     
+    /**
+     * @brief set server port
+     * @param [in] server_port : server bind port
+     */
+    void setPort(const GUint16 server_port);
+    
+    /**
+     * @brief set interface
+     * @param [in] if_name : server socket communication interface name
+     */
+    void setIf(const std::string& if_name);    
+
     /**
      * @brief connect socket
      * @return G_YES/G_NO
@@ -387,8 +426,10 @@ private:
     void setError(const GInt8* args, ...);
 	
 private:
-    Socket    m_socket;	
-    GInt8     m_error[G_ERROR_BUF_SIZE];
+    Socket		m_socket;	
+    SockAddr	m_addr;    
+    std::string m_ifName;
+    GInt8       m_error[G_ERROR_BUF_SIZE];
 };
 
 /**
