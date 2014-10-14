@@ -22,40 +22,49 @@ namespace gsys {
 	
 const struct in6_addr IN6ADDR_ANY = IN6ADDR_ANY_INIT;
 
-
 SockAddr::SockAddr() : SockAddr(INADDR_ANY, 0) {}
 SockAddr::SockAddr(const GUint32 ip, const GUint16 port)
 {
     m_addrLen = sizeof(sockaddr_in);
     bzero(&m_addr, m_addrLen);
-    m_addr.sin_family = AF_INET; // IPv4
-    m_addr.sin_port = htons(port); // port
-    m_addr.sin_addr.s_addr = htonl(ip); // IP
+    m_addr.sin_family = AF_INET; 
+    m_addr.sin_port = htons(port);
+    m_addr.sin_addr.s_addr = htonl(ip); 
 }
 
-IPv4Addr::~IPv4Addr() {}
+SockAddr::~SockAddr() {}
 
-GUint32 IPv4Addr::ip()
+void SockAddr::setIP(const GUint32 ip)
+{
+    m_addr.sin_addr.s_addr = htonl(ip);	
+}
+
+GUint32 SockAddr::ip()
 {
     return ntohl(m_addr.sin_addr.s_addr);
 }
 
-GUint8* IPv4Addr::ipstr()
+GUint8* SockAddr::ipstr()
 {
     return (GUint8*)inet_ntoa(m_addr.sin_addr);
 }
 
-GUint16 IPv4Addr::port()
+void SockAddr::setPort(const GUint16 port)
+{
+    m_addr.sin_port = htons(port);
+}
+
+GUint16 SockAddr::port()
 {
     return ntohs(m_addr.sin_port);
 }
 
-sockaddr_in& IPv4Addr::addr()
+sockaddr_in& SockAddr::addr()
 {
     return m_addr;
 }
 
-GUint16 IPv4Addr::addrLen() const
+GUint16 SockAddr::addrLen() const
 {
     return m_addrLen;
 }
@@ -99,11 +108,10 @@ GUint16 IPv6Addr::getAddrLen() const
     return m_addrLen;
 }
 
-Socket::Socket() {}
-Socket::Socket(const SockAddr& addr) : m_sockfd(-1), m_addr(addr), m_isInit(false) {}
+Socket::Socket() : m_sockfd(-1), m_isInit(false) {}
 Socket::~Socket() { uninit(); }
 
-GResult Socket::init(const SockType& type, const NetProtocol& protocol)
+GResult Socket::init(const SockType& type, const NetProtocol& protocol, const std::string& if_name)
 {
     GInt32 domain = AF_INET;
     
@@ -200,10 +208,10 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
     	    return G_NO; // not support
     	}
     	default:
-		{
+        {
     	    setError("[error]%s:argument protocol(%d) invalid (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
     	    return G_NO;
-		}
+        }
     }	
 	
     m_sockfd = ::socket(domain, sock_type, sock_protocol);
@@ -215,7 +223,7 @@ GResult Socket::init(const SockType& type, const NetProtocol& protocol)
     }
 
     // init socket option
-    initOption();
+    initOption(if_name);
     m_isInit = true;
     return G_YES;
 }
@@ -233,153 +241,9 @@ GResult Socket::uninit(const GInt32 how)
     return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
 }
 
-void Socket::setAddr(const SockAddr& ipv4Addr)
+GInt32 Socket::sockfd() const
 {
-    m_addr = ipv4Addr;	
-}
-
-const SockAddr& Socket::addr() const
-{
-    return m_addr;
-}
-
-GResult Socket::bind()
-{
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-
-    return ::bind(m_sockfd, (const struct sockaddr*)&m_addr.addr(), m_addr.getAddrLen()) < 0 ? G_NO : G_YES;
-}
-
-GResult Socket::listen(const GUint32 max_connect_num)
-{
-    if (!m_isInit)
-    {
-    	etError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-	
-    return ::listen(m_sockfd, max_connect_num) == 0 ? G_YES : G_NO;
-}
-
-GResult Socket::accept(SockAddr& client_addr)
-{
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-
-    GUint32 addr_len = 0;
-    return ::accept(m_sockfd, (struct sockaddr*)&client_addr.addr(), &addr_len) < 0 ? G_NO : G_YES;
-}
-
-/*
-GResult Socket::accept(sockaddr_in6& client_addr)
-{
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
-    }
-
-    GUint32 addr_len = 0;
-    return ::accept(m_sockfd, (struct sockaddr*)&client_addr, &addr_len) < 0 ? G_NO : G_YES;
-}
-*/
-
-GResult Socket::connect()
-{
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-        return G_NO;
-    }
-
-    return ::connect(m_sockfd, (const struct sockaddr*)&m_ipv4Addr.getSockAddr(), m_ipv4Addr.getAddrLen()) < 0 ? G_NO : G_YES;
-}
-
-GInt64 Socket::send(const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
-{
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-	
-    return ::send(m_sockfd, data, len, flags);
-}
-
-GInt64 Socket::sendmsg(const struct msghdr* msg, const GInt32 flags/*MSG_NOSIGNAL*/)
-{
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-	
-    return ::sendmsg(m_sockfd, msg, flags);	
-}
-
-GInt64 Socket::sendto(const SockAddr& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags)
-{
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-	
-    return ::sendto(m_sockfd, data, len, flags, (const struct sockaddr*)&dst_addr, sizeof(sockaddr_in));	
-}
-
-/*
-GInt64 Socket::sendto(const sockaddr_in6& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags)
-{
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-	
-    return ::sendto(m_sockfd, data, len, flags, (const struct sockaddr*)&dst_addr, sizeof(sockaddr_in6));	
-}
-*/
-
-GInt64 Socket::recv(GUint8* buffer, const GUint64 size, const GInt32 flags)
-{
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-	
-    return ::recv(m_sockfd, buffer, size, flags);
-}
-
-GInt64 Socket::recvmsg(struct msghdr* msg, const GInt32 flags/*0*/)
-{
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-	
-    return ::recvmsg(m_sockfd, msg, flags);	
-}
-
-GInt64 Socket::recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
-{
-    if (!m_isInit)
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-
-    GUint32 addr_len = 0;
-    return ::recvfrom(m_sockfd, buffer, size, flags, (struct sockaddr*)&src_addr, &addr_len);	
+    return m_sockfd;	
 }
 
 GInt8* Socket::getError()
@@ -387,7 +251,7 @@ GInt8* Socket::getError()
     return m_error;
 }
 
-GResult Socket::initOption()
+GResult Socket::initOption(const std::string& if_name)
 {
     GResult ret = G_YES;
 
@@ -402,10 +266,17 @@ GResult Socket::initOption()
     // don't copy data from system buffer to GSocket buffer
     GInt32 nosize = 0;
     
+    struct ifreq interface;
+    strncpy(interface.ifr_ifrn.ifrn_name, if_name.c_str(), if_name.length());
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_BINDTODEVICE, (char *)&interface, sizeof(interface)) == -1) 
+    {
+    	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	ret = false;        
+    }    
+    
     // set address reuse
     if (setsockopt(m_sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
     {
-    	//G_LOG_WARN(G_LOG_PREFIX, "set address reuse failed");
     	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	ret = false;
     }
@@ -470,32 +341,77 @@ GResult Socket::initOption()
     return ret;
 }
 
-void Socket::setError(const GInt8* args, ...)
+void Transfer::setError(const GInt8* args, ...)
 {
     System::pformat(m_error, G_ERROR_BUF_SIZE, args);
+}
+
+GInt64 Transfer::send(Socket& socket, const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
+{
+    return ::send(socket.sockfd(), data, len, flags);
+}
+
+GInt64 Transfer::sendmsg(Socket& socket, const struct msghdr* msg, const GInt32 flags/*MSG_NOSIGNAL*/)
+{
+    return ::sendmsg(m_sockfd, msg, flags);	
+}
+
+GInt64 Transfer::sendto(Socket& socket, const SockAddr& dst_addr, const GUint8* data, const GUint64 len, const GInt32 flags)
+{
+    return ::sendto(socket.sockfd(), data, len, flags, (const struct sockaddr*)&dst_addr.addr(), dst_addr.addrLen());	
+}
+
+GInt64 Transfer::recv(Socket& socket, GUint8* buffer, const GUint64 size, const GInt32 flags)
+{
+    return ::recv(socket.sockfd(), buffer, size, flags);
+}
+
+GInt64 Transfer::recvmsg(Socket& socket, struct msghdr* msg, const GInt32 flags/*0*/)
+{
+    return ::recvmsg(socket.sockfd(), msg, flags);	
+}
+
+GInt64 Transfer::recvfrom(Socket& socket, SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+{
+    GUint32 addr_len = 0;
+    return ::recvfrom(socket.sockfd(), buffer, size, flags, (struct sockaddr*)&src_addr, &addr_len);	
 }
 
 SocketServer::SocketServer(const GUint32 server_ip, const GUint16 server_port) {}
 SocketServer::~SocketServer() {}
 
-const Socket& SocketServer::getSocket() const
-{
-    return m_socket;
-}
-
 GResult SocketServer::bind()
 {
-    return m_socket.bind();
+    if (!m_isInit)
+    {
+    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	return G_NO;
+    }
+
+    return ::bind(m_sockfd, (const struct sockaddr*)&m_addr.addr(), m_addr.getAddrLen()) < 0 ? G_NO : G_YES;
 }
 
-GResult SocketServer::listen(const GUint32 max_connect_num/*20*/)
+GResult SocketServer::listen(const GUint32 max_connect_num)
 {
-    return m_socket.listen(max_connect_num);
+    if (!m_isInit)
+    {
+    	etError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	return G_NO;
+    }
+	
+    return ::listen(m_sockfd, max_connect_num) == 0 ? G_YES : G_NO;
 }
 
-GResult SocketServer::accept(IPv4Addr& client_addr)
+GResult SocketServer::accept(SockAddr& client_addr)
 {
-    return m_socket.accept(client_addr.getSockAddr());
+    if (!m_isInit)
+    {
+    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	return G_NO;
+    }
+
+    GUint32 addr_len = 0;
+    return ::accept(m_sockfd, (struct sockaddr*)&client_addr.addr(), &addr_len) < 0 ? G_NO : G_YES;
 }
 
 GInt64 SocketServer::recvfrom(IPv4Addr& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
@@ -523,7 +439,13 @@ const Socket& SocketClient::getSocket() const
 
 GResult SocketClient::connect()
 {
-    return m_socket.connect();
+    if (!m_isInit)
+    {
+    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+        return G_NO;
+    }
+
+    return ::connect(m_sockfd, (const struct sockaddr*)&m_ipv4Addr.getSockAddr(), m_ipv4Addr.getAddrLen()) < 0 ? G_NO : G_YES;
 }
 
 GInt64 SocketClient::send(const GUint8* data, const GUint64 len, const GInt32 flags/*MSG_NOSIGNAL*/)
