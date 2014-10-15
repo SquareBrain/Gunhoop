@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_network_def.cpp
+* @file	    g_network_def.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -27,7 +27,7 @@ GResult NetWorkConv::ipToInteger(const std::string& str_ip, GUint32& int_ip)
 {
     std::list<std::string> split_list;
     IS_NO_R(Convert::splitString(str_ip, '.', split_list));
-    IS_FAULT_R(split_list.size() == 0, G_ERROR_INVALID_PARAMETERS);
+    IS_NO_RR(split_list.size() == 0, G_ERROR_INVALID_PARAMETERS);
     
     GUint32 ip_array[4] = {0};
     GUint16 i = 0;
@@ -58,6 +58,7 @@ GResult NetWorkConv::ipToString(const GUint32 int_ip, std::string& str_ip)
 
 GResult NetWorkConv::macToInteger(const std::string& str_mac, GUint64& int_mac)
 {
+    
     return G_YES;
 }
 
@@ -90,44 +91,44 @@ IPAddr::IPAddr() : m_ip(0) {}
 
 IPAddr::IPAddr(const GUint32 ip) : m_ip(ip) 
 {
-	if (m_ip != 0)
-	{
+    if (m_ip != 0)
+    {
     	NetWorkConv::ipToString(m_ip, m_ipStr);
-	}
+    }
 }
 
 IPAddr::IPAddr(const std::string& ip) : m_ip(0), m_ipStr(ip)
 {
-	if (!m_ipStr.empty())
-	{
+    if (!m_ipStr.empty())
+    {
     	NetWorkConv::ipToInteger(m_ipStr, m_ip);
-	}
+    }
 }
 
 IPAddr::~IPAddr() {}
 
 void IPAddr::setIP(const GUint32 ip)
 {
-	m_ip = 0;
-	m_ipStr.clear();
+    m_ip = 0;
+    m_ipStr.clear();
 
-	if (ip != 0)
-	{
-		m_ip = ip;
-		NetWorkConv::ipToString(m_ip, m_ipStr);
-	}
+    if (ip != 0)
+    {
+    	m_ip = ip;
+    	NetWorkConv::ipToString(m_ip, m_ipStr);
+    }
 }
 
 void IPAddr::setIP(const std::string& ip)
 {
-	m_ip = 0;
-	m_ipStr.clear();
-
-	if (!ip.empty())
-	{
-		m_ipStr = ip;
-		NetWorkConv::ipToInteger(m_ipStr, m_ip);
-	}
+    m_ip = 0;
+    m_ipStr.clear();
+    
+    if (!ip.empty())
+    {
+    	m_ipStr = ip;
+    	NetWorkConv::ipToInteger(m_ipStr, m_ip);
+    }
 }
 
 GUint32 IPAddr::getIP() const
@@ -144,58 +145,58 @@ MacAddr::MacAddr() : m_mac(0) {}
 
 MacAddr::MacAddr(const GUint64 mac) : m_mac(mac)
 {
-	if (m_mac != 0)
-	{
+    if (m_mac != 0)
+    {
     	NetWorkConv::macToString(m_mac, m_macStr);
-	}
+    }
 }
 
 MacAddr::MacAddr(const std::string& mac) : m_mac(0), m_macStr(mac)
 {
-	if (!m_macStr.empty())
-	{
+    if (!m_macStr.empty())
+    {
     	NetWorkConv::macToInteger(m_macStr, m_mac);
-	}
+    }
 }
 
 void MacAddr::setMac(GUint64 mac)
 {
-	m_mac = 0;
-	m_macStr.clear();
-	
-	if (mac != 0)
-	{
-		m_mac = mac;
-		NetWorkConv::macToString(m_mac, m_macStr);
-	}
+    m_mac = 0;
+    m_macStr.clear();
+    
+    if (mac != 0)
+    {
+    	m_mac = mac;
+    	NetWorkConv::macToString(m_mac, m_macStr);
+    }
 }
 
 void MacAddr::setMac(const std::string& mac)
 {
-	m_mac = 0;
-	m_macStr.clear();
-	
-	if (!mac.empty())
-	{
-		m_macStr = mac;
-		NetWorkConv::macToInteger(m_macStr, m_mac);
-	}
+    m_mac = 0;
+    m_macStr.clear();
+    
+    if (!mac.empty())
+    {
+    	m_macStr = mac;
+    	NetWorkConv::macToInteger(m_macStr, m_mac);
+    }
 }
 
 GUint64 MacAddr::getMac() const
 {
-	return m_mac;
+    return m_mac;
 }
 
 const std::string& MacAddr::getMacStr() const
 {
-	return m_macStr;
+    return m_macStr;
 }
 
 IPPortPair::IPPortPair() : m_port(0) {}
 
 IPPortPair::IPPortPair(const IPAddr& ip_addr, const GUint16 port) 
-	: m_ipAddr(ip_addr), m_port(port) {}
+    : m_ipAddr(ip_addr), m_port(port) {}
 
 IPPortPair::~IPPortPair() {}
 
@@ -259,7 +260,7 @@ GUint16 NetAddr::getPort() const
 SocketAddr::SocketAddr() {}
 
 SocketAddr::SocketAddr(const NetAddr& src_addr, const NetAddr& dst_addr) 
-	: m_srcAddr(src_addr), m_dstAddr(dst_addr) {}
+    : m_srcAddr(src_addr), m_dstAddr(dst_addr) {}
 
 SocketAddr::~SocketAddr() {}
 
