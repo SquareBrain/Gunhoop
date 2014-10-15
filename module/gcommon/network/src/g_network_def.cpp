@@ -121,8 +121,7 @@ GResult NetWorkConv::macToString(const GUint64 int_mac, std::string& str_mac)
         (int_mac & 0x0000ff00) >> 8,  
         (int_mac & 0x000000ff));
         
-    
-    
+    Convert::toupper(tmp_buf);
     str_mac.assign(tmp_buf);
     
     return G_YES;
@@ -130,7 +129,14 @@ GResult NetWorkConv::macToString(const GUint64 int_mac, std::string& str_mac)
 
 GResult NetWorkConv::macToString(GInt8 bytes_mac[6], std::string& str_mac)
 {
-    return G_YES;
+    GInt8 tmp_buf[18] = {0};  
+    sprintf(tmp_buf, "%0x:%0x:%0x:%0x:%0x:%0x", 
+        bytes_mac[5], bytes_mac[4], bytes_mac[3], bytes_mac[2], bytes_mac[1], bytes_mac[0]);
+        
+    Convert::toupper(tmp_buf);
+    str_mac.assign(tmp_buf);
+    
+    return G_YES;	
 }
 
 IPAddr::IPAddr() : m_ip(0) {}
