@@ -190,81 +190,79 @@ GInt8* Socket::getError()
 GResult Socket::initOption(const std::string& if_name)
 {
     GResult ret = G_YES;
-
-    // address reuse flag, 1 reuse
-    GInt32 reuse = 1;
-    // send time limit, unit ms
-    //int stime = 1000;
-    // receive time limit, unit ms
-    //int rtime = 1000;
-    // receive and send data buffer size
-    GInt32 bufsize = 0xFFFF;
-    // don't copy data from system buffer to GSocket buffer
-    GInt32 nosize = 0;
     
+    // setting specified interface
     struct ifreq interface;
     strncpy(interface.ifr_ifrn.ifrn_name, if_name.c_str(), if_name.length());
     if (setsockopt(m_sockfd, SOL_SOCKET, SO_BINDTODEVICE, (char*)&interface, sizeof(interface)) == -1) 
     {
     	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	ret = false;        
+    	ret = G_NO;        
     }    
     
-    // set address reuse
+    // set address reuse, address reuse flag, 1 reuse
+    GInt32 reuse = 1;    
     if (setsockopt(m_sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
     {
     	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	ret = false;
+    	ret = G_NO;
     }
 
-    // set send data time limit
-    //if (setsockopt(m_sockfd, SOL_GSocket, SO_SNDTIMEO, (const char*)&stime, sizeof(int)) == -1)
-    //{
-    //	 ret = false;
-    //}
+    // send time limit, unit ms
+    int send_time = 2000;
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDTIMEO, (const char*)&send_time, sizeof(int)) == -1)
+    {
+    	 ret = false;
+    }
 
-    // set receive data time limit
-    //if (setsockopt(m_sockfd, SOL_GSocket, SO_RCVTIMEO, (const char*)&rtime, sizeof(int)) == -1)
-    //{
-    //	 ret = false;
-    //}
+    // receive time limit, unit ms
+    int recv_time = 2000;    
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&recv_time, sizeof(int)) == -1)
+    {
+    	 ret = false;
+    }
 
     // set send data buffer size 
-    if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
+    GInt32 send_buf_size = 0xFFFF;    
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&send_buf_size, sizeof(GInt32)) == -1)
     {
     	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	ret = false;
     }
 
     // set receive data buffer size
-    if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&bufsize, sizeof(GInt32)) == -1)
+    GInt32 recv_buf_size = 0xFFFF;
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&recv_buf_size, sizeof(GInt32)) == -1)
     {
     	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	ret = false;
     }
 
-    // don't copy data from system buffer to GSocket buffer when send data
-    if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
+    // don't copy data from system buffer to socket buffer when send data
+    /*
+    GInt32 is_copy = 0;    
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&is_copy, sizeof(GInt32)) == -1)
     {
     	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	ret = false;
     }
 
     // don't copy data from system buffer to GSocket buffer when receive data
-    if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&nosize, sizeof(GInt32)) == -1)
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&is_copy, sizeof(GInt32)) == -1)
     {
     	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	ret = false;
     }
+    */
 
     // let data send completly after execute close GSocket
+    /*
     struct STR_Linger
     {
     	GInt16 l_onoff;
     	GInt16 l_linger;
     };
 
-    /*
     STR_Linger linger;
     linger.l_onoff = 1;		// 1. allow wait; 0. force close
     linger.l_linger = 1;	// the time of waiting unit s
@@ -347,10 +345,19 @@ GResult SocketServer::listen(const GUint32 max_connect_num)
     return ::listen(m_socket.sockfd(), max_connect_num) == 0 ? G_YES : G_NO;
 }
 
-GResult SocketServer::accept(SockAddr& client_addr)
+GInt32 SocketServer::accept(SockAddr& client_addr, const RecvMode& mode)
 {
     GUint32 addr_len = 0;
-    return ::accept(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len) < 0 ? G_NO : G_YES;
+    if (mode == G_RECV_BLOCK)
+    {
+        return ::accept(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len);	
+    }
+    else if (mode == G_RECV_UNBLOCK)
+    {
+    	return ::accept(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len);	
+    }
+    
+    return -1;
 }
 
 GInt64 SocketServer::recvfrom(SockAddr& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags)
