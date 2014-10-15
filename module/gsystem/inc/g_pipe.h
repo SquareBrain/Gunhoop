@@ -4,18 +4,17 @@
 *
 *************************************************************************************/
 /**
-* @file		g_pipe.h
+* @file	    g_pipe.h
 * @version     
 * @brief      
-* @author	duye
-* @date		2013-11-15
+* @autho    duye
+* @date	    2013-11-15
 * @note 
 *
 *  2. 2014-06-20 duye move to gohoop project
 *  1. 2013-11-15 duye Created this file
 * 
 */
-
 #pragma once
 
 #include <sys/types.h>
@@ -32,32 +31,32 @@ namespace gsys {
 class Pipe
 {
 public:
-	Pipe() {}
-	virtual ~Pipe() {}
+    Pipe() {}
+    virtual ~Pipe() {}
 
-	/**
-	 * @brief Open the pipe
-	 * @param [in] pipeName : the GPipe name 
-	 * @return true/false
-	 * @note 
-	 */			
-	virtual bool open(const GInt8* pipeName) = 0;
+    /**
+     * @brief Open the pipe
+     * @param [in] pipeName : the GPipe name 
+     * @return true/false
+     * @note 
+     */			
+    virtual bool open(const GInt8* pipeName) = 0;
 
 protected:
-	/**
-	 * @brief Open the pipe
-	 * @param [in] pipeName : the GPipe name
-	 * @param [in] mode : open mode
-	 * @return true/false
-	 * @note 
-	 */		
-	bool orgOpen(const GInt8* pipeName, const GInt32 mode);
+    /**
+     * @brief Open the pipe
+     * @param [in] pipeName : the GPipe name
+     * @param [in] mode : open mode
+     * @return true/false
+     * @note 
+     */		
+    bool orgOpen(const GInt8* pipeName, const GInt32 mode);
     
 protected:
-	/** 
-	 * @brief pipe descriptor
-	 */	
-	GInt32	m_pipefd;
+    /** 
+     * @brief pipe descriptor
+     */	
+    GInt32	m_pipefd;
 };
 
 /** 
@@ -66,38 +65,38 @@ protected:
 class GWritePipe : public Pipe
 {
 public:
-	GWritePipe() {}
-	virtual ~GWritePipe() {}
+    GWritePipe() {}
+    virtual ~GWritePipe() {}
 
-	/**
-	 * @brief Open the pipe
-	 * @param [in] GPipeName : the GPipe name
-	 * @return true/false
-	 * @note 
-	 */			
-	virtual bool open(const GInt8* pipeName);	
+    /**
+     * @brief Open the pipe
+     * @param [in] GPipeName : the GPipe name
+     * @return true/false
+     * @note 
+     */			
+    virtual bool open(const GInt8* pipeName);	
 
-	/**
-	 * @brief Write data to pipe
-	 * @param [in] data : write data
-	 * @param [in] length : data length
-	 * @return size/-1
-	 * @note 
-	 */		
-	GInt64 write(const GInt8* data, const GUint64 length);
+    /**
+     * @brief Write data to pipe
+     * @param [in] data : write data
+     * @param [in] length : data length
+     * @return size/-1
+     * @note 
+     */		
+    GInt64 write(const GInt8* data, const GUint64 length);
 	
 private:
-	/**
-	 * @brief prevent copying
-	 * @note
-	 */	
-	GWritePipe(const GWritePipe&);
+    /**
+     * @brief prevent copying
+     * @note
+     */	
+     GWritePipe(const GWritePipe&);
 
-	/**
-	 * prevent copying
-	 * @note
-	 */		
-	void operator=(const GWritePipe&);
+    /**
+     * prevent copying
+     * @note
+     */		
+    void operator=(const GWritePipe&);
 };
 
 /** 
@@ -106,37 +105,37 @@ private:
 class GReadPipe : public Pipe
 {
 public:
-	GReadPipe() {}
-	virtual ~GReadPipe() {}
+    GReadPipe() {}
+    virtual ~GReadPipe() {}
 
-	/**
-	 * @brief open pipe
-	 * @param [in] pipeName : GPipe name
-	 * @return true/false
-	 * @note 
-	 */    
-	virtual bool open(const GInt8* pipeName);
+    /**
+     * @brief open pipe
+     * @param [in] pipeName : GPipe name
+     * @return true/false
+     * @note 
+     */    
+    virtual bool open(const GInt8* pipeName);
 
-	/**
-	 * @brief read data from pipe
-	 * @param [out] buffer : output buffer
-	 * @param [in] size : output buffer size
-	 * @return size/-1
-	 * @note 
-	 */  	
-	GInt64 read(GInt8* buffer, const GUint64 size);  
+    /**
+     * @brief read data from pipe
+     * @param [out] buffer : output buffer
+     * @param [in] size : output buffer size
+     * @return size/-1
+     * @note 
+     */  	
+    GInt64 read(GInt8* buffer, const GUint64 size);  
 
 private:
-	/**
-	 * @brief prevent copying
-	 * @note
-	 */	
-	GReadPipe(const GReadPipe&);
+    /**
+     * @brief prevent copying
+     * @note
+     */	
+    GReadPipe(const GReadPipe&);
 
-	/**
-	* @brief prevent copying
-	* @note
-	*/		
-	void operator=(const GReadPipe&);	
+    /**
+     * @brief prevent copying
+     * @note
+     */		
+    void operator=(const GReadPipe&);	
 };
 }
