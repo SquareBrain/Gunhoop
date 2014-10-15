@@ -101,6 +101,19 @@ do \
     } \
 } while(0)
 
+/**
+ * @brief _x is G_NO, return void
+ */
+#define IS_NO_RR(_x, _ret) \
+do \
+{ \
+    GResult _tret = (_x); \
+    if (_tret == G_NO) \
+    { \
+        return _ret; \
+    } \
+} while(0)
+
 #define IS_NULL(_x) ((_x) == nullptr)
 
 /**
