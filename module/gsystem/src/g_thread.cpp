@@ -16,18 +16,14 @@
 */
 #include <g_thread.h> 
 
-using namespace gsys;
+namespace gsys {
 
 Thread::Thread(Runnable* runnable, const bool autoRel) 
     : m_threadId(-1)
     , m_autoRel(autoRel)
-    , m_runnable(runnable)
-{
-}
+    , m_runnable(runnable) {}
 
-Thread::~Thread()
-{
-}
+Thread::~Thread() {}
 
 GResult Thread::start()
 {
