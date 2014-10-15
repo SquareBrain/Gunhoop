@@ -32,6 +32,7 @@ namespace gsys {
 /** 
  * @brief address family
  */
+/*
 typedef enum 
 {
     // AF_INET
@@ -43,10 +44,12 @@ typedef enum
     G_AF_ROUTE,
     G_AF_PACKET
 } AddrFamily;
+*/
 
 /** 
  * @brief transfer type
  */
+/*
 typedef enum 
 {
     // tcp
@@ -60,6 +63,7 @@ typedef enum
     G_SOCK_NONBLOCK,
     G_SOCK_CLOEXEC
 } SockType;
+*/
 
 /** 
  * @brief network protocol
@@ -138,29 +142,29 @@ public:
      * @brief set/get IP address
      * @return
      */		
-    GUint8* getIPStr();
+    GUint8* ip();
 
     /**
      * @brief set/get port
      * @return 
      */		
-    GUint16 getPort();
+    GUint16 port();
 	
     /**
      * @brief set/get sock addr
      * @return 
      */		
-    sockaddr_in6& getSockAddr();
+    sockaddr_in6& addr();
     
     /**
      * @brief get sock address length
      * @return 
      */	        
-    GUint16 getAddrLen() const;
+    GUint16 addrLen() const;
         
 private:
     // address
-    sockaddr_in6	m_sockAddr;
+    sockaddr_in6    m_sockAddr;
     GUint16         m_addrLen;
 };
 
@@ -174,13 +178,13 @@ public:
     ~Socket();
 
     /**
-     * @brief init socket
+     * @brief open socket
      * @param [in] protocol : network protocol
      * @param [in] if_name : interface name
      * @return G_YES/G_NO
      * @note 
      */		
-    GResult init(const NetProtocol& protocol, const std::string& if_name);
+    GResult open(const NetProtocol& protocol, const std::string& if_name);
     /**
      * @brief shutdown connecting
      * @param [in] how : default is 2
@@ -190,7 +194,7 @@ public:
      *     how = 1 : stop send data
      *     how = 2 : both above way
      */	
-    GResult uninit(const GInt32 how = 2);
+    GResult close(const GInt32 how = 2);
     
     /**
      * @brief get sock fd
@@ -447,7 +451,7 @@ private:
     void setError(const GInt8* args, ...);
 	
 private:
-    Socket		m_socket;	
+    Socket      m_socket;	
     SockAddr	m_addr;    
     SocketInfo  m_socketInfo;
     GInt8       m_error[G_ERROR_BUF_SIZE];
