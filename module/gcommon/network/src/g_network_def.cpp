@@ -70,16 +70,24 @@ GResult NetWorkConv::macToInteger(const std::string& str_mac, GUint64& int_mac)
         ip_array[i] = std::stoul(*iter);
     }
     
-    int_mac = (ip_array[0] << 40) + (ip_array[1] << 32) + (ip_array[2] << 24) 
-        + (ip_array[3] << 16) + (ip_array[4] << 8) + ip_array[5];
+    int_mac = (ip_array[0] << 40) 
+            + (ip_array[1] << 32) 
+            + (ip_array[2] << 24) 
+            + (ip_array[3] << 16) 
+            + (ip_array[4] << 8) 
+            + ip_array[5];
     
     return G_YES;
 }
 
 GResult NetWorkConv::macToInteger(const GInt8 bytes_mac[6], GUint64& int_mac)
 {
-    int_mac = (bytes_mac[0] << 40) + (bytes_mac[1] << 32) + (bytes_mac[2] << 24) 
-        + (bytes_mac[3] << 16) + (bytes_mac[4] << 8) + bytes_mac[5];
+    int_mac = (bytes_mac[0] << 40) 
+            + (bytes_mac[1] << 32) 
+            + (bytes_mac[2] << 24) 
+            + (bytes_mac[3] << 16) 
+            + (bytes_mac[4] << 8) 
+            + bytes_mac[5];
     
     return G_YES;
 }
@@ -102,12 +110,12 @@ GResult NetWorkConv::macToBytes(const std::string& str_mac, GInt8 bytes_mac[6])
 
 GResult NetWorkConv::macToBytes(const GUint64 int_mac, GInt8 bytes_mac[6])
 {
-    bytes_mac[0] = (int_mac & 0xff000000) >> 40;
-    bytes_mac[1] = (int_mac & 0xff000000) >> 32;
-    bytes_mac[2] = (int_mac & 0xff000000) >> 24;
-    bytes_mac[3] = (int_mac & 0xff000000) >> 16;
-    bytes_mac[4] = (int_mac & 0xff000000) >> 8;
-    bytes_mac[5] = (int_mac & 0xff000000);
+    bytes_mac[0] = (int_mac & 0xff0000000000) >> 40;
+    bytes_mac[1] = (int_mac & 0x00ff00000000) >> 32;
+    bytes_mac[2] = (int_mac & 0x0000ff000000) >> 24;
+    bytes_mac[3] = (int_mac & 0x000000ff0000) >> 16;
+    bytes_mac[4] = (int_mac & 0x00000000ff00) >> 8;
+    bytes_mac[5] = (int_mac & 0x0000000000ff);
     
     return G_YES;
 }
@@ -116,10 +124,12 @@ GResult NetWorkConv::macToString(const GUint64 int_mac, std::string& str_mac)
 {
     GInt8 tmp_buf[18] = {0};  
     sprintf(tmp_buf, "%0x:%0x:%0x:%0x:%0x:%0x",  
-        (int_mac & 0xff000000) >> 24,  
-        (int_mac & 0x00ff0000) >> 16,  
-        (int_mac & 0x0000ff00) >> 8,  
-        (int_mac & 0x000000ff));
+        (int_mac & 0xff0000000000) >> 40,  
+        (int_mac & 0x00ff00000000) >> 32,  
+        (int_mac & 0x0000ff000000) >> 24,  
+        (int_mac & 0x000000ff0000) >> 16,
+        (int_mac & 0x00000000ff00) >> 8,
+        (int_mac & 0x0000000000ff));
         
     Convert::toupper(tmp_buf);
     str_mac.assign(tmp_buf);
@@ -131,7 +141,12 @@ GResult NetWorkConv::macToString(GInt8 bytes_mac[6], std::string& str_mac)
 {
     GInt8 tmp_buf[18] = {0};  
     sprintf(tmp_buf, "%0x:%0x:%0x:%0x:%0x:%0x", 
-        bytes_mac[5], bytes_mac[4], bytes_mac[3], bytes_mac[2], bytes_mac[1], bytes_mac[0]);
+        bytes_mac[5], 
+        bytes_mac[4], 
+        bytes_mac[3], 
+        bytes_mac[2], 
+        bytes_mac[1], 
+        bytes_mac[0]);
         
     Convert::toupper(tmp_buf);
     str_mac.assign(tmp_buf);
