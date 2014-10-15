@@ -56,6 +56,11 @@ void Process::setLimitFile(const GUint32 num)
     m_sysProcess.setLimitFile(num);   
 }
 
+GUint32 Process::limitFile() const
+{
+    return m_sysProcess.limitFile();
+}
+
 void Process::wait(const GUint32 timeout)
 {
     m_exitCondition.wait(timeout);
