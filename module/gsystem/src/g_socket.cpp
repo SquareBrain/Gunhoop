@@ -89,22 +89,22 @@ IPv6Addr::IPv6Addr(const GUint8 ip[16], const GUint16 port)
 
 IPv6Addr::~IPv6Addr() {}
 
-GUint8* IPv6Addr::getIPStr()
+GUint8* IPv6Addr::ip()
 {
     return m_sockAddr.sin6_addr.s6_addr;
 }
 
-GUint16 IPv6Addr::getPort()
+GUint16 IPv6Addr::port()
 {
     return ntohs(m_sockAddr.sin6_port);
 }
 
-sockaddr_in6& IPv6Addr::getSockAddr()
+sockaddr_in6& IPv6Addr::addr()
 {
     return m_sockAddr;
 }
 
-GUint16 IPv6Addr::getAddrLen() const
+GUint16 IPv6Addr::addrLen() const
 {
     return m_addrLen;
 }
@@ -112,7 +112,7 @@ GUint16 IPv6Addr::getAddrLen() const
 Socket::Socket() : m_sockfd(-1), m_isInit(false) {}
 Socket::~Socket() { uninit(); }
 
-GResult Socket::init(const NetProtocol& protocol, const std::string& if_name)
+GResult Socket::open(const NetProtocol& protocol, const std::string& if_name)
 {
     GInt32 domain = AF_INET;
     GInt32 sock_type = -1;
@@ -164,7 +164,7 @@ GResult Socket::init(const NetProtocol& protocol, const std::string& if_name)
     return G_YES;
 }
 
-GResult Socket::uninit(const GInt32 how)
+GResult Socket::close(const GInt32 how)
 {
     // how = 0 : stop receive data
     // how = 1 : stop send data
@@ -319,7 +319,10 @@ SocketServer::SocketServer(const SocketInfo& socket_info)
     setSocketInfo(socket_info);
 }
 
-SocketServer::~SocketServer() {}
+SocketServer::~SocketServer() 
+{
+    close();
+}
 
 void SocketServer::setSocketInfo(const SocketInfo& socket_info)
 {
@@ -330,7 +333,7 @@ void SocketServer::setSocketInfo(const SocketInfo& socket_info)
 
 GResult SocketServer::bind()
 {
-    if (IS_NO(m_socket.init(m_socketInfo.protocol(), m_socketInfo.localIfName())))
+    if (IS_NO(m_socket.open(m_socketInfo.protocol(), m_socketInfo.localIfName())))
     {
     	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	return G_NO;
@@ -357,7 +360,7 @@ GInt64 SocketServer::recvfrom(SockAddr& client_addr, GUint8* buffer, const GUint
 
 GResult SocketServer::close()
 {
-    return m_socket.uninit();    	
+    return m_socket.close();    	
 }
 
 GInt8* SocketServer::getError()
@@ -372,22 +375,30 @@ void SocketServer::setError(const GInt8* args, ...)
 	
 SocketClient::SocketClient(const SocketInfo& socket_info) 
 {
-	setSocketInfo(socket_info);		
+    setSocketInfo(socket_info);		
 }
 
 SocketClient::~SocketClient() 
 {
-	m_socket.uninit();
+    close();
 }
 
 void SocketClient::setSocketInfo(const SocketInfo& socket_info)
 {
-	m_socketInfo = socket_info;
+    m_socketInfo = socket_info;
+    m_addr.setIP(m_socketInfo.serverIP());
+    m_addr.setPort(m_socketInfo.serverPort());    
 }
 
 GResult SocketClient::connect()
 {
-	return ::connect(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
+    if (IS_NO(m_socket.open(m_socketInfo.protocol(), m_socketInfo.localIfName())))
+    {
+    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	return G_NO;
+    }
+    
+    return ::connect(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
 }
 
 GInt64 SocketClient::send(const GUint8* data, const GUint64 len, const GInt32 flags)
@@ -402,7 +413,7 @@ GInt64 SocketClient::recv(GUint8* buffer, const GUint64 size, const GInt32 flags
 
 GResult SocketClient::close()
 {
-	return m_socket.uninit();
+    return m_socket.close();
 }
 
 GInt8* SocketClient::getError()
