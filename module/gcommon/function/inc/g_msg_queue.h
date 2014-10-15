@@ -28,9 +28,9 @@ static const GUint64 G_DEF_QUEUE_SIZE = 1024;
  */
 typedef enum
 {
-    G_POP_BLOCK = 0,
-    G_POP_NOBLOCK
-} AccessMode;
+    G_MSG_BLOCK = 0,
+    G_MSG_NONBLOCK
+} MsgMode;
 
 /**
  * @brief message queue
@@ -57,7 +57,7 @@ public:
      * @param [in] mode : pop block
      * @return message
      */
-    T* pop(const AccessMode& mode = G_POP_BLOCK);
+    T* pop(const MsgMode& mode = G_POP_BLOCK);
     
 private:
     std::queue<T*>      m_queue;
@@ -83,21 +83,25 @@ GResult MsgQueue::push(T* msg)
 }
 
 template <class T>
-T* MsgQueue::pop(const AccessMode& mode)
+T* MsgQueue::pop(const MsgMode& mode)
 {
     if (mode == G_POP_BLOCK)
     {
         m_semaphore.wait();
     }
-    else
+    else if (mode = G_MSG_NONBLOCK)
     {
         m_semaphore.tryWait();   
     }
-
+    else
+    {
+        return nullptr;	
+    }
+    
     T* msg = m_queue.front();
     m_queue.pop();
     
-	return G_NO;	
+    return G_NO;	
 }
 
 }
