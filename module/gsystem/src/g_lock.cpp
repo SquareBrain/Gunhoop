@@ -85,7 +85,7 @@ bool TryLock::lock(const GUint32 timeout)
 {
     if (m_mutex.tryLock())
     {
-    	return true;
+        return true;
     }
 
     if (timeout == 0)
@@ -98,19 +98,19 @@ bool TryLock::lock(const GUint32 timeout)
 						
     do
     {
-		if (loops == 1)
-		{
-	  	    usleep(1000 * (timeout % sleepUnit));
-		}
-		else
-		{
-		    usleep(1000 * sleepUnit);    
-		}
+        if (loops == 1)
+        {
+            usleep(1000 * (timeout % sleepUnit));
+	}
+        else
+        {
+            usleep(1000 * sleepUnit);    
+        }
 
-		if (m_mutex.tryLock())
-		{
-		    return true;
-		}
+        if (m_mutex.tryLock())
+        {
+            return true;
+        }
     } while(--loops);
 
     return false;
