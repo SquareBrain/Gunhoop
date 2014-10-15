@@ -300,14 +300,14 @@ GInt64 Transfer::recv(Socket& socket, GUint8* buffer, const GUint64 size, const 
     return ::recv(socket.sockfd(), buffer, size, flags);
 }
 
-GInt64 Transfer::recvmsg(Socket& socket, struct msghdr* msg, const GInt32 flags/*0*/)
+GInt64 Transfer::recvmsg(Socket& socket, struct msghdr* msg, const GInt32 flags)
 {
     return ::recvmsg(socket.sockfd(), msg, flags);	
 }
 
-GInt64 Transfer::recvfrom(Socket& socket, SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags/*0*/)
+GInt64 Transfer::recvfrom(Socket& socket, SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags)
 {
-    GUint32 addr_len = 0;
+    GUint32 addr_len = src_addr.addLen();
     return ::recvfrom(socket.sockfd(), buffer, size, flags, (struct sockaddr*)&src_addr.addr(), &addr_len);	
 }
 
