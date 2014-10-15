@@ -16,7 +16,7 @@
 */
 #pragma once
 
-#include <g_result.h>
+#include <assert.h>
 
 /** 
  * @brief base type define
@@ -30,10 +30,6 @@ typedef unsigned short	    GUint16;
 typedef unsigned int	    GUint32;
 typedef unsigned long long  GUint64;
 typedef int		    GResult;
-
-#include <assert.h>
-#include <stddef.h>
-#include <stdio.h>
 
 /** 
  * @brief assert
