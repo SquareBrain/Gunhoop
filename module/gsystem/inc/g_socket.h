@@ -318,20 +318,20 @@ public:
      * @param [in] socket_info : socket information
      */     
     explicit SocketServer(const SocketInfo& socket_info);
-        
     ~SocketServer();
-    
+   
     /**
-     * @brief set socket information
-     * @param [in] socket_info : socket information
-     */
-    void setSocketInfo(const SocketInfo& socket_info);
-    
-    /**
-     * @brief server bind port
+     * @brief server bind
      * @return G_YES/G_NO
      */
     GResult bind();
+    
+    /**
+     * @brief server bind
+     * @param [in] socket_info : socket information
+     * @return G_YES/G_NO
+     */
+    GResult bind(const SocketInfo& socket_info);
     
     /**
      * @brief server listen port
@@ -404,17 +404,18 @@ public:
     ~SocketClient();
 
     /**
-     * @brief set socket information
-     * @param [in] socket_info : socket information
-     */
-    void setSocketInfo(const SocketInfo& socket_info);
-
-    /**
      * @brief connect socket
      * @return G_YES/G_NO
      * @note 
      */		
     GResult connect();
+    
+    /**
+     * @brief connect socket
+     * @param [in] socket_info : socket information
+     * @return G_YES/G_NO
+     */       
+    GResult connect(const SocketInfo& socket_info);
     
     /**
      * @brief send data
@@ -475,17 +476,33 @@ public:
     
     /**
      * @brief constructor
-     * @param [in] server_ip : server ip address
-     * @param [in] server_port : server port, default is 0, indent to random generate
-     * @param [in] interface : net card name, default is eth0, network communication card, default is eth0 
-     */
-    explicit EpollServer(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = "eth0");
+     * @param [in] socket_info : socket information
+     */   
+    explicit EpollServer(const SocketInfo& socket_info);        
     virtual ~EpollServer();
     
-    GResult init();
-	
+    /**
+     * @brief start server
+     * @param [in] socket_info : socket information
+     * @return G_YES/G_NO
+     */      
+    GResult start();
+    
+    /**
+     * @brief start server
+     * @param [in] socket_info : socket information
+     * @return G_YES/G_NO
+     */      
+    GResult start(const SocketInfo& socket_info);
+    
+    /**
+     * @brief stop server
+     * @return G_YES/G_NO
+     */
+    GResult stop();
+    
 private:
-    SocketServer	m_socketServer;
+    SocketServer    m_socketServer;
 };
 
 /**
@@ -495,17 +512,33 @@ class EpollClient
 {
 public:
     EpollClient();
-   
+    
     /**
      * @brief constructor
-     * @param [in] server_ip : server ip address
-     * @param [in] server_port : server port, default is 0, indent to random generate
-     * @param [in] interface : net card name, default is eth0, network communication card, default is eth0
-     */	
-    explicit EpollClient(const GUint32 server_ip, const GUint16 server_port = 0, const GInt8* interface = "eth0");
+     * @param [in] socket_info : socket information
+     */   
+    explicit SocketClient(const SocketInfo& socket_info);     
     virtual ~EpollClient();
    
-    GResult init();
+    /**
+     * @brief start client
+     * @param [in] socket_info : socket information
+     * @return G_YES/G_NO
+     */      
+    GResult start();
+    
+    /**
+     * @brief start client
+     * @param [in] socket_info : socket information
+     * @return G_YES/G_NO
+     */      
+    GResult start(const SocketInfo& socket_info);
+    
+    /**
+     * @brief stop client
+     * @return G_YES/G_NO
+     */
+    GResult stop();
 	
 private:
     SocketClient    m_socketClient;
