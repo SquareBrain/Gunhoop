@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_network_def.cpp
+* @file     g_network_def.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -183,12 +183,12 @@ void IPAddr::setIP(const std::string& ip)
     }
 }
 
-GUint32 IPAddr::getIP() const
+GUint32 IPAddr::ip() const
 {
     return m_ip;
 }
 
-const std::string& IPAddr::getIPStr() const 
+const std::string& IPAddr::ipStr() const 
 {
     return m_ipStr;
 }
@@ -235,12 +235,12 @@ void MacAddr::setMac(const std::string& mac)
     }
 }
 
-GUint64 MacAddr::getMac() const
+GUint64 MacAddr::mac() const
 {
     return m_mac;
 }
 
-const std::string& MacAddr::getMacStr() const
+const std::string& MacAddr::macStr() const
 {
     return m_macStr;
 }
@@ -257,7 +257,7 @@ void IPPortPair::setIPAddr(const IPAddr& ip_addr)
     m_ipAddr = ip_addr;
 }
 
-const IPAddr& IPPortPair::getIPAddr() const
+const IPAddr& IPPortPair::ipAddr() const
 {
     return m_ipAddr;
 }
@@ -267,7 +267,7 @@ void IPPortPair::setPort(const GUint16 port)
     m_port = port;
 }
 
-GUint16 IPPortPair::getPort() const
+GUint16 IPPortPair::port() const
 {
     return m_port;
 }
@@ -284,7 +284,7 @@ void NetAddr::setMacAddr(const MacAddr& mac_addr)
     m_macAddr = mac_addr;
 }
 
-const MacAddr& NetAddr::getMacAddr() const
+const MacAddr& NetAddr::macAddr() const
 {
     return m_macAddr;
 }
@@ -294,7 +294,7 @@ void NetAddr::setIPAddr(const IPAddr& ip_addr)
     m_ip = ip_addr;
 }
 
-const IPAddr& NetAddr::getIPAddr() const
+const IPAddr& NetAddr::ipAddr() const
 {
     return m_ip;
 }
@@ -304,7 +304,7 @@ void NetAddr::setPort(const GUint16 port)
     m_port = port;
 }
 
-GUint16 NetAddr::getPort() const
+GUint16 NetAddr::port() const
 {
     return m_port;
 }
@@ -321,7 +321,7 @@ void SocketAddr::setSrcAddr(const NetAddr& src_addr)
     m_srcAddr = src_addr;
 }
 
-const NetAddr& SocketAddr::getSrcAddr() const
+const NetAddr& SocketAddr::srcAddr() const
 {
     return m_srcAddr;
 }
@@ -331,7 +331,7 @@ void SocketAddr::setDstAddr(const NetAddr& dst_addr)
     m_dstAddr = dst_addr;
 }
 
-const NetAddr& SocketAddr::getDstAddr() const
+const NetAddr& SocketAddr::dstAddr() const
 {
     return m_dstAddr;
 }
