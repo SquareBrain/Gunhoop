@@ -34,9 +34,9 @@ public:
 };
 
 /**
- * @biref process tracker
+ * @biref process
  */
-class ProcessTracker : public gsys::ProcessSysCallbackObserver, public Singleton<ProcessTracker>
+class Process : public gsys::ProcessSysCallbackObserver, public Singleton<Process>
 {
 public:
     typedef SecrityObj<std::list<ProcessObserver*>> ObserverList;
@@ -58,6 +58,12 @@ public:
     void removeObserver(ProcessObserver* observer);
     
     /**
+     * @brief setting the number of one process can open files
+     * @param [in] num : can open file number
+     */
+    void setLimitFile(const GUint32 num);
+    
+    /**
      * @brief wait process exit
      * @param [in] timeout : wait time, default is 10 seconds
      */
@@ -77,6 +83,7 @@ private:
     gsys::ProcessSysCallback    m_processSysCallback;
     ObserverList                m_observerList;
     Condition                   m_exitCondition;
+    gsys::SysProcess            m_sysProcess;
 };
 
 }
