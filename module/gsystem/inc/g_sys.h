@@ -73,7 +73,7 @@ public:
      * @return time(microsecond)
      * @note 
      */		
-    static GUint64 getSysTime();   
+    static GUint64 sysTime();   
     
     /**
      * @brief get system time
@@ -106,7 +106,7 @@ public:
      * ms:millisecond
      * us:microsecond
      */		
-    static GResult getSysTime(const GInt8* format, GInt8* buffer, const GUint32 size);
+    static GResult sysTime(const GInt8* format, GInt8* buffer, const GUint32 size);
     
     /**
      * @brief getopt
@@ -116,8 +116,8 @@ public:
      * @param [out] value : out value
      * @return G_YES/G_NO
      */
-    static GResult getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, GInt64& value);
-    static GResult getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, GUint64& value);
-    static GResult getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, std::string& value);
+    static GResult optArg(GInt32 argc, GInt8** argv, GInt8* cmd, GInt64& value);
+    static GResult optArg(GInt32 argc, GInt8** argv, GInt8* cmd, GUint64& value);
+    static GResult optArg(GInt32 argc, GInt8** argv, GInt8* cmd, std::string& value);
 };
 }

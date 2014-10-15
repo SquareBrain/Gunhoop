@@ -16,7 +16,9 @@
 */
 #include <g_host_server.h>
 
-HostServer::HostServer() : m_serverState(G_HSERVER_INIT) {}
+namespace gcom {
+
+HostServer::HostServer() : m_state(G_HSERVER_INIT) {}
 HostServer::~HostServer() {}
 
 void HostServer::setState(const HostServerState& state) 
@@ -33,3 +35,5 @@ GResult HostServer::run()
 { 
     return routine(); 
 }	
+
+}

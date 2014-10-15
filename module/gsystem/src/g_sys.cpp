@@ -79,7 +79,7 @@ GResult System::shell(const GInt8* cmd, GInt8* buffer, const GUint32 size)
 	return G_YES;      
 }
 
-GUint64 System::getSysTime()
+GUint64 System::sysTime()
 {
 	struct timeval now;
 	struct timezone tz;
@@ -91,7 +91,7 @@ GUint64 System::getSysTime()
 	return (GUint64)(now.tv_sec) * 1000000 + now.tv_usec;
 }
 
-GResult System::getSysTime(const GInt8* format, GInt8* buffer, const GUint32 size)
+GResult System::sysTime(const GInt8* format, GInt8* buffer, const GUint32 size)
 {
 	IS_NULL_R(format);
 	IS_NULL_R(buffer);
@@ -113,7 +113,7 @@ GResult System::getSysTime(const GInt8* format, GInt8* buffer, const GUint32 siz
     return G_YES;		
 }
 
-GResult System::getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, GInt64& value)
+GResult System::optArg(GInt32 argc, GInt8** argv, GInt8* cmd, GInt64& value)
 {
 	IS_NULL_R(argv);
 	IS_NULL_R(cmd);
@@ -129,7 +129,7 @@ GResult System::getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, GInt64& value)
 	return G_YES;
 }
 
-GResult System::getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, GUint64& value)
+GResult System::optArg(GInt32 argc, GInt8** argv, GInt8* cmd, GUint64& value)
 {
 	IS_NULL_R(argv);
 	IS_NULL_R(cmd);
@@ -145,7 +145,7 @@ GResult System::getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, GUint64& value)
 	return G_YES;
 }
 
-GResult System::getOptArg(GInt32 argc, GInt8** argv, GInt8* cmd, std::string& value)
+GResult System::optArg(GInt32 argc, GInt8** argv, GInt8* cmd, std::string& value)
 {
 	IS_NULL_R(argv);
 	IS_NULL_R(cmd);

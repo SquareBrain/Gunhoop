@@ -45,7 +45,7 @@ public:
 
 	/** 
 	 * @brief wait for timeout
-	 * @parma [in] timeout : millsecond
+	 * @parma [in] timeout : millisecond
 	 * @return true:successed, false:don't waited resouce
 	 */
     bool timedWait(const GUint64 timeout);
@@ -59,5 +59,5 @@ public:
 private:
 	sem_t	m_sem;
 };
-};
+
 }

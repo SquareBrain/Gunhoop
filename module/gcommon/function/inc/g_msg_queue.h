@@ -16,7 +16,7 @@
 */
 #pragma once
 
-#include <list>
+#include <queue>
 #include <g_system.h>
 
 namespace gcom {

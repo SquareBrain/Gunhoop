@@ -41,10 +41,12 @@ bool Semaphore::tryWait()
 	return sem_trywait(&m_sem) == 0 ? true : false;
 }
 
-bool timedWait(const GUint64 timeout)
+bool Semaphore::timedWait(const GUint64 timeout)
 {
-	struct timespec abs_timeout;
-	return sem_timedwait(&m_sem, abs_timeout) == 0 ? true : false;	
+	struct timespec ts;
+	ts.tv_sec += timeout / 1000;
+	ts.tv_nsec += (timeout % 1000) * 1000000;
+	return sem_timedwait(&m_sem, &ts) == 0 ? true : false;	
 }
 
 bool Semaphore::post()
