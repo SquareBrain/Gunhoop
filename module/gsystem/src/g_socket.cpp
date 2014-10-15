@@ -347,22 +347,31 @@ GResult SocketServer::listen(const GUint32 max_connect_num)
 
 GInt32 SocketServer::accept(SockAddr& client_addr, const RecvMode& mode)
 {
-    GUint32 addr_len = 0;
+    GUint16 addr_len = client_addr.addrLen();
     if (mode == G_RECV_BLOCK)
     {
         return ::accept(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len);	
     }
     else if (mode == G_RECV_UNBLOCK)
     {
-    	return ::accept(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len);	
+    	return ::accept4(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len, SOCK_NONBLOCK);	
     }
     
     return -1;
 }
 
-GInt64 SocketServer::recvfrom(SockAddr& client_addr, GUint8* buffer, const GUint64 size, const GInt32 flags)
+GInt64 SocketServer::recvfrom(SockAddr& client_addr, GUint8* buffer, const GUint64 size, const RecvMode& mode)
 {
-    return Transfer::recvfrom(m_socket, client_addr, buffer, size, flags);	
+    if (mode == G_RECV_BLOCK)
+    {
+    	return Transfer::recvfrom(m_socket, client_addr, buffer, size);
+    }
+    else if (mode == G_RECV_UNBLOCK)
+    {
+    	return Transfer::recvfrom(m_socket, client_addr, buffer, size, MSG_DONTWAIT);
+    }
+    
+    return -1;
 }
 
 GResult SocketServer::close()
@@ -413,9 +422,18 @@ GInt64 SocketClient::send(const GUint8* data, const GUint64 len, const GInt32 fl
     return Transfer::send(m_socket, data, len, flags);	
 }
 
-GInt64 SocketClient::recv(GUint8* buffer, const GUint64 size, const GInt32 flags)
+GInt64 SocketClient::recv(GUint8* buffer, const GUint64 size, const RecvMode& mode)
 {
-    return Transfer::recv(m_socket, buffer, size, flags);	
+    if (mode == G_RECV_BLOCK)
+    {
+    	return Transfer::recv(m_socket, buffer, size);
+    }
+    else if (mode == G_RECV_UNBLOCK)
+    {
+    	return Transfer::recv(m_socket, buffer, size, MSG_DONTWAIT);
+    }
+    
+    return -1	
 }
 
 GResult SocketClient::close()
