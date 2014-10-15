@@ -85,7 +85,7 @@ typedef enum
 typedef enum 
 {
     G_RECV_BLOCK = 0,
-    G_RECV_UNBLOCK
+    G_RECV_NONBLOCK
 } RecvMode;
 
 class SockAddr
