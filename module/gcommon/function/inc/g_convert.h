@@ -51,6 +51,7 @@ public:
      * @param [in/out] str : input string
      */
     static void toupper(GInt8& ch);
+    static void toupper(GInt8* str);
     static void toupper(std::string& str);
     
     /**
@@ -59,6 +60,7 @@ public:
      * @param [in/out] str : input string
      */
     static void tolower(GInt8& ch);
+    static void tolower(GInt8* str);
     static void tolower(std::string& str);    
 };
 }
