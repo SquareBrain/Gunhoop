@@ -78,9 +78,16 @@ typedef enum
     G_IPPROTO_TIPC
 } NetProtocol;
 
+
 /** 
- * @brief IPv4 
+ * @brief network receive data mode
  */
+typedef enum 
+{
+    G_RECV_BLOCK = 0,
+    G_RECV_UNBLOCK
+} RecvMode;
+
 class SockAddr
 {
 public:
@@ -336,9 +343,10 @@ public:
     /**
      * @brief accept client to connect
      * @param [out] client_addr : output client address infomation
-     * @return G_YES/G_NO
+     * @param [in] mode : block or unblock
+     * @return success : socket fd, error : -1
      */
-    GResult accept(SockAddr& client_addr);
+    GInt32 accept(SockAddr& client_addr, const RecvMode& mode);
 	
     /**
      * @brief receive data
