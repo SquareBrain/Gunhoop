@@ -121,8 +121,8 @@ public:
     void setIP(const GUint32 ip);
     void setIP(const std::string& ip);
     
-    GUint32 getIP() const
-    const std::string& getIPStr() const;
+    GUint32 ip() const
+    const std::string& ipStr() const;
 	
 private:
     GUint32     m_ip;
@@ -142,12 +142,12 @@ public:
     void setMac(GUint64 mac);
     void setMac(const std::string& mac);
     
-    GUint64 getMac() const;
-    const std::string& getMacStr() const;
+    GUint64 mac() const;
+    const std::string& macStr() const;
 	
 private:
-    GUint64 		m_mac;
-    std::string		m_macStr;
+    GUint64        m_mac;
+    std::string	   m_macStr;
 };
 
 /**
@@ -161,14 +161,14 @@ public:
     ~IPPortPair();
 	
     void setIPAddr(const IPAddr& ip_addr);
-    const IPAddr& getIPAddr() const;
+    const IPAddr& ipAddr() const;
 	
     void setPort(const GUint16 port);
-    GUint16 getPort() const;
+    GUint16 port() const;
 	
 private:
-    IPAddr  m_ipAddr;
-    GUint16	m_port;
+    IPAddr     m_ipAddr;
+    GUint16    m_port;
 };
 
 /**
@@ -182,13 +182,13 @@ public:
     ~NetAddr();
 	
     void setMacAddr(const MacAddr& mac_addr);
-    const MacAddr& getMacAddr() const;
+    const MacAddr& macAddr() const;
 	
     void setIPAddr(const IPAddr& ip_addr);
-    const IPAddr& getIPAddr() const;
+    const IPAddr& ipAddr() const;
 	
     void setPort(const GUint16 port);
-    GUint16 getPort() const;
+    GUint16 port() const;
 	
 private:
     MacAddr    m_macAddr;
@@ -207,10 +207,10 @@ public:
     ~SocketAddr();
 	
     void setSrcAddr(const NetAddr& src_addr);
-    const NetAddr& getSrcAddr() const;
+    const NetAddr& srcAddr() const;
 	
     void setDstAddr(const NetAddr& dst_addr);
-    const NetAddr& getDstAddr() const;
+    const NetAddr& dstAddr() const;
 	
 private:
     NetAddr   m_srcAddr;
