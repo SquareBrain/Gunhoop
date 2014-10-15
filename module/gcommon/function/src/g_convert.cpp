@@ -60,6 +60,16 @@ void Convert::toupper(GInt8& ch)
     ch = ::toupper(ch);    	
 }
 
+void Convert::toupper(GInt8* str)
+{
+    IS_YES_R(str == nullptr);
+    
+    for (GUint32 i = 0; i < str.length(); ++i)
+    {
+    	*(str + i) = ::toupper(*(str + i));
+    }
+}
+
 void Convert::toupper(std::string& str)
 {
     for (GUint32 i = 0; i < str.length(); ++i)
@@ -71,6 +81,16 @@ void Convert::toupper(std::string& str)
 void Convert::tolower(GInt8& ch)
 {
     ch = ::tolower(ch);
+}
+
+void Convert::tolower(GInt8* str)
+{
+    IS_YES_R(str == nullptr);
+    
+    for (GUint32 i = 0; i < str.length(); ++i)
+    {
+        *(str + i) = ::tolower(*(str + i));	
+    }
 }
 
 void Convert::tolower(std::string& str)
