@@ -27,7 +27,7 @@ GResult NetWorkConv::ipToInteger(const std::string& str_ip, GUint32& int_ip)
 {
     std::list<std::string> split_list;
     IS_NO_R(Convert::splitString(str_ip, '.', split_list));
-    IS_NO_RR(split_list.size() == 0, G_ERROR_INVALID_PARAMETERS);
+    IS_NO_RR(split_list.size() == 4, G_ERROR_INVALID_PARAMETERS);
     
     GUint32 ip_array[4] = {0};
     GUint16 i = 0;
@@ -58,27 +58,73 @@ GResult NetWorkConv::ipToString(const GUint32 int_ip, std::string& str_ip)
 
 GResult NetWorkConv::macToInteger(const std::string& str_mac, GUint64& int_mac)
 {
+    std::list<std::string> split_list;
+    IS_NO_R(Convert::splitString(str_mac, ':', split_list));
+    IS_NO_RR(split_list.size() == 6, G_ERROR_INVALID_PARAMETERS);
+    
+    GUint32 ip_array[6] = {0};
+    GUint16 i = 0;
+    std::list<std::string>::iterator iter = split_list.begin();
+    for (; iter != split_list.end(); ++iter)
+    {
+        ip_array[i] = std::stoul(*iter);
+    }
+    
+    int_mac = (ip_array[0] << 40) + (ip_array[1] << 32) + (ip_array[2] << 24) 
+        + (ip_array[3] << 16) + (ip_array[4] << 8) + ip_array[5];
     
     return G_YES;
 }
 
 GResult NetWorkConv::macToInteger(const GInt8 bytes_mac[6], GUint64& int_mac)
 {
+    int_mac = (bytes_mac[0] << 40) + (bytes_mac[1] << 32) + (bytes_mac[2] << 24) 
+        + (bytes_mac[3] << 16) + (bytes_mac[4] << 8) + bytes_mac[5];
+    
     return G_YES;
 }
 
 GResult NetWorkConv::macToBytes(const std::string& str_mac, GInt8 bytes_mac[6])
 {
+    std::list<std::string> split_list;
+    IS_NO_R(Convert::splitString(str_mac, ':', split_list));
+    IS_NO_RR(split_list.size() == 6, G_ERROR_INVALID_PARAMETERS);
+    
+    GUint16 i = 0;
+    std::list<std::string>::iterator iter = split_list.begin();
+    for (; iter != split_list.end(); ++iter)
+    {
+        bytes_mac[i] = std::stoul(*iter);
+    }
+        
     return G_YES;
 }
 
 GResult NetWorkConv::macToBytes(const GUint64 int_mac, GInt8 bytes_mac[6])
 {
+    bytes_mac[0] = (int_mac & 0xff000000) >> 40;
+    bytes_mac[1] = (int_mac & 0xff000000) >> 32;
+    bytes_mac[2] = (int_mac & 0xff000000) >> 24;
+    bytes_mac[3] = (int_mac & 0xff000000) >> 16;
+    bytes_mac[4] = (int_mac & 0xff000000) >> 8;
+    bytes_mac[5] = (int_mac & 0xff000000);
+    
     return G_YES;
 }
 
 GResult NetWorkConv::macToString(const GUint64 int_mac, std::string& str_mac)
 {
+    GInt8 tmp_buf[18] = {0};  
+    sprintf(tmp_buf, "%0x:%0x:%0x:%0x:%0x:%0x",  
+        (int_mac & 0xff000000) >> 24,  
+        (int_mac & 0x00ff0000) >> 16,  
+        (int_mac & 0x0000ff00) >> 8,  
+        (int_mac & 0x000000ff));
+        
+    
+    
+    str_mac.assign(tmp_buf);
+    
     return G_YES;
 }
 
