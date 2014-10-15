@@ -60,8 +60,10 @@ public:
     /**
      * @brief setting the number of one process can open files
      * @param [in] num : can open file number
+     * @return G_YES/G_NO
      */
-    void setLimitFile(const GUint32 num);
+    GResult setLimitFile(const GUint32 num);
+    GUint32 limitFile() const;
     
     /**
      * @brief wait process exit
