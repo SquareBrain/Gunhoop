@@ -14,7 +14,6 @@
 *  1. 2014-06-20 duye Created this file
 * 
 */
-
 #pragma once
 
 #include <semaphore.h>
@@ -28,36 +27,36 @@ namespace gsys {
 class Semaphore
 {
 public:
-	Semaphore() {}
-	~Semaphore() {}
+    Semaphore() {}
+    ~Semaphore() {}
 
     /**
      * @brief wait resouce number > 0
      * @return true:successed, false:don't waited resouce
      */
-	bool wait();
+    bool wait();
     
-	/** 
-	 * @brief try wait inc resouce number
-	 * @return true:successed, false:don't waited resouce
-	 */
-	bool tryWait();
+    /** 
+     * @brief try wait inc resouce number
+     * @return true:successed, false:don't waited resouce
+     */
+    bool tryWait();
 
-	/** 
-	 * @brief wait for timeout
-	 * @parma [in] timeout : millisecond
-	 * @return true:successed, false:don't waited resouce
-	 */
+    /** 
+     * @brief wait for timeout
+     * @parma [in] timeout : millisecond
+     * @return true:successed, false:don't waited resouce
+     */
     bool timedWait(const GUint64 timeout);
 
-	/** 
-	 * @brief post semaphore, inc resouce number
-	 * @return true:successed, false:don't waited resouce
-	 */
-	bool post()
+    /** 
+     * @brief post semaphore, inc resouce number
+     * @return true:successed, false:don't waited resouce
+     */
+    bool post()
 	
 private:
-	sem_t	m_sem;
+    sem_t   m_sem;
 };
 
 }
