@@ -14,13 +14,12 @@
 *  1. 2014-03-09 duye Created this file
 * 
 */
+#include <string.h>
 #include <g_convert.h>
 
 namespace gcom {
 
-GResult Convert::splitString(const std::string& src_str, 
-    const GInt8 token, 
-    std::list<std::string>& split_list)
+GResult Convert::splitString(const std::string& src_str, const GInt8 token, std::list<std::string>& split_list)
 {
 	GUint64 pre_pos = 0;
 	GUint64 pos = 0;
@@ -38,9 +37,7 @@ GResult Convert::splitString(const std::string& src_str,
 	return split_list.empty() ? G_NO : G_YES;
 }
 
-GResult Convert::splitString(const std::string& src_str, 
-    const std::string& token, 
-    std::list<std::string>& split_list)
+GResult Convert::splitString(const std::string& src_str, const std::string& token, std::list<std::string>& split_list)
 {
 	GUint64 pre_pos = 0;
 	GUint64 pos = 0;
@@ -57,4 +54,25 @@ GResult Convert::splitString(const std::string& src_str,
 	
 	return split_list.empty() ? G_NO : G_YES;	
 }
+
+void Convert::toupper(GInt8& ch)
+{
+	
+}
+
+void Convert::toupper(std::string& str)
+{
+	
+}
+
+void Convert::tolower(GInt8& ch)
+{
+	
+}
+
+void Convert::tolower(std::string& str)
+{
+	
+}
+
 }
