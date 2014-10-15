@@ -352,7 +352,7 @@ GInt32 SocketServer::accept(SockAddr& client_addr, const RecvMode& mode)
     {
         return ::accept(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len);	
     }
-    else if (mode == G_RECV_UNBLOCK)
+    else if (mode == G_RECV_NONBLOCK)
     {
     	return ::accept4(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len, SOCK_NONBLOCK);	
     }
@@ -366,7 +366,7 @@ GInt64 SocketServer::recvfrom(SockAddr& client_addr, GUint8* buffer, const GUint
     {
     	return Transfer::recvfrom(m_socket, client_addr, buffer, size);
     }
-    else if (mode == G_RECV_UNBLOCK)
+    else if (mode == G_RECV_NONBLOCK)
     {
     	return Transfer::recvfrom(m_socket, client_addr, buffer, size, MSG_DONTWAIT);
     }
@@ -428,7 +428,7 @@ GInt64 SocketClient::recv(GUint8* buffer, const GUint64 size, const RecvMode& mo
     {
     	return Transfer::recv(m_socket, buffer, size);
     }
-    else if (mode == G_RECV_UNBLOCK)
+    else if (mode == G_RECV_NONBLOCK)
     {
     	return Transfer::recv(m_socket, buffer, size, MSG_DONTWAIT);
     }
