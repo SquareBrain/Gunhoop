@@ -275,7 +275,7 @@ GUint16 IPPortPair::getPort() const
 NetAddr::NetAddr() {}
 
 NetAddr::NetAddr(const MacAddr mac_addr, const IPAddr& ip_addr, const GUint16 port)
-	: m_macAddr(mac_addr), m_ip(ip_addr), m_port(port) {}
+    : m_macAddr(mac_addr), m_ip(ip_addr), m_port(port) {}
 
 NetAddr::~NetAddr() {}
 
