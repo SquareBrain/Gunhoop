@@ -32,6 +32,22 @@ typedef enum
 /**
  * @brief system callback observer
  */
+class SysProcess
+{
+public:
+    SysProcess();
+    ~SysProcess();
+    
+    /**
+     * @brief setting the number of one process can open files
+     * @param [in] num : can open file number
+     */
+    void setLimitFile(const GUint32 num);    
+};
+
+/**
+ * @brief system callback observer
+ */
 class ProcessSysCallbackObserver
 {
 public:
