@@ -40,9 +40,14 @@ public:
     
     /**
      * @brief setting the number of one process can open files
-     * @param [in] num : can open file number
+     * @param [in] limit_file : can open file number
+     * @return G_YES/G_NO
      */
-    void setLimitFile(const GUint32 num);    
+    GResult setLimitFile(const GUint32 limit_file);  
+    GUint32 limitFile() const;
+    
+private:
+    GUint32    m_limitFile;
 };
 
 /**
