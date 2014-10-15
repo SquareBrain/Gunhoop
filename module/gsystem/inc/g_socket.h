@@ -338,7 +338,7 @@ public:
      * @param [in] connect_num : server max connect client number, default is 20
      * @return G_YES/G_NO
      */
-    GResult listen(const GUint32 connect_num = 20);
+    GResult listen(const GUint32 connect_num = 1024);
     
     /**
      * @brief accept client to connect
