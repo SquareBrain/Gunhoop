@@ -520,7 +520,7 @@ public:
     	return lastChild(value.c_str ()); 
     } ///< STL std::string form.
     
-	XmlNode* lastChild(const std::string& value)
+    XmlNode* lastChild(const std::string& value)
     {   
     	return lastChild(value.c_str()); 
     }   ///< STL std::string form.
@@ -1817,10 +1817,10 @@ public:
     /**
      * @brief Return the handle as a GXmlElement. This may return null.
      */
-     XmlElement* toElement() const 
-     { 
-     	return ((m_node && m_node->toElement()) ? m_node->toElement() : 0); 
-     }
+    XmlElement* toElement() const 
+    { 
+        return ((m_node && m_node->toElement()) ? m_node->toElement() : 0); 
+    }
     
     /**
      * @brief Return the handle as a XmlText. This may return null.
