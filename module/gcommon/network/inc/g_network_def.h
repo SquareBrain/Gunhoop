@@ -121,7 +121,7 @@ public:
     void setIP(const GUint32 ip);
     void setIP(const std::string& ip);
     
-    GUint32 ip() const
+    GUint32 ip() const;
     const std::string& ipStr() const;
 	
 private:

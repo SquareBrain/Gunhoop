@@ -16,10 +16,12 @@
 */
 #include <g_server_factory.h>
 
+namespace gcom {
+
 ServerFactory::ServerFactory() {}
 ServerFactory::~ServerFactory() {}
 
-NetworkServer* ServerFactory::createServer(const ServerType& server_type)
+NetworkServer* ServerFactory::create(const ServerType& server_type)
 {
     NetworkServer* server = nullptr;
     
@@ -50,7 +52,7 @@ NetworkServer* ServerFactory::createServer(const ServerType& server_type)
     return server;
 }
 
-void ServerFactory::destroyServer(const ServerType& server_type, NetworkServer* server)
+void ServerFactory::destroy(const ServerType& server_type, NetworkServer* server)
 {
     switch (server_type)
     {
@@ -93,4 +95,5 @@ void ServerFactory::destroyServer(const ServerType& server_type, NetworkServer* 
         default:
             break;
     }    
+}
 }

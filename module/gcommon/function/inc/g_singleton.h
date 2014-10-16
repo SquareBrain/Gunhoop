@@ -51,7 +51,7 @@ public:
 protected:
     SingletonObj() {}
     SingletonObj(const SingletonObj&);
-    Singleton& operator=(const SingletonObj&);
+    SingletonObj& operator=(const SingletonObj&);
 };
 
 template<typename T>

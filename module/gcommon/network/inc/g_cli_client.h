@@ -4,14 +4,14 @@
 *
 *************************************************************************************/
 /**
-* @file		g_udp_client.h
+* @file		g_cli_client.h
 * @version     
 * @brief      
 * @author   duye
-* @date     2014-08-29
+* @date     2014-10-17
 * @note 
 *
-*  1. 2014-08-29 duye Created this file
+*  1. 2014-10-17 duye Created this file
 * 
 */
 
@@ -21,17 +21,17 @@
 
 namespace gcom {
 
-class UdpClient : public NetworkClient
+class CliClient : public NetworkClient
 {
 public:
-	UdpClient();
+	CliClient();
 	/**
 	 * @brief constructor
 	 * @param [in] server_addr : ftp server address
 	 * @param [in] net_card : network card for communication, defualt is eth0
 	 */    
-    explicit UdpClient(const IPPortPair& server_addr, const std::string& net_card = "eth0");
-	~UdpClient();
+    explicit CliClient(const IPPortPair& server_addr, const std::string& net_card = "eth0");
+	~CliClient();
 
     /**
 	 * @brief to connect ftp server

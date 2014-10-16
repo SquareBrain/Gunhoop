@@ -65,7 +65,7 @@ public:
      * @note derive class implemention
      * @return G_YES/G_NO
      */
-    virtual GResult msgLoop();		    
+    virtual GResult routine();		    
 };
 
 }
