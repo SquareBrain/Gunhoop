@@ -4,11 +4,11 @@
 *
 ************************************************************************************/
 /**
-* @file		g_ini_section.h
+* @file	    g_ini_section.h
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-03-15
+* @author   duye
+* @date	    2014-03-15
 * @note 
 *
 *  2. 2014-06-26 duye removal to gohoop project
@@ -30,69 +30,68 @@ namespace gutils {
 class IniSection
 {
 public:
-	/** 
-	 * @brief key-value map
-	 */
-	typedef std::map<std::string, std::string> KeyValueMap;
+    /** 
+     * @brief key-value map
+     */
+    typedef std::map<std::string, std::string> KeyValueMap;
 
 public:
-	IniSection();
+    IniSection();
 
-	/**
-	* @brief constructor
-	* @param [in] sectionName : section name
-	* @return KeyValueMap const reference
-	* @note 
-	*/    
-	explicit IniSection(const std::string& sectionName);
+    /**
+     * @brief constructor
+     * @param [in] sectionName : section name
+     * @return KeyValueMap const reference
+     * @note 
+     */    
+    explicit IniSection(const std::string& sectionName);
+    ~IniSection();
 
-	~IniSection();
+    /**
+     * @brief get value
+     * @param [in] para : parameter
+     * @param [in] value : value
+     * @return G_YES/G_NO
+     * @note 
+     */
+    GResult getPara(const std::string& para, std::string& value); 
 
-	/**
-	 * @brief get value
-	 * @param [in] para : parameter
-	 * @param [in] value : value
-	 * @return G_YES/G_NO
-	 * @note 
-	 */
-	GResult getPara(const std::string& para, std::string& value); 
+    /**
+     * @brief set value
+     * @param [in] para : parameter
+     * @param [in] value : value
+     * @return G_YES/G_NO
+     * @note 
+     */
+    GResult setPara(const std::string& para, const std::string& value);    
 
-	/**
-	 * @brief set value
-	 * @param [in] para : parameter
-	 * @param [in] value : value
-	 * @return G_YES/G_NO
-	 * @note 
-	 */
-	GResult setPara(const std::string& para, const std::string& value);    
+    /**
+     * @brief add parameter ane value
+     * @param [in] para : parameter
+     * @param [in] value : value
+     * @return G_YES/G_NO
+     * @note 
+     */
+    GResult addPara(const std::string& para, const std::string& value);
 
-	/**
-	 * @brief add parameter ane value
-	 * @param [in] para : parameter
-	 * @param [in] value : value
-	 * @return G_YES/G_NO
-	 * @note 
-	 */
-	GResult addPara(const std::string& para, const std::string& value);
+    /**
+     * @brief delete parameter
+     * @param [in] para : parameter
+     * @return G_YES/G_NO
+     * @note 
+     */
+    GResult delPara(const std::string& para);
 
-	/**
-	 * @brief delete parameter
-	 * @param [in] para : parameter
-	 * @return G_YES/G_NO
-	 * @note 
-	 */
-	GResult delPara(const std::string& para);
-
-	/**
-	 * @brief get keyValueMap
-	 * @return m_keyValueMap 
-	 * @note 
-	 */
-	const KeyValueMap& getkeyValueMap() const;   
+    /**
+     * @brief get keyValueMap
+     * @return m_keyValueMap 
+     * @note 
+     */
+    const KeyValueMap& getkeyValueMap() const;   
     
 private:
-	std::string		m_sectionName;
-	KeyValueMap		m_keyValueMap;
-	gsys::Mutex		m_mapMutex;
+    std::string   m_sectionName;
+    KeyValueMap	  m_keyValueMap;
+    gsys::Mutex	  m_mapMutex;
 };
 }
