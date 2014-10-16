@@ -525,41 +525,42 @@ public:
     	return lastChild(value.c_str()); 
     }   ///< STL std::string form.
 
-	/** An alternate way to walk the children of a node.
-		One way to iterate over nodes is:
-		@verbatim
-			for( child = parent->FirstChild(); child; child = child->NextSibling() )
-		@endverbatim
-
-		IterateChildren does the same thing with the syntax:
-		@verbatim
-			child = 0;
-			while( child = parent->IterateChildren( child ) )
-		@endverbatim
-
-		IterateChildren takes the previous child as input and finds
-		the next one. If the previous child is null, it returns the
-		first. IterateChildren will return null when done.
-	*/
-	const XmlNode* iterateChildren(const XmlNode* previous) const;
-	XmlNode* iterateChildren(const XmlNode* previous) 
+    /**
+     * @brief An alternate way to walk the children of a node.
+     * One way to iterate over nodes is:
+     * @verbatim
+     * for( child = parent->FirstChild(); child; child = child->NextSibling() )
+     * @endverbatim
+     * 
+     * IterateChildren does the same thing with the syntax:
+     * @verbatim
+     * child = 0;
+     * while( child = parent->IterateChildren( child ) )
+     * @endverbatim
+     * 
+     * IterateChildren takes the previous child as input and finds
+     * the next one. If the previous child is null, it returns the
+     * first. IterateChildren will return null when done.
+     */
+    const XmlNode* iterateChildren(const XmlNode* previous) const;
+    XmlNode* iterateChildren(const XmlNode* previous) 
     {
-		return const_cast<XmlNode*>((const_cast<const XmlNode*>(this))->iterateChildren(previous));
-	}
+    	return const_cast<XmlNode*>((const_cast<const XmlNode*>(this))->iterateChildren(previous));
+    }
 
-	/// This flavor of IterateChildren searches for children with a particular 'value'
-	const XmlNode* iterateChildren(const char* value, const XmlNode* previous) const;
-	XmlNode* iterateChildren(const char* value, const XmlNode* previous) 
+    /// This flavor of IterateChildren searches for children with a particular 'value'
+    const XmlNode* iterateChildren(const char* value, const XmlNode* previous) const;
+    XmlNode* iterateChildren(const char* value, const XmlNode* previous) 
     {
-		return const_cast<XmlNode*>((const_cast<const XmlNode*>(this))->iterateChildren(value, previous));
-	}
+    	return const_cast<XmlNode*>((const_cast<const XmlNode*>(this))->iterateChildren(value, previous));
+    }
 
-	const XmlNode* iterateChildren(const std::string& value, const XmlNode* previous) const	
+    const XmlNode* iterateChildren(const std::string& value, const XmlNode* previous) const	
     {   
     	return iterateChildren (value.c_str (), previous); 
     }   ///< STL std::string form.
     
-	XmlNode* iterateChildren(const std::string& value, const XmlNode* previous) 
+    XmlNode* iterateChildren(const std::string& value, const XmlNode* previous) 
     {   
     	return iterateChildren(value.c_str(), previous); 
     }   ///< STL std::string form.
@@ -1740,202 +1741,226 @@ if ( element )
 class XmlHandle
 {
 public:
-	/// Create a handle from any node (at any depth of the tree.) This can be a null pointer.
-	XmlHandle(XmlNode* node)	{ m_node = node; }
-	/// Copy constructor
-	XmlHandle(const XmlHandle& ref) { m_node = ref.m_node; }
-	XmlHandle operator=(const XmlHandle& ref) 
+    /// Create a handle from any node (at any depth of the tree.) This can be a null pointer.
+    XmlHandle(XmlNode* node) { m_node = node; }
+    /// Copy constructor
+    XmlHandle(const XmlHandle& ref) { m_node = ref.m_node; }
+    XmlHandle operator=(const XmlHandle& ref) 
     { 
     	if (&ref != this) 
         {
-        	m_node = ref.m_node;
+            m_node = ref.m_node;
             return *this; 
         }
     }
 
-	/// Return a handle to the first child node.
-	XmlHandle firstChild() const;
-	/// Return a handle to the first child node with the given name.
-	XmlHandle firstChild(const char* value) const;
-	/// Return a handle to the first child element.
-	XmlHandle firstChildElement() const;
-	/// Return a handle to the first child element with the given name.
-	XmlHandle firstChildElement(const char* value) const;
+    /// Return a handle to the first child node.
+    XmlHandle firstChild() const;
+    /// Return a handle to the first child node with the given name.
+    XmlHandle firstChild(const char* value) const;
+    /// Return a handle to the first child element.
+    XmlHandle firstChildElement() const;
+    /// Return a handle to the first child element with the given name.
+    XmlHandle firstChildElement(const char* value) const;
 
-	/** Return a handle to the "index" child with the given name. 
-		The first child is 0, the second 1, etc.
-	*/
-	XmlHandle child(const char* value, int index) const;
-	/** Return a handle to the "index" child. 
-		The first child is 0, the second 1, etc.
-	*/
-	XmlHandle child(int index) const;
-	/** Return a handle to the "index" child element with the given name. 
-		The first child element is 0, the second 1, etc. Note that only GXmlElements
-		are indexed: other types are not counted.
-	*/
-	XmlHandle childElement(const char* value, int index) const;
-	/** Return a handle to the "index" child element. 
-		The first child element is 0, the second 1, etc. Note that only GXmlElements
-		are indexed: other types are not counted.
-	*/
-	XmlHandle childElement(int index) const;
+    /**
+     * @brief Return a handle to the "index" child with the given name. 
+     * The first child is 0, the second 1, etc.
+     */
+    XmlHandle child(const char* value, int index) const;
+    
+    /**
+     * @brief Return a handle to the "index" child. 
+     * The first child is 0, the second 1, etc.
+     */
+    XmlHandle child(int index) const;
 
-	XmlHandle firstChild(const std::string& value) const 
+    /**
+     * @brief Return a handle to the "index" child element with the given name. 
+     * The first child element is 0, the second 1, etc. Note that only GXmlElements
+     * are indexed: other types are not counted.
+     */
+    XmlHandle childElement(const char* value, int index) const;
+
+    /**
+     * @brief Return a handle to the "index" child element. 
+     * The first child element is 0, the second 1, etc. Note that only GXmlElements
+     * are indexed: other types are not counted.
+     */
+    XmlHandle childElement(int index) const;
+
+    XmlHandle firstChild(const std::string& value) const 
     { 
     	return firstChild(value.c_str()); 
     }
     
-	XmlHandle firstChildElement(const std::string& value) const 
+    XmlHandle firstChildElement(const std::string& value) const 
     { 
     	return firstChildElement(value.c_str()); 
     }
 
-	XmlHandle child(const std::string& value, int index) const			
+    XmlHandle child(const std::string& value, int index) const			
     { 
     	return child(value.c_str(), index); 
     }
     
-	XmlHandle childElement(const std::string& value, int index) const	
+    XmlHandle childElement(const std::string& value, int index) const	
     { 
     	return childElement(value.c_str(), index); 
     }
 
-	/** Return the handle as a GXmlNode. This may return null.
-	*/
-	XmlNode* toNode() const { return m_node; } 
-	/** Return the handle as a GXmlElement. This may return null.
-	*/
-	
-	XmlElement* toElement() const 
-	{ 
-		return ((m_node && m_node->toElement()) ? m_node->toElement() : 0); 
+    /**
+     * @brief Return the handle as a GXmlNode. This may return null
+     */
+    XmlNode* toNode() const { return m_node; } 
+
+    /**
+     * @brief Return the handle as a GXmlElement. This may return null.
+     */
+     XmlElement* toElement() const 
+     { 
+     	return ((m_node && m_node->toElement()) ? m_node->toElement() : 0); 
+     }
+    
+    /**
+     * @brief Return the handle as a XmlText. This may return null.
+     */
+    XmlText* toText() const			
+    { 
+    	return ((m_node && m_node->toText()) ? m_node->toText() : 0); 
     }
     
-	/**	Return the handle as a XmlText. This may return null.
-	*/
-	XmlText* toText() const			
-	{ 
-		return ((m_node && m_node->toText()) ? m_node->toText() : 0); 
-    }
-    
-	/** Return the handle as a GXmlUnknown. This may return null.
-	*/
-	XmlUnknown* toUnknown() const	
-	{ 
-		return ((m_node && m_node->toUnknown() ) ? m_node->toUnknown() : 0); 
+    /**
+     * @brief Return the handle as a GXmlUnknown. This may return null.
+    */
+    XmlUnknown* toUnknown() const	
+    { 
+    	return ((m_node && m_node->toUnknown() ) ? m_node->toUnknown() : 0); 
     }
 
-	/** @deprecated use ToNode. 
-		Return the handle as a GXmlNode. This may return null.
-	*/
-	XmlNode* node() const { return toNode(); } 
-	/** @deprecated use ToElement. 
-		Return the handle as a GXmlElement. This may return null.
-	*/
-	XmlElement* element() const { return toElement(); }
-	/**	@deprecated use ToText()
-		Return the handle as a XmlText. This may return null.
-	*/
-	XmlText* text() const { return toText(); }
-	/** @deprecated use ToUnknown()
-		Return the handle as a GXmlUnknown. This may return null.
-	*/
-	XmlUnknown* unknown() const { return toUnknown(); }
+    /**
+     * @brief @deprecated use ToNode. 
+     * Return the handle as a GXmlNode. This may return null.
+     */
+    XmlNode* node() const { return toNode(); } 
+
+    /**
+     * @deprecated use ToElement. 
+     * Return the handle as a GXmlElement. This may return null.
+     */
+    XmlElement* element() const { return toElement(); }
+
+    /**
+     * @brief 
+     * @deprecated use ToText()
+     * Return the handle as a XmlText. This may return null.
+     */
+    XmlText* text() const { return toText(); }
+    
+    /**
+     * @deprecated use ToUnknown()
+     * Return the handle as a GXmlUnknown. This may return null.
+     */
+    XmlUnknown* unknown() const { return toUnknown(); }
 
 private:
-	XmlNode* m_node;
+    XmlNode* m_node;
 };
 
-/** Print to memory functionality. The GXmlPrinter is useful when you need to:
-
-	-# Print to memory (especially in non-STL mode)
-	-# Control formatting (line endings, etc.)
-
-	When constructed, the GXmlPrinter is in its default "pretty printing" mode.
-	Before calling Accept() you can call methods to control the printing
-	of the XML document. After GXmlNode::Accept() is called, the printed document can
-	be accessed via the CStr(), Str(), and Size() methods.
-
-	GXmlPrinter uses the Visitor API.
-	@verbatim
-	GXmlPrinter printer;
-	printer.SetIndent( "\t" );
-
-	doc.Accept( &printer );
-	fprintf( stdout, "%s", printer.CStr() );
-	@endverbatim
-*/
+/**
+ * @brief Print to memory functionality. The GXmlPrinter is useful when you need to:
+ * 
+ * -# Print to memory (especially in non-STL mode)
+ * -# Control formatting (line endings, etc.)
+ * 
+ * When constructed, the GXmlPrinter is in its default "pretty printing" mode.
+ * Before calling Accept() you can call methods to control the printing
+ * of the XML document. After GXmlNode::Accept() is called, the printed document can
+ * be accessed via the CStr(), Str(), and Size() methods.
+ * 
+ * GXmlPrinter uses the Visitor API.
+ * @verbatim
+ * GXmlPrinter printer;
+ * printer.SetIndent( "\t" );
+ * 
+ * doc.Accept( &printer );
+ * fprintf( stdout, "%s", printer.CStr() );
+ * @endverbatim
+ */ 
 class XmlPrinter : public XmlVisitor
 {
 public:
-	XmlPrinter() 
+    XmlPrinter() 
         : m_depth(0)
         , m_simpleTextPrint(false)
         , m_buffer()
         , m_indent("")
         , m_lineBreak("\n") {}
 
-	virtual bool visitEnter(const XmlDocument& doc);
-	virtual bool visitExit(const XmlDocument& doc);
+    virtual bool visitEnter(const XmlDocument& doc);
+    virtual bool visitExit(const XmlDocument& doc);
 	
-	virtual bool visitEnter(const XmlElement& element, const XmlAttribute* firstAttribute);
-	virtual bool visitExit(const XmlElement& element);
+    virtual bool visitEnter(const XmlElement& element, const XmlAttribute* firstAttribute);
+    virtual bool visitExit(const XmlElement& element);
 
-	virtual bool visit(const XmlDeclaration& declaration);
-	virtual bool visit(const XmlText& text);
-	virtual bool visit(const XmlComment& comment);
-	virtual bool visit(const XmlUnknown& unknown);
+    virtual bool visit(const XmlDeclaration& declaration);
+    virtual bool visit(const XmlText& text);
+    virtual bool visit(const XmlComment& comment);
+    virtual bool visit(const XmlUnknown& unknown);
 
-	/** Set the indent characters for printing. By default 4 spaces
-		but tab (\t) is also useful, or null/empty string for no indentation.
-	*/
-	void setIndent(const char* indent)	{ m_indent = indent ? indent : ""; }
-	/// Query the indention string.
-	const char* indent() { return m_indent.c_str(); }
-	/** Set the line breaking string. By default set to newline (\n). 
-		Some operating systems prefer other characters, or can be
-		set to the null/empty string for no indenation.
-	*/
-	void setLineBreak(const char* lineBreak) { m_lineBreak = lineBreak ? lineBreak : ""; }
-	/// Query the current line breaking string.
-	const char* lineBreak()	{ return m_lineBreak.c_str(); }
-
-	/** Switch over to "stream printing" which is the most dense formatting without 
-		linebreaks. Common when the XML is needed for network transmission.
-	*/
-	void setStreamPrinting()						
-	{ 
-		m_indent = "";
-		m_lineBreak = "";
-	}	
+    /**
+     * @brief Set the indent characters for printing. By default 4 spaces
+     * but tab (\t) is also useful, or null/empty string for no indentation.
+     */
+    void setIndent(const char* indent)	{ m_indent = indent ? indent : ""; }
+    /// Query the indention string.
+    const char* indent() { return m_indent.c_str(); }
     
-	/// Return the result.
-	const char* cStr() { return m_buffer.c_str(); }
-	/// Return the length of the result string.
-	size_t size() { return m_buffer.size(); }
+    /**
+     * @brief Set the line breaking string. By default set to newline (\n). 
+     * Some operating systems prefer other characters, or can be
+     * set to the null/empty string for no indenation.
+     */
+    void setLineBreak(const char* lineBreak) { m_lineBreak = lineBreak ? lineBreak : ""; }
+    /// Query the current line breaking string.
+    const char* lineBreak() { return m_lineBreak.c_str(); }
 
-	/// Return the result.
-	const std::string& str() { return m_buffer; }
+    /**
+     * @brief Switch over to "stream printing" which is the most dense formatting without 
+     * linebreaks. Common when the XML is needed for network transmission.
+     */
+    void setStreamPrinting()						
+    { 
+    	m_indent = "";
+    	m_lineBreak = "";
+    }	
+    
+    /// Return the result.
+    const char* cStr() { return m_buffer.c_str(); }
+    /// Return the length of the result string.
+    size_t size() { return m_buffer.size(); }
+
+    /// Return the result.
+    const std::string& str() { return m_buffer; }
 
 private:
-	void doIndent()	
+    void doIndent()	
     {
-		for (int i = 0; i < m_depth; i++)
+        for (int i = 0; i < m_depth; i++)
         {
-			m_buffer += m_indent;
+            m_buffer += m_indent;
         }
-	}
+    }
     
-	void doLineBreak() 
+    void doLineBreak() 
     {
-		m_buffer += m_lineBreak;
-	}
+    	m_buffer += m_lineBreak;
+    }
 
-	int 		m_depth;
-	bool 		m_simpleTextPrint;
-	std::string m_buffer;
-	std::string m_indent;
-	std::string m_lineBreak;
+    int	        m_depth;
+    bool	m_simpleTextPrint;
+    std::string m_buffer;
+    std::string m_indent;
+    std::string m_lineBreak;
 };
 }
