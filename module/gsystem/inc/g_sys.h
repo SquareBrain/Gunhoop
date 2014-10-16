@@ -15,10 +15,10 @@
 *  1. 2014-03-04 duye Created this file
 * 
 */
-
 #pragma once
 
 #include <string>
+#include <g_result.h>
 #include <g_type.h>
 
 namespace gsys {
@@ -45,10 +45,10 @@ public:
      * @param [out] buffer : out buffer
      * @param [in] size : out buffer size
      * @param [in] args : parameters
-     * @return string size
+     * @return string size, error : -1
      * @note 
      */		
-    static GUint64 pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ...);   
+    static GInt64 pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ...);   
     
     /**
      * @brief execute shell commond

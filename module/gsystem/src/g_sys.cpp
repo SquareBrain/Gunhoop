@@ -33,9 +33,9 @@ void System::usleep(const GUint64 time)
     ::usleep(time);
 }
 
-GUint64 System::pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
+GInt64 System::pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ...)
 {
-    IS_NULL_R(buffer);
+    IS_NULL_RX(buffer, -1);
     va_list vaList;
     va_start(vaList, args);
     GUint64 strLen = vsnprintf(buffer, size, args, vaList);
@@ -45,7 +45,7 @@ GUint64 System::pformat(GInt8* buffer, const GUint64 size, const GInt8* args, ..
 
 GResult System::shell(const GInt8* cmd)
 {
-    IS_NULL_R(cmd);
+    IS_NULL_RX(cmd, G_NO);
 
     FILE* retStream = popen(cmd, "r");
     if (retStream == NULL)
@@ -59,8 +59,8 @@ GResult System::shell(const GInt8* cmd)
 
 GResult System::shell(const GInt8* cmd, GInt8* buffer, const GUint32 size)
 {
-    IS_NULL_R(cmd);
-    IS_NULL_R(buffer);
+    IS_NULL_RX(cmd, G_NO);
+    IS_NULL_RX(buffer, G_NO);
 
     FILE* retStream = popen(cmd, "r");
     if (retStream == NULL)
@@ -89,8 +89,8 @@ GUint64 System::sysTime()
 
 GResult System::sysTime(const GInt8* format, GInt8* buffer, const GUint32 size)
 {
-    IS_NULL_R(format);
-    IS_NULL_R(buffer);
+    IS_NULL_RX(format, G_NO);
+    IS_NULL_RX(buffer, G_NO);
 	
     struct timeval tv;
     struct tm tm;
@@ -111,8 +111,8 @@ GResult System::sysTime(const GInt8* format, GInt8* buffer, const GUint32 size)
 
 GResult System::optArg(GInt32 argc, GInt8** argv, GInt8* cmd, GInt64& value)
 {
-    IS_NULL_R(argv);
-    IS_NULL_R(cmd);
+    IS_NULL_RX(argv, G_NO);
+    IS_NULL_RX(cmd, G_NO);
 	
     if (getopt(argc, argv, cmd) != cmd[0])
     {
@@ -126,8 +126,8 @@ GResult System::optArg(GInt32 argc, GInt8** argv, GInt8* cmd, GInt64& value)
 
 GResult System::optArg(GInt32 argc, GInt8** argv, GInt8* cmd, GUint64& value)
 {
-    IS_NULL_R(argv);
-    IS_NULL_R(cmd);
+    IS_NULL_RX(argv, G_NO);
+    IS_NULL_RX(cmd, G_NO);
 	
     if (getopt(argc, argv, cmd) != cmd[0])
     {
@@ -141,8 +141,8 @@ GResult System::optArg(GInt32 argc, GInt8** argv, GInt8* cmd, GUint64& value)
 
 GResult System::optArg(GInt32 argc, GInt8** argv, GInt8* cmd, std::string& value)
 {
-    IS_NULL_R(argv);
-    IS_NULL_R(cmd);
+    IS_NULL_RX(argv, G_NO);
+    IS_NULL_RX(cmd, G_NO);
 	
     if (getopt(argc, argv, cmd) != cmd[0])
     {

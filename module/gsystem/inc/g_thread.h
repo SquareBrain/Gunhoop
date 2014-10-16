@@ -19,6 +19,7 @@
 #pragma once
 
 #include <pthread.h> 
+#include <g_result.h>
 #include <g_type.h>
 
 namespace gsys {

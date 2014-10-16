@@ -16,6 +16,7 @@
 */
 #include <signal.h>
 #include <unistd.h>
+#include <sys/resource.h>
 #include <g_sys_process.h>
 
 namespace gsys {
@@ -34,6 +35,7 @@ SysProcess::~SysProcess() {}
 GResult SysProcess::setLimitFile(const GUint32 limit_file)
 {
     m_limitFile = limit_file;
+	
     struct rlimit rt;
     rt.rlim_max = rt.rlim_cur = m_limitFile;
     if (setrlimit(RLIMIT_NOFILE, &rt) == -1) 

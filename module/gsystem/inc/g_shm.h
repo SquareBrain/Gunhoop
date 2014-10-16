@@ -22,6 +22,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
+#include <g_result.h>
 #include <g_type.h>
 
 namespace gsys {
@@ -42,7 +43,7 @@ typedef enum
     /** 
      * @brief mmap failed
      */           
-     MMAP_SHM_FAILED = -4,
+    MMAP_SHM_FAILED = -4,
     /** 
      * @brief sync shm failed
      */           

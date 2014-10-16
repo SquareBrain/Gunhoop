@@ -62,11 +62,11 @@ protected:
 /** 
  * @brief Be used to write GPipe
  */
-class GWritePipe : public Pipe
+class WritePipe : public Pipe
 {
 public:
-    GWritePipe() {}
-    virtual ~GWritePipe() {}
+    WritePipe() {}
+    virtual ~WritePipe() {}
 
     /**
      * @brief Open the pipe
@@ -90,23 +90,23 @@ private:
      * @brief prevent copying
      * @note
      */	
-     GWritePipe(const GWritePipe&);
+     WritePipe(const WritePipe&);
 
     /**
      * prevent copying
      * @note
      */		
-    void operator=(const GWritePipe&);
+    void operator=(const WritePipe&);
 };
 
 /** 
  * @brief be used to read GPipe
  */
-class GReadPipe : public Pipe
+class ReadPipe : public Pipe
 {
 public:
-    GReadPipe() {}
-    virtual ~GReadPipe() {}
+    ReadPipe() {}
+    virtual ~ReadPipe() {}
 
     /**
      * @brief open pipe
@@ -130,12 +130,12 @@ private:
      * @brief prevent copying
      * @note
      */	
-    GReadPipe(const GReadPipe&);
+    ReadPipe(const ReadPipe&);
 
     /**
      * @brief prevent copying
      * @note
      */		
-    void operator=(const GReadPipe&);	
+    void operator=(const ReadPipe&);	
 };
 }

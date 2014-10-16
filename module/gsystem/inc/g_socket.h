@@ -20,11 +20,10 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-
 #include <string.h>
 #include <string>
 #include <memory>
-
+#include <g_result.h>
 #include <g_type.h>
 
 namespace gsys {
@@ -77,7 +76,6 @@ typedef enum
     G_IPPROTO_SCTP,
     G_IPPROTO_TIPC
 } NetProtocol;
-
 
 /** 
  * @brief network receive data mode
@@ -312,19 +310,7 @@ class SocketServer
 {
 public:
     SocketServer();
-    
-    /**
-     * @brief constructor
-     * @param [in] socket_info : socket information
-     */     
-    explicit SocketServer(const SocketInfo& socket_info);
     ~SocketServer();
-   
-    /**
-     * @brief server bind
-     * @return G_YES/G_NO
-     */
-    GResult bind();
     
     /**
      * @brief server bind
@@ -395,20 +381,7 @@ class SocketClient
 {
 public:
     SocketClient();
-  
-    /**
-     * @brief constructor
-     * @param [in] socket_info : socket information
-     */   
-    explicit SocketClient(const SocketInfo& socket_info);    
     ~SocketClient();
-
-    /**
-     * @brief connect socket
-     * @return G_YES/G_NO
-     * @note 
-     */		
-    GResult connect();
     
     /**
      * @brief connect socket
@@ -517,7 +490,7 @@ public:
      * @brief constructor
      * @param [in] socket_info : socket information
      */   
-    explicit SocketClient(const SocketInfo& socket_info);     
+    explicit EpollClient(const SocketInfo& socket_info);     
     virtual ~EpollClient();
    
     /**

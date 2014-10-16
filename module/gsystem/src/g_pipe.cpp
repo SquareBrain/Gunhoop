@@ -23,7 +23,6 @@ bool Pipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
 {
     if (pipeName == NULL)
     {
-        G_LOG_ERROR(G_LOG_PREFIX, "GPipe name is NULL");
         return false;
     }
 
@@ -31,7 +30,6 @@ bool Pipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
     {
         if (mkfifo(pipeName, 0777) != 0)
         {
-            //G_LOG_ERROR(G_LOG_PREFIX, "call mkfifo() failed");
             return false;
         }
     }    
@@ -39,78 +37,69 @@ bool Pipe::orgOpen(const GInt8* pipeName, const GInt32 mode)
     m_pipefd = ::open(pipeName, mode);
     if (m_pipefd == -1)
     {
-        //G_LOG_ERROR(G_LOG_PREFIX, "open GPipe '%s' failed", GPipeName);
         return false;
     }
 
     return true;   
 }
 
-bool GWritePipe::open(const GInt8* pipeName)
+bool WritePipe::open(const GInt8* pipeName)
 {
     return orgOpen(pipeName, O_WRONLY | O_NONBLOCK);          
 }
 
-GInt64 GWritePipe::write(const GInt8* data, const GUint64 length)
+GInt64 WritePipe::write(const GInt8* data, const GUint64 length)
 {
     if (m_pipefd == -1)
     {
-        //G_LOG_ERROR(G_LOG_PREFIX, "GPipe hasn't open");
-        return G_NO;
+        return -1;
     }
 
     if (data == NULL)
     {
-    	//G_LOG_ERROR(G_LOG_PREFIX, "input data is NULL");
-        return G_NO;
+        return -1;
     }
 
     if (length == 0)
     {
-    	//G_LOG_ERROR(G_LOG_PREFIX, "input data size is zero");
-        return G_NO;        
+        return -1;        
     }    
 
     GInt64 bytes = -1;
     if ((bytes = ::write(m_pipefd, data, length)) == -1)
     {
-    	//G_LOG_ERROR(G_LOG_PREFIX, "write GPipe failed");
-    	return G_NO;
+    	return -1;
     }
 
     return bytes;    
 }
 
-bool GReadPipe::open(const GInt8* pipeName)
+bool ReadPipe::open(const GInt8* pipeName)
 {
     return orgOpen(pipeName, O_RDONLY);        
 }
 
-GInt64 GReadPipe::read(GInt8* buffer, const GUint64 size)
+GInt64 ReadPipe::read(GInt8* buffer, const GUint64 size)
 {
     if (m_pipefd == -1)
     {
-    	//G_LOG_ERROR(G_LOG_PREFIX, "GPipe hasn't open");
-    	return G_NO;
+    	return -1;
     }
 
     if (buffer == NULL)
     {
-    	//G_LOG_ERROR(G_LOG_PREFIX, "output buffer is NULL");
-    	return G_NO;
+    	return -1;
     }
 
     if (size == 0)
     {
-    	//G_LOG_ERROR(G_LOG_PREFIX, "output buffer size is zero");
-    	return G_NO;       
+    	return -1;       
     }
 
     GInt32 bytes = -1;
     if ((bytes = ::read(m_pipefd, buffer, size)) == -1)
     {
-    	//G_LOG_ERROR(G_LOG_PREFIX, "read GPipe failed");
-    	return G_NO;
+    	return -1;
     }
 
     return bytes;    

@@ -21,15 +21,15 @@
 /** 
  * @brief base type define
  */
-typedef char                GInt8;
-typedef short		    GInt16;
-typedef int		    GInt32;
-typedef long long	    GInt64;
-typedef unsigned char	    GUint8;
-typedef unsigned short	    GUint16;
-typedef unsigned int	    GUint32;
-typedef unsigned long long  GUint64;
-typedef int		    GResult;
+typedef char               GInt8;
+typedef short		       GInt16;
+typedef int		           GInt32;
+typedef long long	       GInt64;
+typedef unsigned char	   GUint8;
+typedef unsigned short	   GUint16;
+typedef unsigned int	   GUint32;
+typedef unsigned long long GUint64;
+typedef int		           GResult;
 
 /** 
  * @brief assert

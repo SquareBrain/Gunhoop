@@ -15,7 +15,6 @@
 *  1. 2013-11-15 duye Created this file
 * 
 */
-
 #pragma once
 
 /** 
@@ -124,7 +123,7 @@ do \
 { \
     if ((_x) == nullptr) \
     { \
-        return 0; \
+        return; \
     } \
 } while(0)
 

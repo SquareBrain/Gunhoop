@@ -27,7 +27,7 @@ template<typename T>
 class Singleton
 {
 public:
-    static T& getInstance();
+    static T& instance();
     
 protected:
     Singleton() {}
@@ -36,7 +36,7 @@ protected:
 };
 
 template<typename T>
-T& Singleton<T>::GetInstance()
+T& Singleton<T>::instance()
 {
     static T t;
     return t;

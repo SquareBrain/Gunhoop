@@ -14,10 +14,10 @@
 *  1. 2014-06-20 duye Created this GFile
 * 
 */
-
 #pragma once
 
 #include <sys/stat.h>
+#include <g_result.h>
 #include <g_type.h>
 #include <g_sys.h>
 

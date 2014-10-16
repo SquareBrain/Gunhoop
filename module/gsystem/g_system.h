@@ -21,7 +21,7 @@
 
 #include <g_type.h>
 #include <g_result.h>
-#include <g_process.h>
+#include <g_sys_process.h>
 #include <g_condition.h>
 #include <g_file.h>
 #include <g_library.h>

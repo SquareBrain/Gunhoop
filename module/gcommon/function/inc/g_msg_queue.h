@@ -57,7 +57,7 @@ public:
      * @param [in] mode : pop block
      * @return message
      */
-    T* pop(const MsgMode& mode = G_POP_BLOCK);
+    T* pop(const MsgMode& mode = G_MSG_BLOCK);
     
 private:
     std::queue<T*>      m_queue;
@@ -66,10 +66,10 @@ private:
 };
 
 template <class T>
-MsgQueue::MsgQueue(const GUint64 queue_size) : m_queueSize(queue_size) {}
+MsgQueue<T>::MsgQueue(const GUint64 queue_size) : m_queueSize(queue_size) {}
 
 template <class T>
-GResult MsgQueue::push(T* msg)
+GResult MsgQueue<T>::push(T* msg)
 {
     if (m_queue.size() >= m_queueSize)
     {
@@ -83,9 +83,9 @@ GResult MsgQueue::push(T* msg)
 }
 
 template <class T>
-T* MsgQueue::pop(const MsgMode& mode)
+T* MsgQueue<T>::pop(const MsgMode& mode)
 {
-    if (mode == G_POP_BLOCK)
+    if (mode == G_MSG_BLOCK)
     {
         m_semaphore.wait();
     }

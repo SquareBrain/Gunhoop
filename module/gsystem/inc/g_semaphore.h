@@ -27,8 +27,8 @@ namespace gsys {
 class Semaphore
 {
 public:
-    Semaphore() {}
-    ~Semaphore() {}
+    Semaphore();
+    ~Semaphore();
 
     /**
      * @brief wait resouce number > 0
@@ -53,7 +53,7 @@ public:
      * @brief post semaphore, inc resouce number
      * @return true:successed, false:don't waited resouce
      */
-    bool post()
+    bool post();
 	
 private:
     sem_t   m_sem;

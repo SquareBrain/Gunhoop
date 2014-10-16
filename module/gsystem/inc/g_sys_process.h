@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_process.h
+* @file	    g_sys_process.h
 * @version     
 * @brief      
 * @author   duye
@@ -15,7 +15,7 @@
 * 
 */
 #pragma once
-
+#include <g_result.h>
 #include <g_type.h>
 
 namespace gsys {

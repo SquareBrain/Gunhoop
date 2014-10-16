@@ -271,7 +271,7 @@ GResult IniFile::parserSection(const GInt8* data,
             case ']':
                 findSectionEnd = true;
                 break;
-            default
+            default:
                 break;
         }  
 

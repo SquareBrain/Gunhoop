@@ -18,6 +18,8 @@
 
 #include <list>
 #include <g_system.h>
+#include <g_singleton.h>
+#include <g_singleton.h>
 
 namespace gcom {
 
@@ -36,14 +38,14 @@ public:
 /**
  * @biref process
  */
-class Process : public gsys::ProcessSysCallbackObserver, public Singleton<Process>
+class Process : public Singleton<Process>, public gsys::ProcessSysCallbackObserver
 {
 public:
     typedef SecrityObj<std::list<ProcessObserver*>> ObserverList;
     
 public:    
-    ProcessTracker();
-    ~ProcessTracker();
+    Process();
+    ~Process();
     
     /**
      * @brife addition process  

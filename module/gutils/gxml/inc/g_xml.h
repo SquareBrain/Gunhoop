@@ -1654,7 +1654,7 @@ private:
     int         m_tabsize;
     XmlCursor   m_errorLocation;
     bool        m_useMicrosoftBOM;		// the UTF-8 BOM were found when read. Note this, and try to write.
-}
+};
 
 /**
  * @brief A GXmlHandle is a class that wraps a node pointer with null checks; this is

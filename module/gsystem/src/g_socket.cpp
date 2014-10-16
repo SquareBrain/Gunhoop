@@ -16,8 +16,8 @@
 * 
 */
 #include <g_sys.h>
-#include <g_socket.h>
 #include <net/if.h>
+#include <g_socket.h>
 
 namespace gsys {
 	
@@ -110,7 +110,7 @@ GUint16 IPv6Addr::addrLen() const
 }
 
 Socket::Socket() : m_sockfd(-1), m_isInit(false) {}
-Socket::~Socket() { uninit(); }
+Socket::~Socket() { close(); }
 
 GResult Socket::open(const NetProtocol& protocol, const std::string& if_name)
 {
@@ -307,37 +307,29 @@ GInt64 Transfer::recvmsg(Socket& socket, struct msghdr* msg, const GInt32 flags)
 
 GInt64 Transfer::recvfrom(Socket& socket, SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags)
 {
-    GUint32 addr_len = src_addr.addLen();
+    GUint32 addr_len = src_addr.addrLen();
     return ::recvfrom(socket.sockfd(), buffer, size, flags, (struct sockaddr*)&src_addr.addr(), &addr_len);	
 }
 
 SocketServer::SocketServer() {}
-SocketServer::SocketServer(const SocketInfo& socket_info)
-{
-    setSocketInfo(socket_info);
-}
-
 SocketServer::~SocketServer() 
 {
     close();
 }
 
-void SocketServer::setSocketInfo(const SocketInfo& socket_info)
+GResult SocketServer::bind(const SocketInfo& socket_info)
 {
-    m_socketInfo = socket_info;
+	if (IS_NO(m_socket.open(socket_info.protocol(), socket_info.localIfName())))
+	{
+		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+		return G_NO;
+	}
+
+	m_socketInfo = socket_info;
     m_addr.setIP(m_socketInfo.serverIP());
-    m_addr.setPort(m_socketInfo.serverPort());
-}
-
-GResult SocketServer::bind()
-{
-    if (IS_NO(m_socket.open(m_socketInfo.protocol(), m_socketInfo.localIfName())))
-    {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-    	return G_NO;
-    }
-
-    return ::bind(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
+    m_addr.setPort(m_socketInfo.serverPort());	
+	
+	return ::bind(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
 }
 
 GResult SocketServer::listen(const GUint32 max_connect_num)
@@ -347,7 +339,7 @@ GResult SocketServer::listen(const GUint32 max_connect_num)
 
 GInt32 SocketServer::accept(SockAddr& client_addr, const RecvMode& mode)
 {
-    GUint16 addr_len = client_addr.addrLen();
+    socklen_t addr_len = client_addr.addrLen();
     if (mode == G_RECV_BLOCK)
     {
         return ::accept(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len);	
@@ -389,30 +381,23 @@ void SocketServer::setError(const GInt8* args, ...)
     System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
 	
-SocketClient::SocketClient(const SocketInfo& socket_info) 
-{
-    setSocketInfo(socket_info);		
-}
-
+SocketClient::SocketClient() {}
 SocketClient::~SocketClient() 
 {
     close();
 }
 
-void SocketClient::setSocketInfo(const SocketInfo& socket_info)
+GResult SocketClient::connect(const SocketInfo& socket_info)
 {
-    m_socketInfo = socket_info;
-    m_addr.setIP(m_socketInfo.serverIP());
-    m_addr.setPort(m_socketInfo.serverPort());    
-}
-
-GResult SocketClient::connect()
-{
-    if (IS_NO(m_socket.open(m_socketInfo.protocol(), m_socketInfo.localIfName())))
+    if (IS_NO(m_socket.open(socket_info.protocol(), socket_info.localIfName())))
     {
     	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	return G_NO;
     }
+
+    m_socketInfo = socket_info;
+    m_addr.setIP(m_socketInfo.serverIP());
+    m_addr.setPort(m_socketInfo.serverPort()); 	
     
     return ::connect(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
 }
@@ -433,7 +418,7 @@ GInt64 SocketClient::recv(GUint8* buffer, const GUint64 size, const RecvMode& mo
     	return Transfer::recv(m_socket, buffer, size, MSG_DONTWAIT);
     }
     
-    return -1	
+    return -1;	
 }
 
 GResult SocketClient::close()
@@ -450,7 +435,4 @@ void SocketClient::setError(const GInt8* args, ...)
 {
     System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
-
-
-
 }
