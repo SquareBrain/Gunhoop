@@ -4,11 +4,11 @@
 *
 ************************************************************************************/
 /**
-* @file		g_ini_section.cpp
+* @file	    g_ini_section.cpp
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-03-15
+* @author   duye
+* @date	    2014-03-15
 * @note 
 *
 *  2. 2014-06-26 duye removal to gohoop project
@@ -19,82 +19,75 @@
 #include <g_ini_section.h>
 
 using namespace gsys;
-using namespace gutils;
 
-IniSection::IniSection()
-{
-}
+namespace gutils {
 
+IniSection::IniSection() {}
 IniSection::IniSection(const std::string& sectionName)
 {
-	m_sectionName = sectionName;
+    m_sectionName = sectionName;
 }
 
-IniSection::~IniSection()
-{
-}
+IniSection::~IniSection() {}
 
 GResult IniSection::getPara(const std::string& para, std::string& value)
 {
-	AutoLock autoLock(m_mapMutex);
+    AutoLock autoLock(m_mapMutex);
 
-	KeyValueMap::iterator iter = m_keyValueMap.find(para);
-	if (iter == m_keyValueMap.end())
-	{
-		return G_NO;
-	}
+    KeyValueMap::iterator iter = m_keyValueMap.find(para);
+    if (iter == m_keyValueMap.end())
+    {
+    	return G_NO;
+    }
 
-	value.assign(iter->second);
-
-	return G_YES;    
+    value.assign(iter->second);
+    return G_YES;    
 }
 
 GResult IniSection::setPara(const std::string& para, const std::string& value)
 {
-	AutoLock autoLock(m_mapMutex);
+    AutoLock autoLock(m_mapMutex);
 
-	KeyValueMap::iterator iter = m_keyValueMap.find(para);
-	if (iter == m_keyValueMap.end())
-	{
-		return G_NO;
-	}
+    KeyValueMap::iterator iter = m_keyValueMap.find(para);
+    if (iter == m_keyValueMap.end())
+    {
+    	return G_NO;
+    }
 
-	iter->second = value;
-
-	return G_YES;   
+    iter->second = value;
+    return G_YES;   
 }
 
 GResult IniSection::addPara(const std::string& para, const std::string& value)
 {
-	AutoLock autoLock(m_mapMutex);
+    AutoLock autoLock(m_mapMutex);
 
-	KeyValueMap::iterator iter = m_keyValueMap.find(para);
-	if (iter != m_keyValueMap.end())
-	{
-		return G_NO;
-	}
+    KeyValueMap::iterator iter = m_keyValueMap.find(para);
+    if (iter != m_keyValueMap.end())
+    {
+    	return G_NO;
+    }
 
-	m_keyValueMap.insert(std::make_pair(para, value)); 
-
-	return G_YES;
+    m_keyValueMap.insert(std::make_pair(para, value)); 
+    return G_YES;
 }
 
 GResult IniSection::delPara(const std::string& para)
 {
-	AutoLock autoLock(m_mapMutex);
+    AutoLock autoLock(m_mapMutex);
 
-	KeyValueMap::iterator iter = m_keyValueMap.find(para);
-	if (iter == m_keyValueMap.end())
-	{
-		return G_NO;
-	}
+    KeyValueMap::iterator iter = m_keyValueMap.find(para);
+    if (iter == m_keyValueMap.end())
+    {
+    	return G_NO;
+    }
 
-	m_keyValueMap.erase(iter);
-
-	return G_YES;
+    m_keyValueMap.erase(iter);
+    return G_YES;
 }
 
 const IniSection::KeyValueMap& IniSection::getkeyValueMap() const
 {
-	return m_keyValueMap; 
+    return m_keyValueMap; 
+}
 }
