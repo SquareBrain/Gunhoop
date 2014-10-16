@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_objpool.cpp
+* @file	    g_objpool.cpp
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-06-18
+* @author   duye
+* @date	    2014-06-18
 * @note 
 *
 *  1. 2014-06-18 duye Created this file
