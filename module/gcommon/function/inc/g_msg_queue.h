@@ -79,7 +79,7 @@ GResult MsgQueue::push(T* msg)
     m_queue.push(msg);
     m_semaphore.post();
     
-	return G_YES;
+    return G_YES;
 }
 
 template <class T>
@@ -103,5 +103,4 @@ T* MsgQueue::pop(const MsgMode& mode)
     
     return G_NO;	
 }
-
 }
