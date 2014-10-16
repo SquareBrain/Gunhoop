@@ -101,6 +101,6 @@ T* MsgQueue::pop(const MsgMode& mode)
     T* msg = m_queue.front();
     m_queue.pop();
     
-    return G_NO;	
+    return msg;	
 }
 }
