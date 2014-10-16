@@ -4,11 +4,11 @@
 *
 ************************************************************************************/
 /**
-* @file		g_xml.h
+* @file	    g_xml.h
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-8-7
+* @author   duye
+* @date	    2014-8-7
 * @note 
 *
 *  1. 2014-8-7 duye Created this file
@@ -40,468 +40,482 @@ const int GXML_MAJOR_VERSION = 2;
 const int GXML_MINOR_VERSION = 6;
 const int GXML_PATCH_VERSION = 2;
 
-/*	Internal structure for tracking location of items 
-	in the XML file.
-*/
+/**
+ * @brief Internal structure for tracking location of items in the XML file.
+ */
 class XmlCursor
 {
 public:
-	XmlCursor() 
-	{ 
-		clear(); 
-	}
+    XmlCursor() 
+    { 
+    	clear(); 
+    }
 	
-	void clear() 
-	{ 
-		m_row = m_col = -1; 
-	}
+    void clear() 
+    { 
+    	m_row = m_col = -1; 
+    }
 
-	int m_row;	// 0 based.
-	int m_col;	// 0 based.
+    int m_row;	// 0 based.
+    int m_col;	// 0 based.
 };
 
 /**
-Implements the interface to the "Visitor pattern" (see the Accept() method.)
-If you call the Accept() method, it requires being passed a GXmlVisitor
-class to handle callbacks. For nodes that contain other nodes (Document, Element)
-you will get called with a VisitEnter/VisitExit pair. Nodes that are always leaves
-are simply called with Visit().
-
-If you return 'true' from a Visit method, recursive parsing will continue. If you return
-false, <b>no children of this node or its sibilings</b> will be Visited.
-
-All flavors of Visit methods have a default implementation that returns 'true' (continue 
-visiting). You need to only override methods that are interesting to you.
-
-Generally Accept() is called on the GXmlDocument, although all nodes suppert Visiting.
-
-You should never change the document from a callback.
-
-@sa GXmlNode::Accept()
+ * @brief Implements the interface to the "Visitor pattern" (see the Accept() method.)
+ * If you call the Accept() method, it requires being passed a GXmlVisitor
+ * class to handle callbacks. For nodes that contain other nodes (Document, Element)
+ * you will get called with a VisitEnter/VisitExit pair. Nodes that are always leaves
+ * are simply called with Visit().
+ * 
+ * If you return 'true' from a Visit method, recursive parsing will continue. If you return
+ * false, <b>no children of this node or its sibilings</b> will be Visited.
+ * 
+ * All flavors of Visit methods have a default implementation that returns 'true' (continue 
+ * visiting). You need to only override methods that are interesting to you.
+ * 
+ * Generally Accept() is called on the GXmlDocument, although all nodes suppert Visiting.
+ * 
+ * You should never change the document from a callback.
+ * see GXmlNode::Accept()
 */
 class XmlVisitor
 {
 public:
-	virtual ~XmlVisitor() {}
+    virtual ~XmlVisitor() {}
 
-	/// Visit a document.
-	virtual bool visitEnter(const XmlDocument& /*doc*/) { return true; }
-	/// Visit a document.
-	virtual bool visitExit(const XmlDocument& /*doc*/)	{ return true; }
+    /// Visit a document.
+    virtual bool visitEnter(const XmlDocument& /*doc*/) { return true; }
+    /// Visit a document.
+    virtual bool visitExit(const XmlDocument& /*doc*/)	{ return true; }
 
-	/// Visit an element.
-	virtual bool visitEnter(const XmlElement& /*element*/, const XmlAttribute* /*firstAttribute*/) { return true; }
-	/// Visit an element.
-	virtual bool visitExit(const XmlElement& /*element*/) { return true; }
+    /// Visit an element.
+    virtual bool visitEnter(const XmlElement& /*element*/, const XmlAttribute* /*firstAttribute*/) { return true; }
+    /// Visit an element.
+    virtual bool visitExit(const XmlElement& /*element*/) { return true; }
 
-	/// Visit a declaration
-	virtual bool visit(const XmlDeclaration& /*declaration*/) { return true; }
-	/// Visit a text node
-	virtual bool visit(const XmlText& /*text*/) { return true; }
-	/// Visit a comment node
-	virtual bool visit(const XmlComment& /*comment*/) { return true; }
-	/// Visit an unknown node
-	virtual bool visit(const XmlUnknown& /*unknown*/) { return true; }
+    /// Visit a declaration
+    virtual bool visit(const XmlDeclaration& /*declaration*/) { return true; }
+    /// Visit a text node
+    virtual bool visit(const XmlText& /*text*/) { return true; }
+    /// Visit a comment node
+    virtual bool visit(const XmlComment& /*comment*/) { return true; }
+    /// Visit an unknown node
+    virtual bool visit(const XmlUnknown& /*unknown*/) { return true; }
 };
 
 // Only used by Attribute::Query functions
 enum 
 {
-	GXML_SUCCESS,
-	GXML_NO_ATTRIBUTE,
-	GXML_WRONG_TYPE
+    GXML_SUCCESS,
+    GXML_NO_ATTRIBUTE,
+    GXML_WRONG_TYPE
 };
 
 
 // Used by the parsing routines.
 enum XmlEncoding
 {
-	GXML_ENCODING_UNKNOWN,
-	GXML_ENCODING_UTF8,
-	GXML_ENCODING_LEGACY
+    GXML_ENCODING_UNKNOWN,
+    GXML_ENCODING_UTF8,
+    GXML_ENCODING_LEGACY
 };
 
 const XmlEncoding GXML_DEFAULT_ENCODING = GXML_ENCODING_UNKNOWN;
 
-/** GXmlBase is a base class for every class in GnyXml.
-	It does little except to establish that GnyXml classes
-	can be printed and provide some utility functions.
-
-	In XML, the document and elements can contain
-	other elements and other types of nodes.
-
-	@verbatim
-	A Document can contain:	Element	(container or leaf)
-							Comment (leaf)
-							Unknown (leaf)
-							Declaration( leaf )
-
-	An Element can contain:	Element (container or leaf)
-							Text	(leaf)
-							Attributes (not on tree)
-							Comment (leaf)
-							Unknown (leaf)
-
-	A Decleration contains: Attributes (not on tree)
-	@endverbatim
-*/
+/** 
+ * @brief GXmlBase is a base class for every class in GnyXml.
+ * It does little except to establish that GnyXml classes
+ * can be printed and provide some utility functions.
+ * 
+ * In XML, the document and elements can contain
+ * other elements and other types of nodes.
+ * 
+ * @verbatim
+ * A Document can contain:	Element	(container or leaf)
+ * Comment (leaf)
+ * Unknown (leaf)
+ * Declaration( leaf )
+ * 
+ * An Element can contain:	Element (container or leaf)
+ * Text	(leaf)
+ * Attributes (not on tree)
+ * Comment (leaf)
+ * Unknown (leaf)
+ * 
+ * A Decleration contains: Attributes (not on tree)
+ * @endverbatim
+ */
 class XmlBase
 {
-	friend class XmlNode;
-	friend class XmlElement;
-	friend class XmlDocument;
+    friend class XmlNode;
+    friend class XmlElement;
+    friend class XmlDocument;
 
 public:
-	XmlBase() : m_userData(0) {}
-	virtual ~XmlBase()	{}
+    XmlBase() : m_userData(0) {}
+    virtual ~XmlBase() {}
 
-	/**	All GnyXml classes can print themselves to a filestream
-		or the string class (GXmlString in non-STL mode, std::string
-		in STL mode.) Either or both cfile and str can be null.
-		
-		This is a formatted print, and will insert 
-		tabs and newlines.
-		
-		(For an unformatted stream, use the << operator.)
-	*/
-	virtual void print(FILE* cfile, int depth) const = 0;
+    /**
+     * @brief All GnyXml classes can print themselves to a filestream
+     * or the string class (GXmlString in non-STL mode, std::string
+     * in STL mode.) Either or both cfile and str can be null.
+     * 
+     * This is a formatted print, and will insert 
+     * tabs and newlines.
+     * 
+     * (For an unformatted stream, use the << operator.)
+     */
+    virtual void print(FILE* cfile, int depth) const = 0;
 
-	/**	The world does not agree on whether white space should be kept or
-		not. In order to make everyone happy, these global, static functions
-		are provided to set whether or not GnyXml will condense all white space
-		into a single space or not. The default is to condense. Note changing this
-		value is not thread safe.
-	*/
-	static void setCondenseWhiteSpace(bool condense) { m_condenseWhiteSpace = condense; }
+    /**	
+     * @brief The world does not agree on whether white space should be kept or
+     * not. In order to make everyone happy, these global, static functions
+     * are provided to set whether or not GnyXml will condense all white space
+     * into a single space or not. The default is to condense. Note changing this
+     * value is not thread safe.
+     */
+    static void setCondenseWhiteSpace(bool condense) { m_condenseWhiteSpace = condense; }
 
-	/// Return the current white space setting.
-	static bool isWhiteSpaceCondensed() { return m_condenseWhiteSpace; }
+    /// Return the current white space setting.
+    static bool isWhiteSpaceCondensed() { return m_condenseWhiteSpace; }
 
-	/** Return the position, in the original source file, of this node or attribute.
-		The row and column are 1-based. (That is the first row and first column is
-		1,1). If the returns values are 0 or less, then the parser does not have
-		a row and column value.
+    /** Return the position, in the original source file, of this node or attribute.
+     * The row and column are 1-based. (That is the first row and first column is
+     * 1,1). If the returns values are 0 or less, then the parser does not have
+     * a row and column value.
+     * 
+     * Generally, the row and column value will be set when the GXmlDocument::Load(),
+     * GXmlDocument::LoadFile(), or any GXmlNode::Parse() is called. It will NOT be set
+     * when the DOM was created from operator>>.
+     * 
+     * The values reflect the initial load. Once the DOM is modified programmatically
+     * (by adding or changing nodes and attributes) the new values will NOT update to
+     * reflect changes in the document.
+     * 
+     * There is a minor performance cost to computing the row and column. Computation
+     * can be disabled if GXmlDocument::SetTabSize() is called with 0 as the value.
+     * 
+     * @sa GXmlDocument::SetTabSize()
+     */
+    int row() const	{ return m_location.m_row + 1; }
+    int column() const { return m_location.m_col + 1; }    ///< See Row()
 
-		Generally, the row and column value will be set when the GXmlDocument::Load(),
-		GXmlDocument::LoadFile(), or any GXmlNode::Parse() is called. It will NOT be set
-		when the DOM was created from operator>>.
+    void setUserData(void* user) { m_userData = user; }	///< Set a pointer to arbitrary user data.
+    void* getUserData() { return m_userData; }	///< Get a pointer to arbitrary user data.
+    const void* getUserData() const { return m_userData; }	///< Get a pointer to arbitrary user data.
 
-		The values reflect the initial load. Once the DOM is modified programmatically
-		(by adding or changing nodes and attributes) the new values will NOT update to
-		reflect changes in the document.
+    // Table that returs, for a given lead byte, the total number of bytes
+    // in the UTF-8 sequence.
+    static const int m_utf8ByteTable[256];
 
-		There is a minor performance cost to computing the row and column. Computation
-		can be disabled if GXmlDocument::SetTabSize() is called with 0 as the value.
+    virtual const char* parse(const char* p, 
+        XmlParsingData* data, 
+        XmlEncoding encoding /*= GXML_ENCODING_UNKNOWN */) = 0;
 
-		@sa GXmlDocument::SetTabSize()
-	*/
-	int row() const	{ return m_location.m_row + 1; }
-	int column() const { return m_location.m_col + 1; }    ///< See Row()
+    /**
+     * @brief Expands entities in a string. Note this should not contian the tag's '<', '>', etc, 
+     * or they will be transformed into entities!
+     */
+    static void encodeString(const std::string& str, std::string* out);
 
-	void setUserData(void* user) { m_userData = user; }	///< Set a pointer to arbitrary user data.
-	void* getUserData() { return m_userData; }	///< Get a pointer to arbitrary user data.
-	const void* getUserData() const { return m_userData; }	///< Get a pointer to arbitrary user data.
-
-	// Table that returs, for a given lead byte, the total number of bytes
-	// in the UTF-8 sequence.
-	static const int m_utf8ByteTable[256];
-
-	virtual const char* parse(const char* p, 
-		XmlParsingData* data, 
-		XmlEncoding encoding /*= GXML_ENCODING_UNKNOWN */) = 0;
-
-	/** Expands entities in a string. Note this should not contian the tag's '<', '>', etc, 
-		or they will be transformed into entities!
-	*/
-	static void encodeString(const std::string& str, std::string* out);
-
-	enum
-	{
-		GXML_NO_ERROR = 0,
-		GXML_ERROR,
-		GXML_ERROR_OPENING_FILE,
-		GXML_ERROR_PARSING_ELEMENT,
-		GXML_ERROR_FAILED_TO_READ_ELEMENT_NAME,
-		GXML_ERROR_READING_ELEMENT_VALUE,
-		GXML_ERROR_READING_ATTRIBUTES,
-		GXML_ERROR_PARSING_EMPTY,
-		GXML_ERROR_READING_END_TAG,
-		GXML_ERROR_PARSING_UNKNOWN,
-		GXML_ERROR_PARSING_COMMENT,
-		GXML_ERROR_PARSING_DECLARAGON,
-		GXML_ERROR_DOCUMENT_EMPTY,
-		GXML_ERROR_EMBEDDED_NULL,
-		GXML_ERROR_PARSING_CDATA,
-		GXML_ERROR_DOCUMENT_TOP_ONLY,
-		GXML_ERROR_STRING_COUNT
-	};
+    enum
+    {
+        GXML_NO_ERROR = 0,
+        GXML_ERROR,
+        GXML_ERROR_OPENING_FILE,
+        GXML_ERROR_PARSING_ELEMENT,
+        GXML_ERROR_FAILED_TO_READ_ELEMENT_NAME,
+        GXML_ERROR_READING_ELEMENT_VALUE,
+        GXML_ERROR_READING_ATTRIBUTES,
+        GXML_ERROR_PARSING_EMPTY,
+        GXML_ERROR_READING_END_TAG,
+        GXML_ERROR_PARSING_UNKNOWN,
+        GXML_ERROR_PARSING_COMMENT,
+        GXML_ERROR_PARSING_DECLARAGON,
+        GXML_ERROR_DOCUMENT_EMPTY,
+        GXML_ERROR_EMBEDDED_NULL,
+        GXML_ERROR_PARSING_CDATA,
+        GXML_ERROR_DOCUMENT_TOP_ONLY,
+        GXML_ERROR_STRING_COUNT
+    };
 
 protected:
-	static const char* skipWhiteSpace(const char*, XmlEncoding encoding);
+    static const char* skipWhiteSpace(const char*, XmlEncoding encoding);
 
-	inline static bool isWhiteSpace(char c)		
-	{ 
-		return (isspace((unsigned char)c) || c == '\n' || c == '\r'); 
-	}
+    static bool isWhiteSpace(char c)		
+    { 
+    	return (isspace((unsigned char)c) || c == '\n' || c == '\r'); 
+    }
     
-	inline static bool isWhiteSpace(int c)
-	{
-		if (c < 256)
+    static bool isWhiteSpace(int c)
+    {
+    	if (c < 256)
         {
-			return isWhiteSpace((char)c);
+            return isWhiteSpace((char)c);
         }
         
-		return false;	// Again, only truly correct for English/Latin...but usually works.
-	}
+	return false;	// Again, only truly correct for English/Latin...but usually works.
+    }
 
-	static bool	streamWhiteSpace(std::istream* in, std::string* tag);
-	static bool streamTo(std::istream* in, int character, std::string* tag);
+    static bool	streamWhiteSpace(std::istream* in, std::string* tag);
+    static bool streamTo(std::istream* in, int character, std::string* tag);
 
-	/*	Reads an XML name into the string provided. Returns
-		a pointer just past the last character of the name,
-		or 0 if the function has an error.
-	*/
-	static const char* readName(const char* p, std::string* name, XmlEncoding encoding);
+    /**
+     * @brief Reads an XML name into the string provided. Returns
+     * a pointer just past the last character of the name,
+     * or 0 if the function has an error.
+     */
+    static const char* readName(const char* p, std::string* name, XmlEncoding encoding);
 
-	/*	Reads text. Returns a pointer past the given end tag.
-		Wickedly complex options, but it keeps the (sensitive) code in one place.
-	*/
-	static const char* readText(const char* in,				// where to start
-		std::string* text,			// the string read
-		bool ignoreWhiteSpace,		// whether to keep the white space
-		const char* endTag,			// what ends this text
-		bool ignoreCase,			// whether to ignore case in the end tag
-		XmlEncoding encoding);	// the current encoding
+    /**
+     * @brief Reads text. Returns a pointer past the given end tag.
+     * Wickedly complex options, but it keeps the (sensitive) code in one place.
+     */
+    static const char* readText(const char* in,				// where to start
+        std::string* text,			// the string read
+        bool ignoreWhiteSpace,		// whether to keep the white space
+        const char* endTag,			// what ends this text
+        bool ignoreCase,			// whether to ignore case in the end tag
+        XmlEncoding encoding);	// the current encoding
 
-	// If an entity has been found, transform it into a character.
-	static const char* getEntity(const char* in, char* value, int* length, XmlEncoding encoding);
+    // If an entity has been found, transform it into a character.
+    static const char* getEntity(const char* in, char* value, int* length, XmlEncoding encoding);
 
-	// Get a character, while interpreting entities.
-	// The length can be from 0 to 4 bytes.
-	inline static const char* getChar(const char* p, char* value, int* length, XmlEncoding encoding)
-	{
-		assert(p);
-		if (encoding == GXML_ENCODING_UTF8)
-		{
-			*length = m_utf8ByteTable[*((const unsigned char*)p)];
-			assert(*length >= 0 && *length < 5);
-		}
-		else
-		{
-			*length = 1;
-		}
+    // Get a character, while interpreting entities.
+    // The length can be from 0 to 4 bytes.
+    static const char* getChar(const char* p, char* value, int* length, XmlEncoding encoding)
+    {
+    	assert(p);
+    	if (encoding == GXML_ENCODING_UTF8)
+    	{
+    	    *length = m_utf8ByteTable[*((const unsigned char*)p)];
+    	    assert(*length >= 0 && *length < 5);
+    	}
+    	else
+    	{
+    	    *length = 1;
+    	}
 
-		if (*length == 1)
-		{
-			if (*p == '&')
+        if (*length == 1)
+        {
+            if (*p == '&')
             {
-				return getEntity(p, value, length, encoding);
+            	return getEntity(p, value, length, encoding);
+            }
+            *value = *p;
+            return p + 1;
+        }
+        else if (*length)
+        {
+            // strncpy( _value, p, *length );
+            // lots of compilers don't like this function (unsafe),
+	    // and the null terminator isn't needed
+	    for (int i = 0; p[i] && i < *length; i++) 
+            {
+            	value[i] = p[i];
             }
             
-			*value = *p;
-			return p + 1;
-		}
-		else if (*length)
-		{
-			//strncpy( _value, p, *length );	// lots of compilers don't like this function (unsafe),
-												// and the null terminator isn't needed
-			for (int i = 0; p[i] && i < *length; i++) 
-            {
-				value[i] = p[i];
-			}
-            
-			return p + (*length);
-		}
-		else
-		{
-			// Not valid text.
-			return 0;
-		}
-	}
+            return p + (*length);
+        }
+        else
+        {
+            // Not valid text.
+            return 0;
+        }
+    }
 
-	// Return true if the next characters in the stream are any of the endTag sequences.
-	// Ignore case only works for english, and should only be relied on when comparing
-	// to English words: StringEqual( p, "version", true ) is fine.
-	static bool stringEqual(const char* p,
-		const char* endTag,
-		bool ignoreCase,
-		XmlEncoding encoding);
+    // Return true if the next characters in the stream are any of the endTag sequences.
+    // Ignore case only works for english, and should only be relied on when comparing
+    // to English words: StringEqual( p, "version", true ) is fine.
+    static bool stringEqual(const char* p,
+        const char* endTag,
+        bool ignoreCase,
+        XmlEncoding encoding);
 
-	static const char* m_errorString[GXML_ERROR_STRING_COUNT];
-
-	XmlCursor m_location;
+    static const char* m_errorString[GXML_ERROR_STRING_COUNT];
+    XmlCursor m_location;
 
     /// Field containing a generic user pointer
-	void* m_userData;
+    void* m_userData;
 	
-	// None of these methods are reliable for any language except English.
-	// Good for approximation, not great for accuracy.
-	static int isAlpha(unsigned char anyByte, XmlEncoding encoding);
-	static int isAlphaNum(unsigned char anyByte, XmlEncoding encoding);
-	inline static int toLower(int v, XmlEncoding encoding)
-	{
-		if (encoding == GXML_ENCODING_UTF8)
-		{
-			if (v < 128) return tolower(v);
-			return v;
-		}
-		else
-		{
-			return tolower(v);
-		}
-	}
-	static void convertUTF32ToUTF8(unsigned long input, char* output, int* length);
+    // None of these methods are reliable for any language except English.
+    // Good for approximation, not great for accuracy.
+    static int isAlpha(unsigned char anyByte, XmlEncoding encoding);
+    static int isAlphaNum(unsigned char anyByte, XmlEncoding encoding);
+    static int toLower(int v, XmlEncoding encoding)
+    {
+    	if (encoding == GXML_ENCODING_UTF8)
+    	{
+    	    if (v < 128) 
+    	    {
+    	    	return tolower(v);
+    	    }
+    	    return v;
+        }
+        else
+        {
+            return tolower(v);
+        }
+    }
+     
+    static void convertUTF32ToUTF8(unsigned long input, char* output, int* length);
 
 private:
-	XmlBase(const XmlBase&);				// not implemented.
-	void operator = (const XmlBase& base);	// not allowed.
+    XmlBase(const XmlBase&);    // not implemented.
+    void operator = (const XmlBase& base);    // not allowed.
 
-	struct Entity
-	{
-		const char*     m_str;
-		unsigned int	m_strLength;
-		char		    m_chr;
-	};
+    struct Entity
+    {
+        const char*     m_str;
+        unsigned int    m_strLength;
+        char            m_chr;
+     };
     
-	enum
-	{
-		NUM_ENTITY = 5,
-		NUM_ENTITY_LENGTH = 6
-	};
+    enum
+    {
+    	NUM_ENTITY = 5,
+    	NUM_ENTITY_LENGTH = 6
+    };
     
-	static Entity 	m_entity[NUM_ENTITY];
-	static bool 	m_condenseWhiteSpace;
+    static Entity    m_entity[NUM_ENTITY];
+    static bool      m_condenseWhiteSpace;
 };
 
-
-/** The parent class for everything in the Document Object Model.
-	(Except for attributes).
-	Nodes have siblings, a parent, and children. A node can be
-	in a document, or stand on its own. The type of a GXmlNode
-	can be queried, and it can be cast to its more defined type.
-*/
+/**
+ * @brief The parent class for everything in the Document Object Model.
+ * (Except for attributes).
+ * Nodes have siblings, a parent, and children. A node can be
+ * in a document, or stand on its own. The type of a GXmlNode
+ * can be queried, and it can be cast to its more defined type.
+ */
 class XmlNode : public XmlBase
 {
-	friend class XmlDocument;
-	friend class XmlElement;
+    friend class XmlDocument;
+    friend class XmlElement;
 
 public:
-    /** An input stream operator, for every class. Tolerant of newlines and
-	    formatting, but doesn't expect them.
-    */
+    /**
+     * @brief 
+     * An input stream operator, for every class. Tolerant of newlines and
+     * formatting, but doesn't expect them.
+     */
     friend std::istream& operator >> (std::istream& in, XmlNode& base);
 
-    /** An output stream operator, for every class. Note that this outputs
-	    without any newlines or formatting, as opposed to Print(), which
-	    includes tabs and new lines.
-
-	    The operator<< and operator>> are not completely symmetric. Writing
-	    a node to a stream is very well defined. You'll get a nice stream
-	    of output, without any extra whitespace or newlines.
-	    
-	    But reading is not as well defined. (As it always is.) If you create
-	    a GXmlElement (for example) and read that from an input stream,
-	    the text needs to define an element or junk will result. This is
-	    true of all input streams, but it's worth keeping in mind.
-
-	    A GXmlDocument will read nodes until it reads a root element, and
-		all the children of that root element.
-    */	
+    /**
+     * @brief An output stream operator, for every class. Note that this outputs
+     * without any newlines or formatting, as opposed to Print(), which
+     * includes tabs and new lines.
+     * 
+     * The operator<< and operator>> are not completely symmetric. Writing
+     * a node to a stream is very well defined. You'll get a nice stream
+     * of output, without any extra whitespace or newlines.
+     * 
+     * But reading is not as well defined. (As it always is.) If you create
+     * a GXmlElement (for example) and read that from an input stream,
+     * the text needs to define an element or junk will result. This is
+     * true of all input streams, but it's worth keeping in mind.
+     * 
+     * A GXmlDocument will read nodes until it reads a root element, and
+     * all the children of that root element.
+     */	
     friend std::ostream& operator << (std::ostream& out, const XmlNode& base);
 
-	/// Appends the XML node or attribute to a std::string.
-	friend std::string& operator << (std::string& out, const XmlNode& base);
+    /// Appends the XML node or attribute to a std::string.
+    friend std::string& operator << (std::string& out, const XmlNode& base);
 
-	/** The types of XML nodes supported by GnyXml. (All the
-			unsupported types are picked up by UNKNOWN.)
-	*/
-	enum NodeType
-	{
-		GNYXML_DOCUMENT,
-		GNYXML_ELEMENT,
-		GNYXML_COMMENT,
-		GNYXML_UNKNOWN,
-		GNYXML_TEXT,
-		GNYXML_DECLARAGON,
-		GNYXML_TYPECOUNT
-	};
-
-	virtual ~XmlNode();
-
-	/** The meaning of 'value' changes for the specific type of
-		GXmlNode.
-		@verbatim
-		Document:	filename of the xml file
-		Element:	name of the element
-		Comment:	the comment text
-		Unknown:	the tag contents
-		Text:		the text string
-		@endverbatim
-
-		The subclasses will wrap this function.
-	*/
-	const char* value() const { return m_value.c_str(); }
-
-	/** Return Value() as a std::string. If you only use STL,
-	    this is more efficient than calling Value().
-		Only available in STL mode.
-	*/
-	const std::string& valueStr() const { return m_value; }
-
-	const std::string& valueTStr() const { return m_value; }
-
-	/** Changes the value of the node. Defined as:
-		@verbatim
-		Document:	filename of the xml file
-		Element:	name of the element
-		Comment:	the comment text
-		Unknown:	the tag contents
-		Text:		the text string
-		@endverbatim
-	*/
-	void setValue(const char* value) { m_value = value;}
-
-	/// STL std::string form.
-	void setValue(const std::string& value) { m_value = value; }
-
-	/// Delete all the children of this node. Does not affect 'this'.
-	void clear();
-
-	/// One step up the DOM.
-	XmlNode* parent() { return m_parent; }
-	const XmlNode* parent() const{ return m_parent; }
-
-	const XmlNode* firstChild() const { return m_firstChild; }	///< The first child of this node. Will be null if there are no children.
-	XmlNode* firstChild() { return m_firstChild; }
-	const XmlNode* firstChild(const char* value) const;			///< The first child of this node with the matching 'value'. Will be null if none found.
-	/// The first child of this node with the matching 'value'. Will be null if none found.
-	XmlNode* firstChild(const char* value) 
-	{
-		// Call through to the const version - safe since nothing is changed. Exiting syntax: cast this to a const (always safe)
-		// call the method, cast the return back to non-const.
-		return const_cast<XmlNode*>((const_cast<const XmlNode*>(this))->firstChild(value));
-	}
-    
-	const XmlNode* lastChild() const { return m_lastChild; }		/// The last child of this node. Will be null if there are no children.
-	XmlNode* lastChild() { return m_lastChild; }
-	
-	const XmlNode* lastChild(const char* value) const;			/// The last child of this node matching 'value'. Will be null if there are no children.
-	XmlNode* lastChild(const char* value) 
+    /**
+     * @brief The types of XML nodes supported by GnyXml. (All the
+     * unsupported types are picked up by UNKNOWN.)
+     */
+    enum NodeType
     {
-		return const_cast<XmlNode*>((const_cast<const XmlNode*>(this))->lastChild(value));
-	}
+    	GNYXML_DOCUMENT,
+    	GNYXML_ELEMENT,
+    	GNYXML_COMMENT,
+    	GNYXML_UNKNOWN,
+    	GNYXML_TEXT,
+    	GNYXML_DECLARAGON,
+    	GNYXML_TYPECOUNT
+    };
 
-	const XmlNode* firstChild(const std::string& value) const	
+    virtual ~XmlNode();
+
+    /**
+     * @brief The meaning of 'value' changes for the specific type of
+     * GXmlNode.
+     * @verbatim
+     * Document:    filename of the xml file
+     * Element:	name of the element
+     * Comment:	the comment text
+     * Unknown:	the tag contents
+     * Text:    the text string
+     * @endverbatim
+     * 
+     * The subclasses will wrap this function.
+     */
+    const char* value() const { return m_value.c_str(); }
+
+    /**
+     * @brief Return Value() as a std::string. If you only use STL,
+     * this is more efficient than calling Value().
+     * Only available in STL mode.
+     */
+    const std::string& valueStr() const { return m_value; }
+    const std::string& valueTStr() const { return m_value; }
+
+    /**
+     * @brief Changes the value of the node. Defined as:
+     * @verbatim
+     * Document:	filename of the xml file
+     * Element:	name of the element
+     * Comment:	the comment text
+     * Unknown:	the tag contents
+     * Text:		the text string
+     * @endverbatim
+     */
+    void setValue(const char* value) { m_value = value;}
+
+    /// STL std::string form.
+    void setValue(const std::string& value) { m_value = value; }
+
+    /// Delete all the children of this node. Does not affect 'this'.
+    void clear();
+
+    /// One step up the DOM.
+    XmlNode* parent() { return m_parent; }
+    const XmlNode* parent() const{ return m_parent; }
+
+    const XmlNode* firstChild() const { return m_firstChild; }	///< The first child of this node. Will be null if there are no children.
+    XmlNode* firstChild() { return m_firstChild; }
+    const XmlNode* firstChild(const char* value) const;			///< The first child of this node with the matching 'value'. Will be null if none found.
+    /// The first child of this node with the matching 'value'. Will be null if none found.
+    XmlNode* firstChild(const char* value) 
+    {
+        // Call through to the const version - safe since nothing is changed. Exiting syntax: cast this to a const (always safe)
+        // call the method, cast the return back to non-const.
+        return const_cast<XmlNode*>((const_cast<const XmlNode*>(this))->firstChild(value));
+    }
+    
+    const XmlNode* lastChild() const { return m_lastChild; }		/// The last child of this node. Will be null if there are no children.
+    XmlNode* lastChild() { return m_lastChild; }
+	
+    const XmlNode* lastChild(const char* value) const;			/// The last child of this node matching 'value'. Will be null if there are no children.
+    XmlNode* lastChild(const char* value) 
+    {
+    	return const_cast<XmlNode*>((const_cast<const XmlNode*>(this))->lastChild(value));
+    }
+
+    const XmlNode* firstChild(const std::string& value) const	
     { 
-    	return firstChild(value.c_str ()); 
+  	return firstChild(value.c_str ()); 
     }    ///< STL std::string form.
     
-	XmlNode* firstChild(const std::string& value)	
+    XmlNode* firstChild(const std::string& value)	
     {   
     	return firstChild(value.c_str()); 
     }  ///< STL std::string form.
     
-	const XmlNode* lastChild(const std::string& value) const
+    const XmlNode* lastChild(const std::string& value) const
     { 
     	return lastChild(value.c_str ()); 
     } ///< STL std::string form.
