@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_usage.cpp
+* @file	    g_usage.cpp
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-09-30
+* @author   duye
+* @date	    2014-09-30
 * @note 
 *
 *  1. 2014-09-30 duye Created this file
