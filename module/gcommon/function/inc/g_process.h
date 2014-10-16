@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file	    g_process_tracker.h
+* @file	    g_process.h
 * @version     
 * @brief      
 * @author   duye
@@ -18,7 +18,7 @@
 
 #include <list>
 #include <g_system.h>
-#include <g_singleton.h>
+#include <g_security_obj.h>
 #include <g_singleton.h>
 
 namespace gcom {
@@ -41,7 +41,7 @@ public:
 class Process : public Singleton<Process>, public gsys::ProcessSysCallbackObserver
 {
 public:
-    typedef SecrityObj<std::list<ProcessObserver*>> ObserverList;
+    typedef SecurityObj<std::list<ProcessObserver*>> ObserverList;
     
 public:    
     Process();
@@ -64,7 +64,7 @@ public:
      * @param [in] num : can open file number
      * @return G_YES/G_NO
      */
-    GResult setLimitFile(const GUint32 num);
+    void setLimitFile(const GUint32 num);
     GUint32 limitFile() const;
     
     /**
@@ -86,7 +86,7 @@ private:
 private:    
     gsys::ProcessSysCallback    m_processSysCallback;
     ObserverList                m_observerList;
-    Condition                   m_exitCondition;
+    gsys::Condition             m_exitCondition;
     gsys::SysProcess            m_sysProcess;
 };
 

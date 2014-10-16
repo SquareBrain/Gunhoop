@@ -41,4 +41,24 @@ T& Singleton<T>::instance()
     static T t;
     return t;
 }
+
+template<typename T>
+class SingletonObj : public T
+{
+public:
+    static T& instance();
+    
+protected:
+    SingletonObj() {}
+    SingletonObj(const SingletonObj&);
+    Singleton& operator=(const SingletonObj&);
+};
+
+template<typename T>
+T& SingletonObj<T>::instance()
+{
+    static T t;
+    return t;
+}
+
 }

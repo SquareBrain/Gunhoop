@@ -16,11 +16,12 @@
 */
 
 #include <algorithm>
-#include <g_sync.h>
+#include <g_security_obj.h>
 #include <g_bufferinputstream.h>
 
 using namespace std;
-using namespace gcom;
+
+namespace gcom {
 
 BufferInputStream::BufferInputStream(GInt8* buffer, GInt32 bufferLen, GInt32 offset, GInt32 len)
 	: m_mtx(PTHREAD_MUTEX_NORMAL)
@@ -171,4 +172,4 @@ GInt64 BufferInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 	}
 	return ret;
 }
-
+}

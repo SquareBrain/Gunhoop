@@ -18,7 +18,7 @@
 #include <g_inputstream.h>
 
 using namespace std;
-using namespace gcom;
+namespace gcom {
 
 GInt8 InputStream::ms_skipbuffer[SKIP_BUFFER_SIZE] ={0};
 
@@ -105,4 +105,5 @@ GInt64 InputStream::skip(GInt64 num) throw(std::ios_base::failure)
 	}
 
 	return num - remaining;	
+}
 }

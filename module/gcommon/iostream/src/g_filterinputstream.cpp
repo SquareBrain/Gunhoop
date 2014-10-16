@@ -18,7 +18,7 @@
 #include <g_filterinputstream.h>
 
 using namespace std;
-using namespace gcom;
+namespace gcom {
 
 FilterInputStream::FilterInputStream(std::shared_ptr<InputStream> in)
 	: m_in(in)
@@ -77,4 +77,4 @@ GInt64 FilterInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 {
 	return m_in->skip(num);	
 }
-
+}

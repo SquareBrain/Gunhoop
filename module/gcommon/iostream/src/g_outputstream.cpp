@@ -17,7 +17,7 @@
 #include <g_outputstream.h>
 	
 using namespace std;
-using namespace gcom;
+namespace gcom {
 
 OutputStream::OutputStream()
 {
@@ -56,4 +56,4 @@ void OutputStream::flush() throw(std::ios_base::failure)
 void OutputStream::close() throw(std::ios_base::failure)
 {
 }
-
+}

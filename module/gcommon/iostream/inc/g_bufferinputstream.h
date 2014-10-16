@@ -94,13 +94,13 @@ public:
     virtual GInt64 skip(GInt64 num) throw(std::ios_base::failure);
 
 private:
-    GInt32 m_pos;
-    GInt32 m_mark;
-    GInt32 m_count;
+    GInt32      m_pos;
+    GInt32      m_mark;
+    GInt32      m_count;
 
-    GInt8* m_buffer;
-    GInt32 m_bufferLen;
+    GInt8*      m_buffer;
+    GInt32      m_bufferLen;
 
-    Mutex m_mtx;
+    gsys::Mutex m_mtx;
 };
 }

@@ -16,6 +16,7 @@
 */
 #pragma once
 
+#include <g_singleton.h>
 #include <g_network_client.h>
 
 namespace gcom {

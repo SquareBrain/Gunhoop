@@ -71,7 +71,7 @@ void Process::wakeup()
     m_exitCondition.broadcast();
 }
     
-void Process::signalHandler(const GInt32 sig)
+void Process::onSignalHandler(const GInt32 sig)
 {
     gsys::AutoLock autoLock(m_observerList.mutex());
     ObserverList::iterator iter = m_observerList.begin();
@@ -80,7 +80,7 @@ void Process::signalHandler(const GInt32 sig)
     	switch (sig)
         {
     	    case gsys::G_SIGSEGV:
-    	    	(*iter)->onSegmentationFault();
+    	    	(*iter)->onSegFault();
     	    	break;
     	    case gsys::G_SIGINT:
     	    	(*iter)->onCtrlC();
@@ -91,5 +91,4 @@ void Process::signalHandler(const GInt32 sig)
         }
     }    
 }
-
 }

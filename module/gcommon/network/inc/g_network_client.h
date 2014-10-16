@@ -17,7 +17,9 @@
 #pragma once
 
 #include <string>
+#include <list>
 #include <g_system.h>
+#include <g_security_obj.h>
 #include <g_network_def.h>
 
 namespace gcom {
@@ -54,7 +56,7 @@ public:
 class NetworkClient : public gsys::ThreadTask
 {
 public:
-    typedef gsys::SecrityObj<std::list<NetworkClientObserver*>> ObserverList;
+    typedef SecurityObj<std::list<NetworkClientObserver*>> ObserverList;
     
 public:
     NetworkClient();

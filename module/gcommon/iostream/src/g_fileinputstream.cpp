@@ -16,13 +16,13 @@
 */
 
 #include <algorithm>
-#include <g_sync.h>
+#include <g_security_obj.h>
 #include <g_fileinputstream.h>
 
 using namespace std;
-using namespace gcom;
+namespace gcom {
 
-FileInputStream::FileInputStream(std::shared_ptr<File> file)
+FileInputStream::FileInputStream(std::shared_ptr<gsys::File> file)
 	: m_file(file)
 	, m_mtx(PTHREAD_MUTEX_NORMAL)
 {
@@ -33,9 +33,9 @@ FileInputStream::FileInputStream(std::shared_ptr<File> file)
 }
 
 FileInputStream::FileInputStream(const std::string& filePath)
-	: m_file((shared_ptr<File>(new File(filePath.c_str()))))
+	: m_file((shared_ptr<gsys::File>(new gsys::File(filePath.c_str()))))
 {
-	if (m_file->open(G_OPEN_READ) == G_NO)
+	if (m_file->open(gsys::G_OPEN_READ) == G_NO)
 	{
 		throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
 	}
@@ -50,10 +50,10 @@ GInt32 FileInputStream::available() throw(std::ios_base::failure)
 	synchronized(m_mtx)
 	{
 		GInt64 current = m_file->tell();
-		GInt64 end = m_file->seek(0, G_SEEK_END);
+		GInt64 end = m_file->seek(0, gsys::G_SEEK_END);
 		GInt64 available = end - current;
 		
-		m_file->seek(current, G_SEEK_BEG);
+		m_file->seek(current, gsys::G_SEEK_BEG);
 		return available;
 	}
 	return 0;	// can not reach here
@@ -118,7 +118,7 @@ GInt64 FileInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 		// TODO: not complete
 		GInt64 avail = static_cast<GInt64>(available());
 		GInt64 offset = min(num, avail);
-		if (m_file->seek(offset, G_SEEK_CUR))
+		if (m_file->seek(offset, gsys::G_SEEK_CUR))
 		{
 			throw ios_base::failure(EXCEPTION_DESCRIPTION("ios_base::failure"));
 		}
@@ -127,8 +127,8 @@ GInt64 FileInputStream::skip(GInt64 num) throw(std::ios_base::failure)
 	return 0;	// can not reach here
 }
 
-std::shared_ptr<File> FileInputStream::GetFile()
+std::shared_ptr<gsys::File> FileInputStream::GetFile()
 {
 	return m_file;
 }
-
+}

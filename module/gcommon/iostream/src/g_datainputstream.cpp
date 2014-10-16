@@ -18,7 +18,7 @@
 #include <g_datainputstream.h>
 
 using namespace std;
-using namespace gcom;
+namespace gcom {
 
 DataInputStream::DataInputStream(std::shared_ptr<InputStream> in)
 	: FilterInputStream(in)
@@ -145,4 +145,5 @@ void DataInputStream::readFully(GInt8* buffer, GInt32 bufferLen, GInt32 offset, 
 		len -= num;
 		offset += num;
 	}
+}
 }
