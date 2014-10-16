@@ -4,11 +4,11 @@
 *
 *************************************************************************************/
 /**
-* @file		g_filesys_def.h
+* @file	    g_filesys_def.h
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-10-07
+* @author   duye
+* @date	    2014-10-07
 * @note 
 *
 *  1. 2014-10-07 duye Created this file
