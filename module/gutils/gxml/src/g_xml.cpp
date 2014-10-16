@@ -4,14 +4,14 @@
 *
 ************************************************************************************/
 /**
-* @file		g_xml.cpp
+* @file	    g_xml.cpp
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-8-7
+* @author   duye
+* @date	    2014-08-07
 * @note 
 *
-*  1. 2014-8-7 duye Created this file
+*  1. 2014-08-07 duye Created this file
 * 
 */
 #include <ctype.h>
@@ -24,332 +24,326 @@ namespace gutils {
 // Microsoft compiler security
 FILE* XmlFOpen(const char* filename, const char* mode)
 {
-	return fopen(filename, mode);
+    return fopen(filename, mode);
 }
 
 void XmlBase::encodeString(const std::string& str, std::string* outString)
 {
-	int i = 0;
-	while (i < (int)str.length())
-	{
-		unsigned char c = (unsigned char)str[i];
-		if (c == '&' 
-			&& i < ((int)str.length() - 2)
-			&& str[i+1] == '#'
-			&& str[i+2] == 'x')
-		{
-			// Hexadecimal character reference.
-			// Pass through unchanged.
-			// &#xA9;	-- copyright symbol, for example.
-			//
-			// The -1 is a bug fix from Rob Laveaux. It keeps
-			// an overflow from happening if there is no ';'.
-			// There are actually 2 ways to exit this loop -
-			// while fails (error case) and break (semicolon found).
-			// However, there is no mechanism (currently) for
-			// this function to return an error.
-			while (i < (int)str.length() - 1)
-			{
-				outString->append(str.c_str() + i, 1);
-				++i;
-				if (str[i] == ';')
+    int i = 0;
+    while (i < (int)str.length())
+    {
+    	unsigned char c = (unsigned char)str[i];
+    	if (c == '&' 
+    	    && i < ((int)str.length() - 2)
+            && str[i+1] == '#'
+            && str[i+2] == 'x')
+        {
+	    // Hexadecimal character reference.
+	    // Pass through unchanged.
+	    // &#xA9;	-- copyright symbol, for example.
+	    //
+	    // The -1 is a bug fix from Rob Laveaux. It keeps
+	    // an overflow from happening if there is no ';'.
+	    // There are actually 2 ways to exit this loop -
+	    // while fails (error case) and break (semicolon found).
+	    // However, there is no mechanism (currently) for
+	    // this function to return an error.
+	    while (i < (int)str.length() - 1)
+	    {
+	    	outString->append(str.c_str() + i, 1);
+	    	++i;
+	    	if (str[i] == ';')
                 {
-					break;
+                    break;
                 }
-			}
-		}
-		else if (c == '&')
-		{
-			outString->append(m_entity[0].m_str, m_entity[0].m_strLength);
-			++i;
-		}
-		else if (c == '<')
-		{
-			outString->append(m_entity[1].m_str, m_entity[1].m_strLength);
-			++i;
-		}
-		else if (c == '>')
-		{
-			outString->append(m_entity[2].m_str, m_entity[2].m_strLength);
-			++i;
-		}
-		else if (c == '\"')
-		{
-			outString->append(m_entity[3].m_str, m_entity[3].m_strLength);
-			++i;
-		}
-		else if (c == '\'')
-		{
-			outString->append(m_entity[4].m_str, m_entity[4].m_strLength);
-			++i;
-		}
-		else if (c < 32)
-		{
-			// Easy pass at non-alpha/numeric/symbol
-			// Below 32 is symbolic.
-			char buf[32] = {0};
-			snprintf(buf, sizeof(buf), "&#x%02X;", (unsigned)(c & 0xff));	
-
-			//*ME:	warning C4267: convert 'size_t' to 'int'
-			//*ME:	Int-Cast to make compiler happy ...
-			outString->append(buf, (int)strlen(buf));
-			++i;
-		}
-		else
-		{
-			//char realc = (char) c;
-			//outString->append( &realc, 1 );
-			*outString += (char)c;	// somewhat more efficient function call.
-			++i;
-		}
-	}
+            }
+        }
+        else if (c == '&')
+        {
+            outString->append(m_entity[0].m_str, m_entity[0].m_strLength);
+            ++i;
+        }
+        else if (c == '<')
+        {
+            outString->append(m_entity[1].m_str, m_entity[1].m_strLength);
+            ++i;
+        }
+        else if (c == '>')
+        {
+            outString->append(m_entity[2].m_str, m_entity[2].m_strLength);
+            ++i;
+        }
+        else if (c == '\"')
+        {
+            outString->append(m_entity[3].m_str, m_entity[3].m_strLength);
+            ++i;
+        }
+        else if (c == '\'')
+        {
+            outString->append(m_entity[4].m_str, m_entity[4].m_strLength);
+            ++i;
+        }
+        else if (c < 32)
+        {
+            // Easy pass at non-alpha/numeric/symbol
+            // Below 32 is symbolic.
+            char buf[32] = {0};
+            snprintf(buf, sizeof(buf), "&#x%02X;", (unsigned)(c & 0xff));	
+            
+            //*ME:	warning C4267: convert 'size_t' to 'int'
+            //*ME:	Int-Cast to make compiler happy ...
+            outString->append(buf, (int)strlen(buf));
+            ++i;
+        }
+        else
+        {
+            //char realc = (char) c;
+            //outString->append( &realc, 1 );
+            *outString += (char)c;	// somewhat more efficient function call.
+            ++i;
+        }
+    }
 }
 
 XmlNode::XmlNode(NodeType type) : XmlBase()
 {
-	m_parent = 0;
-	m_type = type;
-	m_firstChild = 0;
-	m_lastChild = 0;
-	m_prev = 0;
-	m_next = 0;
+    m_parent = 0;
+    m_type = type;
+    m_firstChild = 0;
+    m_lastChild = 0;
+    m_prev = 0;
+    m_next = 0;
 }
 
 XmlNode::~XmlNode()
 {
-	XmlNode* node = m_firstChild;
-	XmlNode* temp = nullptr;
+    XmlNode* node = m_firstChild;
+    XmlNode* temp = nullptr;
 
-	while (node != nullptr)
-	{
-		temp = node;
-		node = node->m_next;
-		delete temp;
-	}	
+    while (node != nullptr)
+    {
+    	temp = node;
+    	node = node->m_next;
+    	delete temp;
+    }	
 }
 
 void XmlNode::copyTo(XmlNode* target) const
 {
-	target->setValue(m_value.c_str());
-	target->m_userData = m_userData; 
-	target->m_location = m_location;
+    target->setValue(m_value.c_str());
+    target->m_userData = m_userData; 
+    target->m_location = m_location;
 }
 
 void XmlNode::clear()
 {
-	XmlNode* node = m_firstChild;
-	XmlNode* temp = nullptr;
+    XmlNode* node = m_firstChild;
+    XmlNode* temp = nullptr;
 
-	while (node != nullptr)
-	{
-		temp = node;
-		node = node->m_next;
-		delete temp;
-	}	
+    while (node != nullptr)
+    {
+    	temp = node;
+    	node = node->m_next;
+    	delete temp;
+    }	
 
-	m_firstChild = nullptr;
-	m_lastChild = nullptr;
+    m_firstChild = nullptr;
+    m_lastChild = nullptr;
 }
 
 XmlNode* XmlNode::linkEndChild(XmlNode* node)
 {
-	assert(node->m_parent == 0 || node->m_parent == this);
-	assert(node->getDocument() == 0 || node->getDocument() == this->getDocument());
+    assert(node->m_parent == 0 || node->m_parent == this);
+    assert(node->getDocument() == 0 || node->getDocument() == this->getDocument());
 
-	if (node->type() == XmlNode::GNYXML_DOCUMENT)
-	{
-		delete node;
-		if (getDocument()) 
+    if (node->type() == XmlNode::GNYXML_DOCUMENT)
+    {
+    	delete node;
+    	if (getDocument()) 
         {
-			getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
+            getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
         }
         
-		return 0;
-	}
-
-	node->m_parent = this;
-	node->m_prev = m_lastChild;
-	node->m_next = nullptr;
-    
-	if (m_lastChild != nullptr)
-    {
-		m_lastChild->m_next = node;
+        return 0;
     }
-	else
-    {
-		m_firstChild = node;			// it was an empty list.
-	}
 
-	m_lastChild = node;
-    
-	return node;
+    node->m_parent = this;
+    node->m_prev = m_lastChild;
+    node->m_next = nullptr;
+   
+    if (m_lastChild != nullptr)
+    {
+    	m_lastChild->m_next = node;
+    } 
+    else
+    {
+    	m_firstChild = node;			// it was an empty list.
+    }
+
+    m_lastChild = node;
+    return node;
 }
 
 XmlNode* XmlNode::insertEndChild(const XmlNode& addThis)
 {
-	if (addThis.type() == XmlNode::GNYXML_DOCUMENT)
-	{
-		if (getDocument()) 
-        {
-			getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
-        }
-        
-		return 0;
-	}
-    
-	XmlNode* node = addThis.clone();
-	if (node == nullptr)
+    if (addThis.type() == XmlNode::GNYXML_DOCUMENT)
     {
-		return nullptr;
+    	if (getDocument()) 
+        {
+            getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
+        }
+        return 0;
+    }
+    
+    XmlNode* node = addThis.clone();
+    if (node == nullptr)
+    {
+    	return nullptr;
     }
 
-	return linkEndChild(node);
+    return linkEndChild(node);
 }
 
 XmlNode* XmlNode::insertBeforeChild(XmlNode* beforeThis, const XmlNode& addThis)
 {	
-	if (beforeThis == nullptr || beforeThis->m_parent != this) 
+    if (beforeThis == nullptr || beforeThis->m_parent != this) 
     {
-		return 0;
-	}
-    
-	if (addThis.type() == XmlNode::GNYXML_DOCUMENT)
-	{
-		if (getDocument() != nullptr) 
-        {
-			getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
-        }
-        
-		return 0;
-	}
-
-	XmlNode* node = addThis.clone();
-	if (node == nullptr)
-    {
-		return 0;
+        return 0;
     }
     
-	node->m_parent = this;
-	node->m_next = beforeThis;
-	node->m_prev = beforeThis->m_prev;
-	if (beforeThis->m_prev)
-	{
-		beforeThis->m_prev->m_next = node;
-	}
-	else
-	{
-		assert(m_firstChild == beforeThis);
-		m_firstChild = node;
-	}
+    if (addThis.type() == XmlNode::GNYXML_DOCUMENT)
+    {
+    	if (getDocument() != nullptr) 
+        {
+            getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
+        }
+        
+	return 0;
+    }
+
+    XmlNode* node = addThis.clone();
+    if (node == nullptr)
+    {
+    	return 0;
+    }
     
-	beforeThis->m_prev = node;
+    node->m_parent = this;
+    node->m_next = beforeThis;
+    node->m_prev = beforeThis->m_prev;
+    if (beforeThis->m_prev)
+    {
+    	beforeThis->m_prev->m_next = node;
+    }
+    else
+    {
+        assert(m_firstChild == beforeThis);
+        m_firstChild = node;
+    }
     
-	return node;
+    beforeThis->m_prev = node;
+    return node;
 }
 
 XmlNode* XmlNode::insertAfterChild(XmlNode* afterThis, const XmlNode& addThis)
 {
-	if (afterThis == nullptr || afterThis->m_parent != this) 
+    if (afterThis == nullptr || afterThis->m_parent != this) 
     {
-		return 0;
-	}
-    
-	if (addThis.type() == XmlNode::GNYXML_DOCUMENT)
-	{
-		if (getDocument() != nullptr) 
-        {
-			getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
-        }
-        
-		return 0;
-	}
-
-	XmlNode* node = addThis.clone();
-	if (node == nullptr)
-    {
-		return 0;
+    	return 0;
     }
     
-	node->m_parent = this;
-	node->m_prev = afterThis;
-	node->m_next = afterThis->m_next;
-	if (afterThis->m_next != nullptr)
-	{
-		afterThis->m_next->m_prev = node;
-	}
-	else
-	{
-		assert(m_lastChild == afterThis);
-		m_lastChild = node;
-	}
+    if (addThis.type() == XmlNode::GNYXML_DOCUMENT)
+    {
+    	if (getDocument() != nullptr) 
+        {
+            getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
+        }
+        
+        return 0;
+    }
+
+    XmlNode* node = addThis.clone();
+    if (node == nullptr)
+    {
+    	return 0;
+    }
     
-	afterThis->m_next = node;
+    node->m_parent = this;
+    node->m_prev = afterThis;
+    node->m_next = afterThis->m_next;
+    if (afterThis->m_next != nullptr)
+    {
+    	afterThis->m_next->m_prev = node;
+    }
+    else
+    {
+    	assert(m_lastChild == afterThis);
+    	m_lastChild = node;
+    }
     
-	return node;
+    afterThis->m_next = node;
+    return node;
 }
 
 XmlNode* XmlNode::replaceChild(XmlNode* replaceThis, const XmlNode& withThis)
 {
-	if (replaceThis == nullptr)
+    if (replaceThis == nullptr)
     {
-		return 0;
+    	return 0;
     }
 
-	if (replaceThis->m_parent != this)
+    if (replaceThis->m_parent != this)
     {
-		return 0;
+    	return 0;
     }
 
-	if (withThis.toDocument()) 
+    if (withThis.toDocument()) 
     {
-		// A document can never be a child.	Thanks to Noam.
-		if (getDocument() != nullptr) 
+    	// A document can never be a child.	Thanks to Noam.
+    	if (getDocument() != nullptr) 
         {
-			getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
+            getDocument()->setError(GXML_ERROR_DOCUMENT_TOP_ONLY, 0, 0, GXML_ENCODING_UNKNOWN);
         }
-        
-		return 0;
-	}
-
-	XmlNode* node = withThis.clone();
-	if (node == nullptr)
-    {
-		return 0;
+	return 0;
     }
 
-	node->m_next = replaceThis->m_next;
-	node->m_prev = replaceThis->m_prev;
-
-	if (replaceThis->m_next)
+    XmlNode* node = withThis.clone();
+    if (node == nullptr)
     {
-		replaceThis->m_next->m_prev = node;
-    }
-	else
-    {
-		m_lastChild = node;
+    	return 0;
     }
 
-	if (replaceThis->m_prev)
+    node->m_next = replaceThis->m_next;
+    node->m_prev = replaceThis->m_prev;
+
+    if (replaceThis->m_next)
     {
-		replaceThis->m_prev->m_next = node;
-	}
+    	replaceThis->m_next->m_prev = node;
+    }
     else
     {
-		m_firstChild = node;
+    	m_lastChild = node;
     }
 
-	delete replaceThis;
-	node->m_parent = this;
-    
-	return node;
+    if (replaceThis->m_prev)
+    {
+    	replaceThis->m_prev->m_next = node;
+    }
+    else
+    {
+        m_firstChild = node;
+    }
+
+    delete replaceThis;
+    node->m_parent = this;
+    return node;
 }
 
 bool XmlNode::removeChild(XmlNode* removeThis)
 {
-	if (removeThis == nullptr) 
+    if (removeThis == nullptr) 
     {
-		return false;
-	}
+    	return false;
+    }
 
 	if (removeThis->m_parent != this)
 	{	
