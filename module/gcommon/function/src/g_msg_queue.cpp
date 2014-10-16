@@ -16,15 +16,18 @@
 */
 #include <g_msg_queue.h>
 
+namespace gsys {
+	
 MsgQueue::MsgQueue() : m_mode(G_POP_BLOCK) {}
 MsgQueue::MsgQueue(const AccessMode& mode) : m_mode(mode) {}
 
 GResult MsgQueue::push(T* msg)
 {
-	return G_YES;
+    return G_YES;
 }
 
 GResult MsgQueue::push(T* msg);
 {
-	return G_NO;	
+    return G_NO;	
+}
 }
