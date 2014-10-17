@@ -106,12 +106,14 @@ public:
      * @brief get server address
      * @return server address
      */
+    void setServerAddr(const IPPortPair& server_addr);
     const IPPortPair& serverAddr() const;
 
     /**
      * @brief get net card
      * @return net card
      */
+    void setNetCard(const std::string& net_card);
     const std::string& netCard() const;
     
     /**
@@ -138,5 +140,4 @@ protected:
     ClientState         m_state;
     ObserverList        m_observerList;
 };
-
 }

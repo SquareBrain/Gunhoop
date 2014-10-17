@@ -73,5 +73,4 @@ public:
 private:
 	HttpClient	m_httpClient;
 };
-
 }

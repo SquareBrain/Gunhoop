@@ -26,7 +26,7 @@ NetWorkConv::~NetWorkConv() {}
 GResult NetWorkConv::ipToInteger(const std::string& str_ip, GUint32& int_ip)
 {
     std::list<std::string> split_list;
-    IS_NO_R(Convert::splitString(str_ip, '.', split_list));
+    IS_NO_RR(Convert::splitString(str_ip, '.', split_list), G_ERROR_INVALID_PARAMETERS);
     IS_NO_RR(split_list.size() == 4, G_ERROR_INVALID_PARAMETERS);
     
     GUint32 ip_array[4] = {0};
@@ -59,10 +59,10 @@ GResult NetWorkConv::ipToString(const GUint32 int_ip, std::string& str_ip)
 GResult NetWorkConv::macToInteger(const std::string& str_mac, GUint64& int_mac)
 {
     std::list<std::string> split_list;
-    IS_NO_R(Convert::splitString(str_mac, ':', split_list));
+    IS_NO_RR(Convert::splitString(str_mac, ':', split_list), G_ERROR_INVALID_PARAMETERS);
     IS_NO_RR(split_list.size() == 6, G_ERROR_INVALID_PARAMETERS);
     
-    GUint32 ip_array[6] = {0};
+    GUint64 ip_array[6] = {0};
     GUint16 i = 0;
     std::list<std::string>::iterator iter = split_list.begin();
     for (; iter != split_list.end(); ++iter)
@@ -95,7 +95,7 @@ GResult NetWorkConv::macToInteger(const GInt8 bytes_mac[6], GUint64& int_mac)
 GResult NetWorkConv::macToBytes(const std::string& str_mac, GInt8 bytes_mac[6])
 {
     std::list<std::string> split_list;
-    IS_NO_R(Convert::splitString(str_mac, ':', split_list));
+    IS_NO_RR(Convert::splitString(str_mac, ':', split_list), G_ERROR_INVALID_PARAMETERS);
     IS_NO_RR(split_list.size() == 6, G_ERROR_INVALID_PARAMETERS);
     
     GUint16 i = 0;

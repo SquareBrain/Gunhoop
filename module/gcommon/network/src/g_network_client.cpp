@@ -18,16 +18,30 @@
 
 namespace gcom {
 
-NetworkClient::NetworkClient() {}
-NetworkClient::NetworkClient(const IPPortPair& server_addr) 
-  : m_serverAddr(server_addr)
-  , m_state(CLIENT_INIT) {}
+NetworkClient::NetworkClient()
+    : m_netCard("eth0")
+    , m_state(CLIENT_INIT) {}
+	
+NetworkClient::NetworkClient(const IPPortPair& server_addr, const std::string& net_card) 
+    : m_serverAddr(server_addr)
+    , m_netCard(net_card)
+    , m_state(CLIENT_INIT) {}
 
 NetworkClient::~NetworkClient() {}
+
+void NetworkClient::setServerAddr(const IPPortPair& server_addr)
+{
+    m_serverAddr = server_addr;
+}
 
 const IPPortPair& NetworkClient::serverAddr() const
 {
     return m_serverAddr;
+}
+
+void NetworkClient::setNetCard(const std::string& net_card)
+{
+    m_netCard = net_card;
 }
 
 const std::string& NetworkClient::netCard() const
@@ -72,7 +86,7 @@ GResult NetworkClient::removeObserver(NetworkClientObserver* observer)
 
 GResult NetworkClient::run()
 {
-    return this->msgLoop();
+    return this->routine();
 }
 
 }

@@ -21,12 +21,14 @@
 namespace gcom {
 
 FtpClient::FtpClient() {}
-FtpClient::FtpClient(const IPPortPair& server_addr, const std::string& net_card) : NetworkClient(server_addr, net_card) {}
-FtpClient::~FtpClient();
+FtpClient::FtpClient(const IPPortPair& server_addr, const std::string& net_card) 
+	: NetworkClient(server_addr, net_card) {}
+
+FtpClient::~FtpClient() {}
 
 GResult FtpClient::connect()
 {
-    if (getServerAddr().getIPAddr().getIPStr().empty())
+    if (serverAddr().ipAddr().ipStr().empty())
     {
     	return G_NO;
     }
@@ -36,12 +38,9 @@ GResult FtpClient::connect()
 
 GResult FtpClient::connect(const IPPortPair& server_addr, const std::string& net_card)
 {
-    if (getServerAddr().getIPAddr().getIPStr().empty())
-    {
-    	return G_NO;
-    }
-
-    return G_YES;
+    setServerAddr(server_addr);
+	setNetCard(net_card);
+	return connect();
 }
 
 GInt64 FtpClient::sendMsg(const GInt8* data, const GUint64 len)

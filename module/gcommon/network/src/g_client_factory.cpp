@@ -14,6 +14,12 @@
 *  1. 2014-10-12 duye Created this file
 * 
 */
+#include <g_ftp_client.h>
+#include <g_http_client.h>
+#include <g_rpc_client.h>
+#include <g_tcp_client.h>
+#include <g_udp_client.h>
+#include <g_cli_client.h>
 #include <g_client_factory.h>
 
 namespace gcom {
@@ -70,37 +76,37 @@ void ClientFactory::destroy(const ClientType& client_type, NetworkClient* client
     {
         case G_CLIENT_FTP:
         {
-            FtpClient* del_client = dynamic_cast<FtpClient*>client;
+            FtpClient* del_client = dynamic_cast<FtpClient*>(client);
             delete del_client;
             break;
         }
         case G_CLIENT_HTTP:
         {
-            HttpClient* del_client = dynamic_cast<HttpClient*>client;
+            HttpClient* del_client = dynamic_cast<HttpClient*>(client);
             delete del_client;
             break;
         }
         case G_CLIENT_RPC:
         {
-            RpcClient* del_client = dynamic_cast<RpcClient*>client;
+            RpcClient* del_client = dynamic_cast<RpcClient*>(client);
             delete del_client;
             break;
         }
         case G_CLIENT_TCP:
         {
-            TcpClient* del_client = dynamic_cast<TcpClient*>client;
+            TcpClient* del_client = dynamic_cast<TcpClient*>(client);
             delete del_client;
             break;
         }
         case G_CLIENT_UDP:
         {
-            UdpClient* del_client = dynamic_cast<UdpClient*>client;
+            UdpClient* del_client = dynamic_cast<UdpClient*>(client);
             delete del_client;
             break;
         }
         case G_CLIENT_CLI:
         {
-            CliClient* del_client = dynamic_cast<CliClient*>client;
+            CliClient* del_client = dynamic_cast<CliClient*>(client);
             delete del_client;
             break;
         }

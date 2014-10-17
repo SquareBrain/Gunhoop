@@ -20,8 +20,8 @@
 #include <g_convert.h>
 #include <g_objpool.h>
 #include <g_singleton.h>
-#include <g_sync.h>
+#include <g_security_obj.h>
 #include <g_threadpool.h>
 #include <g_usage.h>
 #include <g_host_server.h>
-#include <g_process_tracker.h>
+#include <g_process.h>

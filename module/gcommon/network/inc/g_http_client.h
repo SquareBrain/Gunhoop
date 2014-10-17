@@ -67,5 +67,4 @@ public:
      */
     virtual GResult routine();		    
 };
-
 }

@@ -19,16 +19,7 @@
 
 #include <g_network_client.h>
 
-/**
- * @brief tcp client user interface
- */	
-class TcpClientInterface
-{
-public:
-	virtual ~TcpClientInterface() {}
-	virtual GResult state(const TcpConnectState& state) = 0;
-	virtual GResult received(GInt8* data, const GUint64 len) = 0;
-};
+namespace gcom {
 
 /**
  * @brief tcp client
@@ -80,5 +71,5 @@ public:
 
 private:
 	IPPortPair			m_serverAddr;
-	TcpClientInterface*	m_tcpClientInterface;
 };
+}

@@ -70,5 +70,4 @@ private:
     NetworkClient*	m_tcpClient;
     NetworkClient*	m_udpClient;
 };
-
 }

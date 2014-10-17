@@ -14,6 +14,12 @@
 *  1. 2014-10-12 duye Created this file
 * 
 */
+#include <g_ftp_client.h>
+#include <g_http_client.h>
+#include <g_rpc_client.h>
+#include <g_tcp_client.h>
+#include <g_udp_client.h>
+#include <g_cli_client.h>
 #include <g_server_factory.h>
 
 namespace gcom {

@@ -19,7 +19,9 @@
 namespace gcom {
 
 HttpClient::HttpClient() {}
-HttpClient::HttpClient(const IPPortPair& server_addr) : m_serverAddr(server_addr) {}
+HttpClient::HttpClient(const IPPortPair& server_addr, const std::string& net_card)
+	: NetworkClient(server_addr, net_card) {}
+
 HttpClient::~HttpClient() {}
 
 }
