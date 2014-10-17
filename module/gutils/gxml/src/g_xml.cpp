@@ -345,249 +345,249 @@ bool XmlNode::removeChild(XmlNode* removeThis)
     	return false;
     }
 
-	if (removeThis->m_parent != this)
-	{	
-		return false;
-	}
-
-	if (removeThis->m_next)
-    {
-		removeThis->m_next->m_prev = removeThis->m_prev;
-    }
-	else
-    {
-		m_lastChild = removeThis->m_prev;
+    if (removeThis->m_parent != this)
+    {	
+        return false;
     }
 
-	if (removeThis->m_prev)
+    if (removeThis->m_next)
     {
-		removeThis->m_prev->m_next = removeThis->m_next;
+        removeThis->m_next->m_prev = removeThis->m_prev;
     }
-	else
+    else
     {
-		m_firstChild = removeThis->m_next;
+        m_lastChild = removeThis->m_prev;
     }
 
-	delete removeThis;
+    if (removeThis->m_prev)
+    {
+        removeThis->m_prev->m_next = removeThis->m_next;
+    }
+    else
+    {
+        m_firstChild = removeThis->m_next;
+    }
+
+    delete removeThis;
     
-	return true;
+    return true;
 }
 
 const XmlNode* XmlNode::firstChild(const char* value) const
 {
-	for (const XmlNode* node = m_firstChild; node != nullptr; node = node->m_next)
-	{
-		if (strcmp(node->value(), value) == 0)
+    for (const XmlNode* node = m_firstChild; node != nullptr; node = node->m_next)
+    {
+    	if (strcmp(node->value(), value) == 0)
         {
-			return node;
+            return node;
         }
-	}
+    }
     
-	return 0;
+    return 0;
 }
 
 const XmlNode* XmlNode::lastChild(const char* value) const
 {
-	for (const XmlNode* node = m_lastChild; node != nullptr; node = node->m_prev)
-	{
-		if (strcmp(node->value(), value) == 0)
+    for (const XmlNode* node = m_lastChild; node != nullptr; node = node->m_prev)
+    {
+    	if (strcmp(node->value(), value) == 0)
         {
-			return node;
+             return node;
         }
-	}
+    }
     
-	return 0;
+    return 0;
 }
 
 const XmlNode* XmlNode::iterateChildren(const XmlNode* previous) const
 {
-	if (previous == nullptr)
-	{
-		return firstChild();
-	}
-	else
-	{
-		assert(previous->m_parent == this);
-		return previous->nextSibling();
-	}
+    if (previous == nullptr)
+    {
+        return firstChild();
+    }
+    else
+    {
+        assert(previous->m_parent == this);
+        return previous->nextSibling();
+    }
 }
 
 const XmlNode* XmlNode::iterateChildren(const char* val, const XmlNode* previous) const
 {
-	if (previous == nullptr)
-	{
-		return firstChild(val);
-	}
-	else
-	{
-		assert(previous->m_parent == this);
-		return previous->nextSibling(val);
-	}
+    if (previous == nullptr)
+    {
+    	return firstChild(val);
+    }
+    else
+    {
+        assert(previous->m_parent == this);
+        return previous->nextSibling(val);
+    }
 }
 
 const XmlNode* XmlNode::nextSibling(const char* value) const 
 {
-	for (const XmlNode* node = m_next; node != nullptr; node = node->m_next)
-	{
-		if (strcmp(node->value(), value) == 0)
+    for (const XmlNode* node = m_next; node != nullptr; node = node->m_next)
+    {
+        if (strcmp(node->value(), value) == 0)
         {
-			return node;
+            return node;
         }
-	}
+    }
     
-	return 0;
+    return 0;
 }
 
 const XmlNode* XmlNode::previousSibling(const char* value) const
 {
-	for (const XmlNode* node = m_prev; node != nullptr; node = node->m_prev)
-	{
-		if (strcmp(node->value(), value) == 0)
+    for (const XmlNode* node = m_prev; node != nullptr; node = node->m_prev)
+    {
+    	if (strcmp(node->value(), value) == 0)
         {
-			return node;
+            return node;
         }
-	}
+    }
     
-	return 0;
+    return 0;
 }
 
 void XmlElement::removeAttribute(const char* name)
 {
-	std::string str(name);
-	XmlAttribute* node = m_attributeSet.find(str);
-	if (node != nullptr)
-	{
-		m_attributeSet.remove(node);
-		delete node;
-	}
+    std::string str(name);
+    XmlAttribute* node = m_attributeSet.find(str);
+    if (node != nullptr)
+    {
+    	m_attributeSet.remove(node);
+    	delete node;
+    }
 }
 
 const XmlElement* XmlNode::firstChildElement() const
 {
-	for (const XmlNode* node = firstChild(); node != nullptr; node = node->nextSibling())
-	{
-		if (node->toElement())
+    for (const XmlNode* node = firstChild(); node != nullptr; node = node->nextSibling())
+    {
+    	if (node->toElement())
         {
-			return node->toElement();
+             return node->toElement();
         }
-	}
+    }
     
-	return 0;
+    return 0;
 }
 
 const XmlElement* XmlNode::firstChildElement(const char* value) const
 {
-	for (const XmlNode* node = firstChild(value); node != nullptr; node = node->nextSibling(value))
-	{
-		if (node->toElement())
+    for (const XmlNode* node = firstChild(value); node != nullptr; node = node->nextSibling(value))
+    {
+        if (node->toElement())
         {
-			return node->toElement();
+            return node->toElement();
         }
-	}
+    }
     
-	return 0;
+    return 0;
 }
 
 const XmlElement* XmlNode::nextSiblingElement() const
 {
-	for (const XmlNode* node = nextSibling(); node != nullptr; node = node->nextSibling())
-	{
-		if (node->toElement())
+    for (const XmlNode* node = nextSibling(); node != nullptr; node = node->nextSibling())
+    {
+    	if (node->toElement())
         {
-			return node->toElement();
+            return node->toElement();
         }
-	}
+    }
     
-	return 0;
+    return 0;
 }
 
 const XmlElement* XmlNode::nextSiblingElement(const char* value) const
 {
-	for (const XmlNode* node = nextSibling(value); node != nullptr; node = node->nextSibling(value))
-	{
-		if (node->toElement())
+    for (const XmlNode* node = nextSibling(value); node != nullptr; node = node->nextSibling(value))
+    {
+    	if (node->toElement())
         {
-			return node->toElement();
+            return node->toElement();
         }
-	}
+    }
     
-	return 0;
+    return 0;
 }
 
 const XmlDocument* XmlNode::getDocument() const
 {
-	for (const XmlNode* node = this; node != nullptr; node = node->m_parent)
-	{
-		if (node->toDocument())
+    for (const XmlNode* node = this; node != nullptr; node = node->m_parent)
+    {
+    	if (node->toDocument())
         {
-			return node->toDocument();
+            return node->toDocument();
         }
-	}
+    }
     
-	return 0;
+    return 0;
 }
 
 XmlElement::XmlElement(const char* value) : XmlNode(XmlNode::GNYXML_ELEMENT)
 {
-	m_firstChild = nullptr;
-	m_lastChild = nullptr;
-	m_value = value;
+    m_firstChild = nullptr;
+    m_lastChild = nullptr;
+    m_value = value;
 }
 
 XmlElement::XmlElement(const std::string& value) : XmlNode(XmlNode::GNYXML_ELEMENT)
 {
-	m_firstChild = nullptr;
-	m_lastChild = nullptr;
-	m_value = value;
+    m_firstChild = nullptr;
+    m_lastChild = nullptr;
+    m_value = value;
 }
 
 XmlElement::XmlElement(const XmlElement& copy) : XmlNode(XmlNode::GNYXML_ELEMENT)
 {
-	m_firstChild = nullptr;
-	m_lastChild = nullptr;
-	copy.copyTo(this);	
+    m_firstChild = nullptr;
+    m_lastChild = nullptr;
+    copy.copyTo(this);	
 }
 
 XmlElement& XmlElement::operator = (const XmlElement& base)
 {
-	clearThis();
-	base.copyTo(this);
-	return *this;
+    clearThis();
+    base.copyTo(this);
+    return *this;
 }
 
 XmlElement::~XmlElement()
 {
-	clearThis();
+    clearThis();
 }
 
 void XmlElement::clearThis()
 {
-	clear();
-	while (m_attributeSet.first())
-	{
-		XmlAttribute* node = m_attributeSet.first();
-		m_attributeSet.remove(node);
-		delete node;
-	}
+    clear();
+    while (m_attributeSet.first())
+    {
+    	XmlAttribute* node = m_attributeSet.first();
+    	m_attributeSet.remove(node);
+    	delete node;
+    }
 }
 
 const char* XmlElement::attribute(const char* name) const
 {
-	const XmlAttribute* node = m_attributeSet.find(name);
-	if (node != nullptr)
+    const XmlAttribute* node = m_attributeSet.find(name);
+    if (node != nullptr)
     {
-		return node->value();
+    	return node->value();
     }
     
-	return 0;
+    return 0;
 }
 
 const std::string* XmlElement::attribute(const std::string& name) const
 {
-	const XmlAttribute* attrib = m_attributeSet.find(name);
-	if (attrib != nullptr)
+    const XmlAttribute* attrib = m_attributeSet.find(name);
+    if (attrib != nullptr)
     {
-		return &attrib->valueStr();
+        return &attrib->valueStr();
     }
 
     return 0;
@@ -595,430 +595,427 @@ const std::string* XmlElement::attribute(const std::string& name) const
 
 const char* XmlElement::attribute(const char* name, int* i) const
 {
-	const XmlAttribute* attrib = m_attributeSet.find(name);
-	const char* result = nullptr;
-	if (attrib != nullptr) 
+    const XmlAttribute* attrib = m_attributeSet.find(name);
+    const char* result = nullptr;
+    if (attrib != nullptr) 
     {
-		result = attrib->value();
-		if (i != nullptr) 
+        result = attrib->value();
+        if (i != nullptr) 
         {
-			attrib->queryIntValue(i);
-		}
-	}
+            attrib->queryIntValue(i);
+        }
+    }
     
-	return result;
+    return result;
 }
 
 const std::string* XmlElement::attribute(const std::string& name, int* i) const
 {
-	const XmlAttribute* attrib = m_attributeSet.find(name);
-	const std::string* result = nullptr;
-	if (attrib != nullptr)
+    const XmlAttribute* attrib = m_attributeSet.find(name);
+    const std::string* result = nullptr;
+    if (attrib != nullptr)
     {
-		result = &attrib->valueStr();
-		if (i != nullptr)
+    	result = &attrib->valueStr();
+        if (i != nullptr)
         {
-			attrib->queryIntValue(i);
-		}
-	}
+            attrib->queryIntValue(i);
+        }
+    }
     
-	return result;
+    return result;
 }
 
 const char* XmlElement::attribute(const char* name, double* d) const
 {
-	const XmlAttribute* attrib = m_attributeSet.find(name);
-	const char* result = nullptr;
-	if (attrib != nullptr)
+    const XmlAttribute* attrib = m_attributeSet.find(name);
+    const char* result = nullptr;
+    if (attrib != nullptr)
     {
-		result = attrib->value();
-		if (d != nullptr) 
+    	result = attrib->value();
+    	if (d != nullptr) 
         {
-			attrib->queryDoubleValue(d);
-		}
-	}
+            attrib->queryDoubleValue(d);
+        }
+    }
     
-	return result;
+    return result;
 }
 
 const std::string* XmlElement::attribute(const std::string& name, double* d) const
 {
-	const XmlAttribute* attrib = m_attributeSet.find( name );
-	const std::string* result = nullptr;
-	if (attrib != nullptr)
+    const XmlAttribute* attrib = m_attributeSet.find( name );
+    const std::string* result = nullptr;
+    if (attrib != nullptr)
     {
-		result = &attrib->valueStr();
-		if (d != nullptr) 
+    	result = &attrib->valueStr();
+        if (d != nullptr) 
         {
-			attrib->queryDoubleValue(d);
-		}
-	}
+            attrib->queryDoubleValue(d);
+        }
+    }
     
-	return result;
+    return result;
 }
 
 int XmlElement::queryIntAttribute(const char* name, int* ival) const
 {
-	const XmlAttribute* attrib = m_attributeSet.find(name);
-	if (attrib == nullptr)
+    const XmlAttribute* attrib = m_attributeSet.find(name);
+    if (attrib == nullptr)
     {
-		return GXML_NO_ATTRIBUTE;
+    	return GXML_NO_ATTRIBUTE;
     }
     
-	return attrib->queryIntValue(ival);
+    return attrib->queryIntValue(ival);
 }
 
 int XmlElement::queryUnsignedAttribute(const char* name, unsigned* value) const
 {
-	const XmlAttribute* node = m_attributeSet.find(name);
-	if (node == nullptr)
+    const XmlAttribute* node = m_attributeSet.find(name);
+    if (node == nullptr)
     {
-		return GXML_NO_ATTRIBUTE;
+    	return GXML_NO_ATTRIBUTE;
     }
 
-	int ival = 0;
-	int result = node->queryIntValue(&ival);
-	*value = (unsigned)ival;
+    int ival = 0;
+    int result = node->queryIntValue(&ival);
+    *value = (unsigned)ival;
     
-	return result;
+    return result;
 }
 
 int XmlElement::queryBoolAttribute(const char* name, bool* bval) const
 {
-	const XmlAttribute* node = m_attributeSet.find(name);
-	if (node == nullptr)
+    const XmlAttribute* node = m_attributeSet.find(name);
+    if (node == nullptr)
     {
-		return GXML_NO_ATTRIBUTE;
+    	return GXML_NO_ATTRIBUTE;
     }
 	
-	int result = GXML_WRONG_TYPE;
-	if (stringEqual(node->value(), "true", true, GXML_ENCODING_UNKNOWN) 
-		|| stringEqual(node->value(), "yes", true, GXML_ENCODING_UNKNOWN) 
-		|| stringEqual(node->value(), "1", true, GXML_ENCODING_UNKNOWN)) 
-	{
-		*bval = true;
-		result = GXML_SUCCESS;
-	}
-	else if (stringEqual(node->value(), "false", true, GXML_ENCODING_UNKNOWN) 
-			 || stringEqual(node->value(), "no", true, GXML_ENCODING_UNKNOWN) 
-			 || stringEqual(node->value(), "0", true, GXML_ENCODING_UNKNOWN)) 
-	{
-		*bval = false;
-		result = GXML_SUCCESS;
-	}
+    int result = GXML_WRONG_TYPE;
+    if (stringEqual(node->value(), "true", true, GXML_ENCODING_UNKNOWN) 
+        || stringEqual(node->value(), "yes", true, GXML_ENCODING_UNKNOWN) 
+        || stringEqual(node->value(), "1", true, GXML_ENCODING_UNKNOWN)) 
+    {
+        *bval = true;
+        result = GXML_SUCCESS;
+    }
+    else if (stringEqual(node->value(), "false", true, GXML_ENCODING_UNKNOWN) 
+        || stringEqual(node->value(), "no", true, GXML_ENCODING_UNKNOWN) 
+        || stringEqual(node->value(), "0", true, GXML_ENCODING_UNKNOWN)) 
+    {
+        *bval = false;
+        result = GXML_SUCCESS;
+    }
     
-	return result;
+    return result;
 }
 
 int XmlElement::queryIntAttribute(const std::string& name, int* ival) const
 {
-	const XmlAttribute* attrib = m_attributeSet.find(name);
-	if (attrib == nullptr)
+    const XmlAttribute* attrib = m_attributeSet.find(name);
+    if (attrib == nullptr)
     {
-		return GXML_NO_ATTRIBUTE;
+        return GXML_NO_ATTRIBUTE;
     }
     
-	return attrib->queryIntValue(ival);
+    return attrib->queryIntValue(ival);
 }
 
 int XmlElement::queryDoubleAttribute(const char* name, double* dval) const
 {
-	const XmlAttribute* attrib = m_attributeSet.find(name);
-	if (attrib == nullptr)
+    const XmlAttribute* attrib = m_attributeSet.find(name);
+    if (attrib == nullptr)
     {
-		return GXML_NO_ATTRIBUTE;
+        return GXML_NO_ATTRIBUTE;
     }
     
-	return attrib->queryDoubleValue(dval);
+    return attrib->queryDoubleValue(dval);
 }
 
 int XmlElement::queryDoubleAttribute(const std::string& name, double* dval) const
 {
-	const XmlAttribute* attrib = m_attributeSet.find(name);
-	if (attrib == nullptr)
+    const XmlAttribute* attrib = m_attributeSet.find(name);
+    if (attrib == nullptr)
     {
-		return GXML_NO_ATTRIBUTE;
+        return GXML_NO_ATTRIBUTE;
     }
     
-	return attrib->queryDoubleValue(dval);
+    return attrib->queryDoubleValue(dval);
 }
 
 void XmlElement::setAttribute(const char* name, int val)
 {	
-	XmlAttribute* attrib = m_attributeSet.findOrCreate(name);
-	if (attrib != nullptr) 
+    XmlAttribute* attrib = m_attributeSet.findOrCreate(name);
+    if (attrib != nullptr) 
     {
-		attrib->setIntValue(val);
-	}
+    	attrib->setIntValue(val);
+    }
 }
 
 void XmlElement::setAttribute(const std::string& name, int val)
 {	
-	XmlAttribute* attrib = m_attributeSet.findOrCreate(name);
-	if (attrib != nullptr) 
+    XmlAttribute* attrib = m_attributeSet.findOrCreate(name);
+    if (attrib != nullptr) 
     {
-		attrib->setIntValue(val);
-	}
+        attrib->setIntValue(val);
+    }
 }
 
 void XmlElement::setDoubleAttribute(const char* name, double val)
 {	
-	XmlAttribute* attrib = m_attributeSet.findOrCreate(name);
-	if (attrib != nullptr) 
+    XmlAttribute* attrib = m_attributeSet.findOrCreate(name);
+    if (attrib != nullptr) 
     {
-		attrib->setDoubleValue(val);
-	}
+        attrib->setDoubleValue(val);
+    }
 }
 
 void XmlElement::setDoubleAttribute(const std::string& name, double val)
 {	
-	XmlAttribute* attrib = m_attributeSet.findOrCreate(name);
-	if (attrib != nullptr) 
+    XmlAttribute* attrib = m_attributeSet.findOrCreate(name);
+    if (attrib != nullptr) 
     {
-		attrib->setDoubleValue(val);
-	}
+    	attrib->setDoubleValue(val);
+    }
 }
 
 void XmlElement::setAttribute(const char* cname, const char* cvalue)
 {
-	XmlAttribute* attrib = m_attributeSet.findOrCreate(cname);
-	if (attrib != nullptr) 
+    XmlAttribute* attrib = m_attributeSet.findOrCreate(cname);
+    if (attrib != nullptr) 
     {
-		attrib->setValue(cvalue);
-	}
+    	attrib->setValue(cvalue);
+    }
 }
 
 void XmlElement::setAttribute(const std::string& name, const std::string& value)
 {
-	XmlAttribute* attrib = m_attributeSet.findOrCreate(name);
-	if (attrib != nullptr) 
+    XmlAttribute* attrib = m_attributeSet.findOrCreate(name);
+    if (attrib != nullptr) 
     {
-		attrib->setValue(value);
-	}
+    	attrib->setValue(value);
+    }
 }
 
 void XmlElement::print(FILE* cfile, int depth) const
 {
-	assert(cfile);
-	for (int i = 0; i < depth; i++) 
+    assert(cfile);
+    for (int i = 0; i < depth; i++) 
     {
-		fprintf(cfile, " ");
-	}
+        fprintf(cfile, " ");
+    }
 
-	fprintf(cfile, "<%s", m_value.c_str());
-	for (const XmlAttribute* attrib = m_attributeSet.first(); attrib != nullptr; attrib = attrib->next())
-	{
-		fprintf(cfile, " ");
-		attrib->print(cfile, depth);
-	}
+    fprintf(cfile, "<%s", m_value.c_str());
+    for (const XmlAttribute* attrib = m_attributeSet.first(); attrib != nullptr; attrib = attrib->next())
+    {
+        fprintf(cfile, " ");
+        attrib->print(cfile, depth);
+    }
 
-	// There are 3 different formatting approaches:
-	// 1) An element without children is printed as a <foo /> node
-	// 2) An element with only a text child is printed as <foo> text </foo>
-	// 3) An element with children is printed on multiple lines.
-	if (m_firstChild == nullptr)
-	{
-		fprintf(cfile, " />");
-	}
-	else if (m_firstChild == m_lastChild && m_firstChild->toText() != nullptr)
-	{
-		fprintf(cfile, ">");
-		m_firstChild->print(cfile, depth + 1);
-		fprintf(cfile, "</%s>", m_value.c_str());
-	}
-	else
-	{
-		fprintf(cfile, ">");
-		for (XmlNode* node = m_firstChild; node != nullptr; node = node->nextSibling())
-		{
-			if (node->toText() == nullptr)
-			{
-				fprintf(cfile, "\n");
-			}
-            
-			node->print(cfile, depth + 1);
-		}
-        
-		fprintf(cfile, "\n");
-		for (int i = 0; i < depth; i++) 
+    // There are 3 different formatting approaches:
+    // 1) An element without children is printed as a <foo /> node
+    // 2) An element with only a text child is printed as <foo> text </foo>
+    // 3) An element with children is printed on multiple lines.
+    if (m_firstChild == nullptr)
+    {
+    	fprintf(cfile, " />");
+    }
+    else if (m_firstChild == m_lastChild && m_firstChild->toText() != nullptr)
+    {
+        fprintf(cfile, ">");
+        m_firstChild->print(cfile, depth + 1);
+        fprintf(cfile, "</%s>", m_value.c_str());
+    }
+    else
+    {
+        fprintf(cfile, ">");
+        for (XmlNode* node = m_firstChild; node != nullptr; node = node->nextSibling())
         {
-			fprintf(cfile, " ");
-		}
+            if (node->toText() == nullptr)
+            {
+                fprintf(cfile, "\n");
+            }
+            
+            node->print(cfile, depth + 1);
+        }
         
-		fprintf(cfile, "</%s>", m_value.c_str());
-	}
+        fprintf(cfile, "\n");
+        for (int i = 0; i < depth; i++) 
+        {
+            fprintf(cfile, " ");
+        }
+        
+        fprintf(cfile, "</%s>", m_value.c_str());
+    }
 }
 
 void XmlElement::copyTo(XmlElement* target) const
 {
-	// superclass:
-	XmlNode::copyTo(target);
+    // superclass:
+    XmlNode::copyTo(target);
 
-	// Element class: 
-	// Clone the attributes, then clone the children.
-	for (const XmlAttribute* attribute = m_attributeSet.first(); attribute != nullptr; attribute = attribute->next())
-	{
-		target->setAttribute(attribute->name(), attribute->value());
-	}
+    // Element class: 
+    // Clone the attributes, then clone the children.
+    for (const XmlAttribute* attribute = m_attributeSet.first(); attribute != nullptr; attribute = attribute->next())
+    {
+    	target->setAttribute(attribute->name(), attribute->value());
+    }
 
-	for (XmlNode* node = m_firstChild; node != nullptr; node = node->nextSibling())
-	{
-		target->linkEndChild(node->clone());
-	}
+    for (XmlNode* node = m_firstChild; node != nullptr; node = node->nextSibling())
+    {
+        target->linkEndChild(node->clone());
+    }
 }
 
 bool XmlElement::accept(XmlVisitor* visitor) const
 {
-	if (visitor->visitEnter(*this, m_attributeSet.first())) 
-	{
-		for (const XmlNode* node = firstChild(); node != nullptr; node = node->nextSibling())
-		{
-			if (!node->accept(visitor))
+    if (visitor->visitEnter(*this, m_attributeSet.first())) 
+    {
+        for (const XmlNode* node = firstChild(); node != nullptr; node = node->nextSibling())
+        {
+            if (!node->accept(visitor))
             {
-				break;
+                break;
             }
-		}
-	}
+        }
+    }
     
-	return visitor->visitExit(*this);
+    return visitor->visitExit(*this);
 }
 
 XmlNode* XmlElement::clone() const
 {
-	XmlElement* clone = new XmlElement(value());
-	if (clone == nullptr)
+    XmlElement* clone = new XmlElement(value());
+    if (clone == nullptr)
     {
-		return 0;
+        return 0;
     }
 
-	copyTo(clone);
-    
-	return clone;
+    copyTo(clone);
+    return clone;
 }
 
 const char* XmlElement::getText() const
 {
-	const XmlNode* child = this->firstChild();
-	if (child != nullptr) 
+    const XmlNode* child = this->firstChild();
+    if (child != nullptr) 
     {
-		const XmlText* childText = child->toText();
-		if (childText != nullptr) 
+        const XmlText* childText = child->toText();
+        if (childText != nullptr) 
         {
-			return childText->value();
-		}
-	}
+            return childText->value();
+        }
+    }
     
-	return 0;
+    return 0;
 }
 
 XmlDocument::XmlDocument() : XmlNode(XmlNode::GNYXML_DOCUMENT)
 {
-	m_tabsize = 4;
-	m_useMicrosoftBOM = false;
-	clearError();
+    m_tabsize = 4;
+    m_useMicrosoftBOM = false;
+    clearError();
 }
 
 XmlDocument::XmlDocument(const char* documentName) : XmlNode(XmlNode::GNYXML_DOCUMENT)
 {
-	m_tabsize = 4;
-	m_useMicrosoftBOM = false;
-	m_value = documentName;
-	clearError();
+    m_tabsize = 4;
+    m_useMicrosoftBOM = false;
+    m_value = documentName;
+    clearError();
 }
 
 XmlDocument::XmlDocument(const std::string& documentName) : XmlNode(XmlNode::GNYXML_DOCUMENT)
 {
-	m_tabsize = 4;
-	m_useMicrosoftBOM = false;
+    m_tabsize = 4;
+    m_useMicrosoftBOM = false;
     m_value = documentName;
-	clearError();
+    clearError();
 }
 
 XmlDocument::XmlDocument(const XmlDocument& copy) : XmlNode(XmlNode::GNYXML_DOCUMENT)
 {
-	copy.copyTo(this);
+    copy.copyTo(this);
 }
 
 XmlDocument& XmlDocument::operator = (const XmlDocument& copy)
 {
-	clear();
-	copy.copyTo(this);
-	return *this;
+    clear();
+    copy.copyTo(this);
+    return *this;
 }
 
 bool XmlDocument::loadFile(XmlEncoding encoding)
 {
-	return loadFile(value(), encoding);
+    return loadFile(value(), encoding);
 }
 
 bool XmlDocument::saveFile() const
 {
-	return saveFile(value());
+    return saveFile(value());
 }
 
 bool XmlDocument::loadFile(const char* filename, XmlEncoding encoding)
 {
-	m_value = filename;
+    m_value = filename;
 	
-	// reading in binary mode so that tinyxml can normalize the EOL
-	FILE* file = XmlFOpen(m_value.c_str(), "rb");	
-	if (file == nullptr)
-	{
-		setError(GXML_ERROR_OPENING_FILE, 0, 0, GXML_ENCODING_UNKNOWN);
-		return false;
-	}
+    // reading in binary mode so that tinyxml can normalize the EOL
+    FILE* file = XmlFOpen(m_value.c_str(), "rb");	
+    if (file == nullptr)
+    {
+        setError(GXML_ERROR_OPENING_FILE, 0, 0, GXML_ENCODING_UNKNOWN);
+        return false;
+    }
 	
-	bool result = loadFile(file, encoding);
-	fclose(file);
-	
-	return result;
+    bool result = loadFile(file, encoding);
+    fclose(file);
+    return result;
 }
 
 bool XmlDocument::loadFile(FILE* file, XmlEncoding encoding)
 {
-	if (file == nullptr) 
-	{
-		setError(GXML_ERROR_OPENING_FILE, 0, 0, GXML_ENCODING_UNKNOWN);
-		return false;
-	}
+    if (file == nullptr) 
+    {
+    	setError(GXML_ERROR_OPENING_FILE, 0, 0, GXML_ENCODING_UNKNOWN);
+    	return false;
+    }
 
-	// Delete the existing data:
-	clear();
-	m_location.clear();
+    // Delete the existing data:
+    clear();
+    m_location.clear();
 
-	// Get the file size, so we can pre-allocate the string. HUGE speed impact.
-	long length = 0;
-	fseek(file, 0, SEEK_END);
-	length = ftell(file);
-	fseek(file, 0, SEEK_SET);
+    // Get the file size, so we can pre-allocate the string. HUGE speed impact.
+    long length = 0;
+    fseek(file, 0, SEEK_END);
+    length = ftell(file);
+    fseek(file, 0, SEEK_SET);
 
-	// Strange case, but good to handle up front.
-	if (length <= 0)
-	{
-		setError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
-		return false;
-	}
+    // Strange case, but good to handle up front.
+    if (length <= 0)
+    {
+    	setError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
+    	return false;
+    }
 
-	// Subtle bug here. GnyXml did use fgets. But from the XML spec:
-	// 2.11 End-of-Line Handling
-	// <snip>
-	// <quote>
-	// ...the XML processor MUST behave as if it normalized all line breaks in external 
-	// parsed entities (including the document entity) on input, before parsing, by translating 
-	// both the two-character sequence #xD #xA and any #xD that is not followed by #xA to 
-	// a single #xA character.
-	// </quote>
-	//
-	// It is not clear fgets does that, and certainly isn't clear it works cross platform. 
-	// Generally, you expect fgets to translate from the convention of the OS to the c/unix
-	// convention, and not work generally.
-
-	/*
-	while( fgets( buf, sizeof(buf), file ) )
-	{
-		data += buf;
-	}
-	*/
+    // Subtle bug here. GnyXml did use fgets. But from the XML spec:
+    // 2.11 End-of-Line Handling
+    // <snip>
+    // <quote>
+    // ...the XML processor MUST behave as if it normalized all line breaks in external 
+    // parsed entities (including the document entity) on input, before parsing, by translating 
+    // both the two-character sequence #xD #xA and any #xD that is not followed by #xA to 
+    // a single #xA character.
+    // </quote>
+    //
+    // It is not clear fgets does that, and certainly isn't clear it works cross platform. 
+    // Generally, you expect fgets to translate from the convention of the OS to the c/unix
+    // convention, and not work generally.
+    /*
+    while( fgets( buf, sizeof(buf), file ) )
+    {
+        data += buf;
+    }
+    */
 
 	char* buf = new char[length + 1];
 	buf[0] = 0;
