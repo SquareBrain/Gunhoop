@@ -4,11 +4,11 @@
 *
 ************************************************************************************/
 /**
-* @file		g_xml_parser.cpp
+* @file	    g_xml_parser.cpp
 * @version     
 * @brief      
-* @author	duye
-* @date		2014-8-7
+* @author   duye
+* @date	    2014-8-7
 * @note 
 *
 *  1. 2014-8-7 duye Created this file
@@ -25,11 +25,11 @@ namespace gutils {
 // or order will break putstring.
 XmlBase::Entity XmlBase::m_entity[XmlBase::NUM_ENTITY] = 
 {
-	{"&amp;", 5, '&'},
-	{"&lt;", 4, '<'},
-	{"&gt;", 4, '>'},
-	{"&quot;", 6, '\"'},
-	{"&apos;", 6, '\''}
+    {"&amp;", 5, '&'},
+    {"&lt;", 4, '<'},
+    {"&gt;", 4, '>'},
+    {"&quot;", 6, '\"'},
+    {"&apos;", 6, '\''}
 };
 
 bool XmlBase::m_condenseWhiteSpace = false;
@@ -70,359 +70,367 @@ const int XmlBase::m_utf8ByteTable[256] =
 
 void XmlBase::convertUTF32ToUTF8(unsigned long input, char* output, int* length)
 {
-	const unsigned long BYTE_MASK = 0xBF;
-	const unsigned long BYTE_MARK = 0x80;
-	const unsigned long FIRST_BYTE_MARK[7] = {0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC};
+    const unsigned long BYTE_MASK = 0xBF;
+    const unsigned long BYTE_MARK = 0x80;
+    const unsigned long FIRST_BYTE_MARK[7] = {0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC};
 
-	if (input < 0x80)
-	{
-		*length = 1;
-	}
-	else if (input < 0x800)
-	{
-		*length = 2;
-	}
-	else if (input < 0x10000)
-	{
-		*length = 3;
-	}
-	else if (input < 0x200000)
-	{
-		*length = 4;
-	}
-	else
-	{ 
-		*length = 0; 
-		return;
-	}	// This code won't covert this correctly anyway.
+    if (input < 0x80)
+    {
+    	*length = 1;
+    }
+    else if (input < 0x800)
+    {
+    	*length = 2;
+    }
+    else if (input < 0x10000)
+    {
+    	*length = 3;
+    }
+    else if (input < 0x200000)
+    {
+    	*length = 4;
+    }
+    else
+    {
+    	*length = 0; 
+    	return;
+    }	// This code won't covert this correctly anyway.
 
-	output += *length;
+    output += *length;
 
-	// Scary scary fall throughs.
-	switch (*length) 
-	{
+    // Scary scary fall throughs.
+    switch (*length) 
+    {
 	case 4:
-		--output; 
-		*output = (char)((input | BYTE_MARK) & BYTE_MASK); 
-		input >>= 6;
+            --output; 
+            *output = (char)((input | BYTE_MARK) & BYTE_MASK); 
+            input >>= 6;
 	case 3:
-		--output; 
-		*output = (char)((input | BYTE_MARK) & BYTE_MASK); 
-		input >>= 6;
+            --output; 
+            *output = (char)((input | BYTE_MARK) & BYTE_MASK); 
+            input >>= 6;
 	case 2:
-		--output; 
-		*output = (char)((input | BYTE_MARK) & BYTE_MASK); 
-		input >>= 6;
+            --output; 
+            *output = (char)((input | BYTE_MARK) & BYTE_MASK); 
+            input >>= 6;
 	case 1:
-		--output; 
-		*output = (char)(input | FIRST_BYTE_MARK[*length]);
+            --output; 
+            *output = (char)(input | FIRST_BYTE_MARK[*length]);
 	default:
-		break;
-	}
+	    break;
+    }
 }
 
 int XmlBase::isAlpha(unsigned char any_byte, XmlEncoding /*encoding*/)
 {
-	// This will only work for low-ascii, everything else is assumed to be a valid
-	// letter. I'm not sure this is the best approach, but it is quite tricky trying
-	// to figure out alhabetical vs. not across encoding. So take a very 
-	// conservative approach.
+    // This will only work for low-ascii, everything else is assumed to be a valid
+    // letter. I'm not sure this is the best approach, but it is quite tricky trying
+    // to figure out alhabetical vs. not across encoding. So take a very 
+    // conservative approach.
 
-//	if (encoding == GXML_ENCODING_UTF8)
-//	{
-		if (any_byte < 127)
-		{
-			return isalpha(any_byte);
-		}
-		else
-		{
-			return 1;	// What else to do? The unicode set is huge...get the english ones right.
-		}
-//	}
-//	else
-//	{
-//		return isalpha(any_byte);
-//	}
+    // if (encoding == GXML_ENCODING_UTF8)
+    // {
+        if (any_byte < 127)
+	{
+            return isalpha(any_byte);
+        }
+        else
+        {
+            return 1;	// What else to do? The unicode set is huge...get the english ones right.
+        }
+    // }
+    // else
+    // {
+    //     return isalpha(any_byte);
+    // }
 }
 
 
 int XmlBase::isAlphaNum(unsigned char any_byte, XmlEncoding /*encoding*/)
 {
-	// This will only work for low-ascii, everything else is assumed to be a valid
-	// letter. I'm not sure this is the best approach, but it is quite tricky trying
-	// to figure out alhabetical vs. not across encoding. So take a very 
-	// conservative approach.
+    // This will only work for low-ascii, everything else is assumed to be a valid
+    // letter. I'm not sure this is the best approach, but it is quite tricky trying
+    // to figure out alhabetical vs. not across encoding. So take a very 
+    // conservative approach.
 
-//	if (encoding == GXML_ENCODING_UTF8)
-//	{
-		if (any_byte < 127)
-		{
-			return isalnum(any_byte);
-		}
-		else
-		{
-			return 1;	// What else to do? The unicode set is huge...get the english ones right.
-		}
-//	}
-//	else
-//	{
-//		return isalnum(any_byte);
-//	}
+    // if (encoding == GXML_ENCODING_UTF8)
+    // {
+        if (any_byte < 127)
+        {
+    	    return isalnum(any_byte);
+        }
+        else
+        {
+    	    return 1;	// What else to do? The unicode set is huge...get the english ones right.
+        }
+    // }
+    // else
+    // {
+    //     return isalnum(any_byte);
+    // }
 }
 
 class XmlParsingData
 {
-	friend class XmlDocument;
+    friend class XmlDocument;
 	
 public:
-	void stamp(const char* now, XmlEncoding encoding);
+    void stamp(const char* now, XmlEncoding encoding);
     
-	const XmlCursor& cursor() const	
-	{ 
-		return m_cursor; 
-	}
+    const XmlCursor& cursor() const	
+    { 
+    	return m_cursor; 
+    }
 
 private:
-	// Only used by the document!
-	XmlParsingData(const char* start, int tabsize, int row, int col)
-	{
-		assert(start);
-		m_stamp = start;
-		m_tabsize = tabsize;
-		m_cursor.m_row = row;
-		m_cursor.m_col = col;
-	}
+    // Only used by the document!
+    XmlParsingData(const char* start, int tabsize, int row, int col)
+    {
+    	assert(start);
+    	m_stamp = start;
+    	m_tabsize = tabsize;
+    	m_cursor.m_row = row;
+    	m_cursor.m_col = col;
+    }
 
-	XmlCursor		m_cursor;
-	const char*		m_stamp;
-	int				m_tabsize;
+    XmlCursor    m_cursor;
+    const char*	 m_stamp;
+    int	         m_tabsize;
 };
 
 void XmlParsingData::stamp(const char* now, XmlEncoding encoding)
 {
-	assert(now);
+    assert(now);
 
-	// Do nothing if the tabsize is 0.
-	if (m_tabsize < 1)
-	{
-		return;
-	}
+    // Do nothing if the tabsize is 0.
+    if (m_tabsize < 1)
+    {
+    	return;
+    }
 
-	// Get the current row, column.
-	int row = m_cursor.m_row;
-	int col = m_cursor.m_col;
-	const char* p = m_stamp;
-	assert(p);
+    // Get the current row, column.
+    int row = m_cursor.m_row;
+    int col = m_cursor.m_col;
+    const char* p = m_stamp;
+    assert(p);
 
-	while (p < now)
-	{
-		// Treat p as unsigned, so we have a happy compiler.
-		const unsigned char* pU = (const unsigned char*)p;
+    while (p < now)
+    {
+    	// Treat p as unsigned, so we have a happy compiler.
+    	const unsigned char* pU = (const unsigned char*)p;
 
-		// Code contributed by Fletcher Dunn: (modified by lee)
-		switch (*pU) 
-		{
-		case 0:
-			// We *should* never get here, but in case we do, don't
-			// advance past the terminating null character, ever
-			return;
-		case '\r':
-			// bump down to the next line
-			++row;
-			col = 0;				
-			// Eat the character
-			++p;
-
-			// Check for \r\n sequence, and treat this as a single character
-			if (*p == '\n') 
-			{
-				++p;
-			}
-			break;
-		case '\n':
-			// bump down to the next line
-			++row;
-			col = 0;
+        // Code contributed by Fletcher Dunn: (modified by lee)
+        switch (*pU) 
+        {
+            case 0:
+                // We *should* never get here, but in case we do, don't
+                // advance past the terminating null character, ever
+                return;
+	    case '\r':
+	    {
+	        // bump down to the next line
+	        ++row;
+	        col = 0;				
+	        // Eat the character
+	        ++p;
+	        
+	        // Check for \r\n sequence, and treat this as a single character
+	        if (*p == '\n') 
+	        {
+	            ++p;
+	        }
+	        break;
+	    }
+	    case '\n':
+	    {
+	    	// bump down to the next line
+	    	++row;
+	    	col = 0;
 	
-			// Eat the character
-			++p;
+                // Eat the character
+                ++p;
+                
+                // Check for \n\r sequence, and treat this as a single
+                // character.  (Yes, this bizarre thing does occur still
+                // on some arcane platforms...)
+                if (*p == '\r') 
+                {
+                    ++p;
+                }
+                break;
+	    }
+            case '\t':
+            {
+            	// Eat the character
+            	++p;
+            	
+            	// Skip to next tab stop
+            	col = (col / m_tabsize + 1) * m_tabsize;
+            	break;
+            }
+            case GXML_UTF_LEAD_0:
+            {
+            	if (encoding == GXML_ENCODING_UTF8)
+            	{
+            	    if (*(p + 1) && *(p + 2))
+            	    {
+            	    	// In these cases, don't advance the column. These are
+            	    	// 0-width spaces.
+            	    	if (*(pU + 1) == GXML_UTF_LEAD_1 && *(pU + 2) == GXML_UTF_LEAD_2)
+            	    	{
+            	    	    p += 3;	
+            	    	}
+            	    	else if (*(pU + 1) == 0xbfU && *(pU + 2) == 0xbeU)
+            	    	{
+            	    	    p += 3;
+            	    	}
+            	    	else if (*(pU + 1) == 0xbfU && *(pU + 2) == 0xbfU)
+            	    	{
+            	    	    p += 3;	
+            	    	}
+            	    	else
+            	    	{
+            	    	    p += 3; 
+            	    	    ++col;
+            	    	}	// A normal character.
+            	    }
+            	}
+            	else
+            	{
+            	    ++p;
+            	    ++col;
+            	}
+            	break;
+            }
+            default:
+            {
+            	if (encoding == GXML_ENCODING_UTF8)
+            	{
+            	    // Eat the 1 to 4 byte utf8 character.
+            	    int step = XmlBase::m_utf8ByteTable[*((const unsigned char*)p)];
+            	    if (step == 0)
+            	    {
+            	    	step = 1;		// Error case from bad encoding, but handle gracefully.
+            	    }
+            	    p += step;
 
-			// Check for \n\r sequence, and treat this as a single
-			// character.  (Yes, this bizarre thing does occur still
-			// on some arcane platforms...)
-			if (*p == '\r') 
-			{
-				++p;
-			}
-			break;
-		case '\t':
-			// Eat the character
-			++p;
-
-			// Skip to next tab stop
-			col = (col / m_tabsize + 1) * m_tabsize;
-			break;
-		case GXML_UTF_LEAD_0:
-			if (encoding == GXML_ENCODING_UTF8)
-			{
-				if (*(p + 1) && *(p + 2))
-				{
-					// In these cases, don't advance the column. These are
-					// 0-width spaces.
-					if (*(pU + 1) == GXML_UTF_LEAD_1 && *(pU + 2) == GXML_UTF_LEAD_2)
-					{
-						p += 3;	
-					}
-					else if (*(pU + 1) == 0xbfU && *(pU + 2) == 0xbeU)
-					{
-						p += 3;
-					}
-					else if (*(pU + 1) == 0xbfU && *(pU + 2) == 0xbfU)
-					{
-						p += 3;	
-					}
-					else
-					{ 
-						p += 3; 
-						++col;
-					}	// A normal character.
-				}
-			}
-			else
-			{
-				++p;
-				++col;
-			}
-			break;
-		default:
-			if (encoding == GXML_ENCODING_UTF8)
-			{
-				// Eat the 1 to 4 byte utf8 character.
-				int step = XmlBase::m_utf8ByteTable[*((const unsigned char*)p)];
-				if (step == 0)
-				{
-					step = 1;		// Error case from bad encoding, but handle gracefully.
-				}
-				p += step;
-
-				// Just advance one column, of course.
-				++col;
-			}
-			else
-			{
-				++p;
-				++col;
-			}
-			break;
-		}
-	}
+                    // Just advance one column, of course.
+                    ++col;
+                }
+                else
+                {
+                    ++p;
+                    ++col;
+                }
+                break;
+	    }
+        }
+    }
 	
-	m_cursor.m_row = row;
-	m_cursor.m_col = col;
-	assert(m_cursor.m_row >= -1);
-	assert(m_cursor.m_col >= -1);
-	m_stamp = p;
-	assert(m_stamp);
+    m_cursor.m_row = row;
+    m_cursor.m_col = col;
+    assert(m_cursor.m_row >= -1);
+    assert(m_cursor.m_col >= -1);
+    m_stamp = p;
+    assert(m_stamp);
 }
 
 const char* XmlBase::skipWhiteSpace(const char* p, XmlEncoding encoding)
 {
-	if (p == nullptr || !*p)
-	{
-		return 0;
-	}
+    if (p == nullptr || !*p)
+    {
+    	return 0;
+    }
 	
-	if (encoding == GXML_ENCODING_UTF8)
-	{
-		while (*p)
-		{
-			const unsigned char* pU = (const unsigned char*)p;
-			
-			// Skip the stupid Microsoft UTF-8 Byte order marks
-			if (*(pU + 0) == GXML_UTF_LEAD_0
-				 && *(pU + 1) == GXML_UTF_LEAD_1 
-				 && *(pU + 2) == GXML_UTF_LEAD_2)
-			{
-				p += 3;
-				continue;
-			}
-			else if(*(pU + 0) == GXML_UTF_LEAD_0
-				 && *(pU + 1) == 0xbfU
-				 && *(pU + 2) == 0xbeU)
-			{
-				p += 3;
-				continue;
-			}
-			else if(*(pU + 0) == GXML_UTF_LEAD_0
-				 && *(pU + 1) == 0xbfU
-				 && *(pU + 2) == 0xbfU)
-			{
-				p += 3;
-				continue;
-			}
+    if (encoding == GXML_ENCODING_UTF8)
+    {
+    	while (*p)
+    	{
+            const unsigned char* pU = (const unsigned char*)p;
+            // Skip the stupid Microsoft UTF-8 Byte order marks
+            if (*(pU + 0) == GXML_UTF_LEAD_0
+                && *(pU + 1) == GXML_UTF_LEAD_1
+                && *(pU + 2) == GXML_UTF_LEAD_2)
+            {
+            	p += 3;
+            	continue;
+            }
+            else if(*(pU + 0) == GXML_UTF_LEAD_0
+                && *(pU + 1) == 0xbfU
+                && *(pU + 2) == 0xbeU)
+            {
+            	p += 3;
+            	continue;
+            }
+            else if(*(pU + 0) == GXML_UTF_LEAD_0
+                && *(pU + 1) == 0xbfU
+                && *(pU + 2) == 0xbfU)
+            {
+            	p += 3;
+            	continue;
+            }
+            if (isWhiteSpace(*p))		// Still using old rules for white space.
+            {
+            	++p;
+            }
+            else
+            {
+            	break;
+            }
+        }
+    }
+    else
+    {
+    	while (*p && isWhiteSpace(*p))
+    	{
+            ++p;
+        }
+    }
 
-			if (isWhiteSpace(*p))		// Still using old rules for white space.
-			{
-				++p;
-			}
-			else
-			{
-				break;
-			}
-		}
-	}
-	else
-	{
-		while (*p && isWhiteSpace(*p))
-		{
-			++p;
-		}
-	}
-
-	return p;
+    return p;
 }
 
 bool XmlBase::streamWhiteSpace(std::istream* in, std::string* tag)
 {
-	for (;;)
-	{
-		if (!in->good()) 
-		{
-			return false;
-		}
+    for (;;)
+    {
+    	if (!in->good()) 
+    	{
+            return false;
+        }
 
-		int c = in->peek();
-		// At this scope, we can't get to a document. So fail silently.
-		if (!isWhiteSpace(c) || c <= 0)
-		{
-			return true;
-		}
+        int c = in->peek();
+        // At this scope, we can't get to a document. So fail silently.
+        if (!isWhiteSpace(c) || c <= 0)
+        {
+            return true;
+        }
 
-		*tag += (char)in->get();
-	}
+        *tag += (char)in->get();
+    }
 }
 
 bool XmlBase::streamTo(std::istream* in, int character, std::string* tag)
 {
-	//assert( character > 0 && character < 128 );	// else it won't work in utf-8
-	while (in->good())
-	{
-		int c = in->peek();
-		if (c == character)
-		{
-			return true;
-		}
+    //assert( character > 0 && character < 128 );	// else it won't work in utf-8
+    while (in->good())
+    {
+    	int c = in->peek();
+    	if (c == character)
+    	{
+    	    return true;
+        }
 		
-		if (c <= 0)		// Silent failure: can't get document at this scope
-		{
-			return false;
-		}
+        if (c <= 0)		// Silent failure: can't get document at this scope
+        {
+        	return false;
+        }
 
-		in->get();
-		*tag += (char)c;
-	}
+        in->get();
+        *tag += (char)c;
+    }
 	
-	return false;
+    return false;
 }
 
 // One of GnyXML's more performance demanding functions. Try to keep the memory overhead down. The
@@ -430,73 +438,73 @@ bool XmlBase::streamTo(std::istream* in, int character, std::string* tag)
 //
 const char* XmlBase::readName(const char* p, std::string* name, XmlEncoding encoding)
 {
-	// Oddly, not supported on some comilers,
-	//name->clear();
-	// So use this:
-	*name = "";
-	assert(p);
+    // Oddly, not supported on some comilers,
+    //name->clear();
+    // So use this:
+    *name = "";
+    assert(p);
 
-	// Names start with letters or underscores.
-	// Of course, in unicode, tinyxml has no idea what a letter *is*. The
-	// algorithm is generous.
-	//
-	// After that, they can be letters, underscores, numbers,
-	// hyphens, or colons. (Colons are valid ony for namespaces,
-	// but tinyxml can't tell namespaces from names.)
-	if (p && *p 
-		&& (isAlpha((unsigned char)*p, encoding) 
-		|| *p == '_'))
-	{
-		const char* start = p;
-		while (p && *p
-			&& (isAlphaNum((unsigned char)*p, encoding) 
-				|| *p == '_'
-				|| *p == '-'
-				|| *p == '.'
-				|| *p == ':'))
-		{
-			//(*name) += *p; // expensive
-			++p;
-		}
+    // Names start with letters or underscores.
+    // Of course, in unicode, tinyxml has no idea what a letter *is*. The
+    // algorithm is generous.
+    //
+    // After that, they can be letters, underscores, numbers,
+    // hyphens, or colons. (Colons are valid ony for namespaces,
+    // but tinyxml can't tell namespaces from names.)
+    if (p && *p 
+        && (isAlpha((unsigned char)*p, encoding) 
+        || *p == '_'))
+    {
+    	const char* start = p;
+    	while (p && *p
+    	    && (isAlphaNum((unsigned char)*p, encoding) 
+    	    || *p == '_'
+    	    || *p == '-'
+    	    || *p == '.'
+    	    || *p == ':'))
+    	{
+    	    //(*name) += *p; // expensive
+    	    ++p;
+    	}
 		
-		if (p - start > 0) 
-		{
-			name->assign(start, p - start);
-		}
+        if (p - start > 0) 
+        {
+            name->assign(start, p - start);
+        }
 		
-		return p;
-	}
+        return p;
+    }
 	
-	return 0;
+    return 0;
 }
 
 const char* XmlBase::getEntity(const char* p, char* value, int* length, XmlEncoding encoding)
 {
-	// Presume an entity, and pull it out.
+    // Presume an entity, and pull it out.
     std::string ent;
-	*length = 0;
+    *length = 0;
 
-	if (*(p + 1) && *(p + 1) == '#' && *(p + 2))
-	{
-		unsigned long ucs = 0;
-		ptrdiff_t delta = 0;
-		unsigned mult = 1;
+    if (*(p + 1) && *(p + 1) == '#' && *(p + 2))
+    {
+    	unsigned long ucs = 0;
+    	ptrdiff_t delta = 0;
+    	unsigned mult = 1;
 
-		if (*(p + 2) == 'x')
-		{
-			// Hexadecimal.
-			if (!*(p + 3))
-			{
-				return 0;
-			}
+        if (*(p + 2) == 'x')
+        {
+            // Hexadecimal.
+            if (!*(p + 3))
+            {
+            	return 0;
+            }
 
-			const char* q = p + 3;
-			q = strchr(q, ';');
+            const char* q = p + 3;
+            q = strchr(q, ';');
 
-			if (!q || !*q) 
-			{
-				return 0;
-			}
+            if (!q || !*q) 
+            {
+            	return 0;
+            }
 
 			delta = q - p;
 			--q;
