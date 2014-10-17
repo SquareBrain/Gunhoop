@@ -49,23 +49,23 @@ const unsigned char GXML_UTF_LEAD_1 = 0xbbU;
 const unsigned char GXML_UTF_LEAD_2 = 0xbfU;
 const int XmlBase::m_utf8ByteTable[256] = 
 {
-	//	0	1	2	3	4	5	6	7	8	9	a	b	c	d	e	f
-	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x00
-	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x10
-	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x20
-	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x30
-	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x40
-	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x50
-	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x60
-	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x70	End of ASCII range
-	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x80 0x80 to 0xc1 invalid
-	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x90 
-	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0xa0 
-	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0xb0 
-	1,	1,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	// 0xc0 0xc2 to 0xdf 2 byte
-	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	// 0xd0
-	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	// 0xe0 0xe0 to 0xef 3 byte
-	4,	4,	4,	4,	4,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1	// 0xf0 0xf0 to 0xf4 4 byte, 0xf5 and higher invalid
+    //	0	1	2	3	4	5	6	7	8	9	a	b	c	d	e	f
+    1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x00
+    1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x10
+    1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x20
+    1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x30
+    1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x40
+    1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x50
+    1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x60
+    1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x70	End of ASCII range
+    1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x80 0x80 to 0xc1 invalid
+    1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0x90 
+    1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0xa0 
+    1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	// 0xb0 
+    1,	1,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	// 0xc0 0xc2 to 0xdf 2 byte
+    2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	2,	// 0xd0
+    3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	// 0xe0 0xe0 to 0xef 3 byte
+    4,	4,	4,	4,	4,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1,	1	// 0xf0 0xf0 to 0xf4 4 byte, 0xf5 and higher invalid
 };
 
 void XmlBase::convertUTF32ToUTF8(unsigned long input, char* output, int* length)
@@ -506,382 +506,382 @@ const char* XmlBase::getEntity(const char* p, char* value, int* length, XmlEncod
             	return 0;
             }
 
-			delta = q - p;
-			--q;
+	    delta = q - p;
+	    --q;
 
-			while (*q != 'x')
-			{
-				if (*q >= '0' && *q <= '9')
-				{
-					ucs += mult * (*q - '0');
-				}
-				else if (*q >= 'a' && *q <= 'f')
-				{
-					ucs += mult * (*q - 'a' + 10);
-				}
-				else if (*q >= 'A' && *q <= 'F')
-				{
-					ucs += mult * (*q - 'A' + 10);
-				}
-				else 
-				{
-					return 0;
-				}
-				
-				mult *= 16;
-				--q;
-			}
-		}
-		else
-		{
-			// Decimal.
-			if (!*(p + 2)) 
-			{
-				return 0;
-			}
-
-			const char* q = p + 2;
-			q = strchr(q, ';');
-
-			if (!q || !*q)
-			{	
-				return 0;
-			}
-
-			delta = q - p;
-			--q;
-
-			while (*q != '#')
-			{
-				if (*q >= '0' && *q <= '9')
-				{
-					ucs += mult * (*q - '0');
-				}
-				else 
-				{
-					return 0;
-				}
-				
-				mult *= 10;
-				--q;
-			}
-		}
+            while (*q != 'x')
+            {
+            	if (*q >= '0' && *q <= '9')
+            	{
+            	    ucs += mult * (*q - '0');
+            	}
+            	else if (*q >= 'a' && *q <= 'f')
+            	{
+            	    ucs += mult * (*q - 'a' + 10);
+            	}
+                else if (*q >= 'A' && *q <= 'F')
+                {
+                    ucs += mult * (*q - 'A' + 10);
+                }
+                else 
+                {
+                    return 0;
+                }
+                mult *= 16;
+                --q;
+            }
+        }
+        else
+        {
+            // Decimal.
+            if (!*(p + 2)) 
+            {
+            	return 0;
+            }
+            const char* q = p + 2;
+            q = strchr(q, ';');
+            
+            if (!q || !*q)
+            {	
+            	return 0;
+            }
+            
+            delta = q - p;
+            --q;
+            
+            while (*q != '#')
+            {
+            	if (*q >= '0' && *q <= '9')
+            	{
+            	    ucs += mult * (*q - '0');
+            	}
+            	else 
+            	{
+                    return 0;
+                }
+                
+                mult *= 10;
+                --q;
+            }
+        }
 		
-		if (encoding == GXML_ENCODING_UTF8)
-		{
-			// convert the UCS to UTF-8
-			convertUTF32ToUTF8(ucs, value, length);
-		}
-		else
-		{
-			*value = (char)ucs;
-			*length = 1;
-		}
+        if (encoding == GXML_ENCODING_UTF8)
+        {
+            // convert the UCS to UTF-8
+            convertUTF32ToUTF8(ucs, value, length);
+        }
+        else
+        {
+            *value = (char)ucs;
+            *length = 1;
+        }
 		
-		return p + delta + 1;
-	}
+        return p + delta + 1;
+    }
 
-	// Now try to match it.
-	for (int i = 0; i < NUM_ENTITY; i++)
-	{
-		if (strncmp(m_entity[i].m_str, p, m_entity[i].m_strLength) == 0)
-		{
-			assert(strlen(m_entity[i].m_str ) == m_entity[i].m_strLength);
-			*value = m_entity[i].m_chr;
-			*length = 1;
-			return (p + m_entity[i].m_strLength);
-		}
-	}
+    // Now try to match it.
+    for (int i = 0; i < NUM_ENTITY; i++)
+    {
+    	if (strncmp(m_entity[i].m_str, p, m_entity[i].m_strLength) == 0)
+    	{
+    	    assert(strlen(m_entity[i].m_str ) == m_entity[i].m_strLength);
+    	    *value = m_entity[i].m_chr;
+    	    *length = 1;
+    	    return (p + m_entity[i].m_strLength);
+    	}
+    }
 
-	// So it wasn't an entity, its unrecognized, or something like that.
-	*value = *p;	// Don't put back the last one, since we return it!
-	//*length = 1;	// Leave unrecognized entities - this doesn't really work.
-					// Just writes strange XML.
-	return p + 1;
+    // So it wasn't an entity, its unrecognized, or something like that.
+    *value = *p;	// Don't put back the last one, since we return it!
+    //*length = 1;	// Leave unrecognized entities - this doesn't really work.
+    // Just writes strange XML.
+    return p + 1;
 }
 
 bool XmlBase::stringEqual(const char* p,
-	const char* tag,
-	bool ignoreCase,
-	XmlEncoding encoding)
+    const char* tag,
+    bool ignoreCase,
+    XmlEncoding encoding)
 {
-	assert(p);
-	assert(tag);
+    assert(p);
+    assert(tag);
 	
-	if (!p || !*p)
+    if (!p || !*p)
+    {
+    	assert(0);
+    	return false;
+    }
+
+    const char* q = p;
+
+    if (ignoreCase)
+    {
+    	while (*q && *tag && toLower(*q, encoding) == toLower(*tag, encoding))
+    	{
+            ++q;
+            ++tag;
+        }
+
+        if (*tag == 0)
+        {
+            return true;
+        }
+    }
+    else
+    {
+    	while (*q && *tag && *q == *tag)
+    	{
+    	    ++q;
+    	    ++tag;
+    	}
+
+	if (*tag == 0)		// Have we found the end of the tag, and everything equal?
 	{
-		assert(0);
-		return false;
+	    return true;
 	}
-
-	const char* q = p;
-
-	if (ignoreCase)
-	{
-		while (*q && *tag && toLower(*q, encoding) == toLower(*tag, encoding))
-		{
-			++q;
-			++tag;
-		}
-
-		if (*tag == 0)
-		{
-			return true;
-		}
-	}
-	else
-	{
-		while (*q && *tag && *q == *tag)
-		{
-			++q;
-			++tag;
-		}
-
-		if (*tag == 0)		// Have we found the end of the tag, and everything equal?
-		{
-			return true;
-		}
-	}
+    }
 	
-	return false;
+    return false;
 }
 
 const char* XmlBase::readText(const char* p, 
-	std::string * text, 
-	bool trimWhiteSpace, 
-	const char* endTag, 
-	bool caseInsensitive,
-	XmlEncoding encoding)
+    std::string * text, 
+    bool trimWhiteSpace, 
+    const char* endTag, 
+    bool caseInsensitive,
+    XmlEncoding encoding)
 {
     *text = "";
-	if (!trimWhiteSpace			// certain tags always keep whitespace
-		|| !m_condenseWhiteSpace)	// if true, whitespace is always kept
-	{
-		// Keep all the white space.
-		while (p && *p
-			&& !stringEqual(p, endTag, caseInsensitive, encoding))
-		{
-			int len;
-			char cArr[4] = {0, 0, 0, 0};
-			p = getChar(p, cArr, &len, encoding);
-			text->append(cArr, len);
-		}
-	}
-	else
-	{
-		bool whitespace = false;
+    if (!trimWhiteSpace			// certain tags always keep whitespace
+        || !m_condenseWhiteSpace)	// if true, whitespace is always kept
+    {
+    	// Keep all the white space.
+    	while (p && *p
+    	    && !stringEqual(p, endTag, caseInsensitive, encoding))
+    	{
+    	    int len;
+    	    char cArr[4] = {0, 0, 0, 0};
+    	    p = getChar(p, cArr, &len, encoding);
+    	    text->append(cArr, len);
+    	}
+    }
+    else
+    {
+    	bool whitespace = false;
 
-		// Remove leading white space:
-		p = skipWhiteSpace(p, encoding);
-		while (p && *p
-			&& !stringEqual(p, endTag, caseInsensitive, encoding))
-		{
-			if (*p == '\r' || *p == '\n')
-			{
-				whitespace = true;
-				++p;
-			}
-			else if (isWhiteSpace(*p))
-			{
-				whitespace = true;
-				++p;
-			}
-			else
-			{
-				// If we've found whitespace, add it before the
-				// new character. Any whitespace just becomes a space.
-				if (whitespace)
-				{
-					(*text) += ' ';
-					whitespace = false;
-				}
-				int len;
-				char cArr[4] = {0, 0, 0, 0};
-				p = getChar(p, cArr, &len, encoding);
-				if (len == 1)
-				{
-					(*text) += cArr[0];	// more efficient
-				}
-				else
-				{
-					text->append(cArr, len);
-				}
-			}
-		}
-	}
+        // Remove leading white space:
+        p = skipWhiteSpace(p, encoding);
+        while (p && *p
+            && !stringEqual(p, endTag, caseInsensitive, encoding))
+        {
+            if (*p == '\r' || *p == '\n')
+            {
+            	whitespace = true;
+            	++p;
+            }
+            else if (isWhiteSpace(*p))
+            {
+            	whitespace = true;
+            	++p;
+            }
+            else
+            {
+            	// If we've found whitespace, add it before the
+            	// new character. Any whitespace just becomes a space.
+            	if (whitespace)
+            	{
+            	    (*text) += ' ';
+            	    whitespace = false;
+            	}
+            	
+            	int len;
+            	char cArr[4] = {0, 0, 0, 0};
+            	p = getChar(p, cArr, &len, encoding);
+            	if (len == 1)
+            	{
+            	    (*text) += cArr[0];	// more efficient
+            	}
+            	else
+            	{
+            	    text->append(cArr, len);
+            	}
+            }
+        }
+    }
 	
-	if (p && *p)
-	{
-		p += strlen(endTag);
-	}
+    if (p && *p)
+    {
+    	p += strlen(endTag);
+    }
 	
-	return (p && *p) ? p : 0;
+    return (p && *p) ? p : 0;
 }
 
 void XmlDocument::streamIn(std::istream* in, std::string* tag)
 {
-	// The basic issue with a document is that we don't know what we're
-	// streaming. Read something presumed to be a tag (and hope), then
-	// identify it, and call the appropriate stream method on the tag.
-	//
-	// This "pre-streaming" will never read the closing ">" so the
-	// sub-tag can orient itself.
+    // The basic issue with a document is that we don't know what we're
+    // streaming. Read something presumed to be a tag (and hope), then
+    // identify it, and call the appropriate stream method on the tag.
+    //
+    // This "pre-streaming" will never read the closing ">" so the
+    // sub-tag can orient itself.
+    
+    if (!streamTo(in, '<', tag )) 
+    {
+    	setError(GXML_ERROR_PARSING_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
+    	return;
+    }
 
-	if (!streamTo(in, '<', tag )) 
+    while (in->good())
+    {
+    	int tagIndex = (int)tag->length();
+	while (in->good() && in->peek() != '>')
 	{
-		setError(GXML_ERROR_PARSING_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
-		return;
-	}
+            int c = in->get();
+            if (c <= 0)
+            {
+            	setError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
+            	break;
+            }
+            
+            (*tag) += (char)c;
+        }
 
-	while (in->good())
-	{
-		int tagIndex = (int)tag->length();
-		while (in->good() && in->peek() != '>')
-		{
-			int c = in->get();
-			if (c <= 0)
-			{
-				setError(GXML_ERROR_EMBEDDED_NULL, 0, 0, GXML_ENCODING_UNKNOWN);
-				break;
-			}
-			(*tag) += (char) c;
-		}
+        if (in->good())
+        {
+            // We now have something we presume to be a node of 
+            // some sort. Identify it, and call the node to
+            // continue streaming.
+            XmlNode* node = identify(tag->c_str() + tagIndex, GXML_DEFAULT_ENCODING);
 
-		if (in->good())
-		{
-			// We now have something we presume to be a node of 
-			// some sort. Identify it, and call the node to
-			// continue streaming.
-			XmlNode* node = identify(tag->c_str() + tagIndex, GXML_DEFAULT_ENCODING);
+	    if (node)
+	    {
+	    	node->streamIn(in, tag);
+		bool isElement = node->toElement() != 0;
+		delete node;
+		node = 0;
 
-			if (node)
-			{
-				node->streamIn(in, tag);
-				bool isElement = node->toElement() != 0;
-				delete node;
-				node = 0;
-
-				// If this is the root element, we're done. Parsing will be
-				// done by the >> operator.
-				if (isElement)
-				{
-					return;
-				}
-			}
-			else
-			{
-				setError(GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN);
-				return;
-			}
-		}
-	}
+                // If this is the root element, we're done. Parsing will be
+                // done by the >> operator.
+                if (isElement)
+                {
+                    return;
+                }
+            }
+            else
+            {
+            	setError(GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN);
+            	return;
+            }
+        }
+    }
 	
-	// We should have returned sooner.
-	setError(GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN);
+    // We should have returned sooner.
+    setError(GXML_ERROR, 0, 0, GXML_ENCODING_UNKNOWN);
 }
 
 const char* XmlDocument::parse(const char* p, XmlParsingData* prevData, XmlEncoding encoding)
 {
-	clearError();
+    clearError();
 
-	// Parse away, at the document level. Since a document
-	// contains nothing but other tags, most of what happens
-	// here is skipping white space.
-	if (!p || !*p)
-	{
-		setError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
-		return 0;
-	}
+    // Parse away, at the document level. Since a document
+    // contains nothing but other tags, most of what happens
+    // here is skipping white space.
+    if (!p || !*p)
+    {
+    	setError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
+    	return 0;
+    }
 
-	// Note that, for a document, this needs to come
-	// before the while space skip, so that parsing
-	// starts from the pointer we are given.
-	m_location.clear();
-	if (prevData)
-	{
-		m_location.m_row = prevData->m_cursor.m_row;
-		m_location.m_col = prevData->m_cursor.m_col;
-	}
-	else
-	{
-		m_location.m_row = 0;
-		m_location.m_col = 0;
-	}
+    // Note that, for a document, this needs to come
+    // before the while space skip, so that parsing
+    // starts from the pointer we are given.
+    m_location.clear();
+    if (prevData)
+    {
+    	m_location.m_row = prevData->m_cursor.m_row;
+    	m_location.m_col = prevData->m_cursor.m_col;
+    }
+    else
+    {
+    	m_location.m_row = 0;
+    	m_location.m_col = 0;
+    }
 	
-	XmlParsingData data(p, tabSize(), m_location.m_row, m_location.m_col);
-	m_location = data.cursor();
+    XmlParsingData data(p, tabSize(), m_location.m_row, m_location.m_col);
+    m_location = data.cursor();
 
-	if (encoding == GXML_ENCODING_UNKNOWN)
+    if (encoding == GXML_ENCODING_UNKNOWN)
+    {
+    	// Check for the Microsoft UTF-8 lead bytes.
+    	const unsigned char* pU = (const unsigned char*)p;
+	if (*(pU + 0) && *(pU + 0) == GXML_UTF_LEAD_0
+	    && *(pU + 1) && *(pU + 1) == GXML_UTF_LEAD_1
+	    && *(pU + 2) && *(pU + 2) == GXML_UTF_LEAD_2)
 	{
-		// Check for the Microsoft UTF-8 lead bytes.
-		const unsigned char* pU = (const unsigned char*)p;
-		if (*(pU + 0) && *(pU + 0) == GXML_UTF_LEAD_0
-			 && *(pU + 1) && *(pU + 1) == GXML_UTF_LEAD_1
-			 && *(pU + 2) && *(pU + 2) == GXML_UTF_LEAD_2)
-		{
-			encoding = GXML_ENCODING_UTF8;
-			m_useMicrosoftBOM = true;
-		}
+	    encoding = GXML_ENCODING_UTF8;
+	    m_useMicrosoftBOM = true;
 	}
+    }
 
     p = skipWhiteSpace(p, encoding);
-	if (!p)
+    if (!p)
+    {
+    	setError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
+    	return 0;
+    }
+
+    while (p && *p)
+    {
+    	XmlNode* node = identify(p, encoding);
+    	if (node)
+    	{
+    	    p = node->parse(p, &data, encoding);
+    	    linkEndChild(node);
+    	}
+        else
 	{
-		setError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, GXML_ENCODING_UNKNOWN);
-		return 0;
-	}
+            break;
+        }
 
-	while (p && *p)
-	{
-		XmlNode* node = identify(p, encoding);
-		if (node)
-		{
-			p = node->parse(p, &data, encoding);
-			linkEndChild(node);
-		}
-		else
-		{
-			break;
-		}
+        // Did we get encoding info?
+        if (encoding == GXML_ENCODING_UNKNOWN
+            && node->toDeclaration())
+        {
+            XmlDeclaration* dec = node->toDeclaration();
+            const char* enc = dec->encoding();
+            assert(enc);
+            
+            if (*enc == 0)
+            {
+            	encoding = GXML_ENCODING_UTF8;
+            }
+            else if (stringEqual( enc, "UTF-8", true, GXML_ENCODING_UNKNOWN))
+            {
+            	encoding = GXML_ENCODING_UTF8;
+            }
+            else if (stringEqual(enc, "UTF8", true, GXML_ENCODING_UNKNOWN))
+            {
+            	encoding = GXML_ENCODING_UTF8;	// incorrect, but be nice
+            }
+            else 
+            {
+            	encoding = GXML_ENCODING_LEGACY;
+            }
+        }
+        
+        p = skipWhiteSpace(p, encoding);
+    }
 
-		// Did we get encoding info?
-		if (encoding == GXML_ENCODING_UNKNOWN
-			&& node->toDeclaration())
-		{
-			XmlDeclaration* dec = node->toDeclaration();
-			const char* enc = dec->encoding();
-			assert(enc);
+    // Was this empty?
+    if (!m_firstChild) 
+    {
+    	setError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, encoding);
+    	return 0;
+    }
 
-			if (*enc == 0)
-			{
-				encoding = GXML_ENCODING_UTF8;
-			}
-			else if (stringEqual( enc, "UTF-8", true, GXML_ENCODING_UNKNOWN))
-			{
-				encoding = GXML_ENCODING_UTF8;
-			}
-			else if (stringEqual(enc, "UTF8", true, GXML_ENCODING_UNKNOWN))
-			{
-				encoding = GXML_ENCODING_UTF8;	// incorrect, but be nice
-			}
-			else 
-			{
-				encoding = GXML_ENCODING_LEGACY;
-			}
-		}
-
-		p = skipWhiteSpace(p, encoding);
-	}
-
-	// Was this empty?
-	if (!m_firstChild) 
-	{
-		setError(GXML_ERROR_DOCUMENT_EMPTY, 0, 0, encoding);
-		return 0;
-	}
-
-	// All is well.
-	return p;
+    // All is well.
+    return p;
 }
 
 void XmlDocument::setError(int err, const char* pError, XmlParsingData* data, XmlEncoding encoding)
