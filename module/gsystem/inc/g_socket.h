@@ -18,6 +18,7 @@
 #pragma once
 
 #include <sys/socket.h>
+#include <sys/epoll.h> 
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
@@ -475,7 +476,10 @@ public:
     GResult stop();
     
 private:
-    SocketServer    m_socketServer;
+    GInt32       m_epollfd; 
+    SocketServer m_socketServer;
+
+    static const GUint32 m_defMaxEvents = 1024;
 };
 
 /**

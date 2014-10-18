@@ -20,7 +20,9 @@
 #include <g_socket.h>
 
 namespace gsys {
-	
+
+static const GInt8* LOG_PREFIX = "gohoop.gsys.socket";
+
 const struct in6_addr IN6ADDR_ANY = IN6ADDR_ANY_INIT;
 
 SockAddr::SockAddr() : SockAddr(INADDR_ANY, 0) {}
@@ -158,6 +160,9 @@ GResult Socket::open(const NetProtocol& protocol, const std::string& if_name)
         return G_NO;
     }
 
+	// set non-blocking
+	//fcntl(m_sockfd, F_SETFL, O_NONBLOCK)
+
     // init socket option
     initOption(if_name);
     m_isInit = true;
@@ -166,15 +171,16 @@ GResult Socket::open(const NetProtocol& protocol, const std::string& if_name)
 
 GResult Socket::close(const GInt32 how)
 {
-    // how = 0 : stop receive data
-    // how = 1 : stop send data
-    // how = 2 : both above way
+    // SHUT_RD how = 0 : stop receive data
+    // SHUT_WR how = 1 : stop send data
+    // SHUT_RDWR how = 2 : both above way
     if (!m_isInit)
     {
     	return G_YES;
     }
 
-    return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
+    //return (shutdown(m_sockfd, how) == 0 ? G_YES : G_NO);
+    return ::close(m_sockfd) == 0 ? G_YES : G_NO;
 }
 
 GInt32 Socket::sockfd() const
@@ -435,4 +441,34 @@ void SocketClient::setError(const GInt8* args, ...)
 {
     System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
+
+EpollServer::EpollServer() : m_epollfd(-1) {}
+EpollServer::EpollServer(const SocketInfo& socket_info) : m_epollfd(-1) {}	
+EpollServer::~EpollServer() {}
+	 
+GResult EpollServer::start()
+{
+    m_epollfd = epoll_create(m_defMaxEvents);
+	if (m_epollfd <= 0)
+	{
+	    G_LOG_ERROR(LOG_PREFIX, "epoll_create failed:%d", m_epollfd);
+		return G_NO;
+	}
+
+	
+	
+    return G_YES;
+}
+	 
+GResult EpollServer::start(const SocketInfo& socket_info)
+{
+    return G_YES;
+}
+
+GResult EpollServer::stop()
+{
+    ::close(m_epollfd);
+    return G_YES;
+}
+
 }
