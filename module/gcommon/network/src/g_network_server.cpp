@@ -18,13 +18,33 @@
 
 namespace gcom {
 
-NetworkServer::NetworkServer() {}
-
-NetworkServer::NetworkServer(const IPPortPair& server_addr, const std::string& net_card = "eth0") 
+NetworkServer::NetworkServer() : m_netCard("eth0") {}
+NetworkServer::NetworkServer(const IPPortPair& server_addr, const std::string& net_card) 
     : m_serverAddr(server_addr)
     , m_netCard(net_card) {}
     
 NetworkServer::~NetworkServer() {}
+
+GResult NetworkServer::keepWork()
+{
+    switch (state())
+    {
+        case G_SERVER_INIT:
+            return start();
+            break;
+        case G_SERVER_WORK:
+            return G_YES;
+            break;
+        case G_SERVER_STOP:
+        case G_SERVER_FAULT:
+            return restart();
+            break;
+        default:
+            break;
+    }
+    
+    return G_NO;
+}
 
 GResult NetworkServer::addObserver(NetworkServerObserver* observer)
 {
@@ -35,11 +55,12 @@ GResult NetworkServer::addObserver(NetworkServerObserver* observer)
     {
         if (*iter == observer)
         {
-            return;
+            m_observerList.push_back(observer);
+			return G_YES;
         }
     }
     
-    m_observerList.push_back(observer);
+    return G_NO;
 }
 
 GResult NetworkServer::removeObserver(NetworkServerObserver* observer)
@@ -47,11 +68,22 @@ GResult NetworkServer::removeObserver(NetworkServerObserver* observer)
     IS_NULL_RE(observer);
     gsys::AutoLock auto_lock(m_observerList.mutex());
     m_observerList.remove(observer);
+    return G_YES;
+}
+
+void NetworkServer::setServerAddr(const IPPortPair& server_addr)
+{
+    m_serverAddr = server_addr; 
 }
 
 const IPPortPair& NetworkServer::serverAddr() const
 {
     return m_serverAddr;
+}
+
+void NetworkServer::setNetCard(const std::string& net_card)
+{
+    m_netCard = net_card;
 }
 
 const std::string& NetworkServer::netCard() const
@@ -64,7 +96,7 @@ const ServerState& NetworkServer::state() const
     return m_state;
 }
 
-ObserverList& NetworkServer::observerList() const
+const NetworkServer::ObserverList& NetworkServer::observerList() const
 {
     return m_observerList;
 }
@@ -72,29 +104,6 @@ ObserverList& NetworkServer::observerList() const
 GResult NetworkServer::run()
 {
     return routine();
-}
-
-GResult NetworkServerMonitor::keepWork(NetworkServer* server)
-{
-    IS_NULL_RE(server);
-    
-    switch (server->state)
-    {
-        case SERVER_INIT:
-            return server->start();
-            break;
-        case SERVER_WORK:
-            return G_YES;
-            break;
-        case SERVER_STOP:
-        case SERVER_FAULT:
-            return server->restart();
-            break;
-        default:
-            break;
-    }
-    
-    return G_NO;
 }
 
 }

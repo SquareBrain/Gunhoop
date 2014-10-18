@@ -30,7 +30,7 @@ public:
 	 * @param [in] server_addr : ftp server address
 	 * @param [in] net_card : network card for communication, defualt is eth0
 	 */    
-    explicit UdpServer(const IPPortPair& server_addr, TcpServerInterface* net_card = nullptr);
+    explicit UdpServer(const IPPortPair& server_addr, const std::string& net_card = nullptr);
 	~UdpServer();
 
     /**
@@ -48,6 +48,12 @@ public:
 	GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0");
 
     /**
+     * @brief restart service
+     * @return G_YES/NO
+     */
+    GResult restart();    
+
+    /**
      * @brief stop service
      * @return G_YES/G_NO
      */
@@ -58,6 +64,6 @@ public:
      * @note derive class implemention
      * @return G_YES/G_NO
      */
-    GResult msgLoop();      
+    GResult routine();      
 };
 }

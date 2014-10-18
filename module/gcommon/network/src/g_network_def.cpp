@@ -82,12 +82,18 @@ GResult NetWorkConv::macToInteger(const std::string& str_mac, GUint64& int_mac)
 
 GResult NetWorkConv::macToInteger(const GInt8 bytes_mac[6], GUint64& int_mac)
 {
-    int_mac = (bytes_mac[0] << 40) 
-            + (bytes_mac[1] << 32) 
-            + (bytes_mac[2] << 24) 
-            + (bytes_mac[3] << 16) 
-            + (bytes_mac[4] << 8) 
-            + bytes_mac[5];
+    GUint64 mac_array[6] = {0};
+	for (GUint8 i = 0; i < 6; i++)
+    {
+        mac_array[i] = bytes_mac[i];   
+    }
+	
+    int_mac = (mac_array[0] << 40) 
+            + (mac_array[1] << 32) 
+            + (mac_array[2] << 24) 
+            + (mac_array[3] << 16) 
+            + (mac_array[4] << 8) 
+            + mac_array[5];
     
     return G_YES;
 }
@@ -123,13 +129,13 @@ GResult NetWorkConv::macToBytes(const GUint64 int_mac, GInt8 bytes_mac[6])
 GResult NetWorkConv::macToString(const GUint64 int_mac, std::string& str_mac)
 {
     GInt8 tmp_buf[18] = {0};  
-    sprintf(tmp_buf, "%0x:%0x:%0x:%0x:%0x:%0x",  
-        (int_mac & 0xff0000000000) >> 40,  
-        (int_mac & 0x00ff00000000) >> 32,  
-        (int_mac & 0x0000ff000000) >> 24,  
-        (int_mac & 0x000000ff0000) >> 16,
-        (int_mac & 0x00000000ff00) >> 8,
-        (int_mac & 0x0000000000ff));
+    sprintf(tmp_buf, "%x:%x:%x:%x:%x:%x",  
+        (GInt8)((int_mac & 0xff0000000000) >> 40),  
+        (GInt8)((int_mac & 0x00ff00000000) >> 32),  
+        (GInt8)((int_mac & 0x0000ff000000) >> 24),  
+        (GInt8)((int_mac & 0x000000ff0000) >> 16),
+        (GInt8)((int_mac & 0x00000000ff00) >> 8),
+        (GInt8)((int_mac & 0x0000000000ff)));
         
     Convert::toupper(tmp_buf);
     str_mac.assign(tmp_buf);

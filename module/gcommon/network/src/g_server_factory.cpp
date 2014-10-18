@@ -14,12 +14,12 @@
 *  1. 2014-10-12 duye Created this file
 * 
 */
-#include <g_ftp_client.h>
-#include <g_http_client.h>
-#include <g_rpc_client.h>
-#include <g_tcp_client.h>
-#include <g_udp_client.h>
-#include <g_cli_client.h>
+#include <g_ftp_server.h>
+#include <g_http_server.h>
+#include <g_rpc_server.h>
+#include <g_tcp_server.h>
+#include <g_udp_server.h>
+#include <g_cli_server.h>
 #include <g_server_factory.h>
 
 namespace gcom {
@@ -33,22 +33,22 @@ NetworkServer* ServerFactory::create(const ServerType& server_type)
     
     switch (server_type)
     {
-        case SERVER_FTP:
+        case G_SERVER_FTP:
             server = new FtpServer;
             break;
-        case SERVER_HTTP:
+        case G_SERVER_HTTP:
             server = new HttpServer;
             break;
-        case SERVER_RPC:
+        case G_SERVER_RPC:
             server = new RpcServer;
             break;
-        case SERVER_TCP:
+        case G_SERVER_TCP:
             server = new TcpServer;
             break;
-        case SERVER_UDP:
+        case G_SERVER_UDP:
             server = new UdpServer;
             break;
-        case SERVER_CLI:
+        case G_SERVER_CLI:
             server = new CliServer;
             break;
         default:
@@ -62,39 +62,39 @@ void ServerFactory::destroy(const ServerType& server_type, NetworkServer* server
 {
     switch (server_type)
     {
-        case SERVER_FTP:
+        case G_SERVER_FTP:
         {    
-            FtpServer* del_server = dynamic_cast<FtpServer*>server;
+            FtpServer* del_server = dynamic_cast<FtpServer*>(server);
             delete del_server;
             break;
         }
-        case SERVER_HTTP:
+        case G_SERVER_HTTP:
         {    
-            HttpServer* del_server = dynamic_cast<HttpServer*>server;
+            HttpServer* del_server = dynamic_cast<HttpServer*>(server);
             delete del_server;
             break;
         }
-        case SERVER_RPC:
+        case G_SERVER_RPC:
         {    
-            RpcServer* del_server = dynamic_cast<RpcServer*>server;
+            RpcServer* del_server = dynamic_cast<RpcServer*>(server);
             delete del_server;
             break;
         }
-        case SERVER_TCP:
+        case G_SERVER_TCP:
         {    
-            TcpServer* del_server = dynamic_cast<TcpServer*>server;
+            TcpServer* del_server = dynamic_cast<TcpServer*>(server);
             delete del_server;
             break;
         }
-        case SERVER_UDP:
+        case G_SERVER_UDP:
         {    
-            UdpServer* del_server = dynamic_cast<UdpServer*>server;
+            UdpServer* del_server = dynamic_cast<UdpServer*>(server);
             delete del_server;
             break;
         }
-        case SERVER_CLI:
+        case G_SERVER_CLI:
         {    
-            CliServer* del_server = dynamic_cast<CliServer*>server;
+            CliServer* del_server = dynamic_cast<CliServer*>(server);
             delete del_server;
             break;
         }

@@ -14,7 +14,6 @@
 *  1. 2014-09-24 duye Created this file
 * 
 */
-
 #pragma once
 
 #include <g_network_server.h>
@@ -65,7 +64,6 @@ public:
      * @note derive class implemention
      * @return G_YES/G_NO
      */
-    GResult msgLoop();    
+    GResult routine();    
 };
-
 }

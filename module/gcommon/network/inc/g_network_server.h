@@ -19,6 +19,7 @@
 #include <string>
 #include <list>
 #include <g_system.h>
+#include <g_security_obj.h>
 #include <g_network_def.h>
 
 namespace gcom {
@@ -28,10 +29,10 @@ namespace gcom {
  */
 typedef enum
 {
-    SERVER_INIT,
-    SERVER_WORK,
-    SERVER_STOP,
-    SERVER_FAULT
+    G_SERVER_INIT,
+    G_SERVER_WORK,
+    G_SERVER_STOP,
+    G_SERVER_FAULT
 } ServerState;
 
 /**
@@ -56,7 +57,7 @@ public:
 class NetworkServer : public gsys::ThreadTask
 {
 public:
-    typedef gsys::SecrityObj<std::list<NetworkServerInterface*>> ObserverList;
+    typedef SecurityObj<std::list<NetworkServerObserver*>> ObserverList;
   
 public:
     NetworkServer();
@@ -100,7 +101,13 @@ public:
      * @note derive class implemention
      * @return G_YES/G_NO
      */
-    virtual GResult routine() = 0;  
+    virtual GResult routine() = 0; 
+
+    /**
+     * @brief to keep server work
+     * @return G_YES/G_NO
+     */
+    GResult keepWork();    
     
     /**
      * @brief addition observer
@@ -120,13 +127,15 @@ public:
      * @brief get server address
      * @return server address
      */
+    void setServerAddr(const IPPortPair& server_addr);
     const IPPortPair& serverAddr() const;
     
     /**
      * @brief get net card
      * @return net card
      */
-    const std::string netCard() const;    
+    void setNetCard(const std::string& net_card);
+    const std::string& netCard() const;    
     
     /**
      * @brief get server state
@@ -138,7 +147,7 @@ public:
      * @brief get observer list
      * @return observer list
      */
-    ObserverList& observerList() const;
+    const ObserverList& observerList() const;    
 	
 private:	
     // inherit from base class gsys::ThreadTask
@@ -151,21 +160,4 @@ private:
     ServerState 	m_state;
     ObserverList 	m_observerList;
 };
-
-/**
- * @brief network server monitor
- */
-class NetworkServerTracker
-{
-public:
-    NetworkServerTracker();
-    ~NetworkServerTracker();
-    
-    /**
-     * @brief to keep server work
-     * @return G_YES/G_NO
-     */
-    static GResult keepping(NetworkServer* server);
-};
-
 }

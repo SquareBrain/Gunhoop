@@ -16,6 +16,7 @@
 */
 #pragma once
 
+#include <g_singleton.h>
 #include <g_network_server.h>
 
 namespace gcom {
@@ -57,5 +58,4 @@ public:
      */
     void destroy(const ServerType& server_type, NetworkServer* server);
 };
-
 }

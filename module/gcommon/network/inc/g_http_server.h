@@ -23,15 +23,15 @@ namespace gcom {
 class HttpServer : public NetworkServer
 {
 public:
-    HttpServer() {}
+    HttpServer();
     
     /**
      * @brief constructor
      * @param [in] server_addr : ftp server address
      * @param [in] net_card : network card for communication, defualt is eth0
      */    
-    explicit FtpServer(const IPPortPair& server_addr, const std::string& net_card = "eth0");
-    virtual ~HttpServer() {}
+    explicit HttpServer(const IPPortPair& server_addr, const std::string& net_card = "eth0");
+    virtual ~HttpServer();
 	
     /**
      * @brief startup service
@@ -64,7 +64,6 @@ public:
      * @note derive class implemention
      * @return G_YES/G_NO
      */
-    GResult msgLoop();      
+    GResult routine();      
 };
-
 }
