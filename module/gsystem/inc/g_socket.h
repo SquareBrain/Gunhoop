@@ -443,42 +443,38 @@ private:
 /**
  * @brief epoll socket server
  */
-class EpollServer
+class EpollApi
 {
 public:
-    EpollServer();
+    EpollApi();
+    ~EpollApi();
     
     /**
-     * @brief constructor
-     * @param [in] socket_info : socket information
-     */   
-    explicit EpollServer(const SocketInfo& socket_info);        
-    virtual ~EpollServer();
-    
-    /**
-     * @brief start server
-     * @param [in] socket_info : socket information
+     * @brief add socket
+     * @param [in] socket : socket
      * @return G_YES/G_NO
      */      
-    GResult start();
+    GResult addSocket(Socket* socket);
     
     /**
-     * @brief start server
-     * @param [in] socket_info : socket information
-     * @return G_YES/G_NO
-     */      
-    GResult start(const SocketInfo& socket_info);
-    
-    /**
-     * @brief stop server
+     * @brief remove socket
+     * @param [in] socket : socket
      * @return G_YES/G_NO
      */
-    GResult stop();
+    GResult removeSocket(Socket* socket);
+    
+    /**
+     * @brief wait event
+     */
+    GResult waitEvent();
+    
+private:
+    // inherit from class ThreadTask
+    GResult run();
     
 private:
     GInt32       m_epollfd; 
     SocketServer m_socketServer;
-
     static const GUint32 m_defMaxEvents = 1024;
 };
 
