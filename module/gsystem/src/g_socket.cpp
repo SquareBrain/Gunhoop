@@ -442,13 +442,9 @@ void SocketClient::setError(const GInt8* args, ...)
     System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
 
-Epoll::Epoll() : m_epollfd(-1) 
+Epoll::Epoll(const GUint32 max_event) : m_epollfd(-1), m_maxEvents(max_event)
 {
-    m_epollfd = epoll_create(m_defMaxEvents);
-    if (m_epollfd == -1)
-    {
-    	G_LOG_ERROR(LOG_PREFIX, "epoll_create failed");
-    }
+    create();  
 }
 
 Epoll::~Epoll() 
@@ -459,34 +455,71 @@ Epoll::~Epoll()
     }
 }
 	 
-GResult Epoll::addfd()
+GResult Epoll::addfd(const GInt32 fd, const GUint32 events)
 {
-    if (m_epollfd == -1)
-    {
-    	return G_NO;
-    }
+    IS_YES_RR((m_epollfd == -1, G_NO);
     
-    
+    struct epoll_event epoll_event;
+    bzero(&epoll_event, sizeof(struct epoll_event));
+    epoll_event.data.fd = fd;
+    epoll_event.events = events;
+    epoll_ctl(m_epollfd, EPOLL_CTL_ADD, fd, &epoll_event);
     
     return G_YES;
 }
 
-GResult Epoll::modfd()
+GResult Epoll::modfd(const GInt32 fd, const GUint32 events)
 {
-    if (m_epollfd == -1)
-    {
-    	return G_NO;
-    }
+    IS_YES_RR((m_epollfd == -1, G_NO);
+    
+    struct epoll_event epoll_event;
+    bzero(&epoll_event, sizeof(struct epoll_event));
+    epoll_event.data.fd = fd;
+    epoll_event.events = events;
+    epoll_ctl(m_epollfd, EPOLL_CTL_MOD, fd, &epoll_event);
     
     return G_YES;
 }
 	 
-GResult EpollServer::delfd(const SocketInfo& socket_info)
+GResult Epoll::delfd(const GInt32 fd)
 {
+    IS_YES_RR((m_epollfd == -1, G_NO);
+    epoll_ctl(m_epollfd, EPOLL_CTL_DEL, fd, nullptr);
+    return G_YES;
+}
+
+GResult Epoll::wait(std::list<Event>& event_list, const GUint32 timeout)
+{
+    IS_YES_RR(m_epollfd == -1, G_NO);
+    struct epoll_event* events = calloc(m_maxEvents, sizeof(epoll_event));
+    GInt ret = epoll_wait(m_epollfd, events, m_maxEvents, timeout);
+    if (ret > 0)
+    {
+    	GUint32 event_num = ret;
+    	for (GUint32 i = 0; i < evnet_num; i++)
+    	{
+            if ((events[i].events & EPOLLERR) ||  
+                (events[i].events & EPOLLHUP))
+            {
+            	setError("epoll error, close fd");
+            	
+            	continue;
+            }
+            
+    	}
+    }
+    
+    return ret == -1 ? G_NO : G_YES;
+}
+
+GResult Epoll::create()
+{
+    m_epollfd = epoll_create(m_maxEvents);
     if (m_epollfd == -1)
     {
+    	G_LOG_ERROR(LOG_PREFIX, "epoll_create failed");
     	return G_NO;
-    }
+    }   
     
     return G_YES;
 }
