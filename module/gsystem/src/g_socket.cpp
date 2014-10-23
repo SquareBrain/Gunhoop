@@ -442,33 +442,52 @@ void SocketClient::setError(const GInt8* args, ...)
     System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
 
-EpollServer::EpollServer() : m_epollfd(-1) {}
-EpollServer::EpollServer(const SocketInfo& socket_info) : m_epollfd(-1) {}	
-EpollServer::~EpollServer() {}
-	 
-GResult EpollServer::start()
+Epoll::Epoll() : m_epollfd(-1) 
 {
     m_epollfd = epoll_create(m_defMaxEvents);
-	if (m_epollfd <= 0)
-	{
-	    G_LOG_ERROR(LOG_PREFIX, "epoll_create failed:%d", m_epollfd);
-		return G_NO;
-	}
+    if (m_epollfd == -1)
+    {
+    	G_LOG_ERROR(LOG_PREFIX, "epoll_create failed");
+    }
+}
 
-	
-	
+Epoll::~Epoll() 
+{
+    if (m_epollfd != -1)
+    {
+    	close(m_epollfd);
+    }
+}
+	 
+GResult Epoll::addfd()
+{
+    if (m_epollfd == -1)
+    {
+    	return G_NO;
+    }
+    
+    
+    
+    return G_YES;
+}
+
+GResult Epoll::modfd()
+{
+    if (m_epollfd == -1)
+    {
+    	return G_NO;
+    }
+    
     return G_YES;
 }
 	 
-GResult EpollServer::start(const SocketInfo& socket_info)
+GResult EpollServer::delfd(const SocketInfo& socket_info)
 {
+    if (m_epollfd == -1)
+    {
+    	return G_NO;
+    }
+    
     return G_YES;
 }
-
-GResult EpollServer::stop()
-{
-    ::close(m_epollfd);
-    return G_YES;
-}
-
 }
