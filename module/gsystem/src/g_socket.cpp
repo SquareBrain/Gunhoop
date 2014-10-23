@@ -502,10 +502,11 @@ GResult Epoll::wait(std::list<Event>& event_list, const GUint32 timeout)
                 (events[i].events & EPOLLHUP))
             {
             	setError("epoll error, close fd");
-            	
+            	close(events[i].data.fd);
             	continue;
             }
             
+            event_list.push_back(events[i].data.fd);
     	}
     }
     
