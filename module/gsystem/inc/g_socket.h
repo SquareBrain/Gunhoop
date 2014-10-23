@@ -446,20 +446,9 @@ private:
 class Epoll
 {
 public:
-    std::list<struct epoll_event*> EpollEventList;
-    
-    typedef enum
+    struct Event_S
     {
-    	// fd event
-        EVENT_FD = 0,	
-        // data event
-        EVENT_DATA
-    } EventType;
-    
-    typedef Event_S
-    {
-        EventType type;
-        GInt32    fd;
+        GInt32  fd;	
     } Event;
     
 public:
@@ -510,7 +499,6 @@ private:
     
 private:
     GInt32         m_epollfd; 
-    EpollEventList m_eventList;
     GUint32        m_maxEvents;
 };
 }
