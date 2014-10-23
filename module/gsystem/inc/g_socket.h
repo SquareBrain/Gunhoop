@@ -443,25 +443,32 @@ private:
 /**
  * @brief epoll socket server
  */
-class EpollApi
+class Epoll
 {
 public:
-    EpollApi();
-    ~EpollApi();
+    Epoll();
+    ~Epoll();
     
     /**
-     * @brief add socket
-     * @param [in] socket : socket
+     * @brief add fd
+     * @param [in] fd : fd
      * @return G_YES/G_NO
      */      
-    GResult addSocket(Socket* socket);
+    GResult addfd(const GInt32 fd, );
     
     /**
-     * @brief remove socket
-     * @param [in] socket : socket
+     * @brief modify fd
+     * @param [in] fd : fd
+     * @return G_YES/G_NO
+     */      
+    GResult modfd(const GInt32 fd);
+    
+    /**
+     * @brief delete fd
+     * @param [in] fd : fd
      * @return G_YES/G_NO
      */
-    GResult removeSocket(Socket* socket);
+    GResult delfd(const GInt32 fd);
     
     /**
      * @brief wait event
@@ -477,44 +484,4 @@ private:
     SocketServer m_socketServer;
     static const GUint32 m_defMaxEvents = 1024;
 };
-
-/**
- * @brief epoll socket client
- */
-class EpollClient
-{
-public:
-    EpollClient();
-    
-    /**
-     * @brief constructor
-     * @param [in] socket_info : socket information
-     */   
-    explicit EpollClient(const SocketInfo& socket_info);     
-    virtual ~EpollClient();
-   
-    /**
-     * @brief start client
-     * @param [in] socket_info : socket information
-     * @return G_YES/G_NO
-     */      
-    GResult start();
-    
-    /**
-     * @brief start client
-     * @param [in] socket_info : socket information
-     * @return G_YES/G_NO
-     */      
-    GResult start(const SocketInfo& socket_info);
-    
-    /**
-     * @brief stop client
-     * @return G_YES/G_NO
-     */
-    GResult stop();
-	
-private:
-    SocketClient    m_socketClient;
-};
-
 }
