@@ -446,22 +446,45 @@ private:
 class Epoll
 {
 public:
-    Epoll();
+    std::list<struct epoll_event*> EpollEventList;
+    
+    typedef enum
+    {
+    	// fd event
+        EVENT_FD = 0,	
+        // data event
+        EVENT_DATA
+    } EventType;
+    
+    typedef Event_S
+    {
+        EventType type;
+        GInt32    fd;
+    } Event;
+    
+public:
+    /**
+     * @brief constructor
+     * @param [in] max_event : the number of max event, default is 64
+     */
+    Epoll(const GUint32 max_event = 64);
     ~Epoll();
     
     /**
      * @brief add fd
      * @param [in] fd : fd
+     * @param [in] events : epoll events
      * @return G_YES/G_NO
      */      
-    GResult addfd(const GInt32 fd, );
+    GResult addfd(const GInt32 fd, const GUint32 events);
     
     /**
      * @brief modify fd
      * @param [in] fd : fd
+     * @param [in] events : epoll evnets
      * @return G_YES/G_NO
      */      
-    GResult modfd(const GInt32 fd);
+    GResult modfd(const GInt32 fd, const GUint32 events);
     
     /**
      * @brief delete fd
@@ -472,16 +495,22 @@ public:
     
     /**
      * @brief wait event
+     * @param [out] event_list : return event
+     * @param [in] timeout : wait time out, default is -1, indicate block, millisecond
+     * @return G_YES/G_NO
      */
-    GResult waitEvent();
+    GResult wait(std::list<Event>& event_list, const GUint32 timeout = -1);
     
 private:
     // inherit from class ThreadTask
     GResult run();
     
+    // create epoll
+    GResult create();
+    
 private:
-    GInt32       m_epollfd; 
-    SocketServer m_socketServer;
-    static const GUint32 m_defMaxEvents = 1024;
+    GInt32         m_epollfd; 
+    EpollEventList m_eventList;
+    GUint32        m_maxEvents;
 };
 }
