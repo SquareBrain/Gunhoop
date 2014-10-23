@@ -304,6 +304,68 @@ private:
     std::string   m_localIfName;
 };
 
+/**
+ * @brief epoll socket server
+ */
+class Epoll
+{
+public:
+    struct Event_S
+    {
+        GInt32  fd;	
+    } Event;
+    
+public:
+    /**
+     * @brief constructor
+     * @param [in] max_event : the number of max event, default is 64
+     */
+    Epoll(const GUint32 max_event = 64);
+    ~Epoll();
+    
+    /**
+     * @brief add fd
+     * @param [in] fd : fd
+     * @param [in] events : epoll events
+     * @return G_YES/G_NO
+     */      
+    GResult addfd(const GInt32 fd, const GUint32 events);
+    
+    /**
+     * @brief modify fd
+     * @param [in] fd : fd
+     * @param [in] events : epoll evnets
+     * @return G_YES/G_NO
+     */      
+    GResult modfd(const GInt32 fd, const GUint32 events);
+    
+    /**
+     * @brief delete fd
+     * @param [in] fd : fd
+     * @return G_YES/G_NO
+     */
+    GResult delfd(const GInt32 fd);
+    
+    /**
+     * @brief wait event
+     * @param [out] event_list : return event
+     * @param [in] timeout : wait time out, default is -1, indicate block, millisecond
+     * @return G_YES/G_NO
+     */
+    GResult wait(std::list<Event>& event_list, const GUint32 timeout = -1);
+    
+private:
+    // inherit from class ThreadTask
+    GResult run();
+    
+    // create epoll
+    GResult create();
+    
+private:
+    GInt32         m_epollfd; 
+    GUint32        m_maxEvents;
+};
+
 /** 
  * @brief server socket class
  */
@@ -438,67 +500,5 @@ private:
     SockAddr	m_addr;    
     SocketInfo  m_socketInfo;
     GInt8       m_error[G_ERROR_BUF_SIZE];
-};
-
-/**
- * @brief epoll socket server
- */
-class Epoll
-{
-public:
-    struct Event_S
-    {
-        GInt32  fd;	
-    } Event;
-    
-public:
-    /**
-     * @brief constructor
-     * @param [in] max_event : the number of max event, default is 64
-     */
-    Epoll(const GUint32 max_event = 64);
-    ~Epoll();
-    
-    /**
-     * @brief add fd
-     * @param [in] fd : fd
-     * @param [in] events : epoll events
-     * @return G_YES/G_NO
-     */      
-    GResult addfd(const GInt32 fd, const GUint32 events);
-    
-    /**
-     * @brief modify fd
-     * @param [in] fd : fd
-     * @param [in] events : epoll evnets
-     * @return G_YES/G_NO
-     */      
-    GResult modfd(const GInt32 fd, const GUint32 events);
-    
-    /**
-     * @brief delete fd
-     * @param [in] fd : fd
-     * @return G_YES/G_NO
-     */
-    GResult delfd(const GInt32 fd);
-    
-    /**
-     * @brief wait event
-     * @param [out] event_list : return event
-     * @param [in] timeout : wait time out, default is -1, indicate block, millisecond
-     * @return G_YES/G_NO
-     */
-    GResult wait(std::list<Event>& event_list, const GUint32 timeout = -1);
-    
-private:
-    // inherit from class ThreadTask
-    GResult run();
-    
-    // create epoll
-    GResult create();
-    
-private:
-    GInt32         m_epollfd; 
-    GUint32        m_maxEvents;
 };
 }
