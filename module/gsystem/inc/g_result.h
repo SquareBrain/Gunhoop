@@ -75,6 +75,19 @@ do \
 } while(0)
 
 /**
+ * @brief 
+ */
+#define IS_YES_RR(_x, _ret) \
+do \
+{ \
+    GResult _tret = (_x); \
+    if (_tret == G_YES) \
+    { \
+        return _ret; \
+    } \
+} while(0)
+
+/**
  * @brief _x is G_NO, return void
  */
 #define IS_NO_R(_x) \
