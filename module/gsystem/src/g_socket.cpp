@@ -21,8 +21,6 @@
 
 namespace gsys {
 
-static const GInt8* LOG_PREFIX = "gohoop.gsys.socket";
-
 const struct in6_addr IN6ADDR_ANY = IN6ADDR_ANY_INIT;
 
 SockAddr::SockAddr() : SockAddr(INADDR_ANY, 0) {}
@@ -333,26 +331,22 @@ Epoll::~Epoll()
 GResult Epoll::addfd(const GInt32 fd, const GUint32 events)
 {
     IS_YES_RR((m_epollfd == -1, G_NO);
-    
     struct epoll_event epoll_event;
     bzero(&epoll_event, sizeof(struct epoll_event));
     epoll_event.data.fd = fd;
     epoll_event.events = events;
     epoll_ctl(m_epollfd, EPOLL_CTL_ADD, fd, &epoll_event);
-    
     return G_YES;
 }
 
 GResult Epoll::modfd(const GInt32 fd, const GUint32 events)
 {
     IS_YES_RR((m_epollfd == -1, G_NO);
-    
     struct epoll_event epoll_event;
     bzero(&epoll_event, sizeof(struct epoll_event));
     epoll_event.data.fd = fd;
     epoll_event.events = events;
     epoll_ctl(m_epollfd, EPOLL_CTL_MOD, fd, &epoll_event);
-    
     return G_YES;
 }
 	 
@@ -368,24 +362,33 @@ GResult Epoll::wait(std::list<Event>& event_list, const GUint32 timeout)
     IS_YES_RR(m_epollfd == -1, G_NO);
     struct epoll_event* events = calloc(m_maxEvents, sizeof(epoll_event));
     GInt ret = epoll_wait(m_epollfd, events, m_maxEvents, timeout);
-    if (ret > 0)
+    if (ret <= 0)
     {
-    	GUint32 event_num = ret;
-    	for (GUint32 i = 0; i < evnet_num; i++)
-    	{
-            if ((events[i].events & EPOLLERR) ||  
-                (events[i].events & EPOLLHUP))
-            {
-            	setError("epoll error, close fd");
-            	close(events[i].data.fd);
-            	continue;
-            }
-            
-            event_list.push_back(events[i].data.fd);
-    	}
+    	free(events);
+    	return G_NO;
     }
     
-    return ret == -1 ? G_NO : G_YES;
+    GUint32 event_num = ret;
+    for (GUint32 i = 0; i < evnet_num; i++)
+    {
+        if ((events[i].events & EPOLLERR) ||  
+            (events[i].events & EPOLLHUP))
+        {
+    	    setError("epoll error, close fd");
+    	    close(events[i].data.fd);
+    	    continue;
+        }
+        event_list.push_back(events[i].data.fd);
+    }
+    
+    free(events);
+    
+    return G_YES;
+}
+
+GInt8* Epoll::getError()
+{
+    return m_error;
 }
 
 GResult Epoll::create()
@@ -393,11 +396,16 @@ GResult Epoll::create()
     m_epollfd = epoll_create(m_maxEvents);
     if (m_epollfd == -1)
     {
-    	G_LOG_ERROR(LOG_PREFIX, "epoll_create failed");
+    	setError(LOG_PREFIX, "epoll_create failed");
     	return G_NO;
     }   
     
     return G_YES;
+}
+
+void Epoll::setError(const GInt8* args, ...)
+{
+    System::pformat(m_error, G_ERROR_BUF_SIZE, args);
 }
 
 SocketServer::SocketServer() {}
@@ -408,17 +416,17 @@ SocketServer::~SocketServer()
 
 GResult SocketServer::bind(const SocketInfo& socket_info)
 {
-	if (IS_NO(m_socket.open(socket_info.protocol(), socket_info.localIfName())))
-	{
-		setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
-		return G_NO;
-	}
+    if (IS_NO(m_socket.open(socket_info.protocol(), socket_info.localIfName())))
+    {
+    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	return G_NO;
+    }
 
-	m_socketInfo = socket_info;
+    m_socketInfo = socket_info;
     m_addr.setIP(m_socketInfo.serverIP());
     m_addr.setPort(m_socketInfo.serverPort());	
 	
-	return ::bind(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
+    return ::bind(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
 }
 
 GResult SocketServer::listen(const GUint32 max_connect_num)
@@ -441,18 +449,23 @@ GInt32 SocketServer::accept(SockAddr& client_addr, const RecvMode& mode)
     return -1;
 }
 
-GInt64 SocketServer::recvfrom(SockAddr& client_addr, GUint8* buffer, const GUint64 size, const RecvMode& mode)
+GInt64 SocketServer::send(const GUint8* data, const GUint64 len)
+{
+    return Transfer::send(m_socket, data, len, MSG_NOSIGNAL);	
+}
+
+GInt64 SocketServer::recv(GUint8* buffer, const GUint64 size, const RecvMode& mode)
 {
     if (mode == G_RECV_BLOCK)
     {
-    	return Transfer::recvfrom(m_socket, client_addr, buffer, size);
+    	return Transfer::recv(m_socket, buffer, size);
     }
     else if (mode == G_RECV_NONBLOCK)
     {
-    	return Transfer::recvfrom(m_socket, client_addr, buffer, size, MSG_DONTWAIT);
+    	return Transfer::recv(m_socket, buffer, size, MSG_DONTWAIT);
     }
     
-    return -1;
+    return -1;	
 }
 
 GResult SocketServer::close()
@@ -491,9 +504,9 @@ GResult SocketClient::connect(const SocketInfo& socket_info)
     return ::connect(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
 }
 
-GInt64 SocketClient::send(const GUint8* data, const GUint64 len, const GInt32 flags)
+GInt64 SocketClient::send(const GUint8* data, const GUint64 len)
 {
-    return Transfer::send(m_socket, data, len, flags);	
+    return Transfer::send(m_socket, data, len, MSG_NOSIGNAL);	
 }
 
 GInt64 SocketClient::recv(GUint8* buffer, const GUint64 size, const RecvMode& mode)
