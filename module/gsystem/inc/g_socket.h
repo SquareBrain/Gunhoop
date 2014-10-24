@@ -354,16 +354,28 @@ public:
      */
     GResult wait(std::list<Event>& event_list, const GUint32 timeout = -1);
     
-private:
-    // inherit from class ThreadTask
-    GResult run();
+    /**
+     * @brief get last error string
+     * @return error string
+     * @note 
+     */		
+    GInt8* getError();	
     
+private:
     // create epoll
     GResult create();
     
+    /**
+     * @brief origin set program running error
+     * @param [in] error : error string
+     * @note 
+     */		
+    void setError(const GInt8* args, ...);    
+    
 private:
-    GInt32         m_epollfd; 
-    GUint32        m_maxEvents;
+    GInt32      m_epollfd; 
+    GUint32     m_maxEvents;
+    GInt8       m_error[G_ERROR_BUF_SIZE];
 };
 
 /** 
@@ -396,17 +408,25 @@ public:
      * @return success : socket fd, error : -1
      */
     GInt32 accept(SockAddr& client_addr, const RecvMode& mode = G_RECV_BLOCK);
-	
+    
+    /**
+     * @brief send data
+     * @param [in] data : send data
+     * @param [in] len : data length
+     * @return size/-1
+     * @note 
+     */		
+    GInt64 send(const GUint8* data, const GUint64 len);
+    
     /**
      * @brief receive data
-     * @param [in] client_addr : client address
      * @param [out] buffer : output buffer
-     * @param [in] size : output buffer size
-     * @param [in] mode : block or unblock, default block
+     * @param [in] bufferSize : buffer size
+     * @param [in] mode : block(G_RECV_BLOCK) or unblock(G_RECV_UNBLOCK), default block
      * @return size/-1
      * @note 
      */	
-    GInt64 recvfrom(SockAddr& client_addr, GUint8* buffer, const GUint64 size, const RecvMode& mode = G_RECV_BLOCK);
+    GInt64 recv(GUint8* buffer, const GUint64 size, const RecvMode& mode = G_RECV_BLOCK);
     
     /**
      * @brief close server socket
@@ -457,11 +477,10 @@ public:
      * @brief send data
      * @param [in] data : send data
      * @param [in] len : data length
-     * @param [in] flags : flags
      * @return size/-1
      * @note 
      */		
-    GInt64 send(const GUint8* data, const GUint64 len, const GInt32 flags = MSG_NOSIGNAL);
+    GInt64 send(const GUint8* data, const GUint64 len);
     
     /**
      * @brief receive data
