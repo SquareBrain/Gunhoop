@@ -315,9 +315,6 @@ public:
         GInt32  fd;	
     } Event;
     
-    // the number of max event
-    static const GUint32 MAX_EVENT_NUM = 1024;
-    
 public:
     Epoll();
     ~Epoll();
@@ -327,7 +324,7 @@ public:
      * @param [in] max_event : the number of the max events
      * @return G_YES/G_NO
      */
-    GResult init(const GUint32 max_event = MAX_EVENT_NUM);
+    GResult init(const GUint32 max_event = 1024);
     
     /**
      * @brief add fd
