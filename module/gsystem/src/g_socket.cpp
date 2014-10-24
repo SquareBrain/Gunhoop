@@ -20,6 +20,8 @@
 #include <g_socket.h>
 
 namespace gsys {
+	
+static const GInt8* G_LOG_PREFIX = "gohoop.system.socket";
 
 const struct in6_addr IN6ADDR_ANY = IN6ADDR_ANY_INIT;
 
@@ -134,18 +136,18 @@ GResult Socket::open(const NetProtocol& protocol, const std::string& if_name)
     	case G_IPPROTO_SCTP:
     	{
     	    sock_protocol = IPPROTO_SCTP;
-    	    setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
+    	    setError("[warn]argument protocol(%d) not support (%s:%s:%d)\n", protocol, __FUNCTION__, __FILE__, __LINE__);
     	    return G_NO; // not support
     	}
     	case G_IPPROTO_TIPC:
     	{
     	    //sock_protocol = IPPROTO_TIPC;
-    	    setError("[warn]%s:argument protocol(%d) not support (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
+    	    setError("[warn]argument protocol(%d) not support (%s:%s:%d)\n", protocol, __FUNCTION__, __FILE__, __LINE__);
     	    return G_NO; // not support
     	}
     	default:
         {
-    	    setError("[error]%s:argument protocol(%d) invalid (%s:%d)\n", __FUNCTION__, protocol, __FILE__, __LINE__);
+    	    setError("[error]argument protocol(%d) invalid (%s:%s:%d)\n", protocol, __FUNCTION__, __FILE__, __LINE__);
     	    return G_NO;
         }
     }	
@@ -153,14 +155,14 @@ GResult Socket::open(const NetProtocol& protocol, const std::string& if_name)
     m_sockfd = ::socket(domain, sock_type, sock_protocol);
     if (m_sockfd < 0)
     {
-    	setError("[error]%s: socket(%d, %d, %d) ret=%d invalid (%s:%d)\n", 
-    	    __FUNCTION__, domain, sock_type, sock_protocol, m_sockfd, __FILE__, __LINE__);
+    	setError("[error]socket(%d, %d, %d) ret=%d invalid (%s:%s:%d)\n", 
+    	    domain, sock_type, sock_protocol, m_sockfd, __FUNCTION__, __FILE__, __LINE__);
         return G_NO;
     }
 
-	// set non-blocking
-	//fcntl(m_sockfd, F_SETFL, O_NONBLOCK)
-
+    // set non-blocking
+    // fcntl(m_sockfd, F_SETFL, O_NONBLOCK)
+    
     // init socket option
     initOption(if_name);
     m_isInit = true;
@@ -200,7 +202,7 @@ GResult Socket::initOption(const std::string& if_name)
     strncpy(interface.ifr_ifrn.ifrn_name, if_name.c_str(), if_name.length());
     if (setsockopt(m_sockfd, SOL_SOCKET, SO_BINDTODEVICE, (char*)&interface, sizeof(interface)) == -1) 
     {
-    	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	setError("[warn]setsockopt() failed (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	ret = G_NO;        
     }    
     
@@ -208,7 +210,7 @@ GResult Socket::initOption(const std::string& if_name)
     GInt32 reuse = 1;    
     if (setsockopt(m_sockfd, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(GInt32)) == -1)
     {
-    	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	setError("[warn]setsockopt() failed (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	ret = G_NO;
     }
 
@@ -230,7 +232,7 @@ GResult Socket::initOption(const std::string& if_name)
     GInt32 send_buf_size = 0xFFFF;    
     if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&send_buf_size, sizeof(GInt32)) == -1)
     {
-    	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	setError("[warn]setsockopt() failed (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	ret = false;
     }
 
@@ -238,7 +240,7 @@ GResult Socket::initOption(const std::string& if_name)
     GInt32 recv_buf_size = 0xFFFF;
     if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&recv_buf_size, sizeof(GInt32)) == -1)
     {
-    	setError("[warn]%s:setsockopt() failed (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	setError("[warn]setsockopt() failed (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	ret = false;
     }
 
@@ -315,9 +317,9 @@ GInt64 Transfer::recvfrom(Socket& socket, SockAddr& src_addr, GUint8* buffer, co
     return ::recvfrom(socket.sockfd(), buffer, size, flags, (struct sockaddr*)&src_addr.addr(), &addr_len);	
 }
 
-Epoll::Epoll(const GUint32 max_event) : m_epollfd(-1), m_maxEvents(max_event)
+Epoll::Epoll() : m_epollfd(-1), m_maxEvents(0), m_errorHeaderOffser(0)
 {
-    create();  
+    initError();
 }
 
 Epoll::~Epoll() 
@@ -327,7 +329,21 @@ Epoll::~Epoll()
     	close(m_epollfd);
     }
 }
-	 
+
+GResult Epoll::init(const GUint32 max_event)
+{
+    m_maxEvents = max_event;
+    
+    m_epollfd = epoll_create(m_maxEvents);
+    if (m_epollfd == -1)
+    {
+    	setError("[warn]epoll_create failed\n", __FUNCTION__, __FILE__, __LINE__);
+    	return G_NO;
+    }   
+    
+    return G_YES;
+}
+
 GResult Epoll::addfd(const GInt32 fd, const GUint32 events)
 {
     IS_YES_RR((m_epollfd == -1, G_NO);
@@ -374,7 +390,7 @@ GResult Epoll::wait(std::list<Event>& event_list, const GUint32 timeout)
         if ((events[i].events & EPOLLERR) ||  
             (events[i].events & EPOLLHUP))
         {
-    	    setError("epoll error, close fd");
+            setError("[error]epoll error, close fd\n", __FUNCTION__, __FILE__, __LINE__);
     	    close(events[i].data.fd);
     	    continue;
         }
@@ -391,34 +407,31 @@ GInt8* Epoll::getError()
     return m_error;
 }
 
-GResult Epoll::create()
+void Epoll::initError()
 {
-    m_epollfd = epoll_create(m_maxEvents);
-    if (m_epollfd == -1)
-    {
-    	setError(LOG_PREFIX, "epoll_create failed");
-    	return G_NO;
-    }   
-    
-    return G_YES;
+    m_errorHeaderOffset = snprintf(m_error, G_ERROR_BUF_SIZE, "[%s]", G_LOG_PREFIX);
 }
 
 void Epoll::setError(const GInt8* args, ...)
 {
-    System::pformat(m_error, G_ERROR_BUF_SIZE, args);
+    System::pformat(m_error + m_errorHeaderOffset, G_ERROR_BUF_SIZE - m_errorHeaderOffset, args);
 }
 
-SocketServer::SocketServer() {}
-SocketServer::~SocketServer() 
+ServerSocket::ServerSocket() : m_errorHeaderOffser(0) 
+{
+    initError();	
+}
+
+ServerSocket::~ServerSocket() 
 {
     close();
 }
 
-GResult SocketServer::bind(const SocketInfo& socket_info)
+GResult ServerSocket::bind(const SocketInfo& socket_info)
 {
     if (IS_NO(m_socket.open(socket_info.protocol(), socket_info.localIfName())))
     {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	setError("[error]Socket not init (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	return G_NO;
     }
 
@@ -429,12 +442,12 @@ GResult SocketServer::bind(const SocketInfo& socket_info)
     return ::bind(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
 }
 
-GResult SocketServer::listen(const GUint32 max_connect_num)
+GResult ServerSocket::listen(const GUint32 max_connect_num)
 {
     return ::listen(m_socket.sockfd(), max_connect_num) == 0 ? G_YES : G_NO;
 }
 
-GInt32 SocketServer::accept(SockAddr& client_addr, const RecvMode& mode)
+GInt32 ServerSocket::accept(SockAddr& client_addr, const RecvMode& mode)
 {
     socklen_t addr_len = client_addr.addrLen();
     if (mode == G_RECV_BLOCK)
@@ -449,12 +462,12 @@ GInt32 SocketServer::accept(SockAddr& client_addr, const RecvMode& mode)
     return -1;
 }
 
-GInt64 SocketServer::send(const GUint8* data, const GUint64 len)
+GInt64 ServerSocket::send(const GUint8* data, const GUint64 len)
 {
     return Transfer::send(m_socket, data, len, MSG_NOSIGNAL);	
 }
 
-GInt64 SocketServer::recv(GUint8* buffer, const GUint64 size, const RecvMode& mode)
+GInt64 ServerSocket::recv(GUint8* buffer, const GUint64 size, const RecvMode& mode)
 {
     if (mode == G_RECV_BLOCK)
     {
@@ -468,32 +481,41 @@ GInt64 SocketServer::recv(GUint8* buffer, const GUint64 size, const RecvMode& mo
     return -1;	
 }
 
-GResult SocketServer::close()
+GResult ServerSocket::close()
 {
     return m_socket.close();    	
 }
 
-GInt8* SocketServer::getError()
+GInt8* ServerSocket::getError()
 {
     return m_error;
 }
 
-void SocketServer::setError(const GInt8* args, ...)
+void ServerSocket::initError()
 {
-    System::pformat(m_error, G_ERROR_BUF_SIZE, args);
+    m_errorHeaderOffset = snprintf(m_error, G_ERROR_BUF_SIZE, "[%s]", G_LOG_PREFIX);
 }
-	
-SocketClient::SocketClient() {}
-SocketClient::~SocketClient() 
+
+void ServerSocket::setError(const GInt8* args, ...)
+{
+    System::pformat(m_error + m_errorHeaderOffset, G_ERROR_BUF_SIZE - m_errorHeaderOffset, args);
+}
+
+ClientSocket::ClientSocket() : m_errorHeaderOffser(0) 
+{
+    initError();	
+}
+
+ClientSocket::~ClientSocket() 
 {
     close();
 }
 
-GResult SocketClient::connect(const SocketInfo& socket_info)
+GResult ClientSocket::connect(const SocketInfo& socket_info)
 {
     if (IS_NO(m_socket.open(socket_info.protocol(), socket_info.localIfName())))
     {
-    	setError("[error]%s:Socket not init (%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	setError("[error]Socket not init (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	return G_NO;
     }
 
@@ -504,12 +526,12 @@ GResult SocketClient::connect(const SocketInfo& socket_info)
     return ::connect(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
 }
 
-GInt64 SocketClient::send(const GUint8* data, const GUint64 len)
+GInt64 ClientSocket::send(const GUint8* data, const GUint64 len)
 {
     return Transfer::send(m_socket, data, len, MSG_NOSIGNAL);	
 }
 
-GInt64 SocketClient::recv(GUint8* buffer, const GUint64 size, const RecvMode& mode)
+GInt64 ClientSocket::recv(GUint8* buffer, const GUint64 size, const RecvMode& mode)
 {
     if (mode == G_RECV_BLOCK)
     {
@@ -523,18 +545,23 @@ GInt64 SocketClient::recv(GUint8* buffer, const GUint64 size, const RecvMode& mo
     return -1;	
 }
 
-GResult SocketClient::close()
+GResult ClientSocket::close()
 {
     return m_socket.close();
 }
 
-GInt8* SocketClient::getError()
+GInt8* ClientSocket::getError()
 {
     return m_error;
 }
 
-void SocketClient::setError(const GInt8* args, ...)
+void ClientSocket::initError()
 {
-    System::pformat(m_error, G_ERROR_BUF_SIZE, args);
+    m_errorHeaderOffset = snprintf(m_error, G_ERROR_BUF_SIZE, "[%s]", G_LOG_PREFIX);
+}
+
+void ClientSocket::setError(const GInt8* args, ...)
+{
+    System::pformat(m_error + m_errorHeaderOffset, G_ERROR_BUF_SIZE - m_errorHeaderOffset, args);
 }
 }
