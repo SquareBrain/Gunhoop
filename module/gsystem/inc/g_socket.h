@@ -315,13 +315,19 @@ public:
         GInt32  fd;	
     } Event;
     
+    // the number of max event
+    static const GUint32 MAX_EVENT_NUM = 1024;
+    
 public:
-    /**
-     * @brief constructor
-     * @param [in] max_event : the number of max event, default is 64
-     */
-    Epoll(const GUint32 max_event = 64);
+    Epoll();
     ~Epoll();
+    
+    /**
+     * @brief set the number of max events
+     * @param [in] max_event : the number of the max events
+     * @return G_YES/G_NO
+     */
+    GResult init(const GUint32 max_event = MAX_EVENT_NUM);
     
     /**
      * @brief add fd
@@ -366,6 +372,11 @@ private:
     GResult create();
     
     /**
+     * @brief init error
+     */
+    void initError();
+    
+    /**
      * @brief origin set program running error
      * @param [in] error : error string
      * @note 
@@ -376,16 +387,17 @@ private:
     GInt32      m_epollfd; 
     GUint32     m_maxEvents;
     GInt8       m_error[G_ERROR_BUF_SIZE];
+    GUint32     m_errorHeaderOffset;
 };
 
 /** 
  * @brief server socket class
  */
-class SocketServer
+class ServerSocket
 {
 public:
-    SocketServer();
-    ~SocketServer();
+    ServerSocket();
+    ~ServerSocket();
     
     /**
      * @brief server bind
@@ -444,6 +456,11 @@ public:
 	
 private:
     /**
+     * @brief init error
+     */
+    void initError();
+    
+    /**
      * @brief origin set program running error
      * @param [in] error : error string
      * @note 
@@ -455,16 +472,17 @@ private:
     SockAddr	m_addr;
     SocketInfo  m_socketInfo;
     GInt8       m_error[G_ERROR_BUF_SIZE];
+    GUint32     m_errorHeaderOffset;
 };
 
 /** 
  * @brief client socket class
  */
-class SocketClient
+class ClientSocket
 {
 public:
-    SocketClient();
-    ~SocketClient();
+    ClientSocket();
+    ~ClientSocket();
     
     /**
      * @brief connect socket
@@ -508,6 +526,11 @@ public:
 	
 private:
     /**
+     * @brief init error
+     */
+    void initError();
+    
+    /**
      * @brief origin set program running error
      * @param [in] error : error string
      * @note 
@@ -519,5 +542,6 @@ private:
     SockAddr	m_addr;    
     SocketInfo  m_socketInfo;
     GInt8       m_error[G_ERROR_BUF_SIZE];
+    GUint32     m_errorHeaderOffset;
 };
 }
