@@ -486,6 +486,20 @@ GInt64 ServerSocket::recv(GUint8* buffer, const GUint64 size, const RecvMode& mo
     return -1;	
 }
 
+GInt64 ServerSocket::recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 size, const RecvMode& mode)
+{
+    if (mode == G_RECV_BLOCK)
+    {
+    	return Transfer::recvfrom(m_socket, src_addr, buffer, size);
+    }
+    else if (mode == G_RECV_NONBLOCK)
+    {
+    	return Transfer::recvfrom(m_socket, src_addr, buffer, size, MSG_DONTWAIT);
+    }
+    
+    return -1;	
+}
+
 GResult ServerSocket::close()
 {
     return m_socket.close();    	
