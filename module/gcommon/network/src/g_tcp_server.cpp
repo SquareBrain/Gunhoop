@@ -45,7 +45,6 @@ GResult TcpServer::start()
     socket_info.setServerPort(serverAddr().port());
     socket_info.setLocalIfName(netCard());
     
-    m_serverSocket = new gsys::ServerSocket();
     if (IS_NO(m_serverSocket->bind(socket_info)))
     {
     	G_LOG_ERROR(LOG_PREFIX, "bind server address failed");
