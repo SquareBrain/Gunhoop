@@ -467,6 +467,11 @@ GInt64 ServerSocket::send(const GUint8* data, const GUint64 len)
     return Transfer::send(m_socket, data, len, MSG_NOSIGNAL);	
 }
 
+GInt64 ServerSocket::sendto(SockAddr& dst_addr, const GUint8* data, const GUint64 len)
+{
+    return Transfer::sendto(m_socket, dst_addr, data, len, MSG_NOSIGNAL);	
+}
+
 GInt64 ServerSocket::recv(GUint8* buffer, const GUint64 size, const RecvMode& mode)
 {
     if (mode == G_RECV_BLOCK)
@@ -529,6 +534,11 @@ GResult ClientSocket::connect(const SocketInfo& socket_info)
 GInt64 ClientSocket::send(const GUint8* data, const GUint64 len)
 {
     return Transfer::send(m_socket, data, len, MSG_NOSIGNAL);	
+}
+
+GInt64 ClientSocket::sendto(SockAddr& dst_addr, const GUint8* data, const GUint64 len)
+{
+    return Transfer::sendto(m_socket, dst_addr, data, len, MSG_NOSIGNAL);	
 }
 
 GInt64 ClientSocket::recv(GUint8* buffer, const GUint64 size, const RecvMode& mode)
