@@ -427,11 +427,11 @@ ServerSocket::~ServerSocket()
     close();
 }
 
-GResult ServerSocket::bind(const SocketInfo& socket_info)
+GResult ServerSocket::init(const SocketInfo& socket_info)
 {
     if (IS_NO(m_socket.open(socket_info.protocol(), socket_info.localIfName())))
     {
-    	setError("[error]Socket not init (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	setError("[error]open socket failed (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	return G_NO;
     }
 
@@ -439,12 +439,29 @@ GResult ServerSocket::bind(const SocketInfo& socket_info)
     m_addr.setIP(m_socketInfo.serverIP());
     m_addr.setPort(m_socketInfo.serverPort());	
 	
-    return ::bind(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
+    GResult ret = ::bind(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
+    if (IS_NO(ret))
+    {
+    	setError("[error]bind socket failed (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	return G_NO;    	
+    }
+    
+    if (socket_info.protocol() == G_IPPROTO_TCP)
+    {
+        ret = ::listen(m_socket.sockfd(), max_connect_num) == 0 ? G_YES : G_NO;
+        if (IS_NO(ret))
+        {
+    	    setError("[error]listen socket failed (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
+    	    return G_NO;        	
+        }
+    }
+    
+    return ret;
 }
 
-GResult ServerSocket::listen(const GUint32 max_connect_num)
+GResult ServerSocket::accept(SockAddr& client_addr, const RecvMode& mode)
 {
-    return ::listen(m_socket.sockfd(), max_connect_num) == 0 ? G_YES : G_NO;
+    return 
 }
 
 GInt32 ServerSocket::accept(SockAddr& client_addr, const RecvMode& mode)
