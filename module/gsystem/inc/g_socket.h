@@ -69,7 +69,7 @@ typedef enum
  * @brief network protocol
  */
 typedef enum 
-{
+{ 
     // SOCK_STREAM
     G_IPPROTO_TCP,
     // SOCK_DGRAM
@@ -278,7 +278,13 @@ public:
 class SocketInfo
 {
 public:
-    SocketInfo() {}
+    SocketInfo() :  m_protocol(G_IPPROTO_TCP)
+        , m_serverIP(0)
+        , m_serverPort(0)
+        , m_clientPort(0)
+        , m_localIfName("eth0")
+        , m_maxConnectNum(1024) {}
+        
     ~SocketInfo() {}
     
     void setProtocol(const NetProtocol& protocol) { m_protocol = protocol; }
@@ -295,6 +301,9 @@ public:
     
     void setLocalIfName(const std::string& local_if_name) { m_localIfName = local_if_name; }
     const std::string& localIfName() const { return m_localIfName; }
+   
+    void setMaxConnectNum(const GUint32& max_connect_num) { m_maxConnectNum = max_connect_num; }
+    GUint32 getMaxConnectNum() const { return m_maxConnectNum; }
     
 private:
     NetProtocol   m_protocol;
@@ -302,6 +311,8 @@ private:
     GUint16       m_serverPort;
     GUint16       m_clientPort;
     std::string   m_localIfName;
+    // server max connect client number, default is 1024
+    GUint32       m_maxConnectNum;
 };
 
 /**
@@ -397,18 +408,18 @@ public:
     ~ServerSocket();
     
     /**
-     * @brief server bind
+     * @brief server bind and listen
      * @param [in] socket_info : socket information
      * @return G_YES/G_NO
      */
-    GResult bind(const SocketInfo& socket_info);
-    
+    GResult init(const SocketInfo& socket_info);
+
     /**
-     * @brief server listen port
-     * @param [in] connect_num : server max connect client number, default is 20
-     * @return G_YES/G_NO
+     * @brief wait event
+     * @param [in] timeout : wait time out, default is -1, indicate block, millisecond
+     * @return success : socket fd, error : -1
      */
-    GResult listen(const GUint32 connect_num = 1024);
+    GInt32 waitEvent(std::list<Epoll::Event>& event_list, const GUint32 timeout = -1);
     
     /**
      * @brief accept client to connect
