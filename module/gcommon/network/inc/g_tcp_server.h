@@ -95,6 +95,7 @@ public:
     GResult routine();      
     
 private:
-    gsys::ServerSocket* m_serverSocket;
+    gsys::ServerSocket  m_serverSocket;
+    gsys::Epoll         m_epoll;
 };
 }
