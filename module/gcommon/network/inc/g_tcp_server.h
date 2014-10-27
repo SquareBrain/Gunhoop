@@ -96,6 +96,5 @@ public:
     
 private:
     gsys::ServerSocket  m_serverSocket;
-    gsys::Epoll         m_epoll;
 };
 }
