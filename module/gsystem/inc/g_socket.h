@@ -428,6 +428,15 @@ public:
     GInt64 send(const GUint8* data, const GUint64 len);
     
     /**
+     * @brief send data for UDP protocol
+     * @param [in] dst_addr : destination address
+     * @param [in] data : send data
+     * @param [in] len : data length
+     * @return on success, return the number of characters sent. on error, return -1
+     */
+    GInt64 sendto(SockAddr& dst_addr, const GUint8* data, const GUint64 len);
+
+    /**
      * @brief receive data
      * @param [out] buffer : output buffer
      * @param [in] bufferSize : buffer size
@@ -436,6 +445,17 @@ public:
      * @note 
      */	
     GInt64 recv(GUint8* buffer, const GUint64 size, const RecvMode& mode = G_RECV_BLOCK);
+    
+    /**
+     * @brief receive data
+     * @param [out] src_addr : source address
+     * @param [out] buffer : output buffer
+     * @param [in] size : buffer size
+     * @param [in] mode : block(G_RECV_BLOCK) or unblock(G_RECV_UNBLOCK), default block
+     * @return on success, return the number of characters received. on error, return -1
+     * @note 
+     */
+    GInt64 recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 size, const RecvMode& mode = G_RECV_BLOCK);  
     
     /**
      * @brief close server socket
@@ -498,6 +518,15 @@ public:
     GInt64 send(const GUint8* data, const GUint64 len);
     
     /**
+     * @brief send data for UDP protocol
+     * @param [in] dst_addr : destination address
+     * @param [in] data : send data
+     * @param [in] len : data length
+     * @return on success, return the number of characters sent. on error, return -1
+     */
+    GInt64 sendto(SockAddr& dst_addr, const GUint8* data, const GUint64 len);    
+    
+    /**
      * @brief receive data
      * @param [out] buffer : output buffer
      * @param [in] bufferSize : buffer size
@@ -506,6 +535,17 @@ public:
      * @note 
      */	
     GInt64 recv(GUint8* buffer, const GUint64 size, const RecvMode& mode = G_RECV_BLOCK);
+    
+    /**
+     * @brief receive data
+     * @param [out] src_addr : source address
+     * @param [out] buffer : output buffer
+     * @param [in] size : buffer size
+     * @param [in] mode : block(G_RECV_BLOCK) or unblock(G_RECV_UNBLOCK), default block
+     * @return on success, return the number of characters received. on error, return -1
+     * @note 
+     */
+    GInt64 recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 size, const RecvMode& mode = G_RECV_BLOCK);         
 
     /**
      * @brief close client socket
