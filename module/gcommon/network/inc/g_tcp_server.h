@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		g_tcp_server.h
+* @file	    g_tcp_server.h
 * @version     
 * @brief      
 * @author   duye
@@ -14,7 +14,6 @@
 *  1. 2014-08-29 duye Created this file
 * 
 */
-
 #pragma once
 
 #include <g_network_server.h>
@@ -26,14 +25,14 @@ namespace gcom {
  */
 typedef enum
 {
-	// don't connect state
-	TCP_CON_STATE_OFF,
-	// connected state
-	TCP_CON_STATE_CON,
-	// idle state
-	TCP_CON_STATE_IDLE,
-	// closed state
-	TCP_CON_STATE_CLOSED
+    // don't connect state
+    TCP_CON_STATE_OFF,
+    // connected state
+    TCP_CON_STATE_CON,
+    // idle state
+    TCP_CON_STATE_IDLE,
+    // closed state
+    TCP_CON_STATE_CLOSED
 } TcpConnectState;
 
 /**
@@ -42,8 +41,8 @@ typedef enum
 class TcpServerInterface
 {
 public:
-	virtual ~TcpServerInterface() {}
-	virtual GResult accepted(const SocketAddr& clientAddr) = 0;
+    virtual ~TcpServerInterface() {}
+    virtual GResult accepted(const SocketAddr& clientAddr) = 0;
 };
 
 /**
@@ -52,40 +51,41 @@ public:
 class TcpServer : public NetworkServer
 {
 public:
-	TcpServer();
-	/**
-	 * @brief constructor
-	 * @param [in] server_addr : ftp server address
-	 * @param [in] net_card : network card for communication, defualt is eth0
-	 */    
-	explicit TcpServer(const IPPortPair& serverAddr, const std::string& net_card = "eth0");
-	virtual ~TcpServer();
+    TcpServer();
+
+    /**
+     * @brief constructor
+     * @param [in] server_addr : ftp server address
+     * @param [in] net_card : network card for communication, defualt is eth0
+     */    
+    explicit TcpServer(const IPPortPair& serverAddr, const std::string& net_card = "eth0");
+    virtual ~TcpServer();
 	
     /**
      * @brief startup service
-	 * @return G_YES/G_NO
-	 */       
-	GResult start();
+     * @return G_YES/G_NO
+     */       
+    GResult start();
 
     /**
      * @brief startup service
-	 * @param [in] server_addr : ftp server address
-	 * @param [in] net_card : network card for communication, defualt is eth0
-	 * @return G_YES/G_NO
-	 */       
-	GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0");
+     * @param [in] server_addr : ftp server address
+     * @param [in] net_card : network card for communication, defualt is eth0
+     * @return G_YES/G_NO
+     */       
+    GResult start(const IPPortPair& server_addr, const std::string& net_card = "eth0");
 
     /**
      * @brief restart service
      * @return G_YES/NO
      */
-    GResult restart();    
+    GResult restart();
 
     /**
      * @brief stop service
      * @return G_YES/G_NO
      */
-	GResult stop();   
+    GResult stop();   
 
     /**
      * @brief message loop handle, new thread
