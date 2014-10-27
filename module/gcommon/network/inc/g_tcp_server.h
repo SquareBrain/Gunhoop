@@ -93,5 +93,8 @@ public:
      * @return G_YES/G_NO
      */
     GResult routine();      
+    
+private:
+    gsys::ServerSocket* m_serverSocket;
 };
 }
