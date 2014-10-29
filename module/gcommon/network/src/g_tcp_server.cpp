@@ -92,10 +92,19 @@ GResult TcpServer::routine()
     	    continue;
     	}
     	
+    	// handle epoll event
     	gsys::Epoll::EventList::const_iterator iter = event_list.begin();
     	for (; iter != event_list.end(); ++iter)
     	{
-    	    	
+    	    if (iter->fd() == m_serverSocket.socket().sockfd())   	
+    	    {
+    	    	SockAddr client_addr;
+    	        if (IS_YES(m_serverSocket.accept(client_addr)))
+    	        {
+    	            // save client 
+    	            
+    	        }
+    	    }
     	}
     	
     	SockAddr& client_addr;
