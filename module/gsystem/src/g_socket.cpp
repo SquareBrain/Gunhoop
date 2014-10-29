@@ -459,19 +459,21 @@ GResult ServerSocket::init(const SocketInfo& socket_info)
     return ret;
 }
 
-GInt32 ServerSocket::accept(SockAddr& client_addr, const RecvMode& mode)
+GResult ServerSocket::accept(SockAddr& client_addr,  GInt32& sockfd, const RecvMode& mode)
 {
     socklen_t addr_len = client_addr.addrLen();
+    sockfd = -1;
+    
     if (mode == G_RECV_BLOCK)
     {
-        return ::accept(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len);	
+        sockfd = ::accept(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len);	
     }
     else if (mode == G_RECV_NONBLOCK)
     {
-    	return ::accept4(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len, SOCK_NONBLOCK);	
+    	sockfd = ::accept4(m_socket.sockfd(), (struct sockaddr*)&client_addr.addr(), &addr_len, SOCK_NONBLOCK);	
     }
     
-    return -1;
+    return sockfd > 0 ? G_YES : G_NO;
 }
 
 GInt64 ServerSocket::send(const GUint8* data, const GUint64 len)
