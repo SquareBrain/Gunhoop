@@ -14,7 +14,6 @@
 *  1. 2014-09-30 duye Created this file
 * 
 */
-#include <g_socket.h>
 #include <g_tcp_server.h>
 	
 namespace gcom {
@@ -23,13 +22,8 @@ static const GInt8* LOG_PREFIX = "gohoop.gcom.network.tcpserver";
 
 TcpServer::TcpServer() : m_serverSocket(nullptr){}
 TcpServer::TcpServer(const IPPortPair& server_addr, const std::string& net_card)
-    : NetworkServer(server_addr, net_card)
-    , m_serverSocket(nullptr) {}
-TcpServer::~TcpServer() 
-{
-    delete m_serverSocket;
-    m_serverSocket = nullptr;
-}
+    : NetworkServer(server_addr, net_card) {}
+TcpServer::~TcpServer() {}
 	  
 GResult TcpServer::start()
 {
@@ -45,15 +39,16 @@ GResult TcpServer::start()
     socket_info.setServerPort(serverAddr().port());
     socket_info.setLocalIfName(netCard());
     
-    if (IS_NO(m_serverSocket->bind(socket_info)))
+    if (IS_NO(m_serverSocket.init(socket_info)))
     {
-    	G_LOG_ERROR(LOG_PREFIX, "bind server address failed");
+    	G_LOG_ERROR(LOG_PREFIX, "%s", m_serverSocket.error());
     	return G_NO;
     }
     
-    if (IS_NO(m_serverSocket->listen()))
+    // init epoll
+    if (IS_NO(m_epoll.init()))
     {
-    	G_LOG_ERROR(LOG_PREFIX, "listen server address failed");
+    	G_LOG_ERROR(LOG_PREFIX, "%s", m_epoll.error());
     	return G_NO;    	
     }
     
@@ -86,8 +81,23 @@ GResult TcpServer::stop()
 
 GResult TcpServer::routine()
 {
+    // add server socket to epoll
+    m_epoll.addfd(m_serverSocket.socket().sockfd());
+    
     for (;;)
     {
+    	gsys::Epoll::EventList event_list;
+    	if (IS_NO(m_epoll.wait(event_list)))
+    	{
+    	    continue;
+    	}
+    	
+    	gsys::Epoll::EventList::const_iterator iter = event_list.begin();
+    	for (; iter != event_list.end(); ++iter)
+    	{
+    	    	
+    	}
+    	
     	SockAddr& client_addr;
     	if (IS_YES(m_serverSocket->accept(client_addr, )))
     	{
@@ -96,7 +106,9 @@ GResult TcpServer::routine()
     	
     	gsys::System::sleep(2);
     }
-
+    
+    m_epoll.delfd(m_serverSocket.socket().sockfd());
+    
     return G_YES;
 }
 }
