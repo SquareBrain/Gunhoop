@@ -83,7 +83,8 @@ GResult NetWorkConv::macToInteger(const std::string& str_mac, GUint64& int_mac)
 GResult NetWorkConv::macToInteger(const GInt8 bytes_mac[6], GUint64& int_mac)
 {
     GUint64 mac_array[6] = {0};
-	for (GUint8 i = 0; i < 6; i++)
+	for (GUint8 i = 0; i < 6; i++)
+
     {
         mac_array[i] = bytes_mac[i];   
     }
@@ -330,29 +331,29 @@ GUint16 NetAddr::port() const
     return m_port;
 }
 
-SocketAddr::SocketAddr() {}
+PacketAddr::PacketAddr() {}
 
-SocketAddr::SocketAddr(const NetAddr& src_addr, const NetAddr& dst_addr) 
+PacketAddr::PacketAddr(const NetAddr& src_addr, const NetAddr& dst_addr) 
     : m_srcAddr(src_addr), m_dstAddr(dst_addr) {}
 
-SocketAddr::~SocketAddr() {}
+PacketAddr::~PacketAddr() {}
 
-void SocketAddr::setSrcAddr(const NetAddr& src_addr)
+void PacketAddr::setSrcAddr(const NetAddr& src_addr)
 {
     m_srcAddr = src_addr;
 }
 
-const NetAddr& SocketAddr::srcAddr() const
+const NetAddr& PacketAddr::srcAddr() const
 {
     return m_srcAddr;
 }
 
-void SocketAddr::setDstAddr(const NetAddr& dst_addr)
+void PacketAddr::setDstAddr(const NetAddr& dst_addr)
 {
     m_dstAddr = dst_addr;
 }
 
-const NetAddr& SocketAddr::dstAddr() const
+const NetAddr& PacketAddr::dstAddr() const
 {
     return m_dstAddr;
 }
