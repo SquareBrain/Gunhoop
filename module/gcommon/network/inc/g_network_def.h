@@ -199,12 +199,12 @@ private:
 /**
  * socket address
  */
-class SocketAddr
+class PacketAddr
 {
 public:
-    SocketAddr();
-    explicit SocketAddr(const NetAddr& src_addr, const NetAddr& dst_addr);
-    ~SocketAddr();
+    PacketAddr();
+    explicit PacketAddr(const NetAddr& src_addr, const NetAddr& dst_addr);
+    ~PacketAddr();
 	
     void setSrcAddr(const NetAddr& src_addr);
     const NetAddr& srcAddr() const;
