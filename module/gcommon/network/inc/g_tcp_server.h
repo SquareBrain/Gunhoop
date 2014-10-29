@@ -16,6 +16,7 @@
 */
 #pragma once
 
+#include <g_socket.h>
 #include <g_network_server.h>
 
 namespace gcom {
@@ -96,5 +97,6 @@ public:
     
 private:
     gsys::ServerSocket  m_serverSocket;
+    gsys::Epoll         m_epoll;
 };
 }
