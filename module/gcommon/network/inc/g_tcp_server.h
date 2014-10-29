@@ -46,11 +46,16 @@ public:
     virtual GResult accepted(const SocketAddr& clientAddr) = 0;
 };
 
+class ClientAgent;
+
 /**
  * @brief tcp server
  */
 class TcpServer : public NetworkServer
 {
+public:
+    typedef std::list<ClientAgent*> ClientAgentList;
+    
 public:
     TcpServer();
 
@@ -98,5 +103,35 @@ public:
 private:
     gsys::ServerSocket  m_serverSocket;
     gsys::Epoll         m_epoll;
+    ClientAgentList     m_clientAgentList;
+};
+
+/**
+ * @brief client agent
+ */
+class ClientAgent
+{
+public:
+    ClientAgent();
+    ClientAgent(const GInt32 sockfd, const SockAddr& client_addr);
+    ~ClientAgent();
+  
+    /**
+     * @brief set/get sock fd
+     * @return sock fd
+     */
+    void setSockfd(const GInt32 sockfd);
+    GInt32 sockfd() const;
+    
+    /**
+     * @brief set/get client address
+     * @return client address
+     */
+    void setClientAddr(const SockAddr& client_addr);
+    SockAddr& clientAddr();
+
+private:
+    GInt32    m_sockfd;
+    SockAddr  m_clientAddr;
 };
 }
