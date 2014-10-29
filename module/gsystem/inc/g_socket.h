@@ -324,17 +324,34 @@ public:
     class Event
     {
     public:
-        Event() {}
+        Event() : m_fd(-1), m_events(0), m_data(nullptr) {}
         ~Event() {}
         
         /**
-         * @brief get fd
+         * @brief get/set fd
          * @return fd
          */
+        void setfd(const GInt32 fd) { m_fd = fd; }
         GInt32 fd() const { return m_fd; }
+        
+        /**
+         * @brief get/set events
+         * @return events
+         */
+        void setEvents(const GInt32 evnets) { m_events = evnets; }
+        GInt32 events() const { return m_events; }    
+        
+        /**
+         * @brief get/set user data
+         * @return user data
+         */
+        void setData(void* data) { m_data = data; }
+        void* data() { return m_data; }          
         
     private:
         GInt32  m_fd;	
+        GInt32  m_events;
+        void*   m_data;
     };
     
     typedef std::list<Event> EventList;
