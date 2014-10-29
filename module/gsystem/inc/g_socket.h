@@ -447,10 +447,11 @@ public:
     /**
      * @brief accept client to connect
      * @param [out] client_addr : output client address infomation
+     * @param [out] sockfd : new sockfd
      * @param [in] mode : block or unblock, default block
-     * @return success : socket fd, error : -1
+     * @return G_YES/G_NO
      */
-    GInt32 accept(SockAddr& client_addr, const RecvMode& mode = G_RECV_BLOCK);
+    GResult accept(SockAddr& client_addr, GInt32& sockfd, const RecvMode& mode = G_RECV_BLOCK);
     
     /**
      * @brief send data
