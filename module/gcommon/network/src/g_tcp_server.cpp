@@ -99,25 +99,62 @@ GResult TcpServer::routine()
     	    if (iter->fd() == m_serverSocket.socket().sockfd())   	
     	    {
     	    	SockAddr client_addr;
-    	        if (IS_YES(m_serverSocket.accept(client_addr)))
+    	    	GInt32 client_sockfd = -1;
+    	        if (IS_NO(m_serverSocket.accept(client_addr, client_sockfd)))
     	        {
-    	            // save client 
-    	            
+    	            continue;
     	        }
+    	        
+    	        G_LOG_INFO(LOG_PREFIX, "accept client address %s:%d", );
+    	        
+    	        ClientAgent* client_agent = new ClientAgent(client_socket, client_addr);
+    	        m_clientAgentList.push_back(client_agent);
+    	        
+    	        // add to epoll
+    	        m_epoll.addfd(client_sockfd);
+    	    }
+    	    else if (iter->events() == G_READ_SOCK_FD)
+    	    {
+    	    	
+    	    }
+    	    else if (iter->events() == G_WRITE_SOCK_FD)
+    	    {
+    	    	
+    	    }
+    	    else
+    	    {
+    	    	
     	    }
     	}
-    	
-    	SockAddr& client_addr;
-    	if (IS_YES(m_serverSocket->accept(client_addr, )))
-    	{
-    	    G_LOG_INFO(LOG_PREFIX, "accept client address %s:%d", );
-    	}
-    	
-    	gsys::System::sleep(2);
     }
     
     m_epoll.delfd(m_serverSocket.socket().sockfd());
     
     return G_YES;
 }
+
+ClientAgent::ClientAgent() {}
+ClientAgent::ClientAgent(const GInt32 sockfd, const SockAddr& client_addr) : m_sockfd(-1) {}
+ClientAgent::~ClientAgent() {}
+
+void ClientAgent::setSockfd(const GInt32 sockfd)
+{
+    m_sockfd = sockfd;	
+}
+
+GInt32 ClientAgent::sockfd() const
+{
+    return m_sockfd; 
+}
+
+void ClientAgent::setClientAddr(const SockAddr& client_addr)
+{
+    m_clientAddr = client_addr;	
+}
+
+SockAddr& ClientAgent::clientAddr()
+{
+    return m_clientAddr;
+}
+
 }
