@@ -213,7 +213,7 @@ public:
      * @return error string
      * @note 
      */		
-    GInt8* getError();		
+    GInt8* error();		
 	
 private:
     /**
@@ -326,6 +326,8 @@ public:
         GInt32  fd;	
     } Event;
     
+    typedef std::list<Event> EventList;
+    
 public:
     Epoll();
     ~Epoll();
@@ -366,14 +368,14 @@ public:
      * @param [in] timeout : wait time out, default is -1, indicate block, millisecond
      * @return G_YES/G_NO
      */
-    GResult wait(std::list<Event>& event_list, const GUint32 timeout = -1);
+    GResult wait(EventList& event_list, const GUint32 timeout = -1);
     
     /**
      * @brief get last error string
      * @return error string
      * @note 
      */		
-    GInt8* getError();	
+    GInt8* error();	
     
 private:
     // create epoll
@@ -413,13 +415,6 @@ public:
      * @return G_YES/G_NO
      */
     GResult init(const SocketInfo& socket_info);
-
-    /**
-     * @brief wait event
-     * @param [in] timeout : wait time out, default is -1, indicate block, millisecond
-     * @return success : socket fd, error : -1
-     */
-    GInt32 waitEvent(std::list<Epoll::Event>& event_list, const GUint32 timeout = -1);
     
     /**
      * @brief accept client to connect
@@ -469,6 +464,12 @@ public:
     GInt64 recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 size, const RecvMode& mode = G_RECV_BLOCK);  
     
     /**
+     * @brief get server socket
+     * @return socket
+     */
+    Socket& socket();
+    
+    /**
      * @brief close server socket
      * @reture G_YES/G_NO
      * @note 
@@ -480,7 +481,7 @@ public:
      * @return error string
      * @note 
      */		
-    GInt8* getError();	
+    GInt8* error();	
 	
 private:
     /**
@@ -570,7 +571,7 @@ public:
      * @return error string
      * @note 
      */		
-    GInt8* getError();	
+    GInt8* error();	
 	
 private:
     /**
