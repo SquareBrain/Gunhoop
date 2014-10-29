@@ -321,10 +321,21 @@ private:
 class Epoll
 {
 public:
-    struct Event_S
+    class Event
     {
-        GInt32  fd;	
-    } Event;
+    public:
+        Event() {}
+        ~Event() {}
+        
+        /**
+         * @brief get fd
+         * @return fd
+         */
+        GInt32 fd() const { return m_fd; }
+        
+    private:
+        GInt32  m_fd;	
+    };
     
     typedef std::list<Event> EventList;
     
