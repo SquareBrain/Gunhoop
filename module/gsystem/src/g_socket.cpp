@@ -188,7 +188,7 @@ GInt32 Socket::sockfd() const
     return m_sockfd;	
 }
 
-GInt8* Socket::getError()
+GInt8* Socket::error()
 {
     return m_error;
 }
@@ -373,7 +373,7 @@ GResult Epoll::delfd(const GInt32 fd)
     return G_YES;
 }
 
-GResult Epoll::wait(std::list<Event>& event_list, const GUint32 timeout)
+GResult Epoll::wait(EventList& event_list, const GUint32 timeout)
 {
     IS_YES_RR(m_epollfd == -1, G_NO);
     struct epoll_event* events = calloc(m_maxEvents, sizeof(epoll_event));
@@ -402,7 +402,7 @@ GResult Epoll::wait(std::list<Event>& event_list, const GUint32 timeout)
     return G_YES;
 }
 
-GInt8* Epoll::getError()
+GInt8* Epoll::error()
 {
     return m_error;
 }
@@ -457,11 +457,6 @@ GResult ServerSocket::init(const SocketInfo& socket_info)
     }
     
     return ret;
-}
-
-GResult ServerSocket::accept(SockAddr& client_addr, const RecvMode& mode)
-{
-    return 
 }
 
 GInt32 ServerSocket::accept(SockAddr& client_addr, const RecvMode& mode)
@@ -522,7 +517,7 @@ GResult ServerSocket::close()
     return m_socket.close();    	
 }
 
-GInt8* ServerSocket::getError()
+GInt8* ServerSocket::error()
 {
     return m_error;
 }
@@ -591,7 +586,7 @@ GResult ClientSocket::close()
     return m_socket.close();
 }
 
-GInt8* ClientSocket::getError()
+GInt8* ClientSocket::error()
 {
     return m_error;
 }
