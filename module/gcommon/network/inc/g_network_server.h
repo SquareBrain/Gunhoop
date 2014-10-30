@@ -138,9 +138,10 @@ public:
     const std::string& netCard() const;    
     
     /**
-     * @brief get server state
+     * @brief set/get server state
      * @return server state
      */
+    void setState(const ServerState state);
     const ServerState& state() const;
     
     /**
