@@ -23,7 +23,16 @@ static const GInt8* LOG_PREFIX = "gohoop.gcom.network.tcpserver";
 TcpServer::TcpServer() : m_serverSocket(nullptr){}
 TcpServer::TcpServer(const IPPortPair& server_addr, const std::string& net_card)
     : NetworkServer(server_addr, net_card) {}
-TcpServer::~TcpServer() {}
+TcpServer::~TcpServer() 
+{
+    gsys::AutoLock auto_lock(m_clientAgentMap.mutex());
+    ClientAgentMap::const_iterator iter = m_clientAgentMap.begin();
+    for (; iter != m_clientAgentMap.end(); ++iter)
+    {
+        delete iter->second;
+    }
+    m_clientAgentMap.clean();
+}
 	  
 GResult TcpServer::start()
 {
@@ -54,6 +63,8 @@ GResult TcpServer::start()
     
     startTask();
     
+    setState(G_SERVER_WORK);
+    
     return G_YES;
 }
 
@@ -76,6 +87,7 @@ GResult TcpServer::restart()
 
 GResult TcpServer::stop()
 {
+    setState(G_SERVER_STOP);
     return G_YES;
 }
 
@@ -86,9 +98,16 @@ GResult TcpServer::routine()
     
     for (;;)
     {
-    	gsys::Epoll::EventList event_list;
-    	if (IS_NO(m_epoll.wait(event_list)))
+    	if (state() != G_SERVER_WORK)
     	{
+    	    gsys::System::sleep(1);
+    	    continue;
+    	}
+    	
+    	gsys::Epoll::EventList event_list;
+    	if (IS_NO(m_epoll.wait(event_list, 100)))
+    	{
+    	    gsys::System::usleep(100);
     	    continue;
     	}
     	
@@ -105,19 +124,21 @@ GResult TcpServer::routine()
     	            continue;
     	        }
     	        
-    	        G_LOG_INFO(LOG_PREFIX, "accept client address %s:%d", );
+    	        G_LOG_INFO(LOG_PREFIX, "accept client address %s:%d", client_addr.ipStr(), client_addr.port());
     	        
     	        ClientAgent* client_agent = new ClientAgent(client_socket, client_addr);
-    	        m_clientAgentList.push_back(client_agent);
+    	        
+    	        gsys::AutoLock auto_lock(m_clientAgentMap.mutex());
+    	        m_clientAgentMap.insert(std::make_pair(client_sockfd, client_agent));
     	        
     	        // add to epoll
     	        m_epoll.addfd(client_sockfd);
     	    }
-    	    else if (iter->events() == G_READ_SOCK_FD)
+    	    else if (iter->eventType() == Epoll::G_RECV_FD)
     	    {
     	    	
     	    }
-    	    else if (iter->events() == G_WRITE_SOCK_FD)
+    	    else if (iter->eventType() == Epoll::G_SEND_FD)
     	    {
     	    	
     	    }
