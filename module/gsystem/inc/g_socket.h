@@ -321,6 +321,12 @@ private:
 class Epoll
 {
 public:
+    typedef enum
+    {
+        G_RECV_FD,
+        G_SEND_FD
+    } EventType;
+    
     class Event
     {
     public:
@@ -338,8 +344,8 @@ public:
          * @brief get/set events
          * @return events
          */
-        void setEvents(const GInt32 evnets) { m_events = evnets; }
-        GInt32 events() const { return m_events; }    
+        void setEventType(const EventType evnet_type) { m_eventType = evnet_type; }
+        EventType eventType() const { return m_eventType; }    
         
         /**
          * @brief get/set user data
@@ -349,9 +355,9 @@ public:
         void* data() { return m_data; }          
         
     private:
-        GInt32  m_fd;	
-        GInt32  m_events;
-        void*   m_data;
+        GInt32     m_fd;	
+        EventType  m_eventType;
+        void*      m_data;
     };
     
     typedef std::list<Event> EventList;
