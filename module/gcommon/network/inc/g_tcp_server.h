@@ -17,6 +17,7 @@
 #pragma once
 
 #include <g_socket.h>
+#include <g_security_obj.h>
 #include <g_network_server.h>
 
 namespace gcom {
@@ -54,7 +55,7 @@ class ClientAgent;
 class TcpServer : public NetworkServer
 {
 public:
-    typedef std::list<ClientAgent*> ClientAgentList;
+    typedef SecurityObj<std::map<GUint32, ClientAgent*>> ClientAgentMap;
     
 public:
     TcpServer();
@@ -103,7 +104,7 @@ public:
 private:
     gsys::ServerSocket  m_serverSocket;
     gsys::Epoll         m_epoll;
-    ClientAgentList     m_clientAgentList;
+    ClientAgentMap      m_clientAgentMap;
 };
 
 /**
@@ -113,7 +114,7 @@ class ClientAgent
 {
 public:
     ClientAgent();
-    ClientAgent(const GInt32 sockfd, const SockAddr& client_addr);
+    ClientAgent(const GInt32 sockfd, const NetAddr& client_addr);
     ~ClientAgent();
   
     /**
@@ -127,11 +128,11 @@ public:
      * @brief set/get client address
      * @return client address
      */
-    void setClientAddr(const SockAddr& client_addr);
-    SockAddr& clientAddr();
+    void setClientAddr(const NetAddr& client_addr);
+    NetAddr& clientAddr();
 
 private:
     GInt32    m_sockfd;
-    SockAddr  m_clientAddr;
+    NetAddr   m_netAddr;
 };
 }
