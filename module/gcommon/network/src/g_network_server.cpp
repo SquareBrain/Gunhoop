@@ -91,6 +91,11 @@ const std::string& NetworkServer::netCard() const
     return m_netCard;
 }
 
+void NetworkServer::setState(const ServerState state)
+{
+    m_state = state;    
+}
+
 const ServerState& NetworkServer::state() const
 {
     return m_state;
