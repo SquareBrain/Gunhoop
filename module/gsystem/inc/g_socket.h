@@ -454,7 +454,14 @@ public:
      * @param [in] socket_info : socket information
      * @return G_YES/G_NO
      */
-    GResult init(const SocketInfo& socket_info);
+    GResult open(const SocketInfo& socket_info);
+    
+    /**
+     * @brief close server socket
+     * @reture G_YES/G_NO
+     * @note 
+     */	
+    GResult close();    
     
     /**
      * @brief accept client to connect
@@ -509,13 +516,6 @@ public:
      * @return socket
      */
     Socket& socket();
-    
-    /**
-     * @brief close server socket
-     * @reture G_YES/G_NO
-     * @note 
-     */	
-    GResult close();
 	
     /**
      * @brief get last error string
@@ -555,11 +555,18 @@ public:
     ~ClientSocket();
     
     /**
-     * @brief connect socket
+     * @brief open socket connect
      * @param [in] socket_info : socket information
      * @return G_YES/G_NO
      */       
-    GResult connect(const SocketInfo& socket_info);
+    GResult open(const SocketInfo& socket_info);
+    
+    /**
+     * @brief close client socket
+     * @reture G_YES/G_NO
+     * @note 
+     */	
+    GResult close();    
     
     /**
      * @brief send data
@@ -599,13 +606,6 @@ public:
      * @note 
      */
     GInt64 recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 size, const RecvMode& mode = G_RECV_BLOCK);         
-
-    /**
-     * @brief close client socket
-     * @reture G_YES/G_NO
-     * @note 
-     */	
-    GResult close();
     
     /**
      * @brief get last error string
