@@ -20,22 +20,29 @@ namespace gcom {
 
 static const GInt8* LOG_PREFIX = "gohoop.gcom.network.tcpserver";
 
-TcpServer::TcpServer() : m_serverSocket(nullptr){}
+TcpServer::TcpServer() : m_socket(nullptr){}
 TcpServer::TcpServer(const IPPortPair& server_addr, const std::string& net_card)
     : NetworkServer(server_addr, net_card) {}
 TcpServer::~TcpServer() 
 {
-    gsys::AutoLock auto_lock(m_clientAgentMap.mutex());
-    ClientAgentMap::const_iterator iter = m_clientAgentMap.begin();
-    for (; iter != m_clientAgentMap.end(); ++iter)
+    close();
+    
+    gsys::AutoLock auto_lock(m_clientMap.mutex());
+    ClientAgentMap::const_iterator iter = m_clientMap.begin();
+    for (; iter != m_clientMap.end(); ++iter)
     {
         delete iter->second;
     }
-    m_clientAgentMap.clean();
+    m_clientMap.clean();
 }
 	  
 GResult TcpServer::start()
 {
+    if (state() == G_SERVER_WORK)
+    {
+        return G_YES;
+    }
+    
     if (server_addr.ipAddr().ipStr().empty())
     {
     	G_LOG_ERROR(LOG_PREFIX, "server address no setting");
@@ -48,14 +55,14 @@ GResult TcpServer::start()
     socket_info.setServerPort(serverAddr().port());
     socket_info.setLocalIfName(netCard());
     
-    if (IS_NO(m_serverSocket.init(socket_info)))
+    if (IS_NO(m_socket.open(socket_info)))
     {
     	G_LOG_ERROR(LOG_PREFIX, "%s", m_serverSocket.error());
     	return G_NO;
     }
     
     // init epoll
-    if (IS_NO(m_epoll.init()))
+    if (IS_NO(m_epoll.open()))
     {
     	G_LOG_ERROR(LOG_PREFIX, "%s", m_epoll.error());
     	return G_NO;    	
@@ -70,6 +77,11 @@ GResult TcpServer::start()
 
 GResult TcpServer::start(const IPPortPair& server_addr, const std::string& net_card)
 {
+    if (state() == G_SERVER_WORK)
+    {
+    	stop();
+    }
+    
     setServerAddr(server_addr);
     setNetCard(net_card);
     return start();
@@ -77,31 +89,44 @@ GResult TcpServer::start(const IPPortPair& server_addr, const std::string& net_c
 
 GResult TcpServer::restart()
 {
-    if (state() != G_SERVER_WORK)
-    {
-    	return start();
-    }
-	
-    return G_YES;
+    stop();
+    return start();
 }
 
 GResult TcpServer::stop()
 {
+    if (state() == G_SERVER_STOP)
+    {
+        return G_YES;	
+    }
+    
+    m_socket.close();
+    m_epoll.close();
+  
     setState(G_SERVER_STOP);
+    
+    // wait thread exit
+    join();
+    
     return G_YES;
 }
 
 GResult TcpServer::routine()
 {
-    // add server socket to epoll
+    // add server listen sockfd to epoll
     m_epoll.addfd(m_serverSocket.socket().sockfd());
     
     for (;;)
     {
-    	if (state() != G_SERVER_WORK)
+    	if (state() == G_SERVER_STOP)
     	{
-    	    gsys::System::sleep(1);
-    	    continue;
+    	    gsys::System::usleep(10);
+            break;
+    	}
+    	else if (state() == G_SERVER_FAULT)
+    	{
+       	    gsys::System::sleep(1);
+    	    continue; 	    
     	}
     	
     	gsys::Epoll::EventList event_list;
@@ -148,8 +173,6 @@ GResult TcpServer::routine()
     	    }
     	}
     }
-    
-    m_epoll.delfd(m_serverSocket.socket().sockfd());
     
     return G_YES;
 }
