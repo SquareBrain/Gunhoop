@@ -85,13 +85,24 @@ public:
      * @note 
      */		
     GResult start();
+    GResult start(Runnable* target, const bool autoRel = true);
+    
+    /**
+     * @brief join thread
+     */
+    GResult join();
+    
+    /**
+     * @brief exit thread
+     */
+    GResult exit();
 
     /**
      * @brief get thread ID
      * @return thread ID
      * @note 
      */		
-    GUint32 getGThreadId() const;
+    GUint32 threadId() const;
 
 private:
     Thread(const Thread&);
@@ -110,7 +121,7 @@ private:
 /** 
  * @brief thread base class, be inherited by user
  */
-class ThreadTask
+class ThreadTask : public Runnable
 {
 public:
     /**
@@ -126,7 +137,12 @@ public:
      * @return G_YES/G_NO
      * @note 
      */		
-    GResult startTask();
+    GResult startTask(const bool autoRel = true);
+    
+    /**
+     * @brief join
+     */
+    GResult join();
 
     /**
      * @brief thread entry function
@@ -140,14 +156,8 @@ private:
     ThreadTask(const ThreadTask&);
     void operator=(const ThreadTask&);
 
-    // brief : inner used for starting GThread
-    // @para [in]argument : GThread argument
-    // return : GThread return description
-    static void* enterPoint(void* argument);	
-
 private:
-    // GThread ID
-    pthread_t	m_threadId;	
+    Thread	m_thread;	
     // whether is detached with main GThread, default is ture, 
     // indicate detached with main GThread
     bool        m_autoRel;
