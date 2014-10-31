@@ -42,7 +42,24 @@ GResult Thread::start()
     return G_YES;
 }
 
-GUint32 Thread::getGThreadId() const
+GResult Thread::start(Runnable* target, const bool autoRel)
+{
+    m_autoRel = autoRel;
+    m_runnable = runnable;
+    return start();
+}
+
+GResult Thread::join()
+{
+    return pthread_join(m_threadId, nullptr) == 0 ? G_YES : G_NO;
+}
+
+GResult Thread::exit()
+{
+    return pthread_exit(nullptr) == 0 ? G_YES : G_NO;    
+}   
+
+GUint32 Thread::threadId() const
 {
     return (GUint32)m_threadId;
 }
@@ -54,32 +71,18 @@ void* Thread::enterPoint(void* argument)
     return NULL;
 }
 
-ThreadTask::ThreadTask(const bool autoRel) : m_threadId(-1), m_autoRel(autoRel) {}
+ThreadTask::ThreadTask(const bool autoRel) : m_autoRel(autoRel) {}
 
 ThreadTask::~ThreadTask() {}
 
-GResult ThreadTask::startTask()
+GResult ThreadTask::startTask(const bool autoRel)
 {
-    pthread_attr_t* attributes = NULL;
-    GInt32 ret = pthread_create(&m_threadId, attributes, enterPoint, this);
-    if (ret != 0)
-    {
-    	return G_NO;
-    }
-
-    if (m_autoRel)
-    {
-    	pthread_detach(m_threadId);
-    }
-
-    return G_YES;
+    return m_thread.start(this, autoRel);
 }
 
-void* ThreadTask::enterPoint(void* argument)
+GResult ThreadTask::join()
 {
-    ThreadTask* threadTask = static_cast<ThreadTask*>(argument);
-    threadTask->run();
-    return NULL;
+   return m_thread.join();   
 }
 
 GInt32 ThreadUtil::createThread(void* entry, void* argument, const bool autoRel)
