@@ -367,11 +367,17 @@ public:
     ~Epoll();
     
     /**
-     * @brief set the number of max events
+     * @brief open epoll
      * @param [in] max_event : the number of the max events
      * @return G_YES/G_NO
      */
-    GResult init(const GUint32 max_event = 1024);
+    GResult open(const GUint32 max_event = 1024);
+    
+     /**
+     * @brief close epoll
+     * @return G_YES/G_NO
+     */
+    GResult close();   
     
     /**
      * @brief add fd
