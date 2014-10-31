@@ -352,7 +352,19 @@ public:
          * @return user data
          */
         void setData(void* data) { m_data = data; }
-        void* data() { return m_data; }          
+        void* data() { return m_data; }  
+        
+        /**
+         * @brief is received data
+         * @return G_YES/G_NO
+         */
+        GResult isRecvData() { return m_eventType == G_RECV_FD ? G_YES : G_NO; }
+        
+         /**
+         * @brief is sent data
+         * @return G_YES/G_NO
+         */
+        GResult isSendData() { return m_eventType == G_SEND_FD ? G_YES : G_NO; }     
         
     private:
         GInt32     m_fd;	
