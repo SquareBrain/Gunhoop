@@ -68,7 +68,7 @@ GResult TcpServer::start()
     	return G_NO;    	
     }
     
-    startTask();
+    startTask(false);
     
     setState(G_SERVER_WORK);
     
@@ -152,22 +152,17 @@ GResult TcpServer::routine()
     	        G_LOG_INFO(LOG_PREFIX, "accept client address %s:%d", client_addr.ipStr(), client_addr.port());
     	        
     	        ClientAgent* client_agent = new ClientAgent(client_socket, client_addr);
-    	        
-    	        gsys::AutoLock auto_lock(m_clientAgentMap.mutex());
-    	        m_clientAgentMap.insert(std::make_pair(client_sockfd, client_agent));
+    	        gsys::AutoLock auto_lock(m_clientMap.mutex());
+    	        m_clientMap.insert(std::make_pair(client_sockfd, client_agent));
     	        
     	        // add to epoll
     	        m_epoll.addfd(client_sockfd);
     	    }
-    	    else if (iter->eventType() == Epoll::G_RECV_FD)
+    	    else if (iter->isRecvData())
     	    {
     	    	
     	    }
-    	    else if (iter->eventType() == Epoll::G_SEND_FD)
-    	    {
-    	    	
-    	    }
-    	    else
+    	    else if (iter->isSendData())
     	    {
     	    	
     	    }
