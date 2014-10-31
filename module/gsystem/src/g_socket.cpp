@@ -435,7 +435,7 @@ ServerSocket::~ServerSocket()
     close();
 }
 
-GResult ServerSocket::init(const SocketInfo& socket_info)
+GResult ServerSocket::open(const SocketInfo& socket_info)
 {
     if (IS_NO(m_socket.open(socket_info.protocol(), socket_info.localIfName())))
     {
@@ -465,6 +465,11 @@ GResult ServerSocket::init(const SocketInfo& socket_info)
     }
     
     return ret;
+}
+
+GResult ServerSocket::close()
+{
+    return m_socket.close();    	
 }
 
 GResult ServerSocket::accept(SockAddr& client_addr,  GInt32& sockfd, const RecvMode& mode)
@@ -522,11 +527,6 @@ GInt64 ServerSocket::recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 
     return -1;	
 }
 
-GResult ServerSocket::close()
-{
-    return m_socket.close();    	
-}
-
 GInt8* ServerSocket::error()
 {
     return m_error;
@@ -552,7 +552,7 @@ ClientSocket::~ClientSocket()
     close();
 }
 
-GResult ClientSocket::connect(const SocketInfo& socket_info)
+GResult ClientSocket::open(const SocketInfo& socket_info)
 {
     if (IS_NO(m_socket.open(socket_info.protocol(), socket_info.localIfName())))
     {
@@ -565,6 +565,11 @@ GResult ClientSocket::connect(const SocketInfo& socket_info)
     m_addr.setPort(m_socketInfo.serverPort()); 	
     
     return ::connect(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
+}
+
+GResult ClientSocket::close()
+{
+    return m_socket.close();
 }
 
 GInt64 ClientSocket::send(const GUint8* data, const GUint64 len)
@@ -589,11 +594,6 @@ GInt64 ClientSocket::recv(GUint8* buffer, const GUint64 size, const RecvMode& mo
     }
     
     return -1;	
-}
-
-GResult ClientSocket::close()
-{
-    return m_socket.close();
 }
 
 GInt8* ClientSocket::error()
