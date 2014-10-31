@@ -324,13 +324,10 @@ Epoll::Epoll() : m_epollfd(-1), m_maxEvents(0), m_errorHeaderOffser(0)
 
 Epoll::~Epoll() 
 {
-    if (m_epollfd != -1)
-    {
-    	close(m_epollfd);
-    }
+    close();
 }
 
-GResult Epoll::init(const GUint32 max_event)
+GResult Epoll::open(const GUint32 max_event)
 {
     m_maxEvents = max_event;
     
@@ -340,6 +337,17 @@ GResult Epoll::init(const GUint32 max_event)
     	setError("[warn]epoll_create failed\n", __FUNCTION__, __FILE__, __LINE__);
     	return G_NO;
     }   
+    
+    return G_YES;
+}
+
+GResult Epoll::close()
+{
+    if (m_epollfd != -1)
+    {
+    	::close(m_epollfd);
+    	m_epollfd = -1;
+    }
     
     return G_YES;
 }
