@@ -37,16 +37,6 @@ typedef enum
     TCP_CON_STATE_CLOSED
 } TcpConnectState;
 
-/**
- * @brief tcp server user interface
- */
-class TcpServerInterface
-{
-public:
-    virtual ~TcpServerInterface() {}
-    virtual GResult accepted(const SocketAddr& clientAddr) = 0;
-};
-
 class ClientAgent;
 
 /**
@@ -65,7 +55,7 @@ public:
      * @param [in] server_addr : ftp server address
      * @param [in] net_card : network card for communication, defualt is eth0
      */    
-    explicit TcpServer(const IPPortPair& serverAddr, const std::string& net_card = "eth0");
+    explicit TcpServer(const IPPortPair& server_addr, const std::string& net_card = "eth0");
     virtual ~TcpServer();
 	
     /**
@@ -102,9 +92,9 @@ public:
     GResult routine();      
     
 private:
-    gsys::ServerSocket  m_serverSocket;
+    gsys::ServerSocket  m_socket;
     gsys::Epoll         m_epoll;
-    ClientAgentMap      m_clientAgentMap;
+    ClientAgentMap      m_clientMap;
 };
 
 /**
