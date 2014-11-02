@@ -15,8 +15,10 @@
 *  1. 2014-02-16 duye Created this file
 * 
 */
-#include <g_sys.h>
 #include <net/if.h>
+#include <unistd.h>
+#include <g_sys.h>
+
 #include <g_socket.h>
 
 namespace gsys {
@@ -317,7 +319,7 @@ GInt64 Transfer::recvfrom(Socket& socket, SockAddr& src_addr, GUint8* buffer, co
     return ::recvfrom(socket.sockfd(), buffer, size, flags, (struct sockaddr*)&src_addr.addr(), &addr_len);	
 }
 
-Epoll::Epoll() : m_epollfd(-1), m_maxEvents(0), m_errorHeaderOffser(0)
+Epoll::Epoll() : m_epollfd(-1), m_maxEvents(0), m_errorHeaderOffset(0)
 {
     initError();
 }
@@ -354,7 +356,7 @@ GResult Epoll::close()
 
 GResult Epoll::addfd(const GInt32 fd, const GUint32 events)
 {
-    IS_YES_RR((m_epollfd == -1, G_NO);
+    IS_YES_RR(m_epollfd == -1, G_NO);
     struct epoll_event epoll_event;
     bzero(&epoll_event, sizeof(struct epoll_event));
     epoll_event.data.fd = fd;
@@ -365,7 +367,7 @@ GResult Epoll::addfd(const GInt32 fd, const GUint32 events)
 
 GResult Epoll::modfd(const GInt32 fd, const GUint32 events)
 {
-    IS_YES_RR((m_epollfd == -1, G_NO);
+    IS_YES_RR(m_epollfd == -1, G_NO);
     struct epoll_event epoll_event;
     bzero(&epoll_event, sizeof(struct epoll_event));
     epoll_event.data.fd = fd;
@@ -376,7 +378,7 @@ GResult Epoll::modfd(const GInt32 fd, const GUint32 events)
 	 
 GResult Epoll::delfd(const GInt32 fd)
 {
-    IS_YES_RR((m_epollfd == -1, G_NO);
+    IS_YES_RR(m_epollfd == -1, G_NO);
     epoll_ctl(m_epollfd, EPOLL_CTL_DEL, fd, nullptr);
     return G_YES;
 }
@@ -384,25 +386,36 @@ GResult Epoll::delfd(const GInt32 fd)
 GResult Epoll::wait(EventList& event_list, const GUint32 timeout)
 {
     IS_YES_RR(m_epollfd == -1, G_NO);
-    struct epoll_event* events = calloc(m_maxEvents, sizeof(epoll_event));
-    GInt ret = epoll_wait(m_epollfd, events, m_maxEvents, timeout);
+    struct epoll_event* events = (struct epoll_event*)calloc(m_maxEvents, sizeof(epoll_event));
+    GInt32 ret = epoll_wait(m_epollfd, events, m_maxEvents, timeout);
     if (ret <= 0)
     {
     	free(events);
     	return G_NO;
     }
-    
-    GUint32 event_num = ret;
-    for (GUint32 i = 0; i < evnet_num; i++)
+
+    GUint32 evnet_num = ret;
+    for (GUint32 i = 0; i < evnet_num; i++)   
     {
         if ((events[i].events & EPOLLERR) ||  
             (events[i].events & EPOLLHUP))
         {
             setError("[error]epoll error, close fd\n", __FUNCTION__, __FILE__, __LINE__);
-    	    close(events[i].data.fd);
+    	    ::close(events[i].data.fd);
     	    continue;
         }
-        event_list.push_back(events[i].data.fd);
+		else if (events[i].events & EPOLLIN)
+		{
+            event_list.push_back(Event(events[i].data.fd, G_RECV_FD));
+		}
+		else if (events[i].events & EPOLLOUT)
+		{
+		    event_list.push_back(Event(events[i].data.fd, G_SEND_FD));
+		}
+		else
+		{
+		    event_list.push_back(Event(events[i].data.fd, G_RECV_UN));
+		}
     }
     
     free(events);

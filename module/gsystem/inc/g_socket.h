@@ -22,8 +22,11 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
+
 #include <string>
 #include <memory>
+#include <list>
+
 #include <g_result.h>
 #include <g_type.h>
 
@@ -70,9 +73,9 @@ typedef enum
  */
 typedef enum 
 { 
-    // SOCK_STREAM
+    // for SOCK_STREAM
     G_IPPROTO_TCP,
-    // SOCK_DGRAM
+    // for SOCK_DGRAM
     G_IPPROTO_UDP,
     G_IPPROTO_SCTP,
     G_IPPROTO_TIPC
@@ -323,6 +326,7 @@ class Epoll
 public:
     typedef enum
     {
+        G_RECV_UN,
         G_RECV_FD,
         G_SEND_FD
     } EventType;
@@ -330,7 +334,9 @@ public:
     class Event
     {
     public:
-        Event() : m_fd(-1), m_events(0), m_data(nullptr) {}
+        Event() : m_fd(-1), m_type(G_RECV_UN) {}
+        Event(const GInt32 fd, const EventType type, void* data = nullptr) 
+            : m_fd(fd), m_type(type), m_data(data) {}
         ~Event() {}
         
         /**
@@ -344,8 +350,8 @@ public:
          * @brief get/set events
          * @return events
          */
-        void setEventType(const EventType evnet_type) { m_eventType = evnet_type; }
-        EventType eventType() const { return m_eventType; }    
+        void setType(const EventType type) { m_type = type; }
+        EventType type() const { return m_type; }    
         
         /**
          * @brief get/set user data
@@ -358,17 +364,17 @@ public:
          * @brief is received data
          * @return G_YES/G_NO
          */
-        GResult isRecvData() { return m_eventType == G_RECV_FD ? G_YES : G_NO; }
+        GResult isRecv() { return m_type == G_RECV_FD ? G_YES : G_NO; }
         
          /**
          * @brief is sent data
          * @return G_YES/G_NO
          */
-        GResult isSendData() { return m_eventType == G_SEND_FD ? G_YES : G_NO; }     
+        GResult isSend() { return m_type == G_SEND_FD ? G_YES : G_NO; }     
         
     private:
         GInt32     m_fd;	
-        EventType  m_eventType;
+        EventType  m_type;
         void*      m_data;
     };
     
