@@ -45,10 +45,11 @@ public:
     
     /**
      * @brief message handler
-     * @param [in] user_data : user data
+     * @param [in] data : user data
+     * @param [in] len : data length
      * @return G_YES/G_NO
      */
-     virtual GResult onMessage(void* user_data);
+     virtual GResult onMessage(void* data, const GUint64 len);
 };
 
 /**
