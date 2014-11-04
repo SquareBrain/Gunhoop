@@ -158,11 +158,11 @@ GResult TcpServer::routine()
     	        // add to epoll
     	        m_epoll.addfd(client_sockfd);
     	    }
-    	    else if (iter->isRecvData())
+    	    else if (iter->isRecv())
     	    {
     	    	
     	    }
-    	    else if (iter->isSendData())
+    	    else if (iter->isSend())
     	    {
     	    	
     	    }
