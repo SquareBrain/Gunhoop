@@ -238,6 +238,19 @@ private:
     bool        m_isInit;
     GInt8       m_error[G_ERROR_BUF_SIZE];
 };
+
+/**
+ * @brief Multicast Socket
+ */
+class MulticastSocket
+{
+public:
+    MulticastSocket();
+    ~MulticastSocket();
+    
+private:
+
+};
 	
 /**
  * @brief transfer api
