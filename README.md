@@ -109,26 +109,29 @@ GTaskServer、GDFSServer、GStoreServer、GSQLServer
 
 安装
 ====
-1. 配置
-./configuration --prefix=/etc/usr/local
+1. 配置<br/>
+#./configuration --prefix=/etc/usr/local
 
-2. 编译
-make 
+2. 编译<br/>
+#make 
 
-3. 安装
-make install
+3. 安装<br/>
+#make install
 
 4. 测试安装
-gohoop_guide
+#gohoop_guide
 
 使用
 ====
 详细见gohoop_guide.pdf
 
+功能
+====
 ### GTaskMaster & GTaskServer
-
+----
 ### GDFSMaster & GDFSServer
-
+----
 ### GStoreMaster & GStoreServer
-
+----
 ### GSQLMaster & GSQLServer
+----
