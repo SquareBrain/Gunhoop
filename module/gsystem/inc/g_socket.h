@@ -242,7 +242,7 @@ private:
 /**
  * @brief Multicast Socket
  */
-class MulticastSocket
+class Multicast
 {
 public:
     MulticastSocket();
@@ -250,6 +250,19 @@ public:
     
 private:
 
+};
+
+/**
+ * @brief broadcast
+ */
+class Broadcast
+{
+public:
+    Broadcast();
+    ~Broadcast();
+    
+private:
+    
 };
 	
 /**
