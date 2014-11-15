@@ -116,28 +116,28 @@ GUint16 IPv6Addr::addrLen() const
 Socket::Socket() : m_sockfd(-1), m_isInit(false) {}
 Socket::~Socket() { close(); }
 
-GResult Socket::open(const NetProtocol& protocol, const std::string& if_name)
+GResult Socket::open(const NetProtocol& protocol, const std::string& ifName)
 {
     GInt32 domain = AF_INET;
-    GInt32 sock_type = -1;
-    GInt32 sock_protocol = -1;
+    GInt32 sockType = -1;
+    GInt32 sockProtocol = -1;
     switch (protocol)
     {
     	case G_IPPROTO_TCP:
     	{
-            sock_protocol = IPPROTO_TCP;
-            sock_type = SOCK_STREAM;
+            sockProtocol = IPPROTO_TCP;
+            sockType = SOCK_STREAM;
             break;
     	}
     	case G_IPPROTO_UDP:
     	{
-    	    sock_protocol = IPPROTO_UDP;
-    	    sock_type = SOCK_DGRAM;
+    	    sockProtocol = IPPROTO_UDP;
+    	    sockType = SOCK_DGRAM;
     	    break;
     	}
     	case G_IPPROTO_SCTP:
     	{
-    	    sock_protocol = IPPROTO_SCTP;
+    	    sockProtocol = IPPROTO_SCTP;
     	    setError("[warn]argument protocol(%d) not support (%s:%s:%d)\n", protocol, __FUNCTION__, __FILE__, __LINE__);
     	    return G_NO; // not support
     	}
@@ -154,11 +154,11 @@ GResult Socket::open(const NetProtocol& protocol, const std::string& if_name)
         }
     }	
 	
-    m_sockfd = ::socket(domain, sock_type, sock_protocol);
+    m_sockfd = ::socket(domain, sockType, sockProtocol);
     if (m_sockfd < 0)
     {
     	setError("[error]socket(%d, %d, %d) ret=%d invalid (%s:%s:%d)\n", 
-    	    domain, sock_type, sock_protocol, m_sockfd, __FUNCTION__, __FILE__, __LINE__);
+    	    domain, sockType, sockProtocol, m_sockfd, __FUNCTION__, __FILE__, __LINE__);
         return G_NO;
     }
 
@@ -166,7 +166,7 @@ GResult Socket::open(const NetProtocol& protocol, const std::string& if_name)
     // fcntl(m_sockfd, F_SETFL, O_NONBLOCK)
     
     // init socket option
-    initOption(if_name);
+    initOption(ifName);
     m_isInit = true;
     return G_YES;
 }
@@ -195,13 +195,13 @@ GInt8* Socket::error()
     return m_error;
 }
 
-GResult Socket::initOption(const std::string& if_name)
+GResult Socket::initOption(const std::string& ifName)
 {
     GResult ret = G_YES;
     
     // setting specified interface
     struct ifreq interface;
-    strncpy(interface.ifr_ifrn.ifrn_name, if_name.c_str(), if_name.length());
+    strncpy(interface.ifr_ifrn.ifrn_name, ifName.c_str(), ifName.length());
     if (setsockopt(m_sockfd, SOL_SOCKET, SO_BINDTODEVICE, (char*)&interface, sizeof(interface)) == -1) 
     {
     	setError("[warn]setsockopt() failed (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
@@ -217,30 +217,30 @@ GResult Socket::initOption(const std::string& if_name)
     }
 
     // send time limit, unit ms
-    int send_time = 2000;
-    if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDTIMEO, (const char*)&send_time, sizeof(int)) == -1)
+    int sendTime = 2000;
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDTIMEO, (const char*)&sendTime, sizeof(int)) == -1)
     {
     	 ret = false;
     }
 
     // receive time limit, unit ms
-    int recv_time = 2000;    
-    if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&recv_time, sizeof(int)) == -1)
+    int recvTime = 2000;    
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&recvTime, sizeof(int)) == -1)
     {
     	 ret = false;
     }
 
     // set send data buffer size 
-    GInt32 send_buf_size = 0xFFFF;    
-    if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&send_buf_size, sizeof(GInt32)) == -1)
+    GInt32 sendBufSize = 0xFFFF;    
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_SNDBUF, (const char*)&sendBufSize, sizeof(GInt32)) == -1)
     {
     	setError("[warn]setsockopt() failed (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	ret = false;
     }
 
     // set receive data buffer size
-    GInt32 recv_buf_size = 0xFFFF;
-    if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&recv_buf_size, sizeof(GInt32)) == -1)
+    GInt32 recvBufSize = 0xFFFF;
+    if (setsockopt(m_sockfd, SOL_SOCKET, SO_RCVBUF, (const char*)&recvBufSize, sizeof(GInt32)) == -1)
     {
     	setError("[warn]setsockopt() failed (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
     	ret = false;
@@ -313,10 +313,10 @@ GInt64 Transfer::recvmsg(Socket& socket, struct msghdr* msg, const GInt32 flags)
     return ::recvmsg(socket.sockfd(), msg, flags);	
 }
 
-GInt64 Transfer::recvfrom(Socket& socket, SockAddr& src_addr, GUint8* buffer, const GUint64 size, const GInt32 flags)
+GInt64 Transfer::recvfrom(Socket& socket, SockAddr& srcAddr, GUint8* buffer, const GUint64 size, const GInt32 flags)
 {
-    GUint32 addr_len = src_addr.addrLen();
-    return ::recvfrom(socket.sockfd(), buffer, size, flags, (struct sockaddr*)&src_addr.addr(), &addr_len);	
+    GUint32 addrLen = src_addr.addrLen();
+    return ::recvfrom(socket.sockfd(), buffer, size, flags, (struct sockaddr*)&srcAddr.addr(), &addrLen);	
 }
 
 Epoll::Epoll() : m_epollfd(-1), m_maxEvents(0), m_errorHeaderOffset(0)
@@ -329,9 +329,9 @@ Epoll::~Epoll()
     close();
 }
 
-GResult Epoll::open(const GUint32 max_event)
+GResult Epoll::open(const GUint32 maxEvent)
 {
-    m_maxEvents = max_event;
+    m_maxEvents = maxEvent;
     
     m_epollfd = epoll_create(m_maxEvents);
     if (m_epollfd == -1)
@@ -357,22 +357,22 @@ GResult Epoll::close()
 GResult Epoll::addfd(const GInt32 fd, const GUint32 events)
 {
     IS_YES_RR(m_epollfd == -1, G_NO);
-    struct epoll_event epoll_event;
-    bzero(&epoll_event, sizeof(struct epoll_event));
-    epoll_event.data.fd = fd;
-    epoll_event.events = events;
-    epoll_ctl(m_epollfd, EPOLL_CTL_ADD, fd, &epoll_event);
+    struct epoll_event epollEvent;
+    bzero(&epollEvent, sizeof(struct epoll_event));
+    epollEvent.data.fd = fd;
+    epollEvent.events = events;
+    epoll_ctl(m_epollfd, EPOLL_CTL_ADD, fd, &epollEvent);
     return G_YES;
 }
 
 GResult Epoll::modfd(const GInt32 fd, const GUint32 events)
 {
     IS_YES_RR(m_epollfd == -1, G_NO);
-    struct epoll_event epoll_event;
-    bzero(&epoll_event, sizeof(struct epoll_event));
-    epoll_event.data.fd = fd;
-    epoll_event.events = events;
-    epoll_ctl(m_epollfd, EPOLL_CTL_MOD, fd, &epoll_event);
+    struct epoll_event epollEvent;
+    bzero(&epollEvent, sizeof(struct epoll_event));
+    epollEvent.data.fd = fd;
+    epollEvent.events = events;
+    epoll_ctl(m_epollfd, EPOLL_CTL_MOD, fd, &epollEvent);
     return G_YES;
 }
 	 
@@ -383,38 +383,38 @@ GResult Epoll::delfd(const GInt32 fd)
     return G_YES;
 }
 
-GResult Epoll::wait(EventList& event_list, const GUint32 timeout)
+GResult Epoll::wait(EventList& eventList, const GUint32 timeout)
 {
     IS_YES_RR(m_epollfd == -1, G_NO);
-    struct epoll_event* events = (struct epoll_event*)calloc(m_maxEvents, sizeof(epoll_event));
-    GInt32 ret = epoll_wait(m_epollfd, events, m_maxEvents, timeout);
+    struct epoll_event* epollEvents = (struct epoll_event*)calloc(m_maxEvents * sizeof(struct epoll_event));
+    GInt32 ret = epoll_wait(m_epollfd, epollEvents, m_maxEvents, timeout);
     if (ret <= 0)
     {
-    	free(events);
+    	free(epollEvents);
     	return G_NO;
     }
 
     GUint32 evnet_num = ret;
     for (GUint32 i = 0; i < evnet_num; i++)   
     {
-        if ((events[i].events & EPOLLERR) ||  
-            (events[i].events & EPOLLHUP))
+        if ((epollEvents[i].events & EPOLLERR) ||  
+            (epollEvents[i].events & EPOLLHUP))
         {
             setError("[error]epoll error, close fd\n", __FUNCTION__, __FILE__, __LINE__);
-    	    ::close(events[i].data.fd);
+    	    ::close(epollEvents[i].data.fd);
     	    continue;
         }
-		else if (events[i].events & EPOLLIN)
+        else if (epollEvents[i].events & EPOLLIN)
+        {
+            eventList.push_back(Event(epollEvents[i].data.fd, G_RECV_FD));
+        }
+		else if (epollEvents[i].events & EPOLLOUT)
 		{
-            event_list.push_back(Event(events[i].data.fd, G_RECV_FD));
-		}
-		else if (events[i].events & EPOLLOUT)
-		{
-		    event_list.push_back(Event(events[i].data.fd, G_SEND_FD));
+		    eventList.push_back(Event(epollEvents[i].data.fd, G_SEND_FD));
 		}
 		else
 		{
-		    event_list.push_back(Event(events[i].data.fd, G_RECV_UN));
+		    eventList.push_back(Event(epollEvents[i].data.fd, G_RECV_UN));
 		}
     }
     
