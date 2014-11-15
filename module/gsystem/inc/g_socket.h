@@ -189,11 +189,11 @@ public:
     /**
      * @brief open socket
      * @param [in] protocol : network protocol
-     * @param [in] if_name : interface name
+     * @param [in] ifName : interface name
      * @return G_YES/G_NO
      * @note 
      */		
-    GResult open(const NetProtocol& protocol, const std::string& if_name);
+    GResult open(const NetProtocol& protocol, const std::string& ifName);
     /**
      * @brief shutdown connecting
      * @param [in] how : default is 2
@@ -221,10 +221,10 @@ public:
 private:
     /**
      * @brief setting socket options 
-     * @param [in] if_name : interface name
+     * @param [in] ifName : interface name
      * @return G_YES/G_NO
      */		
-    GResult initOption(const std::string& if_name);
+    GResult initOption(const std::string& ifName);
 	
     /**
      * @brief origin set program running error
@@ -319,24 +319,24 @@ public:
     void setProtocol(const NetProtocol& protocol) { m_protocol = protocol; }
     const NetProtocol& protocol() const { return m_protocol; }
     
-    void setServerIP(const GUint32& server_ip) { m_serverIP = server_ip; }
-    GUint32 serverIP() const { return m_serverIP; }
+    void setServerIp(const GUint32& serverIp) { m_serverIp = serverIp; }
+    GUint32 serverIp() const { return m_serverIp; }
     
-    void setServerPort(const GUint16& server_port) { m_serverPort = server_port; }
+    void setServerPort(const GUint16& serverPort) { m_serverPort = serverPort; }
     GUint16 serverPort() const { return m_serverPort; }
     
-    void setClinetPort(const GUint16& client_port) { m_clientPort = client_port; }
+    void setClinetPort(const GUint16& clientPort) { m_clientPort = clientPort; }
     GUint16 clientPort() const { return m_clientPort; }
     
-    void setLocalIfName(const std::string& local_if_name) { m_localIfName = local_if_name; }
+    void setLocalIfName(const std::string& localIfName) { m_localIfName = localIfName; }
     const std::string& localIfName() const { return m_localIfName; }
    
-    void setMaxConnectNum(const GUint32& max_connect_num) { m_maxConnectNum = max_connect_num; }
+    void setMaxConnectNum(const GUint32& maxConnectNum) { m_maxConnectNum = maxConnectNum; }
     GUint32 getMaxConnectNum() const { return m_maxConnectNum; }
     
 private:
     NetProtocol   m_protocol;
-    GUint32       m_serverIP;
+    GUint32       m_serverIp;
     GUint16       m_serverPort;
     GUint16       m_clientPort;
     std::string   m_localIfName;
@@ -412,10 +412,10 @@ public:
     
     /**
      * @brief open epoll
-     * @param [in] max_event : the number of the max events
+     * @param [in] maxEvent : the number of the max events
      * @return G_YES/G_NO
      */
-    GResult open(const GUint32 max_event = 1024);
+    GResult open(const GUint32 maxEvent = 1024);
     
      /**
      * @brief close epoll
@@ -448,11 +448,11 @@ public:
     
     /**
      * @brief wait event
-     * @param [out] event_list : return event
+     * @param [out] eventList : return event
      * @param [in] timeout : wait time out, default is -1, indicate block, millisecond
      * @return G_YES/G_NO
      */
-    GResult wait(EventList& event_list, const GUint32 timeout = -1);
+    GResult wait(EventList& eventList, const GUint32 timeout = -1);
     
     /**
      * @brief get last error string
@@ -495,10 +495,10 @@ public:
     
     /**
      * @brief server bind and listen
-     * @param [in] socket_info : socket information
+     * @param [in] socketInfo : socket information
      * @return G_YES/G_NO
      */
-    GResult open(const SocketInfo& socket_info);
+    GResult open(const SocketInfo& socketInfo);
     
     /**
      * @brief close server socket
@@ -509,12 +509,12 @@ public:
     
     /**
      * @brief accept client to connect
-     * @param [out] client_addr : output client address infomation
+     * @param [out] clientAddr : output client address infomation
      * @param [out] sockfd : new sockfd
      * @param [in] mode : block or unblock, default block
      * @return G_YES/G_NO
      */
-    GResult accept(SockAddr& client_addr, GInt32& sockfd, const RecvMode& mode = G_RECV_BLOCK);
+    GResult accept(SockAddr& clientAddr, GInt32& sockfd, const RecvMode& mode = G_RECV_BLOCK);
     
     /**
      * @brief send data
@@ -527,12 +527,12 @@ public:
     
     /**
      * @brief send data for UDP protocol
-     * @param [in] dst_addr : destination address
+     * @param [in] dstAddr : destination address
      * @param [in] data : send data
      * @param [in] len : data length
      * @return on success, return the number of characters sent. on error, return -1
      */
-    GInt64 sendto(SockAddr& dst_addr, const GUint8* data, const GUint64 len);
+    GInt64 sendto(SockAddr& dstAddr, const GUint8* data, const GUint64 len);
 
     /**
      * @brief receive data
@@ -553,7 +553,7 @@ public:
      * @return on success, return the number of characters received. on error, return -1
      * @note 
      */
-    GInt64 recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 size, const RecvMode& mode = G_RECV_BLOCK);  
+    GInt64 recvfrom(SockAddr& srcAddr, GUint8* buffer, const GUint64 size, const RecvMode& mode = G_RECV_BLOCK);  
     
     /**
      * @brief get server socket
@@ -600,10 +600,10 @@ public:
     
     /**
      * @brief open socket connect
-     * @param [in] socket_info : socket information
+     * @param [in] socketInfo : socket information
      * @return G_YES/G_NO
      */       
-    GResult open(const SocketInfo& socket_info);
+    GResult open(const SocketInfo& socketInfo);
     
     /**
      * @brief close client socket
@@ -623,12 +623,12 @@ public:
     
     /**
      * @brief send data for UDP protocol
-     * @param [in] dst_addr : destination address
+     * @param [in] dstAddr : destination address
      * @param [in] data : send data
      * @param [in] len : data length
      * @return on success, return the number of characters sent. on error, return -1
      */
-    GInt64 sendto(SockAddr& dst_addr, const GUint8* data, const GUint64 len);    
+    GInt64 sendto(SockAddr& dstAddr, const GUint8* data, const GUint64 len);    
     
     /**
      * @brief receive data
@@ -642,14 +642,14 @@ public:
     
     /**
      * @brief receive data
-     * @param [out] src_addr : source address
+     * @param [out] srcAddr : source address
      * @param [out] buffer : output buffer
      * @param [in] size : buffer size
      * @param [in] mode : block(G_RECV_BLOCK) or unblock(G_RECV_UNBLOCK), default block
      * @return on success, return the number of characters received. on error, return -1
      * @note 
      */
-    GInt64 recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 size, const RecvMode& mode = G_RECV_BLOCK);         
+    GInt64 recvfrom(SockAddr& srcAddr, GUint8* buffer, const GUint64 size, const RecvMode& mode = G_RECV_BLOCK);         
     
     /**
      * @brief get last error string
