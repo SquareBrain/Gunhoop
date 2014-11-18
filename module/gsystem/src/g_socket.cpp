@@ -39,7 +39,7 @@ SockAddr::SockAddr(const GUint32 ip, const GUint16 port)
 
 SockAddr::~SockAddr() {}
 
-void SockAddr::setIP(const GUint32 ip)
+void SockAddr::setIp(const GUint32 ip)
 {
     m_addr.sin_addr.s_addr = htonl(ip);	
 }
@@ -315,7 +315,7 @@ GInt64 Transfer::recvmsg(Socket& socket, struct msghdr* msg, const GInt32 flags)
 
 GInt64 Transfer::recvfrom(Socket& socket, SockAddr& srcAddr, GUint8* buffer, const GUint64 size, const GInt32 flags)
 {
-    GUint32 addrLen = src_addr.addrLen();
+    GUint32 addrLen = srcAddr.addrLen();
     return ::recvfrom(socket.sockfd(), buffer, size, flags, (struct sockaddr*)&srcAddr.addr(), &addrLen);	
 }
 
@@ -386,7 +386,7 @@ GResult Epoll::delfd(const GInt32 fd)
 GResult Epoll::wait(EventList& eventList, const GUint32 timeout)
 {
     IS_YES_RR(m_epollfd == -1, G_NO);
-    struct epoll_event* epollEvents = (struct epoll_event*)calloc(m_maxEvents * sizeof(struct epoll_event));
+    struct epoll_event* epollEvents = (struct epoll_event*)calloc(m_maxEvents, sizeof(struct epoll_event));
     GInt32 ret = epoll_wait(m_epollfd, epollEvents, m_maxEvents, timeout);
     if (ret <= 0)
     {
@@ -418,7 +418,7 @@ GResult Epoll::wait(EventList& eventList, const GUint32 timeout)
 		}
     }
     
-    free(events);
+    free(epollEvents);
     
     return G_YES;
 }
@@ -438,7 +438,7 @@ void Epoll::setError(const GInt8* args, ...)
     System::pformat(m_error + m_errorHeaderOffset, G_ERROR_BUF_SIZE - m_errorHeaderOffset, args);
 }
 
-ServerSocket::ServerSocket() : m_errorHeaderOffser(0) 
+ServerSocket::ServerSocket() : m_errorHeaderOffset(0) 
 {
     initError();	
 }
@@ -457,7 +457,7 @@ GResult ServerSocket::open(const SocketInfo& socket_info)
     }
 
     m_socketInfo = socket_info;
-    m_addr.setIP(m_socketInfo.serverIP());
+    m_addr.setIp(m_socketInfo.serverIp());
     m_addr.setPort(m_socketInfo.serverPort());	
 	
     GResult ret = ::bind(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;
@@ -469,7 +469,7 @@ GResult ServerSocket::open(const SocketInfo& socket_info)
     
     if (socket_info.protocol() == G_IPPROTO_TCP)
     {
-        ret = ::listen(m_socket.sockfd(), max_connect_num) == 0 ? G_YES : G_NO;
+        ret = ::listen(m_socket.sockfd(), m_socketInfo.maxConnectNum()) == 0 ? G_YES : G_NO;
         if (IS_NO(ret))
         {
     	    setError("[error]listen socket failed (%s:%s:%d)\n", __FUNCTION__, __FILE__, __LINE__);
@@ -555,7 +555,7 @@ void ServerSocket::setError(const GInt8* args, ...)
     System::pformat(m_error + m_errorHeaderOffset, G_ERROR_BUF_SIZE - m_errorHeaderOffset, args);
 }
 
-ClientSocket::ClientSocket() : m_errorHeaderOffser(0) 
+ClientSocket::ClientSocket() : m_errorHeaderOffset(0) 
 {
     initError();	
 }
@@ -574,7 +574,7 @@ GResult ClientSocket::open(const SocketInfo& socket_info)
     }
 
     m_socketInfo = socket_info;
-    m_addr.setIP(m_socketInfo.serverIP());
+    m_addr.setIp(m_socketInfo.serverIp());
     m_addr.setPort(m_socketInfo.serverPort()); 	
     
     return ::connect(m_socket.sockfd(), (const struct sockaddr*)&m_addr.addr(), m_addr.addrLen()) < 0 ? G_NO : G_YES;

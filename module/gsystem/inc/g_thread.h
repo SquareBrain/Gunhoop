@@ -70,12 +70,14 @@ public:
 class Thread
 {
 public:
+    
     /**
      * @brief constructor
      * @param [in] target : user run target object
      * @param [in] autoRel : whether support automatic release, default is yes
      * @note 
      */		
+    explicit Thread(const bool autoRel = true);
     explicit Thread(Runnable* target, const bool autoRel = true);
     ~Thread();
 
@@ -95,7 +97,7 @@ public:
     /**
      * @brief exit thread
      */
-    GResult exit();
+    void exit();
 
     /**
      * @brief get thread ID
@@ -157,10 +159,10 @@ private:
     void operator=(const ThreadTask&);
 
 private:
-    Thread	m_thread;	
+    Thread m_thread;	
     // whether is detached with main GThread, default is ture, 
     // indicate detached with main GThread
-    bool        m_autoRel;
+    bool   m_autoRel;
 };
 
 /** 

@@ -106,7 +106,7 @@ public:
      * @brief set/get IP address
      * @return
      */
-    void setIP(const GUint32 ip);
+    void setIp(const GUint32 ip);
     GUint32 ip();
     GUint8* ipStr();
 
@@ -245,8 +245,8 @@ private:
 class Multicast
 {
 public:
-    MulticastSocket();
-    ~MulticastSocket();
+    Multicast();
+    ~Multicast();
     
 private:
 
@@ -308,7 +308,7 @@ class SocketInfo
 {
 public:
     SocketInfo() :  m_protocol(G_IPPROTO_TCP)
-        , m_serverIP(0)
+        , m_serverIp(0)
         , m_serverPort(0)
         , m_clientPort(0)
         , m_localIfName("eth0")
@@ -332,7 +332,7 @@ public:
     const std::string& localIfName() const { return m_localIfName; }
    
     void setMaxConnectNum(const GUint32& maxConnectNum) { m_maxConnectNum = maxConnectNum; }
-    GUint32 getMaxConnectNum() const { return m_maxConnectNum; }
+    GUint32 maxConnectNum() const { return m_maxConnectNum; }
     
 private:
     NetProtocol   m_protocol;

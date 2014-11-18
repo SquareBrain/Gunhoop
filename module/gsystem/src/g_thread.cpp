@@ -18,6 +18,11 @@
 
 namespace gsys {
 
+Thread::Thread(const bool autoRel) 
+    : m_threadId(-1)
+    , m_autoRel(autoRel)
+    , m_runnable(nullptr) {}
+    
 Thread::Thread(Runnable* runnable, const bool autoRel) 
     : m_threadId(-1)
     , m_autoRel(autoRel)
@@ -44,8 +49,8 @@ GResult Thread::start()
 
 GResult Thread::start(Runnable* target, const bool autoRel)
 {
+    m_runnable = target;
     m_autoRel = autoRel;
-    m_runnable = runnable;
     return start();
 }
 
@@ -54,9 +59,9 @@ GResult Thread::join()
     return pthread_join(m_threadId, nullptr) == 0 ? G_YES : G_NO;
 }
 
-GResult Thread::exit()
+void Thread::exit()
 {
-    return pthread_exit(nullptr) == 0 ? G_YES : G_NO;    
+    pthread_exit(nullptr);
 }   
 
 GUint32 Thread::threadId() const
