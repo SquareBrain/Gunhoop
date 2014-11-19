@@ -426,18 +426,18 @@ public:
     /**
      * @brief add fd
      * @param [in] fd : fd
-     * @param [in] events : epoll events
+     * @param [in] events : epoll events, default is EPOLLIN | EPOLLOUT
      * @return G_YES/G_NO
      */      
-    GResult addfd(const GInt32 fd, const GUint32 events);
+    GResult addfd(const GInt32 fd, const GUint32 events = EPOLLIN | EPOLLOUT);
     
     /**
      * @brief modify fd
      * @param [in] fd : fd
-     * @param [in] events : epoll evnets
+     * @param [in] events : epoll evnets, default is EPOLLIN | EPOLLOUT
      * @return G_YES/G_NO
      */      
-    GResult modfd(const GInt32 fd, const GUint32 events);
+    GResult modfd(const GInt32 fd, const GUint32 events = EPOLLIN | EPOLLOUT);
     
     /**
      * @brief delete fd

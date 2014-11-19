@@ -98,32 +98,4 @@ private:
     ClientAgentMap      m_clientMap;
 };
 
-/**
- * @brief client agent
- */
-class ClientAgent
-{
-public:
-    ClientAgent();
-    ClientAgent(const GInt32 sockfd, const NetAddr& client_addr);
-    ~ClientAgent();
-  
-    /**
-     * @brief set/get sock fd
-     * @return sock fd
-     */
-    void setSockfd(const GInt32 sockfd);
-    GInt32 sockfd() const;
-    
-    /**
-     * @brief set/get client address
-     * @return client address
-     */
-    void setClientAddr(const NetAddr& client_addr);
-    NetAddr& clientAddr();
-
-private:
-    GInt32    m_sockfd;
-    NetAddr   m_netAddr;
-};
 }

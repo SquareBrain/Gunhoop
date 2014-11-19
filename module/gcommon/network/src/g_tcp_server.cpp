@@ -141,16 +141,19 @@ GResult TcpServer::routine()
     	{
     	    if (iter->fd() == m_socket.socket().sockfd())   	
     	    {
-    	    	SockAddr clientAddr;
+    	    	gsys::SockAddr clientAddr;
     	    	GInt32 clientSockfd = -1;
-    	        if (IS_NO(m_serverSocket.accept(clientAddr, clientSockfd)))
+    	        if (IS_NO(m_socket.accept(clientAddr, clientSockfd)))
     	        {
     	            continue;
     	        }
     	        
-    	        G_LOG_INFO(G_LOG_PREFIX, "accept client address %s:%d", clientAddr.ipStr(), clientAddr.port());
+    	        G_LOG_DEBUG(G_LOG_PREFIX, "accept client address %s:%d", clientAddr.ipStr(), clientAddr.port());
     	        
-    	        ClientAgent* clientAgent = new ClientAgent(clientSockfd, clientAddr);
+                NetAddr addr;
+                addr.setIPAddr(IPAddr(clientAddr.ip()));
+                addr.setPort(clientAddr.port());
+    	        ClientAgent* clientAgent = new ClientAgent(clientSockfd, addr);
     	        gsys::AutoLock autoLock(m_clientMap.mutex());
     	        m_clientMap.insert(std::make_pair(clientSockfd, clientAgent));
     	        
@@ -159,7 +162,7 @@ GResult TcpServer::routine()
     	    }
     	    else if (iter->isRecv())
     	    {
-    	    	
+    	        	
     	    }
     	    else if (iter->isSend())
     	    {
@@ -169,32 +172,6 @@ GResult TcpServer::routine()
     }
     
     return G_YES;
-}
-
-ClientAgent::ClientAgent() : m_sockfd(-1){}
-ClientAgent::ClientAgent(const GInt32 sockfd, const SockAddr& clientAddr) 
-    : m_sockfd(sockfd), m_clientAddr(clientAddr) {}
-    
-ClientAgent::~ClientAgent() {}
-
-void ClientAgent::setSockfd(const GInt32 sockfd)
-{
-    m_sockfd = sockfd;	
-}
-
-GInt32 ClientAgent::sockfd() const
-{
-    return m_sockfd; 
-}
-
-void ClientAgent::setClientAddr(const SockAddr& clientAddr)
-{
-    m_clientAddr = clientAddr;	
-}
-
-SockAddr& ClientAgent::clientAddr()
-{
-    return m_clientAddr;
 }
 
 }

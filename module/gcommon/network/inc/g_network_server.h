@@ -168,4 +168,36 @@ private:
     ServerState 	m_state;
     ObserverList 	m_observerList;
 };
+    
+/**
+ * @brief client agent
+ */
+class ClientAgent
+{
+public:
+    ClientAgent();
+    explicit ClientAgent(const GInt32 sockfd, const NetAddr& clientAddr);
+    ~ClientAgent();
+  
+    /**
+     * @brief set/get sock fd
+     * @param [in] sockfd : socket fd
+     * @return sock fd
+     */
+    void setSockfd(const GInt32 sockfd);
+    GInt32 sockfd() const;
+    
+    /**
+     * @brief set/get client address
+     * @param [in] clientAddr : client address
+     * @return client address
+     */
+    void setClientAddr(const NetAddr& clientAddr);
+    const NetAddr& clientAddr() const;
+
+private:
+    GInt32    m_sockfd;
+    NetAddr   m_netAddr;
+};
+    
 }

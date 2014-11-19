@@ -121,4 +121,30 @@ GResult NetworkServer::run()
     return routine();
 }
 
+ClientAgent::ClientAgent() : m_sockfd(-1) {}
+ClientAgent::ClientAgent(const GInt32 sockfd, const NetAddr& clientAddr)
+    : m_sockfd(sockfd), m_netAddr(clientAddr) {}
+    
+ClientAgent::~ClientAgent() {}
+
+void ClientAgent::setSockfd(const GInt32 sockfd)
+{
+    m_sockfd = sockfd;  
+}
+    
+GInt32 ClientAgent::sockfd() const
+{
+    return m_sockfd;
+}
+
+void ClientAgent::setClientAddr(const NetAddr& clientAddr)
+{
+    m_netAddr = clientAddr;   
+}
+    
+const NetAddr& ClientAgent::clientAddr() const
+{
+    return m_netAddr;
+}
+    
 }
