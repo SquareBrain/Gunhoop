@@ -14,26 +14,26 @@
 *  1. 2014-09-30 duye Created this file
 * 
 */
+#include <g_logger.h>
 #include <g_tcp_server.h>
 	
 namespace gcom {
 
-static const GInt8* LOG_PREFIX = "gohoop.gcom.network.tcpserver";
+static const GInt8* G_LOG_PREFIX = "gohoop.gcom.network.tcpserver";
 
-TcpServer::TcpServer() : m_socket(nullptr){}
+TcpServer::TcpServer() {}
 TcpServer::TcpServer(const IPPortPair& server_addr, const std::string& net_card)
     : NetworkServer(server_addr, net_card) {}
 TcpServer::~TcpServer() 
 {
-    close();
+    stop();
     
     gsys::AutoLock auto_lock(m_clientMap.mutex());
-    ClientAgentMap::const_iterator iter = m_clientMap.begin();
-    for (; iter != m_clientMap.end(); ++iter)
+    for (auto iter = m_clientMap.begin(); iter != m_clientMap.end(); ++iter)
     {
         delete iter->second;
     }
-    m_clientMap.clean();
+    m_clientMap.clear();
 }
 	  
 GResult TcpServer::start()
@@ -43,28 +43,28 @@ GResult TcpServer::start()
         return G_YES;
     }
     
-    if (server_addr.ipAddr().ipStr().empty())
+    if (IS_NO(isValidServerAddr()))
     {
-    	G_LOG_ERROR(LOG_PREFIX, "server address no setting");
+    	G_LOG_ERROR(G_LOG_PREFIX, "server address is inval");
     	return G_NO;
     }
     
-    SocketInfo socket_info;
-    socket_info.setProtocol(G_IPPROTO_TCP);
-    socket_info.setServerIP(serverAddr().ipAddr().ip());
+    gsys::SocketInfo socket_info;
+    socket_info.setProtocol(gsys::G_IPPROTO_TCP);
+    socket_info.setServerIp(serverAddr().ipAddr().ip());
     socket_info.setServerPort(serverAddr().port());
     socket_info.setLocalIfName(netCard());
     
     if (IS_NO(m_socket.open(socket_info)))
     {
-    	G_LOG_ERROR(LOG_PREFIX, "%s", m_serverSocket.error());
+    	G_LOG_ERROR(G_LOG_PREFIX, "%s", m_socket.error());
     	return G_NO;
     }
     
     // init epoll
     if (IS_NO(m_epoll.open()))
     {
-    	G_LOG_ERROR(LOG_PREFIX, "%s", m_epoll.error());
+    	G_LOG_ERROR(G_LOG_PREFIX, "%s", m_epoll.error());
     	return G_NO;    	
     }
     
@@ -114,7 +114,7 @@ GResult TcpServer::stop()
 GResult TcpServer::routine()
 {
     // add server listen sockfd to epoll
-    m_epoll.addfd(m_serverSocket.socket().sockfd());
+    m_epoll.addfd(m_socket.socket().sockfd());
     
     for (;;)
     {
@@ -129,34 +129,33 @@ GResult TcpServer::routine()
     	    continue; 	    
     	}
     	
-    	gsys::Epoll::EventList event_list;
-    	if (IS_NO(m_epoll.wait(event_list, 100)))
+    	gsys::Epoll::EventList eventList;
+    	if (IS_NO(m_epoll.wait(eventList, 100)))
     	{
     	    gsys::System::usleep(100);
     	    continue;
     	}
     	
     	// handle epoll event
-    	gsys::Epoll::EventList::const_iterator iter = event_list.begin();
-    	for (; iter != event_list.end(); ++iter)
+    	for (auto iter = eventList.begin(); iter != eventList.end(); ++iter)
     	{
-    	    if (iter->fd() == m_serverSocket.socket().sockfd())   	
+    	    if (iter->fd() == m_socket.socket().sockfd())   	
     	    {
-    	    	SockAddr client_addr;
-    	    	GInt32 client_sockfd = -1;
-    	        if (IS_NO(m_serverSocket.accept(client_addr, client_sockfd)))
+    	    	SockAddr clientAddr;
+    	    	GInt32 clientSockfd = -1;
+    	        if (IS_NO(m_serverSocket.accept(clientAddr, clientSockfd)))
     	        {
     	            continue;
     	        }
     	        
-    	        G_LOG_INFO(LOG_PREFIX, "accept client address %s:%d", client_addr.ipStr(), client_addr.port());
+    	        G_LOG_INFO(G_LOG_PREFIX, "accept client address %s:%d", clientAddr.ipStr(), clientAddr.port());
     	        
-    	        ClientAgent* client_agent = new ClientAgent(client_socket, client_addr);
-    	        gsys::AutoLock auto_lock(m_clientMap.mutex());
-    	        m_clientMap.insert(std::make_pair(client_sockfd, client_agent));
+    	        ClientAgent* clientAgent = new ClientAgent(clientSockfd, clientAddr);
+    	        gsys::AutoLock autoLock(m_clientMap.mutex());
+    	        m_clientMap.insert(std::make_pair(clientSockfd, clientAgent));
     	        
     	        // add to epoll
-    	        m_epoll.addfd(client_sockfd);
+    	        m_epoll.addfd(clientSockfd);
     	    }
     	    else if (iter->isRecv())
     	    {
@@ -172,8 +171,10 @@ GResult TcpServer::routine()
     return G_YES;
 }
 
-ClientAgent::ClientAgent() {}
-ClientAgent::ClientAgent(const GInt32 sockfd, const SockAddr& client_addr) : m_sockfd(-1) {}
+ClientAgent::ClientAgent() : m_sockfd(-1){}
+ClientAgent::ClientAgent(const GInt32 sockfd, const SockAddr& clientAddr) 
+    : m_sockfd(sockfd), m_clientAddr(clientAddr) {}
+    
 ClientAgent::~ClientAgent() {}
 
 void ClientAgent::setSockfd(const GInt32 sockfd)
@@ -186,9 +187,9 @@ GInt32 ClientAgent::sockfd() const
     return m_sockfd; 
 }
 
-void ClientAgent::setClientAddr(const SockAddr& client_addr)
+void ClientAgent::setClientAddr(const SockAddr& clientAddr)
 {
-    m_clientAddr = client_addr;	
+    m_clientAddr = clientAddr;	
 }
 
 SockAddr& ClientAgent::clientAddr()

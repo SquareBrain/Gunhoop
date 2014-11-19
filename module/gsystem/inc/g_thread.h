@@ -136,6 +136,7 @@ public:
   
     /**
      * @brief startup thread
+     * @param [in] autoRel : whether is detached from main thread, default is detached
      * @return G_YES/G_NO
      * @note 
      */		

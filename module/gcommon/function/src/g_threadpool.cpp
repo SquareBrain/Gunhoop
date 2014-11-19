@@ -17,7 +17,7 @@
 */
 #include <g_threadpool.h> 
 
-static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.function.threadpool";
+// static const GInt8* G_LOG_PREFIX = "gohoop.gcommon.function.threadpool";
 
 // default the count of thread pool
 static const GUint32 G_DEF_THREAD_COUNT = 20;
@@ -73,7 +73,7 @@ ThreadWorker::ThreadWorker(const GUint32 workerId)
 
 ThreadWorker::~ThreadWorker() {}
 
-GUint32 ThreadWorker::getWorkerId() const
+GUint32 ThreadWorker::workerId() const
 {
     return m_workerId;
 }

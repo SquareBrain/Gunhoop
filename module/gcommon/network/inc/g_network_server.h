@@ -59,7 +59,7 @@ class NetworkServer : public gsys::ThreadTask
 {
 public:
     typedef SecurityObj<std::list<NetworkServerObserver*>> ObserverList;
-  
+    
 public:
     NetworkServer();
     
@@ -130,6 +130,12 @@ public:
      */
     void setServerAddr(const IPPortPair& server_addr);
     const IPPortPair& serverAddr() const;
+    
+    /**
+     * @brief verify server address
+     * @return G_YES/G_NO
+     */
+    GResult isValidServerAddr() const;
     
     /**
      * @brief get net card

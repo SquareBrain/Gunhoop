@@ -16,6 +16,7 @@
 */
 #pragma once
 
+#include <map>
 #include <g_socket.h>
 #include <g_security_obj.h>
 #include <g_network_server.h>

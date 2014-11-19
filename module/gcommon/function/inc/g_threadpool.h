@@ -138,7 +138,7 @@ public:
      * @param [in] workerId : worker ID
      * @return thread worker ID
      */     
-    GUint32 getWorkerId() const;
+    GUint32 workerId() const;
 
     /**
      * @brief to do work

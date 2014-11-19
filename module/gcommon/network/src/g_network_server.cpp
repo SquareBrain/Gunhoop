@@ -80,6 +80,16 @@ const IPPortPair& NetworkServer::serverAddr() const
 {
     return m_serverAddr;
 }
+    
+GResult NetworkServer::isValidServerAddr() const
+{
+    if (m_serverAddr.ipAddr().ipStr().empty())
+    {
+    	return G_NO;
+    }    
+    
+    return G_YES;
+}
 
 void NetworkServer::setNetCard(const std::string& net_card)
 {
