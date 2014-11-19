@@ -21,6 +21,7 @@ VPATH:=$(SRCDIRS)
 PS:=cpp
 CC:=g++
 CPPFLAGS+=-Wall -g -O0 -std=c++11
+CPPFLAGS+=-fPIC
 CPPFLAGS+=$(addprefix -I, $(INCLUDES))
 CPPFLAGS+=$(addprefix -D, $(PRE_DEFINED))
 
