@@ -52,21 +52,24 @@ public:
      * @brief set data 
      * @param [in] data : original network data
      * @param [in] len : original network data length
-     * @return G_YES/G_NO
      */
-    GResult setData(const GInt8* data, const GUint64 len);
+    void setData(GInt8* data, const GUint64 len);
     
     /**
      * @brief get data
      * @return data pointer
      */
-    GInt8* data();
+    GInt8* data() const;
     
     /**
      * @brief get length
      * @return data length
      */
     GUint64 length() const;
+    
+private:
+    // free data
+    void clear();
     
 private:
     // data length

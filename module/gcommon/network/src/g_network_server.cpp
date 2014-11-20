@@ -14,7 +14,7 @@
 *  1. 2014-10-07 duye Created this file
 * 
 */
-#inlcude <g_utils.h>
+#include <g_utils.h>
 #include <g_network_server.h>
 
 namespace gcom {
@@ -27,7 +27,7 @@ BaseMessage::~BaseMessage()
     clear();
 }   
     
-GResult BaseMessage::setData(const GInt8* data, const GUint64 len)
+void BaseMessage::setData(GInt8* data, const GUint64 len)
 {
     if (m_orgData != nullptr)
     {
@@ -38,14 +38,14 @@ GResult BaseMessage::setData(const GInt8* data, const GUint64 len)
     m_orgData = data;
 }
     
-GInt8* BaseMessage::data()
+GInt8* BaseMessage::data() const
 {
-    return g_orgData;
+    return m_orgData;
 }
 
-GUint64 BaseMessage::length() const;
+GUint64 BaseMessage::length() const
 {
-    return g_dataLen;
+    return m_dataLen;
 }
     
 void BaseMessage::clear()

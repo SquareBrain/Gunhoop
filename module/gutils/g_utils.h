@@ -18,5 +18,4 @@
 
 #include <g_ini.h>
 #include <g_ini_section.h>
-
 #include <g_xml.h>
