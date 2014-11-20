@@ -25,15 +25,55 @@
 namespace gcom {
 
 /**
- * @brief network server running state
+ * @brief network server running status
  */
 typedef enum
 {
+    // uninit status
     G_SERVER_INIT,
+    // working status
     G_SERVER_WORK,
+    // stopped status
     G_SERVER_STOP,
+    // server happened fault
     G_SERVER_FAULT
 } ServerState;
+    
+/**
+ * @brief base message
+ */
+class BaseMessage
+{
+public:
+    BaseMessage();
+    virtual ~BaseMessage();
+    
+    /**
+     * @brief set data 
+     * @param [in] data : original network data
+     * @param [in] len : original network data length
+     * @return G_YES/G_NO
+     */
+    GResult setData(const GInt8* data, const GUint64 len);
+    
+    /**
+     * @brief get data
+     * @return data pointer
+     */
+    GInt8* data();
+    
+    /**
+     * @brief get length
+     * @return data length
+     */
+    GUint64 length() const;
+    
+private:
+    // data length
+    GUint64 m_dataLen;
+    // original network data
+    GInt8*  m_orgData;
+};
 
 /**
  * @brief server user interface
@@ -45,11 +85,10 @@ public:
     
     /**
      * @brief message handler
-     * @param [in] data : user data
-     * @param [in] len : data length
+     * @param [in] message : message
      * @return G_YES/G_NO
      */
-     virtual GResult onMessage(void* data, const GUint64 len);
+     virtual GResult onMessage(BaseMessage* message);
 };
 
 /**

@@ -1,4 +1,4 @@
-PRONAME:=glogger_utest
+PRONAME:=g_logger_test
 TARGET:=$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
@@ -9,7 +9,7 @@ SRCDIRS:=$(BUILD_PATH)
 
 LIBS_PATH:=
 
-LIBS:=gutils
+LIBS:=gutils gsystem
 
 SLIBS:=
 

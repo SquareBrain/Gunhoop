@@ -14,11 +14,49 @@
 *  1. 2014-10-07 duye Created this file
 * 
 */
+#inlcude <g_utils.h>
 #include <g_network_server.h>
 
 namespace gcom {
+    
+static const GInt8* G_LOG_PREFIX = "gohoop.gcom.network.server";
+    
+BaseMessage::BaseMessage() : m_dataLen(0), m_orgData(nullptr) {}
+BaseMessage::~BaseMessage() 
+{
+    clear();
+}   
+    
+GResult BaseMessage::setData(const GInt8* data, const GUint64 len)
+{
+    if (m_orgData != nullptr)
+    {
+        clear();
+    }
+    
+    m_dataLen = len;
+    m_orgData = data;
+}
+    
+GInt8* BaseMessage::data()
+{
+    return g_orgData;
+}
 
+GUint64 BaseMessage::length() const;
+{
+    return g_dataLen;
+}
+    
+void BaseMessage::clear()
+{
+    delete [] m_orgData;
+    m_orgData = nullptr;    
+}
+    
+///////////////////////////////////////////////////////////////////
 NetworkServer::NetworkServer() : m_netCard("eth0") {}
+    
 NetworkServer::NetworkServer(const IPPortPair& server_addr, const std::string& net_card) 
     : m_serverAddr(server_addr)
     , m_netCard(net_card) {}

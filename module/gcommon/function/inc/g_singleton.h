@@ -21,7 +21,7 @@
 namespace gcom {
 
 /** 
- * @brief singletion template
+ * @brief singletion class template, be inherit
  */
 template<typename T>
 class Singleton
@@ -42,6 +42,9 @@ T& Singleton<T>::instance()
     return t;
 }
 
+/**
+ * @brief singletion class template, used at declaration
+ */
 template<typename T>
 class SingletonObj : public T
 {

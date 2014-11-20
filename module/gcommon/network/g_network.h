@@ -16,13 +16,15 @@
 */
 #pragma once
 
+#include <g_tcp_client.h>
+#include <g_tcp_server.h>
+#include <g_udp_client.h>
+#include <g_udp_server.h>
+#include <g_cli_client.h>
+#include <g__server.h>
 #include <g_ftp_client.h>
 #include <g_ftp_server.h>
 #include <g_http_client.h>
 #include <g_http_server.h>
 #include <g_rpc_client.h>
 #include <g_rpc_server.h>
-#include <g_tcp_client.h>
-#include <g_tcp_server.h>
-#include <g_udp_client.h>
-#include <g_udp_server.h>

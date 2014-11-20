@@ -1,15 +1,20 @@
+#third party library include
 INCLUDES+= \
 	$(GOHOOP_INC_PATH)/gsystem \
 	$(GOHOOP_INC_PATH)/glogger \
 	$(GOHOOP_INC_PATH)/gutils \
 	$(GOHOOP_INC_PATH)/gcommon
 
+#third party static library
 SLIBS+= 
 
-LIBS+=gsystem gutils glogger gcommon
+#third party shared library
+LIBS+=
 
+#third party shared library path
 LIBS_PATH+=$(GOHOOP_LIB_PATH) 
 
+#predefined
 PRE_DEFINED+=
 
 #create dir
@@ -31,7 +36,10 @@ SOURCE:=$(foreach dir, $(SRCDIRS), $(wildcard $(dir)/*.$(PS)))
 CPPSRCS:=$(notdir $(SOURCE))
 OBJS:=$(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
 
+#shared library flags
 LIB_FLAGS:=$(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
+
+#static library flags
 SLIB_FLAGS:=-Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive
 
 TARGET_FILE:=$(OUTPUT)/bin/$(TARGET)
