@@ -14,14 +14,14 @@
 *  1. 2014-11-20 duye Created this file
 * 
 */
-#pragam once
+#pragma once
 
 #include <g_common.h>
 
 /**
  * @brief http tester
  */
-class HttpTester : public Singleton<HttpTester>
+class HttpTester : public gcom::Singleton<HttpTester>
 {
 public:
     HttpTester();

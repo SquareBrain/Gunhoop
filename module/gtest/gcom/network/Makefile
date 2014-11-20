@@ -3,7 +3,11 @@ TARGET:=$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
 
-INCLUDES:=$(GOHOOP_INC_PATH)
+INCLUDES:=$(BUILD_PATH) \
+    $(GOHOOP_INC_PATH)/gsystem \
+    $(GOHOOP_INC_PATH)/gutils \
+    $(GOHOOP_INC_PATH)/glogger \
+    $(GOHOOP_INC_PATH)/gcommon
 
 SRCDIRS:=$(BUILD_PATH)
 
