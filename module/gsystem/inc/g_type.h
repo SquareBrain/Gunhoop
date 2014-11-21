@@ -30,7 +30,7 @@ typedef unsigned short	   GUint16;
 typedef unsigned int	   GUint32;
 typedef unsigned long long GUint64;
 typedef int		           GResult;
-
+typedef bool               GBool;
 /** 
  * @brief assert
  */

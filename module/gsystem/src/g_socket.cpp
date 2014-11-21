@@ -540,6 +540,11 @@ GInt64 ServerSocket::recvfrom(SockAddr& src_addr, GUint8* buffer, const GUint64 
     return -1;	
 }
 
+Socket& ServerSocket::socket()
+{
+    return m_socket;
+}
+    
 GInt8* ServerSocket::error()
 {
     return m_error;

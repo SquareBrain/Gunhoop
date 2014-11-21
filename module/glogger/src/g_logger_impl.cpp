@@ -39,12 +39,22 @@ GlobalRule::~GlobalRule()
 {
 }
 
+void GlobalRule::setTopLogLevel(const GLogLevel& logLevel)
+{
+    m_topLogLevel = logLevel;
+}
+
+const GLogLevel& GlobalRule::topLogLevel() const
+{
+    return m_topLogLevel;
+}
+
 void GlobalRule::setMaxFileNum(const GUint32 maxFileNum)
 {
 	m_maxFileNum = maxFileNum;
 }
 
-GUint32 GlobalRule::getMaxFileNum() const
+GUint32 GlobalRule::maxFileNum() const
 {
 	return m_maxFileNum;
 }
@@ -54,7 +64,7 @@ void GlobalRule::setMaxFileSize(const GUint64 maxFileSize)
 	m_maxFileSize = maxFileSize;   
 }
 
-GUint64 GlobalRule::getMaxFileSize() const
+GUint64 GlobalRule::maxFileSize() const
 {
 	return m_maxFileSize;
 }
@@ -64,7 +74,7 @@ void GlobalRule::setAutoWordwrap(const bool isAutoWordwrap)
 	m_isAutoWordwrap = isAutoWordwrap;
 }
 
-bool GlobalRule::isAutoWordwrap() const
+GBool GlobalRule::isAutoWordwrap() const
 {
 	return m_isAutoWordwrap;   
 }
@@ -85,7 +95,7 @@ void GModuleRule::setModuleName(const std::string& moduleName)
 	m_moduleName = moduleName;
 }
 
-const std::string& GModuleRule::getModuleName() const
+const std::string& GModuleRule::moduleName() const
 {
 	return m_moduleName;
 }
@@ -95,7 +105,7 @@ void GModuleRule::setLogLevel(const GLogLevel& logLevel)
 	m_logLevel = logLevel;
 }
 
-const GLogLevel& GModuleRule::getLogLevel() const
+const GLogLevel& GModuleRule::logLevel() const
 {
 	return m_logLevel;
 }
@@ -105,7 +115,7 @@ void GModuleRule::setPrintFormat(const GPrintFormat& printFormat)
 	m_printFormat = printFormat;
 }
 
-const GPrintFormat& GModuleRule::getPrintFormat() const
+const GPrintFormat& GModuleRule::printFormat() const
 {
 	return m_printFormat;
 }
@@ -115,7 +125,7 @@ void GModuleRule::setSaveWay(const GSaveWay& saveWay)
 	m_saveWay = saveWay;
 }
 
-const GSaveWay& GModuleRule::getSaveWay() const
+const GSaveWay& GModuleRule::saveWay() const
 {
 	return m_saveWay;
 }
@@ -125,7 +135,7 @@ void GModuleRule::setFilePrefix(const std::string& filePrefix)
 	m_filePrefix = filePrefix;
 }
 
-const std::string& GModuleRule::getFilePrefix() const
+const std::string& GModuleRule::filePrefix() const
 {
 	return m_filePrefix;
 }
@@ -135,7 +145,7 @@ void GModuleRule::setFilePath(const std::string& filePath)
 	m_filePath = filePath;
 }
 
-const std::string& GModuleRule::getFilePath() const
+const std::string& GModuleRule::filePath() const
 {
 	return m_filePath;
 }
@@ -145,7 +155,7 @@ void GModuleRule::setFileName(const std::string& fileName)
 	m_fileName = fileName;	
 }
 
-const std::string& GModuleRule::getFileName() const
+const std::string& GModuleRule::fileName() const
 {
 	return m_fileName;
 }
@@ -252,7 +262,7 @@ GLoggerImpl::~GLoggerImpl()
 	uninit();
 }
 
-GLoggerImpl* GLoggerImpl::GetInstance()
+GLoggerImpl* GLoggerImpl::Instance()
 {
 	static GLoggerImpl glogger;
 	return &glogger;
@@ -308,7 +318,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 		return;
 	}
 
-	if (logLevel > moduleRule->getLogLevel() || logLevel > m_globalRule.getTopLogLevel())
+	if (logLevel > moduleRule->logLevel() || logLevel > m_globalRule.topLogLevel())
 	{
 		return;
 	}
@@ -316,7 +326,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	GInt8 printBuf[DEF_ONE_LINE_BUF_SIZE] = {0};
 	GUint64 pos = 0;
 	
-	if (moduleRule->getPrintFormat() >= PRINT_MORE)
+	if (moduleRule->printFormat() >= PRINT_MORE)
 	{
 		// add time
 		GInt8 timeStr[128] = {0};
@@ -331,7 +341,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 	pos += System::pformat(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, args);
 	
 	// add source file name, function name and line
-	if (moduleRule->getPrintFormat() >= PRINT_FULL)
+	if (moduleRule->printFormat() >= PRINT_FULL)
 	{
 		pos += snprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, "%s:%s:%d", file, function, line);
 	}
@@ -342,7 +352,7 @@ void GLoggerImpl::printLog(const GLogLevel logLevel,
 		pos += snprintf(printBuf + pos, DEF_ONE_LINE_BUF_SIZE - pos, "\n");    
 	}
 	
-	switch (moduleRule->getSaveWay())
+	switch (moduleRule->saveWay())
 	{
 	case SAVE_STDOUT:
 		fprintf(stdout, "%s", printBuf);
@@ -363,7 +373,7 @@ GInt8* GLoggerImpl::getError()
 
 void GLoggerImpl::saveToFile(const GModuleRule* moduleRule, const GInt8* log, const GUint64 len)
 {
-	GLogFileMap::iterator iter = m_logFileMap.find(moduleRule->getFileName());
+	GLogFileMap::iterator iter = m_logFileMap.find(moduleRule->fileName());
 	if (iter == m_logFileMap.end())
 	{
 		return;
@@ -550,12 +560,12 @@ GResult GLoggerImpl::initFile()
 	for (; iter != m_moduleRuleMap.end(); ++iter)
 	{
 		GModuleRule* moduleRule = iter->second;
-		if (moduleRule->getSaveWay() != SAVE_FILE)
+		if (moduleRule->saveWay() != SAVE_FILE)
 		{
 			continue;
 		}
 		
-		std::string filePath = moduleRule->getFilePath();
+		std::string filePath = moduleRule->filePath();
 		if (filePath == "." || filePath.empty())
 		{
 			filePath = "./";
@@ -566,13 +576,13 @@ GResult GLoggerImpl::initFile()
 		}
 		
 		std::string fileName;
-		if (moduleRule->getFilePrefix().empty())
+		if (moduleRule->filePrefix().empty())
 		{
-			fileName = filePath + moduleRule->getModuleName();
+			fileName = filePath + moduleRule->moduleName();
 		}
 		else
 		{
-			fileName = filePath + moduleRule->getFilePrefix();
+			fileName = filePath + moduleRule->filePrefix();
 		}
 		
 		moduleRule->setFileName(fileName);
@@ -580,8 +590,8 @@ GResult GLoggerImpl::initFile()
 		{
 			m_logFileMap.insert(std::make_pair(fileName, 
                 new GLogFile(fileName, 
-                m_globalRule.getMaxFileNum(),
-                m_globalRule.getMaxFileSize()))); 
+                m_globalRule.maxFileNum(),
+                m_globalRule.maxFileSize()))); 
 		}
 	}
 	
@@ -644,7 +654,7 @@ const GModuleRule* GLoggerImpl::findModuleRule(const std::string& moduleName) co
 	return iter->second;
 }
 
-void getSysTime(GInt8* buffer, const GUint32 size)
+void GLoggerImpl::getSysTime(GInt8* buffer, const GUint32 size)
 {
 	if (buffer == nullptr || size == 0)
     {

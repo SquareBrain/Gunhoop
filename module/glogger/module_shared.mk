@@ -20,4 +20,4 @@ SLIBS:=
 
 OUT_HEADS:=$(wildcard $(BUILD_PATH)/inc/*.h)
 
-include ../shared.mk
+include $(GOHOOP_TOP)/shared.mk

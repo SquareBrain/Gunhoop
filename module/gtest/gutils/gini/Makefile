@@ -1,4 +1,4 @@
-PRONAME:=gxml_test
+PRONAME:=g_ini_test
 TARGET:=$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
@@ -13,4 +13,4 @@ LIBS:=gutils gsystem
 
 SLIBS:=
 
-include ../../../app.mk
+include $(GOHOOP_TOP)/app.mk

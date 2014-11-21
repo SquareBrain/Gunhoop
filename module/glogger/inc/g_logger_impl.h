@@ -63,16 +63,16 @@ public:
 	~GlobalRule();
 
 	void setTopLogLevel(const GLogLevel& logLevel);
-	const GLogLevel& getTopLogLevel() const;
+	const GLogLevel& topLogLevel() const;
 
 	void setMaxFileNum(const GUint32 maxFileNum);
-	GUint32 getMaxFileNum() const;
+	GUint32 maxFileNum() const;
 
 	void setMaxFileSize(const GUint64 maxFileSize);
-	GUint64 getMaxFileSize() const;
+	GUint64 maxFileSize() const;
 
 	void setAutoWordwrap(const bool isAutoWordwrap);
-	bool isAutoWordwrap() const;    
+	GBool isAutoWordwrap() const;    
 
 private:
 	GLogLevel		m_topLogLevel;
@@ -91,25 +91,25 @@ public:
 	~GModuleRule();
 
 	void setModuleName(const std::string& moduleName);
-	const std::string& getModuleName() const;   
+	const std::string& moduleName() const;   
 
 	void setLogLevel(const GLogLevel& logLevel);
-	const GLogLevel& getLogLevel() const;
+	const GLogLevel& logLevel() const;
 
 	void setPrintFormat(const GPrintFormat& printFormat);
-	const GPrintFormat& getPrintFormat() const;   
+	const GPrintFormat& printFormat() const;   
 	
 	void setSaveWay(const GSaveWay& saveWay);
-	const GSaveWay& getSaveWay() const;
+	const GSaveWay& saveWay() const;
 	
 	void setFilePrefix(const std::string& filePrefix);
-	const std::string& getFilePrefix() const;
+	const std::string& filePrefix() const;
 	
 	void setFilePath(const std::string& filePath);
-	const std::string& getFilePath() const;
+	const std::string& filePath() const;
 
     void setFileName(const std::string& fileName);
-    const std::string& getFileName() const;
+    const std::string& fileName() const;
 
 private:
 	std::string		m_moduleName;
@@ -164,7 +164,7 @@ public:
 	GLoggerImpl();
 	~GLoggerImpl();
 
-	static GLoggerImpl* GetInstance();
+	static GLoggerImpl* Instance();
 
 	GResult init();
 	GResult uninit();

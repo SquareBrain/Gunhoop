@@ -20,12 +20,12 @@
 
 GResult GLogger::init()
 {
-	return GLoggerImpl::GetInstance()->init();
+	return GLoggerImpl::Instance()->init();
 }
 
 GResult GLogger::uninit()
 {
-	return GLoggerImpl::GetInstance()->uninit();
+	return GLoggerImpl::Instance()->uninit();
 }
 
 void GLogger::printError(const GInt8* module, 
@@ -80,5 +80,5 @@ void GLogger::printLog(const GInt32 logLevel,
 	const GInt8* function,
 	const GInt8* args, ...)
 {
-	GLoggerImpl::GetInstance()->printLog((const GLogLevel)logLevel, module, file, line, function, args);		        
+	GLoggerImpl::Instance()->printLog((const GLogLevel)logLevel, module, file, line, function, args);		        
 }

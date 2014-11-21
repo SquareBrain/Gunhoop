@@ -13,4 +13,4 @@ LIBS:=gutils gsystem
 
 SLIBS:=
 
-include ../../../app.mk
+include $(GOHOOP_TOP)/app.mk

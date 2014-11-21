@@ -8,8 +8,8 @@ SUBDIRS:= \
 	conf \
 	filesys \
 	function \
-	iostream \
-	network
+	network \
+#   iostream     
 
 INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)) \
 	$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/inc) \
@@ -29,4 +29,4 @@ OUT_HEADS:=$(wildcard $(BUILD_PATH)/*.h) \
 	$(foreach dir, $(SUBDIRS), $(wildcard $(BUILD_PATH)/$(dir)/*.h)) \
 	$(foreach dir, $(SUBDIRS), $(wildcard $(BUILD_PATH)/$(dir)/inc/*.h))
 
-include ../static.mk
+include $(GOHOOP_TOP)/static.mk

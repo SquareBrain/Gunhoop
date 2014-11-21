@@ -9,7 +9,7 @@ INCLUDES+= \
 SLIBS+= 
 
 #third party shared library
-LIBS+=
+LIBS+=pthread dl
 
 #third party shared library path
 LIBS_PATH+=$(GOHOOP_LIB_PATH) 

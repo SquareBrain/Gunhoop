@@ -19,7 +19,7 @@
 
 namespace gcom {
     
-static const GInt8* G_LOG_PREFIX = "gohoop.gcom.network.server";
+//static const GInt8* G_LOG_PREFIX = "gohoop.gcom.network.server";
     
 BaseMessage::BaseMessage() : m_dataLen(0), m_orgData(nullptr) {}
 BaseMessage::~BaseMessage() 
