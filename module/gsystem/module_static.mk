@@ -21,4 +21,4 @@ SLIBS:=
 OUT_HEADS:=$(wildcard $(BUILD_PATH)/*.h) \
 	$(wildcard $(BUILD_PATH)/inc/*.h)
 
-include ../static.mk
+include $(GOHOOP_TOP)/static.mk
