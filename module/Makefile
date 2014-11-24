@@ -3,7 +3,7 @@ SUBDIRS:= \
 	gutils \
 	glogger \
 	gcommon \
-    gtest
+    #gtest
 	
 all:
 	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR; done

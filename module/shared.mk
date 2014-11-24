@@ -5,7 +5,7 @@ INCLUDES+=
 SLIBS+=
 
 #third party shared library
-LIBS+= 
+LIBS+=
 
 #third party shared library path
 LIBS_PATH+=$(GOHOOP_LIB_PATH)
@@ -44,7 +44,7 @@ ifdef VERSION
 	TARGET_FILE:=$(OUTPUT)/lib/$(TARGET).so.$(VERSION)
 endif
 
-all:$(TARGET) install
+all:$(TARGET)
 
 $(TARGET):$(OBJS)
 	@$(CC) -shared -o $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
@@ -63,8 +63,9 @@ $(OBJDIR)/%.o:%.$(PS)
 install:
 ifdef VERSION
 	@echo "Start Install $(TARGET_FILE)"
+	@mkdir -p $(GOHOOP_INC_PATH)/$(MODULE)  
+	@mkdir -p $(GOHOOP_LIB_PATH)     
 	@cp -ax $(OUTPUT)/lib/$(TARGET).so* $(GOHOOP_LIB_PATH)
-	@mkdir -p $(GOHOOP_INC_PATH)/$(MODULE)
 	@cp -ax $(OUT_HEADS) $(GOHOOP_INC_PATH)/$(MODULE)
 	@echo "Install $(TARGET_FILE) $(GOHOOP_LIB_PATH) Complete"
 endif	

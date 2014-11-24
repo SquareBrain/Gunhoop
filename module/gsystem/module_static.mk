@@ -14,7 +14,7 @@ SRCDIRS:=$(BUILD_PATH)/src
 
 LIBS_PATH:= 
 
-LIBS:=pthread dl
+LIBS:=
 
 SLIBS:= 
 

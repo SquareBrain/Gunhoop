@@ -44,7 +44,7 @@ ifdef VERSION
 	TARGET_FILE:=$(OUTPUT)/bin/$(TARGET).$(VERSION)
 endif
 
-all:$(TARGET) install
+all:$(TARGET)
 
 $(TARGET):$(OBJS)
 	@$(CC) $(CPPFLAGS) $(OBJS) -o $(TARGET_FILE) $(SLIB_FLAGS) $(LIB_FLAGS)
@@ -60,6 +60,7 @@ $(OBJDIR)/%.o:%.$(PS)
 install:
 ifdef VERSION
 	@echo "Start Install $(TARGET_FILE)"
+	@mkdir -p $(GOHOOP_BIN_PATH)    
 	@cp -ax $(OUTPUT)/bin/$(TARGET) $(GOHOOP_BIN_PATH)
 	@echo "Install $(TARGET_FILE) $(GOHOOP_BIN_PATH)/$(TARGET) Complete"
 endif

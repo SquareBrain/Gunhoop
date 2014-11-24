@@ -13,4 +13,4 @@ LIBS:=
 
 SLIBS:= 
 
-include ../../static.mk
+include $(GOHOOP_TOP)/static.mk

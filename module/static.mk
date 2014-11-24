@@ -48,7 +48,7 @@ endif
 all:$(TARGET) install
 
 $(TARGET):$(OBJS)
-	@ar rcs $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
+	ar rcs $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
 ifdef VERSION
 	@cd $(OUTPUT)/lib && ln -snf $(TARGET).a.$(VERSION) $(TARGET).a
 endif	
@@ -56,7 +56,7 @@ endif
 
 $(OBJDIR)/%.o:%.$(PS)
 	@echo $(CC) $<, `more $<|wc -l` lines
-	@$(CC) -c $(CPPFLAGS) -o $@ $< 
+	$(CC) -c $(CPPFLAGS) -o $@ $< 
 	
 .PHONY:install clean cleanall 
 .IGNORE:clean cleanall
@@ -64,8 +64,9 @@ $(OBJDIR)/%.o:%.$(PS)
 install:
 ifdef VERSION
 	@echo "Start Install $(TARGET_FILE)"
-	@cp -ax $(OUTPUT)/lib/$(TARGET).a* $(GOHOOP_LIB_PATH)
 	@mkdir -p $(GOHOOP_INC_PATH)/$(MODULE)
+	@mkdir -p $(GOHOOP_LIB_PATH)    
+	@cp -ax $(OUTPUT)/lib/$(TARGET).a* $(GOHOOP_LIB_PATH)
 	@cp -ax $(OUT_HEADS) $(GOHOOP_INC_PATH)/$(MODULE)
 	@echo "Install $(TARGET_FILE) $(GOHOOP_LIB_PATH) Complete"
 endif
