@@ -1,13 +1,19 @@
+#third party library include
 INCLUDES+=
 
+#third party static library
 SLIBS+=
 
+#third party shared library
 LIBS+= 
 
+#third party shared library path
 LIBS_PATH+=$(GOHOOP_LIB_PATH)
 
+#predefined
 PRE_DEFINED+=
 
+#output head files
 OUT_HEADS+=
 
 #create dir

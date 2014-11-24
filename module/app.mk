@@ -1,9 +1,5 @@
 #third party library include
-INCLUDES+= \
-	$(GOHOOP_INC_PATH)/gsystem \
-	$(GOHOOP_INC_PATH)/glogger \
-	$(GOHOOP_INC_PATH)/gutils \
-	$(GOHOOP_INC_PATH)/gcommon
+INCLUDES+=
 
 #third party static library
 SLIBS+= 
@@ -48,7 +44,7 @@ ifdef VERSION
 	TARGET_FILE:=$(OUTPUT)/bin/$(TARGET).$(VERSION)
 endif
 
-all:$(TARGET)
+all:$(TARGET) install
 
 $(TARGET):$(OBJS)
 	@$(CC) $(CPPFLAGS) $(OBJS) -o $(TARGET_FILE) $(SLIB_FLAGS) $(LIB_FLAGS)
@@ -64,8 +60,7 @@ $(OBJDIR)/%.o:%.$(PS)
 install:
 ifdef VERSION
 	@echo "Start Install $(TARGET_FILE)"
-	@mkdir -p $(GOHOOP_BIN_PATH)/$(MODULE)
-	@cp -ax $(OUTPUT)/bin/$(TARGET) $(GOHOOP_BIN_PATH)/$(MODULE)
+	@cp -ax $(OUTPUT)/bin/$(TARGET) $(GOHOOP_BIN_PATH)
 	@echo "Install $(TARGET_FILE) $(GOHOOP_BIN_PATH)/$(TARGET) Complete"
 endif
 

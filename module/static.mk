@@ -1,13 +1,19 @@
+#third party library include
 INCLUDES+=
 	
-#LIBS+=
-
-#LIBS_PATH+=
-
+#third party static library
 SLIBS+=
 
+#third party shared library
+LIBS+=
+
+#third party shared library path
+LIBS_PATH+=
+
+#predefined
 PRE_DEFINED+=
 
+#output head
 OUT_HEADS+=
 
 #create dir

@@ -1,4 +1,5 @@
 PRONAME:=g_network_test
+VERSION:=1.0.0
 TARGET:=$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
