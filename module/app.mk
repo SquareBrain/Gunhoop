@@ -52,7 +52,7 @@ $(TARGET):$(OBJS)
 
 $(OBJDIR)/%.o:%.$(PS)
 	@echo $(CC) $<, `more $<|wc -l` lines
-	@$(CC) -c $(CPPFLAGS) -o $@ $< 
+	$(CC) -c $(CPPFLAGS) -o $@ $< 
 
 .PHONY:install clean cleanall
 .IGNORE:clean cleanall

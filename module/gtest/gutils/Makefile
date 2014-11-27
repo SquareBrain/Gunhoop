@@ -1,4 +1,4 @@
-SUBDIRS:=gxml
+SUBDIRS:=gxml gini
 
 all:
 	@for SUBDIR in $(SUBDIRS); do $(MAKE) -C $$SUBDIR; done

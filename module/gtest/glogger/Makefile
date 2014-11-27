@@ -3,13 +3,16 @@ TARGET:=$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
 
-INCLUDES:=
+INCLUDES:=$(BUILD_PATH)
 
-SRCDIRS:=$(BUILD_PATH)
+SRCDIRS:=$(BUILD_PATH) \
+    $(GOHOOP_INC_PATH)/gsystem \
+    $(GOHOOP_INC_PATH)/gutils \
+    $(GOHOOP_INC_PATH)/glogger
 
-LIBS_PATH:=
+LIBS_PATH:=$(GOHOOP_LIB_PATH)
 
-LIBS:=gutils gsystem
+LIBS:=gsystem gutils glogger
 
 SLIBS:=
 

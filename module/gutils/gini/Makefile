@@ -8,9 +8,9 @@ INCLUDES:=$(BUILD_PATH)/inc \
 
 SRCDIRS:=$(BUILD_PATH)/src
 
-LIBS_PATH:=$(GOHOOP_LIB_PATH) 
+LIBS_PATH:=
 
-LIBS:=gsystem
+LIBS:=
 
 SLIBS:=
 

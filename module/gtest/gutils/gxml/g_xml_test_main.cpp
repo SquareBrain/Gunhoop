@@ -4,7 +4,7 @@
 *
 ************************************************************************************/
 /**
-* @file		gxml_main.h
+* @file		g_xml_test_main.cpp
 * @version     
 * @brief      
 * @author	duye
@@ -16,22 +16,24 @@
 */
 #include <string>
 #include <iostream>
+#include <g_system.h>
 #include <g_xml.h>
 
 using namespace std;
+using namespace gutils;
 
-class GXmlTest
+class XmlTester
 {
 public:
-    GXmlTest() {}
-    ~GXmlTest() {}
+    XmlTester() {}
+    ~XmlTester() {}
 
-    void printSchoolXml();
-    void readSchoolXml();
-    void writeSchoolXml();
+    GResult printSchoolXml();
+    GResult readSchoolXml();
+    GResult writeSchoolXml();
 };
 
-void GXmlTest::printSchoolXml() 
+GResult XmlTester::printSchoolXml() 
 {
     cout << "TEST 1. print file school.xml" << endl;
 
@@ -44,10 +46,13 @@ void GXmlTest::printSchoolXml()
     else 
     {
 		cout << "can not parse xml school.xml" << endl;
+        return G_NO;
 	}
+    
+    return G_YES;
 }
 
-void GXmlTest::readSchoolXml() 
+GResult XmlTester::readSchoolXml() 
 {
 	cout << "TEST 2. read file school.xml" << endl;
     
@@ -60,7 +65,7 @@ void GXmlTest::readSchoolXml()
     else 
     {
 		cout << "can not parse xml conf/school.xml" << endl;
-		return;
+		return G_NO;
 	}
     
 	XmlElement* rootElement = doc.rootElement();  //School元素  
@@ -81,11 +86,12 @@ void GXmlTest::readSchoolXml()
 			string contactValue = studentContactElement->getText();
 			cout << contactType  << " : " << contactValue << std::endl;  
 		}
-
 	}  
+    
+    return G_YES;
 }
 
-void GXmlTest::writeSchoolXml() 
+GResult XmlTester::writeSchoolXml() 
 {
 	cout << "TEST 3. write file school.xml" << endl;
     
@@ -123,14 +129,22 @@ void GXmlTest::writeSchoolXml()
 	doc.linkEndChild(decl);  
 	doc.linkEndChild(schoolElement); 
 	doc.saveFile(xmlFile);  
+    
+    return G_YES;
+}
+
+void TestShow(const GInt8* function, const GResult result)
+{
+    printf("%s   %s \n", function, result == G_YES ? "YES" : "NO");
 }
 
 int main(int argc, char** argv) 
 {
-	GXmlTest test;
-	test.printSchoolXml();
-	test.readSchoolXml();
-	test.writeSchoolXml();
+	XmlTester tester;
+    
+	TestShow("XmlTester::printSchoolXml()", tester.printSchoolXml());
+	TestShow("XmlTester::readSchoolXml()", tester.readSchoolXml());
+	TestShow("XmlTester::writeSchoolXml()", tester.writeSchoolXml());
     
 	return 0;
 }
