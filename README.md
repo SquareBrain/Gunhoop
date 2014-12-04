@@ -1,6 +1,6 @@
-Gohoop简介
+Gunhoop简介
 ====
-Gohoop分布式存储与计算平台(Gohoop Distributed Storage And Compute Platforms)，简称GDSCP。
+Gunhoop分布式存储与计算平台(Gunhoop Distributed Storage And Compute Platforms)，简称GDSCP。
 开发语言C++，可运行在Linux平台上。实现大数据分布式存储，实现任务分布式运算，对外服务以多种方式提供。
 
 背景
